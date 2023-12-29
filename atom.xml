@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2023-12-29T06:38:39.307Z</updated>
+  <updated>2023-12-29T06:47:29.636Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -21,19 +21,24 @@
     <link href="https://young-eng.github.io/YoungBlogs/2023/12/28/Deployblogs/"/>
     <id>https://young-eng.github.io/YoungBlogs/2023/12/28/Deployblogs/</id>
     <published>2023-12-28T15:10:20.000Z</published>
-    <updated>2023-12-29T06:38:39.307Z</updated>
+    <updated>2023-12-29T06:47:29.636Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="部署博客方式">部署博客方式</h3><ol type="1"><li>部署在 Vercel,Netlify 这样的免费平台上</li><li>部署在 Github Pages 上,是用gh-pages分支来部署的，xxx.github.io可以用来做个人主页介绍，gh-pages用来做博客</li></ol><h4 id="部署在-vercel-上的博客">部署在 Vercel 上的博客</h4><ol type="1"><li><p>可以通过和github账号关联，一键部署，很方便</p></li><li><p>在本地安装vercel， 通过vercel的命令行工具，来实现部署相关参考链接：</p></li><li><p>遇到的问题，vercel易被DNS污染，正常访问打不开，看到有帖子说可以买个域名弄一下，有钱了再买个域名玩一玩,:sob:</p></li></ol><h4 id="部署在-github-pages上">部署在 Github Pages上</h4><ol type="1"><li>先要创建一个repo,然后建立一个gh-pages分支，然后把博客代码push到gh-pages分支上，然后通过域名访问博客，需要去setting里改一下branch和source，然后在__config.yml里，deploy的设置需要修改，包括type,repo和branch， branch:gh-pages，另外还有一个url需要修改，也是一个大坑，好不容易能打开blogs网址了，发现页面没有渲染，url需要改为xxx.github.io/xxx，然后root:/xxx/，这样就能正常访问了，需要hexo generate一下，然后hexodeploy一下，才能看到效果。</li></ol><p>参考链接如下：</p><p>https://cloud.tencent.com/developer/article/1391619</p><p>https://einverne.github.io/gitbook-tutorial/publish/gitpages.html</p><p>https://blog.csdn.net/qq_58832911/article/details/128028317</p><p>https://www.cnblogs.com/xuyiyang/p/13647069.html</p><p>https://www.xxyopen.com/2022/07/19/tools/pages_host.html</p><p>https://blog.csdn.net/qq_44960878/article/details/131548656</p><p>https://blog.csdn.net/m0_57236802/article/details/134333457</p><p>https://sinoui.github.io/sinoui-guide/docs/github-pages-introduction</p><p>https://blog.csdn.net/banjw_129/article/details/82261165</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="部署博客方式">部署博客方式</h3><ol type="1"><li>部署在 Vercel,Netlify 这样的免费平台上</li><li>部署在 Github Pages 上,是用gh-pages分支来部署的，xxx.github.io可以用来做个人主页介绍，gh-pages用来做博客</li></ol><h4 id="部署在-vercel-上的博客">部署在 Vercel 上的博客</h4><ol type="1"><li><p>可以通过和github账号关联，一键部署，很方便</p></li><li><p>在本地安装vercel， 通过vercel的命令行工具，来实现部署</p></li><li><p>遇到的问题，vercel易被DNS污染，正常访问打不开，看到有帖子说可以买个域名弄一下，有钱了再买个域名玩一玩,😭</p></li></ol><span id="more"></span><h4 id="部署在-github-pages上">部署在 Github Pages上</h4><ol type="1"><li>先要创建一个repo,然后建立一个gh-pages分支，然后把博客代码push到gh-pages分支上，然后通过域名访问博客，需要去setting里改一下branch和source，然后在__config.yml里，deploy的设置需要修改，包括type,repo和branch， branch:gh-pages，另外还有一个url需要修改，也是一个大坑，好不容易能打开blogs网址了，发现页面没有渲染，url需要改为xxx.github.io/xxx，然后root:/xxx/，这样就能正常访问了，需要hexo generate一下，然后hexodeploy一下，才能看到效果。</li></ol><p>参考链接如下：</p><p>https://cloud.tencent.com/developer/article/1391619</p><p>https://einverne.github.io/gitbook-tutorial/publish/gitpages.html</p><p>https://blog.csdn.net/qq_58832911/article/details/128028317</p><p>https://www.cnblogs.com/xuyiyang/p/13647069.html</p><p>https://www.xxyopen.com/2022/07/19/tools/pages_host.html</p><p>https://blog.csdn.net/qq_44960878/article/details/131548656</p><p>https://blog.csdn.net/m0_57236802/article/details/134333457</p><p>https://sinoui.github.io/sinoui-guide/docs/github-pages-introduction</p><p>https://blog.csdn.net/banjw_129/article/details/82261165</p>]]></content>
     
     
-      
-      
     <summary type="html">&lt;h3 id=&quot;部署博客方式&quot;&gt;部署博客方式&lt;/h3&gt;
 &lt;ol type=&quot;1&quot;&gt;
 &lt;li&gt;部署在 Vercel,Netlify 这样的免费平台上&lt;/li&gt;
 &lt;li&gt;部署在 Github Pages 上,
-是用gh-pages分支来部署的，xxx.github.io可以用</summary>
-      
+是用gh-pages分支来部署的，xxx.github.io可以用来做个人主页介绍，gh-pages用来做博客&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&quot;部署在-vercel-上的博客&quot;&gt;部署在 Vercel 上的博客&lt;/h4&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;可以通过和github账号关联，一键部署，很方便&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在本地安装vercel， 通过vercel的命令行工具，来实现部署&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;遇到的问题，vercel易被DNS污染，正常访问打不开，看到有帖子说可以买个域名弄一下，有钱了再买个域名玩一玩,
+😭&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
     
     
@@ -49,20 +54,28 @@
     <link href="https://young-eng.github.io/YoungBlogs/2023/12/09/UseGit/"/>
     <id>https://young-eng.github.io/YoungBlogs/2023/12/09/UseGit/</id>
     <published>2023-12-09T11:36:04.000Z</published>
-    <updated>2023-12-29T06:37:11.496Z</updated>
+    <updated>2023-12-29T06:47:10.974Z</updated>
     
-    <content type="html"><![CDATA[<h3id="趁着这个计算神经科学的课用一用git">趁着这个计算神经科学的课，用一用git</h3><p>主要的流程是：</p><ul><li><code>git init</code> 初始化</li><li><code>git add .</code> 加载所有文件</li><li><code>git commit -m "first commit"</code></li><li><code>git branch -M main</code> 将主分支名字由master 改为main</li><li><code>git remote add origin github.com/xxx/xxx.git</code>后面的这个链接名字换成了 origin</li><li><code>git push -u origin master</code> 传到origin的master分支上,用这个命令也行，<code>git push --set-upstream origin xxx</code></li></ul><p>如果代码或者文件有修改，可以用git status 查看改动的文件，用git add<filename> 添加文件到缓存区，git add . 是一次性添加所有文件，然后<code>git commit -m "first commit"</code> 提交到本地仓库，git push提交到远程仓库。</p><p>如果要合并分支的话，用<code>git pull origin main --allow-unrelated-histories</code>，然后再<code>git push origin main</code>推送到远程。</p><p>如果要删除远程仓库文件/文件夹，用<code>git rm -r --cached &lt;filename&gt;</code>删除文件夹，用<code>git rm --cached &lt;filename&gt;</code>删除文件，不写--cached 的话，会直接删除本地文件夹。</p><p>大文件，超过100M的，用git lfs 命令，</p><p><code>git lfs track xxx</code></p><p><code>git add xxxx</code></p><p><code>git commit -m "xxx"</code></p><p><code>git push</code></p><p>删除git commit 中的大文件</p><p><code>git cherry -v</code> <code>git reset commit_id</code></p><p>三种方法解决 fatal: remote origin already exists.</p><p>https://blog.csdn.net/qq_34769162/article/details/116379638</p><p>参考链接：</p><p>https://www.jianshu.com/p/46489723fc5f</p><p>https://blog.csdn.net/weixin_42693712/article/details/108326096</p><p>https://zhuanlan.zhihu.com/p/624993960</p><p>https://git-lfs.com/</p><p>https://blog.csdn.net/dappp3000/article/details/111321738</p><p>https://docs.github.com/zh/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch</p>]]></content>
+    <content type="html"><![CDATA[<h3id="趁着这个计算神经科学的课用一用git">趁着这个计算神经科学的课，用一用git</h3><p>主要的流程是：</p><ul><li><code>git init</code> 初始化</li><li><code>git add .</code> 加载所有文件</li><li><code>git commit -m "first commit"</code></li><li><code>git branch -M main</code> 将主分支名字由master 改为main</li><li><code>git remote add origin github.com/xxx/xxx.git</code>后面的这个链接名字换成了 origin</li><li><code>git push -u origin master</code> 传到origin的master分支上,用这个命令也行，<code>git push --set-upstream origin xxx</code></li></ul><p>如果代码或者文件有修改，可以用git status 查看改动的文件，用git add<filename> 添加文件到缓存区，git add . 是一次性添加所有文件，然后<code>git commit -m "first commit"</code> 提交到本地仓库，git push提交到远程仓库。</p><span id="more"></span><p>如果要合并分支的话，用<code>git pull origin main --allow-unrelated-histories</code>，然后再<code>git push origin main</code>推送到远程。</p><p>如果要删除远程仓库文件/文件夹，用<code>git rm -r --cached &lt;filename&gt;</code>删除文件夹，用<code>git rm --cached &lt;filename&gt;</code>删除文件，不写--cached 的话，会直接删除本地文件夹。</p><p>大文件，超过100M的，用git lfs 命令，</p><p><code>git lfs track xxx</code></p><p><code>git add xxxx</code></p><p><code>git commit -m "xxx"</code></p><p><code>git push</code></p><p>删除git commit 中的大文件</p><p><code>git cherry -v</code> <code>git reset commit_id</code></p><p>三种方法解决 fatal: remote origin already exists.</p><p>https://blog.csdn.net/qq_34769162/article/details/116379638</p><p>参考链接：</p><p>https://www.jianshu.com/p/46489723fc5f</p><p>https://blog.csdn.net/weixin_42693712/article/details/108326096</p><p>https://zhuanlan.zhihu.com/p/624993960</p><p>https://git-lfs.com/</p><p>https://blog.csdn.net/dappp3000/article/details/111321738</p><p>https://docs.github.com/zh/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch</p>]]></content>
     
     
-      
-      
     <summary type="html">&lt;h3
 id=&quot;趁着这个计算神经科学的课用一用git&quot;&gt;趁着这个计算神经科学的课，用一用git&lt;/h3&gt;
 &lt;p&gt;主要的流程是：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;git init&lt;/code&gt; 初始化&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git add .&lt;/code&gt; </summary>
-      
+&lt;li&gt;&lt;code&gt;git add .&lt;/code&gt; 加载所有文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit -m &quot;first commit&quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git branch -M main&lt;/code&gt; 将主分支名字由master 改为main&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git remote add origin github.com/xxx/xxx.git&lt;/code&gt;
+后面的这个链接名字换成了 origin&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git push -u origin master&lt;/code&gt; 传到origin的master分支上
+,用这个命令也行，&lt;code&gt;git push --set-upstream origin xxx&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果代码或者文件有修改，可以用git status 查看改动的文件，用git add
+&lt;filename&gt; 添加文件到缓存区，git add . 是一次性添加所有文件，然后
+&lt;code&gt;git commit -m &quot;first commit&quot;&lt;/code&gt; 提交到本地仓库，git push
+提交到远程仓库。&lt;/p&gt;</summary>
     
     
     
