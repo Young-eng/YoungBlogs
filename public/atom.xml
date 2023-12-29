@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-12-19T15:09:00.788Z</updated>
+  <updated>2023-12-29T03:50:49.822Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,21 +17,49 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Deployblogs</title>
+    <link href="http://example.com/2023/12/28/Deployblogs/"/>
+    <id>http://example.com/2023/12/28/Deployblogs/</id>
+    <published>2023-12-28T15:10:20.000Z</published>
+    <updated>2023-12-29T03:50:49.822Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="部署博客方式">部署博客方式</h3><ol type="1"><li>部署在 Vercel,Netlify 这样的免费平台上</li><li>部署在 Github Pages 上, 是用gh-pages分支来部署的</li></ol><h4 id="部署在-vercel-上的博客">部署在 Vercel 上的博客</h4><ol type="1"><li>可盈通过和github账号关联，一键部署</li><li>在本地安装vercel， 通过vercel的命令行工具，来实现部署相关参考链接：</li></ol><p>https://cloud.tencent.com/developer/article/1391619https://einverne.github.io/gitbook-tutorial/publish/gitpages.html</p><p>https://blog.csdn.net/qq_58832911/article/details/128028317</p><p>https://www.cnblogs.com/xuyiyang/p/13647069.html</p><p>https://www.xxyopen.com/2022/07/19/tools/pages_host.html</p><p>https://blog.csdn.net/qq_44960878/article/details/131548656</p><p>https://blog.csdn.net/m0_57236802/article/details/134333457https://sinoui.github.io/sinoui-guide/docs/github-pages-introduction</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;部署博客方式&quot;&gt;部署博客方式&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;部署在 Vercel,Netlify 这样的免费平台上&lt;/li&gt;
+&lt;li&gt;部署在 Github Pages 上, 是用gh-pages分支来部署的&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 </summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>UseGit</title>
     <link href="http://example.com/2023/12/09/UseGit/"/>
     <id>http://example.com/2023/12/09/UseGit/</id>
     <published>2023-12-09T11:36:04.000Z</published>
-    <updated>2023-12-19T15:09:00.788Z</updated>
+    <updated>2023-12-29T05:17:37.375Z</updated>
     
-    <content type="html"><![CDATA[<h3id="趁着这个计算神经科学的课用一用git">趁着这个计算神经科学的课，用一用git</h3><p>主要的流程是： * git init #初始化 * git add . ###加载所有文件 * gitcommit -m "first commit" ### * git branch -M main ### 设置分支 * gitremote add origin github.com/xxx/xxx.git ##后面的这个链接名字换成了origin * git push -u origin master ### 传到origin的master分支上,用这个命令也行，git push --set-upstream origin yangr</p><p>如果代码或者文件有修改，可以用git status 查看改动的文件，用git add<filename> 添加文件到缓存区，git add . 是一次性添加所有文件，然后 gitcommit -m "first commit" 提交到本地仓库，git push 提交到远程仓库。</p><p>如果要合并分支的话，用git pull origin main--allow-unrelated-histories，然后再git push origin main 推送到远程。</p><p>大文件，超过100M的，用git lfs 命令， git lfs track xxx</p><p>git add xxxx</p><p>git commit -m "xxx"</p><p>git push</p><p>删除git commit 中的大文件 git cherry -v git reset commit_id</p><p>三种方法解决 fatal: remote origin already exists.</p><p>https://blog.csdn.net/qq_34769162/article/details/116379638</p><p>参考链接：</p><p>https://www.jianshu.com/p/46489723fc5f</p><p>https://blog.csdn.net/weixin_42693712/article/details/108326096</p><p>https://zhuanlan.zhihu.com/p/624993960</p><p>https://git-lfs.com/</p><p>https://blog.csdn.net/dappp3000/article/details/111321738</p><p>https://docs.github.com/zh/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch</p>]]></content>
+    <content type="html"><![CDATA[<h3id="趁着这个计算神经科学的课用一用git">趁着这个计算神经科学的课，用一用git</h3><p>主要的流程是：</p><ul><li>git init 初始化</li><li>git add . 加载所有文件</li><li>git commit -m "first commit"</li><li>git branch -M main 将主分支名字由master 改为main</li><li>git remote add origin github.com/xxx/xxx.git后面的这个链接名字换成了 origin</li><li>git push -u origin master 传到origin的master分支上,用这个命令也行，git push --set-upstream origin yangr</li></ul><p>如果代码或者文件有修改，可以用git status 查看改动的文件，用git add<filename> 添加文件到缓存区，git add . 是一次性添加所有文件，然后 gitcommit -m "first commit" 提交到本地仓库，git push 提交到远程仓库。</p><p>如果要合并分支的话，用git pull origin main--allow-unrelated-histories，然后再git push origin main 推送到远程。</p><p>大文件，超过100M的，用git lfs 命令， git lfs track xxx</p><p>git add xxxx</p><p>git commit -m "xxx"</p><p>git push</p><p>删除git commit 中的大文件 git cherry -v git reset commit_id</p><p>三种方法解决 fatal: remote origin already exists.</p><p>https://blog.csdn.net/qq_34769162/article/details/116379638</p><p>参考链接：</p><p>https://www.jianshu.com/p/46489723fc5f</p><p>https://blog.csdn.net/weixin_42693712/article/details/108326096</p><p>https://zhuanlan.zhihu.com/p/624993960</p><p>https://git-lfs.com/</p><p>https://blog.csdn.net/dappp3000/article/details/111321738</p><p>https://docs.github.com/zh/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch</p>]]></content>
     
     
       
       
     <summary type="html">&lt;h3
 id=&quot;趁着这个计算神经科学的课用一用git&quot;&gt;趁着这个计算神经科学的课，用一用git&lt;/h3&gt;
-&lt;p&gt;主要的流程是： * git init #初始化 * git add . ###加载所有文件 * git
-commit -m &quot;first commit&quot; ### </summary>
+&lt;p&gt;主要的流程是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;git init 初始化&lt;/li&gt;
+&lt;li&gt;git add . 加载所有文件&lt;/li&gt;
+&lt;li&gt;git commi</summary>
       
     
     
