@@ -199,7 +199,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-01-22 00:21:33 / 修改时间：00:52:35" itemprop="dateCreated datePublished" datetime="2024-01-22T00:21:33+08:00">2024-01-22</time>
+      <time title="创建时间：2024-01-22 00:21:33 / 修改时间：16:10:28" itemprop="dateCreated datePublished" datetime="2024-01-22T00:21:33+08:00">2024-01-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -228,21 +228,14 @@ access rights and the repository exists.
 突然又郁闷了。搜了一圈之后，发现好像是远程密钥的问题。在出现Are you sure
 want to continue connecting (yes/no/[fingerprint])?
 的时候，输入yes，然后就OK了。</p>
-<h4 id="ssh-生成公钥的密令">ssh 生成公钥的密令</h4>
-<ul>
-<li>ssh-keygen -t rsa -C "GitHub账号的注册邮箱"</li>
-</ul>
-<p>一般是在 ~.ssh 目录下。讲id_rsa.pub里的内容复制到github的ssh
-key里。</p>
-<ul>
-<li>在 ~.ssh
-目录下，新建一个config文件，将一下内容复制进去，解决了超时的问题：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line"></span><br><span class="line">Hostname ssh.github.com</span><br><span class="line"></span><br><span class="line">Port 443</span><br><span class="line"></span><br><span class="line">User git</span><br></pre></td></tr></table></figure>
-<h4 id="参考链接">参考链接</h4>
-<p>https://github.com/orgs/community/discussions/55269</p>
-<p>https://www.cnblogs.com/gosun/p/13044672.html</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/01/22/sshKey/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

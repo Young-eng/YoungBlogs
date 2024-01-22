@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-01-21T16:52:35.548Z</updated>
+  <updated>2024-01-22T08:10:28.720Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -21,17 +21,18 @@
     <link href="https://young-eng.github.io/YoungBlogs/2024/01/22/sshKey/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/01/22/sshKey/</id>
     <published>2024-01-21T16:21:33.000Z</published>
-    <updated>2024-01-21T16:52:35.548Z</updated>
+    <updated>2024-01-22T08:10:28.720Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="sshkey-记录">sshKey 记录</h3><p>今天传代码的时候，发现一直报连接超时，kex_exchange_identification:Connection closed by remote host，Please make sure you have the correctaccess rights and the repository exists.突然又郁闷了。搜了一圈之后，发现好像是远程密钥的问题。在出现Are you surewant to continue connecting (yes/no/[fingerprint])?的时候，输入yes，然后就OK了。</p><h4 id="ssh-生成公钥的密令">ssh 生成公钥的密令</h4><ul><li>ssh-keygen -t rsa -C "GitHub账号的注册邮箱"</li></ul><p>一般是在 ~.ssh 目录下。讲id_rsa.pub里的内容复制到github的sshkey里。</p><ul><li>在 ~.ssh目录下，新建一个config文件，将一下内容复制进去，解决了超时的问题：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line"></span><br><span class="line">Hostname ssh.github.com</span><br><span class="line"></span><br><span class="line">Port 443</span><br><span class="line"></span><br><span class="line">User git</span><br></pre></td></tr></table></figure><h4 id="参考链接">参考链接</h4><p>https://github.com/orgs/community/discussions/55269</p><p>https://www.cnblogs.com/gosun/p/13044672.html</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="sshkey-记录">sshKey 记录</h3><p>今天传代码的时候，发现一直报连接超时，kex_exchange_identification:Connection closed by remote host，Please make sure you have the correctaccess rights and the repository exists.突然又郁闷了。搜了一圈之后，发现好像是远程密钥的问题。在出现Are you surewant to continue connecting (yes/no/[fingerprint])?的时候，输入yes，然后就OK了。</p><span id="more"></span><h4 id="ssh-生成公钥的命令">ssh 生成公钥的命令</h4><ul><li>ssh-keygen -t rsa -C "GitHub账号的注册邮箱"</li></ul><p>一般是在 ~\.ssh 目录下。将id_rsa.pub里的内容复制到github的sshkey里。</p><ul><li>在 ~\.ssh目录下，新建一个config文件，将一下内容复制进去，解决了超时的问题：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line"></span><br><span class="line">Hostname ssh.github.com</span><br><span class="line"></span><br><span class="line">Port 443</span><br><span class="line"></span><br><span class="line">User git</span><br></pre></td></tr></table></figure><h4 id="参考链接">参考链接</h4><p>https://github.com/orgs/community/discussions/55269</p><p>https://www.cnblogs.com/gosun/p/13044672.html</p><p>https://stackoverflow.com/questions/11443687/the-authenticity-of-host-cant-be-established</p>]]></content>
     
     
-      
-      
     <summary type="html">&lt;h3 id=&quot;sshkey-记录&quot;&gt;sshKey 记录&lt;/h3&gt;
 &lt;p&gt;今天传代码的时候，发现一直报连接超时，kex_exchange_identification:
-Connection closed by remote host，Please make sure you</summary>
-      
+Connection closed by remote host，Please make sure you have the correct
+access rights and the repository exists.
+突然又郁闷了。搜了一圈之后，发现好像是远程密钥的问题。在出现Are you sure
+want to continue connecting (yes/no/[fingerprint])?
+的时候，输入yes，然后就OK了。&lt;/p&gt;</summary>
     
     
     
