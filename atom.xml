@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-01-22T08:16:24.538Z</updated>
+  <updated>2024-01-24T15:38:11.403Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>YOLO</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/</id>
+    <published>2024-01-24T15:25:08.000Z</published>
+    <updated>2024-01-24T15:38:11.403Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="yolo-系列论文">YOLO 系列论文</h3><p>开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还是一步一步来，从经典论文开始，当然也会看新的热度很高的论文，通过这种方式，来一点一点的进步吧。不积跬步无以至千里；千里之行，始于足下。加油！！！只要想做，什么时候都不算晚！！:runner:</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;yolo-系列论文&quot;&gt;YOLO 系列论文&lt;/h3&gt;
+&lt;p&gt;开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还</summary>
+      
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
+    
+  </entry>
   
   <entry>
     <title>sshKey</title>
@@ -267,9 +292,9 @@ href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/
     <link href="https://young-eng.github.io/YoungBlogs/2023/11/13/BuildHexo/"/>
     <id>https://young-eng.github.io/YoungBlogs/2023/11/13/BuildHexo/</id>
     <published>2023-11-13T09:20:46.000Z</published>
-    <updated>2023-12-29T06:52:14.826Z</updated>
+    <updated>2024-01-24T16:07:17.809Z</updated>
     
-    <content type="html"><![CDATA[<p>最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。</p><span id="more"></span><h2 id="hexo-配置">Hexo 配置</h2><p>Hexo的配置主要是相关的主题啥的，环境配置可以参照Hexo的文档，主题我用了Next，Next用的人好像蛮多的，报了啥bug也方便解决。</p><h2 id="写blog">写blog</h2><p>通过hexo newxxblogtitlexx，来写blog,主要是markdown的格式，markdownd的相关语法可以看这里：</p><p>https://markdown.com.cn/</p><h2 id="遇到的问题">遇到的问题</h2><ol type="1"><li><p>公式的问题</p><p>用ghostwriter写markdown时，编辑器没法显示公式，找来找去最后还是用vscode把，这个可以预览。然后新的问题出现了，hexo的页面无法正确显示公式，这需要去_cofig.yml里，将math那里的mathjax和ktex的enable都设为true，不是True。然后就可了。但是！却显示不了下划线，苦苦查询了一番，用pandoc的渲染器比较好，hexo-render-marked换成hexo-renderer-pandoc，需要先安装pandoc，去pandoc的github下载最新的版本安装即可。</p></li></ol><p>参考链接如下：</p><p>https://theme-next.js.org/</p><p>https://hexo.io/zh-cn/docs/</p><p>https://zhuanlan.zhihu.com/p/35988761</p><p>https://blog.csdn.net/weixin_45073562/article/details/120289648</p>]]></content>
+    <content type="html"><![CDATA[<p>最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。</p><span id="more"></span><h2 id="hexo-配置">Hexo 配置</h2><p>Hexo的配置主要是相关的主题啥的，环境配置可以参照Hexo的文档，主题我用了Next，Next用的人好像蛮多的，报了啥bug也方便解决。</p><h2 id="写blog">写blog</h2><p>通过hexo newxxblogtitlexx，来写blog,主要是markdown的格式，markdownd的相关语法可以看这里：</p><p>https://markdown.com.cn/</p><h2 id="遇到的问题">遇到的问题</h2><ol type="1"><li><p>公式的问题</p><p>用ghostwriter写markdown时，编辑器没法显示公式，找来找去最后还是用vscode把，这个可以预览。然后新的问题出现了，hexo的页面无法正确显示公式，这需要去_cofig.yml里，将math那里的mathjax和ktex的enable都设为true，不是True。然后就可了。但是！却显示不了下划线，苦苦查询了一番，用pandoc的渲染器比较好，hexo-render-marked换成hexo-renderer-pandoc，需要先安装pandoc，去pandoc的github下载最新的版本安装即可。</p></li><li><p>Nodejs 安装</p><p>第一次在笔记本上弄的时候，Nodejs安装到最后，会提示一个automaticllyinstalled xxx tools之类的，第一次的时候我好像是勾选了，然后经过了很长的时间，给我自动安装了python3.x，记得好像还提示安装visual stdio的什么部件，弄了很久；这次，我在台式机上，也配置一下Hexo，就直接把笔记本上的Hexo里的文件夹全都复制过来，单独安装Nodejs，这次Nodejs最后没有勾选automaticlly 安装什么，没有装其它额外的东西，然后，pandoc还是要用npm单独装一下，不然hexogenerate的时候会报错，最后，Hexo在台式机上成功迁移了。</p></li></ol><h2 id="分割线">分割线</h2><p>2024.2.24</p><p>今天本来想在Ubuntu里装一下Omniverse，搞一下Issac Sim；</p><p>遇到的第一个大坑</p><ol type="1"><li>下载是真滴慢啊，直到中午吃完饭才下完。</li><li>第二个真的是。。。下载完后，提示找不着GPU，我看了一下系统里，显卡是llvmpipe，nvidia-smi也没有任何显示，确实之前好像没有装过驱动。然后网上找了一下装驱动的方法。我是这么弄的，两个命令：<code>ubuntu-drivers devices</code>;<code>ubuntu-drivers autoinstall</code>。然后重启一下，，就黑！！！屏！！！了！！！，啊啊！！进入了叫做tty的模式吧，没有了图像界面，然后一直找怎么进入图形化系统，试了各种方法，最后，用了一个命令：<code>sudo apt-get remove --purge nvidia-*</code>。好像有效果，能进入系统了。长舒一口气:relieved:；但是！！！开机之后怎么没有网了捏，蓝牙也没有了，然后各种尝试装驱动、直接连网线，发现make,gcc啥的好像都不能用了，啊啊啊！！！裂开:scream:，搞了一下午，以暂时失败告终。等我歇会，只能用终极方法了----重装，幸好ubuntu里没啥多的文件资料之类的，不然真的头大。这个坑下次再填，今天先记下。</li></ol><p>参考链接如下：</p><p>https://theme-next.js.org/</p><p>https://hexo.io/zh-cn/docs/</p><p>https://zhuanlan.zhihu.com/p/35988761</p><p>https://blog.csdn.net/weixin_45073562/article/details/120289648</p>]]></content>
     
     
     <summary type="html">&lt;p&gt;最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。&lt;/p&gt;</summary>
