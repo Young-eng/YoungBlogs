@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Young&#39;s Blog</title>
+  
+  
+  <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
+  
+  <link href="https://young-eng.github.io/YoungBlogs/"/>
+  <updated>2024-01-22T08:16:24.538Z</updated>
+  <id>https://young-eng.github.io/YoungBlogs/</id>
+  
+  <author>
+    <name>Young</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>sshKey</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/01/22/sshKey/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/01/22/sshKey/</id>
+    <published>2024-01-21T16:21:33.000Z</published>
+    <updated>2024-01-22T08:16:24.538Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="sshkey-记录">sshKey 记录</h3><p>今天传代码的时候，发现一直报连接超时，kex_exchange_identification:Connection closed by remote host，Please make sure you have the correctaccess rights and the repository exists.突然又郁闷了。搜了一圈之后，发现好像是远程密钥的问题。在出现Are you surewant to continue connecting (yes/no/[fingerprint])?的时候，输入yes，然后就OK了。</p><span id="more"></span><h4 id="ssh-生成公钥的命令">ssh 生成公钥的命令</h4><ul><li>ssh-keygen -t rsa -C "GitHub账号的注册邮箱"</li></ul><p>一般是在 ~\username\.ssh目录下。将id_rsa.pub里的内容复制到github的ssh key里。</p><ul><li>在 ~\username\.ssh目录下，新建一个config文件，将一下内容复制进去，解决了超时的问题：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line"></span><br><span class="line">Hostname ssh.github.com</span><br><span class="line"></span><br><span class="line">Port 443</span><br><span class="line"></span><br><span class="line">User git</span><br></pre></td></tr></table></figure><h4 id="参考链接">参考链接</h4><p>https://github.com/orgs/community/discussions/55269</p><p>https://www.cnblogs.com/gosun/p/13044672.html</p><p>https://stackoverflow.com/questions/11443687/the-authenticity-of-host-cant-be-established</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;sshkey-记录&quot;&gt;sshKey 记录&lt;/h3&gt;
+&lt;p&gt;今天传代码的时候，发现一直报连接超时，kex_exchange_identification:
+Connection closed by remote host，Please make sure you have the correct
+access rights and the repository exists.
+突然又郁闷了。搜了一圈之后，发现好像是远程密钥的问题。在出现Are you sure
+want to continue connecting (yes/no/[fingerprint])?
+的时候，输入yes，然后就OK了。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
+    
+    
+    <category term="Git" scheme="https://young-eng.github.io/YoungBlogs/tags/Git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Deployblogs</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2023/12/28/Deployblogs/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2023/12/28/Deployblogs/</id>
+    <published>2023-12-28T15:10:20.000Z</published>
+    <updated>2023-12-29T06:47:29.636Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="部署博客方式">部署博客方式</h3><ol type="1"><li>部署在 Vercel,Netlify 这样的免费平台上</li><li>部署在 Github Pages 上,是用gh-pages分支来部署的，xxx.github.io可以用来做个人主页介绍，gh-pages用来做博客</li></ol><h4 id="部署在-vercel-上的博客">部署在 Vercel 上的博客</h4><ol type="1"><li><p>可以通过和github账号关联，一键部署，很方便</p></li><li><p>在本地安装vercel， 通过vercel的命令行工具，来实现部署</p></li><li><p>遇到的问题，vercel易被DNS污染，正常访问打不开，看到有帖子说可以买个域名弄一下，有钱了再买个域名玩一玩,😭</p></li></ol><span id="more"></span><h4 id="部署在-github-pages上">部署在 Github Pages上</h4><ol type="1"><li>先要创建一个repo,然后建立一个gh-pages分支，然后把博客代码push到gh-pages分支上，然后通过域名访问博客，需要去setting里改一下branch和source，然后在__config.yml里，deploy的设置需要修改，包括type,repo和branch， branch:gh-pages，另外还有一个url需要修改，也是一个大坑，好不容易能打开blogs网址了，发现页面没有渲染，url需要改为xxx.github.io/xxx，然后root:/xxx/，这样就能正常访问了，需要hexo generate一下，然后hexodeploy一下，才能看到效果。</li></ol><p>参考链接如下：</p><p>https://cloud.tencent.com/developer/article/1391619</p><p>https://einverne.github.io/gitbook-tutorial/publish/gitpages.html</p><p>https://blog.csdn.net/qq_58832911/article/details/128028317</p><p>https://www.cnblogs.com/xuyiyang/p/13647069.html</p><p>https://www.xxyopen.com/2022/07/19/tools/pages_host.html</p><p>https://blog.csdn.net/qq_44960878/article/details/131548656</p><p>https://blog.csdn.net/m0_57236802/article/details/134333457</p><p>https://sinoui.github.io/sinoui-guide/docs/github-pages-introduction</p><p>https://blog.csdn.net/banjw_129/article/details/82261165</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;部署博客方式&quot;&gt;部署博客方式&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;部署在 Vercel,Netlify 这样的免费平台上&lt;/li&gt;
+&lt;li&gt;部署在 Github Pages 上,
+是用gh-pages分支来部署的，xxx.github.io可以用来做个人主页介绍，gh-pages用来做博客&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&quot;部署在-vercel-上的博客&quot;&gt;部署在 Vercel 上的博客&lt;/h4&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;可以通过和github账号关联，一键部署，很方便&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在本地安装vercel， 通过vercel的命令行工具，来实现部署&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;遇到的问题，vercel易被DNS污染，正常访问打不开，看到有帖子说可以买个域名弄一下，有钱了再买个域名玩一玩,
+😭&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
+    
+    
+    <category term="blog" scheme="https://young-eng.github.io/YoungBlogs/tags/blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>UseGit</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2023/12/09/UseGit/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2023/12/09/UseGit/</id>
+    <published>2023-12-09T11:36:04.000Z</published>
+    <updated>2024-01-21T16:47:40.016Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="趁着这个计算神经科学的课用一用git">趁着这个计算神经科学的课，用一用git</h3><p>主要的流程是：</p><ul><li><code>git init</code> 初始化</li><li><code>git add .</code> 加载所有文件</li><li><code>git commit -m "first commit"</code></li><li><code>git branch -M main</code> 将主分支名字由master 改为main</li><li><code>git remote add origin github.com/xxx/xxx.git</code>后面的这个链接名字换成了 origin</li><li><code>git push -u origin main</code> 传到origin的main分支上,用这个命令也行，<code>git push --set-upstream origin xxx</code></li></ul><p>如果代码或者文件有修改，可以用git status 查看改动的文件，用git add<filename> 添加文件到缓存区，git add . 是一次性添加所有文件，然后<code>git commit -m "first commit"</code> 提交到本地仓库，git push提交到远程仓库。</p><span id="more"></span><p>如果要合并分支的话，用<code>git pull origin main --allow-unrelated-histories</code>，然后再<code>git push origin main</code>推送到远程。</p><p>如果要删除远程仓库文件/文件夹，用<code>git rm -r --cached &lt;filename&gt;</code>删除文件夹，用<code>git rm --cached &lt;filename&gt;</code>删除文件，不写--cached 的话，会直接删除本地文件夹。</p><p>大文件，超过100M的，用git lfs 命令，</p><p><code>git lfs track xxx</code></p><p><code>git add xxxx</code></p><p><code>git commit -m "xxx"</code></p><p><code>git push</code></p><p>删除git commit 中的大文件</p><p><code>git cherry -v</code> <code>git reset commit_id</code></p><p>三种方法解决 fatal: remote origin already exists.</p><p>https://blog.csdn.net/qq_34769162/article/details/116379638</p><p>参考链接：</p><p>https://www.jianshu.com/p/46489723fc5f</p><p>https://blog.csdn.net/weixin_42693712/article/details/108326096</p><p>https://zhuanlan.zhihu.com/p/624993960</p><p>https://git-lfs.com/</p><p>https://blog.csdn.net/dappp3000/article/details/111321738</p><p>https://docs.github.com/zh/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch</p><p>https://blog.csdn.net/faihung/article/details/96273705</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;趁着这个计算神经科学的课用一用git&quot;&gt;趁着这个计算神经科学的课，用一用git&lt;/h3&gt;
+&lt;p&gt;主要的流程是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git init&lt;/code&gt; 初始化&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git add .&lt;/code&gt; 加载所有文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit -m &quot;first commit&quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git branch -M main&lt;/code&gt; 将主分支名字由master 改为main&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git remote add origin github.com/xxx/xxx.git&lt;/code&gt;
+后面的这个链接名字换成了 origin&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git push -u origin main&lt;/code&gt; 传到origin的main分支上
+,用这个命令也行，&lt;code&gt;git push --set-upstream origin xxx&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果代码或者文件有修改，可以用git status 查看改动的文件，用git add
+&lt;filename&gt; 添加文件到缓存区，git add . 是一次性添加所有文件，然后
+&lt;code&gt;git commit -m &quot;first commit&quot;&lt;/code&gt; 提交到本地仓库，git push
+提交到远程仓库。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
+    
+    
+    <category term="Git" scheme="https://young-eng.github.io/YoungBlogs/tags/Git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>paintwithPython</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2023/11/27/paintwithPython/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2023/11/27/paintwithPython/</id>
+    <published>2023-11-27T02:04:21.000Z</published>
+    <updated>2023-11-27T02:05:19.592Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+    <category term="Interests" scheme="https://young-eng.github.io/YoungBlogs/tags/Interests/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>transformer</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2023/11/24/transformer/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2023/11/24/transformer/</id>
+    <published>2023-11-24T13:10:25.000Z</published>
+    <updated>2023-11-25T03:40:18.471Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="transformer">Transformer</h3><p>两种注意力评分： 加性注意力和缩放点积注意力</p><h4 id="向量化">向量化:</h4><p>Q 为nxd维，K为mxd维，V为mxv维，n,m为query个数和键值对的个数。d,v为值的维数。</p><h4id="nnconv2d卷积操作的特征图的尺寸计算">nnConv2d卷积操作的特征图的尺寸计算</h4><p>经过卷积后的特征图尺寸等于卷积核滑动的次数 +1，现在假设卷积前的特征图宽度为N，卷积后输出的特征图宽度为M，padding之后的矩阵宽度等于N+2*padding 。卷积核的滑动次数等于 M-1</p><p><span class="math display">\[ N+2{\times}padding =(M-1){\times}strides +kernel\_size \]</span> 输出矩阵的宽度</p><p><span class="math display">\[M = (N + 2* padding -kernel\_size)/stride + 1 \]</span></p><p>[知乎链接]https://zhuanlan.zhihu.com/p/163017446</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;transformer&quot;&gt;Transformer&lt;/h3&gt;
+&lt;p&gt;两种注意力评分： 加性注意力和缩放点积注意力&lt;/p&gt;
+&lt;h4 id=&quot;向量化&quot;&gt;向量化:&lt;/h4&gt;
+&lt;p&gt;Q 为
+nxd维，K为mxd维，V为mxv维，n,m为query个数和键值对的个数。</summary>
+      
+    
+    
+    
+    
+    <category term="算法" scheme="https://young-eng.github.io/YoungBlogs/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Sleap_and_DeepLabCut</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2023/11/22/Sleap-and-DeepLabCut/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2023/11/22/Sleap-and-DeepLabCut/</id>
+    <published>2023-11-22T01:44:33.000Z</published>
+    <updated>2023-11-22T01:47:17.593Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="sleap">Sleap</h2><h3 id="train">Train</h3><p>sleap-train path/to/your/training_profile.jsonanother/path/to/labels.pkg.slp</p><h3 id="inference">Inference</h3>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;sleap&quot;&gt;Sleap&lt;/h2&gt;
+&lt;h3 id=&quot;train&quot;&gt;Train&lt;/h3&gt;
+&lt;p&gt;sleap-train path/to/your/training_profile.json
+another/path/to/labels.pkg.slp&lt;/p&gt;</summary>
+      
+    
+    
+    
+    
+    <category term="算法" scheme="https://young-eng.github.io/YoungBlogs/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Methods</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2023/11/19/Methods/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2023/11/19/Methods/</id>
+    <published>2023-11-19T04:29:52.000Z</published>
+    <updated>2023-11-19T04:31:26.218Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    <category term="Learning" scheme="https://young-eng.github.io/YoungBlogs/categories/Learning/"/>
+    
+    
+    <category term="学习方法总结" scheme="https://young-eng.github.io/YoungBlogs/tags/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SVD</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2023/11/17/SVD/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2023/11/17/SVD/</id>
+    <published>2023-11-17T07:07:36.000Z</published>
+    <updated>2023-11-17T07:12:00.525Z</updated>
+    
+    <content type="html"><![CDATA[<p>参考链接：https://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm这个里面有几处错误，A的转置矩阵不对。</p><p>https://my.oschina.net/findbill/blog/535044</p><p>https://zhuanlan.zhihu.com/p/77151308</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;参考链接：
+https://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm
+这个里面有几处错误，A的转置矩阵不对。&lt;/p&gt;
+&lt;p&gt;https://my.oschina.net/findbill/b</summary>
+      
+    
+    
+    
+    <category term="math" scheme="https://young-eng.github.io/YoungBlogs/categories/math/"/>
+    
+    
+    <category term="线性代数" scheme="https://young-eng.github.io/YoungBlogs/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2023/11/14/hello-world/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2023/11/14/hello-world/</id>
+    <published>2023-11-14T12:23:10.800Z</published>
+    <updated>2023-11-14T12:23:10.800Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your veryfirst post. Check <a href="https://hexo.io/docs/">documentation</a> formore info. If you get any problems when using Hexo, you can find theanswer in <ahref="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> oryou can ask me on <ahref="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><span id="more"></span><h2 id="quick-start">Quick Start</h2><h3 id="create-a-new-post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="run-server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="generate-static-files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="deploy-to-remote-sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very
+first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for
+more info. If you get any problems when using Hexo, you can find the
+answer in &lt;a
+href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or
+you can ask me on &lt;a
+href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>BuildHexo</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2023/11/13/BuildHexo/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2023/11/13/BuildHexo/</id>
+    <published>2023-11-13T09:20:46.000Z</published>
+    <updated>2023-12-29T06:52:14.826Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。</p><span id="more"></span><h2 id="hexo-配置">Hexo 配置</h2><p>Hexo的配置主要是相关的主题啥的，环境配置可以参照Hexo的文档，主题我用了Next，Next用的人好像蛮多的，报了啥bug也方便解决。</p><h2 id="写blog">写blog</h2><p>通过hexo newxxblogtitlexx，来写blog,主要是markdown的格式，markdownd的相关语法可以看这里：</p><p>https://markdown.com.cn/</p><h2 id="遇到的问题">遇到的问题</h2><ol type="1"><li><p>公式的问题</p><p>用ghostwriter写markdown时，编辑器没法显示公式，找来找去最后还是用vscode把，这个可以预览。然后新的问题出现了，hexo的页面无法正确显示公式，这需要去_cofig.yml里，将math那里的mathjax和ktex的enable都设为true，不是True。然后就可了。但是！却显示不了下划线，苦苦查询了一番，用pandoc的渲染器比较好，hexo-render-marked换成hexo-renderer-pandoc，需要先安装pandoc，去pandoc的github下载最新的版本安装即可。</p></li></ol><p>参考链接如下：</p><p>https://theme-next.js.org/</p><p>https://hexo.io/zh-cn/docs/</p><p>https://zhuanlan.zhihu.com/p/35988761</p><p>https://blog.csdn.net/weixin_45073562/article/details/120289648</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
+    
+    
+    <category term="Hexo" scheme="https://young-eng.github.io/YoungBlogs/tags/Hexo/"/>
+    
+  </entry>
+  
+</feed>
