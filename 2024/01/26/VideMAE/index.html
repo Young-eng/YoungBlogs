@@ -27,7 +27,7 @@
 <meta property="og:description" content="\(VideoMAE\ v2: Scaling\ Video\ Masked\ Autoencoders\ with\ Dual\ Masking^{[1]}\) 🎞️  作者们是来自南大 Novel Software Technology Lab、上海AI Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2: Scaling">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-01-26T01:29:03.000Z">
-<meta property="article:modified_time" content="2024-01-26T15:01:07.985Z">
+<meta property="article:modified_time" content="2024-01-26T15:12:29.563Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Video Understanding">
 <meta name="twitter:card" content="summary">
@@ -205,7 +205,7 @@ Autoencoders\ with\ Dual\ Masking^{[1]}\) 🎞️</span></a></li><li class="nav-
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-01-26 09:29:03 / 修改时间：23:01:07" itemprop="dateCreated datePublished" datetime="2024-01-26T09:29:03+08:00">2024-01-26</time>
+      <time title="创建时间：2024-01-26 09:29:03 / 修改时间：23:12:29" itemprop="dateCreated datePublished" datetime="2024-01-26T09:29:03+08:00">2024-01-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -280,7 +280,8 @@ features and builds the token list</li>
 <li>encoder: operates on unmasked tokens <span
 class="math inline">\(T^u\)</span> with a 普通的时空注意力的ViT.</li>
 <li>decoder: 将combined tokens <span class="math inline">\(Z^c\)</span>
-作为输入，用另一个ViT进行重建， $ = _{dec} (Z^{c}) $</li>
+作为输入，用另一个ViT进行重建， <span class="math display">\[ \hat{I} =
+\Phi (Z^{c}) \]</span></li>
 <li>losss function: MSE: mean square error between masked pixels and the
 reconstructed pixels。</li>
 </ul>
