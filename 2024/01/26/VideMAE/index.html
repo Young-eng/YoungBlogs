@@ -19,28 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="YOLO 系列论文 开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还是一步一步来，从经典论文开始，当然也会看新的热度很高的论文，通过这种方式，来一点一点的进步吧。不积跬步无以至千里；千里之行，始于足下。加油！！！只要想做，什么时候都不算晚！！">
+    <meta name="description" content="$VideoMAEv2: Scaling Video Masked Autoencoders with Dual Masking^{[1]} $  作者们是来自南大 Novel Software Technology Lab、上海AI Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2: Scaling video masked">
 <meta property="og:type" content="article">
-<meta property="og:title" content="YOLO">
-<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/index.html">
+<meta property="og:title" content="VideMAE">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="YOLO 系列论文 开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还是一步一步来，从经典论文开始，当然也会看新的热度很高的论文，通过这种方式，来一点一点的进步吧。不积跬步无以至千里；千里之行，始于足下。加油！！！只要想做，什么时候都不算晚！！">
+<meta property="og:description" content="$VideoMAEv2: Scaling Video Masked Autoencoders with Dual Masking^{[1]} $  作者们是来自南大 Novel Software Technology Lab、上海AI Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2: Scaling video masked">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-01-24T15:25:08.000Z">
-<meta property="article:modified_time" content="2024-01-26T13:32:19.201Z">
+<meta property="article:published_time" content="2024-01-26T01:29:03.000Z">
+<meta property="article:modified_time" content="2024-01-26T13:32:35.163Z">
 <meta property="article:author" content="Young">
-<meta property="article:tag" content="Object Detection">
+<meta property="article:tag" content="Video Understanding">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/">
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/","path":"2024/01/24/YOLO/","title":"YOLO"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/","path":"2024/01/26/VideMAE/","title":"VideMAE"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>YOLO | Young's Blog</title>
+<title>VideMAE | Young's Blog</title>
   
 
 
@@ -113,8 +113,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#yolo-%E7%B3%BB%E5%88%97%E8%AE%BA%E6%96%87"><span class="nav-number">1.</span> <span class="nav-text">YOLO 系列论文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#you-only-look-once-unified-real-time-object-detection1"><span class="nav-number">1.1.</span> <span class="nav-text">\(You\ Only\ Look\ Once: Unified, Real-Time\ Object\
-Detection^{[1]}\)🚀</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#videomaev2-scaling-video-masked-autoencoders-with-dual-masking1"><span class="nav-number">1.</span> <span class="nav-text">$VideoMAEv2:
+Scaling Video Masked Autoencoders with Dual Masking^{[1]} $</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -175,7 +175,7 @@ Detection^{[1]}\)🚀</span></a></li></ol></li></ol></div>
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
@@ -188,12 +188,12 @@ Detection^{[1]}\)🚀</span></a></li></ol></li></ol></div>
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="YOLO | Young's Blog">
+      <meta itemprop="name" content="VideMAE | Young's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          YOLO
+          VideMAE
         </h1>
 
         <div class="post-meta-container">
@@ -203,15 +203,9 @@ Detection^{[1]}\)🚀</span></a></li></ol></li></ol></div>
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2024-01-24 23:25:08" itemprop="dateCreated datePublished" datetime="2024-01-24T23:25:08+08:00">2024-01-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-26 21:32:19" itemprop="dateModified" datetime="2024-01-26T21:32:19+08:00">2024-01-26</time>
+      <time title="创建时间：2024-01-26 09:29:03 / 修改时间：21:32:35" itemprop="dateCreated datePublished" datetime="2024-01-26T09:29:03+08:00">2024-01-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -239,50 +233,96 @@ Detection^{[1]}\)🚀</span></a></li></ol></li></ol></div>
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="yolo-系列论文">YOLO 系列论文</h2>
-<p>开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还是一步一步来，从经典论文开始，当然也会看新的热度很高的论文，通过这种方式，来一点一点的进步吧。不积跬步无以至千里；千里之行，始于足下。加油！！！只要想做，什么时候都不算晚！！🏃</p>
-<h3 id="you-only-look-once-unified-real-time-object-detection1"><span
-class="math inline">\(You\ Only\ Look\ Once: Unified, Real-Time\ Object\
-Detection^{[1]}\)</span>🚀</h3>
+    <div class="post-body" itemprop="articleBody"><h3
+id="videomaev2-scaling-video-masked-autoencoders-with-dual-masking1">$VideoMAEv2:
+Scaling Video Masked Autoencoders with Dual Masking^{[1]} $</h3>
 <blockquote>
-<p>作者是来自U of Washington、Allen Institute for AI和FAIR,包括Joseph
-Redmon、Santosh Divvalala、Ross Girshick 等。论文出处：[1]Redmon, Joseph
-et al. “You Only Look Once: Unified, Real-Time Object Detection.” 2016
-IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
-(2015): 779-788.</p>
+<p>作者们是来自南大 Novel Software Technology Lab、上海AI
+Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. "Videomae v2:
+Scaling video masked autoencoders with dual masking." Proceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition.
+2023.</p>
 </blockquote>
-<p>总结归纳： <span id="more"></span> 这里“我们”代指作者</p>
+<p>总结： 以下 “我们”指作者 <span id="more"></span> 1.
+在大规模数据上预训练的大基础模型正在成为学习多数据模态通用表征的成功范式。基础模型可以很容易地通过zero-shot、linear
+probe、prompt tuning、fine tuning
+应用到广泛的下游任务（个人猜测：一是数据量大了，表征学的多，做下游任务就很容易了）。Transformer
+with masked autoencoding
+是有效的自监督视觉学习器。我们将VideoMAE同时在模型和数据上扩展：用ViT-g
+(Transformer with billion-level parameters)
+初始化模型；将数据集的size增加到million-level。</p>
+<ol start="2" type="1">
+<li>面临的问题：</li>
+</ol>
+<ul>
+<li>扩展VideoMAE非常耗GPU内存和计算资源。为了提高预训练效率：处理数据冗余：1)
+在encoder中mask高比例的cubes，在decoder中drop some cubes。</li>
+<li>MAE
+对大量的数据需求很大。现有的视频数据相比于图像数据的量级，要少很多。我们简单地将多个来源的数据mix，来为VideoMAE做预训练。pre-training
+on million-level unlabeled video dataset and then post-pre-training on
+the labeled hybrid dataset。</li>
+</ul>
+<ol start="3" type="1">
+<li><p>视觉基础模型： 从早期的CNN ------&gt; Transformer -------&gt;
+BEiT, SimMIM, MAE。vision-languange pre-trained model: CLIP,
+ALIGN。近期的工作尝试用对比学习 Contrastive Learning、Siamese
+Learning来做无监督学习。这些视觉基础模型在zero-shot迁移上展示出了良好的性能。</p></li>
+<li><p>VideoMAE</p>
 <ol type="1">
-<li><p>先前的工作是用分类器来做检测；我们将目标检测视为空间上分隔的bboxes和相关联的类别概率的回归问题。一个单一的神经网络从整个图像里，在一次evaluation里，直接预测bboxes和对应的类别概率。pipeline是单个网络，可以再检测性能上优化为端到端的。速度非常快，但是定位也有很多错误。</p></li>
-<li><p>在训练和测试时，能看到全局的信息，能够对上下文信息进行编码，Fast
-R-CNN看不到大的上下文；在泛化性上，YOLO要好一些。Trade-off:
-速度快，但是精确定位物体特别是小目标，有误差。</p></li>
-<li><p>将输入图像生成 <span class="math inline">\(S \times S\)</span>
-的Grids，每个Grid预测 <span class="math inline">\(B\)</span>个
-bboxes和置信度，包括5个参数: <span
-class="math inline">\(x,y,w,h,p_c\)</span>。每个Grid预测C个类的条件概率。</p></li>
-<li><p>YOLO: 24层卷积网络，2个全连接层，输入图像大小为<span
-class="math inline">\(448\times448\)</span>,最后输出 <span
-class="math inline">\(7\times7\times30\)</span>； Fast YOLO：
-9个卷积层，用Sum-squared Error来进行优化，Limitations:
-每个Grid预测2个bboxes，限制了邻近物体的数量。Loss
-Function中，同等对待大bboxes和小bboxes的errors，然而一个小的错误在大的boxes和小的boxes中的影响不同。</p></li>
+<li>three core components:</li>
+</ol>
+<ul>
+<li>cube embedding: cube embedding encodes the local spatio-temporal
+features and builds the token list</li>
+<li>encoder: operates on unmasked tokens <span
+class="math inline">\(T^u\)</span> with a 普通的时空注意力的ViT.</li>
+<li>decoder: 将combined tokens <span class="math inline">\(Z^c\)</span>
+作为输入，用另一个ViT进行重建， $ = _{dec} (Z^{c}) $</li>
+<li>losss function: MSE: mean square error between masked pixels and the
+reconstructed pixels。</li>
+</ul>
+<ol start="2" type="1">
+<li>encoder-decoder非对称，
+encoder要小一些。将VideoMAE扩展到billion-level时，整体的计算量和存储量消耗就成了瓶颈。</li>
+</ol></li>
+<li><p>Dual Masking for VideoMAE:</p>
+<ol type="1">
+<li>与VideoMAE的不同之处在于：decoder的输入来自encoder visible tokens
+and part of the remaining tokens visible under the decoder mask <span
+class="math inline">\(M_d\)</span>。用decoder
+mask来降低decoder的输入的长度 for high efficiency。</li>
+<li>encoder试图去缓解时序关联造成的information leakage；而在decoder
+masking中，encourage information complement，来确保partial
+reconstruction information loss最小；尽可能选择diverse cubes 来cover
+整个视频信息 -----&gt; 采用running cell masking的策略。</li>
+</ol></li>
+<li><p>Scaling VideoMAE:</p>
+<ol type="1">
+<li>encoder采用不同的backbones: ViT-B,ViT-L, ViT-H,
+ViT-g。decoder就相对shallow和lightweight：用更少的layers和channels。</li>
+<li>弄了一个unlabeled hybrid视频数据集，约1.3M clips。</li>
+<li>Progressive training: 先在无标签的hybrid video
+dataset上用MAE做无监督预训练；然后建了一个labeled hybrid video dataset,
+对其做post-pre-training。
+最后在目标数据集上做fine-tuning，将通用语义迁移到task-centric
+knowledge上。</li>
+</ol></li>
 </ol>
 <figure>
 <img
-src="https://d3i71xaburhd42.cloudfront.net/f8e79ac0ea341056ef20f2616628b3e964764cfd/3-Figure3-1.png"
-alt="YOLO Architecture^[1]" />
-<figcaption aria-hidden="true"><span class="math inline">\(YOLO
-Architecture^[1]\)</span></figcaption>
+src="https://d3i71xaburhd42.cloudfront.net/9fac3d0728a8c833a593446e3e176e90d856df04/1-Figure1-1.png"
+alt="VideoMAE with Dual Masking" />
+<figcaption aria-hidden="true">VideoMAE with Dual Masking</figcaption>
 </figure>
 <blockquote>
-<p><span class="math inline">\(Figure\ 1^{[1]}\)</span>: <em>The
-Architecture</em>. Our detection network has 24 convolutional layers
-followed by 2 fully connected layers. Alternating 1× 1 convolutional
-layers reduce the features space from preceding layers. We pretrain the
-convolutional layers on the ImageNet classification task at half the
-resolution (224× 224 input image) and then double the resolution for
-detection。</p>
+<p><span class="math inline">\(Figure\ 1^{[1]}\)</span>. <em>VideoMAE
+with dual masking</em>. To improve the overall efficiency of computation
+and memory in video masked autoencoding, we propose to mask the decoder
+as well and devise the dual masking strategy. Like encoder, we also
+apply a masking map to the deocoder and simply reconstruct a subset of
+pixel cubes selected by the running cell masking. The final
+reconstruction loss only applies for the invisible tokens dropped by the
+encoder</p>
 </blockquote>
 
     </div>
@@ -293,21 +333,18 @@ detection。</p>
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/YoungBlogs/tags/Object-Detection/" rel="tag"># Object Detection</a>
+              <a href="/YoungBlogs/tags/Video-Understanding/" rel="tag"># Video Understanding</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/YoungBlogs/2024/01/22/sshKey/" rel="prev" title="sshKey">
-                  <i class="fa fa-angle-left"></i> sshKey
+                <a href="/YoungBlogs/2024/01/24/YOLO/" rel="prev" title="YOLO">
+                  <i class="fa fa-angle-left"></i> YOLO
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/YoungBlogs/2024/01/26/VideMAE/" rel="next" title="VideMAE">
-                  VideMAE <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
