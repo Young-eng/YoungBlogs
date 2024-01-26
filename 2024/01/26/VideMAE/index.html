@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="$VideoMAEv2: Scaling Video Masked Autoencoders with Dual Masking^{[1]} $  作者们是来自南大 Novel Software Technology Lab、上海AI Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2: Scaling video masked">
+    <meta name="description" content="$ VideoMAE v2: Scaling Video Masked Autoencoders with Dual Masking^{[1]} $  作者们是来自南大 Novel Software Technology Lab、上海AI Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2: Scaling video mask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VideMAE">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="$VideoMAEv2: Scaling Video Masked Autoencoders with Dual Masking^{[1]} $  作者们是来自南大 Novel Software Technology Lab、上海AI Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2: Scaling video masked">
+<meta property="og:description" content="$ VideoMAE v2: Scaling Video Masked Autoencoders with Dual Masking^{[1]} $  作者们是来自南大 Novel Software Technology Lab、上海AI Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2: Scaling video mask">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-01-26T01:29:03.000Z">
-<meta property="article:modified_time" content="2024-01-26T13:32:35.163Z">
+<meta property="article:modified_time" content="2024-01-26T13:43:37.899Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Video Understanding">
 <meta name="twitter:card" content="summary">
@@ -113,8 +113,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#videomaev2-scaling-video-masked-autoencoders-with-dual-masking1"><span class="nav-number">1.</span> <span class="nav-text">$VideoMAEv2:
-Scaling Video Masked Autoencoders with Dual Masking^{[1]} $</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#videomae-v2-scaling-video-masked-autoencoders-with-dual-masking1"><span class="nav-number">1.</span> <span class="nav-text">$
+VideoMAE v2: Scaling Video Masked Autoencoders with Dual Masking^{[1]}
+$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结：</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -135,7 +136,7 @@ Scaling Video Masked Autoencoders with Dual Masking^{[1]} $</span></a></li></ol>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/YoungBlogs/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -205,7 +206,7 @@ Scaling Video Masked Autoencoders with Dual Masking^{[1]} $</span></a></li></ol>
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-01-26 09:29:03 / 修改时间：21:32:35" itemprop="dateCreated datePublished" datetime="2024-01-26T09:29:03+08:00">2024-01-26</time>
+      <time title="创建时间：2024-01-26 09:29:03 / 修改时间：21:43:37" itemprop="dateCreated datePublished" datetime="2024-01-26T09:29:03+08:00">2024-01-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -234,8 +235,9 @@ Scaling Video Masked Autoencoders with Dual Masking^{[1]} $</span></a></li></ol>
     
     
     <div class="post-body" itemprop="articleBody"><h3
-id="videomaev2-scaling-video-masked-autoencoders-with-dual-masking1">$VideoMAEv2:
-Scaling Video Masked Autoencoders with Dual Masking^{[1]} $</h3>
+id="videomae-v2-scaling-video-masked-autoencoders-with-dual-masking1">$
+VideoMAE v2: Scaling Video Masked Autoencoders with Dual Masking^{[1]}
+$</h3>
 <blockquote>
 <p>作者们是来自南大 Novel Software Technology Lab、上海AI
 Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. "Videomae v2:
@@ -243,16 +245,18 @@ Scaling video masked autoencoders with dual masking." Proceedings of the
 IEEE/CVF Conference on Computer Vision and Pattern Recognition.
 2023.</p>
 </blockquote>
-<p>总结： 以下 “我们”指作者 <span id="more"></span> 1.
-在大规模数据上预训练的大基础模型正在成为学习多数据模态通用表征的成功范式。基础模型可以很容易地通过zero-shot、linear
+<h3 id="总结">总结：</h3>
+<p>以下 “我们”指作者</p>
+<span id="more"></span>
+<ol type="1">
+<li><p>在大规模数据上预训练的大基础模型正在成为学习多数据模态通用表征的成功范式。基础模型可以很容易地通过zero-shot、linear
 probe、prompt tuning、fine tuning
 应用到广泛的下游任务（个人猜测：一是数据量大了，表征学的多，做下游任务就很容易了）。Transformer
 with masked autoencoding
 是有效的自监督视觉学习器。我们将VideoMAE同时在模型和数据上扩展：用ViT-g
 (Transformer with billion-level parameters)
-初始化模型；将数据集的size增加到million-level。</p>
-<ol start="2" type="1">
-<li>面临的问题：</li>
+初始化模型；将数据集的size增加到million-level。</p></li>
+<li><p>面临的问题：</p></li>
 </ol>
 <ul>
 <li>扩展VideoMAE非常耗GPU内存和计算资源。为了提高预训练效率：处理数据冗余：1)
