@@ -6,7 +6,11 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-01-22T08:10:28.720Z</updated>
+<<<<<<< HEAD
+  <updated>2024-01-22T08:16:24.538Z</updated>
+=======
+  <updated>2024-01-26T15:41:05.046Z</updated>
+>>>>>>> 463d6d782ffecd2a65ab35b14bcce8db8bde5d3f
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -17,13 +21,105 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+<<<<<<< HEAD
+=======
+    <title>VideMAE</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/</id>
+    <published>2024-01-26T01:29:03.000Z</published>
+    <updated>2024-01-26T15:41:05.046Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="videomae-v2-scaling-video-masked-autoencoders-with-dual-masking1"><spanclass="math inline">\(VideoMAE\ v2: Scaling\ Video\ Masked\Autoencoders\ with\ Dual\ Masking^{[1]}\)</span> 🎞️</h3><blockquote><p>作者们是来自南大 Novel Software Technology Lab、上海AILab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. "Videomae v2:Scaling video masked autoencoders with dual masking." Proceedings of theIEEE/CVF Conference on Computer Vision and Pattern Recognition.2023.</p></blockquote><h3 id="总结">总结：</h3><p>以下 “我们”指作者</p><span id="more"></span><ol type="1"><li><p>在大规模数据上预训练的大基础模型正在成为学习多数据模态通用表征的成功范式。基础模型可以很容易地通过zero-shot、linearprobe、prompt tuning、fine tuning应用到广泛的下游任务（<em>那能够这么广泛地应用到下游任务，是数据量大的原因呢占比多一些呢还是模型比较好的原因多一些</em>）。Transformerwith masked autoencoding是有效的自监督视觉学习器。我们将VideoMAE同时在模型和数据上扩展：用ViT-g(Transformer with billion-level parameters)初始化模型；将数据集的size增加到million-level。</p></li><li><p>面临的问题：</p></li></ol><ul><li>扩展VideoMAE非常耗GPU内存和计算资源。为了提高预训练效率：处理数据冗余：1)在encoder中mask高比例的cubes，2) 在decoder中drop some cubes。</li><li>MAE对大量的数据需求很大。现有的视频数据相比于图像数据的量级，要少很多。我们简单地将多个来源的数据mix，来为VideoMAE做预训练。pre-trainingon million-level unlabeled video dataset and then post-pre-training onthe labeled hybrid dataset。</li></ul><ol start="3" type="1"><li><p>视觉基础模型： 从早期的CNN ------&gt; Transformer -------&gt;BEiT, SimMIM, MAE。vision-languange pre-trained model: CLIP,ALIGN。近期的工作尝试用对比学习 Contrastive Learning、SiameseLearning来做无监督学习。这些视觉基础模型在zero-shot迁移上展示出了良好的性能。</p></li><li><p>VideoMAE</p><ol type="1"><li>three core components:</li></ol><ul><li>cube embedding: cube embedding encodes the local spatio-temporalfeatures and builds the token list</li><li>encoder: operates on unmasked tokens <spanclass="math inline">\(T^u\)</span> with a 普通的时空注意力的ViT.</li><li>decoder: 将combined tokens <span class="math inline">\(Z^c\)</span>作为输入，用另一个ViT进行重建， <span class="math display">\[ \hat{I} =\Phi_{dec} (Z^{c}) \]</span></li><li>losss function: MSE: mean square error between masked pixels and thereconstructed pixels。</li></ul><ol start="2" type="1"><li>encoder-decoder非对称，encoder要小一些。将VideoMAE扩展到billion-level时，整体的计算量和存储量消耗就成了瓶颈。</li></ol></li><li><p>Dual Masking for VideoMAE:</p><ol type="1"><li>与VideoMAE的不同之处在于：decoder的输入来自encoder visible tokensand part of the remaining tokens visible under the decoder mask <spanclass="math inline">\(M_d\)</span>。用decodermask来降低decoder的输入的长度 for high efficiency。</li><li>encoder试图去缓解时序关联造成的information leakage；而在decodermasking中，encourage information complement，来确保partialreconstruction information loss最小；尽可能选择diverse cubes 来cover整个视频信息 -----&gt; 采用running cell masking的策略。</li></ol></li><li><p>Scaling VideoMAE:</p><ol type="1"><li>encoder采用不同的backbones: ViT-B,ViT-L, ViT-H,ViT-g。decoder就相对shallow和lightweight：用更少的layers和channels。</li><li>弄了一个unlabeled hybrid视频数据集，约1.3M clips。</li><li>Progressive training: 先在无标签的hybrid videodataset上用MAE做无监督预训练；然后建了一个labeled hybrid video dataset,对其做post-pre-training。最后在目标数据集上做fine-tuning，将通用语义迁移到task-centricknowledge上。</li></ol></li></ol><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/9fac3d0728a8c833a593446e3e176e90d856df04/1-Figure1-1.png"alt="VideoMAE with Dual Masking" /><figcaption aria-hidden="true">VideoMAE with Dual Masking</figcaption></figure><blockquote><p><span class="math inline">\(Figure\ 1^{[1]}\)</span>. <em>VideoMAEwith dual masking</em>. To improve the overall efficiency of computationand memory in video masked autoencoding, we propose to mask the decoderas well and devise the dual masking strategy. Like encoder, we alsoapply a masking map to the deocoder and simply reconstruct a subset ofpixel cubes selected by the running cell masking. The finalreconstruction loss only applies for the invisible tokens dropped by theencoder</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;videomae-v2-scaling-video-masked-autoencoders-with-dual-masking1&quot;&gt;&lt;span
+class=&quot;math inline&quot;&gt;&#92;(VideoMAE&#92; v2: Scaling&#92; Video&#92; Masked&#92;
+Autoencoders&#92; with&#92; Dual&#92; Masking^{[1]}&#92;)&lt;/span&gt; 🎞️&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者们是来自南大 Novel Software Technology Lab、上海AI
+Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2:
+Scaling video masked autoencoders with dual masking.&quot; Proceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition.
+2023.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结：&lt;/h3&gt;
+&lt;p&gt;以下 “我们”指作者&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Video Understanding" scheme="https://young-eng.github.io/YoungBlogs/tags/Video-Understanding/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>YOLO</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/</id>
+    <published>2024-01-24T15:25:08.000Z</published>
+    <updated>2024-01-26T13:38:58.409Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="yolo-系列论文">YOLO 系列论文</h2><p>开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还是一步一步来，从经典论文开始，当然也会看新的热度很高的论文，通过这种方式，来一点一点的进步吧。不积跬步无以至千里；千里之行，始于足下。加油！！！只要想做，什么时候都不算晚！！🏃</p><h3 id="you-only-look-once-unified-real-time-object-detection1"><spanclass="math inline">\(You\ Only\ Look\ Once: Unified, Real-Time\ Object\Detection^{[1]}\)</span>🚀</h3><blockquote><p>作者是来自U of Washington、Allen Institute for AI和FAIR,包括JosephRedmon、Santosh Divvalala、Ross Girshick 等。论文出处：[1]Redmon, Josephet al. “You Only Look Once: Unified, Real-Time Object Detection.” 2016IEEE Conference on Computer Vision and Pattern Recognition (CVPR)(2015): 779-788.</p></blockquote><h3 id="总结">总结：</h3><span id="more"></span><p>以下“我们”代指作者</p><ol type="1"><li><p>先前的工作是用分类器来做检测；我们将目标检测视为空间上分隔的bboxes和相关联的类别概率的回归问题。一个单一的神经网络从整个图像里，在一次evaluation里，直接预测bboxes和对应的类别概率。pipeline是单个网络，可以再检测性能上优化为端到端的。速度非常快，但是定位也有很多错误。</p></li><li><p>在训练和测试时，能看到全局的信息，能够对上下文信息进行编码，FastR-CNN看不到大的上下文；在泛化性上，YOLO要好一些。Trade-off:速度快，但是精确定位物体特别是小目标，有误差。</p></li><li><p>将输入图像生成 <span class="math inline">\(S \times S\)</span>的Grids，每个Grid预测 <span class="math inline">\(B\)</span>个bboxes和置信度，包括5个参数: <spanclass="math inline">\(x,y,w,h,p_c\)</span>。每个Grid预测C个类的条件概率。</p></li><li><p>YOLO: 24层卷积网络，2个全连接层，输入图像大小为<spanclass="math inline">\(448\times448\)</span>,最后输出 <spanclass="math inline">\(7\times7\times30\)</span>； Fast YOLO：9个卷积层，用Sum-squared Error来进行优化，Limitations:每个Grid预测2个bboxes，限制了邻近物体的数量。LossFunction中，同等对待大bboxes和小bboxes的errors，然而一个小的错误在大的boxes和小的boxes中的影响不同。</p></li></ol><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/f8e79ac0ea341056ef20f2616628b3e964764cfd/3-Figure3-1.png"alt="YOLO Architecture^[1]" /><figcaption aria-hidden="true"><span class="math inline">\(YOLOArchitecture^[1]\)</span></figcaption></figure><blockquote><p><span class="math inline">\(Figure\ 1^{[1]}\)</span>: <em>TheArchitecture</em>. Our detection network has 24 convolutional layersfollowed by 2 fully connected layers. Alternating 1× 1 convolutionallayers reduce the features space from preceding layers. We pretrain theconvolutional layers on the ImageNet classification task at half theresolution (224× 224 input image) and then double the resolution fordetection。</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;yolo-系列论文&quot;&gt;YOLO 系列论文&lt;/h2&gt;
+&lt;p&gt;开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还是一步一步来，从经典论文开始，当然也会看新的热度很高的论文，通过这种方式，来一点一点的进步吧。不积跬步无以至千里；千里之行，始于足下。加油！！！只要想做，什么时候都不算晚！！🏃&lt;/p&gt;
+&lt;h3 id=&quot;you-only-look-once-unified-real-time-object-detection1&quot;&gt;&lt;span
+class=&quot;math inline&quot;&gt;&#92;(You&#92; Only&#92; Look&#92; Once: Unified, Real-Time&#92; Object&#92;
+Detection^{[1]}&#92;)&lt;/span&gt;🚀&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自U of Washington、Allen Institute for AI和FAIR,包括Joseph
+Redmon、Santosh Divvalala、Ross Girshick 等。论文出处：[1]Redmon, Joseph
+et al. “You Only Look Once: Unified, Real-Time Object Detection.” 2016
+IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
+(2015): 779-788.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结：&lt;/h3&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/01/24/hello-world/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/01/24/hello-world/</id>
+    <published>2024-01-24T14:44:26.662Z</published>
+    <updated>2023-11-14T12:23:10.800Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your veryfirst post. Check <a href="https://hexo.io/docs/">documentation</a> formore info. If you get any problems when using Hexo, you can find theanswer in <ahref="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> oryou can ask me on <ahref="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><span id="more"></span><h2 id="quick-start">Quick Start</h2><h3 id="create-a-new-post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="run-server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="generate-static-files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="deploy-to-remote-sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very
+first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for
+more info. If you get any problems when using Hexo, you can find the
+answer in &lt;a
+href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or
+you can ask me on &lt;a
+href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+>>>>>>> 463d6d782ffecd2a65ab35b14bcce8db8bde5d3f
     <title>sshKey</title>
     <link href="https://young-eng.github.io/YoungBlogs/2024/01/22/sshKey/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/01/22/sshKey/</id>
     <published>2024-01-21T16:21:33.000Z</published>
-    <updated>2024-01-22T08:10:28.720Z</updated>
+    <updated>2024-01-22T08:16:24.538Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="sshkey-记录">sshKey 记录</h3><p>今天传代码的时候，发现一直报连接超时，kex_exchange_identification:Connection closed by remote host，Please make sure you have the correctaccess rights and the repository exists.突然又郁闷了。搜了一圈之后，发现好像是远程密钥的问题。在出现Are you surewant to continue connecting (yes/no/[fingerprint])?的时候，输入yes，然后就OK了。</p><span id="more"></span><h4 id="ssh-生成公钥的命令">ssh 生成公钥的命令</h4><ul><li>ssh-keygen -t rsa -C "GitHub账号的注册邮箱"</li></ul><p>一般是在 ~\.ssh 目录下。将id_rsa.pub里的内容复制到github的sshkey里。</p><ul><li>在 ~\.ssh目录下，新建一个config文件，将一下内容复制进去，解决了超时的问题：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line"></span><br><span class="line">Hostname ssh.github.com</span><br><span class="line"></span><br><span class="line">Port 443</span><br><span class="line"></span><br><span class="line">User git</span><br></pre></td></tr></table></figure><h4 id="参考链接">参考链接</h4><p>https://github.com/orgs/community/discussions/55269</p><p>https://www.cnblogs.com/gosun/p/13044672.html</p><p>https://stackoverflow.com/questions/11443687/the-authenticity-of-host-cant-be-established</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="sshkey-记录">sshKey 记录</h3><p>今天传代码的时候，发现一直报连接超时，kex_exchange_identification:Connection closed by remote host，Please make sure you have the correctaccess rights and the repository exists.突然又郁闷了。搜了一圈之后，发现好像是远程密钥的问题。在出现Are you surewant to continue connecting (yes/no/[fingerprint])?的时候，输入yes，然后就OK了。</p><span id="more"></span><h4 id="ssh-生成公钥的命令">ssh 生成公钥的命令</h4><ul><li>ssh-keygen -t rsa -C "GitHub账号的注册邮箱"</li></ul><p>一般是在 ~\username\.ssh目录下。将id_rsa.pub里的内容复制到github的ssh key里。</p><ul><li>在 ~\username\.ssh目录下，新建一个config文件，将一下内容复制进去，解决了超时的问题：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line"></span><br><span class="line">Hostname ssh.github.com</span><br><span class="line"></span><br><span class="line">Port 443</span><br><span class="line"></span><br><span class="line">User git</span><br></pre></td></tr></table></figure><h4 id="参考链接">参考链接</h4><p>https://github.com/orgs/community/discussions/55269</p><p>https://www.cnblogs.com/gosun/p/13044672.html</p><p>https://stackoverflow.com/questions/11443687/the-authenticity-of-host-cant-be-established</p>]]></content>
     
     
     <summary type="html">&lt;h3 id=&quot;sshkey-记录&quot;&gt;sshKey 记录&lt;/h3&gt;
@@ -240,6 +336,7 @@ https://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm
   </entry>
   
   <entry>
+<<<<<<< HEAD
     <title>Hello World</title>
     <link href="https://young-eng.github.io/YoungBlogs/2023/11/14/hello-world/"/>
     <id>https://young-eng.github.io/YoungBlogs/2023/11/14/hello-world/</id>
@@ -263,13 +360,21 @@ href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/
   </entry>
   
   <entry>
+=======
+>>>>>>> 463d6d782ffecd2a65ab35b14bcce8db8bde5d3f
     <title>BuildHexo</title>
     <link href="https://young-eng.github.io/YoungBlogs/2023/11/13/BuildHexo/"/>
     <id>https://young-eng.github.io/YoungBlogs/2023/11/13/BuildHexo/</id>
     <published>2023-11-13T09:20:46.000Z</published>
+<<<<<<< HEAD
     <updated>2023-12-29T06:52:14.826Z</updated>
     
     <content type="html"><![CDATA[<p>最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。</p><span id="more"></span><h2 id="hexo-配置">Hexo 配置</h2><p>Hexo的配置主要是相关的主题啥的，环境配置可以参照Hexo的文档，主题我用了Next，Next用的人好像蛮多的，报了啥bug也方便解决。</p><h2 id="写blog">写blog</h2><p>通过hexo newxxblogtitlexx，来写blog,主要是markdown的格式，markdownd的相关语法可以看这里：</p><p>https://markdown.com.cn/</p><h2 id="遇到的问题">遇到的问题</h2><ol type="1"><li><p>公式的问题</p><p>用ghostwriter写markdown时，编辑器没法显示公式，找来找去最后还是用vscode把，这个可以预览。然后新的问题出现了，hexo的页面无法正确显示公式，这需要去_cofig.yml里，将math那里的mathjax和ktex的enable都设为true，不是True。然后就可了。但是！却显示不了下划线，苦苦查询了一番，用pandoc的渲染器比较好，hexo-render-marked换成hexo-renderer-pandoc，需要先安装pandoc，去pandoc的github下载最新的版本安装即可。</p></li></ol><p>参考链接如下：</p><p>https://theme-next.js.org/</p><p>https://hexo.io/zh-cn/docs/</p><p>https://zhuanlan.zhihu.com/p/35988761</p><p>https://blog.csdn.net/weixin_45073562/article/details/120289648</p>]]></content>
+=======
+    <updated>2024-01-25T04:34:14.602Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。</p><span id="more"></span><h2 id="hexo-配置">Hexo 配置</h2><p>Hexo的配置主要是相关的主题啥的，环境配置可以参照Hexo的文档，主题我用了Next，Next用的人好像蛮多的，报了啥bug也方便解决。</p><h2 id="写blog">写blog✍️</h2><p>通过hexo newxxblogtitlexx，来写blog,主要是markdown的格式，markdownd的<ahref="https://markdown.com.cn/">相关语法</a></p><p>用markdown写的时候，可以加表情包，&amp;#x+unicode，Emoji的Unicode去这里查 <ahref="https://unicode.org/emoji/charts/full-emoji-list.html">EmojiUnicode</a>;也可以直接去复制粘贴Emoji，Emoji的<ahref="https://emojipedia.org/smileys">网址1</a>，<ahref="https://gist.github.com/rxaviers/7360908">网址2</a>， <ahref="https://github.com/markdown-templates/markdown-emojis">网址3</a>。</p><h2 id="遇到的问题">遇到的问题🐛</h2><ol type="1"><li><p>公式的问题</p><p>用ghostwriter写markdown时，编辑器没法显示公式，找来找去最后还是用vscode把，这个可以预览。然后新的问题出现了，hexo的页面无法正确显示公式，这需要去_cofig.yml里，将math那里的mathjax和ktex的enable都设为true，不是True。然后就可了。但是！却显示不了下划线，苦苦查询了一番，用pandoc的渲染器比较好，hexo-render-marked换成hexo-renderer-pandoc，需要先安装pandoc，去pandoc的github下载最新的版本安装即可。</p></li><li><p>Nodejs 安装</p><p>第一次在笔记本上弄的时候，Nodejs安装到最后，会提示一个automaticllyinstalled xxx tools之类的，第一次的时候我好像是勾选了，然后经过了很长的时间，给我自动安装了python3.x，记得好像还提示安装visual stdio的什么部件，弄了很久；这次，我在台式机上，也配置一下Hexo，就直接把笔记本上的Hexo里的文件夹全都复制过来，单独安装Nodejs，这次Nodejs最后没有勾选automaticlly 安装什么，没有装其它额外的东西，然后，pandoc还是要用npm单独装一下，不然hexogenerate的时候会报错，最后，Hexo在台式机上成功迁移了。</p></li></ol><p>分割线 _______ _______</p><p>2024.2.24</p><p>今天本来想在Ubuntu里装一下Omniverse，搞一下Issac Sim；</p><p>遇到的第一个大坑</p><ol type="1"><li>下载是真滴慢啊，直到中午吃完饭才下完。</li><li>第二个真的是。。。下载完后，提示找不着GPU，我看了一下系统里，显卡是llvmpipe，nvidia-smi也没有任何显示，确实之前好像没有装过驱动。然后网上找了一下装驱动的方法。我是这么弄的，两个命令：<code>ubuntu-drivers devices</code>;<code>ubuntu-drivers autoinstall</code>。然后重启一下，，就黑！！！屏！！！了！！！，啊啊！！进入了叫做tty的模式吧，没有了图像界面，然后一直找怎么进入图形化系统，试了各种方法，最后，用了一个命令：<code>sudo apt-get remove --purge nvidia-*</code>。好像有效果，能进入系统了。长舒一口气😌但是！！！开机之后怎么没有网了捏，蓝牙也没有了，然后各种尝试装驱动、直接连网线，发现make,gcc啥的好像都不能用了，啊啊啊！！！裂开😱，搞了一下午，以暂时失败告终。等我歇会，只能用终极方法了----重装，幸好ubuntu里没啥多的文件资料之类的，不然真的头大。这个坑下次再填，今天先记下。</li></ol><p>参考链接如下：</p><p>https://theme-next.js.org/</p><p>https://hexo.io/zh-cn/docs/</p><p>https://zhuanlan.zhihu.com/p/35988761</p><p>https://blog.csdn.net/weixin_45073562/article/details/120289648</p>]]></content>
+>>>>>>> 463d6d782ffecd2a65ab35b14bcce8db8bde5d3f
     
     
     <summary type="html">&lt;p&gt;最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。&lt;/p&gt;</summary>
