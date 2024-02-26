@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-01-22T08:16:24.538Z</updated>
+  <updated>2024-02-20T14:48:58.751Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,214 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>围城</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/02/02/%E5%9B%B4%E5%9F%8E/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/02/02/%E5%9B%B4%E5%9F%8E/</id>
+    <published>2024-02-02T15:17:57.000Z</published>
+    <updated>2024-02-20T14:48:58.751Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="围城">《围城》</h3><blockquote><p>是钱钟书先生的作品，“围城”一词经常在生活中听到，很早就听说了这本书，近来终于如愿买了一本，想来闲暇时分来读一读，少看些手机网页资讯，多去看看感兴趣的书籍，先挖个坑，以后再慢慢填。后续会看一些书，也会陆续更新到主页。</p></blockquote><h4 id="章节故事">章节故事</h4><p>目前读到了方渐鸿留洋回来后，在家里的情节，后续会继续更新。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;围城&quot;&gt;《围城》&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;是钱钟书先生的作品，“围城”一词经常在生活中听到，很早就听说了这本书，近来终于如愿买了一本，想来闲暇时分来读一读，少看些手机网页资讯，多去看看感兴趣的书籍，先挖个坑，以后再慢慢填。后续会看一些书，也会</summary>
+      
+    
+    
+    
+    <category term="Books" scheme="https://young-eng.github.io/YoungBlogs/categories/Books/"/>
+    
+    
+    <category term="长篇小说" scheme="https://young-eng.github.io/YoungBlogs/tags/%E9%95%BF%E7%AF%87%E5%B0%8F%E8%AF%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DETR</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/02/01/DETR/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/02/01/DETR/</id>
+    <published>2024-02-01T15:38:17.000Z</published>
+    <updated>2024-02-26T13:56:06.451Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="end-to-end-object-detection-with-transformers1"><spanclass="math inline">\(End-to-End\ Object\ Detection\ with\{Transformers^{[1]}}\)</span></h3><blockquote><p>作者们是来自Facebook AI的Nicolas Carion, FranciscoMassa等。论文引用[1]:Carion, Nicolas et al. “End-to-End Object Detectionwith Transformers.” ArXiv abs/2005.12872 (2020): n. pag.</p></blockquote><h3 id="key-words">Key Words:</h3><ul><li><strong>a set of prediction loss(biparitte matchingloss)</strong></li><li><strong>Transformer with parallel encoding</strong></li></ul><h4 id="总结">总结</h4><p>以下“我们” 指代作者</p><ol type="1"><li>提出了一个新的方法：将目标检测看作是直接的集合预测问题(setpredictionproblem)，精简了检测的pipeline，去掉了很多手工设计的组件，像是NMS非极大值抑制和anchorgeneration。新方法DEtection TRansformer (DETR)的主要的要素是 set-basedglobal loss(通过两个部分的匹配(bipartitematching)强制唯一的预测)和transformer的encoder-decoder架构。给定一个固定的小的learnedobject queries的集合，DETR推理物体和global imagecontext的关系，直接并行地输出最后预测的集合。在COCO目标检测数据集上，DETR展示了和FasterRCNN相当的精度和实时的性能。DETR能够很容易推广来产生全景的分割 in aunified manner。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>Modern detector通过定义在a large set ofproposals、anchors、windowscenters的回归和分类来进行预测。这样做，性能会被以下因素影响：后处理的步骤(合并相似的预测)、anchorsets的设计和用于将目标框分配给anchors的启发式方法。</p></li><li><p>DETR没有很多手工设计的组件(which encoder prior knowledge, likespatial anchors or NMS)，DETR不要求任何customizedlayers，能够在任何包含标准CNN和transformerclasses的框架中复现。</p></li><li><p>DETR在大的目标的检测上性能很好，可能是由于transformer的non-local的计算。然而，<strong>在小目标上的检测性能就比较低</strong>，DETR能够容易地扩展到更复杂的任务</p></li><li><p>Transformers 引入了自注意力，类似于Non-Local NeuralNetworks。</p></li></ol><h4 id="loss">Loss</h4><ul><li><p>find bipartite matching between GT and predictions, search for apermutation of N elements <span class="math inline">\(\sigma\)</span>with the lowest cost:</p><p><spanclass="math display">\[\hat{\sigma}=\underset{\sigma\in\mathfrak{S}_N}{\operatorname*{\arg\min}}\sum_i^N\mathcal{L}_{\mathrm{match}}(y_i,\hat{y}_{\sigma(i)})\]</span></p><p><spanclass="math inline">\(\mathcal{L}_{\mathrm{match}}(y_i,\hat{y}_{\sigma(i)})\)</span>是pairwise matching cost between GT <spanclass="math inline">\(y_i\)</span> 和prediction <spanclass="math inline">\(\hat{y}_{\sigma(i)}\)</span>，最优的assignment是通过匈牙利算法得到的。这个matching的作用和其它检测器中的matchproposal or anchors一样。</p></li><li><p><em>Hungarian Loss</em>: <spanclass="math display">\[\mathcal{L}_\text{Hungarian}{ ( y , \hat { y})}=\sum_{i=1}^N\left[-\log\hat{p}_{\hat{\sigma}(i)}(c_i)+\mathbb{1}_{\{c_i\neq\varnothing\}}\mathcal{L}_{\mathrm{box}}(b_i,\hat{b}_{\hat{\sigma}}(i))\right]\]</span></p></li></ul><h4 id="architecture-and-pipeline">Architecture and Pipeline</h4><ol type="1"><li>输入图像 <span class="math inline">\(3 \times H_0\times W_0\)</span>进入CNN Backbone, 得到 <span class="math inline">\(C \times H \timesW\)</span> 维的activation map <spanclass="math inline">\(f\)</span>，<spanclass="math inline">\(C\)</span>通常是2048。</li><li>通过 <span class="math inline">\(1 \times 1\)</span> 卷积，将<spanclass="math inline">\(f\)</span> 从 <spanclass="math inline">\(C\)</span> 维降到 <spanclass="math inline">\(d\)</span>维，得到 new feature map <spanclass="math inline">\(z_0，d \times H \timesW\)</span>。因为encoder是序列作为输入的，所以将 <spanclass="math inline">\(z_0\)</span> 的空间维度合并，得到$d HW $的featuremap。每个encoder layer包含多头注意力和 一个feed forward network(FFN)，将positional encodings加入到每个注意力层。FFN是一个3层的带有ReLU激活函数的感知机，FFN预测normalized中心坐标、box相对于输入图像的高和宽，线性层用一个Softmax函数预测类标签。</li></ol><figure><imgsrc="https://github.com/facebookresearch/detr/blob/main/.github/DETR.png"alt="DETR" /><figcaption aria-hidden="true">DETR</figcaption></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;end-to-end-object-detection-with-transformers1&quot;&gt;&lt;span
+class=&quot;math inline&quot;&gt;&#92;(End-to-End&#92; Object&#92; Detection&#92; with&#92;
+{Transformers^{[1]}}&#92;)&lt;/span&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者们是来自Facebook AI的Nicolas Carion, Francisco
+Massa等。论文引用[1]:Carion, Nicolas et al. “End-to-End Object Detection
+with Transformers.” ArXiv abs/2005.12872 (2020): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;a set of prediction loss(biparitte matching
+loss)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Transformer with parallel encoding&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;总结&quot;&gt;总结&lt;/h4&gt;
+&lt;p&gt;以下“我们” 指代作者&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;提出了一个新的方法：将目标检测看作是直接的集合预测问题(set
+prediction
+problem)，精简了检测的pipeline，去掉了很多手工设计的组件，像是NMS非极大值抑制和anchor
+generation。新方法DEtection TRansformer (DETR)的主要的要素是 set-based
+global loss(通过两个部分的匹配(bipartite
+matching)强制唯一的预测)和transformer的encoder-decoder架构。给定一个固定的小的learned
+object queries的集合，DETR推理物体和global image
+context的关系，直接并行地输出最后预测的集合。在COCO目标检测数据集上，DETR展示了和Faster
+RCNN相当的精度和实时的性能。DETR能够很容易推广来产生全景的分割 in a
+unified manner。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SSD</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/02/01/SSD/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/02/01/SSD/</id>
+    <published>2024-02-01T15:37:34.000Z</published>
+    <updated>2024-02-01T15:37:34.798Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>MAE</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/02/01/MAE/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/02/01/MAE/</id>
+    <published>2024-02-01T15:37:24.000Z</published>
+    <updated>2024-02-20T11:49:30.178Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="masked-autoencoders-are-scalable-vision-learners1"><spanclass="math inline">\(Masked\ Autoencoders\ Are\ Scalable\ Vision\Learners^{[1]}\)</span></h3><blockquote><p>作者是来自FAIR的恺明、Xinlei Chen、Saining Xie等。论文引用[1]：He,Kaiming et al. “Masked Autoencoders Are Scalable Vision Learners.” 2022IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)(2021): 15979-15988.</p></blockquote><p>以下“我们”指代作者</p><h4 id="摘要">摘要</h4><ol type="1"><li><p>MAE：掩码自编码是可扩展的自监督学习器。思路：对输入图片的patches进行随机掩码，然后重构缺失的像素。两个coredesign：</p><ul><li>非对称的encoder-decoder架构；encoder只对patches的visiblesubset进行操作。lightweight decoder从latent representation和masktokens中重建原始图片。</li><li>对输入图片进行高比例掩码，例如75%，能够产生重要和有意义的自监督任务。</li></ul><p>将两者进行耦合，能够有效和高校地训练大的模型。可扩展的方式能够学习high-capacitymodels，扩展性很好。普通的(vanilla)ViT-Huge模型在ImageNet-1K上达到87.8%的bestaccuracy。在下游的任务上迁移的能力超过了监督的预训练，展示出来promisingscaling behavior。</p></li></ol><h4 id="总结">总结：</h4><span id="more"></span><ol type="1"><li><p>深度学习见证了能力和容量不断增长的架构的爆炸；在硬件的进步下，模型很容易在1 million图像上过拟合，开始需要数以亿计的--通常是公开的不可获取的--标注数据。对大量数据的需求在NLP中通过自己拿度预训练已经成功解决。解决方法是：GPT中基于自回归的模型和BERT中的MAE。它们在概念上都很简单：<strong><em>"theyremove a portion of the data and learn to predict the removed content.These methods now enable training of generalizable NLP models containingover one hundred billion parameters."</em></strong></p></li><li><p>MAE这个idea，是一般的denosing autoencoders的一种形式，is naturaland applicable in computer vision aswell。相关的研究早于BERT。尽管在BERT成功之后，很多重要的兴趣在这个idea上，autoencoding的方法的进步在vision中，落后于NLP。<strong><em>whatmakes MAE different between vision and languange?</em></strong>我们尝试从下面的角度回答这个问题：</p><ul><li><p>in vision,卷积网络在过去十年占主导地位，卷积操作是典型地在固定的grids上进行操作，不是直接integrateindicators such as mask tokens or positional embeddings into卷积网络。这个架构的差距，在ViT引入之后得到了解决，不再是一个障碍</p></li><li><p>informationdensity在语言和视觉中是不同的。语言是人类产生的信号：高度的语义和信息密度。当训练一个模型来预测每个句子中少许的缺失的单词时，这个任务似乎引出复杂的语言理解。图像，相反，是自然的信号，有很多空间冗余，<strong><em>amissing patch can be recovered from neighboring patches with littlehigh-level understanding of parts, objects and scenes. To overcome thisdifference and encourage learning usefulfeatures</em></strong>我们展示了一个简单的策略，在计算机视觉里效果很好：<strong><em>maskinga very high portion of randompathces</em></strong>这个策略能够减少冗余，创建一个自监督的任务，要求超越低级图像统计的全局理解。</p></li><li><p>Autoencoder's Decoder, <strong><em>which maps the latentrepresentation back to the input, plays a different role betweenreconstructing text andimages</em></strong>在视觉里，decoder重建像素，它的输出是比普通识别任务更低级的语义。和语言相比，语言的decoder预测<em>missingwords</em>，包含丰富的语义信息。在BERT中，decoder是无关紧要的(trivial)；我们发现，对于图像，decoder的设计在决定学习到的latentrepresentation的语义level是至关重要的。</p></li></ul><p>通过以上分析，提出了MAE for visual representationlearning。MAE对输入图像的patches随机进行mask，在像素空间重建确实的patches。encoder-decoder是非对称的设计。<strong><em>encoderoperates only on the visible subset of patches(without mask tokens),decoder is lightweight and reconstructs the input from the latentrepresentation along with mask tokens</em></strong>。将mask tokens shift到非对称的encoder-decoder中的小的decoder中能够减小计算量。</p></li><li><p>Related work:</p><ul><li>Masked language modeling和 its autoregressive counterparts likeBERT、GPT，是NLP中很成功的预训练方法，这些方法保留输入序列的一部分，训练模型来预测确实的内容。这些方法展示出了很好的扩展性，大量的证据表明这些预训练的表征在很多下游任务上的泛化性很好。</li><li>Autoencoding是一个learningrepresentation的经典方法。有一个encoder将输入映射到latentrepresentation，一个decoder重建输入。例如：PCA和k-means都是autoencoder。Denoising Autoencoders是一类破坏输入信号、学习重建原始的没有破坏的信号。一些方法可以被视为一种generalizedDAE 在不同的corruptions情况下。像是masking pixels 或者removing colorchannels。MAE是denoisingautoencoding的一种，但是和经典的DAE在很多方面不同。</li><li>Masked image encoding通过从masked的图像中学习representation。Contextencoder用卷积网络修复大的确实的区域。受NLP成功的motivated，近期相关的工作都是基于Transformers。iGPToperates on sequences of pixels and predicts unknownpixels。BEiT提出了预测discrete tokens。</li><li>自监督学习 focusing on different pretext tasks for pre-training.近期，对比学习(contrastive learning)很流行。models image similarity anddissimilarity(or only similarity) between two or more views.对比学习及相关的方法依赖于数据增强。Autoencoding pursues a conceptuallydifferent direction。</li></ul></li><li><p>Approach:</p><ul><li>MAE的Decoder仅在pre-training期间使用，用来进行图像重建任务。lossfunction 计算mean square error between重建的和原始的图像（像素空间），仅计算masked patches，similar toBERT。</li></ul></li></ol><h4 id="discussion-conclusion">Discussion &amp; Conclusion</h4><ul><li><p>简单的扩展性良好的算法是深度学习的核心。在NLP中，简单的自监督学习方法可以从指数级扩展的模型中获益。在计算机视觉中，实际的预训练的范式主要是监督学习。在研究中，我们在ImageNet和迁移学习中观察到，一个自动编码器，是一个简单的类似于NLP中的technques的自监督方法。在视觉中的自监督学习可能现在正在开始类似NLP中的轨迹。</p></li><li><p>图像和语言，是另一种不同本质的信号。图象是记录的光线，没有将语义分解成文字的视觉模拟。inteadof attempting to remove objects, we remove random patches that mostlikely do not form a semantic segment. Likewise，MAE重建像素，这不是语义实体(semanticentities)。然而，我们观察到，我们的MAE方法能够推断出复杂的、整体的重建，表明他萌购学习大量的视觉概念(visualconcepts)。我们设想，this behavior occurs by way of a rich hiddenrepresentation inside the MAE。</p></li></ul><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/6351ebb4a3287f5f3e1273464b3b91e5df5a16d7/1-Figure1-1.png"alt="MAE Architecture" /><figcaption aria-hidden="true">MAE Architecture</figcaption></figure><p><strong><em><span class="math inline">\(Figure\ 1^{[1]}\)</span>. OurMAE architecture. During pre-training, a large random subset of imagepatches (e.g., 75%) is masked out. The encoder is applied to the smallsubset of visible patches. Mask tokens are introduced after the encoder,and the full set of encoded patches and mask tokens is processed by asmall decoder that reconstructs the original image in pixels. Afterpre-training, the decoder is discarded and the encoder is applied touncorrupted images (full sets of patches) for recognitiontasks</em></strong></p>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;masked-autoencoders-are-scalable-vision-learners1&quot;&gt;&lt;span
+class=&quot;math inline&quot;&gt;&#92;(Masked&#92; Autoencoders&#92; Are&#92; Scalable&#92; Vision&#92;
+Learners^{[1]}&#92;)&lt;/span&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自FAIR的恺明、Xinlei Chen、Saining Xie等。论文引用[1]：He,
+Kaiming et al. “Masked Autoencoders Are Scalable Vision Learners.” 2022
+IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+(2021): 15979-15988.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;以下“我们”指代作者&lt;/p&gt;
+&lt;h4 id=&quot;摘要&quot;&gt;摘要&lt;/h4&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;MAE：掩码自编码是可扩展的自监督学习器。思路：对输入图片的patches进行随机掩码，然后重构缺失的像素。两个core
+design：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;非对称的encoder-decoder架构；encoder只对patches的visible
+subset进行操作。lightweight decoder从latent representation和mask
+tokens中重建原始图片。&lt;/li&gt;
+&lt;li&gt;对输入图片进行高比例掩码，例如75%，能够产生重要和有意义的自监督任务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;将两者进行耦合，能够有效和高校地训练大的模型。可扩展的方式能够学习high-capacity
+models，扩展性很好。普通的(vanilla)
+ViT-Huge模型在ImageNet-1K上达到87.8%的best
+accuracy。在下游的任务上迁移的能力超过了监督的预训练，展示出来promising
+scaling behavior。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&quot;总结&quot;&gt;总结：&lt;/h4&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="self-supervised" scheme="https://young-eng.github.io/YoungBlogs/tags/self-supervised/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>VideMAE</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/</id>
+    <published>2024-01-26T01:29:03.000Z</published>
+    <updated>2024-01-26T15:45:01.504Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="videomae-v2-scaling-video-masked-autoencoders-with-dual-masking1"><spanclass="math inline">\(VideoMAE\ v2: Scaling\ Video\ Masked\Autoencoders\ with\ Dual\ Masking^{[1]}\)</span> 🎞️</h3><blockquote><p>作者们是来自南大 Novel Software Technology Lab、上海AILab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. "Videomae v2:Scaling video masked autoencoders with dual masking." Proceedings of theIEEE/CVF Conference on Computer Vision and Pattern Recognition.2023.</p></blockquote><h3 id="总结">总结：</h3><p>以下 “我们”指作者</p><span id="more"></span><ol type="1"><li><p>在大规模数据上预训练的大基础模型正在成为学习多数据模态通用表征的成功范式。基础模型可以很容易地通过zero-shot、linearprobe、prompt tuning、fine tuning应用到广泛的下游任务（<strong>那能够这么广泛地应用到下游任务，是数据量大的原因呢占比多一些呢还是模型比较好的原因多一些</strong>）。Transformerwith masked autoencoding是有效的自监督视觉学习器。我们将VideoMAE同时在模型和数据上扩展：用ViT-g(Transformer with billion-level parameters)初始化模型；将数据集的size增加到million-level。</p></li><li><p>面临的问题：</p></li></ol><ul><li>扩展VideoMAE非常耗GPU内存和计算资源。为了提高预训练效率：处理数据冗余：1)在encoder中mask高比例的cubes，2) 在decoder中drop some cubes。</li><li>MAE对大量的数据需求很大。现有的视频数据相比于图像数据的量级，要少很多。我们简单地将多个来源的数据mix，来为VideoMAE做预训练。pre-trainingon million-level unlabeled video dataset and then post-pre-training onthe labeled hybrid dataset。</li></ul><ol start="3" type="1"><li><p>视觉基础模型： 从早期的CNN ------&gt; Transformer -------&gt;BEiT, SimMIM, MAE。vision-languange pre-trained model: CLIP,ALIGN。近期的工作尝试用对比学习 Contrastive Learning、SiameseLearning来做无监督学习。这些视觉基础模型在zero-shot迁移上展示出了良好的性能。</p></li><li><p>VideoMAE</p><ol type="1"><li>three core components:</li></ol><ul><li>cube embedding: cube embedding encodes the local spatio-temporalfeatures and builds the token list</li><li>encoder: operates on unmasked tokens <spanclass="math inline">\(T^u\)</span> with a 普通的时空注意力的ViT.</li><li>decoder: 将combined tokens <span class="math inline">\(Z^c\)</span>作为输入，用另一个ViT进行重建， <span class="math display">\[ \hat{I} =\Phi_{dec} (Z^{c}) \]</span></li><li>losss function: MSE: mean square error between masked pixels and thereconstructed pixels。</li></ul><ol start="2" type="1"><li>encoder-decoder非对称，encoder要小一些。将VideoMAE扩展到billion-level时，整体的计算量和存储量消耗就成了瓶颈。</li></ol></li><li><p>Dual Masking for VideoMAE:</p><ol type="1"><li>与VideoMAE的不同之处在于：decoder的输入来自encoder visible tokensand part of the remaining tokens visible under the decoder mask <spanclass="math inline">\(M_d\)</span>。用decodermask来降低decoder的输入的长度 for high efficiency。</li><li>encoder试图去缓解时序关联造成的information leakage；而在decodermasking中，encourage information complement，来确保partialreconstruction information loss最小；尽可能选择diverse cubes 来cover整个视频信息 -----&gt; 采用running cell masking的策略。</li></ol></li><li><p>Scaling VideoMAE:</p><ol type="1"><li>encoder采用不同的backbones: ViT-B,ViT-L, ViT-H,ViT-g。decoder就相对shallow和lightweight：用更少的layers和channels。</li><li>弄了一个unlabeled hybrid视频数据集，约1.3M clips。</li><li>Progressive training: 先在无标签的hybrid videodataset上用MAE做无监督预训练；然后建了一个labeled hybrid video dataset,对其做post-pre-training。最后在目标数据集上做fine-tuning，将通用语义迁移到task-centricknowledge上。</li></ol></li></ol><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/9fac3d0728a8c833a593446e3e176e90d856df04/1-Figure1-1.png"alt="VideoMAE with Dual Masking" /><figcaption aria-hidden="true">VideoMAE with Dual Masking</figcaption></figure><blockquote><p><span class="math inline">\(Figure\ 1^{[1]}\)</span>. <em>VideoMAEwith dual masking</em>. To improve the overall efficiency of computationand memory in video masked autoencoding, we propose to mask the decoderas well and devise the dual masking strategy. Like encoder, we alsoapply a masking map to the deocoder and simply reconstruct a subset ofpixel cubes selected by the running cell masking. The finalreconstruction loss only applies for the invisible tokens dropped by theencoder</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;videomae-v2-scaling-video-masked-autoencoders-with-dual-masking1&quot;&gt;&lt;span
+class=&quot;math inline&quot;&gt;&#92;(VideoMAE&#92; v2: Scaling&#92; Video&#92; Masked&#92;
+Autoencoders&#92; with&#92; Dual&#92; Masking^{[1]}&#92;)&lt;/span&gt; 🎞️&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者们是来自南大 Novel Software Technology Lab、上海AI
+Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2:
+Scaling video masked autoencoders with dual masking.&quot; Proceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition.
+2023.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结：&lt;/h3&gt;
+&lt;p&gt;以下 “我们”指作者&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Video Understanding" scheme="https://young-eng.github.io/YoungBlogs/tags/Video-Understanding/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>YOLO</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/</id>
+    <published>2024-01-24T15:25:08.000Z</published>
+    <updated>2024-01-26T13:38:58.409Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="yolo-系列论文">YOLO 系列论文</h2><p>开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还是一步一步来，从经典论文开始，当然也会看新的热度很高的论文，通过这种方式，来一点一点的进步吧。不积跬步无以至千里；千里之行，始于足下。加油！！！只要想做，什么时候都不算晚！！🏃</p><h3 id="you-only-look-once-unified-real-time-object-detection1"><spanclass="math inline">\(You\ Only\ Look\ Once: Unified, Real-Time\ Object\Detection^{[1]}\)</span>🚀</h3><blockquote><p>作者是来自U of Washington、Allen Institute for AI和FAIR,包括JosephRedmon、Santosh Divvalala、Ross Girshick 等。论文出处：[1]Redmon, Josephet al. “You Only Look Once: Unified, Real-Time Object Detection.” 2016IEEE Conference on Computer Vision and Pattern Recognition (CVPR)(2015): 779-788.</p></blockquote><h3 id="总结">总结：</h3><span id="more"></span><p>以下“我们”代指作者</p><ol type="1"><li><p>先前的工作是用分类器来做检测；我们将目标检测视为空间上分隔的bboxes和相关联的类别概率的回归问题。一个单一的神经网络从整个图像里，在一次evaluation里，直接预测bboxes和对应的类别概率。pipeline是单个网络，可以再检测性能上优化为端到端的。速度非常快，但是定位也有很多错误。</p></li><li><p>在训练和测试时，能看到全局的信息，能够对上下文信息进行编码，FastR-CNN看不到大的上下文；在泛化性上，YOLO要好一些。Trade-off:速度快，但是精确定位物体特别是小目标，有误差。</p></li><li><p>将输入图像生成 <span class="math inline">\(S \times S\)</span>的Grids，每个Grid预测 <span class="math inline">\(B\)</span>个bboxes和置信度，包括5个参数: <spanclass="math inline">\(x,y,w,h,p_c\)</span>。每个Grid预测C个类的条件概率。</p></li><li><p>YOLO: 24层卷积网络，2个全连接层，输入图像大小为<spanclass="math inline">\(448\times448\)</span>,最后输出 <spanclass="math inline">\(7\times7\times30\)</span>； Fast YOLO：9个卷积层，用Sum-squared Error来进行优化，Limitations:每个Grid预测2个bboxes，限制了邻近物体的数量。LossFunction中，同等对待大bboxes和小bboxes的errors，然而一个小的错误在大的boxes和小的boxes中的影响不同。</p></li></ol><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/f8e79ac0ea341056ef20f2616628b3e964764cfd/3-Figure3-1.png"alt="YOLO Architecture^[1]" /><figcaption aria-hidden="true"><span class="math inline">\(YOLOArchitecture^[1]\)</span></figcaption></figure><blockquote><p><span class="math inline">\(Figure\ 1^{[1]}\)</span>: <em>TheArchitecture</em>. Our detection network has 24 convolutional layersfollowed by 2 fully connected layers. Alternating 1× 1 convolutionallayers reduce the features space from preceding layers. We pretrain theconvolutional layers on the ImageNet classification task at half theresolution (224× 224 input image) and then double the resolution fordetection。</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;yolo-系列论文&quot;&gt;YOLO 系列论文&lt;/h2&gt;
+&lt;p&gt;开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还是一步一步来，从经典论文开始，当然也会看新的热度很高的论文，通过这种方式，来一点一点的进步吧。不积跬步无以至千里；千里之行，始于足下。加油！！！只要想做，什么时候都不算晚！！🏃&lt;/p&gt;
+&lt;h3 id=&quot;you-only-look-once-unified-real-time-object-detection1&quot;&gt;&lt;span
+class=&quot;math inline&quot;&gt;&#92;(You&#92; Only&#92; Look&#92; Once: Unified, Real-Time&#92; Object&#92;
+Detection^{[1]}&#92;)&lt;/span&gt;🚀&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自U of Washington、Allen Institute for AI和FAIR,包括Joseph
+Redmon、Santosh Divvalala、Ross Girshick 等。论文出处：[1]Redmon, Joseph
+et al. “You Only Look Once: Unified, Real-Time Object Detection.” 2016
+IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
+(2015): 779-788.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结：&lt;/h3&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
+    
+  </entry>
   
   <entry>
     <title>sshKey</title>
@@ -192,7 +400,7 @@ another/path/to/labels.pkg.slp&lt;/p&gt;</summary>
     <link href="https://young-eng.github.io/YoungBlogs/2023/11/19/Methods/"/>
     <id>https://young-eng.github.io/YoungBlogs/2023/11/19/Methods/</id>
     <published>2023-11-19T04:29:52.000Z</published>
-    <updated>2023-11-19T04:31:26.218Z</updated>
+    <updated>2024-02-20T11:56:59.432Z</updated>
     
     <content type="html"><![CDATA[]]></content>
     
@@ -208,7 +416,7 @@ another/path/to/labels.pkg.slp&lt;/p&gt;</summary>
     <category term="Learning" scheme="https://young-eng.github.io/YoungBlogs/categories/Learning/"/>
     
     
-    <category term="学习方法总结" scheme="https://young-eng.github.io/YoungBlogs/tags/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <category term="学习方法" scheme="https://young-eng.github.io/YoungBlogs/tags/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/"/>
     
   </entry>
   
