@@ -19,28 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="\(VideoMAE\ v2: Scaling\ Video\ Masked\ Autoencoders\ with\ Dual\ Masking^{[1]}\) 🎞️  作者们是来自南大 Novel Software Technology Lab、上海AI Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2: Scaling">
+    <meta name="description" content="\(VideoMAE: Masked\ Autoencoders\ are\ Data-Efficient Learners\ for\ Self-Supervised\ Video\ Pre-Training^{[1]}\)  作者是Zhan Tong, Yibing Song, Jue Wang 和王利民，分别来自南大，腾讯和上海AI Lab  Key Words  vide">
 <meta property="og:type" content="article">
-<meta property="og:title" content="VideMAE">
-<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/index.html">
+<meta property="og:title" content="VideoMAE">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/02/28/VideoMAE/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="\(VideoMAE\ v2: Scaling\ Video\ Masked\ Autoencoders\ with\ Dual\ Masking^{[1]}\) 🎞️  作者们是来自南大 Novel Software Technology Lab、上海AI Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2: Scaling">
+<meta property="og:description" content="\(VideoMAE: Masked\ Autoencoders\ are\ Data-Efficient Learners\ for\ Self-Supervised\ Video\ Pre-Training^{[1]}\)  作者是Zhan Tong, Yibing Song, Jue Wang 和王利民，分别来自南大，腾讯和上海AI Lab  Key Words  vide">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-01-26T01:29:03.000Z">
-<meta property="article:modified_time" content="2024-01-26T15:45:01.504Z">
+<meta property="article:published_time" content="2024-02-28T12:42:18.000Z">
+<meta property="article:modified_time" content="2024-03-01T06:38:16.975Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Video Understanding">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/">
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/02/28/VideoMAE/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/","path":"2024/01/26/VideMAE/","title":"VideMAE"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/02/28/VideoMAE/","path":"2024/02/28/VideoMAE/","title":"VideoMAE"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>VideMAE | Young's Blog</title>
+<title>VideoMAE | Young's Blog</title>
   
 
 
@@ -113,8 +113,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#videomae-v2-scaling-video-masked-autoencoders-with-dual-masking1"><span class="nav-number">1.</span> <span class="nav-text">\(VideoMAE\ v2: Scaling\ Video\ Masked\
-Autoencoders\ with\ Dual\ Masking^{[1]}\) 🎞️</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#videomae-masked-autoencoders-are-data-efficient-learners-for-self-supervised-video-pre-training1"><span class="nav-number">1.</span> <span class="nav-text">\(VideoMAE: Masked\ Autoencoders\ are\
+Data-Efficient Learners\ for\ Self-Supervised\ Video\
+Pre-Training^{[1]}\)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">2.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#related-work"><span class="nav-number">3.1.</span> <span class="nav-text">Related Work</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#proposed-method"><span class="nav-number">3.2.</span> <span class="nav-text">Proposed Method</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -129,7 +130,7 @@ Autoencoders\ with\ Dual\ Masking^{[1]}\) 🎞️</span></a></li><li class="nav-
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -175,7 +176,7 @@ Autoencoders\ with\ Dual\ Masking^{[1]}\) 🎞️</span></a></li><li class="nav-
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/02/28/VideoMAE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
@@ -188,12 +189,12 @@ Autoencoders\ with\ Dual\ Masking^{[1]}\) 🎞️</span></a></li><li class="nav-
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="VideMAE | Young's Blog">
+      <meta itemprop="name" content="VideoMAE | Young's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          VideMAE
+          VideoMAE
         </h1>
 
         <div class="post-meta-container">
@@ -203,9 +204,15 @@ Autoencoders\ with\ Dual\ Masking^{[1]}\) 🎞️</span></a></li><li class="nav-
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-01-26 09:29:03 / 修改时间：23:45:01" itemprop="dateCreated datePublished" datetime="2024-01-26T09:29:03+08:00">2024-01-26</time>
+      <time title="创建时间：2024-02-28 20:42:18" itemprop="dateCreated datePublished" datetime="2024-02-28T20:42:18+08:00">2024-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-03-01 14:38:16" itemprop="dateModified" datetime="2024-03-01T14:38:16+08:00">2024-03-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -234,100 +241,94 @@ Autoencoders\ with\ Dual\ Masking^{[1]}\) 🎞️</span></a></li><li class="nav-
     
     
     <div class="post-body" itemprop="articleBody"><h3
-id="videomae-v2-scaling-video-masked-autoencoders-with-dual-masking1"><span
-class="math inline">\(VideoMAE\ v2: Scaling\ Video\ Masked\
-Autoencoders\ with\ Dual\ Masking^{[1]}\)</span> 🎞️</h3>
+id="videomae-masked-autoencoders-are-data-efficient-learners-for-self-supervised-video-pre-training1"><span
+class="math inline">\(VideoMAE: Masked\ Autoencoders\ are\
+Data-Efficient Learners\ for\ Self-Supervised\ Video\
+Pre-Training^{[1]}\)</span></h3>
 <blockquote>
-<p>作者们是来自南大 Novel Software Technology Lab、上海AI
-Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. "Videomae v2:
-Scaling video masked autoencoders with dual masking." Proceedings of the
-IEEE/CVF Conference on Computer Vision and Pattern Recognition.
-2023.</p>
+<p>作者是Zhan Tong, Yibing Song, Jue Wang
+和王利民，分别来自南大，腾讯和上海AI Lab</p>
 </blockquote>
-<h3 id="总结">总结：</h3>
-<p>以下 “我们”指作者</p>
+<h3 id="key-words"><em>Key Words</em></h3>
+<ul>
+<li><strong>video masked autoencoder using plain ViT backbones, tube
+masking with high ratio</strong></li>
+<li><strong>data-efficient learner that could be successfully trained
+with only 3.5k videos. Data quality more important than quantity for
+SSVP(self-supervised video pretraining) when a domain shift exists
+between source and target dataset.</strong></li>
+</ul>
 <span id="more"></span>
+<h3 id="总结">总结</h3>
+<p>以下“我们”指代作者</p>
 <ol type="1">
-<li><p>在大规模数据上预训练的大基础模型正在成为学习多数据模态通用表征的成功范式。基础模型可以很容易地通过zero-shot、linear
-probe、prompt tuning、fine tuning
-应用到广泛的下游任务（<strong>那能够这么广泛地应用到下游任务，是数据量大的原因呢占比多一些呢还是模型比较好的原因多一些</strong>）。Transformer
-with masked autoencoding
-是有效的自监督视觉学习器。我们将VideoMAE同时在模型和数据上扩展：用ViT-g
-(Transformer with billion-level parameters)
-初始化模型；将数据集的size增加到million-level。</p></li>
-<li><p>面临的问题：</p></li>
-</ol>
+<li><p>3个重要的VideoMAE的findings：</p>
 <ul>
-<li>扩展VideoMAE非常耗GPU内存和计算资源。为了提高预训练效率：处理数据冗余：1)
-在encoder中mask高比例的cubes，2) 在decoder中drop some cubes。</li>
-<li>MAE
-对大量的数据需求很大。现有的视频数据相比于图像数据的量级，要少很多。我们简单地将多个来源的数据mix，来为VideoMAE做预训练。pre-training
-on million-level unlabeled video dataset and then post-pre-training on
-the labeled hybrid dataset。</li>
-</ul>
-<ol start="3" type="1">
-<li><p>视觉基础模型： 从早期的CNN ------&gt; Transformer -------&gt;
-BEiT, SimMIM, MAE。vision-languange pre-trained model: CLIP,
-ALIGN。近期的工作尝试用对比学习 Contrastive Learning、Siamese
-Learning来做无监督学习。这些视觉基础模型在zero-shot迁移上展示出了良好的性能。</p></li>
-<li><p>VideoMAE</p>
-<ol type="1">
-<li>three core components:</li>
-</ol>
+<li>极高比例的掩码比率(masking ratio, 90%-95%)</li>
+<li>VideoMAE在非常小的数据集上实现了很好的效果</li>
+<li>VideoMAE展示了，对于视频自监督预训练，数据的质量比数据的数量更重要。</li>
+</ul></li>
+<li><p>对于Video transformers， 它们通常是起源于image-based
+transformers，严重依赖于从大规模的图像数据中得到的预训练模型。
+之前从0开始训练video transformers产生了并不满意的结果。因此 learned
+video transformers are biased by image-based dmodels。<em>how to
+effectively and efficiently train a vanilla vision transformer on video
+dataset without using pre-trained model or extra
+data是一个挑战</em>。自监督学习用大规模的图像数据展示出来亮眼的性能。</p></li>
+<li><p>VideoMAE继承了简单的masking和reconstructing的pipeline，但是由于视频的额外的时间维度使得masking
+model与图像有所不同。</p>
 <ul>
-<li>cube embedding: cube embedding encodes the local spatio-temporal
-features and builds the token list</li>
-<li>encoder: operates on unmasked tokens <span
-class="math inline">\(T^u\)</span> with a 普通的时空注意力的ViT.</li>
-<li>decoder: 将combined tokens <span class="math inline">\(Z^c\)</span>
-作为输入，用另一个ViT进行重建， <span class="math display">\[ \hat{I} =
-\Phi_{dec} (Z^{c}) \]</span></li>
-<li>losss function: MSE: mean square error between masked pixels and the
-reconstructed pixels。</li>
-</ul>
-<ol start="2" type="1">
-<li>encoder-decoder非对称，
-encoder要小一些。将VideoMAE扩展到billion-level时，整体的计算量和存储量消耗就成了瓶颈。</li>
-</ol></li>
-<li><p>Dual Masking for VideoMAE:</p>
-<ol type="1">
-<li>与VideoMAE的不同之处在于：decoder的输入来自encoder visible tokens
-and part of the remaining tokens visible under the decoder mask <span
-class="math inline">\(M_d\)</span>。用decoder
-mask来降低decoder的输入的长度 for high efficiency。</li>
-<li>encoder试图去缓解时序关联造成的information leakage；而在decoder
-masking中，encourage information complement，来确保partial
-reconstruction information loss最小；尽可能选择diverse cubes 来cover
-整个视频信息 -----&gt; 采用running cell masking的策略。</li>
-</ol></li>
-<li><p>Scaling VideoMAE:</p>
-<ol type="1">
-<li>encoder采用不同的backbones: ViT-B,ViT-L, ViT-H,
-ViT-g。decoder就相对shallow和lightweight：用更少的layers和channels。</li>
-<li>弄了一个unlabeled hybrid视频数据集，约1.3M clips。</li>
-<li>Progressive training: 先在无标签的hybrid video
-dataset上用MAE做无监督预训练；然后建了一个labeled hybrid video dataset,
-对其做post-pre-training。
-最后在目标数据集上做fine-tuning，将通用语义迁移到task-centric
-knowledge上。</li>
-</ol></li>
+<li>视频帧是densely
+captured，语义随时间变化缓慢，时间冗余会增加在有很少的高级理解的情况下，从时空邻域恢复missing
+pixels的风险。</li>
+<li>视频可以看作是静态apprearance的时间进化，帧之间存在关联，这个时间联系在reconstruction中可能导致信息泄露。</li>
+</ul></li>
+<li><p>由于时间冗余，采用极高的masking ratio，来drop cubes from
+downsampled clips；考虑到时间关联，想出了一个简单的tube masking
+strategy，事实证明这个在reconstructing中有助于降低信息泄露的风险。</p></li>
 </ol>
+<h4 id="related-work">Related Work</h4>
+<ol type="1">
+<li><p>Video Representation Learning:
+对比学习用来学习视觉表征很流行，然而这些方法严重依赖于strong
+数据增强和large batch size。</p></li>
+<li><p>BeiT, BEVT, VIMPAC followed BERT and
+提出了从图像和视频通过预测离散的tokens学习视觉表征</p></li>
+</ol>
+<h4 id="proposed-method">Proposed Method</h4>
+<ol type="1">
+<li><p>ImageMAE是 masking and reconstruction task with
+非对称的encoder-decoder架构。</p></li>
+<li><p>视频数据特征：temporal redundancy and temporal
+correlation。</p></li>
+<li><p>VideoMAE:</p>
+<ul>
+<li>takes downsampled frames as inputs and uses cube embedding to obtain
+video tokens</li>
+<li>tube masking with high ratio to perform MAE pretrianing, backone is
+vanilla ViT with joint space-time attention</li>
+<li>从原始视频V中随机采样得到包含t个连续帧的clip，然后用temporal
+samplign来压缩clip至T frames，stride 在Kinectics
+和Something-Something数据集上分别取4和2。</li>
+<li>joint space-time cube embedding，每个cube的size是<span
+class="math inline">\(2 \times 16 \times
+16\)</span>，能够降低输入的时空维度。</li>
+</ul>
 <figure>
 <img
-src="https://d3i71xaburhd42.cloudfront.net/9fac3d0728a8c833a593446e3e176e90d856df04/1-Figure1-1.png"
-alt="VideoMAE with Dual Masking" />
-<figcaption aria-hidden="true">VideoMAE with Dual Masking</figcaption>
-</figure>
-<blockquote>
-<p><span class="math inline">\(Figure\ 1^{[1]}\)</span>. <em>VideoMAE
-with dual masking</em>. To improve the overall efficiency of computation
-and memory in video masked autoencoding, we propose to mask the decoder
-as well and devise the dual masking strategy. Like encoder, we also
-apply a masking map to the deocoder and simply reconstruct a subset of
-pixel cubes selected by the running cell masking. The final
-reconstruction loss only applies for the invisible tokens dropped by the
-encoder</p>
-</blockquote>
+src="https://pic1.zhimg.com/v2-9b6511bc85413bb3a4de6e35e47d87fc_r.jpg"
+alt="VideoMAE" />
+<figcaption aria-hidden="true">VideoMAE</figcaption>
+</figure></li>
+</ol>
+<p><span class="math inline">\(Figure\ 1^{[1]}\)</span>: VideoMAE
+performs the task of masking random cubes and reconstructing the missing
+ones with an asymmetric encoder-decoder architecture. Due to high
+redundancy and temporal correlation in videos, we present the customized
+design of tube masking with an extremely high ratio (90% to 95%). This
+simple design enables us to create a more challenging and meaningful
+self-supervised task to make the learned representations capture more
+useful spatiotemporal structures.</p>
 
     </div>
 
@@ -344,14 +345,11 @@ encoder</p>
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/YoungBlogs/2024/01/24/YOLO/" rel="prev" title="YOLO">
-                  <i class="fa fa-angle-left"></i> YOLO
+                <a href="/YoungBlogs/2024/02/02/%E5%9B%B4%E5%9F%8E/" rel="prev" title="围城">
+                  <i class="fa fa-angle-left"></i> 围城
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/YoungBlogs/2024/02/01/MAE/" rel="next" title="MAE">
-                  MAE <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>

@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-02-20T14:48:58.751Z</updated>
+  <updated>2024-03-01T06:38:16.975Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -17,13 +17,51 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>VideoMAE</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/02/28/VideoMAE/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/02/28/VideoMAE/</id>
+    <published>2024-02-28T12:42:18.000Z</published>
+    <updated>2024-03-01T06:38:16.975Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="videomae-masked-autoencoders-are-data-efficient-learners-for-self-supervised-video-pre-training1"><spanclass="math inline">\(VideoMAE: Masked\ Autoencoders\ are\Data-Efficient Learners\ for\ Self-Supervised\ Video\Pre-Training^{[1]}\)</span></h3><blockquote><p>作者是Zhan Tong, Yibing Song, Jue Wang和王利民，分别来自南大，腾讯和上海AI Lab</p></blockquote><h3 id="key-words"><em>Key Words</em></h3><ul><li><strong>video masked autoencoder using plain ViT backbones, tubemasking with high ratio</strong></li><li><strong>data-efficient learner that could be successfully trainedwith only 3.5k videos. Data quality more important than quantity forSSVP(self-supervised video pretraining) when a domain shift existsbetween source and target dataset.</strong></li></ul><span id="more"></span><h3 id="总结">总结</h3><p>以下“我们”指代作者</p><ol type="1"><li><p>3个重要的VideoMAE的findings：</p><ul><li>极高比例的掩码比率(masking ratio, 90%-95%)</li><li>VideoMAE在非常小的数据集上实现了很好的效果</li><li>VideoMAE展示了，对于视频自监督预训练，数据的质量比数据的数量更重要。</li></ul></li><li><p>对于Video transformers， 它们通常是起源于image-basedtransformers，严重依赖于从大规模的图像数据中得到的预训练模型。之前从0开始训练video transformers产生了并不满意的结果。因此 learnedvideo transformers are biased by image-based dmodels。<em>how toeffectively and efficiently train a vanilla vision transformer on videodataset without using pre-trained model or extradata是一个挑战</em>。自监督学习用大规模的图像数据展示出来亮眼的性能。</p></li><li><p>VideoMAE继承了简单的masking和reconstructing的pipeline，但是由于视频的额外的时间维度使得maskingmodel与图像有所不同。</p><ul><li>视频帧是denselycaptured，语义随时间变化缓慢，时间冗余会增加在有很少的高级理解的情况下，从时空邻域恢复missingpixels的风险。</li><li>视频可以看作是静态apprearance的时间进化，帧之间存在关联，这个时间联系在reconstruction中可能导致信息泄露。</li></ul></li><li><p>由于时间冗余，采用极高的masking ratio，来drop cubes fromdownsampled clips；考虑到时间关联，想出了一个简单的tube maskingstrategy，事实证明这个在reconstructing中有助于降低信息泄露的风险。</p></li></ol><h4 id="related-work">Related Work</h4><ol type="1"><li><p>Video Representation Learning:对比学习用来学习视觉表征很流行，然而这些方法严重依赖于strong数据增强和large batch size。</p></li><li><p>BeiT, BEVT, VIMPAC followed BERT and提出了从图像和视频通过预测离散的tokens学习视觉表征</p></li></ol><h4 id="proposed-method">Proposed Method</h4><ol type="1"><li><p>ImageMAE是 masking and reconstruction task with非对称的encoder-decoder架构。</p></li><li><p>视频数据特征：temporal redundancy and temporalcorrelation。</p></li><li><p>VideoMAE:</p><ul><li>takes downsampled frames as inputs and uses cube embedding to obtainvideo tokens</li><li>tube masking with high ratio to perform MAE pretrianing, backone isvanilla ViT with joint space-time attention</li><li>从原始视频V中随机采样得到包含t个连续帧的clip，然后用temporalsamplign来压缩clip至T frames，stride 在Kinectics和Something-Something数据集上分别取4和2。</li><li>joint space-time cube embedding，每个cube的size是<spanclass="math inline">\(2 \times 16 \times16\)</span>，能够降低输入的时空维度。</li></ul><figure><imgsrc="https://pic1.zhimg.com/v2-9b6511bc85413bb3a4de6e35e47d87fc_r.jpg"alt="VideoMAE" /><figcaption aria-hidden="true">VideoMAE</figcaption></figure></li></ol><p><span class="math inline">\(Figure\ 1^{[1]}\)</span>: VideoMAEperforms the task of masking random cubes and reconstructing the missingones with an asymmetric encoder-decoder architecture. Due to highredundancy and temporal correlation in videos, we present the customizeddesign of tube masking with an extremely high ratio (90% to 95%). Thissimple design enables us to create a more challenging and meaningfulself-supervised task to make the learned representations capture moreuseful spatiotemporal structures.</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;videomae-masked-autoencoders-are-data-efficient-learners-for-self-supervised-video-pre-training1&quot;&gt;&lt;span
+class=&quot;math inline&quot;&gt;&#92;(VideoMAE: Masked&#92; Autoencoders&#92; are&#92;
+Data-Efficient Learners&#92; for&#92; Self-Supervised&#92; Video&#92;
+Pre-Training^{[1]}&#92;)&lt;/span&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是Zhan Tong, Yibing Song, Jue Wang
+和王利民，分别来自南大，腾讯和上海AI Lab&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;&lt;em&gt;Key Words&lt;/em&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;video masked autoencoder using plain ViT backbones, tube
+masking with high ratio&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;data-efficient learner that could be successfully trained
+with only 3.5k videos. Data quality more important than quantity for
+SSVP(self-supervised video pretraining) when a domain shift exists
+between source and target dataset.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Video Understanding" scheme="https://young-eng.github.io/YoungBlogs/tags/Video-Understanding/"/>
+    
+  </entry>
+  
+  <entry>
     <title>围城</title>
     <link href="https://young-eng.github.io/YoungBlogs/2024/02/02/%E5%9B%B4%E5%9F%8E/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/02/02/%E5%9B%B4%E5%9F%8E/</id>
     <published>2024-02-02T15:17:57.000Z</published>
-    <updated>2024-02-20T14:48:58.751Z</updated>
+    <updated>2024-02-27T09:07:53.623Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="围城">《围城》</h3><blockquote><p>是钱钟书先生的作品，“围城”一词经常在生活中听到，很早就听说了这本书，近来终于如愿买了一本，想来闲暇时分来读一读，少看些手机网页资讯，多去看看感兴趣的书籍，先挖个坑，以后再慢慢填。后续会看一些书，也会陆续更新到主页。</p></blockquote><h4 id="章节故事">章节故事</h4><p>目前读到了方渐鸿留洋回来后，在家里的情节，后续会继续更新。</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="围城">《围城》</h3><blockquote><p>是钱钟书先生的作品，“围城”一词经常在生活中听到，很早就听说了这本书，近来终于如愿买了一本，想来闲暇时分来读一读，少看些手机网页资讯，多去看看感兴趣的书籍，先挖个坑，以后再慢慢填。后续会看一些书，也会陆续更新到主页。</p></blockquote><h4 id="章节故事">章节故事</h4><p>目前读到了方鸿渐留洋回来后，在家里的情节，后续会继续更新。</p>]]></content>
     
     
       
@@ -95,19 +133,25 @@ unified manner。&lt;/li&gt;
     <link href="https://young-eng.github.io/YoungBlogs/2024/02/01/SSD/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/02/01/SSD/</id>
     <published>2024-02-01T15:37:34.000Z</published>
-    <updated>2024-02-01T15:37:34.798Z</updated>
+    <updated>2024-02-28T02:22:04.626Z</updated>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<h3 id="ssd-single-shot-multibox-detector1"><spanclass="math inline">\(SSD: Single\ Shot\ MultiBox\Detector^{[1]}\)</span></h3><blockquote><p>作者是 Wei Liu, Dragomir Anguelov, Dumitru Erhan, Christian Szegedy,Scott Reed, Cheng-Yang Fu, Alexander C. Berg，分别来自UNC ChapelHill，Zoox Inc, Google UMichigan。论文引用[1]:Liu, W. et al. “SSD:Single Shot MultiBox Detector.” European Conference on Computer Vision(2015).</p></blockquote><h3 id="key-words"><em>Key Words</em></h3>]]></content>
     
     
       
       
-    <summary type="html">
-</summary>
+    <summary type="html">&lt;h3 id=&quot;ssd-single-shot-multibox-detector1&quot;&gt;&lt;span
+class=&quot;math inline&quot;&gt;&#92;(SSD: Single&#92; Shot&#92; MultiBox&#92;
+Detector^{[1]}&#92;)&lt;/span&gt;&lt;/h3&gt;
+&lt;blockq</summary>
       
     
     
     
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
     
   </entry>
   
@@ -159,11 +203,11 @@ scaling behavior。&lt;/p&gt;&lt;/li&gt;
   </entry>
   
   <entry>
-    <title>VideMAE</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/</id>
+    <title>VideMAEv2</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAEv2/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAEv2/</id>
     <published>2024-01-26T01:29:03.000Z</published>
-    <updated>2024-01-26T15:45:01.504Z</updated>
+    <updated>2024-02-28T12:41:57.127Z</updated>
     
     <content type="html"><![CDATA[<h3id="videomae-v2-scaling-video-masked-autoencoders-with-dual-masking1"><spanclass="math inline">\(VideoMAE\ v2: Scaling\ Video\ Masked\Autoencoders\ with\ Dual\ Masking^{[1]}\)</span> 🎞️</h3><blockquote><p>作者们是来自南大 Novel Software Technology Lab、上海AILab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. "Videomae v2:Scaling video masked autoencoders with dual masking." Proceedings of theIEEE/CVF Conference on Computer Vision and Pattern Recognition.2023.</p></blockquote><h3 id="总结">总结：</h3><p>以下 “我们”指作者</p><span id="more"></span><ol type="1"><li><p>在大规模数据上预训练的大基础模型正在成为学习多数据模态通用表征的成功范式。基础模型可以很容易地通过zero-shot、linearprobe、prompt tuning、fine tuning应用到广泛的下游任务（<strong>那能够这么广泛地应用到下游任务，是数据量大的原因呢占比多一些呢还是模型比较好的原因多一些</strong>）。Transformerwith masked autoencoding是有效的自监督视觉学习器。我们将VideoMAE同时在模型和数据上扩展：用ViT-g(Transformer with billion-level parameters)初始化模型；将数据集的size增加到million-level。</p></li><li><p>面临的问题：</p></li></ol><ul><li>扩展VideoMAE非常耗GPU内存和计算资源。为了提高预训练效率：处理数据冗余：1)在encoder中mask高比例的cubes，2) 在decoder中drop some cubes。</li><li>MAE对大量的数据需求很大。现有的视频数据相比于图像数据的量级，要少很多。我们简单地将多个来源的数据mix，来为VideoMAE做预训练。pre-trainingon million-level unlabeled video dataset and then post-pre-training onthe labeled hybrid dataset。</li></ul><ol start="3" type="1"><li><p>视觉基础模型： 从早期的CNN ------&gt; Transformer -------&gt;BEiT, SimMIM, MAE。vision-languange pre-trained model: CLIP,ALIGN。近期的工作尝试用对比学习 Contrastive Learning、SiameseLearning来做无监督学习。这些视觉基础模型在zero-shot迁移上展示出了良好的性能。</p></li><li><p>VideoMAE</p><ol type="1"><li>three core components:</li></ol><ul><li>cube embedding: cube embedding encodes the local spatio-temporalfeatures and builds the token list</li><li>encoder: operates on unmasked tokens <spanclass="math inline">\(T^u\)</span> with a 普通的时空注意力的ViT.</li><li>decoder: 将combined tokens <span class="math inline">\(Z^c\)</span>作为输入，用另一个ViT进行重建， <span class="math display">\[ \hat{I} =\Phi_{dec} (Z^{c}) \]</span></li><li>losss function: MSE: mean square error between masked pixels and thereconstructed pixels。</li></ul><ol start="2" type="1"><li>encoder-decoder非对称，encoder要小一些。将VideoMAE扩展到billion-level时，整体的计算量和存储量消耗就成了瓶颈。</li></ol></li><li><p>Dual Masking for VideoMAE:</p><ol type="1"><li>与VideoMAE的不同之处在于：decoder的输入来自encoder visible tokensand part of the remaining tokens visible under the decoder mask <spanclass="math inline">\(M_d\)</span>。用decodermask来降低decoder的输入的长度 for high efficiency。</li><li>encoder试图去缓解时序关联造成的information leakage；而在decodermasking中，encourage information complement，来确保partialreconstruction information loss最小；尽可能选择diverse cubes 来cover整个视频信息 -----&gt; 采用running cell masking的策略。</li></ol></li><li><p>Scaling VideoMAE:</p><ol type="1"><li>encoder采用不同的backbones: ViT-B,ViT-L, ViT-H,ViT-g。decoder就相对shallow和lightweight：用更少的layers和channels。</li><li>弄了一个unlabeled hybrid视频数据集，约1.3M clips。</li><li>Progressive training: 先在无标签的hybrid videodataset上用MAE做无监督预训练；然后建了一个labeled hybrid video dataset,对其做post-pre-training。最后在目标数据集上做fine-tuning，将通用语义迁移到task-centricknowledge上。</li></ol></li></ol><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/9fac3d0728a8c833a593446e3e176e90d856df04/1-Figure1-1.png"alt="VideoMAE with Dual Masking" /><figcaption aria-hidden="true">VideoMAE with Dual Masking</figcaption></figure><blockquote><p><span class="math inline">\(Figure\ 1^{[1]}\)</span>. <em>VideoMAEwith dual masking</em>. To improve the overall efficiency of computationand memory in video masked autoencoding, we propose to mask the decoderas well and devise the dual masking strategy. Like encoder, we alsoapply a masking map to the deocoder and simply reconstruct a subset ofpixel cubes selected by the running cell masking. The finalreconstruction loss only applies for the invisible tokens dropped by theencoder</p></blockquote>]]></content>
     
