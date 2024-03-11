@@ -199,7 +199,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-03-11 19:12:30 / 修改时间：19:28:43" itemprop="dateCreated datePublished" datetime="2024-03-11T19:12:30+08:00">2024-03-11</time>
+      <time title="创建时间：2024-03-11 19:12:30 / 修改时间：19:32:05" itemprop="dateCreated datePublished" datetime="2024-03-11T19:12:30+08:00">2024-03-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -237,12 +237,14 @@ target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4477329
 <li>训练完slowfast，但是推理的时候，没有任何结果</li>
 </ol>
 <p>在配置文件.yaml里DEMO那个地方，需要设置已经训练好的针对所要检测物体的weights和yaml</p>
-<h4 id="构造ava数据集">构造AVA数据集</h4>
-<ol type="1">
-<li>数据集的格式和要求</li>
-</ol>
-<p>下次弄完了再更</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/03/11/Slowfast/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -298,7 +300,7 @@ target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4477329
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-03-11 18:53:10 / 修改时间：19:00:34" itemprop="dateCreated datePublished" datetime="2024-03-11T18:53:10+08:00">2024-03-11</time>
+      <time title="创建时间：2024-03-11 18:53:10 / 修改时间：19:31:23" itemprop="dateCreated datePublished" datetime="2024-03-11T18:53:10+08:00">2024-03-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -323,10 +325,9 @@ target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4477329
           <h3
 id="用detectron2训练自己的目标检测数据集">用Detectron2训练自己的目标检测数据集</h3>
 <ol type="1">
-<li><p>主要是需要注册自己的数据集，然后使用数据集进行训练 from
-detectron2.data.datasets import register_coco_instances
-register_coco_instances("train", {}, "json_annotation.json",
-"path/to/image/dir")</p></li>
+<li><p>主要是需要注册自己的数据集，然后使用数据集进行训练</p>
+<p><code>from detectron2.data.datasets import register_coco_instances</code></p>
+<p><code>register_coco_instances("train", &#123;&#125;, "json_annotation.json", "path/to/image/dir")</code></p></li>
 <li><p>然后就是一些配置文件啥的</p></li>
 </ol>
 

@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-03-11T11:28:43.045Z</updated>
+  <updated>2024-03-11T11:32:05.581Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -21,18 +21,27 @@
     <link href="https://young-eng.github.io/YoungBlogs/2024/03/11/Slowfast/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/03/11/Slowfast/</id>
     <published>2024-03-11T11:12:30.000Z</published>
-    <updated>2024-03-11T11:28:43.045Z</updated>
+    <updated>2024-03-11T11:32:05.581Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="用slowfast-进行action-recognition">用Slowfast 进行actionrecognition</h3><p>踩了很多坑，终于能有结果了，或者说反馈了，能看到识别到动作，但是还存在很多问题。</p><h4 id="bugs">Bugs</h4><ol type="1"><li>libstdc++.so.6: version `GLIBCXX_3.4.20' not found</li></ol><p>按照stackoverflow上的说法，<ahref="https://stackoverflow.com/questions/29376130/lib64-libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer1</a>和<ahref="https://stackoverflow.com/questions/44773296/libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer2</a>，由于环境中有GLIBCXX_3.4.20，所以最后用<code>export LD_LIBRARY_PATH=/opt/google/chrome/lib:$LD_LIBRARY_PATH</code>解决了</p><ol start="2" type="1"><li>训练完slowfast，但是推理的时候，没有任何结果</li></ol><p>在配置文件.yaml里DEMO那个地方，需要设置已经训练好的针对所要检测物体的weights和yaml</p><h4 id="构造ava数据集">构造AVA数据集</h4><ol type="1"><li>数据集的格式和要求</li></ol><p>下次弄完了再更</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="用slowfast-进行action-recognition">用Slowfast 进行actionrecognition</h3><p>踩了很多坑，终于能有结果了，或者说反馈了，能看到识别到动作，但是还存在很多问题。</p><h4 id="bugs">Bugs</h4><ol type="1"><li>libstdc++.so.6: version `GLIBCXX_3.4.20' not found</li></ol><p>按照stackoverflow上的说法，<ahref="https://stackoverflow.com/questions/29376130/lib64-libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer1</a>和<ahref="https://stackoverflow.com/questions/44773296/libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer2</a>，由于环境中有GLIBCXX_3.4.20，所以最后用<code>export LD_LIBRARY_PATH=/opt/google/chrome/lib:$LD_LIBRARY_PATH</code>解决了</p><ol start="2" type="1"><li>训练完slowfast，但是推理的时候，没有任何结果</li></ol><p>在配置文件.yaml里DEMO那个地方，需要设置已经训练好的针对所要检测物体的weights和yaml</p><span id="more"></span><h4 id="构造ava数据集">构造AVA数据集</h4><ol type="1"><li>数据集的格式和要求</li></ol><p>下次弄完了再更</p>]]></content>
     
     
-      
-      
     <summary type="html">&lt;h3 id=&quot;用slowfast-进行action-recognition&quot;&gt;用Slowfast 进行action
 recognition&lt;/h3&gt;
 &lt;p&gt;踩了很多坑，终于能有结果了，或者说反馈了，能看到识别到动作，但是还存在很多问题。&lt;/p&gt;
-&lt;h4 id=&quot;bugs&quot;</summary>
-      
+&lt;h4 id=&quot;bugs&quot;&gt;Bugs&lt;/h4&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;libstdc++.so.6: version `GLIBCXX_3.4.20&#39; not found&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;按照stackoverflow上的说法，&lt;a
+href=&quot;https://stackoverflow.com/questions/29376130/lib64-libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults&quot;&gt;answer1&lt;/a&gt;
+和&lt;a
+href=&quot;https://stackoverflow.com/questions/44773296/libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults&quot;&gt;answer2&lt;/a&gt;，由于环境中有GLIBCXX_3.4.20，所以最后用&lt;code&gt;export LD_LIBRARY_PATH=/opt/google/chrome/lib:$LD_LIBRARY_PATH&lt;/code&gt;
+解决了&lt;/p&gt;
+&lt;ol start=&quot;2&quot; type=&quot;1&quot;&gt;
+&lt;li&gt;训练完slowfast，但是推理的时候，没有任何结果&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在配置文件.yaml里DEMO那个地方，需要设置已经训练好的针对所要检测物体的weights和yaml&lt;/p&gt;</summary>
     
     
     
@@ -48,9 +57,9 @@ recognition&lt;/h3&gt;
     <link href="https://young-eng.github.io/YoungBlogs/2024/03/11/TrainingWithDetectron2/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/03/11/TrainingWithDetectron2/</id>
     <published>2024-03-11T10:53:10.000Z</published>
-    <updated>2024-03-11T11:00:34.887Z</updated>
+    <updated>2024-03-11T11:31:23.931Z</updated>
     
-    <content type="html"><![CDATA[<h3id="用detectron2训练自己的目标检测数据集">用Detectron2训练自己的目标检测数据集</h3><ol type="1"><li><p>主要是需要注册自己的数据集，然后使用数据集进行训练 fromdetectron2.data.datasets import register_coco_instancesregister_coco_instances("train", {}, "json_annotation.json","path/to/image/dir")</p></li><li><p>然后就是一些配置文件啥的</p></li></ol>]]></content>
+    <content type="html"><![CDATA[<h3id="用detectron2训练自己的目标检测数据集">用Detectron2训练自己的目标检测数据集</h3><ol type="1"><li><p>主要是需要注册自己的数据集，然后使用数据集进行训练</p><p><code>from detectron2.data.datasets import register_coco_instances</code></p><p><code>register_coco_instances("train", &#123;&#125;, "json_annotation.json", "path/to/image/dir")</code></p></li><li><p>然后就是一些配置文件啥的</p></li></ol>]]></content>
     
     
       
@@ -58,8 +67,8 @@ recognition&lt;/h3&gt;
     <summary type="html">&lt;h3
 id=&quot;用detectron2训练自己的目标检测数据集&quot;&gt;用Detectron2训练自己的目标检测数据集&lt;/h3&gt;
 &lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;主要是需要注册自己的数据集，然后使用数据集进行训练 from
-detectron2.data.datase</summary>
+&lt;li&gt;&lt;p&gt;主要是需要注册自己的数据集，然后使用数据集进行训练&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;from detectron</summary>
       
     
     
