@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-03-11T11:00:34.887Z</updated>
+  <updated>2024-03-11T11:28:43.045Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Slowfast</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/03/11/Slowfast/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/03/11/Slowfast/</id>
+    <published>2024-03-11T11:12:30.000Z</published>
+    <updated>2024-03-11T11:28:43.045Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="用slowfast-进行action-recognition">用Slowfast 进行actionrecognition</h3><p>踩了很多坑，终于能有结果了，或者说反馈了，能看到识别到动作，但是还存在很多问题。</p><h4 id="bugs">Bugs</h4><ol type="1"><li>libstdc++.so.6: version `GLIBCXX_3.4.20' not found</li></ol><p>按照stackoverflow上的说法，<ahref="https://stackoverflow.com/questions/29376130/lib64-libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer1</a>和<ahref="https://stackoverflow.com/questions/44773296/libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer2</a>，由于环境中有GLIBCXX_3.4.20，所以最后用<code>export LD_LIBRARY_PATH=/opt/google/chrome/lib:$LD_LIBRARY_PATH</code>解决了</p><ol start="2" type="1"><li>训练完slowfast，但是推理的时候，没有任何结果</li></ol><p>在配置文件.yaml里DEMO那个地方，需要设置已经训练好的针对所要检测物体的weights和yaml</p><h4 id="构造ava数据集">构造AVA数据集</h4><ol type="1"><li>数据集的格式和要求</li></ol><p>下次弄完了再更</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;用slowfast-进行action-recognition&quot;&gt;用Slowfast 进行action
+recognition&lt;/h3&gt;
+&lt;p&gt;踩了很多坑，终于能有结果了，或者说反馈了，能看到识别到动作，但是还存在很多问题。&lt;/p&gt;
+&lt;h4 id=&quot;bugs&quot;</summary>
+      
+    
+    
+    
+    <category term="methods" scheme="https://young-eng.github.io/YoungBlogs/categories/methods/"/>
+    
+    
+    <category term="Action Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Action-Detection/"/>
+    
+  </entry>
   
   <entry>
     <title>Training With Detectron2</title>

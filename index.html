@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -135,7 +135,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -160,6 +160,105 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/03/11/Slowfast/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/03/11/Slowfast/" class="post-title-link" itemprop="url">Slowfast</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-03-11 19:12:30 / 修改时间：19:28:43" itemprop="dateCreated datePublished" datetime="2024-03-11T19:12:30+08:00">2024-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/methods/" itemprop="url" rel="index"><span itemprop="name">methods</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="用slowfast-进行action-recognition">用Slowfast 进行action
+recognition</h3>
+<p>踩了很多坑，终于能有结果了，或者说反馈了，能看到识别到动作，但是还存在很多问题。</p>
+<h4 id="bugs">Bugs</h4>
+<ol type="1">
+<li>libstdc++.so.6: version `GLIBCXX_3.4.20' not found</li>
+</ol>
+<p>按照stackoverflow上的说法，<a
+target="_blank" rel="noopener" href="https://stackoverflow.com/questions/29376130/lib64-libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer1</a>
+和<a
+target="_blank" rel="noopener" href="https://stackoverflow.com/questions/44773296/libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer2</a>，由于环境中有GLIBCXX_3.4.20，所以最后用<code>export LD_LIBRARY_PATH=/opt/google/chrome/lib:$LD_LIBRARY_PATH</code>
+解决了</p>
+<ol start="2" type="1">
+<li>训练完slowfast，但是推理的时候，没有任何结果</li>
+</ol>
+<p>在配置文件.yaml里DEMO那个地方，需要设置已经训练好的针对所要检测物体的weights和yaml</p>
+<h4 id="构造ava数据集">构造AVA数据集</h4>
+<ol type="1">
+<li>数据集的格式和要求</li>
+</ol>
+<p>下次弄完了再更</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1066,110 +1165,6 @@ want to continue connecting (yes/no/[fingerprint])?
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/YoungBlogs/2024/01/22/sshKey/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2023/12/28/Deployblogs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2023/12/28/Deployblogs/" class="post-title-link" itemprop="url">Deployblogs</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-12-28 23:10:20" itemprop="dateCreated datePublished" datetime="2023-12-28T23:10:20+08:00">2023-12-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-12-29 14:47:29" itemprop="dateModified" datetime="2023-12-29T14:47:29+08:00">2023-12-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Tools/" itemprop="url" rel="index"><span itemprop="name">Tools</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="部署博客方式">部署博客方式</h3>
-<ol type="1">
-<li>部署在 Vercel,Netlify 这样的免费平台上</li>
-<li>部署在 Github Pages 上,
-是用gh-pages分支来部署的，xxx.github.io可以用来做个人主页介绍，gh-pages用来做博客</li>
-</ol>
-<h4 id="部署在-vercel-上的博客">部署在 Vercel 上的博客</h4>
-<ol type="1">
-<li><p>可以通过和github账号关联，一键部署，很方便</p></li>
-<li><p>在本地安装vercel， 通过vercel的命令行工具，来实现部署</p></li>
-<li><p>遇到的问题，vercel易被DNS污染，正常访问打不开，看到有帖子说可以买个域名弄一下，有钱了再买个域名玩一玩,
-😭</p></li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2023/12/28/Deployblogs/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
