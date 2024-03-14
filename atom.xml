@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-03-14T02:18:46.978Z</updated>
+  <updated>2024-03-14T04:43:46.660Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://young-eng.github.io/YoungBlogs/2024/03/13/MAEasSpatiotemporalLearner/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/03/13/MAEasSpatiotemporalLearner/</id>
     <published>2024-03-13T08:49:07.000Z</published>
-    <updated>2024-03-14T02:18:46.978Z</updated>
+    <updated>2024-03-14T04:43:46.660Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="masked-autoencoders-as-spatiotemporal-learners1">MaskedAutoencoders As Spatiotemporal Learners<sup>[1]</sup></h3><blockquote><p>作者们是来自FAIR的Christoph Feichtenhofer, Haoqi Fan, Yanghao Li,Kaiming He。论文引用[1]:Feichtenhofer, Christoph et al. “MaskedAutoencoders As Spatiotemporal Learners.” ArXiv abs/2205.09113 (2022):n. pag.</p></blockquote><p><strong><em>Key Words</em></strong> - exntesion MAE for video -minial domain knowledge</p><span id="more"></span><h4 id="总结">总结</h4><ol type="1"><li><p>有minimal domain knowledge: only spacetime-specific inductivebias is on embedding patches and their positions</p></li><li><p>有假设认为：MAE中的掩码率是与问题的信息冗余度相关。Masking ratioin Videos: 90%; in Image: 75%, BERT: 15%</p></li><li><p>dataloading是一个新的瓶颈</p></li><li><p>架构：vanilla ViT。 <span class="math inline">\(2\times 16 \times16: T \times H \times W, 表示在在时间上采2帧\)</span> ，对于<spanclass="math inline">\(16 \times 224 \times 224 的输入，产生 8 \times 14\times 14 个 tokens\)</span></p></li><li><p>Patch embeddign:将videoclip在时空上划分为常规的没有重叠的pathces， 然后patches are flattenedand embedded by linear project. Position embeddings are added to theembeddedpathces.这个patch和位置嵌入过程是唯一的一个spacetime-aware的过程。</p></li><li><p>采用分离的位置嵌入 for encoder。two positional embeddings: spaceand time。spacetime positional embeddings 是它们的和。</p></li></ol><h4 id="experiments">Experiments</h4><ol type="1"><li><p>do MAE self-supervised pre-training and then fine-tune theencoder with supervision for evaluation.</p></li><li><p>using fewer inductive biases and learning more from data, whichis a pursuit of self-supervised learning.</p></li></ol><p>有句话写的真好啊： <strong><em>We hope this exploration will shedlight on the future study</em></strong></p><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/88b15679a7e60a99d5da1f1fde8aa332b368e1b8/2-Figure1-1.png"alt="Structure" /><figcaption aria-hidden="true">Structure</figcaption></figure><p><em>Figure 1<sup>[1]</sup>: Masked Autoencoders as spatiotemporallearners. We mask a large subset (e.g., 90%) of random patches inspacetime. An encoder operates on the set of visible patches. A smalldecoder then processes the full set of encoded patches and mask tokensto reconstruct the input. Except for patch and positional embeddings,neither the encoder, the decoder, nor the masking strategy, has anyspatiotemporal inductive bias.</em></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="masked-autoencoders-as-spatiotemporal-learners1">MaskedAutoencoders As Spatiotemporal Learners<sup>[1]</sup></h3><blockquote><p>作者们是来自FAIR的Christoph Feichtenhofer, Haoqi Fan, Yanghao Li,Kaiming He。论文引用[1]:Feichtenhofer, Christoph et al. “MaskedAutoencoders As Spatiotemporal Learners.” ArXiv abs/2205.09113 (2022):n. pag.</p></blockquote><p><strong><em>Key Words</em></strong> * exntesion MAE for video</p><ul><li>minial domain knowledge</li></ul><span id="more"></span><h4 id="总结">总结</h4><ol type="1"><li><p>有minimal domain knowledge: only spacetime-specific inductivebias is on embedding patches and their positions</p></li><li><p>有假设认为：MAE中的掩码率是与问题的信息冗余度相关。Masking ratioin Videos: 90%; in Image: 75%, BERT: 15%</p></li><li><p>dataloading是一个新的瓶颈</p></li><li><p>架构：vanilla ViT。 <span class="math inline">\(2\times 16 \times16: T \times H \times W, 表示在在时间上采2帧\)</span> ，对于<spanclass="math inline">\(16 \times 224 \times 224 的输入，产生 8 \times 14\times 14 个 tokens\)</span></p></li><li><p>Patch embeddign:将videoclip在时空上划分为常规的没有重叠的pathces， 然后patches are flattenedand embedded by linear project. Position embeddings are added to theembeddedpathces.这个patch和位置嵌入过程是唯一的一个spacetime-aware的过程。</p></li><li><p>采用分离的位置嵌入 for encoder。two positional embeddings: spaceand time。spacetime positional embeddings 是它们的和。</p></li></ol><h4 id="experiments">Experiments</h4><ol type="1"><li><p>do MAE self-supervised pre-training and then fine-tune theencoder with supervision for evaluation.</p></li><li><p>using fewer inductive biases and learning more from data, whichis a pursuit of self-supervised learning.</p></li></ol><p>有句话写的真好啊： <strong><em>We hope this exploration will shedlight on the future study</em></strong></p><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/88b15679a7e60a99d5da1f1fde8aa332b368e1b8/2-Figure1-1.png"alt="Structure" /><figcaption aria-hidden="true">Structure</figcaption></figure><p><em>Figure 1<sup>[1]</sup>: Masked Autoencoders as spatiotemporallearners. We mask a large subset (e.g., 90%) of random patches inspacetime. An encoder operates on the set of visible patches. A smalldecoder then processes the full set of encoded patches and mask tokensto reconstruct the input. Except for patch and positional embeddings,neither the encoder, the decoder, nor the masking strategy, has anyspatiotemporal inductive bias.</em></p>]]></content>
     
     
     <summary type="html">&lt;h3 id=&quot;masked-autoencoders-as-spatiotemporal-learners1&quot;&gt;Masked
@@ -34,8 +34,10 @@ Kaiming He。论文引用[1]:Feichtenhofer, Christoph et al. “Masked
 Autoencoders As Spatiotemporal Learners.” ArXiv abs/2205.09113 (2022):
 n. pag.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Key Words&lt;/em&gt;&lt;/strong&gt; - exntesion MAE for video -
-minial domain knowledge&lt;/p&gt;</summary>
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Key Words&lt;/em&gt;&lt;/strong&gt; * exntesion MAE for video&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;minial domain knowledge&lt;/li&gt;
+&lt;/ul&gt;</summary>
     
     
     
