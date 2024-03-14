@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-03-11T11:32:05.581Z</updated>
+  <updated>2024-03-14T02:18:46.978Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -17,13 +17,71 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>MAE as Spatiotemporal Learner</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/03/13/MAEasSpatiotemporalLearner/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/03/13/MAEasSpatiotemporalLearner/</id>
+    <published>2024-03-13T08:49:07.000Z</published>
+    <updated>2024-03-14T02:18:46.978Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="masked-autoencoders-as-spatiotemporal-learners1">MaskedAutoencoders As Spatiotemporal Learners<sup>[1]</sup></h3><blockquote><p>作者们是来自FAIR的Christoph Feichtenhofer, Haoqi Fan, Yanghao Li,Kaiming He。论文引用[1]:Feichtenhofer, Christoph et al. “MaskedAutoencoders As Spatiotemporal Learners.” ArXiv abs/2205.09113 (2022):n. pag.</p></blockquote><p><strong><em>Key Words</em></strong> - exntesion MAE for video -minial domain knowledge</p><span id="more"></span><h4 id="总结">总结</h4><ol type="1"><li><p>有minimal domain knowledge: only spacetime-specific inductivebias is on embedding patches and their positions</p></li><li><p>有假设认为：MAE中的掩码率是与问题的信息冗余度相关。Masking ratioin Videos: 90%; in Image: 75%, BERT: 15%</p></li><li><p>dataloading是一个新的瓶颈</p></li><li><p>架构：vanilla ViT。 <span class="math inline">\(2\times 16 \times16: T \times H \times W, 表示在在时间上采2帧\)</span> ，对于<spanclass="math inline">\(16 \times 224 \times 224 的输入，产生 8 \times 14\times 14 个 tokens\)</span></p></li><li><p>Patch embeddign:将videoclip在时空上划分为常规的没有重叠的pathces， 然后patches are flattenedand embedded by linear project. Position embeddings are added to theembeddedpathces.这个patch和位置嵌入过程是唯一的一个spacetime-aware的过程。</p></li><li><p>采用分离的位置嵌入 for encoder。two positional embeddings: spaceand time。spacetime positional embeddings 是它们的和。</p></li></ol><h4 id="experiments">Experiments</h4><ol type="1"><li><p>do MAE self-supervised pre-training and then fine-tune theencoder with supervision for evaluation.</p></li><li><p>using fewer inductive biases and learning more from data, whichis a pursuit of self-supervised learning.</p></li></ol><p>有句话写的真好啊： <strong><em>We hope this exploration will shedlight on the future study</em></strong></p><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/88b15679a7e60a99d5da1f1fde8aa332b368e1b8/2-Figure1-1.png"alt="Structure" /><figcaption aria-hidden="true">Structure</figcaption></figure><p><em>Figure 1<sup>[1]</sup>: Masked Autoencoders as spatiotemporallearners. We mask a large subset (e.g., 90%) of random patches inspacetime. An encoder operates on the set of visible patches. A smalldecoder then processes the full set of encoded patches and mask tokensto reconstruct the input. Except for patch and positional embeddings,neither the encoder, the decoder, nor the masking strategy, has anyspatiotemporal inductive bias.</em></p>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;masked-autoencoders-as-spatiotemporal-learners1&quot;&gt;Masked
+Autoencoders As Spatiotemporal Learners&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者们是来自FAIR的Christoph Feichtenhofer, Haoqi Fan, Yanghao Li,
+Kaiming He。论文引用[1]:Feichtenhofer, Christoph et al. “Masked
+Autoencoders As Spatiotemporal Learners.” ArXiv abs/2205.09113 (2022):
+n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Key Words&lt;/em&gt;&lt;/strong&gt; - exntesion MAE for video -
+minial domain knowledge&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="MAE" scheme="https://young-eng.github.io/YoungBlogs/tags/MAE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TrainWithVideoMAE</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/03/13/TrainWithVideoMAE/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/03/13/TrainWithVideoMAE/</id>
+    <published>2024-03-13T02:47:04.000Z</published>
+    <updated>2024-03-13T02:55:40.546Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="对videomae进行训练或者微调的遇到的bug">对VideoMAE进行训练或者微调的遇到的Bug</h3><ol type="1"><li>训练videoMAE时报错， File"/home/MAE-Action-Detection/run_class_finetuning.py", line 404, in maintrain_stats = train_one_epoch( File"/home/MAE-Action-Detection/engine_for_finetuning.py", line 59, intrain_one_epoch for step, (samples, boxes, _) inenumerate(metric_logger.log_every(data_loader, print_freq, header)):File "/home/MAE-Action-Detection/utils.py", line 141, in log_every forobj in iterable: File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",line 517, in <strong>next</strong> data = self._next_data() File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",line 1199, in _next_data return self._process_data(data) File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",line 1225, in _process_data data.reraise() File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/_utils.py",line 429, in reraise raise self.exc_type(msg) File "av/error.pyx", line78, in av.error.FFmpegError.<strong>init</strong> TypeError:<strong>init</strong>() takes at least 3 positional arguments (2given)</li></ol><p>解决方法是：将torch,torchvision等相应的版本升级到1.13就行了，原来是1.9</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3
+id=&quot;对videomae进行训练或者微调的遇到的bug&quot;&gt;对VideoMAE进行训练或者微调的遇到的Bug&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;训练videoMAE时报错， File
+&quot;/home/MAE-Action-Detection/run_cl</summary>
+      
+    
+    
+    
+    <category term="methods" scheme="https://young-eng.github.io/YoungBlogs/categories/methods/"/>
+    
+    
+    <category term="Action Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Action-Detection/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Slowfast</title>
     <link href="https://young-eng.github.io/YoungBlogs/2024/03/11/Slowfast/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/03/11/Slowfast/</id>
     <published>2024-03-11T11:12:30.000Z</published>
-    <updated>2024-03-11T11:32:05.581Z</updated>
+    <updated>2024-03-13T05:38:31.537Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="用slowfast-进行action-recognition">用Slowfast 进行actionrecognition</h3><p>踩了很多坑，终于能有结果了，或者说反馈了，能看到识别到动作，但是还存在很多问题。</p><h4 id="bugs">Bugs</h4><ol type="1"><li>libstdc++.so.6: version `GLIBCXX_3.4.20' not found</li></ol><p>按照stackoverflow上的说法，<ahref="https://stackoverflow.com/questions/29376130/lib64-libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer1</a>和<ahref="https://stackoverflow.com/questions/44773296/libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer2</a>，由于环境中有GLIBCXX_3.4.20，所以最后用<code>export LD_LIBRARY_PATH=/opt/google/chrome/lib:$LD_LIBRARY_PATH</code>解决了</p><ol start="2" type="1"><li>训练完slowfast，但是推理的时候，没有任何结果</li></ol><p>在配置文件.yaml里DEMO那个地方，需要设置已经训练好的针对所要检测物体的weights和yaml</p><span id="more"></span><h4 id="构造ava数据集">构造AVA数据集</h4><ol type="1"><li>数据集的格式和要求</li></ol><p>下次弄完了再更</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="用slowfast-进行action-recognition">用Slowfast 进行actionrecognition</h3><p>踩了很多坑，终于能有结果了，或者说反馈了，能看到识别到动作，但是还存在很多问题。</p><h4 id="bugs">Bugs</h4><ol type="1"><li>libstdc++.so.6: version `GLIBCXX_3.4.20' not found</li></ol><p>按照stackoverflow上的说法，<ahref="https://stackoverflow.com/questions/29376130/lib64-libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer1</a>和<ahref="https://stackoverflow.com/questions/44773296/libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults">answer2</a>，由于环境中有GLIBCXX_3.4.20，所以最后用<code>export LD_LIBRARY_PATH=/path/to/lib:$LD_LIBRARY_PATH</code>解决了</p><ol start="2" type="1"><li>训练完slowfast，但是推理的时候，没有任何结果</li></ol><p>在配置文件.yaml里DEMO那个地方，需要设置已经训练好的针对所要检测物体的weights和yaml</p><span id="more"></span><h4 id="构造ava数据集">构造AVA数据集</h4><ol type="1"><li>数据集的格式和要求</li></ol><p>下次弄完了再更</p><p>AVA格式数据集制作的相关参考链接： -https://github.com/Blueyao17/self-made_ava_dataset_tool -https://blog.csdn.net/WhiffeYF/article/details/124358725?spm=1001.2014.3001.5502- https://blog.csdn.net/weixin_43720054/article/details/126298006 -https://github.com/Whiffe/Custom-ava-dataset_Custom-Spatio-Temporally-Action-Video-Dataset-https://blog.csdn.net/lanyan90/article/details/125796563?spm=1001.2014.3001.5502- https://blog.csdn.net/Bluemoon17/article/details/123238573 -https://www.jianshu.com/p/0784ebc269a5 -https://blog.csdn.net/qq_45672807/article/details/123294954 -https://github.com/wufan-tb/yolo_slowfast -https://blog.csdn.net/WhiffeYF/article/details/115375949?spm=1001.2014.3001.5501- https://blog.csdn.net/WhiffeYF/article/details/115444694 -https://blog.csdn.net/WhiffeYF/article/details/115431794</p>]]></content>
     
     
     <summary type="html">&lt;h3 id=&quot;用slowfast-进行action-recognition&quot;&gt;用Slowfast 进行action
@@ -36,7 +94,7 @@ recognition&lt;/h3&gt;
 &lt;p&gt;按照stackoverflow上的说法，&lt;a
 href=&quot;https://stackoverflow.com/questions/29376130/lib64-libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults&quot;&gt;answer1&lt;/a&gt;
 和&lt;a
-href=&quot;https://stackoverflow.com/questions/44773296/libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults&quot;&gt;answer2&lt;/a&gt;，由于环境中有GLIBCXX_3.4.20，所以最后用&lt;code&gt;export LD_LIBRARY_PATH=/opt/google/chrome/lib:$LD_LIBRARY_PATH&lt;/code&gt;
+href=&quot;https://stackoverflow.com/questions/44773296/libstdc-so-6-version-glibcxx-3-4-20-not-found?r=SearchResults&quot;&gt;answer2&lt;/a&gt;，由于环境中有GLIBCXX_3.4.20，所以最后用&lt;code&gt;export LD_LIBRARY_PATH=/path/to/lib:$LD_LIBRARY_PATH&lt;/code&gt;
 解决了&lt;/p&gt;
 &lt;ol start=&quot;2&quot; type=&quot;1&quot;&gt;
 &lt;li&gt;训练完slowfast，但是推理的时候，没有任何结果&lt;/li&gt;

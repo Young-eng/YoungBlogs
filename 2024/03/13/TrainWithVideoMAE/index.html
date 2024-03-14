@@ -19,25 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="记录学习和生活">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Young&#39;s Blog">
-<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/tags/Git/index.html">
+    <meta name="description" content="对VideoMAE进行训练或者微调的遇到的Bug  训练videoMAE时报错， File &quot;&#x2F;home&#x2F;MAE-Action-Detection&#x2F;run_class_finetuning.py&quot;, line 404, in main train_stats &#x3D; train_one_epoch( File &quot;&#x2F;home&#x2F;MAE-Action-Detection&#x2F;engine_for_fi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TrainWithVideoMAE">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/03/13/TrainWithVideoMAE/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="记录学习和生活">
+<meta property="og:description" content="对VideoMAE进行训练或者微调的遇到的Bug  训练videoMAE时报错， File &quot;&#x2F;home&#x2F;MAE-Action-Detection&#x2F;run_class_finetuning.py&quot;, line 404, in main train_stats &#x3D; train_one_epoch( File &quot;&#x2F;home&#x2F;MAE-Action-Detection&#x2F;engine_for_fi">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-13T02:47:04.000Z">
+<meta property="article:modified_time" content="2024-03-13T02:55:40.546Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/tags/Git/">
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/03/13/TrainWithVideoMAE/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"tags/Git/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/03/13/TrainWithVideoMAE/","path":"2024/03/13/TrainWithVideoMAE/","title":"TrainWithVideoMAE"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>标签: Git | Young's Blog</title>
+<title>TrainWithVideoMAE | Young's Blog</title>
   
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9videomae%E8%BF%9B%E8%A1%8C%E8%AE%AD%E7%BB%83%E6%88%96%E8%80%85%E5%BE%AE%E8%B0%83%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84bug"><span class="nav-number">1.</span> <span class="nav-text">对VideoMAE进行训练或者微调的遇到的Bug</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -159,73 +163,134 @@
 
     </div>
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">Git
-          <small>标签</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/03/13/TrainWithVideoMAE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="TrainWithVideoMAE | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TrainWithVideoMAE
         </h1>
-      </div>
 
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2024</span>
+
+      <time title="创建时间：2024-03-13 10:47:04 / 修改时间：10:55:40" itemprop="dateCreated datePublished" datetime="2024-03-13T10:47:04+08:00">2024-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/methods/" itemprop="url" rel="index"><span itemprop="name">methods</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="对videomae进行训练或者微调的遇到的bug">对VideoMAE进行训练或者微调的遇到的Bug</h3>
+<ol type="1">
+<li>训练videoMAE时报错， File
+"/home/MAE-Action-Detection/run_class_finetuning.py", line 404, in main
+train_stats = train_one_epoch( File
+"/home/MAE-Action-Detection/engine_for_finetuning.py", line 59, in
+train_one_epoch for step, (samples, boxes, _) in
+enumerate(metric_logger.log_every(data_loader, print_freq, header)):
+File "/home/MAE-Action-Detection/utils.py", line 141, in log_every for
+obj in iterable: File
+"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",
+line 517, in <strong>next</strong> data = self._next_data() File
+"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",
+line 1199, in _next_data return self._process_data(data) File
+"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",
+line 1225, in _process_data data.reraise() File
+"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/_utils.py",
+line 429, in reraise raise self.exc_type(msg) File "av/error.pyx", line
+78, in av.error.FFmpegError.<strong>init</strong> TypeError:
+<strong>init</strong>() takes at least 3 positional arguments (2
+given)</li>
+</ol>
+<p>解决方法是：将torch,
+torchvision等相应的版本升级到1.13就行了，原来是1.9</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2024-01-22T00:21:33+08:00"
-              content="2024-01-22">
-          01-22
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-        <a class="post-title-link" href="/YoungBlogs/2024/01/22/sshKey/" itemprop="url">
-          <span itemprop="name">sshKey</span>
-        </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Action-Detection/" rel="tag"># Action Detection</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/03/11/Slowfast/" rel="prev" title="Slowfast">
+                  <i class="fa fa-angle-left"></i> Slowfast
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/03/13/MAEasSpatiotemporalLearner/" rel="next" title="MAE as Spatiotemporal Learner">
+                  MAE as Spatiotemporal Learner <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
-    </div>
+</div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-12-09T19:36:04+08:00"
-              content="2023-12-09">
-          12-09
-        </time>
-      </div>
 
-      <div class="post-title">
-        <a class="post-title-link" href="/YoungBlogs/2023/12/09/UseGit/" itemprop="url">
-          <span itemprop="name">UseGit</span>
-        </a>
-      </div>
 
-      
-    </header>
-  </article>
 
-    </div>
-  </div>
-  
-  
-  
+
 
 </div>
   </main>
