@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-03-14T04:43:46.660Z</updated>
+  <updated>2024-03-26T06:47:36.134Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,57 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>闪现的想法</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/03/22/%E9%97%AA%E7%8E%B0%E7%9A%84%E6%83%B3%E6%B3%95/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/03/22/%E9%97%AA%E7%8E%B0%E7%9A%84%E6%83%B3%E6%B3%95/</id>
+    <published>2024-03-22T13:11:37.000Z</published>
+    <updated>2024-03-26T06:47:36.134Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="有没有能够可视化代码函数的执行和调用的工具看一些大的project函数的调用看起来比较乱记不住理不清关联">有没有能够可视化代码函数的执行和调用的工具，看一些大的Project，函数的调用看起来比较乱，记不住、理不清关联。</h3><h3 id="双视角-三维轨迹">双视角, 三维轨迹</h3>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3
+id=&quot;有没有能够可视化代码函数的执行和调用的工具看一些大的project函数的调用看起来比较乱记不住理不清关联&quot;&gt;有没有能够可视化代码函数的执行和调用的工具，看一些大的Project，函数的调用看起来比较乱，记不住、理不清关联。&lt;/h3&gt;
+&lt;h3 id=&quot;双视角-三</summary>
+      
+    
+    
+    
+    
+    <category term="ideas" scheme="https://young-eng.github.io/YoungBlogs/tags/ideas/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>BEiT</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/03/18/BEiT/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/03/18/BEiT/</id>
+    <published>2024-03-18T02:10:47.000Z</published>
+    <updated>2024-03-26T06:08:50.733Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="beit-bert-pre-training-of-image-transformers1">BEiT: BERTPre-Training of Image Transformers<sup>[1]</sup></h3><blockquote><p>论文的作者是来自哈工大和微软的Hangbo Bao, Li Dong, Songhao Piao 和Furu Wei。论文引用：Bao, Hangbo et al. “BEiT: BERT Pre-Training of ImageTransformers.” ArXiv abs/2106.08254 (2021): n. pag.</p></blockquote><h3 id="key-words"><strong><em>Key Words</em></strong></h3><ul><li>Self-supervised learning</li><li>masked image modeling(MIM)</li><li>two views of image representation: image patches(input) and visualtokens(output)</li></ul><h3 id="总结">总结</h3><ol type="1"><li><p>BEiT: Bidirectional Encoder representation from ImageTransformers following BERT. In order to solve the data-hungry issue,self-supervrised have been explored for vision Transformers, such ascontrastive learning and self-distillation. Proposed pre-training task,namely, masked image modeling(MIM)</p></li><li><p>split image into a grid of patches that are the inputrepresentation of backbone Transformer. Moreover, tokenize the imageinto discrete visual tokens, which is obtained by the latent codes ofdiscrete VAE. 在预训练的时候，随机对一些imagepatches进行mask，将corrupted input给到Transformer，模型从学习恢复原始图像的visualtokens，<strong><em>而不是 masked patches的rawpixels</em></strong>，这一点和MAE_st不同，MAE_st是恢复rawpixels，像素级的重建。</p></li><li><p>执行自监督学习，自监督学习的时候<strong><em>不需要labels</em></strong>，然后在两个下游任务上--图像分类、语义分割--对预训练的BEiT模型进行微调。</p></li><li><p>BEiT能够通过预训练学习reasonable语义区域，unleashing丰富的包含在图像中的监督信号。</p></li><li><p>Contributions:</p><ul><li>提出了MIM用自监督的方式来预训练ViT，从VAE的角度提供了理论解释</li><li>预训练BEiT，在下游任务做了很多fine-tuning的实验</li><li>提出了BEiT的自注意力机制，来区别语义区域和目标边界，不需要人类的标注。</li></ul></li><li><p>Visual Tokenizer: tokenize the image <spanclass="math inline">\(x\)</span> into <spanclass="math inline">\(z\)</span>, vocabulary <spanclass="math inline">\(v\)</span> contains discrete token indices.discrete variational autoencoder(dVAE)'s two modules: tokenizer,decoder.</p><ul><li>tokenizer maps image pixels <span class="math inline">\(x\)</span>into discrete tokens <span class="math inline">\(z\)</span> according tovisual codebook(vocabulary)</li><li>decoder基于visual tokens <span class="math inline">\(z\)</span>重建输入图像<span class="math inline">\(x\)</span>，</li><li>同一幅图像里的visual tokens和image patches的数量是相同的，vocabularysize is <span class="math inline">\(|v| = 8192\)</span>.</li></ul></li><li><p>randomly mask approximately <spanclass="math inline">\(40\%\)</span> image patches,最后的hidden vectors<span class="math inline">\(h^L_i\)</span> 作为输入patches的encodedrepresentation， 对于每个masked position,用一个Softmax分类器来预测对应的visualtokens。预训练的目标是最大化给定的corrupted image的visualtokens的log-likelihood: <spanclass="math display">\[\max\sum_{x\in\mathcal{D}}\mathbb{E}_\mathcal{M}\left[\sum_{i\in\mathcal{M}}\logp_\mathrm{MIM}(z_i|x^\mathcal{M})\right]\]</span></p></li><li><p>用blockwise masking而不是随机的masking。pixel-levelauto-encoding会使模型聚焦于short-range dependencies和high-frequencydetails.BEiT 通过预测离散的visual tokens克服了以上的问题。</p></li><li><p>BEiT pretraining: <spanclass="math display">\[\sum_{(x_i,\tilde{x}_i)\in\mathcal{D}}(\underbrace{\mathbb{E}_{z_i\simq_\phi(z|x_i)}[\log p_\psi(x_i|z_i)]}_{\text{Stage l: Visual TokenReconstruclion}}+\underbrace{\logp_\theta(\hat{z}_i|\tilde{x}_i)}_{\text{Stage 2: Masked ImageModeling}})\]</span></p></li><li><p>下游任务：</p></li></ol><p>在预训练BEiT之后，在Transformer上加一个tasklayer，在下游任务上fine-tune参数。 -图像分类：汇聚完representations之后，用一个softmax分类器。 -语义分割：follow task layer used in SETR-PUP</p><ol start="11" type="1"><li>self-attention mechanism in BEiT can seperate objects.</li></ol><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/722ad6ac92286507437b31486f47987d6ece05c9/2-Figure1-1.png"alt="BEiT" /> Figure 1<sup>[1]</sup>: Overview of BEIT pre-training.Before pre-training, we learn an “image tokenizer” viaautoencoding-style reconstruction, where an image is tokenized intodiscrete visual tokens according to the learned vocabulary. Duringpre-training, each image has two views, i.e., image patches, and visualtokens. We randomly mask some proportion of image patches (gray patchesin the figure) and replace them with a special mask embedding [M]. Thenthe patches are fed to a backbone vision Transformer. The pre-trainingtask aims at predicting the visual tokens of the original image based onthe encoding vectors of the corrupted image</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;beit-bert-pre-training-of-image-transformers1&quot;&gt;BEiT: BERT
+Pre-Training of Image Transformers&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;论</summary>
+      
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="self-supervised" scheme="https://young-eng.github.io/YoungBlogs/tags/self-supervised/"/>
+    
+  </entry>
   
   <entry>
     <title>MAE as Spatiotemporal Learner</title>
@@ -53,9 +104,9 @@ n. pag.&lt;/p&gt;
     <link href="https://young-eng.github.io/YoungBlogs/2024/03/13/TrainWithVideoMAE/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/03/13/TrainWithVideoMAE/</id>
     <published>2024-03-13T02:47:04.000Z</published>
-    <updated>2024-03-13T02:55:40.546Z</updated>
+    <updated>2024-03-24T02:19:11.038Z</updated>
     
-    <content type="html"><![CDATA[<h3id="对videomae进行训练或者微调的遇到的bug">对VideoMAE进行训练或者微调的遇到的Bug</h3><ol type="1"><li>训练videoMAE时报错， File"/home/MAE-Action-Detection/run_class_finetuning.py", line 404, in maintrain_stats = train_one_epoch( File"/home/MAE-Action-Detection/engine_for_finetuning.py", line 59, intrain_one_epoch for step, (samples, boxes, _) inenumerate(metric_logger.log_every(data_loader, print_freq, header)):File "/home/MAE-Action-Detection/utils.py", line 141, in log_every forobj in iterable: File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",line 517, in <strong>next</strong> data = self._next_data() File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",line 1199, in _next_data return self._process_data(data) File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",line 1225, in _process_data data.reraise() File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/_utils.py",line 429, in reraise raise self.exc_type(msg) File "av/error.pyx", line78, in av.error.FFmpegError.<strong>init</strong> TypeError:<strong>init</strong>() takes at least 3 positional arguments (2given)</li></ol><p>解决方法是：将torch,torchvision等相应的版本升级到1.13就行了，原来是1.9</p>]]></content>
+    <content type="html"><![CDATA[<h3id="对videomae进行训练或者微调的遇到的bug">对VideoMAE进行训练或者微调的遇到的Bug</h3><ol type="1"><li>训练videoMAE时报错， File"/home/MAE-Action-Detection/run_class_finetuning.py", line 404, in maintrain_stats = train_one_epoch( File"/home/MAE-Action-Detection/engine_for_finetuning.py", line 59, intrain_one_epoch for step, (samples, boxes, _) inenumerate(metric_logger.log_every(data_loader, print_freq, header)):File "/home/MAE-Action-Detection/utils.py", line 141, in log_every forobj in iterable: File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",line 517, in <strong>next</strong> data = self._next_data() File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",line 1199, in _next_data return self._process_data(data) File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",line 1225, in _process_data data.reraise() File"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/_utils.py",line 429, in reraise raise self.exc_type(msg) File "av/error.pyx", line78, in av.error.FFmpegError.<strong>init</strong> TypeError:<strong>init</strong>() takes at least 3 positional arguments (2given)</li></ol><p>解决方法是：将torch,torchvision等相应的版本升级到1.13就行了，原来是1.9</p><ol start="2" type="1"><li>AVA数据集格式的问题</li></ol><p>参照<ahref="https://github.com/MVIG-SJTU/AlphAction/blob/master/DATA.md">AlphAction</a>的格式，其中，boxs文件夹下的ava_det.json文件的中的bbox的格式默认是x1,y1,w,h而不是x1,y1,x2,y2，所以后续的AVADataset里的有个地方，就是Box(mode="xyxy).convert("xywh")。如果bbox的格式是x1,y1,x2,y2，则不需要convert.("xywh")，如果是默认的x1,y1,w,h，则需要convert("xywh")。这是个大坑。。好像也没有看到作者有说明。。。</p>]]></content>
     
     
       
@@ -593,50 +644,6 @@ https://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm
     
     
     <category term="线性代数" scheme="https://young-eng.github.io/YoungBlogs/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2023/11/14/hello-world/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2023/11/14/hello-world/</id>
-    <published>2023-11-14T12:23:10.800Z</published>
-    <updated>2023-11-14T12:23:10.800Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your veryfirst post. Check <a href="https://hexo.io/docs/">documentation</a> formore info. If you get any problems when using Hexo, you can find theanswer in <ahref="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> oryou can ask me on <ahref="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><span id="more"></span><h2 id="quick-start">Quick Start</h2><h3 id="create-a-new-post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="run-server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="generate-static-files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="deploy-to-remote-sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very
-first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for
-more info. If you get any problems when using Hexo, you can find the
-answer in &lt;a
-href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or
-you can ask me on &lt;a
-href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>BuildHexo</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2023/11/13/BuildHexo/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2023/11/13/BuildHexo/</id>
-    <published>2023-11-13T09:20:46.000Z</published>
-    <updated>2023-12-29T06:52:14.826Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。</p><span id="more"></span><h2 id="hexo-配置">Hexo 配置</h2><p>Hexo的配置主要是相关的主题啥的，环境配置可以参照Hexo的文档，主题我用了Next，Next用的人好像蛮多的，报了啥bug也方便解决。</p><h2 id="写blog">写blog</h2><p>通过hexo newxxblogtitlexx，来写blog,主要是markdown的格式，markdownd的相关语法可以看这里：</p><p>https://markdown.com.cn/</p><h2 id="遇到的问题">遇到的问题</h2><ol type="1"><li><p>公式的问题</p><p>用ghostwriter写markdown时，编辑器没法显示公式，找来找去最后还是用vscode把，这个可以预览。然后新的问题出现了，hexo的页面无法正确显示公式，这需要去_cofig.yml里，将math那里的mathjax和ktex的enable都设为true，不是True。然后就可了。但是！却显示不了下划线，苦苦查询了一番，用pandoc的渲染器比较好，hexo-render-marked换成hexo-renderer-pandoc，需要先安装pandoc，去pandoc的github下载最新的版本安装即可。</p></li></ol><p>参考链接如下：</p><p>https://theme-next.js.org/</p><p>https://hexo.io/zh-cn/docs/</p><p>https://zhuanlan.zhihu.com/p/35988761</p><p>https://blog.csdn.net/weixin_45073562/article/details/120289648</p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
-    
-    
-    <category term="Hexo" scheme="https://young-eng.github.io/YoungBlogs/tags/Hexo/"/>
     
   </entry>
   
