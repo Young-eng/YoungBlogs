@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Deep OC-SORT: Multi-Pedestrian Tracking by Adaptive Re-Identification[1]  作者是来自CMU的Gerard Maggiolino, Adnan Ahmad, Jinkun Cao, Kris Kitani.论文引用[1]:Maggiolino, Gerard et al. “Deep OC-Sort: Multi-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deep OC SORT">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/05/06/Deep-OC-SORT/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Deep OC-SORT: Multi-Pedestrian Tracking by Adaptive Re-Identification[1]  作者是来自CMU的Gerard Maggiolino, Adnan Ahmad, Jinkun Cao, Kris Kitani.论文引用[1]:Maggiolino, Gerard et al. “Deep OC-Sort: Multi-">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-06T13:12:25.000Z">
+<meta property="article:modified_time" content="2024-06-02T11:20:08.000Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Object tracking">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/05/06/Deep-OC-SORT/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/05/06/Deep-OC-SORT/","path":"2024/05/06/Deep-OC-SORT/","title":"Deep OC SORT"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Deep OC SORT | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#deep-oc-sort-multi-pedestrian-tracking-by-adaptive-re-identification1"><span class="nav-number">1.</span> <span class="nav-text">Deep
+OC-SORT: Multi-Pedestrian Tracking by Adaptive
+Re-Identification[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen201718@163.com" title="Email → mailto:yuen201718@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/05/06/Deep-OC-SORT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Deep OC SORT | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Deep OC SORT
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-05-06 21:12:25" itemprop="dateCreated datePublished" datetime="2024-05-06T21:12:25+08:00">2024-05-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-06-02 19:20:08" itemprop="dateModified" datetime="2024-06-02T19:20:08+08:00">2024-06-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="deep-oc-sort-multi-pedestrian-tracking-by-adaptive-re-identification1">Deep
+OC-SORT: Multi-Pedestrian Tracking by Adaptive
+Re-Identification<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自CMU的Gerard Maggiolino, Adnan Ahmad, Jinkun Cao, Kris
+Kitani.论文引用[1]:Maggiolino, Gerard et al. “Deep OC-Sort:
+Multi-Pedestrian Tracking by Adaptive Re-Identification.” 2023 IEEE
+International Conference on Image Processing (ICIP) (2023):
+3025-3029.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.Feb</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Kalman filter</li>
+<li>adding appearance cues to motion-based object association</li>
+<li>camera motion compensation</li>
+<li>introduce visual appearance to OC-SORT</li>
+</ul>
+<h3 id="动机">动机</h3>
+<ol type="1">
+<li>基于运动的关联 for
+MOT在最近的一些检测器中，重新占了主导地位。尽管如此，在启发式的、缺乏对特征退化的robustness的模型之外，很少工作考虑到吸收外观cues。本文中，作者提出了一个新的方式，来利用目标的外观，自适应地将外观匹配(appearance
+matching)集成到现有的基于motion的高性能的方法中。</li>
+</ol>
+<span id="more"></span>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>随着目标检测器和基于motion的关联算法的成功，有效地将visual
+appearance和motion-based matching 集成起来仍然是没有探索的。strong
+embedding models中的bounding box-level的visual
+features仍然包含因为occlusion、motion
+blur、相似外观的物体造成的噪声。提出了一个动态地、自适应地、启发式的模型，来在单个阶段中集成visual
+appearance和motion-based cues for object
+association。除此之外，还结合了camera motion
+compensation，通过complement object-centric motion
+model提高了性能。</p></li>
+<li><p>Motion-based MOT:现在的很多端到端的models仍然不如经典的motion
+model-based tracking
+algorithms。<strong>卡尔曼滤波是tracking-by-detection</strong>的基础，在这个line上，SORT用一个线性的motion假设、通过IoU来关联tracks。ByteTrack通过在关联中利用low-confidence
+candidates来解决missing
+predictions的问题，实现了很好地效果，平衡了检测质量和tracking
+confidence。最近的OC-SORT提高了robustness of tracking in non-linear
+motion场景，减小了object
+occlusion或者消失的影响，通过直接依赖于detections。</p></li>
+<li><p>Appearance-based MOT: Visual
+identification是一个直接的cue来关联targets。
+DeepSORT是一个最早的用深度特征进行目标关联的。<strong>通过端到端的训练一个discriminative
+appearance
+model，来集成视觉信息，提高了性能</strong>。Transformer的兴起，目标关联通过query
+matching进行model。然而，但目标有相似的外观或者遇到occlusion的时候，效果并不好，比那些简单的利用很强的detector的motion
+association的方法差一些。也有一些尝试：将appearance cues
+加入到motion-based methods。</p></li>
+<li><p>Deep OC-SORT的三个module:</p>
+<ul>
+<li><p>Camera Motion Compensation(CMC): OC-SORT高度依赖detection
+quality，引入CMC更精确地定位物体。给定一个scale rotation matrix <span
+class="math inline">\(M_t = s_tR_t\)</span>，和一个translation <span
+class="math inline">\(T_t\)</span>，分别将它们用在OC-SORT的三个components上。</p>
+<ul>
+<li><p>OOS + CMC. KF从线性的interpolated path更新，starting at the last
+known measurement. 最后一个known measurement是<span
+class="math inline">\([x_c,y_c,a,s]\)</span>，bbox的中心通过 <span
+class="math inline">\(c \leftarrow M_tc
++T_t\)</span>变换得到，<strong>so that the path is interpolated starting
+from the camera corrected measurement.</strong></p></li>
+<li><p>OCM + CMC. <span
+class="math inline">\(p_1,p_2\)</span>为bbox的左上和右下的角点，OCM用最后的<span
+class="math inline">\(\Delta t =3\)</span> bboxes来计算
+bbox的角速度，在每个timestep t, 进行变换<span class="math inline">\(p_i
+\leftarrow M_tp_i + T_i\)</span> to bbox，这个是从 <span
+class="math inline">\(t - \Delta t\)</span> 到 <span
+class="math inline">\(t\)</span> during OCM。</p></li>
+<li><p>OCR + CMC。对于OCR中的最后一个看到的bbox position，
+在每个timestep t, 用 <span class="math inline">\(p_i \leftarrow M_tp_i +
+T_t\)</span> 来调整位置 under CMC。对于OC-SORT，Kalman state is <span
+class="math inline">\(\mathbf{x}=[x_{c},y_{c},a,s,\dot{x_{c}},\dot{y_{c}},\dot{a}].\)</span>，用CMC来纠正Kalman
+state:</p></li>
+</ul>
+<p><span
+class="math display">\[\left.\left\{\begin{matrix}\mathbf{x}[0:2]\leftarrow
+M_t\mathbf{x}[0:2]+T_t,\\\mathbf{x}[4:6]\leftarrow
+M_t\mathbf{x}[4:6],\\P[0:2,0:2]\leftarrow
+M_tP[0:2,0:2]M_t^T,\\P[4:6,4:6]\leftarrow
+M_tP[4:6,4:6]M_t^T.\end{matrix}\right.\right.\]</span></p></li>
+<li><p>Dynamic Appearance：在之前的工作中，用于描述tracklet的deep visual
+embedding是通过<strong>Exponetial Moving Average(EMA) of deep detection
+embeddings frame by frame</strong>来提供的，这个要求一个weighting factor
+<span class="math inline">\(\alpha\)</span> 来调整 historical和currnet
+time steps的visual embedding的 ratio。作者提出，基于detector
+confidence修改 <span class="math inline">\(\alpha\)</span>，这个灵活的
+<span class="math inline">\(\alpha\)</span>
+仅用高质量的detections，将appearance information集成到track's
+model里。标准的EMA公式如下：</p></li>
+</ul>
+<p><span
+class="math display">\[\mathbf{e}_t=\alpha\mathbf{e}_{t-1}+(1-\alpha)\mathbf{e}^{\mathrm{new}}\]</span>
+<span class="math inline">\(e_t\)</span> 为tracklet's appearance
+embedding at time <span class="math inline">\(t\)</span>, <span
+class="math inline">\(e^{new}\)</span>是加入到model中的matched
+detction的appearance。作者将 <span
+class="math inline">\(\alpha_t\)</span>替换了<span
+class="math inline">\(\alpha\)</span>，公式如下：</p>
+<p><span
+class="math display">\[\mathop{\alpha}_{t}=\alpha_{f}+(1-\alpha_{f})(1-\frac{s_{\mathrm{det}}-\sigma}{1-\sigma}),\]</span></p>
+<p><span class="math inline">\(s_det\)</span> 是detector
+confidence，<span class="math inline">\(\sigma\)</span> 是 detection
+confidence threshold to filter noisy detections。<span
+class="math inline">\(\alpha_f = 0.95\)</span></p>
+<ul>
+<li>Adaptive weighting：adaptive weighting基于appearacne
+embeddings的discrinimativeness来增加appearance
+features的weight。通过标准的余弦相似度<strong>arcoss track and box
+embeddings</strong> 导致一个 <span class="math inline">\(M \times
+N\)</span> appearance costs matrix, <span
+class="math inline">\(A_c\)</span>。<span class="math inline">\(M,
+N\)</span>分别是tracks和detections的数量。通常和IoU cost
+matrix结合起来。<span class="math inline">\(C = I_c + a_w
+A_c\)</span></li>
+</ul>
+<p>提出了一个方法，来提高individual track-box scores based on
+discriminativeness，将 <span
+class="math inline">\(w_b(m,n)\)</span>加到全局 <span
+class="math inline">\(a_w\)</span>里，公式如下： <span
+class="math display">\[z_{\mathrm{diff}}^{\mathrm{det}}(A_{c},n)=\operatorname*{min}(\operatorname*{max}_{i}A_{c}[i,n]-\operatorname*{max}_{j\neq
+i}A_{c}[j,n],\epsilon),\\z_{\mathrm{diff}}^{\mathrm{track}}(A_{c},m)=\operatorname*{min}(\operatorname*{max}_{i}A_{c}[m,i]-\operatorname*{max}_{j\neq
+i}A_{c}[m,j],\epsilon),\]</span></p>
+<p>其中，<span
+class="math inline">\(\tau_m\)</span>表示一个track，当它与一个box有很高的相似度的分数时，增加appearance
+weight over row <span class="math inline">\(A_c[m,:]\)</span>；<span
+class="math inline">\(d_n\)</span>表示一个detection，如果其与一个track相联系，进行同样的操作
+over columns of <span class="math inline">\(A_c\)</span>，<span
+class="math inline">\(z_diff\)</span>来measure box-track
+pairs的discriminativeness，表示at a row or a column的higheset
+和second-highest values之间的difference. <span
+class="math inline">\(\epsilon\)</span>是一个超参数，</p>
+<p><span
+class="math display">\[w_{b}(m,n)=\begin{bmatrix}z_{\mathrm{diff}}^{\mathrm{track}}(A_{c},m)+z_{\mathrm{diff}}^{\mathrm{det}}(A_{c},n)\end{bmatrix}/2,\]</span></p>
+<p>选择基于<strong>第一和第二高的scores，而不是概率分布metrics like KL
+divergence</strong> 来measure discriminativeness。一个true positive
+appearance match is indicated by one high score having a large distance
+from the next best match. 最后的cost matrix <span
+class="math inline">\(C\)</span> 如下： <span
+class="math display">\[C[m,n]=\mathrm{IoU}[m,n]+[a_{w}+w_{b}(m,n)]
+A_{c}[m,n].\]</span></p></li>
+<li><p>本文的工作是基于最近的基于卡尔曼滤波的OC-SORT算法，是SORT的扩展，<strong>SORT依赖于目标追踪的线性运动假设</strong>，利用卡尔曼滤波将目标检测器的predictions和motion
+model 通过IoU的position
+estimates。当视频的帧率很高的时候，线性运动假设对于目标在临近视频帧的移位是有效的。然而，当追踪的目标在occlusion的时候，消失了，在卡尔曼滤波的时候，
+missed measurement会导致error加重，OC-SORT提出了三个模块，来解决motion
+model based error: **OCM(observation-centric momentum),
+OCR(observation-centric recovery)， OOS(observation-centric online
+smoothing)。集成了OC-SORT的总体框架，包括匈牙利算法来关联matches from a
+cost matrix.</p></li>
+</ol>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/d6e37cb5e9854a449f0224fabc98a16807f57685/2-Figure1-1.png"
+alt="Illustration" />
+<figcaption aria-hidden="true">Illustration</figcaption>
+</figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Object-tracking/" rel="tag"># Object tracking</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/05/06/ByteTrack/" rel="prev" title="ByteTrack">
+                  <i class="fa fa-angle-left"></i> ByteTrack
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/05/07/imTED/" rel="next" title="imTED">
+                  imTED <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">40k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:26</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

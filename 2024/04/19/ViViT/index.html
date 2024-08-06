@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="ViViT: A Video Vision Transformer[1]  作者是来自Google Research的Anurag Arnab, Mostafa Dehghani, Georg, Heigold, Chen Sun, Mario Lucic, Cordelia Schmid。论文引用[1]:Arnab, Anurag et al. “ViViT: A Video Visi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ViViT">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/04/19/ViViT/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="ViViT: A Video Vision Transformer[1]  作者是来自Google Research的Anurag Arnab, Mostafa Dehghani, Georg, Heigold, Chen Sun, Mario Lucic, Cordelia Schmid。论文引用[1]:Arnab, Anurag et al. “ViViT: A Video Visi">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-19T02:32:26.000Z">
+<meta property="article:modified_time" content="2024-04-19T09:22:14.000Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Transformer">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/04/19/ViViT/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/04/19/ViViT/","path":"2024/04/19/ViViT/","title":"ViViT"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ViViT | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#vivit-a-video-vision-transformer1"><span class="nav-number">1.</span> <span class="nav-text">ViViT: A Video Vision
+Transformer[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen201718@163.com" title="Email → mailto:yuen201718@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/04/19/ViViT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ViViT | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ViViT
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-04-19 10:32:26 / 修改时间：17:22:14" itemprop="dateCreated datePublished" datetime="2024-04-19T10:32:26+08:00">2024-04-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="vivit-a-video-vision-transformer1">ViViT: A Video Vision
+Transformer<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Google Research的Anurag Arnab, Mostafa Dehghani, Georg,
+Heigold, Chen Sun, Mario Lucic, Cordelia Schmid。论文引用[1]:Arnab,
+Anurag et al. “ViViT: A Video Vision Transformer.” 2021 IEEE/CVF
+International Conference on Computer Vision (ICCV) (2021):
+6816-6826.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2021.Jun</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>spatio-temporal tokens</li>
+<li>transformer</li>
+<li>regularize model, factorising model along spatial and temporal
+dimensions to increase efficiency and scalability</li>
+</ul>
+<span id="more"></span>
+<h3 id="动机">动机</h3>
+<ol type="1">
+<li>当有大的训练集的时候，基于transformer的模型很有效。作者展示了：如何在训练期间regularise
+model并且leverage pretrained image
+model，使其能在相对小的数据集上进行训练。</li>
+</ol>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>将video V mapping to a sequence of tokens Z的方法：</p>
+<ul>
+<li>Uniformly frame sampling. 从video clip中 uniformly sample <span
+class="math inline">\(n_t\)</span> frames， 用和ViT中同样的方式embed
+each 2D frame independently.</li>
+</ul>
+<p><img
+src="https://d3i71xaburhd42.cloudfront.net/b6382a7351c0c595f91472ac71d3b2d87b3c4844/3-Figure2-1.png"
+alt="Uniform frame sampling" /> $Fig.1^{[1]} $:Uniform frame sampling:
+We simply sample nt frames, and embed each 2D frame independently
+following ViT.</p>
+<ul>
+<li>Tubelet embedding. extract non-overlapping、spatio-temporal "tube"
+from input volume, and to linearly project this to <span
+class="math inline">\(R^d\)</span>, 这个方法是ViT's embedding to
+3D的扩展。Tubelet的dimension: $ t h  w, n_t = ,n_h = ,n_w = $, tokens是
+extracted从temporal、height、width dimensions respectively。smaller
+tubelet
+dimensions会导致更多的tokens，增加计算量。这个方法融合了spatio-temporal
+information during tokenization。与Uniform frame sampling
+不同，后者是通过transformer来从不同的frames中融合temporal
+information。</li>
+</ul>
+<p><img
+src="https://d3i71xaburhd42.cloudfront.net/b6382a7351c0c595f91472ac71d3b2d87b3c4844/3-Figure3-1.png"
+alt="Tublebelt embedding" /> <span
+class="math inline">\(Fig.2^{[1]}\)</span>:Tubelet embedding. We extract
+and linearly embed non-overlapping tubelets that span the
+spatio-temporal input volume</p></li>
+<li><p>Transformer Models for Video:
+用大白话说就是：一个是直接的方式，得到所有token，然后送入ViT的encoder；另外就是对encoder和encoder内部的self-attention模块进行分解，分解为一个针对spatial、一个针对temporal的模块。</p>
+<ul>
+<li><p>Model 1: Spatio-temporal
+attention:就是把从视频中抽取出来的tokens全部送入transformer的encoder中，每个layer会对所有的tokens进行model
+pairwise interactions，复杂度和tokens的数量相关。</p></li>
+<li><p>Model 2: Factorized encoder: model包含两个分离的encoders，spatial
+encoder进队同一个temporal 中出来的tokens进行model
+interaction，frame-level represetations <span
+class="math inline">\(h_i\)</span> 会被concatenated into <span
+class="math inline">\(H\)</span>，然后通过包含 $L_t layers的 temporal
+encoder，来model interactions between tokens from different temporal
+indices。这个encoder的输出的token最后被classified。这个model比Model
+1有更多的layers(more parameters)，它要求个更少的fewer floating point
+operations(FLOPS)。 <img
+src="https://d3i71xaburhd42.cloudfront.net/b6382a7351c0c595f91472ac71d3b2d87b3c4844/4-Figure4-1.png"
+alt="Factorized encoder" /> <span
+class="math inline">\(Fig.3^{[1]}\)</span>:Factorised encoder (Model 2).
+This model consists of two transformer encoders in series: the first
+models interactions between tokens extracted from the same temporal
+index to produce a latent representation per time-index. The second
+transformer models interactions between time steps. It thus corresponds
+to a "late fusion" of spatial and temporal information</p></li>
+<li><p>Model 3:Factorized self-attention: 在一个transformer
+block里，把multi-headed
+self-attention操作分为两个操作：一个计算self-attention spatially,
+一个计算temporally。先计算spatially self-attention(among all tokens
+extracted from the same spatial index，然后temporally(<strong>among all
+tokens extracted from the same spatial index</strong>),比Model
+1更高效，和Model 2 有同样的计算复杂度。<strong>计算spatial
+self-attention的时候，reshape tokens <span
+class="math inline">\(z\)</span> from <span class="math inline">\(1
+\times n_t * n_h * n_w * d\)</span>, input to temporal
+self-attention，<span class="math inline">\(z_t\)</span> is reshaped
+from <span class="math inline">\(n_h* n_w \times n_t *
+d\)</span></strong>
+。不管是spatial-then-temporal还是temporal-then-spatial，区别不大。在这个Model中，不使用
+classification token，避免ambiguity when reshaping the input tokens
+between spatial and temporal dimensions。 <img
+src="https://d3i71xaburhd42.cloudfront.net/b6382a7351c0c595f91472ac71d3b2d87b3c4844/4-Figure5-1.png"
+alt="Factorized self-attention" /> <span
+class="math inline">\(Fig.4^{[1]}\)</span>: Factorised self-attention
+(Model 3). Within each transformer block, the multi-headed
+self-attention operation is factorised into two operations (indicated by
+striped boxes) that first only compute self-attention spatially, and
+then temporally</p></li>
+<li><p>Model 4: Factorized dot-product
+attention。对于每个head，自注意力操作的定义为： <span
+class="math display">\[\text{Attention}(\mathbf{Q},\mathbf{K},\mathbf{V})=\text{Softmax}\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V}.\]</span></p></li>
+</ul>
+<p>在self-attention中, queries <span class="math inline">\(Q =
+XW_q\)</span>，keys = <span class="math inline">\(K =
+XW_k\)</span>，values <span class="math inline">\(V =
+XW_v\)</span>，<span class="math inline">\(Q,K,V\)</span>是输入X的linear
+projection，<span class="math inline">\(X,Q,K,V \in R^{N \times
+d}\)</span>，在Model 1中，spatial 和temporal dimensions are merged as
+<span class="math inline">\(N = n_t * n_h * n_w\)</span>。</p>
+<p>主要的idea是，修改keys and values for each query，使其only attend
+over tokens from the same spatial and temporal index by constructing
+<span class="math inline">\(K_s,V_s \in R^{n_h*n_w \times d}, and \ K_t,
+V_t \in R^{n_t \times d}\)</span>. 一般的attention head来做：attend
+tokens from spatial dimension by computing <span
+class="math inline">\(Y_s = Attention(Q,K_s,V_s)\)</span>，剩下的attend
+over temporal dimension by computing <span class="math inline">\(Y_t =
+Attention(Q,K_t,V_t)\)</span>，最后通过concatenating them and using a
+linear porjection来结合multiple heads的输出<span class="math inline">\(Y
+= Concat(Y_s,Y_t)W_o\)</span>。考虑到对于每个query，只改变了attention
+neighbourhood，attention operation有同样的dimension和unfactorized
+case(Model 1), namely <span class="math inline">\(Y_s, Y_t \in R^{N
+\times d}\)</span></p>
+<p><img
+src="https://d3i71xaburhd42.cloudfront.net/b6382a7351c0c595f91472ac71d3b2d87b3c4844/5-Figure6-1.png"
+alt="Factorized dot-product attention" /> <span
+class="math inline">\(Fig.5^{[1]}\)</span>: Factorised dot-product
+attention (Model 4). For half of the heads, we compute dot-product
+attention over only the spatial axes, and for the other half, over only
+the temporal axis.</p></li>
+<li><p>由于video的数据集相比于image来说，有标签的数据更少， traning
+large models from scratch to high
+accuracy是极具挑战的。为了sidestep这个问题，使训练更高效，<strong>initialize
+video models from pretrained image models。问题是：如何initialize
+parameters not present or incompatible with image
+models</strong>，这个问题也是我想问的，因为模型结构的不同，导致在initialize的时候容易出现参数不匹配。一些有效的策略如下：</p>
+<ul>
+<li><p>Position Embedding. positional embedding P 被加入到input
+token，但是视频model有<span class="math inline">\(n_t\)</span>
+倍的tokens than pretrained image model，因此，在初始化的position
+embedding的时候，<strong>通过 repeating them temporally from <span
+class="math inline">\(R^{n_w * n_h \times d}\)</span> to $ R^{n_t * n_h
+* n_w d}$</strong>, 因此，所有有相同的spatial
+index有相同的embedding。</p></li>
+<li><p>Embedding weights, E: 当采用 tubelet embedding的时候， embedding
+filter E 是一个 3D的tensor，与预训练模型 <span
+class="math inline">\(E_{image}\)</span>中的2D
+tensor不同。一个通常的将2D filter 转换为 3D的 conv filter for video
+classification的方法是 ：<strong>inflate them by replicating the filters
+along the temporal dimension and averaging them as</strong>: <span
+class="math display">\[\mathbf{E}=\frac{1}{t}[\mathbf{E}_{\mathrm{image}},\ldots,\mathbf{E}_{\mathrm{image}},\ldots,\mathbf{E}_{\mathrm{image}}].\]</span></p></li>
+</ul>
+<p>另外一个策略：称为"central frame initialization"，where <span
+class="math inline">\(E\)</span> is initialized with zeroes along all
+temporal positions, except at the centre <span
+class="math inline">\(\lfloor \frac{t}{2} \rfloor\)</span>: <span
+class="math display">\[\mathbf{E}=[\mathbf{0},\ldots,\mathbf{E}_{\mathrm{image}},\ldots,\mathbf{0}].\]</span></p>
+<p>因此，3D Conv filter 能够像 uniform frame sampling effectively
+behaves at initialization，while also enabling the model to learn to
+aggregate temporal information from multiple frames as training
+progress.</p>
+<p>其实跟padding也类似，有zero padding 也有replicate padding。</p>
+<ul>
+<li>Transformer weights for Model 3: 它包含了2个 multi-headed
+self-attention modules,因此，initialize spatial MSA module from
+pretrained module, initialize all weights of temporal MSA with
+zeros：就是用预训练的来初始化spatial MSA module，用zeros来初始化temporal
+MSA module。</li>
+</ul></li>
+<li><p>在做实验的时候: backbone follows ViT和BERT.
+推理的时候，网络的输入是video clip of 32 frames using a stride 2,
+process multiple views of a longer video and average per-view logits to
+obtain the final result. 除非特别说明, 4 views per video.
+这个view好几次看到了。 在SlowFast那篇论文里，提到了这个<strong>view
+temporal clip with spatial crop</strong>,比方说 10 temporal clips each
+with 3 spatial crops，这就是30 views。在本论文中，Table
+6也有提到：Views: <span class="math inline">\(x \times y\)</span>,
+denotes <span class="math inline">\(x\)</span> temporal crops and <span
+class="math inline">\(y\)</span> spatial crops.</p></li>
+<li><p>实验中： 主要是用Model
+2来做的对比，在几个数据集上效果还可以。tubelet embedding using central
+frame 表现比 filter inflation、uniform frame
+sampling要好。由于pure-transformer的架构需要大量的数据，在小的数据集上容易过拟合，所以需要进行正则化，（数据增强或者减小模型复杂度），实验中用了
+stochastic depth, random augment，label smoothing,
+mixup等方法。</p></li>
+</ol>
+<p><img
+src="https://d3i71xaburhd42.cloudfront.net/b6382a7351c0c595f91472ac71d3b2d87b3c4844/2-Figure1-1.png"
+alt="Architecture" /> <span
+class="math inline">\(Fig.6^{[1]}\)</span>:Wepropose a pure-transformer
+architecture for video classification, inspired by the recent success of
+such models for images. To effectively process a large number of
+spatio-temporal tokens, we develop several model variants which
+factorise different components of the transformer encoder over the
+spatial- and temporal-dimensions. As shown on the right, these
+factorisations correspond to different attention patterns over space and
+time.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Transformer/" rel="tag"># Transformer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/04/15/torch/" rel="prev" title="torch notes">
+                  <i class="fa fa-angle-left"></i> torch notes
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/04/19/Video-Swin-Transformer/" rel="next" title="Video Swin Transformer">
+                  Video Swin Transformer <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">40k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:26</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

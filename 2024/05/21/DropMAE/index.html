@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Masked Autoencoders with Saptial-Attention Dropout for Tracking Tasks[1]  作者是来自CityU、IDEA、Tecent AI Lab、CUHK(SZ)的 Qiangqiang Wu、Tianyu Yang、Ziquan Liu、Baoyuan Wu、Ying Shan、Antoni B.Chan. 论文引用[1]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DropMAE">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/05/21/DropMAE/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Masked Autoencoders with Saptial-Attention Dropout for Tracking Tasks[1]  作者是来自CityU、IDEA、Tecent AI Lab、CUHK(SZ)的 Qiangqiang Wu、Tianyu Yang、Ziquan Liu、Baoyuan Wu、Ying Shan、Antoni B.Chan. 论文引用[1]">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-21T14:28:25.000Z">
+<meta property="article:modified_time" content="2024-05-21T16:22:12.000Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Autoencoder">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/05/21/DropMAE/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/05/21/DropMAE/","path":"2024/05/21/DropMAE/","title":"DropMAE"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DropMAE | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#masked-autoencoders-with-saptial-attention-dropout-for-tracking-tasks1"><span class="nav-number">1.</span> <span class="nav-text">Masked
+Autoencoders with Saptial-Attention Dropout for Tracking
+Tasks[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen201718@163.com" title="Email → mailto:yuen201718@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/05/21/DropMAE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DropMAE | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DropMAE
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-05-21 22:28:25" itemprop="dateCreated datePublished" datetime="2024-05-21T22:28:25+08:00">2024-05-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-05-22 00:22:12" itemprop="dateModified" datetime="2024-05-22T00:22:12+08:00">2024-05-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>912</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="masked-autoencoders-with-saptial-attention-dropout-for-tracking-tasks1">Masked
+Autoencoders with Saptial-Attention Dropout for Tracking
+Tasks<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自CityU、IDEA、Tecent AI Lab、CUHK(SZ)的 Qiangqiang
+Wu、Tianyu Yang、Ziquan Liu、Baoyuan Wu、Ying Shan、Antoni B.Chan.
+论文引用[1]:Wu, Qiangqiang et al. “DropMAE: Masked Autoencoders with
+Spatial-Attention Dropout for Tracking Tasks.” 2023 IEEE/CVF Conference
+on Computer Vision and Pattern Recognition (CVPR) (2023):
+14561-14571.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.Apr</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>masked autoencoder</li>
+<li>temporal matching-based</li>
+<li>spatial-attention dropout</li>
+</ul>
+<h3 id="动机">动机</h3>
+<ol type="1">
+<li>将MAE应用到下游任务如: visual object tracking(VOT) and video object
+segmentation(VOS). 简单的扩展MAE是mask out frame patches in videos and
+reconstruct the frame pixels.然而作者发现这个会严重依赖于spatial cues,
+当进行frame reconstruction的时候忽略temporal relations,
+这个导致sub-optimal temporal matching representations for VOT and
+VOS.</li>
+</ol>
+<span id="more"></span>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>采用adaptively spatial-attention dropout in the frame
+reconstruction，来促进temporal correspondence learning in videos.
+作者展示了dropMAE是一个很强的、efficient temporal matching learner.
+实现了better fine-tuning results on matching-based tasks.
+作者还发现motion diversity in pre-training videos比scene
+diversity更重要。 预训练的dropMAE能够直接用现有的ViT-based trackers for
+fine-tuning without further modifications.</p></li>
+<li><p>在VOT中最近的两个工作，SimTrack和OSTrack，都是用MAE pre-trained
+ViT model作为trackign backbone, 不需要复杂的tracking
+pipelines，实现了很好的效果。它们的MAE是在ImageNet上的。没有先验的时序信息能在静态图像上学习到。之前的追踪方法表明：temporal
+correspondence learning 对于develop一个robust
+tracker是关键的。因此develop MAE framework specifically for
+matching-based videos tasks 是一个机会。</p></li>
+<li><p>Extend MAE to videos 是随机mask out frame patches in a video
+clip, then reconstruct video clip. 像baseline
+TwinMAE，在重建patches的时候，会严重依赖 spatially neighbouring patches
+within the same frame, which implies a heavy co-adaptation of spatial
+cues(within-frame tokens) for reconstruction, 可能对于matching-based
+下游任务，造成learning of sub-optimal temporal representation.</p></li>
+<li><p>为了解决这个问题，dropMAE能够adaptively performs
+spatial-attention dropout to <strong>break up co-adaptation between
+spatial cues(within-frame tokens) during the frame
+reconstruction</strong>, 因此encouraging more temporal interaction and
+facilitating temporal correspondence learning.</p></li>
+<li><p>VOT：标首帧，然后预测之后的目标的boundingbox; VOS: 标首帧的binary
+mask，预测之后的target masks。之前VOT的方法，correlation filter-based
+approaches 占主导，因为它们能够很好地对target appearance
+variation进行建模。深度学习的发展，Siamese网络引入到了VOT,
+SiamFC用template和search images 作为target localization的输入。</p></li>
+<li><p>自监督的方法中，有很多人工设计的代理任务(pretext tasks) for
+pre-training.例如：image colorization、jigsaw puzzle solving、future
+frame prediction、rotation prediction、Contrastive learning approaches.
+然而，这些方法都对type 和strength of applied data
+augmentation敏感，使得它们很难训练。</p></li>
+<li><p>不同于已有的VideoMAE，这个是用来做video action
+recognition的，在预训练的时候用一个long video clip(16
+frames)。为了和VOT/VOS保持一致，在通常的object
+tracking中，从一个视频中采样2个frames作为TwinMAE的输入，来做预训练。</p></li>
+<li><p>Given a query token， 基本想法是<strong>adaptively drop a portion
+of its with-frame cues in order to facilitate the model to learn more
+reliable temporal correspondence</strong>.
+就是<strong>限制同一个frame里的 query token和tokens之间的interaction,
+encourage more interactions with tokens in the other
+frame</strong>，这样模型会去学到更好的temporal matching
+ability.</p></li>
+<li><p>用在VOT上的流程：</p>
+<ul>
+<li>cropped template 和search images are firstly serialized into
+sequences and concatenated together，然后，总的sequence is added with
+the positional embeddings and input to the ViT backbone for joint
+feature extraction and interaction. 最后，updated search features are
+input to a prediction head to predict the target bounding box.</li>
+<li>在fine-tuning的时候，用预训练的DropMAE来初始化OSTracker中的ViT，同时
+two frame identity embeddings are respectively added to template and
+search embeddings, in order to keep consistency with the pre-training
+stage. <img
+src="https://d3i71xaburhd42.cloudfront.net/4569040e52aabdc92213d0687eafba0c73c1afdc/3-Figure3-1.png"
+alt="DropMAE" /> <span class="math inline">\(Fig.3^{[1]}\)</span>：
+DropMAE: The proposed adaptive spatial-attention droput(ASAD)
+facilitates temporal correspondence learning for temporal matching
+tasks. TwinMAE follows the same pipeline except that the ASAD module is
+not used.</li>
+</ul></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Autoencoder/" rel="tag"># Autoencoder</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/05/20/FCN/" rel="prev" title="FCN">
+                  <i class="fa fa-angle-left"></i> FCN
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/05/22/Ubuntu-with-Nvidia-Drivers/" rel="next" title="Ubuntu with Nvidia Drivers">
+                  Ubuntu with Nvidia Drivers <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">40k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:26</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Hiera: A Hierachical Vision Transformer without the Bells-and-Whistles[1]  作者是来自Meta、Georgia Tech和John Hopkins 的Chaitanya Ryali, Yuan-Ting Hu, Daniel Bolya, Chen Wei, Haoqi Fan, Po-Yao Huang, Vai">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HieraViT">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/04/07/HieraViT/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Hiera: A Hierachical Vision Transformer without the Bells-and-Whistles[1]  作者是来自Meta、Georgia Tech和John Hopkins 的Chaitanya Ryali, Yuan-Ting Hu, Daniel Bolya, Chen Wei, Haoqi Fan, Po-Yao Huang, Vai">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-07T02:49:09.000Z">
+<meta property="article:modified_time" content="2024-04-16T14:01:50.000Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Action Detection">
+<meta property="article:tag" content="Transformer">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/04/07/HieraViT/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/04/07/HieraViT/","path":"2024/04/07/HieraViT/","title":"HieraViT"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>HieraViT | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#hiera-a-hierachical-vision-transformer-without-the-bells-and-whistles1"><span class="nav-number">1.</span> <span class="nav-text">Hiera:
+A Hierachical Vision Transformer without the
+Bells-and-Whistles[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen201718@163.com" title="Email → mailto:yuen201718@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/04/07/HieraViT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="HieraViT | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HieraViT
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-04-07 10:49:09" itemprop="dateCreated datePublished" datetime="2024-04-07T10:49:09+08:00">2024-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-16 22:01:50" itemprop="dateModified" datetime="2024-04-16T22:01:50+08:00">2024-04-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="hiera-a-hierachical-vision-transformer-without-the-bells-and-whistles1">Hiera:
+A Hierachical Vision Transformer without the
+Bells-and-Whistles<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Meta、Georgia Tech和John Hopkins 的Chaitanya Ryali,
+Yuan-Ting Hu, Daniel Bolya, Chen Wei, Haoqi Fan, Po-Yao Huang, Vaibhav
+Aggarwal, Arkabandhu Chowdhury, Omid Poursaeed, Judy Hoffman, Jitendra
+Malik, Yanghao Li, Christoph Feichtenhofer. 论文引用[1]:Ryali, Chaitanya
+K. et al. “Hiera: A Hierarchical Vision Transformer without the
+Bells-and-Whistles.” ArXiv abs/2306.00989 (2023): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.Jun</li>
+</ul>
+<h3 id="key-words"><strong>Key Words</strong></h3>
+<ul>
+<li>visual pretext task:MAE</li>
+<li>hierarchical(multiscale) vision transformer</li>
+<li></li>
+</ul>
+<h3 id="动机">动机</h3>
+<ol type="1">
+<li>现在很多hierarchical ViT加了很多vision-specific
+component，为了追求监督的分类性能，同时这些components带来了不错的精度和FLOP
+counts，增加的复杂度使得这些transformer比对应的vanilla
+ViT更慢。作者argue: 这些额外的bulk是不必要的，通过预训练一个强的visual
+pretext
+task(MAE)，可以去掉很多花里胡哨的东西，同时也不降低精度。所以作者提出了Hiera.</li>
+</ol>
+<span id="more"></span>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>ViT的simplicity有成本的(comes at a cost): 整个网络用相同的spatial
+resolution和通道数。ViTs没有有效利用这些参数。这和之前的"hierarchical"
+或者"multi-scale"不同。后者是在early
+stages：用更少的channels和更高的spatial
+resolution、在之后用更多的channles和更小的spatial resolution(with more
+complex
+features)。有一些模型用了hierarchical的设计，但是，<strong>增加的复杂度是模型整体更慢了</strong>。</p></li>
+<li><p>作者认为这些bulk是不必要的，因为ViTs在patchify
+操作之后，缺少<strong>inductive
+bias</strong>，很多的ViTs模型是人为的加入了一些spatial
+bias。如果能训练模型学习这些(bias)，为什么要让模型变慢来加入这些biases？
+MAE的预训练是一个有效的工具来使得ViTs学习spatials reasoning。MAE
+预训练是稀疏的，比常规的监督训练速度快，使得它在很多领域是一个理想的选择。用现在的hierarchical
+ViT进行测试，当训练MAE的时候，逐步去掉non-essential
+components，发现：<strong>No convolutions, No shifted or cross-shaped
+windows, No decomposed relative position
+embeddings</strong>，<strong>Pure simple hierarchical
+ViT</strong>,兼具快速和高精准度。MAE结合ViT，能够实现高效的训练，using
+<strong>sparsity of masked images</strong>。</p></li>
+<li><p>思路:
+之前的工作为了提高精度，设计了很多复杂的架构，添加一些module来增加spatial
+bias。作者采用了不同的策略：用简单的模型，通过一个strong pretext
+task来学习biases。训练pretext
+task的时候，逐步去掉bells-and-whistles。</p></li>
+<li><p>有几个地方不太理解：masked tokens are deleted instead of being
+overwritten like in other masked image modeling.masked
+token被删了？？不是对masked token进行复原吗？为什么要删？这个pose a
+problem for existing hierarchical models： it breaks 2D grid that they
+rely on; 另外MAE masks out individual tokens, which are large <span
+class="math inline">\(16 \times 16\)</span> patches for ViT, small <span
+class="math inline">\(4 \times 4\)</span> for most hierarchical
+models。区分tokens和"mask units"。这里不太明白。。"mask units 是应用MAE
+masking时的 resolution， tokens时model的internal resolution.</p></li>
+<li><p>作者用MViTv2作为base architecture. MViTv2：</p>
+<ul>
+<li>是一个hierarchical model。它有四个stages来学习multi-scale
+representations。</li>
+<li>开始时：small channel/high spatial resolution.</li>
+<li>MViTv2的一个特点是pooling attention。features are locally aggregated
+--- 用 <span class="math inline">\(3 \times 3\)</span> Conv，before
+计算自注意力。在pooling
+attention的时候，K和V在前两个阶段被pool，来减小计算，Q也被pool，MViTv2也用了decomposed
+relative positino embeddings instead of absolute ones。</li>
+</ul></li>
+<li><p>在应用MAE的时候, 因为MViTv2是被 $2$3次下采样，用了 <span
+class="math inline">\(4 \times 4\)</span> pixel的token size. 作者用mask
+unit of size <span class="math inline">\(32 \times 32\)</span>,
+这个ensures each mask unit 对应$ 8^2 , 4^2, 2<sup>2,1</sup>1$ in stages
+1,2,3,4.能够使每个mask unit to cover 至少一个distinct token in each
+stage to make sure 卷积核不会 bleed into deleted
+tokens。不是很明白这里的 <em>mask unit</em> 和 <em>token</em>。</p></li>
+<li><p>在简化MViTv2的时候：</p>
+<ul>
+<li>MViTv2用了相对的position embeddings
+加在每个block的attention上。作者直接用绝对的position embedding来做</li>
+<li>作者为了去掉模型里的卷积，用maxpool来替代卷积。只有在stage
+transition中的 for Q的pooling layer和 前两个stage的 KV
+pooling是保留了。</li>
+<li>去掉overlap:剩下的maxpool layers的kernel size是 <span
+class="math inline">\(3 \times 3\)</span>，使得separate-and-pad
+trick变得有必要。通过使kernel size == stride for each
+maxpool，能够避免这个问题。</li>
+<li>Mask Unit Attention: Pooling Q对于保持hierarchical
+model是必要的，但是KV poooling是用来减小attention
+matrix的size。去掉的话会增加网络的计算成本，用local attention with a
+mask unit来代替。mask units在网络的一开始就弄出来了，mask unit
+attention不同于window attention，因为它使window size与
+当前resolution的mask units的size相适应，window
+attention在整个网络是一个固定的size，<strong>which would leak into
+deleted tokens after a downsample.</strong></li>
+</ul></li>
+<li><p>Multi-Scale Decoder：Hiera通过融合所有stage的representations
+来使用 multi-scale 的信息，而MAE是用
+最后一个block的encoder的tokens输给decoder.</p></li>
+</ol>
+<p><img
+src="https://d3i71xaburhd42.cloudfront.net/e06b703146c46a6455fd0c33077de1bea5fdd877/2-Figure2-1.png"
+alt="Hiera-B" /> $ Fig.1^{[1]}$ Hiera Setup. Modern hierarchical
+transformers like Swin (Liu et al., 2021) or MViT (Li et al., 2022c) are
+more parameter efficient than vanilla ViTs (Dosovitskiy et al., 2021),
+but end up slower due to overhead from adding spatial bias through
+vision-specific modules like shifted windows or convs. In contrast, we
+design Hiera to be as simple as possible. To add spatial bias, we opt to
+teach it to the model using a strong pretext task like MAE (pictured
+here) instead. Hiera consists entirely of standard ViT blocks. For
+efficiency, we use local attention within “mask units” for the first two
+stages and global attention for the rest. At each stage transition, Q
+and the skip connection have their features doubled by a linear layer
+and spatial dimension pooled by a 2 × 2 maxpool.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Action-Detection/" rel="tag"># Action Detection</a>
+              <a href="/YoungBlogs/tags/Transformer/" rel="tag"># Transformer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/04/07/MVD/" rel="prev" title="MVD">
+                  <i class="fa fa-angle-left"></i> MVD
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/04/07/args/" rel="next" title="Python Notes">
+                  Python Notes <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">40k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:26</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

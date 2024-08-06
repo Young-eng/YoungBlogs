@@ -21,15 +21,15 @@
 
     <meta name="description" content="部署博客方式  部署在 Vercel,Netlify 这样的免费平台上 部署在 Github Pages 上, 是用gh-pages分支来部署的，xxx.github.io可以用来做个人主页介绍，gh-pages用来做博客  部署在 Vercel 上的博客  可以通过和github账号关联，一键部署，很方便 在本地安装vercel， 通过vercel的命令行工具，来实现部署 遇">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Deployblogs">
+<meta property="og:title" content="Deploy blogs">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2023/12/28/Deployblogs/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
 <meta property="og:description" content="部署博客方式  部署在 Vercel,Netlify 这样的免费平台上 部署在 Github Pages 上, 是用gh-pages分支来部署的，xxx.github.io可以用来做个人主页介绍，gh-pages用来做博客  部署在 Vercel 上的博客  可以通过和github账号关联，一键部署，很方便 在本地安装vercel， 通过vercel的命令行工具，来实现部署 遇">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-12-28T15:10:20.000Z">
-<meta property="article:modified_time" content="2023-12-29T06:47:29.636Z">
+<meta property="article:modified_time" content="2024-05-01T15:40:50.000Z">
 <meta property="article:author" content="Young">
-<meta property="article:tag" content="blog">
+<meta property="article:tag" content="Blog">
 <meta name="twitter:card" content="summary">
 
 
@@ -37,10 +37,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2023/12/28/Deployblogs/","path":"2023/12/28/Deployblogs/","title":"Deployblogs"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2023/12/28/Deployblogs/","path":"2023/12/28/Deployblogs/","title":"Deploy blogs"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Deployblogs | Young's Blog</title>
+<title>Deploy blogs | Young's Blog</title>
   
 
 
@@ -128,18 +128,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">74</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/YoungBlogs/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -187,12 +187,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Deployblogs | Young's Blog">
+      <meta itemprop="name" content="Deploy blogs | Young's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Deployblogs
+          Deploy blogs
         </h1>
 
         <div class="post-meta-container">
@@ -210,7 +210,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-12-29 14:47:29" itemprop="dateModified" datetime="2023-12-29T14:47:29+08:00">2023-12-29</time>
+      <time title="修改时间：2024-05-01 23:40:50" itemprop="dateModified" datetime="2024-05-01T23:40:50+08:00">2024-05-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -229,6 +229,21 @@
       </span>
       <span class="post-meta-item-text">阅读次数：</span>
       <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>412</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
     </span>
 </div>
 
@@ -250,7 +265,9 @@
 <li><p>在本地安装vercel， 通过vercel的命令行工具，来实现部署</p></li>
 <li><p>遇到的问题，vercel易被DNS污染，正常访问打不开，看到有帖子说可以买个域名弄一下，有钱了再买个域名玩一玩,
 😭</p></li>
+<li><p>因为tags的名称字母的大小写的问题，导致tags页面出现404的解决方案：将.deploy_git/.git/config里的ignorecase设为false即可。</p></li>
 </ol>
+<p>https://blog.zhheo.com/p/5511910d.html</p>
 <span id="more"></span>
 <h4 id="部署在-github-pages上">部署在 Github Pages上</h4>
 <ol type="1">
@@ -280,15 +297,15 @@ deploy一下，才能看到效果。</li>
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/YoungBlogs/tags/blog/" rel="tag"># blog</a>
+              <a href="/YoungBlogs/tags/Blog/" rel="tag"># Blog</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/YoungBlogs/2023/12/09/UseGit/" rel="prev" title="UseGit">
-                  <i class="fa fa-angle-left"></i> UseGit
+                <a href="/YoungBlogs/2023/12/09/UseGit/" rel="prev" title="Use Git">
+                  <i class="fa fa-angle-left"></i> Use Git
                 </a>
             </div>
             <div class="post-nav-item">
@@ -320,6 +337,20 @@ deploy一下，才能看到效果。</li>
     </span>
     <span class="author" itemprop="copyrightHolder">Young</span>
   </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">40k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:26</span>
+  </span>
+</div>
 <div class="busuanzi-count">
     <span class="post-meta-item" id="busuanzi_container_site_uv">
       <span class="post-meta-item-icon">

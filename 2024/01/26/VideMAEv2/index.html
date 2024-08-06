@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="VideoMAEv2: Scaling Video Masked Autoencoders with Dual Masking[1] 🎞️  作者们是来自南大 Novel Software Technology Lab、上海AI Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2: Scaling video masked a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VideMAEv2">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAEv2/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="VideoMAEv2: Scaling Video Masked Autoencoders with Dual Masking[1] 🎞️  作者们是来自南大 Novel Software Technology Lab、上海AI Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2: Scaling video masked a">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-26T01:29:03.000Z">
+<meta property="article:modified_time" content="2024-04-09T07:16:50.000Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Action Detection">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAEv2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAEv2/","path":"2024/01/26/VideMAEv2/","title":"VideMAEv2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>VideMAEv2 | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#videomaev2-scaling-video-masked-autoencoders-with-dual-masking1"><span class="nav-number">1.</span> <span class="nav-text">VideoMAEv2:
+Scaling Video Masked Autoencoders with Dual Masking[1]
+🎞️</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen201718@163.com" title="Email → mailto:yuen201718@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAEv2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="VideMAEv2 | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VideMAEv2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-01-26 09:29:03" itemprop="dateCreated datePublished" datetime="2024-01-26T09:29:03+08:00">2024-01-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-09 15:16:50" itemprop="dateModified" datetime="2024-04-09T15:16:50+08:00">2024-04-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>843</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="videomaev2-scaling-video-masked-autoencoders-with-dual-masking1">VideoMAEv2:
+Scaling Video Masked Autoencoders with Dual Masking<sup>[1]</sup>
+🎞️</h3>
+<blockquote>
+<p>作者们是来自南大 Novel Software Technology Lab、上海AI
+Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. "Videomae v2:
+Scaling video masked autoencoders with dual masking." Proceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition.
+2023.</p>
+</blockquote>
+<h3 id="总结">总结：</h3>
+<p>以下 “我们”指作者</p>
+<span id="more"></span>
+<ol type="1">
+<li><p>在大规模数据上预训练的大基础模型正在成为学习多数据模态通用表征的成功范式。基础模型可以很容易地通过zero-shot、linear
+probe、prompt tuning、fine tuning
+应用到广泛的下游任务（<strong>那能够这么广泛地应用到下游任务，是数据量大的原因呢占比多一些呢还是模型比较好的原因多一些</strong>）。Transformer
+with masked autoencoding
+是有效的自监督视觉学习器。我们将VideoMAE同时在模型和数据上扩展：用ViT-g
+(Transformer with billion-level parameters)
+初始化模型；将数据集的size增加到million-level。</p></li>
+<li><p>面临的问题：</p></li>
+</ol>
+<ul>
+<li>扩展VideoMAE非常耗GPU内存和计算资源。为了提高预训练效率：处理数据冗余：1)
+在encoder中mask高比例的cubes，2) 在decoder中drop some cubes。</li>
+<li>MAE
+对大量的数据需求很大。现有的视频数据相比于图像数据的量级，要少很多。我们简单地将多个来源的数据mix，来为VideoMAE做预训练。pre-training
+on million-level unlabeled video dataset and then post-pre-training on
+the labeled hybrid dataset。</li>
+</ul>
+<ol start="3" type="1">
+<li><p>视觉基础模型： 从早期的CNN ------&gt; Transformer -------&gt;
+BEiT, SimMIM, MAE。vision-languange pre-trained model: CLIP,
+ALIGN。近期的工作尝试用对比学习 Contrastive Learning、Siamese
+Learning来做无监督学习。这些视觉基础模型在zero-shot迁移上展示出了良好的性能。</p></li>
+<li><p>VideoMAE</p>
+<ol type="1">
+<li>three core components:</li>
+</ol>
+<ul>
+<li>cube embedding: cube embedding encodes the local spatio-temporal
+features and builds the token list</li>
+<li>encoder: operates on unmasked tokens <span
+class="math inline">\(T^u\)</span> with a 普通的时空注意力的ViT.</li>
+<li>decoder: 将combined tokens <span class="math inline">\(Z^c\)</span>
+作为输入，用另一个ViT进行重建， <span class="math display">\[ \hat{I} =
+\Phi_{dec} (Z^{c}) \]</span></li>
+<li>losss function: MSE: mean square error between masked pixels and the
+reconstructed pixels。</li>
+</ul>
+<ol start="2" type="1">
+<li>encoder-decoder非对称，
+encoder要小一些。将VideoMAE扩展到billion-level时，整体的计算量和存储量消耗就成了瓶颈。</li>
+</ol></li>
+<li><p>Dual Masking for VideoMAE:</p>
+<ol type="1">
+<li>与VideoMAE的不同之处在于：decoder的输入来自encoder visible tokens
+and part of the remaining tokens visible under the decoder mask <span
+class="math inline">\(M_d\)</span>。用decoder
+mask来降低decoder的输入的长度 for high efficiency。</li>
+<li>encoder试图去缓解时序关联造成的information leakage；而在decoder
+masking中，encourage information complement，来确保partial
+reconstruction information loss最小；尽可能选择diverse cubes 来cover
+整个视频信息 -----&gt; 采用running cell masking的策略。</li>
+</ol></li>
+<li><p>Scaling VideoMAE:</p>
+<ol type="1">
+<li>encoder采用不同的backbones: ViT-B,ViT-L, ViT-H,
+ViT-g。decoder就相对shallow和lightweight：用更少的layers和channels。</li>
+<li>弄了一个unlabeled hybrid视频数据集，约1.3M clips。</li>
+<li>Progressive training: 先在无标签的hybrid video
+dataset上用MAE做无监督预训练；然后建了一个labeled hybrid video dataset,
+对其做post-pre-training。
+最后在目标数据集上做fine-tuning，将通用语义迁移到task-centric
+knowledge上。</li>
+</ol></li>
+</ol>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/9fac3d0728a8c833a593446e3e176e90d856df04/1-Figure1-1.png"
+alt="VideoMAE with Dual Masking" />
+<figcaption aria-hidden="true">VideoMAE with Dual Masking</figcaption>
+</figure>
+<blockquote>
+<p><span class="math inline">\(Figure\ 1^{[1]}\)</span>. <em>VideoMAE
+with dual masking</em>. To improve the overall efficiency of computation
+and memory in video masked autoencoding, we propose to mask the decoder
+as well and devise the dual masking strategy. Like encoder, we also
+apply a masking map to the deocoder and simply reconstruct a subset of
+pixel cubes selected by the running cell masking. The final
+reconstruction loss only applies for the invisible tokens dropped by the
+encoder</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Action-Detection/" rel="tag"># Action Detection</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/01/24/YOLO/" rel="prev" title="YOLO">
+                  <i class="fa fa-angle-left"></i> YOLO
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/01/26/VideMAE/" rel="next" title="VideMAE">
+                  VideMAE <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">40k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:26</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

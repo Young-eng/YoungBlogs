@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-02-20T14:48:58.751Z</updated>
+  <updated>2024-07-17T10:15:22.000Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -17,176 +17,494 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>围城</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/02/02/%E5%9B%B4%E5%9F%8E/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/02/02/%E5%9B%B4%E5%9F%8E/</id>
-    <published>2024-02-02T15:17:57.000Z</published>
-    <updated>2024-02-20T14:48:58.751Z</updated>
+    <title>Softwares&#39; installations</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/07/17/Softwares-installations/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/07/17/Softwares-installations/</id>
+    <published>2024-07-17T10:05:36.000Z</published>
+    <updated>2024-07-17T10:15:22.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="围城">《围城》</h3><blockquote><p>是钱钟书先生的作品，“围城”一词经常在生活中听到，很早就听说了这本书，近来终于如愿买了一本，想来闲暇时分来读一读，少看些手机网页资讯，多去看看感兴趣的书籍，先挖个坑，以后再慢慢填。后续会看一些书，也会陆续更新到主页。</p></blockquote><h4 id="章节故事">章节故事</h4><p>目前读到了方渐鸿留洋回来后，在家里的情节，后续会继续更新。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3 id=&quot;围城&quot;&gt;《围城》&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;是钱钟书先生的作品，“围城”一词经常在生活中听到，很早就听说了这本书，近来终于如愿买了一本，想来闲暇时分来读一读，少看些手机网页资讯，多去看看感兴趣的书籍，先挖个坑，以后再慢慢填。后续会看一些书，也会</summary>
-      
-    
-    
-    
-    <category term="Books" scheme="https://young-eng.github.io/YoungBlogs/categories/Books/"/>
-    
-    
-    <category term="长篇小说" scheme="https://young-eng.github.io/YoungBlogs/tags/%E9%95%BF%E7%AF%87%E5%B0%8F%E8%AF%B4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DETR</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/02/01/DETR/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/02/01/DETR/</id>
-    <published>2024-02-01T15:38:17.000Z</published>
-    <updated>2024-02-01T15:38:17.186Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>SSD</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/02/01/SSD/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/02/01/SSD/</id>
-    <published>2024-02-01T15:37:34.000Z</published>
-    <updated>2024-02-01T15:37:34.798Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>MAE</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/02/01/MAE/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/02/01/MAE/</id>
-    <published>2024-02-01T15:37:24.000Z</published>
-    <updated>2024-02-20T11:49:30.178Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="masked-autoencoders-are-scalable-vision-learners1"><spanclass="math inline">\(Masked\ Autoencoders\ Are\ Scalable\ Vision\Learners^{[1]}\)</span></h3><blockquote><p>作者是来自FAIR的恺明、Xinlei Chen、Saining Xie等。论文引用[1]：He,Kaiming et al. “Masked Autoencoders Are Scalable Vision Learners.” 2022IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)(2021): 15979-15988.</p></blockquote><p>以下“我们”指代作者</p><h4 id="摘要">摘要</h4><ol type="1"><li><p>MAE：掩码自编码是可扩展的自监督学习器。思路：对输入图片的patches进行随机掩码，然后重构缺失的像素。两个coredesign：</p><ul><li>非对称的encoder-decoder架构；encoder只对patches的visiblesubset进行操作。lightweight decoder从latent representation和masktokens中重建原始图片。</li><li>对输入图片进行高比例掩码，例如75%，能够产生重要和有意义的自监督任务。</li></ul><p>将两者进行耦合，能够有效和高校地训练大的模型。可扩展的方式能够学习high-capacitymodels，扩展性很好。普通的(vanilla)ViT-Huge模型在ImageNet-1K上达到87.8%的bestaccuracy。在下游的任务上迁移的能力超过了监督的预训练，展示出来promisingscaling behavior。</p></li></ol><h4 id="总结">总结：</h4><span id="more"></span><ol type="1"><li><p>深度学习见证了能力和容量不断增长的架构的爆炸；在硬件的进步下，模型很容易在1 million图像上过拟合，开始需要数以亿计的--通常是公开的不可获取的--标注数据。对大量数据的需求在NLP中通过自己拿度预训练已经成功解决。解决方法是：GPT中基于自回归的模型和BERT中的MAE。它们在概念上都很简单：<strong><em>"theyremove a portion of the data and learn to predict the removed content.These methods now enable training of generalizable NLP models containingover one hundred billion parameters."</em></strong></p></li><li><p>MAE这个idea，是一般的denosing autoencoders的一种形式，is naturaland applicable in computer vision aswell。相关的研究早于BERT。尽管在BERT成功之后，很多重要的兴趣在这个idea上，autoencoding的方法的进步在vision中，落后于NLP。<strong><em>whatmakes MAE different between vision and languange?</em></strong>我们尝试从下面的角度回答这个问题：</p><ul><li><p>in vision,卷积网络在过去十年占主导地位，卷积操作是典型地在固定的grids上进行操作，不是直接integrateindicators such as mask tokens or positional embeddings into卷积网络。这个架构的差距，在ViT引入之后得到了解决，不再是一个障碍</p></li><li><p>informationdensity在语言和视觉中是不同的。语言是人类产生的信号：高度的语义和信息密度。当训练一个模型来预测每个句子中少许的缺失的单词时，这个任务似乎引出复杂的语言理解。图像，相反，是自然的信号，有很多空间冗余，<strong><em>amissing patch can be recovered from neighboring patches with littlehigh-level understanding of parts, objects and scenes. To overcome thisdifference and encourage learning usefulfeatures</em></strong>我们展示了一个简单的策略，在计算机视觉里效果很好：<strong><em>maskinga very high portion of randompathces</em></strong>这个策略能够减少冗余，创建一个自监督的任务，要求超越低级图像统计的全局理解。</p></li><li><p>Autoencoder's Decoder, <strong><em>which maps the latentrepresentation back to the input, plays a different role betweenreconstructing text andimages</em></strong>在视觉里，decoder重建像素，它的输出是比普通识别任务更低级的语义。和语言相比，语言的decoder预测<em>missingwords</em>，包含丰富的语义信息。在BERT中，decoder是无关紧要的(trivial)；我们发现，对于图像，decoder的设计在决定学习到的latentrepresentation的语义level是至关重要的。</p></li></ul><p>通过以上分析，提出了MAE for visual representationlearning。MAE对输入图像的patches随机进行mask，在像素空间重建确实的patches。encoder-decoder是非对称的设计。<strong><em>encoderoperates only on the visible subset of patches(without mask tokens),decoder is lightweight and reconstructs the input from the latentrepresentation along with mask tokens</em></strong>。将mask tokens shift到非对称的encoder-decoder中的小的decoder中能够减小计算量。</p></li><li><p>Related work:</p><ul><li>Masked language modeling和 its autoregressive counterparts likeBERT、GPT，是NLP中很成功的预训练方法，这些方法保留输入序列的一部分，训练模型来预测确实的内容。这些方法展示出了很好的扩展性，大量的证据表明这些预训练的表征在很多下游任务上的泛化性很好。</li><li>Autoencoding是一个learningrepresentation的经典方法。有一个encoder将输入映射到latentrepresentation，一个decoder重建输入。例如：PCA和k-means都是autoencoder。Denoising Autoencoders是一类破坏输入信号、学习重建原始的没有破坏的信号。一些方法可以被视为一种generalizedDAE 在不同的corruptions情况下。像是masking pixels 或者removing colorchannels。MAE是denoisingautoencoding的一种，但是和经典的DAE在很多方面不同。</li><li>Masked image encoding通过从masked的图像中学习representation。Contextencoder用卷积网络修复大的确实的区域。受NLP成功的motivated，近期相关的工作都是基于Transformers。iGPToperates on sequences of pixels and predicts unknownpixels。BEiT提出了预测discrete tokens。</li><li>自监督学习 focusing on different pretext tasks for pre-training.近期，对比学习(contrastive learning)很流行。models image similarity anddissimilarity(or only similarity) between two or more views.对比学习及相关的方法依赖于数据增强。Autoencoding pursues a conceptuallydifferent direction。</li></ul></li><li><p>Approach:</p><ul><li>MAE的Decoder仅在pre-training期间使用，用来进行图像重建任务。lossfunction 计算mean square error between重建的和原始的图像（像素空间），仅计算masked patches，similar toBERT。</li></ul></li></ol><h4 id="discussion-conclusion">Discussion &amp; Conclusion</h4><ul><li><p>简单的扩展性良好的算法是深度学习的核心。在NLP中，简单的自监督学习方法可以从指数级扩展的模型中获益。在计算机视觉中，实际的预训练的范式主要是监督学习。在研究中，我们在ImageNet和迁移学习中观察到，一个自动编码器，是一个简单的类似于NLP中的technques的自监督方法。在视觉中的自监督学习可能现在正在开始类似NLP中的轨迹。</p></li><li><p>图像和语言，是另一种不同本质的信号。图象是记录的光线，没有将语义分解成文字的视觉模拟。inteadof attempting to remove objects, we remove random patches that mostlikely do not form a semantic segment. Likewise，MAE重建像素，这不是语义实体(semanticentities)。然而，我们观察到，我们的MAE方法能够推断出复杂的、整体的重建，表明他萌购学习大量的视觉概念(visualconcepts)。我们设想，this behavior occurs by way of a rich hiddenrepresentation inside the MAE。</p></li></ul><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/6351ebb4a3287f5f3e1273464b3b91e5df5a16d7/1-Figure1-1.png"alt="MAE Architecture" /><figcaption aria-hidden="true">MAE Architecture</figcaption></figure><p><strong><em><span class="math inline">\(Figure\ 1^{[1]}\)</span>. OurMAE architecture. During pre-training, a large random subset of imagepatches (e.g., 75%) is masked out. The encoder is applied to the smallsubset of visible patches. Mask tokens are introduced after the encoder,and the full set of encoded patches and mask tokens is processed by asmall decoder that reconstructs the original image in pixels. Afterpre-training, the decoder is discarded and the encoder is applied touncorrupted images (full sets of patches) for recognitiontasks</em></strong></p>]]></content>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;masked-autoencoders-are-scalable-vision-learners1&quot;&gt;&lt;span
-class=&quot;math inline&quot;&gt;&#92;(Masked&#92; Autoencoders&#92; Are&#92; Scalable&#92; Vision&#92;
-Learners^{[1]}&#92;)&lt;/span&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自FAIR的恺明、Xinlei Chen、Saining Xie等。论文引用[1]：He,
-Kaiming et al. “Masked Autoencoders Are Scalable Vision Learners.” 2022
-IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
-(2021): 15979-15988.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;以下“我们”指代作者&lt;/p&gt;
-&lt;h4 id=&quot;摘要&quot;&gt;摘要&lt;/h4&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;MAE：掩码自编码是可扩展的自监督学习器。思路：对输入图片的patches进行随机掩码，然后重构缺失的像素。两个core
-design：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;非对称的encoder-decoder架构；encoder只对patches的visible
-subset进行操作。lightweight decoder从latent representation和mask
-tokens中重建原始图片。&lt;/li&gt;
-&lt;li&gt;对输入图片进行高比例掩码，例如75%，能够产生重要和有意义的自监督任务。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;将两者进行耦合，能够有效和高校地训练大的模型。可扩展的方式能够学习high-capacity
-models，扩展性很好。普通的(vanilla)
-ViT-Huge模型在ImageNet-1K上达到87.8%的best
-accuracy。在下游的任务上迁移的能力超过了监督的预训练，展示出来promising
-scaling behavior。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h4 id=&quot;总结&quot;&gt;总结：&lt;/h4&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="self-supervised" scheme="https://young-eng.github.io/YoungBlogs/tags/self-supervised/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>VideMAE</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/01/26/VideMAE/</id>
-    <published>2024-01-26T01:29:03.000Z</published>
-    <updated>2024-01-26T15:45:01.504Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="videomae-v2-scaling-video-masked-autoencoders-with-dual-masking1"><spanclass="math inline">\(VideoMAE\ v2: Scaling\ Video\ Masked\Autoencoders\ with\ Dual\ Masking^{[1]}\)</span> 🎞️</h3><blockquote><p>作者们是来自南大 Novel Software Technology Lab、上海AILab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. "Videomae v2:Scaling video masked autoencoders with dual masking." Proceedings of theIEEE/CVF Conference on Computer Vision and Pattern Recognition.2023.</p></blockquote><h3 id="总结">总结：</h3><p>以下 “我们”指作者</p><span id="more"></span><ol type="1"><li><p>在大规模数据上预训练的大基础模型正在成为学习多数据模态通用表征的成功范式。基础模型可以很容易地通过zero-shot、linearprobe、prompt tuning、fine tuning应用到广泛的下游任务（<strong>那能够这么广泛地应用到下游任务，是数据量大的原因呢占比多一些呢还是模型比较好的原因多一些</strong>）。Transformerwith masked autoencoding是有效的自监督视觉学习器。我们将VideoMAE同时在模型和数据上扩展：用ViT-g(Transformer with billion-level parameters)初始化模型；将数据集的size增加到million-level。</p></li><li><p>面临的问题：</p></li></ol><ul><li>扩展VideoMAE非常耗GPU内存和计算资源。为了提高预训练效率：处理数据冗余：1)在encoder中mask高比例的cubes，2) 在decoder中drop some cubes。</li><li>MAE对大量的数据需求很大。现有的视频数据相比于图像数据的量级，要少很多。我们简单地将多个来源的数据mix，来为VideoMAE做预训练。pre-trainingon million-level unlabeled video dataset and then post-pre-training onthe labeled hybrid dataset。</li></ul><ol start="3" type="1"><li><p>视觉基础模型： 从早期的CNN ------&gt; Transformer -------&gt;BEiT, SimMIM, MAE。vision-languange pre-trained model: CLIP,ALIGN。近期的工作尝试用对比学习 Contrastive Learning、SiameseLearning来做无监督学习。这些视觉基础模型在zero-shot迁移上展示出了良好的性能。</p></li><li><p>VideoMAE</p><ol type="1"><li>three core components:</li></ol><ul><li>cube embedding: cube embedding encodes the local spatio-temporalfeatures and builds the token list</li><li>encoder: operates on unmasked tokens <spanclass="math inline">\(T^u\)</span> with a 普通的时空注意力的ViT.</li><li>decoder: 将combined tokens <span class="math inline">\(Z^c\)</span>作为输入，用另一个ViT进行重建， <span class="math display">\[ \hat{I} =\Phi_{dec} (Z^{c}) \]</span></li><li>losss function: MSE: mean square error between masked pixels and thereconstructed pixels。</li></ul><ol start="2" type="1"><li>encoder-decoder非对称，encoder要小一些。将VideoMAE扩展到billion-level时，整体的计算量和存储量消耗就成了瓶颈。</li></ol></li><li><p>Dual Masking for VideoMAE:</p><ol type="1"><li>与VideoMAE的不同之处在于：decoder的输入来自encoder visible tokensand part of the remaining tokens visible under the decoder mask <spanclass="math inline">\(M_d\)</span>。用decodermask来降低decoder的输入的长度 for high efficiency。</li><li>encoder试图去缓解时序关联造成的information leakage；而在decodermasking中，encourage information complement，来确保partialreconstruction information loss最小；尽可能选择diverse cubes 来cover整个视频信息 -----&gt; 采用running cell masking的策略。</li></ol></li><li><p>Scaling VideoMAE:</p><ol type="1"><li>encoder采用不同的backbones: ViT-B,ViT-L, ViT-H,ViT-g。decoder就相对shallow和lightweight：用更少的layers和channels。</li><li>弄了一个unlabeled hybrid视频数据集，约1.3M clips。</li><li>Progressive training: 先在无标签的hybrid videodataset上用MAE做无监督预训练；然后建了一个labeled hybrid video dataset,对其做post-pre-training。最后在目标数据集上做fine-tuning，将通用语义迁移到task-centricknowledge上。</li></ol></li></ol><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/9fac3d0728a8c833a593446e3e176e90d856df04/1-Figure1-1.png"alt="VideoMAE with Dual Masking" /><figcaption aria-hidden="true">VideoMAE with Dual Masking</figcaption></figure><blockquote><p><span class="math inline">\(Figure\ 1^{[1]}\)</span>. <em>VideoMAEwith dual masking</em>. To improve the overall efficiency of computationand memory in video masked autoencoding, we propose to mask the decoderas well and devise the dual masking strategy. Like encoder, we alsoapply a masking map to the deocoder and simply reconstruct a subset ofpixel cubes selected by the running cell masking. The finalreconstruction loss only applies for the invisible tokens dropped by theencoder</p></blockquote>]]></content>
+    <content type="html"><![CDATA[<h3id="在服务器的个人账户下上安装cuda">在服务器的个人账户下上安装cuda</h3><ol type="1"><li><p>去<ahref="https://developer.nvidia.com/cuda-toolkit-archive">cudaarchive</a>里找到对应的cuda版本的runfile文件，通过shxxx.run来安装</p></li><li><p>安装的时候，需要去Options里更改toolkit和library的path，设置完后即可进行install</p></li><li><p>install完了之后，需要去bashrc里添加以下内容：</p></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;/xxx/cuda/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="string">&quot;/xxx/cuda/lib64:<span class="variable">$LD_LIBRARY_PATH</span>&quot;</span></span><br></pre></td></tr></table></figure><ol start="4" type="1"><li><p>然后source一下bashrc，再nvcc-V，如果显示版本号，则说明安装成功</p></li><li><p>遇到需要本地cuda的时候，可以</p></li></ol><p><code>export CUDA_HOME=="/xxx/cuda/"</code></p><span id="more"></span><h3 id="参考链接">参考链接</h3><ul><li>https://blog.csdn.net/qq_35082030/article/details/110387800</li><li>https://blog.csdn.net/sdbyp/article/details/139853774</li><li>https://blog.csdn.net/Sihang_Xie/article/details/127347139</li></ul>]]></content>
     
     
     <summary type="html">&lt;h3
-id=&quot;videomae-v2-scaling-video-masked-autoencoders-with-dual-masking1&quot;&gt;&lt;span
-class=&quot;math inline&quot;&gt;&#92;(VideoMAE&#92; v2: Scaling&#92; Video&#92; Masked&#92;
-Autoencoders&#92; with&#92; Dual&#92; Masking^{[1]}&#92;)&lt;/span&gt; 🎞️&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者们是来自南大 Novel Software Technology Lab、上海AI
-Lab和深圳先进院的团队，论文出处[1]: Wang, Limin, et al. &quot;Videomae v2:
-Scaling video masked autoencoders with dual masking.&quot; Proceedings of the
-IEEE/CVF Conference on Computer Vision and Pattern Recognition.
-2023.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结：&lt;/h3&gt;
-&lt;p&gt;以下 “我们”指作者&lt;/p&gt;</summary>
+id=&quot;在服务器的个人账户下上安装cuda&quot;&gt;在服务器的个人账户下上安装cuda&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;去&lt;a
+href=&quot;https://developer.nvidia.com/cuda-toolkit-archive&quot;&gt;cuda
+archive&lt;/a&gt;里找到对应的cuda版本的runfile文件，通过sh
+xxx.run来安装&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;安装的时候，需要去Options里更改toolkit和library的path，设置完后即可进行install&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;install完了之后，需要去bashrc里添加以下内容：&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;export&lt;/span&gt; PATH=&lt;span class=&quot;string&quot;&gt;&amp;quot;/xxx/cuda/bin:&lt;span class=&quot;variable&quot;&gt;$PATH&lt;/span&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;export&lt;/span&gt; LD_LIBRARY_PATH=&lt;span class=&quot;string&quot;&gt;&amp;quot;/xxx/cuda/lib64:&lt;span class=&quot;variable&quot;&gt;$LD_LIBRARY_PATH&lt;/span&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ol start=&quot;4&quot; type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;然后source一下bashrc，再nvcc
+-V，如果显示版本号，则说明安装成功&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;遇到需要本地cuda的时候，可以&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;code&gt;export CUDA_HOME==&quot;/xxx/cuda/&quot;&lt;/code&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="methods" scheme="https://young-eng.github.io/YoungBlogs/categories/methods/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>绘图</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/07/01/%E7%BB%98%E5%9B%BE/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/07/01/%E7%BB%98%E5%9B%BE/</id>
+    <published>2024-07-01T07:54:56.000Z</published>
+    <updated>2024-07-01T07:58:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="matplotlib-绘图">Matplotlib 绘图</h3><ol type="1"><li>3D plot时候的需要注意的地方</li></ol><p>https://www.codenong.com/48442713/</p><p>https://www.coder.work/article/2032713#google_vignette</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;matplotlib-绘图&quot;&gt;Matplotlib 绘图&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;3D plot时候的需要注意的地方&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;https://www.codenong.com/48442713/&lt;/p&gt;
+&lt;p&gt;h</summary>
+      
+    
+    
+    
+    <category term="methods" scheme="https://young-eng.github.io/YoungBlogs/categories/methods/"/>
+    
+    
+    <category term="tips" scheme="https://young-eng.github.io/YoungBlogs/tags/tips/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大模型综述</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/06/29/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BB%BC%E8%BF%B0/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/06/29/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BB%BC%E8%BF%B0/</id>
+    <published>2024-06-29T05:41:52.000Z</published>
+    <updated>2024-06-29T05:41:54.000Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>心情</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/06/24/%E5%BF%83%E6%83%85/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/06/24/%E5%BF%83%E6%83%85/</id>
+    <published>2024-06-23T16:59:01.000Z</published>
+    <updated>2024-06-23T17:31:23.614Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="心动故事">心动故事</h3><p>现在准备在网络上开始一些日记、或者所思所想吧，算是一个新的尝试，也希望自己Beopen。</p><h4 id="开始">开始</h4><p>在一个自习室见到了多次TA，直到有一天，我想主动去搭讪了，在那天晚上，教室就我俩，我去借了TA的笔，“同学，我忘带笔了，能借一下笔吗？”“黑色的吗” “可以的”， 然后写了一会字。</p><p>过了好几天，期望再次相遇，我想鼓起勇气去加一下微信。于是等了好几天，终于等到了，这天下午，ta在教室里，此时又只有我俩，我第二次去借笔，“同学，能借一下笔嘛？”“黑色的吗”“对”。又装模做样的写了一会字，然后赶紧还回去了，表示感谢，并说“非常感谢，请你和奶茶吧，可以加一下你微信吗？”，然后，加完微信，我就去买奶茶了。</p><p>买完奶茶回来，递给ta，“有点凉，不知道你喜不喜欢”，我看到ta笑了，很开心！</p><p>没过多久，ta就走了，回头给我打招呼。</p><p>然后，晚上就给ta发微信，就问了一些简单的话，也只有我在问，ta在答。发现这样可能不太好，就及时终止了。</p><p>因为不知道ta的态度会不会有所变化，第二天我照常去了教室，等了一个白天没有见到ta，晚上我就去雁栖湖骑车了，8点多回来发现ta已经在座位上了，怕气氛尴尬，又有点紧张，想了想要不要打个招呼或者说点啥。</p><p>然后想了想，等了一会，我就主动把位置挪到ta的后面了，想了想要不要说点啥，过了没多久，ta就准备起身走了，我连忙搭了几句话，“平时喜欢出去玩吗？”听到了两个字简单的否定答案，就感觉这种问题问下去还是我问ta答，然后又问“你啥时候结课啊”“下周” “这么早啊”，“选了早的课，早点回去”，“如果到时候搬东西需要帮忙，可以找我”。“谢谢”。</p><p>第二天，整天没有等到ta，下午和军师商量该咋办，感谢这两天的军事参谋们哈哈哈，决定晚上问问ta，请ta吃饭。</p><h4 id="结尾">结尾</h4><p>晚上，结果是拒绝了，我瞬间感觉没有了那么紧张，放松地和ta聊了两句，希望这段短暂的经历能够给彼此一些美好的回忆吧。也就止步于回忆了。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;心动故事&quot;&gt;心动故事&lt;/h3&gt;
+&lt;p&gt;现在准备在网络上开始一些日记、或者所思所想吧，算是一个新的尝试，也希望自己Be
+open。&lt;/p&gt;
+&lt;h4 id=&quot;开始&quot;&gt;开始&lt;/h4&gt;
+&lt;p&gt;在一个自习室见到了多次TA，直到有一天，我想主动去搭讪了，在那天晚上，教</summary>
+      
+    
+    
+    
+    <category term="日常" scheme="https://young-eng.github.io/YoungBlogs/categories/%E6%97%A5%E5%B8%B8/"/>
+    
+    
+    <category term="Blog" scheme="https://young-eng.github.io/YoungBlogs/tags/Blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Object Tracking Survey</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/06/03/Object-Tracking-Survey/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/06/03/Object-Tracking-Survey/</id>
+    <published>2024-06-03T12:41:20.000Z</published>
+    <updated>2024-06-03T12:42:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="visual-objec-trackingvot">Visual Objec Tracking(VOT)</h3><h3 id="multiple-object-trackingmot">Multiple Object Tracking(MOT)</h3>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;visual-objec-trackingvot&quot;&gt;Visual Objec Tracking(VOT)&lt;/h3&gt;
+&lt;h3 id=&quot;multiple-object-trackingmot&quot;&gt;Multiple Object Tracking(MOT)&lt;/h3&gt;
+</summary>
+      
     
     
     
     <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
     
     
-    <category term="Video Understanding" scheme="https://young-eng.github.io/YoungBlogs/tags/Video-Understanding/"/>
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
     
   </entry>
   
   <entry>
-    <title>YOLO</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/</id>
-    <published>2024-01-24T15:25:08.000Z</published>
-    <updated>2024-01-26T13:38:58.409Z</updated>
+    <title>OC-SORT</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/06/02/OC-SORT/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/06/02/OC-SORT/</id>
+    <published>2024-06-02T07:30:25.000Z</published>
+    <updated>2024-06-20T13:25:52.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="yolo-系列论文">YOLO 系列论文</h2><p>开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还是一步一步来，从经典论文开始，当然也会看新的热度很高的论文，通过这种方式，来一点一点的进步吧。不积跬步无以至千里；千里之行，始于足下。加油！！！只要想做，什么时候都不算晚！！🏃</p><h3 id="you-only-look-once-unified-real-time-object-detection1"><spanclass="math inline">\(You\ Only\ Look\ Once: Unified, Real-Time\ Object\Detection^{[1]}\)</span>🚀</h3><blockquote><p>作者是来自U of Washington、Allen Institute for AI和FAIR,包括JosephRedmon、Santosh Divvalala、Ross Girshick 等。论文出处：[1]Redmon, Josephet al. “You Only Look Once: Unified, Real-Time Object Detection.” 2016IEEE Conference on Computer Vision and Pattern Recognition (CVPR)(2015): 779-788.</p></blockquote><h3 id="总结">总结：</h3><span id="more"></span><p>以下“我们”代指作者</p><ol type="1"><li><p>先前的工作是用分类器来做检测；我们将目标检测视为空间上分隔的bboxes和相关联的类别概率的回归问题。一个单一的神经网络从整个图像里，在一次evaluation里，直接预测bboxes和对应的类别概率。pipeline是单个网络，可以再检测性能上优化为端到端的。速度非常快，但是定位也有很多错误。</p></li><li><p>在训练和测试时，能看到全局的信息，能够对上下文信息进行编码，FastR-CNN看不到大的上下文；在泛化性上，YOLO要好一些。Trade-off:速度快，但是精确定位物体特别是小目标，有误差。</p></li><li><p>将输入图像生成 <span class="math inline">\(S \times S\)</span>的Grids，每个Grid预测 <span class="math inline">\(B\)</span>个bboxes和置信度，包括5个参数: <spanclass="math inline">\(x,y,w,h,p_c\)</span>。每个Grid预测C个类的条件概率。</p></li><li><p>YOLO: 24层卷积网络，2个全连接层，输入图像大小为<spanclass="math inline">\(448\times448\)</span>,最后输出 <spanclass="math inline">\(7\times7\times30\)</span>； Fast YOLO：9个卷积层，用Sum-squared Error来进行优化，Limitations:每个Grid预测2个bboxes，限制了邻近物体的数量。LossFunction中，同等对待大bboxes和小bboxes的errors，然而一个小的错误在大的boxes和小的boxes中的影响不同。</p></li></ol><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/f8e79ac0ea341056ef20f2616628b3e964764cfd/3-Figure3-1.png"alt="YOLO Architecture^[1]" /><figcaption aria-hidden="true"><span class="math inline">\(YOLOArchitecture^[1]\)</span></figcaption></figure><blockquote><p><span class="math inline">\(Figure\ 1^{[1]}\)</span>: <em>TheArchitecture</em>. Our detection network has 24 convolutional layersfollowed by 2 fully connected layers. Alternating 1× 1 convolutionallayers reduce the features space from preceding layers. We pretrain theconvolutional layers on the ImageNet classification task at half theresolution (224× 224 input image) and then double the resolution fordetection。</p></blockquote>]]></content>
+    <content type="html"><![CDATA[<h3id="observation-centric-sort-rethinking-sort-for-robust-multi-object-tracking1">Observation-CentricSORT: Rethinking SORT for Robust Multi-ObjectTracking<sup>[1]</sup></h3><blockquote><p>作者是来自CMU、上海AI Lab和英伟达的Junkun Cao, Jiangmiao Pang,Xinshuo Weng, Rawal Khirodkar, Kris Kitani. 论文引用[1]:Cao, Jinkun etal. “Observation-Centric SORT: Rethinking SORT for Robust Multi-ObjectTracking.” 2023 IEEE/CVF Conference on Computer Vision and PatternRecognition (CVPR) (2022): 9686-9696.</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Feb</li></ul><h3 id="key-words">Key Words</h3><ul><li>object observations</li><li><strong>O</strong>bservation-<strong>C</strong>entric<strong>SORT</strong>, Simple，Online, and Real-Time</li><li>occlusion and non-linear object motion</li></ul><span id="more"></span><h3 id="动机">动机</h3><ol type="1"><li><p>基于卡尔曼滤波的多目标追踪的方法是假设目标线性运动，这个假设对于很短的occlusion是可接受的，时间变长了的话，运动的线性估计会很不准确。Moreover，当这里没有可用的measurement来更新卡尔曼滤波的参数时，惯例是相信prioristate estimations for posterioriupdate。这会导致occlusion期间的误差累积，这个误差会在实践中造成严重的运动方向的多变。</p></li><li><p>旨在开发一个motion model-based multi-objecttracking(MOT)，对于occlusion和non-linear motion有很好的鲁棒性。</p></li><li><p>当occlusion和non-linear motion同时发生的时候，motion model-basedtracking方法的误差会发生。</p></li></ol><h3 id="总结">总结</h3><ol type="1"><li><p>基于卡尔曼滤波的多目标追踪的方法是假设目标线性运动，这个假设对于很短的occlusion是可接受的，时间变长了的话，运动的线性估计会很不准确。Moreover，当这里没有可用的measurement来更新卡尔曼滤波的参数时，惯例是相信prioristate estimations for posterioriupdate。这会导致occlusion期间的误差累积，这个误差会在实践中造成严重的运动方向的多变。本文中，作者展示了一个卡尔曼滤波当很好地处理了occlusion期间的噪声累加时，也能得到很好的效果。除了仅仅依赖于线性状态估计(estimation-centricapproach)，用object observations(measurements by objectdetector)来计算一个虚拟的轨迹 over occlusion period，来修复occlusion期间的滤波器的误差累加，提高了occlusion和non-linearmotion期间的robustness。取名为<strong>Observation-CentricSORT</strong>，</p></li><li><p>目前的现存的motion model-based算法，假设一个时间段内追踪的物体速度不变，称之为线性运动假设，这个假设在许多实际场景中不成立。但是时间间隔足够小的时候，仍然有效，物体的motion能够近似为线性。为了减小造成的副作用，重新思考当前的模型，然后认识到了一些局限。为了追踪的性能，提出解决的方法：<strong>especiallyin occlusion</strong>。</p></li><li><p>基于滤波器的方法(filtering-based)作为motion model-basedtracking，假设一个转换函数，来预测未来时刻的目标的状态，称之为 stateestimation；除了estimations，利用一个observationmodel，例如一个目标检测器，来推导一个目标物体的statemeasurements，也称之为observations。observation通常作为一个附属的信息来帮助更新滤波器的后验参数。轨迹能够被stateestimation来扩展。<strong>Among this line ofwork</strong>，用的最广的是SORT，用一个Kalmanfilter来估计目标的state，一个linear motion function最为<strong>trasitionfunction between time steps</strong>， 然而，当objectmotion是非线性、更新滤波器的后验参数的时候没有观察到observation，SORT的鲁棒性不够。</p></li><li><p>SORT的三个<strong>limitations</strong>；</p><ul><li>尽管高帧率能够近似物体的运动为线性的，它也放大了模型对于noise ofstateestimations的sensitivity。特别是，在高帧率视频的连续帧之间，物体位移的噪声可能与实际物体位移的大小相同，导致KF估计的物体速度有很大的方差。速度估计的噪声会通过transitionprocess累计进入到位置估计(position estimate)。</li><li>KF状态估计的噪声会随着时间累加，当在KF更新的阶段没有observation的时候。作者展示了相对于没有追踪到目标物体的时间，误差累加会非常快，在速度方向上的噪声的影响经常使得<strong>tracklost</strong>即使在re-association之后。</li><li>考虑到现在检测器的发展，object state by detections相比于滤波器里的固定的trainsition function得到的stateestimation，有很低的方差。然而，<strong>SORT是通过 state estimation而不是 observations来prolong object trajectories</strong>。</li></ul></li><li><p>为了减小上述限制的负面影响，两点创新：</p><ul><li><p>设计了一个module来用object state observations来减小track丢失的时候的累计的误差；准确地说，在传统的 <em>predict 和update</em>阶段之外，在一段untrack的时间之后，通过关联到一个observation，track被重新激活，trigger <em>re-update</em>，<em>re-update</em> 用 <strong>virtualobservation</strong> on the historical time steps to prevent erroraccumulation。 virtual observations 来自 a trajectory generated usingthe last-seen observatio before untracked and the latest observationre-activating this track as anchors. 称之为 <strong>Observation-centricRe-Update</strong>。</p></li><li><p>线性运动的假设提供了目标物体运动的方向，但这个cue很难用在SORTassociation上，因为directionestimation的大量的noise。提出了一个observation-centric方式，将tracks的方向一致性引入到cost matrix 里 for association。称之为<strong>Observation-Centric Momentum</strong></p></li></ul></li><li><p>Motion Models: 大部分的MOT算法用了motion models，这些motionmodels用贝叶斯估计通过最大化后验估计，来预测下一个状态。最为最经典的motionmodels，<strong>Kalman filter(KF)</strong>是一个recursive贝叶斯滤波器，跟随经i的那的 <em>predict-update</em>循环，measurements是来自隐马尔可夫模型的observations。给定一个先行运动假设限制KF，紧接着的一个工作是ExtendedKF和UnscentedKF,提出这两个是为了解决<strong>一阶和二阶泰勒估计的非线性motion</strong>；然而，它们还是依赖于KF假设的近似高斯先验，要求motionpattern assumption。另一个方面，粒子滤波通过sample-based后验估计来解决非线性motion，但是计算量是指数级的。因此，Kalmanfilter的变体和粒子滤波很少在视觉多目标追踪中采用，用的最多的motionmodel还是基于Kalman filter的。</p></li><li><p>Multi-object Tracking:多目标跟踪是从概率的角度进行的，现代的videoobject tracking通常建立在目标检测器上，<strong>SORT采用Kalman filter formotit ion-based multi-object tracking, given observations from deepdetectors</strong>，DeepSORT进一步将深度视觉特征引入object associationunder framework ofSORT，当场景拥挤，基于ReID的目标关联流行起来。最近，transformer被引入到MOT中，来学习深度特征from both visual information and objecttrajectories。然而，它们的性能和SOTA的tracking-by-detection的方法还有很大的差距，不管是精度还是时间效率。</p></li><li><p>Kalman filter是一个在时间域离散的动态系统的线性估计器。KF只要求前一时刻的stateestimations和当前的measurement来估计下一时刻的targetstate。这个滤波器维护两个变量: **后验状态估计 x, 后验估计协方差矩阵 P.在目标追踪任务，用一个状态变换模型F、观测模型H、过程噪声Q和观测噪声R来描述KF过程。在每个时刻t，给定观测z_t， KF在 predict和update两个阶段交替进行：</p><p><spanclass="math display">\[\begin{aligned}&amp;predict\begin{cases}\hat{\mathbf{x}}_{t|t-1}=\mathbf{F}_{t}\hat{\mathbf{x}}_{t-1|t-1}\\\mathbf{P}_{t|t-1}=\mathbf{F}_{t}\mathbf{P}_{t-1|t-1}\mathbf{F}_{t}^{\top}+\mathbf{Q}_{t}\end{cases},\\&amp;update\begin{cases}\mathbf{K}_{t}=\mathbf{P}_{t|t-1}\mathbf{H}_{t}^{\top}(\mathbf{H}_{t}\mathbf{P}_{t|t-1}\mathbf{H}_{t}^{\top}+\mathbf{R}_{t})^{-1}\\\hat{\mathbf{x}}_{t|t}=\hat{\mathbf{x}}_{t|t-1}+\mathbf{K}_{t}(\mathbf{z}_{t}-\mathbf{H}_{t}\hat{\mathbf{x}}_{t|t-1})\\\mathbf{P}_{t|t}=(\mathbf{I}-\mathbf{K}_{t}\mathbf{H}_{t})\mathbf{P}_{t|t-1}\end{cases}.\end{aligned}\]</span></p><ul><li>predict阶段是来推断下一时刻的state estimations。给定下一时刻的targetstates的measurement，update阶段旨在更新KF中的后验参数。因为measurement来自观测模型H，因此在很多场景中成为observation。</li><li>SORT是建立在KF上的MOT, SORT里的KF的状态x定义为 $ x=[u,v,s,r,,,] $,<span class="math inline">\((u,v)\)</span>是image里的目标的center的coordinates, <spanclass="math inline">\((s,r)\)</span>分别是bbox的 scale(area)和 aspectratio。aspect ratio假定为常数。其它的 <spanclass="math inline">\(\dot{u},\dot{v},\dot{s}\)</span>分别是相应的推导量。obervation是一个bbox<span class="math inline">\(z = [u,v,w,h,c]^T， (u,v)是object center,w,h分别为weight和height，c为detection confidence.\)</span>.SORT假设线性运动为过渡模型F，状态估计为： <spanclass="math display">\[u_{t+1}=u_t+\dot{u}_t\Delta t,\quadv_{t+1}=v_t+\dot{v}_t\Delta t.\]</span></li><li>为了利用SORT中的KF for visual MOT，predict阶段估计下一帧的objectposition。来自detection model的observation来更新stage。updatestage是来更新Kalman filter的参数，不直接edit tracking outcomes。</li><li>当两个step的时间差在transition中是常数，例如视频帧率是常数；当帧率很高，SORT表现很好即使objectmotion是非线性的，因为在短的时间内可以近似为线性的。然而实际中<strong>observation通常会缺失，例如目标被occluded</strong>,这种情况下，无法通过update阶段来更新KFparameters。SORT通常用先验的直接作为后验，称之为<strong>dummyupdate</strong>。</li><li><span class="math display">\[ \hat{x}_{t|t} = \hat{x}_{t|t-1},P_{t|t} = P_{t|t-1}\]</span></li></ul><p>称这个算法为<strong>estimation-centric</strong>。当遇到non-linear和occlusion的时候，这个方法就不太行。</p></li><li><p>很小的 <spanclass="math inline">\(\Delta{t}\)</span>会放大噪声。</p></li><li><p>Observation-Centric SORT, we introduce the proposed<em>observation-Centric SORT(OC-SORT)</em>,为了解决上述SORT的限制。用目标进入associtationstage的momentum来开发一个在occulsion和非线性motion时，less noise和morerobustness的pipeline。核心是将tracker设计为<strong>observation-centric</strong>而不是<strong>estimation-centric</strong>。如果一个track从untracked恢复，用一个<em>observation-centric Re-Update</em>来抵消untracked期间的累计错误。OC-SORT也在associationcost中加了Observation-Centric Momentum(OCM)。</p></li><li><p>Observation-Centric Re-Update(ORU):</p><ul><li>当一个track经过一段时间的untrack之后，又与observation关联起来(re-activation)，检查lost期间和重新更新KF的参数。参考untracked开始和结束时的observation，生成virtual trajectory。例如：untrack之前的last-seen observation为 <spanclass="math inline">\(z_t1\)</span>，triggeringre-association的observation为$z_t2，virtual trajectory为： <spanclass="math display">\[\tilde{\mathbf{z}}_t=Traj_{\text{virtual}}(\mathbf{z}_{t_1},\mathbf{z}_{t_2},t),t_1&lt;t&lt;t_2.\]</span>然后接着 run the loop of predict and re-update.</li></ul></li><li><p>Observation-Centric Momentum(OCM):</p><ul><li><p>时间很短的间隔中，将motion近似为线性的，线性motion假设要求持续的motiondirection。但是noise阻止了利用direction的一致性。更准确的说，为了决定motiondirection，需要目标state on two steps with a time difference <spanclass="math inline">\(\delta t\)</span>。如果 <spanclass="math inline">\(\delta t\)</span> 太小了，因为estimation对statenoise敏感，所以velocity noise很重要。如果 <spanclass="math inline">\(\delta t\)</span> 太大了，directionestimation的noise同样也是 significant，因为temporal errormagnification和failure of linear motion assumption。提出用observations而不是 estimations来降低motion directioncalculation的noise，引入consistency来帮助association。</p></li><li><p>给定 <span class="math inline">\(N\)</span>个存在的tracks和 <spanclass="math inline">\(M\)</span>个 detections on the new-coming timestep. Association Cost matrix是： <spanclass="math display">\[C(\hat{\mathbf{X}},\mathbf{Z})=C_{\mathrm{IoU}}(\hat{\mathbf{X}},\mathbf{Z})+\lambdaC_v(\mathcal{Z},\mathbf{Z}),\]</span></p></li></ul><p><span class="math inline">\(\hat{X} \in R^{N \times 7}\)</span> 是object state estimations的集合，<span class="math inline">\(Z \in R^{M\times 5}\)</span>是 observations在new time step的集合。</p></li><li></li></ol><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/643914ae0ad9dcc5868348e4d867374aedbf9531/4-Figure2-1.png"alt="pipleline" /> <span class="math inline">\(Fig.2^{[1]}\)</span>Pipeline of proposed OC-SORT，Red boxes are detections, orange boxes areactive tracks, blue boxes are untracked tracks, dashed boxes are theestimates from KF. During association, OCM is used to add the velocityconsistency cost. The target #1 is lost on the frame t+1 because ofocclusion. But on the next frame, it is recoverd by referring to itsobservation of the frame t by OCR. It being re-tracked triggers ORU fromt to t+2 for the parameters of its KF。</p>]]></content>
     
     
-    <summary type="html">&lt;h2 id=&quot;yolo-系列论文&quot;&gt;YOLO 系列论文&lt;/h2&gt;
-&lt;p&gt;开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还是一步一步来，从经典论文开始，当然也会看新的热度很高的论文，通过这种方式，来一点一点的进步吧。不积跬步无以至千里；千里之行，始于足下。加油！！！只要想做，什么时候都不算晚！！🏃&lt;/p&gt;
-&lt;h3 id=&quot;you-only-look-once-unified-real-time-object-detection1&quot;&gt;&lt;span
-class=&quot;math inline&quot;&gt;&#92;(You&#92; Only&#92; Look&#92; Once: Unified, Real-Time&#92; Object&#92;
-Detection^{[1]}&#92;)&lt;/span&gt;🚀&lt;/h3&gt;
+    <summary type="html">&lt;h3
+id=&quot;observation-centric-sort-rethinking-sort-for-robust-multi-object-tracking1&quot;&gt;Observation-Centric
+SORT: Rethinking SORT for Robust Multi-Object
+Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
 &lt;blockquote&gt;
-&lt;p&gt;作者是来自U of Washington、Allen Institute for AI和FAIR,包括Joseph
-Redmon、Santosh Divvalala、Ross Girshick 等。论文出处：[1]Redmon, Joseph
-et al. “You Only Look Once: Unified, Real-Time Object Detection.” 2016
-IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
-(2015): 779-788.&lt;/p&gt;
+&lt;p&gt;作者是来自CMU、上海AI Lab和英伟达的Junkun Cao, Jiangmiao Pang,
+Xinshuo Weng, Rawal Khirodkar, Kris Kitani. 论文引用[1]:Cao, Jinkun et
+al. “Observation-Centric SORT: Rethinking SORT for Robust Multi-Object
+Tracking.” 2023 IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR) (2022): 9686-9696.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结：&lt;/h3&gt;</summary>
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2023.Feb&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;object observations&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;O&lt;/strong&gt;bservation-&lt;strong&gt;C&lt;/strong&gt;entric
+&lt;strong&gt;SORT&lt;/strong&gt;, Simple，Online, and Real-Time&lt;/li&gt;
+&lt;li&gt;occlusion and non-linear object motion&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OSTrack</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/22/OSTrack/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/22/OSTrack/</id>
+    <published>2024-05-22T14:38:59.000Z</published>
+    <updated>2024-05-22T14:39:00.000Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Mixformer</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/22/Mixformer/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/22/Mixformer/</id>
+    <published>2024-05-22T14:33:43.000Z</published>
+    <updated>2024-05-30T16:11:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="mixformer-end-to-end-tracking-with-iterative-mixed-attention1">MixFormer:End-to-End Tracking with Iterative Mixed Attention<sup>[1]</sup></h3><blockquote><p>作者是来自南大的Yutao Cui, Cheng Jiang, Limin Wang, Gangshan Wu.论文引用[1]:Cui, Yutao et al. “MixFormer: End-to-End Tracking withIterative Mixed Attention.” 2022 IEEE/CVF Conference on Computer Visionand Pattern Recognition (CVPR) (2022): 13598-13608.</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>compact tracking framework</li><li>unify the feature extraction and target integration solely with atransformer-based architecture</li></ul><h3 id="votmotsot的区别">VOT，MOT,SOT的区别</h3><ol type="1"><li>VOT是标首帧，MOT是多目标追踪，SOT是单目标追踪。</li></ol><h3 id="动机">动机</h3><ol type="1"><li><p>Tracking经常用多阶段的pipeline：<strong>featureextraction，target information integration，bounding boxestimation</strong>。为了简化这个pipeline，作者提出了一个紧凑的tracking框架，名为MixFormer。</p></li><li><p>target information integration解释： fuse the target and searchregion information</p></li></ol><span id="more"></span><h3 id="总结">总结</h3><ol type="1"><li><p>核心设计利用是attentation操作的灵活，提出了Mixed AttentionModule(MAM) for simultaneous feature extraction and target informationintegration. 这个即时的modeling scheme，能够抽取target-specificdiscriminative features以及在target和searcharea之间能够进行大量的communication。基于MAM,通过堆叠MAMs withprogressive patch embedding 和place a localization head ontop，来构建MixFormer追踪框架。</p></li><li><p>为了在onlinetracking的时候处理多个目标的template，在MAM中设计了一个非对称的注意力，来减小计算成本，提出了一个有效的scoreprediction module来选择高质量的template。</p></li><li><p>视觉目标追踪的仍然是有很多挑战，包括：scale variations, objectdeformations, occlusions, confusion from similar objects.</p></li><li><p>之前的流行的trackers通常包括几个部分：</p><ul><li>a backbone 来提取tracking target和 search area 的feature，</li><li>为了后续的target-aware的定位，一个集成的模块(integrationmodule)来使得tracking target和search area进行信息交流</li><li>task-specific heads来精确地定位目标和估计bounding box.</li></ul></li><li><p>集成模块(integration moduel) 是追踪算法的关键，它能够整合targetinformation，在通用特征提取和目标感知定位架起桥梁。传统的集成方法包括correlation-basedoperations(e.g., SiamFC, SiamRPN, CRPN, SiamFC++, 将Simaese网络和correlation操作结合起来，对target和search之间的全局依赖进行建模),online learning 算法(e.g., DCF, KCF, ATOM, FCOT，对于有区别的tracking，学习到独立于目标的model)，最近，多亏了全局和动态的modelingcapacity，引入了transformer来进行基于注意力的integration，有了很好的效果(STMTrack,STARK)，然而，这些基于transformer的trackers仍然基于CNN作为特征提取例如ResNet，仅仅用attention操作 in the latter high-level and abstract representation space.CNN是有限的，它们通常用来pre-trained for 通用目标提取，可能忽略finestructure information for tracking.CNN用局部卷积核，缺乏全局建模能力。</p></li><li><p>为了解决以上问题，在tracking frameworkdesign上，提出了新的思路。通用特征提取和target informationintegration集成到一个统一的框架，coupled processing paradigm有很多好的advantages:</p><ul><li>能够使得feature extraction to be more specific to the correspondingtracking target and capture more target-specific discriminativefeatures.</li><li>能够使得target information to be more extentively 集成到search area,然后更好地capture their correlation</li><li>得到一个更为紧凑的tracking pipelien with a single backbone andtracking head, without an explicit integration module.</li></ul></li><li><p>Attention module是一个非常灵活的架构，building block wiht dynamicand global modeling capacity, 提出了一个mixed attentionmodule(MAM)，能够同时进行特征提取和 mutual interaction of targettemplate and search area。在MAM中，设计了一个混合的interactionscheme，包括自注意力和cross-attention operations on tokens from templateand search area。自注意力能够抽取target or searcharea的自己的特征，然而cross-attention allows for communications betweenthem(search and target area) to mix the target and search areainformations。为了降低MAM的计算成本，能够使得多个templates 来处理obectdeformation，提出了一个定制的非对称的attentionscheme通过修建不必要的target-to-search area cross-attention.</p></li><li><p>MixFormer backone: 通过堆叠Patchembedding和MAM，最后放一个简单的localization head 来得到整个的trackingframework。 为了处理追踪过程中的目标变形，提出了基于target templateupdate机制的score，MixFormer能够容易地适应multiple target templateinputs.</p></li><li><p>最近的trackers引入了基于transformer的integrationmodule，来得到更复杂的依赖(dependencies),实现更好的效果。</p></li><li><p>MAM的输入使target template和searcharea。旨在提取long-range特征，融合它们之间的特征。和原始的MHA不同，MAM执行dualattention operations on two separate tokens sequences of target templateand search area. 对每个sequences上的tokens进行自注意力来得到target orsearch specific information；同时，对来自2个sequencnes的tokens进行crossattention来得到target template and searcharea的交互信息。通过拼接concatenated token sequences来进行mix attentionmechanism.</p></li><li><p>给定一个concatenated tokens of multiple targets andsearch，首先将其分成2个部分，然后reshape成一个2D的featuremap，为了实现additional modeling of local spatial context, 在每个featuremap上用一个可分离的depth-wise convolutional projection layer. target和search的每个feature map 然后通过linear project 来得到queries, keys,values of the attention operation. <span class="math inline">\(q_t, k_t,v_t\)</span>代表target, <span class="math inline">\(q_s, k_s,v_s\)</span>代表search region. mixed attention的定义如下: <spanclass="math display">\[\begin{aligned}&amp;k_{m}=\mathrm{Concat}(k_{t},k_{s}),\quadv_{m}=\mathrm{Concat}(v_{t},v_{s}),\\&amp;\mathrm{Attention}_{\mathrm{t}}=\mathrm{Softmax}(\frac{q_{t}k_{m}^{T}}{\sqrt{d}})v_{m},\\&amp;\mathrm{Attention}_{s}=\mathrm{Softmax}(\frac{q_{s}k_{m}^{T}}{\sqrt{d}})v_{m},\end{aligned}\]</span></p><ul><li><span class="math inline">\(Attention_s\)</span>和<spanclass="math inline">\(Attention_t\)</span>包含了featureextraction和信息融合，最后，targets token 和search token通过一个linearprojection 进行concatenated 和processed。</li></ul></li><li><p>非对称的mixed attention scheme：通过剪掉不必要的target-to-searcharea cross-attention，降低了MAM的计算成本，能够高效地用multipletemplates来处理目标变形的问题。</p><p><spanclass="math display">\[\begin{aligned}&amp;k_{m}=\mathrm{Concat}(k_{t},k_{s}),\quadv_{m}=\mathrm{Concat}(v_{t},v_{s}),\\&amp;\mathrm{Attention}_{\mathrm{t}}=\mathrm{Softmax}(\frac{q_{t}k_{m}^{T}}{\sqrt{d}})v_{m},\\&amp;\mathrm{Attention}_{s}=\mathrm{Softmax}(\frac{q_{s}k_{m}^{T}}{\sqrt{d}})v_{m},\end{aligned}\]</span></p></li><li><p>Corner-based localization head: 受STARK的启发，用了全卷积的cornerbased localization head来估计tracked object的boundingbox。通过计算corner probability distribution，来得到boundingbox。</p></li><li><p>Query based localization head:在最后一个stage的序列中，加了一个可学习的regressiontoken，用这个token作为anchor来aggregate整个目标和搜索区域的信息。最后一个3个fclayers的FFN来回归bounding box。不需要后处理。</p></li><li><p><strong>Training</strong>:用CVT模型对MAM进行预训练，然后再整个目标dataset上进行微调。</p></li><li><p><strong>Template Online Update</strong>:这个再得到时序信息和处理目标形变、外观变化上很重要，在追踪的时候，低质量的templates可能导致较差的追踪性能。引入了一个scoreprediction module(SPM)。SPM由2个attention blocks，three-layerperceptron组成。一个可学习的<em>score token</em>和search ROItokens进行attention，然后scoretoken与初始目标的所有positions进行attention, implicitly compare minedtarget with first target.最后，通过一个MLP和sigmoid来得到score，低于0.5的onlinetemplate被视为negative.</p></li></ol><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/b6eaec7917439d79ce840fa97bc371552e9b6685/1-Figure1-1.png"alt="Comparison" /> <span class="math inline">\(Fig.1^{[1]}\)</span>Comparison of tracking pipeline. (a) The dominant tracking frameworkcontains three components: a convolutional or transformer backbone, acarefully-designed integration module, and task-specific heads. (b) OurMixFormer is more compact and composed of two components: atarget-search mixed attention based backbone and a simple localizationhead.</p><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/b6eaec7917439d79ce840fa97bc371552e9b6685/3-Figure2-1.png"alt="MAM" /> <span class="math inline">\(Fig.2^{[2]}\)</span> MixedAttention Module (MAM) is a flexible attention operation that unifiesthe process of feature extraction and information integration for targettemplate and search area. This mixed attention has dual attentionoperations where self-attention is performed to extract features fromitself while cross-attention is conducted to communicate between targetand search. This MAM could be easily implemented with a concatenatedtoken sequence. To further improve efficiency, we propose an asymmetricMAM by pruning the target to-search cross attention (denoted by dashedlines).</p><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/b6eaec7917439d79ce840fa97bc371552e9b6685/4-Figure3-1.png"alt="MixFormer" /> <span class="math inline">\(Fig.3^{[3]}\)</span>MixFormer presents a compact end-to-end framework for tracking withoutexplicitly decoupling steps of feature extraction and target informationintegration. It is only composed of a single MAM backbone and alocalization head.</p><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/b6eaec7917439d79ce840fa97bc371552e9b6685/5-Figure4-1.png"alt="SPM" /><figcaption aria-hidden="true">SPM</figcaption></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;mixformer-end-to-end-tracking-with-iterative-mixed-attention1&quot;&gt;MixFormer:
+End-to-End Tracking with Iterative Mixed Attention&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自南大的Yutao Cui, Cheng Jiang, Limin Wang, Gangshan Wu.
+论文引用[1]:Cui, Yutao et al. “MixFormer: End-to-End Tracking with
+Iterative Mixed Attention.” 2022 IEEE/CVF Conference on Computer Vision
+and Pattern Recognition (CVPR) (2022): 13598-13608.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2022.Mar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;compact tracking framework&lt;/li&gt;
+&lt;li&gt;unify the feature extraction and target integration solely with a
+transformer-based architecture&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;votmotsot的区别&quot;&gt;VOT，MOT,SOT的区别&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;VOT是标首帧，MOT是多目标追踪，SOT是单目标追踪。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;Tracking经常用多阶段的pipeline：&lt;strong&gt;feature
+extraction，target information integration，bounding box
+estimation&lt;/strong&gt;。为了简化这个pipeline，作者提出了一个紧凑的tracking框架，名为MixFormer。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;target information integration解释： fuse the target and search
+region information&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu with Nvidia Drivers</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/22/Ubuntu-with-Nvidia-Drivers/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/22/Ubuntu-with-Nvidia-Drivers/</id>
+    <published>2024-05-22T10:30:43.000Z</published>
+    <updated>2024-05-22T10:38:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="在ubuntu-20.04里安装-nvidia-rtx-3060显卡的驱动">在Ubuntu20.04里安装 Nvidia RTX 3060显卡的驱动</h3><ol type="1"><li><p>之前照着网上的教程弄过一次，记得是通过命令行来弄的，结果搞得黑屏，好不容易解决了黑屏的问题，进入桌面之后，显示不了Wifi和蓝牙，好像缺了很多东西，搞得很狂躁。这两天跑Tracking，大部分是Ubuntu环境下的，就趁这次机会重装一下系统，然后找个新的教程</p></li><li><p>找到了两个方式：</p><ul><li>通过 Ubuntu 自带的Software &amp; updates里头的additionaldrivers里，能看到有Nvidia的显卡驱动，勾一个合适的就行，很简单。。全程没有什么bug。。害得我上次弄了好久。</li><li>去nvidia官网上下载驱动，名称一般是Nvidia-Linux-xxx.run，运行的时候需要先禁用掉 nouveau，在哪个文件里加上:blacklist nouveau, options nouveaumodeset=0，然后重启，看看lsmod一下，看看nouveau有没有被禁用掉。然后运行.run文件，在运行.run文件的时候：提示可以用Ubuntu里 additionaldrivers来安装。</li></ul></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;在ubuntu-20.04里安装-nvidia-rtx-3060显卡的驱动&quot;&gt;在Ubuntu
+20.04里安装 Nvidia RTX 3060显卡的驱动&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;之前照着网上的教程弄过一次，记得是通过命令行来弄的，</summary>
+      
+    
+    
+    
+    <category term="methods" scheme="https://young-eng.github.io/YoungBlogs/categories/methods/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>DropMAE</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/21/DropMAE/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/21/DropMAE/</id>
+    <published>2024-05-21T14:28:25.000Z</published>
+    <updated>2024-05-21T16:22:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="masked-autoencoders-with-saptial-attention-dropout-for-tracking-tasks1">MaskedAutoencoders with Saptial-Attention Dropout for TrackingTasks<sup>[1]</sup></h3><blockquote><p>作者是来自CityU、IDEA、Tecent AI Lab、CUHK(SZ)的 QiangqiangWu、Tianyu Yang、Ziquan Liu、Baoyuan Wu、Ying Shan、Antoni B.Chan.论文引用[1]:Wu, Qiangqiang et al. “DropMAE: Masked Autoencoders withSpatial-Attention Dropout for Tracking Tasks.” 2023 IEEE/CVF Conferenceon Computer Vision and Pattern Recognition (CVPR) (2023):14561-14571.</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Apr</li></ul><h3 id="key-words">Key Words</h3><ul><li>masked autoencoder</li><li>temporal matching-based</li><li>spatial-attention dropout</li></ul><h3 id="动机">动机</h3><ol type="1"><li>将MAE应用到下游任务如: visual object tracking(VOT) and video objectsegmentation(VOS). 简单的扩展MAE是mask out frame patches in videos andreconstruct the frame pixels.然而作者发现这个会严重依赖于spatial cues,当进行frame reconstruction的时候忽略temporal relations,这个导致sub-optimal temporal matching representations for VOT andVOS.</li></ol><span id="more"></span><h3 id="总结">总结</h3><ol type="1"><li><p>采用adaptively spatial-attention dropout in the framereconstruction，来促进temporal correspondence learning in videos.作者展示了dropMAE是一个很强的、efficient temporal matching learner.实现了better fine-tuning results on matching-based tasks.作者还发现motion diversity in pre-training videos比scenediversity更重要。 预训练的dropMAE能够直接用现有的ViT-based trackers forfine-tuning without further modifications.</p></li><li><p>在VOT中最近的两个工作，SimTrack和OSTrack，都是用MAE pre-trainedViT model作为trackign backbone, 不需要复杂的trackingpipelines，实现了很好的效果。它们的MAE是在ImageNet上的。没有先验的时序信息能在静态图像上学习到。之前的追踪方法表明：temporalcorrespondence learning 对于develop一个robusttracker是关键的。因此develop MAE framework specifically formatching-based videos tasks 是一个机会。</p></li><li><p>Extend MAE to videos 是随机mask out frame patches in a videoclip, then reconstruct video clip. 像baselineTwinMAE，在重建patches的时候，会严重依赖 spatially neighbouring patcheswithin the same frame, which implies a heavy co-adaptation of spatialcues(within-frame tokens) for reconstruction, 可能对于matching-based下游任务，造成learning of sub-optimal temporal representation.</p></li><li><p>为了解决这个问题，dropMAE能够adaptively performsspatial-attention dropout to <strong>break up co-adaptation betweenspatial cues(within-frame tokens) during the framereconstruction</strong>, 因此encouraging more temporal interaction andfacilitating temporal correspondence learning.</p></li><li><p>VOT：标首帧，然后预测之后的目标的boundingbox; VOS: 标首帧的binarymask，预测之后的target masks。之前VOT的方法，correlation filter-basedapproaches 占主导，因为它们能够很好地对target appearancevariation进行建模。深度学习的发展，Siamese网络引入到了VOT,SiamFC用template和search images 作为target localization的输入。</p></li><li><p>自监督的方法中，有很多人工设计的代理任务(pretext tasks) forpre-training.例如：image colorization、jigsaw puzzle solving、futureframe prediction、rotation prediction、Contrastive learning approaches.然而，这些方法都对type 和strength of applied dataaugmentation敏感，使得它们很难训练。</p></li><li><p>不同于已有的VideoMAE，这个是用来做video actionrecognition的，在预训练的时候用一个long video clip(16frames)。为了和VOT/VOS保持一致，在通常的objecttracking中，从一个视频中采样2个frames作为TwinMAE的输入，来做预训练。</p></li><li><p>Given a query token， 基本想法是<strong>adaptively drop a portionof its with-frame cues in order to facilitate the model to learn morereliable temporal correspondence</strong>.就是<strong>限制同一个frame里的 query token和tokens之间的interaction,encourage more interactions with tokens in the otherframe</strong>，这样模型会去学到更好的temporal matchingability.</p></li><li><p>用在VOT上的流程：</p><ul><li>cropped template 和search images are firstly serialized intosequences and concatenated together，然后，总的sequence is added withthe positional embeddings and input to the ViT backbone for jointfeature extraction and interaction. 最后，updated search features areinput to a prediction head to predict the target bounding box.</li><li>在fine-tuning的时候，用预训练的DropMAE来初始化OSTracker中的ViT，同时two frame identity embeddings are respectively added to template andsearch embeddings, in order to keep consistency with the pre-trainingstage. <imgsrc="https://d3i71xaburhd42.cloudfront.net/4569040e52aabdc92213d0687eafba0c73c1afdc/3-Figure3-1.png"alt="DropMAE" /> <span class="math inline">\(Fig.3^{[1]}\)</span>：DropMAE: The proposed adaptive spatial-attention droput(ASAD)facilitates temporal correspondence learning for temporal matchingtasks. TwinMAE follows the same pipeline except that the ASAD module isnot used.</li></ul></li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;masked-autoencoders-with-saptial-attention-dropout-for-tracking-tasks1&quot;&gt;Masked
+Autoencoders with Saptial-Attention Dropout for Tracking
+Tasks&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自CityU、IDEA、Tecent AI Lab、CUHK(SZ)的 Qiangqiang
+Wu、Tianyu Yang、Ziquan Liu、Baoyuan Wu、Ying Shan、Antoni B.Chan.
+论文引用[1]:Wu, Qiangqiang et al. “DropMAE: Masked Autoencoders with
+Spatial-Attention Dropout for Tracking Tasks.” 2023 IEEE/CVF Conference
+on Computer Vision and Pattern Recognition (CVPR) (2023):
+14561-14571.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2023.Apr&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;masked autoencoder&lt;/li&gt;
+&lt;li&gt;temporal matching-based&lt;/li&gt;
+&lt;li&gt;spatial-attention dropout&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;将MAE应用到下游任务如: visual object tracking(VOT) and video object
+segmentation(VOS). 简单的扩展MAE是mask out frame patches in videos and
+reconstruct the frame pixels.然而作者发现这个会严重依赖于spatial cues,
+当进行frame reconstruction的时候忽略temporal relations,
+这个导致sub-optimal temporal matching representations for VOT and
+VOS.&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Autoencoder" scheme="https://young-eng.github.io/YoungBlogs/tags/Autoencoder/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FCN</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/20/FCN/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/20/FCN/</id>
+    <published>2024-05-20T01:16:36.000Z</published>
+    <updated>2024-05-21T02:37:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="fully-convolution-networks-for-semantic-segmentation1">FullyConvolution Networks for Semantic Segmentation<sup>[1]</sup></h3><blockquote><p>作者是来自UC Berkeley的Jonathan Long, Evan Shelhamer, Trevor Darrell.论文引用[1]:Shelhamer, Evan et al. “Fully convolutional networks forsemantic segmentation.” 2015 IEEE Conference on Computer Vision andPattern Recognition (CVPR) (2014): 3431-3440.</p></blockquote><h3 id="time">Time</h3><ul><li>2014.Nov</li></ul><h3 id="key-words">Key Words</h3><ul><li>fully convolutional network</li></ul><h3 id="动机">动机</h3><ol type="1"><li>目的是建一个fully convolution network,接收任意尺寸的输入，产生相应尺寸的输出 with efficient inference andlearning.</li></ol><span id="more"></span><h3 id="总结">总结</h3><ol type="1"><li><p>之前的工作用convnets for semantic segmentation, in which eachpixel is labeled with the class of its enclosing object or region,但是这么做有缺点。</p></li><li><p>作者们的方法，不需要pre- and post-processing complications,including superpixels, proposals or post-hoc refinement by random fieldsor local classifiers. <strong>global information resolves what whilelocal information resolves where</strong>.</p></li><li><p>典型的recognition nets, 全连接层有固定的维度，没有了spatialcoordinates. 然而，这些全连接层也能被视为convolutions with kernels thatcover their entire input regions.</p></li><li><p>将coarse outputs 连接到dense pixels的另一个方式是interpolation.用反卷积的方式来进行上采样，可以end-to-end learning.</p></li><li><p>不太明白这个pathwise training..</p></li><li><p>将之前的VGG, GoogLeNet的final classifier layer去掉， 换成 <spanclass="math inline">\(1 \times 1\)</span>的卷积 with channel dimension21 to predict scores at each of the coarse output locations, followed bya deconvolution layer to bilinearly upsample the coarse outputs topixel-dense outputs.</p></li></ol><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/6fc6803df5f9ae505cae5b2f178ade4062c768d0/1-Figure1-1.png"alt="FCN" /> <span class="math inline">\(Fig.1^{[1]}\)</span>: Fullyconvolutional networks can efficiently learn to make dense predictionsfor per-pixel tasks like semantic segmentation.</p><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/6fc6803df5f9ae505cae5b2f178ade4062c768d0/3-Figure2-1.png"alt="Transforming" /> <span class="math inline">\(Fig.2^{[1]}\)</span>:Transforming fully connected layers into convolution layers enables aclassification net to output a heatmap. Adding layers and a spatial lossproduces an efficient machine for end-to-end learning.</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;fully-convolution-networks-for-semantic-segmentation1&quot;&gt;Fully
+Convolution Networks for Semantic Segmentation&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自UC Berkeley的Jonathan Long, Evan Shelhamer, Trevor Darrell.
+论文引用[1]:Shelhamer, Evan et al. “Fully convolutional networks for
+semantic segmentation.” 2015 IEEE Conference on Computer Vision and
+Pattern Recognition (CVPR) (2014): 3431-3440.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2014.Nov&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;fully convolutional network&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;目的是建一个fully convolution network,
+接收任意尺寸的输入，产生相应尺寸的输出 with efficient inference and
+learning.&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Semantic Segmentation" scheme="https://young-eng.github.io/YoungBlogs/tags/Semantic-Segmentation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>今日 Thoughts--0519</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/19/0519Thoughts/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/19/0519Thoughts/</id>
+    <published>2024-05-19T14:27:24.000Z</published>
+    <updated>2024-05-19T14:36:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="面对生活中的有些事情就像弹簧你弱它就强你强它就弱">面对生活中的有些事情，就像弹簧，你弱它就强，你强它就弱。</h3><h3id="去追求让自己快乐的事情负面的东西带来的负面的情绪只会陷入更深的痛苦虚度光阴百害而无一利">去追求让自己快乐的事情，负面的东西带来的负面的情绪只会陷入更深的痛苦，虚度光阴，百害而无一利。</h3><h3 id="let-past-be-the-past">Let past be the past</h3>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3
+id=&quot;面对生活中的有些事情就像弹簧你弱它就强你强它就弱&quot;&gt;面对生活中的有些事情，就像弹簧，你弱它就强，你强它就弱。&lt;/h3&gt;
+&lt;h3
+id=&quot;去追求让自己快乐的事情负面的东西带来的负面的情绪只会陷入更深的痛苦虚度光阴百害而无一利&quot;&gt;去追求让自己快乐的事情，负面的东</summary>
+      
+    
+    
+    
+    <category term="日常" scheme="https://young-eng.github.io/YoungBlogs/categories/%E6%97%A5%E5%B8%B8/"/>
+    
+    
+    <category term="Blog" scheme="https://young-eng.github.io/YoungBlogs/tags/Blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AI Resources</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/13/AI-Resources/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/13/AI-Resources/</id>
+    <published>2024-05-13T05:13:08.000Z</published>
+    <updated>2024-05-13T06:58:40.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="ai-相关的resources">AI 相关的Resources</h3><p>公开课</p><ol type="1"><li>CS231n, CS25</li><li>台大李宏毅的课</li></ol><p>CS自学</p><ol type="1"><li>csdiy</li><li>计算机专业学习路线：https://hackway.org/docs/cs/intro</li></ol><p>个人博客</p><ol type="1"><li>苏剑林博客：https://spaces.ac.cn/</li><li>https://lilianweng.github.io/</li></ol><p>工具网站</p><ol type="1"><li>AI Paper Collector</li><li>Paper with code</li><li>HuggingFace docs</li><li>AI Conference Deadline:https://aideadlin.es/?sub=ML,CV,CG,NLP,RO,SP,DM,AP,KR,HCI</li><li>深度学习实验管理wandb</li></ol><p>参考链接：</p><p>季恩比特的微博</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;ai-相关的resources&quot;&gt;AI 相关的Resources&lt;/h3&gt;
+&lt;p&gt;公开课&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;CS231n, CS25&lt;/li&gt;
+&lt;li&gt;台大李宏毅的课&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;CS自学&lt;/p&gt;
+&lt;ol t</summary>
+      
+    
+    
+    
+    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
+    
+    
+    <category term="Resources" scheme="https://young-eng.github.io/YoungBlogs/tags/Resources/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>偶识的网友</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/13/%E5%81%B6%E8%AF%86%E7%9A%84%E7%BD%91%E5%8F%8B/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/13/%E5%81%B6%E8%AF%86%E7%9A%84%E7%BD%91%E5%8F%8B/</id>
+    <published>2024-05-13T04:19:05.000Z</published>
+    <updated>2024-05-14T04:34:14.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="偶然刷的一个博主--有感">偶然刷的一个博主--有感</h3><p>这两天在微博上偶然刷到了一个学术博主，本以为是一个比我大很多的PhD或者教师，结果是一个和我同龄的PhDCandidate。TA发的一些文章、微博，让我深受启发、鼓励和感动。作为一个没有多少社交的i人，思想认识上我也知道世界和人的多元，但是，如此一个活生生的优秀的同龄人，TA的所思所想、对很多问题的看法让我惊叹，这不就是我想要活成的样子吗？独立、开放、勇敢、坚定、自信、专注、坦诚，一点一点的进步，努力朝着的自己的理想的样子奔跑，用自己的方式度过自己的一生。人和人的轨迹不一样，有的人快，有的人慢，有的人中途休息了一段时间，有些人的路，蜿蜒曲折......</p><p>TA的很多观点给了我启发、鼓励和勇气，让我看到了优秀的同龄人的样子，看到了自己想要成为的样子，自己需要去思考如何面对自己及自己的生活，我也有我自己的人生节奏，长期的目标有，短期的目标也有，那就一步一个脚印，要有耐心和定力，拒绝一切内耗。</p><p>谢谢TA，谢谢我的偶识网友。</p><p>By May. 2024</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;偶然刷的一个博主--有感&quot;&gt;偶然刷的一个博主--有感&lt;/h3&gt;
+&lt;p&gt;这两天在微博上偶然刷到了一个学术博主，本以为是一个比我大很多的PhD或者教师，结果是一个和我同龄的PhD
+Candidate。TA发的一些文章、微博，让我深受启发、鼓励和感动。作为一个没有多</summary>
+      
+    
+    
+    
+    <category term="日常" scheme="https://young-eng.github.io/YoungBlogs/categories/%E6%97%A5%E5%B8%B8/"/>
+    
+    
+    <category term="Blog" scheme="https://young-eng.github.io/YoungBlogs/tags/Blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FCOS</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/11/FCOS/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/11/FCOS/</id>
+    <published>2024-05-11T04:18:35.000Z</published>
+    <updated>2024-05-20T02:17:14.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="fcos-fully-convolutional-one-stage-object-detection1">FCOS:Fully Convolutional One-Stage Object Detection<sup>[1]</sup></h3><blockquote><p>作者是来自澳大利亚的阿德莱德大学的ZhiTian, Chunhua Shen, Hao Chen,Tong He. 论文引用[1]:Tian, Zhi et al. “FCOS: Fully ConvolutionalOne-Stage Object Detection.” 2019 IEEE/CVF International Conference onComputer Vision (ICCV) (2019): 9626-9635.</p></blockquote><h3 id="time">Time</h3><ul><li>2019.Apr</li></ul><h3 id="key-words">Key Words</h3><ul><li>one-stage</li><li>FCN</li><li>per-pixel prediction fashion</li></ul><h3 id="动机">动机</h3><ol type="1"><li>基于anchor的检测器的一些缺点：对于一些超参数敏感：例如aspectratio,etc；计算量大；处理一些large shapevariations的物体的时候有困难。</li></ol><span id="more"></span><ol start="2" type="1"><li>FCN网络在一些dense prediction上取得了很好的效果如semanticsegmentation。目标检测可能是唯一一个deviating from the neat fullyconvolutional per-pixel prediction framework mainly due to the use ofanchor boxes. 所以很自然的想到：能不能类似于FCN for semanticsegmentation， 用neat per-pixelprediction的方式，解决目标检测问题。因此这些基础任务能够统一在一个框架里。答案是肯定的。</li></ol><h3 id="总结">总结</h3><ol type="1"><li><p>基于FCN的网络来做检测，会去预测一个4D vector + a class categoryat each spatial location on a level of feature maps. 4Dvector描述了bounding box的4个边 to location的relativeoffsets.高度重叠的bounding boxes会导致一个不确定：在overlappedregion,不清楚该regress 哪个bounding box for pixels。</p></li><li><p>为了抑制产生的低质量的框，引入了一个"center-ness" branch，来预测deviation of a pixel to the center of its corresponding boundingbox.</p></li><li><p>FCOS可以在两阶段的检测器中作为RPN，能够取得很好的效果。</p></li><li><p>对于特征图<span class="math inline">\(F_i\)</span>中的每个位置<span class="math inline">\((x,y)\)</span>，<spanclass="math inline">\(s\)</span>是 total stride until the layer. 将其mapit back onto input image as <span class="math inline">\((\lfloor\frac{s}{2}\rfloor + xs, \lfloor \frac{s}{2} \rfloor +ys)\)</span>,which is near the center of the receptive field of the location <spanclass="math inline">\((x,y)\)</span>.不同于anchor-based的检测器，考虑location on input image as the center ofanchor boxes and regress the target bounding box with these anchor boxesas references. 这里作者直接at the location 回归 target boundingbox。换句话说，检测器直接 <strong>views locations as training samplesinstead of anchor boxes in anchor-based detectors</strong>.</p></li><li><p>location <spanclass="math inline">\((x,y)\)</span>是被视为positive sample如果它落在任何一个bounding box，而且class label <spanclass="math inline">\(c^*\)</span> of thelocation是ground-truth的label。否则它就是negative sample and <spanclass="math inline">\(c^*=0\)</span>. 除了分类的label，还用一个4D vector<strong>t</strong><spanclass="math inline">\(^*=(l^*,t^*,r^*,b^*)\)</span> being the regressiontargets for the location. 这里的<spanclass="math inline">\(l^*,t^*,r^*,b^*\)</span>是location to four sidesof bounding box的距离。如果一个location落在多个boundingbox。则被视为ambiguous sample. 简单的选择一个minimal area as itsregression target. 后面会用multi-level prediction来减小ambigous samples.如果一个location与一个bounding box <spanclass="math inline">\(B_i\)</span>关联， training target for thelocation can be formulated as :</p></li></ol><p><spanclass="math display">\[\begin{aligned}l^*&amp;=x-x_0^{(i)},&amp;t^*&amp;=y-y_0^{(i)},\\r^*&amp;=x_1^{(i)}-x,&amp;b^*&amp;=y_1^{(i)}-y.\end{aligned}\]</span></p><ol start="6" type="1"><li><p>损失函数: <span class="math display">\[\begin{aligned}L(\{\boldsymbol{p}_{x,y}\},\{\boldsymbol{t}_{x,y}\})&amp;=\frac1{N_{\mathrm{pos}}}\sum_{x,y}L_{\mathrm{cls}}(\boldsymbol{p}_{x,y},c_{x,y}^{*})\\&amp;+\frac{\lambda}{N_{\mathrm{pos}}}\sum_{x,y}\mathbb{1}_{\{c_{x,y}^{*}&gt;0\}}L_{\mathrm{reg}}(\boldsymbol{t}_{x,y},\boldsymbol{t}_{x,y}^{*}),\end{aligned}\]</span></p><p>其中， <span class="math inline">\(L_cls\)</span>是focal loss，<spanclass="math inline">\(L_reg\)</span>是 IOU loss.</p></li><li><p>不同于anchor-base 检测器，会assign 不同尺寸的anchor box todifferent feature levels. 这里直接limit range of bounding box regressionfor each level. 如果一个location满足: <spanclass="math display">\[max(l^*,t^*,r^*,b^*)&gt;m_i,\ or \max(l^*,t^*,r^*,b^*) &lt; m_{i-1}\]</span> 则被设为negativesample,不在要求去regress a bounding box。 <spanclass="math inline">\(m_i\)</span>是maximum distance that feature level<span class="math inline">\(i\)</span> needs to regress.如果即使用了multi-level prediction, 一个位置仍然分配给多个grounth-truthboxes，简单地选择minimal area的bounding box作为target.</p></li><li><p>FCOS用了multi-levelprediction，和anchor-based检测器相比，性能还是有差距，在于低质量的boundingbox produced by locations far away from the center of anobject.提出了一个简单的策略来抑制低质量的检测框：加了一个single layerbranch to predict <strong>center-ness</strong> of a location. <spanclass="math display">\[\text{centerness}^*=\sqrt{\frac{\min(l^*,r^*)}{\max(l^*,r^*)}\times\frac{\min(t^*,b^*)}{\max(t^*,b^*)}}.\]</span></p><p>it is trained with BCE loss, added to loss funtion. 在测试的时候,final score is computed by multiplying the predicted center-ness withthe corresponding classification score.这个center-ness会down-weight离目标中心较远的boundingbox的中心。最后通过NMS来去掉低质量的bbox.</p></li></ol><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/e2751a898867ce6687e08a5cc7bdb562e999b841/3-Figure2-1.png"alt="FCOS" /> <span class="math inline">\(Fig.2^{[1]}\)</span>: Thenetwork architecture of FCOS, where C3, C4, and C5 denote the featuremaps of the backbone network and P3 to P7 are the feature levels usedfor the final prediction. <span class="math inline">\(H \timesW\)</span> is the height and width of feature maps. '/s' (s = 8,16,...,128) is the down sampling ratio of the feature maps at the level to theinput image. As an example, all the numbers are computed with an <spanclass="math inline">\(800 \times 1024\)</span> input.</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;fcos-fully-convolutional-one-stage-object-detection1&quot;&gt;FCOS:
+Fully Convolutional One-Stage Object Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自澳大利亚的阿德莱德大学的ZhiTian, Chunhua Shen, Hao Chen,
+Tong He. 论文引用[1]:Tian, Zhi et al. “FCOS: Fully Convolutional
+One-Stage Object Detection.” 2019 IEEE/CVF International Conference on
+Computer Vision (ICCV) (2019): 9626-9635.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2019.Apr&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;one-stage&lt;/li&gt;
+&lt;li&gt;FCN&lt;/li&gt;
+&lt;li&gt;per-pixel prediction fashion&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;基于anchor的检测器的一些缺点：对于一些超参数敏感：例如aspect
+ratio,etc；计算量大；处理一些large shape
+variations的物体的时候有困难。&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
     
     
@@ -195,272 +513,205 @@ IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
     
     <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
     
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/01/24/hello-world/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/01/24/hello-world/</id>
-    <published>2024-01-24T14:44:26.662Z</published>
-    <updated>2023-11-14T12:23:10.800Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your veryfirst post. Check <a href="https://hexo.io/docs/">documentation</a> formore info. If you get any problems when using Hexo, you can find theanswer in <ahref="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> oryou can ask me on <ahref="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><span id="more"></span><h2 id="quick-start">Quick Start</h2><h3 id="create-a-new-post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="run-server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="generate-static-files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="deploy-to-remote-sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very
-first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for
-more info. If you get any problems when using Hexo, you can find the
-answer in &lt;a
-href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or
-you can ask me on &lt;a
-href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</summary>
-    
-    
-    
+    <category term="Anchor-free" scheme="https://young-eng.github.io/YoungBlogs/tags/Anchor-free/"/>
     
   </entry>
   
   <entry>
-    <title>sshKey</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/01/22/sshKey/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/01/22/sshKey/</id>
-    <published>2024-01-21T16:21:33.000Z</published>
-    <updated>2024-01-22T08:16:24.538Z</updated>
+    <title>CornetNet</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/11/CornetNet/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/11/CornetNet/</id>
+    <published>2024-05-11T03:39:45.000Z</published>
+    <updated>2024-05-11T04:16:28.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="sshkey-记录">sshKey 记录</h3><p>今天传代码的时候，发现一直报连接超时，kex_exchange_identification:Connection closed by remote host，Please make sure you have the correctaccess rights and the repository exists.突然又郁闷了。搜了一圈之后，发现好像是远程密钥的问题。在出现Are you surewant to continue connecting (yes/no/[fingerprint])?的时候，输入yes，然后就OK了。</p><span id="more"></span><h4 id="ssh-生成公钥的命令">ssh 生成公钥的命令</h4><ul><li>ssh-keygen -t rsa -C "GitHub账号的注册邮箱"</li></ul><p>一般是在 ~\username\.ssh目录下。将id_rsa.pub里的内容复制到github的ssh key里。</p><ul><li>在 ~\username\.ssh目录下，新建一个config文件，将一下内容复制进去，解决了超时的问题：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line"></span><br><span class="line">Hostname ssh.github.com</span><br><span class="line"></span><br><span class="line">Port 443</span><br><span class="line"></span><br><span class="line">User git</span><br></pre></td></tr></table></figure><h4 id="参考链接">参考链接</h4><p>https://github.com/orgs/community/discussions/55269</p><p>https://www.cnblogs.com/gosun/p/13044672.html</p><p>https://stackoverflow.com/questions/11443687/the-authenticity-of-host-cant-be-established</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;sshkey-记录&quot;&gt;sshKey 记录&lt;/h3&gt;
-&lt;p&gt;今天传代码的时候，发现一直报连接超时，kex_exchange_identification:
-Connection closed by remote host，Please make sure you have the correct
-access rights and the repository exists.
-突然又郁闷了。搜了一圈之后，发现好像是远程密钥的问题。在出现Are you sure
-want to continue connecting (yes/no/[fingerprint])?
-的时候，输入yes，然后就OK了。&lt;/p&gt;</summary>
+    <content type="html"><![CDATA[<h3 id="cornernet-detecting-objects-as-paired-keypoints1">CornerNet:Detecting Objects as Paired Keypoints<sup>[1]</sup></h3><blockquote><p>作者是来自Princeton的Hei Law, Jia Deng.论文引用[1]:Law, Hei and JiaDeng. “CornerNet: Detecting Objects as Paired Keypoints.” InternationalJournal of Computer Vision 128 (2018): 642 - 656.</p></blockquote><h3 id="time">Time</h3><ul><li>2018.Aug</li></ul><h3 id="key-words">Key Words</h3><h3 id="动机">动机</h3><h3 id="总结">总结</h3>]]></content>
     
     
+      
+      
+    <summary type="html">&lt;h3 id=&quot;cornernet-detecting-objects-as-paired-keypoints1&quot;&gt;CornerNet:
+Detecting Objects as Paired Keypoints&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;</summary>
+      
     
-    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
     
     
-    <category term="Git" scheme="https://young-eng.github.io/YoungBlogs/tags/Git/"/>
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
+    
+    <category term="Anchor-free" scheme="https://young-eng.github.io/YoungBlogs/tags/Anchor-free/"/>
     
   </entry>
   
   <entry>
-    <title>Deployblogs</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2023/12/28/Deployblogs/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2023/12/28/Deployblogs/</id>
-    <published>2023-12-28T15:10:20.000Z</published>
-    <updated>2023-12-29T06:47:29.636Z</updated>
+    <title>CenterNet</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/11/CenterNet/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/11/CenterNet/</id>
+    <published>2024-05-11T03:37:22.000Z</published>
+    <updated>2024-05-19T02:40:52.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="部署博客方式">部署博客方式</h3><ol type="1"><li>部署在 Vercel,Netlify 这样的免费平台上</li><li>部署在 Github Pages 上,是用gh-pages分支来部署的，xxx.github.io可以用来做个人主页介绍，gh-pages用来做博客</li></ol><h4 id="部署在-vercel-上的博客">部署在 Vercel 上的博客</h4><ol type="1"><li><p>可以通过和github账号关联，一键部署，很方便</p></li><li><p>在本地安装vercel， 通过vercel的命令行工具，来实现部署</p></li><li><p>遇到的问题，vercel易被DNS污染，正常访问打不开，看到有帖子说可以买个域名弄一下，有钱了再买个域名玩一玩,😭</p></li></ol><span id="more"></span><h4 id="部署在-github-pages上">部署在 Github Pages上</h4><ol type="1"><li>先要创建一个repo,然后建立一个gh-pages分支，然后把博客代码push到gh-pages分支上，然后通过域名访问博客，需要去setting里改一下branch和source，然后在__config.yml里，deploy的设置需要修改，包括type,repo和branch， branch:gh-pages，另外还有一个url需要修改，也是一个大坑，好不容易能打开blogs网址了，发现页面没有渲染，url需要改为xxx.github.io/xxx，然后root:/xxx/，这样就能正常访问了，需要hexo generate一下，然后hexodeploy一下，才能看到效果。</li></ol><p>参考链接如下：</p><p>https://cloud.tencent.com/developer/article/1391619</p><p>https://einverne.github.io/gitbook-tutorial/publish/gitpages.html</p><p>https://blog.csdn.net/qq_58832911/article/details/128028317</p><p>https://www.cnblogs.com/xuyiyang/p/13647069.html</p><p>https://www.xxyopen.com/2022/07/19/tools/pages_host.html</p><p>https://blog.csdn.net/qq_44960878/article/details/131548656</p><p>https://blog.csdn.net/m0_57236802/article/details/134333457</p><p>https://sinoui.github.io/sinoui-guide/docs/github-pages-introduction</p><p>https://blog.csdn.net/banjw_129/article/details/82261165</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="object-as-points1">Object as Points<sup>[1]</sup></h3><blockquote><p>作者是来自UT Austin, UC Berkeley的Xingyi Zhou，Dequan Wang, PhilippKrahenbuhl。论文引用[1]:Zhou, Xingyi et al. “Objects as Points.” ArXivabs/1904.07850 (2019): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2019.Apr</li></ul><h3 id="key-words">Key Words</h3><ul><li>model object as a single point -- center point of its boundingbox</li><li>keypoint estimation</li></ul><h3 id="动机">动机</h3><ol type="1"><li>大多数的目标检测器会产生大量的潜在的object locations，and classifyeach，这是wasteful, inefficient, 需要很多后处理。</li></ol><span id="more"></span><h3 id="总结">总结</h3><ol type="1"><li><p>用keypoint estimation来找到center points and regresses to allother object properties such as sizes, 3D location, orientation and evenpose. 两阶段的检测器需要后处理，来除掉duplicated detections for the sameinstance by computing bounding box IoU. 这个后处理很难differentiate andtrain.</p></li><li><p>将图片送入Full conv network, generates a heatmap, peaks in thisheatmap correspond to object centers. Image features at each peakpredict the objects bounding box height and weight. 推理是single networkforward-pass,无需非极大抑制来做后处理。之前也有keypointestimatino来做目标检测，如: CornerNet,ExtremeNet，这些和centerNet用的都是相同的network,但是它们需要combinatorial grouping stage after keypoint detection.这个会使算法变慢。 CenterNet <strong>simply extracts a single centerpoint per object without the need for grouping orpost-processing</strong>。</p></li><li><p>Keypoint heatmap $ ^{ } $, <span class="math inline">\(R\)</span>是ouput stride, <span class="math inline">\(C\)</span> is the number ofkeypoint types. Keypoint types include <span class="math inline">\(C=17\)</span> human joints in human pose estimation, or <spanclass="math inline">\(C=80\)</span> object categories in objectdetection. 对于 ground truth keypoint <span class="math inline">\(p \inR^2\)</span> of class c, compute a low-resolution equivalent <spanclass="math inline">\(\hat{p} = \lfloor{\frac{p}{R}}\rfloor\)</span>。We then splat all grouth truth keypoints onto a heatmap $Y^{ } $ using aGaussian kernel <spanclass="math display">\[Y_{xyc}=\exp\left(-\frac{(x-\tilde{p}_{x})^{2}+(y-\tilde{p}_{y})^{2}}{2\sigma_{p}^{2}}\right)\]</span></p></li><li><p>If two Gaussians of the same class overlap, we take theelement-wise maximum. The training objective is a penalty-reducedpixel-wise logistic regression with focall loss:</p><p><spanclass="math display">\[L_k=\frac{-1}{N}\sum_{xyc}\begin{cases}(1-\hat{Y}_{xyc})^\alpha\log(\hat{Y}_{xyc})&amp;\text{if}Y_{xyc}=1\\[2ex](1-Y_{xyc})^\beta(\hat{Y}_{xyc})^\alpha&amp;\text{(1)}\\[2ex]\log(1-\hat{Y}_{xyc})&amp;\text{otherwise}\end{cases}\]</span></p><p><span class="math inline">\(\alpha\)</span> and <spanclass="math inline">\(\beta\)</span> 是超参数， <spanclass="math inline">\(N\)</span>是 image <spanclass="math inline">\(I\)</span> 中的keypoint的数量。 To recover thediscretization error caused by the output stride, we additionallypredict a local offset <span class="math inline">\(\hat{O} \inR^{\frac{W}{R} \times \frac{H}{R} \times 2}\)</span> for each centerpoint.所有的类C共享offset prediction. Offset是用L1 Loss</p><p><spanclass="math display">\[L_{off}=\frac{1}{N}\sum_{p}\left|\hat{O}_{\tilde{p}}-\left(\frac{p}{R}-\tilde{p}\right)\right|.\quad(2)\]</span></p><p>The supervision acts only at keypoints location <spanclass="math inline">\(\hat{p}\)</span>, all other locations areignored.</p><p><spanclass="math display">\[L_{size}=\frac{1}{N}\sum_{k=1}^{N}\left|\hat{S}_{p_{k}}-s_{k}\right|.\text{(3)}\]</span></p><p>总的training object is :</p><p><spanclass="math display">\[L_{det}=L_{k}+\lambda_{size}L_{size}+\lambda_{off}L_{off}.\quad(4)\]</span></p></li><li><p>Hourglass: The stacked Hourglass Network downsamples the input by<span class="math inline">\(4 \times\)</span>， followed by twosequential hourglass modules. 每个hourglass module 是对称的 5-layerdown- and up- convolution network with skip connections.</p></li></ol><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/6a2e2fd1b5bb11224daef98b3fb6d029f68a73f2/3-Figure3-1.png"alt="CenterNet" /> <span class="math inline">\(Fig. 1^{[1]}\)</span>:difference between anchor-based detectors and center point detector$</p><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/6a2e2fd1b5bb11224daef98b3fb6d029f68a73f2/2-Figure2-1.png"alt="Object as point" /> <span class="math inline">\(Fig.2^{[1]}\)</span>: model an object as the center point of its boundingbox. The bounding box size and other object properties are inferred fromthe keypoint feature at the center.</p>]]></content>
     
     
-    <summary type="html">&lt;h3 id=&quot;部署博客方式&quot;&gt;部署博客方式&lt;/h3&gt;
+    <summary type="html">&lt;h3 id=&quot;object-as-points1&quot;&gt;Object as Points&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自UT Austin, UC Berkeley的Xingyi Zhou，Dequan Wang, Philipp
+Krahenbuhl。论文引用[1]:Zhou, Xingyi et al. “Objects as Points.” ArXiv
+abs/1904.07850 (2019): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2019.Apr&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;model object as a single point -- center point of its bounding
+box&lt;/li&gt;
+&lt;li&gt;keypoint estimation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
 &lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;部署在 Vercel,Netlify 这样的免费平台上&lt;/li&gt;
-&lt;li&gt;部署在 Github Pages 上,
-是用gh-pages分支来部署的，xxx.github.io可以用来做个人主页介绍，gh-pages用来做博客&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h4 id=&quot;部署在-vercel-上的博客&quot;&gt;部署在 Vercel 上的博客&lt;/h4&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;可以通过和github账号关联，一键部署，很方便&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在本地安装vercel， 通过vercel的命令行工具，来实现部署&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;遇到的问题，vercel易被DNS污染，正常访问打不开，看到有帖子说可以买个域名弄一下，有钱了再买个域名玩一玩,
-😭&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;大多数的目标检测器会产生大量的潜在的object locations，and classify
+each，这是wasteful, inefficient, 需要很多后处理。&lt;/li&gt;
 &lt;/ol&gt;</summary>
     
     
     
-    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
     
     
-    <category term="blog" scheme="https://young-eng.github.io/YoungBlogs/tags/blog/"/>
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
+    
+    <category term="Anchor-free" scheme="https://young-eng.github.io/YoungBlogs/tags/Anchor-free/"/>
     
   </entry>
   
   <entry>
-    <title>UseGit</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2023/12/09/UseGit/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2023/12/09/UseGit/</id>
-    <published>2023-12-09T11:36:04.000Z</published>
-    <updated>2024-01-21T16:47:40.016Z</updated>
+    <title>RetinaNet</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/11/RetinaNet/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/11/RetinaNet/</id>
+    <published>2024-05-11T03:27:42.000Z</published>
+    <updated>2024-05-17T02:14:18.000Z</updated>
     
-    <content type="html"><![CDATA[<h3id="趁着这个计算神经科学的课用一用git">趁着这个计算神经科学的课，用一用git</h3><p>主要的流程是：</p><ul><li><code>git init</code> 初始化</li><li><code>git add .</code> 加载所有文件</li><li><code>git commit -m "first commit"</code></li><li><code>git branch -M main</code> 将主分支名字由master 改为main</li><li><code>git remote add origin github.com/xxx/xxx.git</code>后面的这个链接名字换成了 origin</li><li><code>git push -u origin main</code> 传到origin的main分支上,用这个命令也行，<code>git push --set-upstream origin xxx</code></li></ul><p>如果代码或者文件有修改，可以用git status 查看改动的文件，用git add<filename> 添加文件到缓存区，git add . 是一次性添加所有文件，然后<code>git commit -m "first commit"</code> 提交到本地仓库，git push提交到远程仓库。</p><span id="more"></span><p>如果要合并分支的话，用<code>git pull origin main --allow-unrelated-histories</code>，然后再<code>git push origin main</code>推送到远程。</p><p>如果要删除远程仓库文件/文件夹，用<code>git rm -r --cached &lt;filename&gt;</code>删除文件夹，用<code>git rm --cached &lt;filename&gt;</code>删除文件，不写--cached 的话，会直接删除本地文件夹。</p><p>大文件，超过100M的，用git lfs 命令，</p><p><code>git lfs track xxx</code></p><p><code>git add xxxx</code></p><p><code>git commit -m "xxx"</code></p><p><code>git push</code></p><p>删除git commit 中的大文件</p><p><code>git cherry -v</code> <code>git reset commit_id</code></p><p>三种方法解决 fatal: remote origin already exists.</p><p>https://blog.csdn.net/qq_34769162/article/details/116379638</p><p>参考链接：</p><p>https://www.jianshu.com/p/46489723fc5f</p><p>https://blog.csdn.net/weixin_42693712/article/details/108326096</p><p>https://zhuanlan.zhihu.com/p/624993960</p><p>https://git-lfs.com/</p><p>https://blog.csdn.net/dappp3000/article/details/111321738</p><p>https://docs.github.com/zh/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch</p><p>https://blog.csdn.net/faihung/article/details/96273705</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="focal-loss-for-dense-object-detection1">Focal Loss for DenseObject Detection<sup>[1]</sup></h3><blockquote><p>作者是来自FAIR的Tsung-Yi Lin, Priya Goyal, Ross Girshick, Kaiming He,Piotr Dollar.论文引用[1]:Lin, Tsung-Yi et al. “Focal Loss for DenseObject Detection.” IEEE Transactions on Pattern Analysis and MachineIntelligence 42 (2017): 318-327.</p></blockquote><h3 id="time">Time</h3><ul><li>2017.Aug</li></ul><h3 id="key-word">Key Word</h3><ul><li>Focal loss focues training on a sparse set of hard examples andprevents the vast number of easy negatives from overwhelming thedetector during training.</li><li>class imbalance between foreground and background classes duringtraining.</li><li>easy negatives</li></ul><span id="more"></span><h3 id="动机">动机</h3><ol type="1"><li>单阶段的检测器有潜力be faster andsimpler，但是精度还是不如两阶段的检测器。为什么会这样子呢？作者发现，主要原因是：在densedetectors训练过程中，前景-背景类别的极度不平衡。所以提出，通过改变交叉熵损失，down-weightsthe loss assigned to well-classified examples,从而来解决这个问题。</li></ol><h3 id="总结">总结</h3><ol type="1"><li><p>在两阶段的检测器中，proposal stage会过略掉很多background samples,在第二个分类的阶段，sampling heuristics such as fixedforeground-to-background ratio, or online hard example mining能够maintain a manageable balance between foreground andbackground.相比之下，在单阶段检测中，检测器需要处理大量的candidateobject locations sampled across an image, classified backgroundsamples在训练过程中占主导，这样类似的samplingheuristics效率就比较低。这个低效率的问题在目标检测中是一个经典问题，typically address via techniques such as bootstrapping, hard examplemining.</p></li><li><p>提出的新的Loss函数。 这个loss function是一个<strong>dynamicallyscaled cross entropy loss</strong>, scaling factor decays to zero asconfidence in the correct class increases. 这个scalingfactor能够自动地down-weight contribution of easy examples duringtraining，让Model focus on a sparse set of <strong>hardexamples</strong>.</p></li><li><p>Focal Loss:</p><p><span class="math display">\[{FL}(p_t)=-(1-p_t)^{\gamma} {log({p_t})}\]</span></p><ul><li><p>当分类正确的时候, <span class="math inline">\(p_t \rightarrow1\)</span>, factors 趋于0， loss for well-classified isdown-weighted.</p></li><li><p>Focal loss 变体： <span class="math display">\[{FL}(p_t)=-{\alpha_t}(1-p_t)^{\gamma} {log({p_t})}\]</span></p></li></ul></li><li><p>二分类模型，默认初始化的时候 y=1或者-1有相同的概率，在这种情况下，由于class imbalance，导致frequentclass主导整个loss，造成早期训练时候的不稳定。引入概念"prior" for thevalue of p eastimated by the model for rare class(foreground) at thestart of training.</p></li><li><p>Anchors: anchors have area of <spanclass="math inline">\(32^{2}\)</span> to <spanclass="math inline">\(512^{2}\)</span> on pyramid level <spanclass="math inline">\(P_3\)</span> to <spanclass="math inline">\(P_7\)</span>,</p></li><li><p>分类网络分支：是一个小的FCN attached to each FPN level,parameters of this subnet are shared across all pyramid levels.和boxregression 分支不共享参数。</p></li><li><p>Box regression分支：也是一个小的FCN attached to each pyramidlevel. 和分类网络分支的不同就在于最后是 <spanclass="math inline">\(4A\)</span>个linear output per spatial location.For each of the A anchors per spatial location, 这4个outputs预测 <spanclass="math inline">\(relative offset\)</span> between the anchor andgroundtruth box. <imgsrc="https://d3i71xaburhd42.cloudfront.net/1a857da1a8ce47b2aa185b91b5cb215ddef24de7/5-Figure3-1.png"alt="RetinaNet" /> Figure 3. The one-stage RetinaNet networkarchitecture uses a Feature Pyramid Network (FPN) backbone on top of afeedforward ResNet architecture (a) to generate a rich, multi-scaleconvolutional feature pyramid (b). To this backbone RetinaNet attachestwo subnetworks, one for classifying anchor boxes (c) and one forregressing from anchor boxes to ground-truth object boxes (d). Thenetwork design is intentionally simple, which enables this work to focuson a novel focal loss function that eliminates the accuracy gap betweenour one-stage detector and state-of-the-art two-stage detectors likeFaster R-CNN with FPN while running at faster speeds.</p></li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;focal-loss-for-dense-object-detection1&quot;&gt;Focal Loss for Dense
+Object Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自FAIR的Tsung-Yi Lin, Priya Goyal, Ross Girshick, Kaiming He,
+Piotr Dollar.论文引用[1]:Lin, Tsung-Yi et al. “Focal Loss for Dense
+Object Detection.” IEEE Transactions on Pattern Analysis and Machine
+Intelligence 42 (2017): 318-327.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2017.Aug&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-word&quot;&gt;Key Word&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Focal loss focues training on a sparse set of hard examples and
+prevents the vast number of easy negatives from overwhelming the
+detector during training.&lt;/li&gt;
+&lt;li&gt;class imbalance between foreground and background classes during
+training.&lt;/li&gt;
+&lt;li&gt;easy negatives&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
+    
+    <category term="Anchor-based" scheme="https://young-eng.github.io/YoungBlogs/tags/Anchor-based/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FPN</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/11/FPN/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/11/FPN/</id>
+    <published>2024-05-11T03:18:16.000Z</published>
+    <updated>2024-05-16T02:22:06.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="feature-pyramid-networks-for-object-detection1">Feature PyramidNetworks for Object Detection<sup>[1]</sup></h3><blockquote><p>作者是来自FAIR和Cornell的Tsung-Yi Lin, Piotr Dollar, Ross Girshick,Kaiming He, Bharath Hariharan, Serge Belongie.论文引用[1]:Lin, Tsung-Yiet al. “Feature Pyramid Networks for Object Detection.” 2017 IEEEConference on Computer Vision and Pattern Recognition (CVPR) (2016):936-944.</p></blockquote><h3 id="time">Time</h3><ul><li>2017.Apr</li></ul><h3 id="key-word">Key Word</h3><ul><li>multi-scale, pyramidal hierarchy</li><li>top-down architecture with lateral connections</li><li>high-level sematic feature maps at all scales.</li></ul><span id="more"></span><h3 id="动机">动机</h3><ol type="1"><li>feature pyramids是识别系统中用来检测物体的一个基本component，但是最近的深度学习的目标检测器避免了pyramidrepresentations，部分是因为compute and memoryintensive。这篇paper中，exploit inherent multi-scale、pyramid hierarchyof deep convolutional networks to construct feature pyramids with<em>marginal extra cost</em></li></ol><h3 id="总结">总结</h3><ol type="1"><li><p>FPN 展示了 significant improvement as a generic feature extractorin several applications.<em>featurized image pyramids</em>在手工特征的时代用的很多.</p></li><li><p>principle advantage of featurizing each level of an image pyramidis that it produces a multi-scale feature representation in which alllevels are semantically strong, including the high-resolutionlevels.然而，featurizing each level of imagepyramid也是有限制的：推理的时间会增加，并且训练的时候从memory的角度是不合理的。</p></li><li><p>image pyramid不是唯一的用来计算multi-scale featurerepresentation的方式，deep convNet compute a feature hierarchy layer bylayer，就是说：神经网络本身就能够计算出hierarchy feature(hasmulti-scale, pyramidal shape)。本文的目标就是利用ConvNet的 featurehierarchy的pymidal shape while creating a feature pyramid that hasstrong semantics at all scales.</p></li><li><p>经常有很多layers，产生相同大小的output featuremaps，将这些layers称为是同一个network stage，对于featurepyramid，定义一个stage是一个pyramidlevel。选择每个stage的最后一层的输出为 reference set of feature maps。特别地，对于ResNet，用feature activation outputs by each stage's lastresidual block，将这些最后的residual block的output记为：{C2,C3,C4,C5}for conv2, conv3,conv4,conv5. they have strides of {4,8,16,32} pixelswith repsect to the input image.</p></li><li><p>upsampled map和对应的bottom-up map(经过 <spanclass="math inline">\(1 \times 1\)</span>的卷积来减小channels) 融合 byelement-wise addition，最后，对于每个merged map，加一个 <spanclass="math inline">\(3 \times 3\)</span>的卷积，来产生最后的featuremap，来减小aliasing effect of upsampling。</p></li><li><p>用FPN替换single-scale feature map来改写RPN。因为head slides overall locations in all pyramid layers，所以在一个特定的level上,anchor没有必要是multi-scale的。 Anchor在每个level有一个scale。 定义了 <spanclass="math inline">\(32^{2},64^{2},128^{2}\)</span> pixels on {P2,P3,P4,P5} respectively. 每个level三个aspect ratio，所以总共15个anchorsover the pyramid.</p></li></ol><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/2a94c84383ee3de5e6211d43d16e7de387f68878/1-Figure1-1.png"alt="Different feature pyramid" /> <span class="math inline">\(Fig.1^{[1]}\)</span>. (a) Using an image pyramid to build a featurepyramid.Features are computed on each of the image scales independently,which is slow. (b) Recent detection systems have opted to use onlysingle scale features for faster detection. (c) An alternative is toreuse the pyramidal feature hierarchy computed by a ConvNet as if itwere a featurized image pyramid. (d) Our proposed Feature PyramidNetwork (FPN) is fast like (b) and (c), but more accurate.In thisfigure, feature maps are indicate by blue outlines and thicker outlinesdenote semantically stronger features.</p><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/2a94c84383ee3de5e6211d43d16e7de387f68878/2-Figure2-1.png"alt="prediction at all level" /> <span class="math inline">\(Fig.2^{[1]}\)</span>. Top: a top-down architecture with skipconnections,where predictions are made on the finest level. Bottom:ourmodel that has a similar structure but leverages it as a featurepyramid, with predictions made independently at all levels</p><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/2a94c84383ee3de5e6211d43d16e7de387f68878/3-Figure3-1.png"alt="building block" /> <span class="math inline">\(Fig.3^{[1]}\)</span>. A building block illustrating the lateral connectionandthe top-down pathway, merged by addition.</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;feature-pyramid-networks-for-object-detection1&quot;&gt;Feature Pyramid
+Networks for Object Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自FAIR和Cornell的Tsung-Yi Lin, Piotr Dollar, Ross Girshick,
+Kaiming He, Bharath Hariharan, Serge Belongie.论文引用[1]:Lin, Tsung-Yi
+et al. “Feature Pyramid Networks for Object Detection.” 2017 IEEE
+Conference on Computer Vision and Pattern Recognition (CVPR) (2016):
+936-944.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2017.Apr&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-word&quot;&gt;Key Word&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;multi-scale, pyramidal hierarchy&lt;/li&gt;
+&lt;li&gt;top-down architecture with lateral connections&lt;/li&gt;
+&lt;li&gt;high-level sematic feature maps at all scales.&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
+    
+    <category term="Anchor-based" scheme="https://young-eng.github.io/YoungBlogs/tags/Anchor-based/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SPPNet</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/05/11/SPPNet/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/05/11/SPPNet/</id>
+    <published>2024-05-11T03:14:34.000Z</published>
+    <updated>2024-05-14T16:00:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="spatial-pyramid-pooling-in-deep-convolutional-networks-for-visual-recognition1">SpatialPyramid Pooling in Deep Convolutional Networks for VisualRecognition<sup>[1]</sup></h3><blockquote><p>作者是何恺明，张祥宇，任少卿和孙剑。论文引用[1]:He, Kaiming et al.“Spatial Pyramid Pooling in Deep Convolutional Networks for VisualRecognition.” IEEE Transactions on Pattern Analysis and MachineIntelligence 37 (2014): 1904-1916.</p></blockquote><h3 id="time">Time</h3><ul><li>2014.Jun</li></ul><h3 id="key-words">Key Words</h3><ul><li>spatial pyramid pooling</li></ul><h3 id="动机">动机</h3><ol type="1"><li>当前的CNNs要求输入图片有fixed-size， 这个要求可能会降低recognitionaccuracy for images or sub-images of an arbitrary size.</li></ol><span id="more"></span><h3 id="总结">总结</h3><ol type="1"><li><p>之前的CNNs有一个问题：要求固输入的图片时固定的尺寸，限制了aspectratio and scale of input image.当输入任意尺寸的图片时，当前的方法会通过crop,warp等方式将图片弄成fixed-size。crop/warp可能会造成目标的确实或者可能的形变。fixing input sizes 忽视了issues involving scales。CNN中的fc layers需要固定长度的输入，这个存在于深度的网络中。</p></li><li><p>在最后一个卷积上加一个SPP layer, 能够产生a fixed-lengthrepresentation regardless of image size/scale，pyramid pooling is alsorobust to object deformations。换句话说：这个是做了一个informationaggregation。</p></li><li><p>SPPNet，从整个图片中只计算一次feature map, 然后pool features inarbitrary regions to generate fixed-length representations for trainingdetecotors. 这个方法避免了重复计算conv features.</p></li><li><p>Spatial pyramid pooling,是Bag-of-words(BoW)的扩展，SPP用multi-level spatial bins, while sliding window pooling uses only asingle window size.</p></li><li><p>spatial bins have sizes proportional to the image size,因此bins的数量是固定的，这与之前的sliding window pooling不一样(slidingwindows 的数量依赖于input size)</p></li></ol><figure><imgsrc="https://pic4.zhimg.com/v2-da59abcbe56803aeeef24ffb5131ce83_r.jpg"alt="Pipeline" /><figcaption aria-hidden="true">Pipeline</figcaption></figure><figure><imgsrc="https://pic1.zhimg.com/v2-62c008799df798656236258c64082340_r.jpg"alt="Pooling" /><figcaption aria-hidden="true">Pooling</figcaption></figure>]]></content>
     
     
     <summary type="html">&lt;h3
-id=&quot;趁着这个计算神经科学的课用一用git&quot;&gt;趁着这个计算神经科学的课，用一用git&lt;/h3&gt;
-&lt;p&gt;主要的流程是：&lt;/p&gt;
+id=&quot;spatial-pyramid-pooling-in-deep-convolutional-networks-for-visual-recognition1&quot;&gt;Spatial
+Pyramid Pooling in Deep Convolutional Networks for Visual
+Recognition&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是何恺明，张祥宇，任少卿和孙剑。论文引用[1]:He, Kaiming et al.
+“Spatial Pyramid Pooling in Deep Convolutional Networks for Visual
+Recognition.” IEEE Transactions on Pattern Analysis and Machine
+Intelligence 37 (2014): 1904-1916.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git init&lt;/code&gt; 初始化&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git add .&lt;/code&gt; 加载所有文件&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git commit -m &quot;first commit&quot;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git branch -M main&lt;/code&gt; 将主分支名字由master 改为main&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git remote add origin github.com/xxx/xxx.git&lt;/code&gt;
-后面的这个链接名字换成了 origin&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git push -u origin main&lt;/code&gt; 传到origin的main分支上
-,用这个命令也行，&lt;code&gt;git push --set-upstream origin xxx&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;2014.Jun&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;如果代码或者文件有修改，可以用git status 查看改动的文件，用git add
-&lt;filename&gt; 添加文件到缓存区，git add . 是一次性添加所有文件，然后
-&lt;code&gt;git commit -m &quot;first commit&quot;&lt;/code&gt; 提交到本地仓库，git push
-提交到远程仓库。&lt;/p&gt;</summary>
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;spatial pyramid pooling&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;当前的CNNs要求输入图片有fixed-size， 这个要求可能会降低recognition
+accuracy for images or sub-images of an arbitrary size.&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
     
     
-    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
     
     
-    <category term="Git" scheme="https://young-eng.github.io/YoungBlogs/tags/Git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>paintwithPython</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2023/11/27/paintwithPython/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2023/11/27/paintwithPython/</id>
-    <published>2023-11-27T02:04:21.000Z</published>
-    <updated>2023-11-27T02:05:19.592Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
-    
-    
-    
-    
-    <category term="Interests" scheme="https://young-eng.github.io/YoungBlogs/tags/Interests/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>transformer</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2023/11/24/transformer/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2023/11/24/transformer/</id>
-    <published>2023-11-24T13:10:25.000Z</published>
-    <updated>2023-11-25T03:40:18.471Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="transformer">Transformer</h3><p>两种注意力评分： 加性注意力和缩放点积注意力</p><h4 id="向量化">向量化:</h4><p>Q 为nxd维，K为mxd维，V为mxv维，n,m为query个数和键值对的个数。d,v为值的维数。</p><h4id="nnconv2d卷积操作的特征图的尺寸计算">nnConv2d卷积操作的特征图的尺寸计算</h4><p>经过卷积后的特征图尺寸等于卷积核滑动的次数 +1，现在假设卷积前的特征图宽度为N，卷积后输出的特征图宽度为M，padding之后的矩阵宽度等于N+2*padding 。卷积核的滑动次数等于 M-1</p><p><span class="math display">\[ N+2{\times}padding =(M-1){\times}strides +kernel\_size \]</span> 输出矩阵的宽度</p><p><span class="math display">\[M = (N + 2* padding -kernel\_size)/stride + 1 \]</span></p><p>[知乎链接]https://zhuanlan.zhihu.com/p/163017446</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3 id=&quot;transformer&quot;&gt;Transformer&lt;/h3&gt;
-&lt;p&gt;两种注意力评分： 加性注意力和缩放点积注意力&lt;/p&gt;
-&lt;h4 id=&quot;向量化&quot;&gt;向量化:&lt;/h4&gt;
-&lt;p&gt;Q 为
-nxd维，K为mxd维，V为mxv维，n,m为query个数和键值对的个数。</summary>
-      
-    
-    
-    
-    
-    <category term="算法" scheme="https://young-eng.github.io/YoungBlogs/tags/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Sleap_and_DeepLabCut</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2023/11/22/Sleap-and-DeepLabCut/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2023/11/22/Sleap-and-DeepLabCut/</id>
-    <published>2023-11-22T01:44:33.000Z</published>
-    <updated>2023-11-22T01:47:17.593Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="sleap">Sleap</h2><h3 id="train">Train</h3><p>sleap-train path/to/your/training_profile.jsonanother/path/to/labels.pkg.slp</p><h3 id="inference">Inference</h3>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;sleap&quot;&gt;Sleap&lt;/h2&gt;
-&lt;h3 id=&quot;train&quot;&gt;Train&lt;/h3&gt;
-&lt;p&gt;sleap-train path/to/your/training_profile.json
-another/path/to/labels.pkg.slp&lt;/p&gt;</summary>
-      
-    
-    
-    
-    
-    <category term="算法" scheme="https://young-eng.github.io/YoungBlogs/tags/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Methods</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2023/11/19/Methods/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2023/11/19/Methods/</id>
-    <published>2023-11-19T04:29:52.000Z</published>
-    <updated>2024-02-20T11:56:59.432Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
-    
-    
-    
-    <category term="Learning" scheme="https://young-eng.github.io/YoungBlogs/categories/Learning/"/>
-    
-    
-    <category term="学习方法" scheme="https://young-eng.github.io/YoungBlogs/tags/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SVD</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2023/11/17/SVD/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2023/11/17/SVD/</id>
-    <published>2023-11-17T07:07:36.000Z</published>
-    <updated>2023-11-17T07:12:00.525Z</updated>
-    
-    <content type="html"><![CDATA[<p>参考链接：https://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm这个里面有几处错误，A的转置矩阵不对。</p><p>https://my.oschina.net/findbill/blog/535044</p><p>https://zhuanlan.zhihu.com/p/77151308</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;参考链接：
-https://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm
-这个里面有几处错误，A的转置矩阵不对。&lt;/p&gt;
-&lt;p&gt;https://my.oschina.net/findbill/b</summary>
-      
-    
-    
-    
-    <category term="math" scheme="https://young-eng.github.io/YoungBlogs/categories/math/"/>
-    
-    
-    <category term="线性代数" scheme="https://young-eng.github.io/YoungBlogs/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BuildHexo</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2023/11/13/BuildHexo/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2023/11/13/BuildHexo/</id>
-    <published>2023-11-13T09:20:46.000Z</published>
-    <updated>2023-12-29T06:52:14.826Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。</p><span id="more"></span><h2 id="hexo-配置">Hexo 配置</h2><p>Hexo的配置主要是相关的主题啥的，环境配置可以参照Hexo的文档，主题我用了Next，Next用的人好像蛮多的，报了啥bug也方便解决。</p><h2 id="写blog">写blog</h2><p>通过hexo newxxblogtitlexx，来写blog,主要是markdown的格式，markdownd的相关语法可以看这里：</p><p>https://markdown.com.cn/</p><h2 id="遇到的问题">遇到的问题</h2><ol type="1"><li><p>公式的问题</p><p>用ghostwriter写markdown时，编辑器没法显示公式，找来找去最后还是用vscode把，这个可以预览。然后新的问题出现了，hexo的页面无法正确显示公式，这需要去_cofig.yml里，将math那里的mathjax和ktex的enable都设为true，不是True。然后就可了。但是！却显示不了下划线，苦苦查询了一番，用pandoc的渲染器比较好，hexo-render-marked换成hexo-renderer-pandoc，需要先安装pandoc，去pandoc的github下载最新的版本安装即可。</p></li></ol><p>参考链接如下：</p><p>https://theme-next.js.org/</p><p>https://hexo.io/zh-cn/docs/</p><p>https://zhuanlan.zhihu.com/p/35988761</p><p>https://blog.csdn.net/weixin_45073562/article/details/120289648</p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;最近一直有个想法，想去弄个博客，之前有在cnblogs上弄过，但是感觉还是想通过Hexo和Github来弄，主要目的是记录一下自己学习的一些东西，包括各种软件算法的配置、使用、以及踩过的坑等等。有个记录，方便自己需要的时候可以看看，同时，如果有朋友遇到了类似的问题，可以相互交流借鉴。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
-    
-    
-    <category term="Hexo" scheme="https://young-eng.github.io/YoungBlogs/tags/Hexo/"/>
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
     
   </entry>
   
