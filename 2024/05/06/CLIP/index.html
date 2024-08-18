@@ -27,7 +27,7 @@
 <meta property="og:description" content="Learning Transferable Visual Models From Natural Language Supervision[1]  作者是来自OpenAI的Alec Radford, Jong Wook Kim, Chris Halacy, Aditya Ramesh, Gabriel Goh, Sandhini, Agarwal, Girish Sastry, Aman">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-05-06T09:08:44.000Z">
-<meta property="article:modified_time" content="2024-08-07T01:44:07.712Z">
+<meta property="article:modified_time" content="2024-08-18T14:06:06.094Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="multi-modal">
 <meta name="twitter:card" content="summary">
@@ -130,7 +130,7 @@ Supervision[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-lin
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -212,7 +212,7 @@ Supervision[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-lin
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-07 09:44:07" itemprop="dateModified" datetime="2024-08-07T09:44:07+08:00">2024-08-07</time>
+      <time title="修改时间：2024-08-18 22:06:06" itemprop="dateModified" datetime="2024-08-18T22:06:06+08:00">2024-08-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,14 +238,14 @@ Supervision[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-lin
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>733</span>
+      <span>2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>7 分钟</span>
     </span>
 </div>
 
@@ -288,13 +288,88 @@ million的图像文本对的数据集上，从0开始，学习到SOTA的图像�
 <li><p><strong>text-to-text作为标准化的输入输出的接口，使得task-agnostic的架构能够zero-shot转移到下游数据集，不需要特定的输出头或者数据集的定制化。</strong></p></li>
 <li><p>这些结果表明：在网络规模的文本集合中，现代预训练方法可以获得的总体监督可以超过高质量的人标注的NLP数据集，然而，在计算机视觉中，在标注的数据集(例如ImageNet)上训练模型仍然是一个标准的practice。从互联网文本学习的可扩展的、预训练的方法是否能够在CV领域有类似的突破，先前的工作是encouraging.</p></li>
 <li><p>过去20年，Mori等人探索了基于图像检索，通过训练一个模型在文本图像对中来预测名词和形容词；Quattoni等人展示了通过在分类器的权重空间中的流行学习来学习更有效的数据图像表示是可能的，这些分类器被训练来预测与图像相关的标题中的words.</p></li>
-<li><p>learning from natural language
+<li><p><strong>Natural Language Supervision</strong>:
+从包含在自然语言中的监督信息学习感知是作者方法的核心，但是这并不是一个新的idea，之前有很多的术语来描述这个工作；这些工作不在于具体方法的细节，而是把自然语言作为训练信号；learning
+from natural language
 supervision比其它的训练方法有一些潜在的优势，相比于标准的图像分类的labeling,它更容易scale
 natural language
 supervision，因为它不要求annotions是一个经典的机器学习的兼容的格式，例如经典的
 1-of-N的 majority vote "gold
-label"；它不仅学习一个representation，也能够将representation和language进行connect，使得能偶灵活的zero-shot
+label"；它不仅学习一个representation，也能够将representation和language进行connect，使得能够灵活的zero-shot
 transfer。</p></li>
+<li><p><strong>Creating a Sufficiently Large
+Dataset</strong>:现存的工作主要有3个数据集:MS-COCO、Visual
+Genome和YFCC100M；自然语言监督信号的一个主要动机是互联网上的大量公开可用的数据，现存的数据集不能充分地反映它的潜力，仅依靠它们可能低估了这个研究的潜力；为了解决这个问题，构建了一个新的数据集，400million的图像文本对，为了尽可能的覆盖广泛的数据概念，搜索(图像，文本)对作为构建过程的一部分，其文本包含500,000个查询集中的一个.</p></li>
+<li><p><strong>Selecting an Efficient Pre-Training Method</strong>:
+训练先进的模型非常耗时；从自然语言中的视觉概念的开放集中学习似乎是daunting；训练效率对于scaling
+自然语言的supervision是至关重要的。给定一个batch of <em>N</em>
+(image,text) pairs, 训练CLIP来预测 $ <em>N N</em> $ 可能的pairings
+across a batch actually occurred.为了这么做，CLIP通过联合训练image
+encoder和text encoder来学习multi-modal embedding space,来最大化 N个real
+pairs的image 和text embeddings的<strong>cosine similarity</strong> in
+the batch，同时最小化 <strong>N^2 - N</strong> incorrect pairings
+embeddings的cosine similarity. over these similarity
+scores，优化了<strong>symmetric cross entropy loss</strong>， batch
+construction
+technique和objective是首次在深度度量学习中提出:<em>multi-class N-pair
+loss</em>，在contrastive representation中推广了， as the InfoNCE loss，
+最近被用于医学图像中的contrastive representation learning中。</p></li>
+<li><p>由于预训练数据集很大，过拟合不是主要的关注点；训练CLIP from
+scratch不需要从ImageNet weights来初始化image encoder或者text
+encoder。没有采用非线性的project between representation和contrastive
+embedding space。仅用了<strong>linear project</strong>来将each encoder's
+representation 映射到 multi-modal embedding space.</p></li>
+<li><p><strong>Choosing and Scaling a Model</strong>:
+考虑了两种不同的image
+encoder的架构：第一个是ResNet50,在原始版本上做了一些修改。将global
+average pooling替换为attention pooling. attention pooling是作为一个
+transformer风格的 multi-head QKV attention的single layer,
+query是conditioned on the global average-pooled representation of the
+image；第二个架构是ViT；在combined patch和position
+embeddings上加了额外的layer normalization before
+transformer，用了一个不同的初始化策略。 text
+encoder是Transformer。</p></li>
+<li><p>之前的CV 研究中，通过增加width或者depth in isolation来scale
+模型。对于ResNet image encoders，采用<strong>Tan &amp;
+Le(2019)</strong>的方法，发现allocating compute across all of width,
+depth, and resolution比仅allocating it to one of them 效果更好。对于text
+encoder，only scale the width of the model to be proportional to the
+calculated increase in width of the ResNet and 不去scale the depth,
+因为发现CLIP的性能对于text encoder的depth并不敏感。</p></li>
+<li><p><strong>Training</strong>: 用了5个
+ResNet系列的模型和3个ViT；用Adam optimizer with decoupled weight decay
+regularization applied to all weights that are not gains or biases,
+学习率衰减用cosine schedule。初始化超参数用grid searches、random
+search和manual tuning结合的方式 on the baseline ResNet50
+model。</p></li>
+<li><p><strong>Experiments</strong>:</p>
+<ul>
+<li><strong>Zero-Shot Transfer</strong>: 在计算机视觉中，zero-shot
+learning 通常是指在图像分类中，泛化到没有见过的目标类别的研究。zero-shot
+transfer更多的是评价CLIP对分布偏移和领域泛化的鲁棒性，而不是任务泛化。Visual
+N-Grams首次研究zero-shto transfer to existing image classification
+datasets。为了实现zero-shot transfer，首先将每个dataset的class
+name转换成n-gram representation，然后根据模型计算它的可能性，predicting
+the one with the highest
+score.对于每个数据集，用所有类的名字作为潜在的text
+pairings，用CLIP预测最大可能的(image,text)pair；更详细一点，首先计算image的feature
+embedding和set of possible texts的feature
+embeddings，计算得到这些embeddings的cosine similarity，通过temperature
+parameter <span class="math inline">\(\tao\)</span>
+进行缩放，然后通过Softmax归一化到概率分布，这个预测层是一个多项式的带有L2-normalized的inputs、L2-normalized
+weights、no bias and temperature scaling的逻辑回归分类器。
+这句话：<strong>every step of CLIP pre-training can be viewed as
+optimizing the performance of a randomly created proxy to a computer
+vision dataset which contains 1 example per class and has 32768 total
+classes defined via natural language
+descriptions</strong>.很多数据集的label没有预料到zero-shot
+transfer相关的问题，这个依赖于task description。另外一个问题是word的多义
+<strong>(polysemy)</strong>：类别名称是提供给CLIP text
+encoder的唯一的信息，由于缺乏上下文，无法区分这个单词的意义；在一些数据集中，同一个word的多个meaning可能是不同的类别。比方说:crane两个意思：起重机和鹤。通常情况下描述图片的text是一个完整的句子，但是有些是一个word，这个情况下，就用一个prompt
+template <strong>A photo of a {label}
+</strong>，来明确这个图片的内容。这个能够提高性能。通过customizing the
+prompt text to each task,能够显著提高zero-shot的性能。</li>
+</ul></li>
 </ol>
 <figure>
 <img
@@ -356,13 +431,13 @@ alt="CLIP" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">40k</span>
+    <span title="站点总字数">41k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:24</span>
+    <span title="站点阅读时长">2:29</span>
   </span>
 </div>
 <div class="busuanzi-count">

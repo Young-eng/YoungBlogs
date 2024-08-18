@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-07-17T10:15:22.000Z</updated>
+  <updated>2024-08-14T09:51:44.872Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>强化学习</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/08/14/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/08/14/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</id>
+    <published>2024-08-14T09:51:44.000Z</published>
+    <updated>2024-08-14T09:51:44.872Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Softwares&#39; installations</title>
@@ -730,61 +751,6 @@ matching)集成到现有的基于motion的高性能的方法中。&lt;/li&gt;
     
     
     <category term="Object tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-tracking/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ByteTrack</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/05/06/ByteTrack/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/05/06/ByteTrack/</id>
-    <published>2024-05-06T13:11:37.000Z</published>
-    <updated>2024-05-09T02:54:36.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="bytetrack-multi-object-tracking-by-associating-every-detection-box1">ByteTrack:Multi-Object Tracking by Associating Every DetectionBox<sup>[1]</sup></h3><blockquote><p>作者是来自华科、港大和字节跳动的Yifu Zhang、Peize Sun、YiJiang、Dongdong Yu等人。论文引用[1]:Zhang, Yifu et al. “ByteTrack:Multi-Object Tracking by Associating Every Detection Box.” EuropeanConference on Computer Vision (2021).</p></blockquote><h3 id="time">Time</h3><ul><li>2021.Oct</li></ul><h3 id="key-words">Key Words</h3><ul><li>Multi-object tracking</li></ul><h3 id="动机">动机</h3><ol type="1"><li>objects with low detection boxes are simply thrown away, whichbrings non-negligible true object missing and fragmentedtrajectories。</li></ol><h3 id="总结">总结</h3><ol type="1"><li>多目标追踪旨在估计bbox和目标的identity。大部分的方法通过关联detectionbox whose scores are higher than a threshold. objects with low detectionscores, occluded objects, are simply thrown away, which bringsnon-negligible true object missing and fragmentedtrajectories.为了解决这个问题，提出了一个简单有效的关联方法，通过关联几乎所有的detectionbox而不是仅仅高分的box，来实现追踪。对于低分的detectionbox，利用它们与tracklets的相似度来恢复true objects和过滤掉backgrounddetections。当应用9个不同的SOTA trackers的时候，该方法有提高。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>Tracking-by-Detection是当前MOT中最有效的范式。由于视频中的复杂场景，检测器会去做很多不完美的预测。SOTA的MOT方法，需要去处理truepositive、false positive trade-off in detectionbox，来消除低置信度的detection box。然而，消除低置信度的detectionbox是正确的方式吗？作者的回答是: No。低置信度的detectionbox有时候indicate 目标的存在, e.g occludedobjects。过滤掉这些目标回对MOT造成不可挽回的错误，带来不可忽视的missingdetection和fragmented trajectories。</p></li><li><p>在文章中，与tracklets的相似度(similarity withtracklets)提供了一个strong cue来区分objects和background in low scoredetection boxes。为了在matching processing中，利用detection box fromhigh scores to lowones，提出了一个简单有效的方法BYTE。<strong>每个detectionbox是tracklet的基本单元，as byte in computerprogram</strong>，首先基于运动相似度或者外观相似度，将high scoredetection box与tracklets进行关联。采用卡尔曼滤波来预测newframe中tracklets的位置。这个相似度可以通过predicted box和detectionbox的IoU或者Re-ID featuredistance来进行计算。然后用相同的运动相似度执行第二次匹配betweenunmatched tracklets and low score detection</p></li><li><p>一个MOT的理想的solution is never a detector and the followingassociation；besides，well-designed of their junction area is alsoimportant。BYTE的创新在于detection 和association的junction area，lowscore detection boxes are bridges to boost both ofthem。当BYTE应用于9个不同的trackers：包括: Re-ID based ones、motionbased ones、chain-based one and attention basedone。都有显著的提高。Bytetrack，采用最近的YOLOX检测器，来得到detectionboxes，用提出的BYTE方法进行关联。</p><ul><li>Tracking by Detection: 很多的方法利用powerful detectors来得到highertracking performance。很多的方法是直接用single image上的detection boxfor tracking。</li><li>Detection by Tracking: Tracking也可以用来帮助得到更精确的detectionboxes。一些方法利用SOT或者卡尔曼滤波来预测tracklets in the followingframe中的位置，fuse predicted boxes with detectio boxes to enhance thedetection results。</li></ul></li></ol>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;bytetrack-multi-object-tracking-by-associating-every-detection-box1&quot;&gt;ByteTrack:
-Multi-Object Tracking by Associating Every Detection
-Box&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自华科、港大和字节跳动的Yifu Zhang、Peize Sun、Yi
-Jiang、Dongdong Yu等人。论文引用[1]:Zhang, Yifu et al. “ByteTrack:
-Multi-Object Tracking by Associating Every Detection Box.” European
-Conference on Computer Vision (2021).&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2021.Oct&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Multi-object tracking&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;objects with low detection boxes are simply thrown away, which
-brings non-negligible true object missing and fragmented
-trajectories。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;多目标追踪旨在估计bbox和目标的identity。大部分的方法通过关联detection
-box whose scores are higher than a threshold. objects with low detection
-scores, occluded objects, are simply thrown away, which brings
-non-negligible true object missing and fragmented
-trajectories.为了解决这个问题，提出了一个简单有效的关联方法，通过关联几乎所有的detection
-box而不是仅仅高分的box，来实现追踪。对于低分的detection
-box，利用它们与tracklets的相似度来恢复true objects和过滤掉background
-detections。当应用9个不同的SOTA trackers的时候，该方法有提高。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
     
   </entry>
   
