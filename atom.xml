@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-08-14T09:51:44.872Z</updated>
+  <updated>2024-08-19T14:12:57.872Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ollama 大模型部署</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/08/19/ollama-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/08/19/ollama-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2/</id>
+    <published>2024-08-19T13:22:22.000Z</published>
+    <updated>2024-08-19T14:12:57.872Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="记录一下用ollama和openwebui来部署几个大模型qwen2llama3和llava">记录一下用ollama和openwebui来部署几个大模型：Qwen2、LLaMa3和LLaVa</h3><h4 id="安装ollama-及pull-model">安装Ollama 及pull model</h4><ol type="1"><li><p>去ollama的官网下载安装ollama</p></li><li><p>更改变量：windows中添加环境变量: OLLAMA_MODELS:XXXXpath，linux需要到systemd中找到ollama的哪个文件，然后进行修改，这样ollamapull 模型的时候，就会安装到指定的路径</p></li><li><p>ollama安装完成后，可以用ollama pullqwen2:7b这样来下载模型，也可以下载模型的GGUF文件，然后需要写一个配置文件，如config.txt，内容如下：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">FROM &quot;path/to/llama3-8b-cn-q6/Llama3-8B-Chinese-Chat.q6_k.GGUF&quot;</span><br><span class="line"></span><br><span class="line">TEMPLATE &quot;&quot;&quot;&#123;&#123;- if .System &#125;&#125;</span><br><span class="line">&lt;|im_start|&gt;system &#123;&#123; .System &#125;&#125;&lt;|im_end|&gt;</span><br><span class="line">&#123;&#123;- end &#125;&#125;</span><br><span class="line">&lt;|im_start|&gt;user</span><br><span class="line">&#123;&#123; .Prompt &#125;&#125;&lt;|im_end|&gt;</span><br><span class="line">&lt;|im_start|&gt;assistant</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">SYSTEM &quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">PARAMETER stop &lt;|im_start|&gt;</span><br><span class="line">PARAMETER stop &lt;|im_end|&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure></p></li></ol><span id="more"></span><p>这个From后面的路径需要修改，然后使用<code>ollama create llama3-cn -f ./config.txt</code>导入模型，导入成功后，可以用<code>ollama list</code>查看，使用<code>ollama run xxx</code>运行，使用<code>/exit</code>退出</p><h4 id="openwebui">openwebui</h4><ol type="1"><li>运行命令:<code>docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main</code>，通过Docker运行OpenWebUI，这里输入<code>localhost:3000</code>就能访问，如果没有看到模型，需要修改<code>OLLAMA_HOSTS=0.0.0.0</code>，然后重新启动ollama的服务</li></ol><h4 id="参考链接">参考链接</h4><ul><li><p>https://www.cnblogs.com/obullxl/p/18295202/NTopic2024071001</p></li><li><p>https://blog.csdn.net/u010522887/article/details/140651584</p></li><li><p>https://liaoxuefeng.com/blogs/all/2024-05-06-llama3/index.html</p></li><li><p>https://www.cnblogs.com/obullxl/p/18295202/NTopic2024071001</p></li><li><p>https://github.com/qianniucity/ollama-doc/blob/main/ollama/docs/ollama%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%A7%A3%E7%AD%94.md</p></li><li><p>https://www.cnblogs.com/ting1/p/18358286</p></li><li><p>https://github.com/open-webui/open-webui</p></li><li><p>https://github.com/ollama/ollama/blob/main/docs/faq.md</p></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;记录一下用ollama和openwebui来部署几个大模型qwen2llama3和llava&quot;&gt;记录一下用ollama和openwebui来部署几个大模型：Qwen2、LLaMa3和LLaVa&lt;/h3&gt;
+&lt;h4 id=&quot;安装ollama-及pull-model&quot;&gt;安装Ollama 及pull model&lt;/h4&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;去ollama的官网下载安装ollama&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;更改变量：windows中添加环境变量: OLLAMA_MODELS:
+XXXXpath，linux需要到systemd中找到ollama的哪个文件，然后进行修改，这样ollama
+pull 模型的时候，就会安装到指定的路径&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;ollama安装完成后，可以用ollama pull
+qwen2:7b这样来下载模型，也可以下载模型的GGUF文件，然后需要写一个配置文件，如config.txt，内容如下：
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;FROM &amp;quot;path/to/llama3-8b-cn-q6/Llama3-8B-Chinese-Chat.q6_k.GGUF&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;TEMPLATE &amp;quot;&amp;quot;&amp;quot;&amp;#123;&amp;#123;- if .System &amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;|im_start|&amp;gt;system &amp;#123;&amp;#123; .System &amp;#125;&amp;#125;&amp;lt;|im_end|&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&amp;#123;- end &amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;|im_start|&amp;gt;user&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&amp;#123; .Prompt &amp;#125;&amp;#125;&amp;lt;|im_end|&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;|im_start|&amp;gt;assistant&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;SYSTEM &amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;PARAMETER stop &amp;lt;|im_start|&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;PARAMETER stop &amp;lt;|im_end|&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
+    
+    
+    <category term="LLM" scheme="https://young-eng.github.io/YoungBlogs/tags/LLM/"/>
+    
+  </entry>
   
   <entry>
     <title>强化学习</title>
@@ -703,54 +735,6 @@ localization有益？&lt;/p&gt;&lt;/li&gt;
     <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
     
     <category term="Transformer" scheme="https://young-eng.github.io/YoungBlogs/tags/Transformer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Deep OC SORT</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/05/06/Deep-OC-SORT/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/05/06/Deep-OC-SORT/</id>
-    <published>2024-05-06T13:12:25.000Z</published>
-    <updated>2024-06-02T11:20:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="deep-oc-sort-multi-pedestrian-tracking-by-adaptive-re-identification1">DeepOC-SORT: Multi-Pedestrian Tracking by AdaptiveRe-Identification<sup>[1]</sup></h3><blockquote><p>作者是来自CMU的Gerard Maggiolino, Adnan Ahmad, Jinkun Cao, KrisKitani.论文引用[1]:Maggiolino, Gerard et al. “Deep OC-Sort:Multi-Pedestrian Tracking by Adaptive Re-Identification.” 2023 IEEEInternational Conference on Image Processing (ICIP) (2023):3025-3029.</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Feb</li></ul><h3 id="key-words">Key Words</h3><ul><li>Kalman filter</li><li>adding appearance cues to motion-based object association</li><li>camera motion compensation</li><li>introduce visual appearance to OC-SORT</li></ul><h3 id="动机">动机</h3><ol type="1"><li>基于运动的关联 forMOT在最近的一些检测器中，重新占了主导地位。尽管如此，在启发式的、缺乏对特征退化的robustness的模型之外，很少工作考虑到吸收外观cues。本文中，作者提出了一个新的方式，来利用目标的外观，自适应地将外观匹配(appearancematching)集成到现有的基于motion的高性能的方法中。</li></ol><span id="more"></span><h3 id="总结">总结</h3><ol type="1"><li><p>随着目标检测器和基于motion的关联算法的成功，有效地将visualappearance和motion-based matching 集成起来仍然是没有探索的。strongembedding models中的bounding box-level的visualfeatures仍然包含因为occlusion、motionblur、相似外观的物体造成的噪声。提出了一个动态地、自适应地、启发式的模型，来在单个阶段中集成visualappearance和motion-based cues for objectassociation。除此之外，还结合了camera motioncompensation，通过complement object-centric motionmodel提高了性能。</p></li><li><p>Motion-based MOT:现在的很多端到端的models仍然不如经典的motionmodel-based trackingalgorithms。<strong>卡尔曼滤波是tracking-by-detection</strong>的基础，在这个line上，SORT用一个线性的motion假设、通过IoU来关联tracks。ByteTrack通过在关联中利用low-confidencecandidates来解决missingpredictions的问题，实现了很好地效果，平衡了检测质量和trackingconfidence。最近的OC-SORT提高了robustness of tracking in non-linearmotion场景，减小了objectocclusion或者消失的影响，通过直接依赖于detections。</p></li><li><p>Appearance-based MOT: Visualidentification是一个直接的cue来关联targets。DeepSORT是一个最早的用深度特征进行目标关联的。<strong>通过端到端的训练一个discriminativeappearancemodel，来集成视觉信息，提高了性能</strong>。Transformer的兴起，目标关联通过querymatching进行model。然而，但目标有相似的外观或者遇到occlusion的时候，效果并不好，比那些简单的利用很强的detector的motionassociation的方法差一些。也有一些尝试：将appearance cues加入到motion-based methods。</p></li><li><p>Deep OC-SORT的三个module:</p><ul><li><p>Camera Motion Compensation(CMC): OC-SORT高度依赖detectionquality，引入CMC更精确地定位物体。给定一个scale rotation matrix <spanclass="math inline">\(M_t = s_tR_t\)</span>，和一个translation <spanclass="math inline">\(T_t\)</span>，分别将它们用在OC-SORT的三个components上。</p><ul><li><p>OOS + CMC. KF从线性的interpolated path更新，starting at the lastknown measurement. 最后一个known measurement是<spanclass="math inline">\([x_c,y_c,a,s]\)</span>，bbox的中心通过 <spanclass="math inline">\(c \leftarrow M_tc+T_t\)</span>变换得到，<strong>so that the path is interpolated startingfrom the camera corrected measurement.</strong></p></li><li><p>OCM + CMC. <spanclass="math inline">\(p_1,p_2\)</span>为bbox的左上和右下的角点，OCM用最后的<spanclass="math inline">\(\Delta t =3\)</span> bboxes来计算bbox的角速度，在每个timestep t, 进行变换<span class="math inline">\(p_i\leftarrow M_tp_i + T_i\)</span> to bbox，这个是从 <spanclass="math inline">\(t - \Delta t\)</span> 到 <spanclass="math inline">\(t\)</span> during OCM。</p></li><li><p>OCR + CMC。对于OCR中的最后一个看到的bbox position，在每个timestep t, 用 <span class="math inline">\(p_i \leftarrow M_tp_i +T_t\)</span> 来调整位置 under CMC。对于OC-SORT，Kalman state is <spanclass="math inline">\(\mathbf{x}=[x_{c},y_{c},a,s,\dot{x_{c}},\dot{y_{c}},\dot{a}].\)</span>，用CMC来纠正Kalmanstate:</p></li></ul><p><spanclass="math display">\[\left.\left\{\begin{matrix}\mathbf{x}[0:2]\leftarrowM_t\mathbf{x}[0:2]+T_t,\\\mathbf{x}[4:6]\leftarrowM_t\mathbf{x}[4:6],\\P[0:2,0:2]\leftarrowM_tP[0:2,0:2]M_t^T,\\P[4:6,4:6]\leftarrowM_tP[4:6,4:6]M_t^T.\end{matrix}\right.\right.\]</span></p></li><li><p>Dynamic Appearance：在之前的工作中，用于描述tracklet的deep visualembedding是通过<strong>Exponetial Moving Average(EMA) of deep detectionembeddings frame by frame</strong>来提供的，这个要求一个weighting factor<span class="math inline">\(\alpha\)</span> 来调整 historical和currnettime steps的visual embedding的 ratio。作者提出，基于detectorconfidence修改 <span class="math inline">\(\alpha\)</span>，这个灵活的<span class="math inline">\(\alpha\)</span>仅用高质量的detections，将appearance information集成到track'smodel里。标准的EMA公式如下：</p></li></ul><p><spanclass="math display">\[\mathbf{e}_t=\alpha\mathbf{e}_{t-1}+(1-\alpha)\mathbf{e}^{\mathrm{new}}\]</span><span class="math inline">\(e_t\)</span> 为tracklet's appearanceembedding at time <span class="math inline">\(t\)</span>, <spanclass="math inline">\(e^{new}\)</span>是加入到model中的matcheddetction的appearance。作者将 <spanclass="math inline">\(\alpha_t\)</span>替换了<spanclass="math inline">\(\alpha\)</span>，公式如下：</p><p><spanclass="math display">\[\mathop{\alpha}_{t}=\alpha_{f}+(1-\alpha_{f})(1-\frac{s_{\mathrm{det}}-\sigma}{1-\sigma}),\]</span></p><p><span class="math inline">\(s_det\)</span> 是detectorconfidence，<span class="math inline">\(\sigma\)</span> 是 detectionconfidence threshold to filter noisy detections。<spanclass="math inline">\(\alpha_f = 0.95\)</span></p><ul><li>Adaptive weighting：adaptive weighting基于appearacneembeddings的discrinimativeness来增加appearancefeatures的weight。通过标准的余弦相似度<strong>arcoss track and boxembeddings</strong> 导致一个 <span class="math inline">\(M \timesN\)</span> appearance costs matrix, <spanclass="math inline">\(A_c\)</span>。<span class="math inline">\(M,N\)</span>分别是tracks和detections的数量。通常和IoU costmatrix结合起来。<span class="math inline">\(C = I_c + a_wA_c\)</span></li></ul><p>提出了一个方法，来提高individual track-box scores based ondiscriminativeness，将 <spanclass="math inline">\(w_b(m,n)\)</span>加到全局 <spanclass="math inline">\(a_w\)</span>里，公式如下： <spanclass="math display">\[z_{\mathrm{diff}}^{\mathrm{det}}(A_{c},n)=\operatorname*{min}(\operatorname*{max}_{i}A_{c}[i,n]-\operatorname*{max}_{j\neqi}A_{c}[j,n],\epsilon),\\z_{\mathrm{diff}}^{\mathrm{track}}(A_{c},m)=\operatorname*{min}(\operatorname*{max}_{i}A_{c}[m,i]-\operatorname*{max}_{j\neqi}A_{c}[m,j],\epsilon),\]</span></p><p>其中，<spanclass="math inline">\(\tau_m\)</span>表示一个track，当它与一个box有很高的相似度的分数时，增加appearanceweight over row <span class="math inline">\(A_c[m,:]\)</span>；<spanclass="math inline">\(d_n\)</span>表示一个detection，如果其与一个track相联系，进行同样的操作over columns of <span class="math inline">\(A_c\)</span>，<spanclass="math inline">\(z_diff\)</span>来measure box-trackpairs的discriminativeness，表示at a row or a column的higheset和second-highest values之间的difference. <spanclass="math inline">\(\epsilon\)</span>是一个超参数，</p><p><spanclass="math display">\[w_{b}(m,n)=\begin{bmatrix}z_{\mathrm{diff}}^{\mathrm{track}}(A_{c},m)+z_{\mathrm{diff}}^{\mathrm{det}}(A_{c},n)\end{bmatrix}/2,\]</span></p><p>选择基于<strong>第一和第二高的scores，而不是概率分布metrics like KLdivergence</strong> 来measure discriminativeness。一个true positiveappearance match is indicated by one high score having a large distancefrom the next best match. 最后的cost matrix <spanclass="math inline">\(C\)</span> 如下： <spanclass="math display">\[C[m,n]=\mathrm{IoU}[m,n]+[a_{w}+w_{b}(m,n)]A_{c}[m,n].\]</span></p></li><li><p>本文的工作是基于最近的基于卡尔曼滤波的OC-SORT算法，是SORT的扩展，<strong>SORT依赖于目标追踪的线性运动假设</strong>，利用卡尔曼滤波将目标检测器的predictions和motionmodel 通过IoU的positionestimates。当视频的帧率很高的时候，线性运动假设对于目标在临近视频帧的移位是有效的。然而，当追踪的目标在occlusion的时候，消失了，在卡尔曼滤波的时候，missed measurement会导致error加重，OC-SORT提出了三个模块，来解决motionmodel based error: **OCM(observation-centric momentum),OCR(observation-centric recovery)， OOS(observation-centric onlinesmoothing)。集成了OC-SORT的总体框架，包括匈牙利算法来关联matches from acost matrix.</p></li></ol><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/d6e37cb5e9854a449f0224fabc98a16807f57685/2-Figure1-1.png"alt="Illustration" /><figcaption aria-hidden="true">Illustration</figcaption></figure>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;deep-oc-sort-multi-pedestrian-tracking-by-adaptive-re-identification1&quot;&gt;Deep
-OC-SORT: Multi-Pedestrian Tracking by Adaptive
-Re-Identification&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自CMU的Gerard Maggiolino, Adnan Ahmad, Jinkun Cao, Kris
-Kitani.论文引用[1]:Maggiolino, Gerard et al. “Deep OC-Sort:
-Multi-Pedestrian Tracking by Adaptive Re-Identification.” 2023 IEEE
-International Conference on Image Processing (ICIP) (2023):
-3025-3029.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2023.Feb&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Kalman filter&lt;/li&gt;
-&lt;li&gt;adding appearance cues to motion-based object association&lt;/li&gt;
-&lt;li&gt;camera motion compensation&lt;/li&gt;
-&lt;li&gt;introduce visual appearance to OC-SORT&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;基于运动的关联 for
-MOT在最近的一些检测器中，重新占了主导地位。尽管如此，在启发式的、缺乏对特征退化的robustness的模型之外，很少工作考虑到吸收外观cues。本文中，作者提出了一个新的方式，来利用目标的外观，自适应地将外观匹配(appearance
-matching)集成到现有的基于motion的高性能的方法中。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-tracking/"/>
     
   </entry>
   
