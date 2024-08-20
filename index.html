@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-count">74</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -160,6 +160,192 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/08/20/Video-Understanding/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/08/20/Video-Understanding/" class="post-title-link" itemprop="url">Video Understanding</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-08-20 14:12:07 / 修改时间：21:40:06" itemprop="dateCreated datePublished" datetime="2024-08-20T14:12:07+08:00">2024-08-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4
+id="视频理解及分析的计算机视觉任务">视频理解及分析的计算机视觉任务</h4>
+<ol type="1">
+<li><p>之前看的时候，不管是论文还是一些博客，感觉都不是很清晰和全面，大家的定义不全面，特别是英文的名称上，这里写一下我的理解：</p></li>
+<li><p>几个任务：</p>
+<ul>
+<li><strong>行为识别(Action Recognition)</strong>:
+实质是对视频的分类任务，可以类别图像领域的分类任务</li>
+<li><strong>时序动作定位(Temporal Action Localization)</strong>:
+在时间上对视频进行分类，给出动作的起止时间和类别</li>
+<li><strong>时空行为检测(Spatio-Temporal Action Detection)</strong>:
+不仅识别出动作出现的<strong>区间</strong>和<strong>类别</strong>，还要在空间范围内用一个bounding
+box标记处目标的<strong>位置</strong>。</li>
+<li><strong>还有人提出了时空动作定位(Spatio-temporal Action
+localization)</strong>：和上一个是一样的</li>
+<li>Action Detection在Paperswithcode上的定义： aims to find both where
+and when an action occurs within a video clip and classify what the
+action is taking place. Typically results are given in the form of
+<strong>action tublets</strong>, which are action bounding boxes linked
+across time in the video. <em>This is related to temporal localization,
+which seeks to identify the start and end frame of an action, and action
+recognition, which seeks only to classify which action is taking place
+and typically assumes a trimmed video.</em></li>
+<li>论文里还提到了<strong>temporal action segmentation</strong>：
+针对细粒度的actions和videos with dense occurrence of actions to predict
+action label labels at every frame of the video.</li>
+</ul></li>
+<li><p>时空行为检测的算法：之前的论文都是都是基于行为识别(action
+recognition)的，很多都是基于早期的Slowfast的那个检测的方式：需要一个额外的检测器，实现行为检测。也就是在行为识别的基础上，再进行时空行为检测。但这并不是我理想中的方式，所以很多行为识别的算法，在AVA上也能上榜；最近看VideoMAE看了之后，就一直在看这个，没有去看看其它的。</p></li>
+<li><p>Action Detection数据集：</p>
+<ul>
+<li>J-HMDB</li>
+<li>UCF101-24</li>
+<li>MultiSports</li>
+<li>AVA</li>
+<li>其中，JHMDB和UCF101-24是密集标注数据集(每一帧都标注，25fps)，这类数据集每个视频只有一个动作，大部分视频是单人做一些语义简单的重复动作；AVA为代表的稀疏标注数据集(隔一段时间标注一帧，1fps)，没有给出明确的动作边界</li>
+</ul></li>
+</ol>
+<h4
+id="deep-learnign-based-action-detection-in-untrimmed-videos-a-survey">Deep
+Learnign-based Action Detection in Untrimmed Videos: A Survey</h4>
+<blockquote>
+<p>作者是来自纽约城市大学的Elahe Vahdani and Yingli
+Tian,论文引用[1]:Vahdani, Elahe and Yingli Tian. “Deep Learning-Based
+Action Detection in Untrimmed Videos: A Survey.” IEEE Transactions on
+Pattern Analysis and Machine Intelligence 45 (2021): 4302-4320.</p>
+</blockquote>
+<ol type="1">
+<li><p>很多action recognition 算法是在untrimmed
+video里，真实世界中的视频大部分是漫长的和untrimmed with sparse segments
+of interest. temporal activity
+detection在没有剪辑的视频里的任务是定位行为的时间边界和分类行为类别。spatio-temporal
+action
+detection：action在temporal和spatial维度上都进行定位。因为长的未修剪的视频的标注费时费力，所以
+<strong>action detection with limited supervision</strong>
+是一个重要的研究方向。</p></li>
+<li><p><strong>Temporal Action Detection</strong> 旨在 在untrimmed
+video里找到精确的时间边界和行为实例的label。依赖于训练集的标注的availability，可以分为：</p>
+<ul>
+<li>全监督 action detection: 时间边界和labels of action instances are
+available</li>
+<li>弱监督action detection：only the video-level labels of action
+instances are available, the order of action labels can be provided or
+not.</li>
+<li>unsupervised action detection: no annotations for action
+instances</li>
+<li>semi-supervised action detection: 数据被划分为小的子集 <span
+class="math inline">\(S_1\)</span> 和大的子集 <span
+class="math inline">\(S_2\)</span>，<span
+class="math inline">\(S_1\)</span> 中的视频是全标注的，<span
+class="math inline">\(S_2\)</span>中的视频没有标注(as in
+fully-supervised)或者only annotated with video-level labels(as
+weakly-supervised)</li>
+<li>self-supervised action detection:
+用一个代理任务从数据中抽取信息，然后用于提高性能，例如一般的自监督预训练，然后有监督微调。</li>
+</ul></li>
+<li><p>Untrimmed
+videos通常很长，由于计算资源的限制，很难直接把整个视频给到visual encoder
+来提取特征。通常的做法是把视频划分为相同大小的temporal intervals called
+<em>snippets</em>，然后对每个snippet都用visual encoder，</p></li>
+</ol>
+<h4 id="参考链接">参考链接：</h4>
+<ul>
+<li>https://0809zheng.github.io/2021/07/15/stad.html：
+时空行为检测的比较好的介绍</li>
+</ul>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/2217f65a3fade532f079dbefe1230b47063417b7/8-Figure7-1.png"
+alt="Spatio-Temporal Action Detection Task" />
+<figcaption aria-hidden="true">Spatio-Temporal Action Detection
+Task</figcaption>
+</figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -205,7 +391,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-20 10:06:21" itemprop="dateModified" datetime="2024-08-20T10:06:21+08:00">2024-08-20</time>
+      <time title="修改时间：2024-08-20 10:49:57" itemprop="dateModified" datetime="2024-08-20T10:49:57+08:00">2024-08-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -224,7 +410,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>469</span>
+      <span>483</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -1109,116 +1295,6 @@ region information</p></li>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/05/22/Ubuntu-with-Nvidia-Drivers/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/05/22/Ubuntu-with-Nvidia-Drivers/" class="post-title-link" itemprop="url">Ubuntu with Nvidia Drivers</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-05-22 18:30:43 / 修改时间：18:38:38" itemprop="dateCreated datePublished" datetime="2024-05-22T18:30:43+08:00">2024-05-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/methods/" itemprop="url" rel="index"><span itemprop="name">methods</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>267</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="在ubuntu-20.04里安装-nvidia-rtx-3060显卡的驱动">在Ubuntu
-20.04里安装 Nvidia RTX 3060显卡的驱动</h3>
-<ol type="1">
-<li><p>之前照着网上的教程弄过一次，记得是通过命令行来弄的，结果搞得黑屏，好不容易解决了黑屏的问题，进入桌面之后，显示不了Wifi和蓝牙，好像缺了很多东西，搞得很狂躁。这两天跑Tracking，大部分是Ubuntu环境下的，就趁这次机会重装一下系统，然后找个新的教程</p></li>
-<li><p>找到了两个方式：</p>
-<ul>
-<li>通过 Ubuntu 自带的Software &amp; updates里头的additional
-drivers里，能看到有
-Nvidia的显卡驱动，勾一个合适的就行，很简单。。全程没有什么bug。。害得我上次弄了好久。</li>
-<li>去nvidia官网上下载驱动，名称一般是
-Nvidia-Linux-xxx.run，运行的时候需要先禁用掉 nouveau，在哪个文件里加上:
-blacklist nouveau, options nouveau
-modeset=0，然后重启，看看lsmod一下，看看nouveau有没有被禁用掉。然后运行
-.run文件，在运行.run文件的时候：提示可以用Ubuntu里 additional
-drivers来安装。</li>
-</ul></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/YoungBlogs/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/8/">8</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1242,13 +1318,13 @@ drivers来安装。</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">42k</span>
+    <span title="站点总字数">43k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:31</span>
+    <span title="站点阅读时长">2:35</span>
   </span>
 </div>
 <div class="busuanzi-count">
