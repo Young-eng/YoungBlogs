@@ -27,7 +27,7 @@
 <meta property="og:description" content="视频理解及分析的计算机视觉任务  之前看的时候，不管是论文还是一些博客，感觉都不是很清晰和全面，大家的定义不全面，特别是英文的名称上，这里写一下我的理解： 几个任务：  行为识别(Action Recognition): 实质是对视频的分类任务，可以类别图像领域的分类任务 时序动作定位(Temporal Action Localization): 在时间上对视频进行分类，给出动作的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-20T06:12:07.000Z">
-<meta property="article:modified_time" content="2024-08-20T13:40:06.888Z">
+<meta property="article:modified_time" content="2024-08-21T14:58:11.557Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Video Understanding">
 <meta name="twitter:card" content="summary">
@@ -114,7 +114,9 @@
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E5%8F%8A%E5%88%86%E6%9E%90%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">视频理解及分析的计算机视觉任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deep-learnign-based-action-detection-in-untrimmed-videos-a-survey"><span class="nav-number">2.</span> <span class="nav-text">Deep
-Learnign-based Action Detection in Untrimmed Videos: A Survey</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">3.</span> <span class="nav-text">参考链接：</span></a></li></ol></div>
+Learnign-based Action Detection in Untrimmed Videos: A Survey</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#a-survey-on-deep-learning-based-spatio-temporal-action-detection"><span class="nav-number">3.</span> <span class="nav-text">A
+Survey on Deep Learning-based Spatio-temporal Action
+Detection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">4.</span> <span class="nav-text">参考链接：</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -203,9 +205,15 @@ Learnign-based Action Detection in Untrimmed Videos: A Survey</span></a></li><li
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-08-20 14:12:07 / 修改时间：21:40:06" itemprop="dateCreated datePublished" datetime="2024-08-20T14:12:07+08:00">2024-08-20</time>
+      <time title="创建时间：2024-08-20 14:12:07" itemprop="dateCreated datePublished" datetime="2024-08-20T14:12:07+08:00">2024-08-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-21 22:58:11" itemprop="dateModified" datetime="2024-08-21T22:58:11+08:00">2024-08-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -231,14 +239,14 @@ Learnign-based Action Detection in Untrimmed Videos: A Survey</span></a></li><li
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1k</span>
+      <span>2.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -286,6 +294,7 @@ recognition)的，很多都是基于早期的Slowfast的那个检测的方式：
 <li>其中，JHMDB和UCF101-24是密集标注数据集(每一帧都标注，25fps)，这类数据集每个视频只有一个动作，大部分视频是单人做一些语义简单的重复动作；AVA为代表的稀疏标注数据集(隔一段时间标注一帧，1fps)，没有给出明确的动作边界</li>
 </ul></li>
 </ol>
+<span id="more"></span>
 <h4
 id="deep-learnign-based-action-detection-in-untrimmed-videos-a-survey">Deep
 Learnign-based Action Detection in Untrimmed Videos: A Survey</h4>
@@ -301,7 +310,7 @@ video里，真实世界中的视频大部分是漫长的和untrimmed with sparse
 of interest. temporal activity
 detection在没有剪辑的视频里的任务是定位行为的时间边界和分类行为类别。spatio-temporal
 action
-detection：action在temporal和spatial维度上都进行定位。因为长的未修剪的视频的标注费时费力，所以
+detection：action在temporal和spatial维度上都进行定位，还需识别行为的类别。因为长的未修剪的视频的标注费时费力，所以
 <strong>action detection with limited supervision</strong>
 是一个重要的研究方向。</p></li>
 <li><p><strong>Temporal Action Detection</strong> 旨在 在untrimmed
@@ -323,11 +332,89 @@ fully-supervised)或者only annotated with video-level labels(as
 weakly-supervised)</li>
 <li>self-supervised action detection:
 用一个代理任务从数据中抽取信息，然后用于提高性能，例如一般的自监督预训练，然后有监督微调。</li>
+<li>Temporal action detection：或者说temporal action localization,
+思路和图像中的目标检测类似，会用到 proposals、RoI
+pooling这些类似的思路。</li>
 </ul></li>
 <li><p>Untrimmed
 videos通常很长，由于计算资源的限制，很难直接把整个视频给到visual encoder
 来提取特征。通常的做法是把视频划分为相同大小的temporal intervals called
-<em>snippets</em>，然后对每个snippet都用visual encoder，</p></li>
+<em>snippets</em>，然后对每个snippet都用visual encoder。</p></li>
+<li><p><strong>Spatio-temporal Action Detection</strong>:有frame-level
+action detection和clip-level action detection</p>
+<ul>
+<li><strong>frame-level action detection</strong>:
+早期的方式是基于滑动窗口的一些扩展方法，要求一些很强的假设：例如cuboid
+shape，一个actor的跨帧的固定的空间范围。图像的目标检测启发了识别人类行为
+at frame level; 第一阶段，通过region proposal 或者 densely sampled
+anchors 产生action proposals，然后第二阶段proposals用于action
+classification和localization refinement. 在检测frames里的action
+regions之后，一些方法，用光流来获取运动信息，<strong>用linking
+algorithm来连接frame-level bounding box into spatio-temporal action
+tubes</strong>；有人用dynamic programming approach来连接 resulting
+per-frame detection，这个cost
+function是基于boxes的检测分数和连续帧之间的重叠；也有人用
+tracking-by-detection方法来代替linking
+algorithm；另外一组是依赖于actionness measure, 例如pixel-wise
+probability of containing any action.
+为了估计actionness，它们用low-level cues例如光流；通过thresholding the
+actionness scores来抽取action tubes，这个输出是action的rough
+localization。这些方法的主要的缺点是没有完全利用视频的时序信息，检测是在每一帧上独立做的，<strong>有效的时序建模是很重要，因为当时序上下文信息是可用的时候，大量的actions才是可识别的。</strong></li>
+<li><strong>Clip-level action detection</strong>: 通过在clip
+level执行action detection来利用时序信息。Kalogeiton提出了action tubelet
+detector(ACT-detector)，输入为一系列的frames，输出action来别和回归的tubelets：系列的带有associated
+scores的bounding box。tubelets被连接，来构造action
+tubes。Gu等人进一步通过用longer clips和利用I3D pre-trained on the
+large-scale video dataset，展示了时序信息的重要性。为了生成action
+proposals，把2D region proposals扩展到3D，假定spatial
+extent在一个clip内是固定的。随着时间的推移，用较大空间唯一的action
+tubes将要违反假设，特别是当clip是很长，涉及actors或者camera的快速移动。</li>
+<li><strong>modeling spatio-temporal dependencies</strong>:
+理解人类行为要求理解它们身边的人和物体。一些方法用图结构的网络、注意力机制来汇集视频中的物体和人的上下文信息。时空关系通过多层图结构的自注意力来学习，这个能够连接连续clips的entities，因此考虑long-range
+spatial and temporal dependencies。</li>
+<li>Metrics for Spatio-temporal action detection:
+<strong>frame-AP</strong>: measures the area under the precision-recall
+curve of the detections for each frame. frame中的IoU大于某个阈值且action
+label是正确的，则detection 是正确的。<strong>video-AP</strong>: measures
+the area under the precision-recall curve of the action tubes
+predictions。如果整个视频帧中，mean per frame IoU大于某个阈值且action
+label预测正确，则tube 是正确的.</li>
+</ul></li>
+</ol>
+<h4
+id="a-survey-on-deep-learning-based-spatio-temporal-action-detection"><strong>A
+Survey on Deep Learning-based Spatio-temporal Action
+Detection</strong></h4>
+<blockquote>
+<p>作者是来自浙大和蚂蚁集团的Peng Wang, Fanwei Zeng和Yuntao
+Qian，论文引用[2]:Wang, Peng et al. “A Survey on Deep Learning-based
+Spatio-temporal Action Detection.” ArXiv abs/2308.01618 (2023): n.
+pag.</p>
+</blockquote>
+<ol type="1">
+<li><p>Spatio-temporal action detection(STAD)
+旨在对视频中出现的行为进行分类，然后在空间和时间上进行定位。传统的STAD方式涉及到了滑动窗口，例如deformable
+part models, branch and bound approach.
+模型主要划分为2类：frame-level和clip-level；<em>frame-level</em>预测 2D
+bounding box for a frame; <em>clip-level</em>预测 3D spatio-temporal
+tubelets for a clip.</p></li>
+<li><p><strong>Frame-level</strong>:
+目标检测做的很成功，研究人员将目标检测的模型泛化到STAD
+领域，直接的思路是：把STAD in video视为 2D image
+检测的集合。具体地说，在每一帧上用action detector来检测得到
+<strong>frame-level 2D bounding box</strong>。然后用<strong>linking or
+tracking算法</strong>关联这些frame-level detection results，生成
+<strong>3D action proposals</strong>。有些借鉴了
+RCNN、FasterRCNN的思路，用了RPN网络，然后用两个分支分别处理RGB和光流；然后融合外观和运动信息，Linked
+up里得到 class-specific action tubes. 也有基于actionness
+maps的方法。<strong>actionness是指在图像的特定位置包含一般的action
+instance的可能性</strong>。
+上述这些STAD方法独立的对待frame，忽视了时序上下文关系。为了克服这个问题，有人提出了<strong>cascade
+proposal and location anticipation
+model(CPLA)</strong>的方法，能够推理发生在两帧之间的运动趋势。用
+<em>frame <span class="math inline">\(I_t\)</span> 上检测到的bbox来推理
+<span class="math inline">\(I_{t+k}\)</span> frame上对应的 bbox。<span
+class="math inline">\(k\)</span>是 anticipation gap</em>.</p></li>
 </ol>
 <h4 id="参考链接">参考链接：</h4>
 <ul>
@@ -341,6 +428,13 @@ alt="Spatio-Temporal Action Detection Task" />
 <figcaption aria-hidden="true">Spatio-Temporal Action Detection
 Task</figcaption>
 </figure>
+<p><img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/2-Figure1-1.png"
+alt="Spatio-temporal action detection" /> <img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/2-Table1-1.png"
+alt="Comparision" /> <img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/2-Figure2-1.png"
+alt="illustration" /></p>
 
     </div>
 
@@ -392,13 +486,13 @@ Task</figcaption>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">43k</span>
+    <span title="站点总字数">44k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:35</span>
+    <span title="站点阅读时长">2:39</span>
   </span>
 </div>
 <div class="busuanzi-count">

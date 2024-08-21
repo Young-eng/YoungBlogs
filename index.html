@@ -197,9 +197,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-08-20 14:12:07 / 修改时间：21:40:06" itemprop="dateCreated datePublished" datetime="2024-08-20T14:12:07+08:00">2024-08-20</time>
+      <time title="创建时间：2024-08-20 14:12:07" itemprop="dateCreated datePublished" datetime="2024-08-20T14:12:07+08:00">2024-08-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-21 22:58:11" itemprop="dateModified" datetime="2024-08-21T22:58:11+08:00">2024-08-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -218,14 +224,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1k</span>
+      <span>2.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -274,62 +280,14 @@ recognition)的，很多都是基于早期的Slowfast的那个检测的方式：
 <li>其中，JHMDB和UCF101-24是密集标注数据集(每一帧都标注，25fps)，这类数据集每个视频只有一个动作，大部分视频是单人做一些语义简单的重复动作；AVA为代表的稀疏标注数据集(隔一段时间标注一帧，1fps)，没有给出明确的动作边界</li>
 </ul></li>
 </ol>
-<h4
-id="deep-learnign-based-action-detection-in-untrimmed-videos-a-survey">Deep
-Learnign-based Action Detection in Untrimmed Videos: A Survey</h4>
-<blockquote>
-<p>作者是来自纽约城市大学的Elahe Vahdani and Yingli
-Tian,论文引用[1]:Vahdani, Elahe and Yingli Tian. “Deep Learning-Based
-Action Detection in Untrimmed Videos: A Survey.” IEEE Transactions on
-Pattern Analysis and Machine Intelligence 45 (2021): 4302-4320.</p>
-</blockquote>
-<ol type="1">
-<li><p>很多action recognition 算法是在untrimmed
-video里，真实世界中的视频大部分是漫长的和untrimmed with sparse segments
-of interest. temporal activity
-detection在没有剪辑的视频里的任务是定位行为的时间边界和分类行为类别。spatio-temporal
-action
-detection：action在temporal和spatial维度上都进行定位。因为长的未修剪的视频的标注费时费力，所以
-<strong>action detection with limited supervision</strong>
-是一个重要的研究方向。</p></li>
-<li><p><strong>Temporal Action Detection</strong> 旨在 在untrimmed
-video里找到精确的时间边界和行为实例的label。依赖于训练集的标注的availability，可以分为：</p>
-<ul>
-<li>全监督 action detection: 时间边界和labels of action instances are
-available</li>
-<li>弱监督action detection：only the video-level labels of action
-instances are available, the order of action labels can be provided or
-not.</li>
-<li>unsupervised action detection: no annotations for action
-instances</li>
-<li>semi-supervised action detection: 数据被划分为小的子集 <span
-class="math inline">\(S_1\)</span> 和大的子集 <span
-class="math inline">\(S_2\)</span>，<span
-class="math inline">\(S_1\)</span> 中的视频是全标注的，<span
-class="math inline">\(S_2\)</span>中的视频没有标注(as in
-fully-supervised)或者only annotated with video-level labels(as
-weakly-supervised)</li>
-<li>self-supervised action detection:
-用一个代理任务从数据中抽取信息，然后用于提高性能，例如一般的自监督预训练，然后有监督微调。</li>
-</ul></li>
-<li><p>Untrimmed
-videos通常很长，由于计算资源的限制，很难直接把整个视频给到visual encoder
-来提取特征。通常的做法是把视频划分为相同大小的temporal intervals called
-<em>snippets</em>，然后对每个snippet都用visual encoder，</p></li>
-</ol>
-<h4 id="参考链接">参考链接：</h4>
-<ul>
-<li>https://0809zheng.github.io/2021/07/15/stad.html：
-时空行为检测的比较好的介绍</li>
-</ul>
-<figure>
-<img
-src="https://d3i71xaburhd42.cloudfront.net/2217f65a3fade532f079dbefe1230b47063417b7/8-Figure7-1.png"
-alt="Spatio-Temporal Action Detection Task" />
-<figcaption aria-hidden="true">Spatio-Temporal Action Detection
-Task</figcaption>
-</figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/08/20/Video-Understanding/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1318,13 +1276,13 @@ region information</p></li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">43k</span>
+    <span title="站点总字数">44k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:35</span>
+    <span title="站点阅读时长">2:39</span>
   </span>
 </div>
 <div class="busuanzi-count">
