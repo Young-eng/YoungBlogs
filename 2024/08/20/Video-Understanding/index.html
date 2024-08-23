@@ -27,7 +27,7 @@
 <meta property="og:description" content="视频理解及分析的计算机视觉任务  之前看的时候，不管是论文还是一些博客，感觉都不是很清晰和全面，大家的定义不全面，特别是英文的名称上，这里写一下我的理解： 几个任务：  行为识别(Action Recognition): 实质是对视频的分类任务，可以类别图像领域的分类任务 时序动作定位(Temporal Action Localization): 在时间上对视频进行分类，给出动作的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-20T06:12:07.000Z">
-<meta property="article:modified_time" content="2024-08-22T02:37:16.209Z">
+<meta property="article:modified_time" content="2024-08-23T08:33:18.557Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Video Understanding">
 <meta name="twitter:card" content="summary">
@@ -213,7 +213,7 @@ Detection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" hr
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-22 10:37:16" itemprop="dateModified" datetime="2024-08-22T10:37:16+08:00">2024-08-22</time>
+      <time title="修改时间：2024-08-23 16:33:18" itemprop="dateModified" datetime="2024-08-23T16:33:18+08:00">2024-08-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -239,14 +239,14 @@ Detection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" hr
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.4k</span>
+      <span>5.9k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>9 分钟</span>
+      <span>22 分钟</span>
     </span>
 </div>
 
@@ -407,7 +407,8 @@ tracking算法</strong>关联这些frame-level detection results，生成
 <strong>3D action proposals</strong>。作者从<strong>Temporal
 context</strong>、<strong>3D CNN</strong>、<strong>High efficiency and
 real-time speed</strong>、<strong>Visual Relation
-Modeling</strong>这几个角度给出了相关的算法。有些借鉴了
+Modeling</strong>这几个角度给出了相关的算法。</p>
+<p>有些借鉴了
 RCNN、FasterRCNN的思路，用了RPN网络，然后用两个分支分别处理RGB和光流；然后融合外观和运动信息，Linked
 up里得到 class-specific action tubes. 也有基于actionness
 maps的方法。<strong>actionness是指在图像的特定位置包含一般的action
@@ -428,12 +429,273 @@ localization和action
 classification、<strong>SE-STAD</strong>用FCOS作为目标检测器、<strong>EVAD</strong>用ViTs，通过drop
 out non-kkeyframe tokens减小计算开销，refine scenen
 context来增强模型性能。</p></li>
+<li><p>frame-level的方法没有完全利用时序的信息，将视频帧视为独立的图像，因此提出了clip-level的STAD方法，将一系列的frames作为输入，直接输出检测到的tubelet
+proposals(short sequence of bounding boxes)</p></li>
+<li><p><strong>Clip-level</strong>: 输入一个video clip，模型输出一个3D
+spatio-temporal tubelet proposals。3D tubelet proposals
+是由一系列的bboxes that tightly bound the actions of interest
+形成。然后这些tubelet proposals在successive
+clips连接在一起，形成完整的action tubes。作者从几个<strong>Large
+motion</strong>、<strong>Progressive learning</strong>、<strong>Anchor
+free</strong>、<strong>Visual Relation
+Modeling</strong>这几个角度给出了相关的算法。为了克服 3D anchors的 fixed
+spatial exntet的问题，有人提出了 <font color=red> two-frame
+micor-tubes</font>的方法。为了避免3D cuboid anchor，也有人提出了
+<font color=red> 通过frame-level actor detection，然后将detected
+bboxes连接起来形成class-independent action tubelets,然后给到temporal
+understanding module来做行为分类 </font>。还有
+<strong>sparse-to-dense</strong>的方法。在<em>progressive
+learning</em>方面，通过progressive learning 方法，反复修正proposals
+towards actions over a few
+steps。有人提出了<strong>PCSC</strong>框架，以迭代的方式，用一个stream(RGB/Flow)里的region
+proposals和features来帮助另一个stream(RGB/Flow)提高action localization
+results。计算anchor是一个比较费劲的事情，提出了一些<strong>anchor-free</strong>的方法：有人把每个action
+instance 视为moving points的轨迹。</p>
+<ul>
+<li><strong>MovingCenter
+Detector(MOC-detector)</strong>，它由3个branches组成：center-branch for
+instance center detection and action recognition; movement branch for
+movement estimation;box branch for spatial extent detection.</li>
+<li><strong>VideoCapsuleNet</strong>：用3D conv along with
+capsules来学习必要的语义信息 for action detection and recognition。
+有一个定位的component，利用capsules得到的action representation for a
+pixel-wise localization of actions.</li>
+<li><strong>TubeR</strong>：直接检测视频里的action
+tubelet，同时执行action localization和recognition from a single
+representation. 设计了一个tubelet-attention moduel 来model dynamic
+spatio-temporal nature of a video clip. TubeR学习了tubelet
+queries的集合，输出actio tubelets.</li>
+</ul></li>
+</ol>
+<p>在<strong>Visual Relation Modeling</strong>方面，clip-level 的visual
+relations也被探索了，来增强STAD模型；有人提出了 long short-term relation
+network(LSTR)，获取short-term 和long-term relations in videos。
+具体地说： LSTR先产生3D bboxes(tubelets) in each
+video。然后通过<strong>spatio-temporal attention mechanism</strong> in
+each clip 来建模human-context interactions。推理long-term temporal
+dynamics across video clips via <em>graph ConvNet in a cascaded
+manner</em>。 actor tubelets和object
+proposals的特征然后被用于构建关系图，建模human-object manipulations and
+human-human interaction actions。</p>
+<ol start="4" type="1">
+<li><p><strong>Linking up the Detection Results</strong>:
+actions会持续一段时间，通常跨很多帧和clips。在frame-level或者clip-level检测结果得到之后，很多方法用一个<strong>linking
+algorithm</strong>来detections across frames or
+clips连接起来，形成video-level的action tubes。</p>
+<ul>
+<li><strong>linking up frame-level detection boxes</strong>：
+第一个frame-level action detection linking
+算法是由<strong>Gkioxari</strong>提出的，他们假设两个相邻region
+proposals(bboxes)的空间范围有很好的重叠，且scores很高，有很大的可能性be
+linked。计算两个region proposals的linking score的公式为： <span
+class="math display">\[s_c(R_t,R_{t+1})=s_c(R_t)+s_c(R_{t+1})+\lambda\cdot
+ov(R_t,R_{t+1}), Eq.(1)\]</span></li>
+</ul>
+<p><span class="math inline">\(s_c\)</span>(R_i)是region proposal
+R_i的class specific score，<span
+class="math inline">\(ov(R_i,R_j)\)</span> 是<span
+class="math inline">\(R_i\)</span>和<span
+class="math inline">\(R_j\)</span>的 IoU(overlap)。<span
+class="math inline">\(\lambda\)</span>是一个超参数，对IoU项进行加权，有些模型输出的bbox是带有actionness
+scores，这里就用actionness scores代替class-specific
+scores。计算出所有的linking scores之后，<font color=red>
+最优的path</font>通过这个来搜索： <span class="math display">\[\bar
+R_c^*=\underset{\bar
+R}{\text{argmax}}\frac{1}{T}\sum_{t=1}^{T-1}s_c(R_t,R_{t+1}),
+Eq.(2)\]</span></p>
+<p><span class="math inline">\(\bar{R}_{c} =
+[R_{1},R_{2},\ldots,R_{T}]\)</span> 是action class <span
+class="math inline">\(c\)</span>的一系列的linked region.
+通过维特比算法来解这个优化问题。找到最有的path之后，region proposals in
+<span class="math inline">\(\bar{R}_{c}\)</span> 从 set of region
+proposals中去掉，然后再继续解该方程，直到set of region
+proposals是空的。从Eq.(2)中计算得到的path被称为 <font color=red> action
+tube</font>。 action tube <span
+class="math inline">\(\bar{R}_{c}\)</span> 定义为：<span
+class="math inline">\(S_{c}(\bar{R}_{c})=\frac1T\sum_{t=1}^{T-1}s_{c}(R_{t},R_{t+1}).\)</span></p>
+<ul>
+<li>基于Gkioxari的思路，Peng等人提出了在 Eq.(1)增加一个阈值函数，linking
+score between two region proposals变成了： <span
+class="math display">\[s_{c}(R_{t},R_{t+1})=s_{c}(R_{t})+s_{c}(R_{t+1})+\lambda\cdot
+ov(R_{t},R_{t+1})\cdot\psi(ov)\]</span></li>
+</ul>
+<p><span class="math inline">\(\psi(ov)\)</span>是一个阈值函数，当<span
+class="math inline">\(ov\)</span>大于<span
+class="math inline">\(\tau\)</span>时，<span
+class="math inline">\(\psi(ov)=1\)</span>，否则<span
+class="math inline">\(\psi(ov)=0\)</span>。Peng在实验中发现，有了这个阈值函数，linking
+score比之前更好了更robust了。Kopuklu进一步扩展了这个linking
+score的定义：</p>
+<p><span class="math display">\[\begin{aligned}
+s_{c}\left(R_{t},R_{t+1}\right)=&amp;
+\psi(ov)\cdot[s_{c}\left(R_{t}\right)+s_{c}\left(R_{t+1}\right) \\
+&amp;+\alpha\cdot s_{c}\left(R_{t}\right)\cdot s_{c}\left(R_{t+1}\right)
+\\
+&amp;+\beta\cdot ov\left(R_{t},R_{t+1}\right)] ,
+\end{aligned}\]</span></p>
+<p>其中<span class="math inline">\(\alpha\)</span>和<span
+class="math inline">\(\beta\)</span>是超参数，<span
+class="math inline">\(\alpha \cdot s_c(R_t)\cdot
+s_c(R_{t+1})\)</span>项将两个连续帧之间的dramatic change
+考虑进去，提高video detection的性能</p>
+<ul>
+<li>在<strong>Temporal trimming</strong>中，上述的linking
+算法得到了action tubes 横跨整个video duration，然而，human actions
+通常只占很小一部分。为了决定一个action
+instance的<strong>时间范围</strong>。有一些temporal
+trimming的工作。Saha限制了consecutive proposals来得到smooth actionness
+scores。通过动态规划解一个energy
+maximization的问题。Peng等人依赖一个高校的maximum subarray
+方法：给定一个video-level action tube <span
+class="math inline">\(\bar{R}\)</span>, 它的理想的时间范围是从frame
+<span class="math inline">\(s\)</span> to frame <span
+class="math inline">\(e\)</span>，满足下列公式：</li>
+</ul>
+<p><span
+class="math display">\[s_{c}(\bar{R}_{(s,e)}^{\star})=\underset{(s,e)}{\operatorname*{argmax}}\{\frac{1}{L_{(s,e)}}\sum_{i=s}^{e}s_{c}(R_{i})-\lambda\frac{|L_{(s,e)}-L_{c}|}{L_{c}}\},\]</span></p>
+<p><span class="math inline">\(L_{(s,e)}\)</span>是 action tube
+的长度，<span class="math inline">\(L_c\)</span>是 class <span
+class="math inline">\(c\)</span>在训练集中的平均时长。</p>
+<ul>
+<li><p>在<strong>online action tube
+generation</strong>中，在视频的第一帧，用 <span
+class="math inline">\(n\)</span>个detected bboxes来初始化 <span
+class="math inline">\(n\)</span> action tubes for each class <span
+class="math inline">\(c\)</span>。然后，action
+tubes通过增加frame中的box扩大或者在<span
+class="math inline">\(k\)</span>个连续帧之后没有匹配的boxes，就会终结。最后，每个更新的tube通过执行binary
+labeling using a online Viterbi算法来进行temporally trimmed。</p></li>
+<li><p><strong>Linking up Clip-level Detection
+Results</strong>:clip-level tubelet linking算法旨在 <strong>associate a
+sequence of clip-level tubelets into video-level action
+tubes</strong>。它们通常是从frame-level
+box中得到。一个tubelet内的内容应该获取一个action，在任何两个连续的clips连接的tubelets应该有一个大的
+<font color=red> temporal overlap
+</font>，因此，他们定义tubelet's的linking score是这样的： <span
+class="math display">\[S=\frac{1}{m}\sum_{i=1}^{m}Actionness_{i}+\frac{1}{m-1}\sum_{j=1}^{m-1}Overlap_{j,j+1}\]</span></p></li>
+</ul>
+<p><span class="math inline">\(Actionness_i\)</span> 表示 第<span
+class="math inline">\(i\)</span>个clip的tubelet的actionness score。<span
+class="math inline">\(Overlap_{j,j+1}\)</span>表示来自第<span
+class="math inline">\(j\)</span>和第<span
+class="math inline">\(j+1\)</span>个clip的两个proposals的Overlap。<span
+class="math inline">\(m\)</span>是video
+clips的总数，两个tubelets之间的overlap是基于<strong>第<span
+class="math inline">\(j\)</span>个tubelet的最后一帧和<span
+class="math inline">\(j+1\)</span>个tubelet的第一帧</strong>来计算的。在计算出了tubelets'
+分数之后；另外，有人把frame linking的算法扩展到tubelet linking
+来构建action tubes。核心的idea是这样的： -
+初始化：在视频的第一帧，对每个tubelet开始一个new link，这里a link 指a
+sequence of linked tubelets - Linking: 给定一个new frame <span
+class="math inline">\(f\)</span>，扩展存在的links with one o the tubelet
+candidates starting at this frame. 选择tubelet
+candidate的标准如下：没有被其它links选择；有最高的action
+score；和要被扩展的link的overlap高于给定的阈值。 -
+终止：对于一个存在的Link，如果这个标注在<span
+class="math inline">\(K\)</span>个连续帧之后没有被满足，这个link就会终止，<span
+class="math inline">\(K\)</span>是一个给定的超参数。</p>
+<p>由于它的简单和高效，tubelet linking算法被很多最近的工作采用。</p>
+<p>在**temporal trimming方面。tubelet linking
+算法，初始和终止决定了action
+tubes的时间范围，有人发现它不能彻底的解决transition state产生的temporal
+location error。定义为ambiguous states，但不属于target
+actions。为了解决这个问题，有人提出了transition-aware
+classifier：能够区分transitional states和real
+actions；后续也有人通过引入一个action switch regression
+head：决定一个box
+prediction是否描述了一个执行actions的actor。这个regression
+head给出了一个tubelet每个bbox的action switch
+score。如果这个score高于给定的阈值，这个box就包含这个action。这个action
+switch regression head能够有效减小transitional states的误分类。</p></li>
+<li><p>数据集：STAD中经常用到的数据集有：</p>
+<ul>
+<li>Weizmann：在一个统一的背景中用一个静态相机记录，包含90个video clips
+grouped 10 action classes, performed by 9 diffferent subjects，每个video
+clip 包含多个单一行为的实例，空间分辨率为$180 $，每个clip是从1-5s。</li>
+<li>CMU Crowded Videos：包含5个 actions，每个action有5个training
+videos和48个test videos。所有的video被缩放，空间分辨率为<span
+class="math inline">\(120 \times 160\)</span>，test
+videos是5-37秒(166-1115帧)，这个数据集是在一个凌乱的和动态的环境中记录的，以至于这个数据集上的action
+detection更加有挑战性。数据集是densely
+annotated，提供时间和空间坐标(x,y,height,width,start,end and
+frames)。</li>
+<li>MSR Action I and II：是微软研究组弄的，II是I的扩展，Action
+I包含62个action instances in 16个video sequences。II包含203 instances in
+54
+videos，每个video包含不同个体执行的多个actions。所有的视频是32-76秒，每个action
+instance的时间和空间标注是提供的。包含3个action 类别。</li>
+<li>J-HMDB：是joint-annotated HMDB数据集，HMDB包含5个action
+categories，每个category
+包含至少101个视频片段，数据集包含6849个视频片段，分布在51个action
+categories中。J-HMDB包含从HMDB数据集中宣导的21类视频，选择的视频涉及单个任务的动作，每个action
+class有36-55个clips，每个clip包含15-40帧，总共928个clips，每个clip被裁剪了，第一帧和最后一帧对应一个action的开始和终止。frame的分辨率是
+<span class="math inline">\(320 \times 240\)</span>, frame rate 是30
+fps。</li>
+<li>UCF Sports：包含体育领域的10
+个actions，所有的视频包含相机运动和复杂背景，包含150个clips，每个clip的frame
+rate是10 fps，空间分辨率是 <span class="math inline">\(480 \times
+360\)</span> to <span class="math inline">\(720 \times
+576\)</span>，持续时间是 2.2 - 14.4秒，平均6.39秒。</li>
+<li>UCF101-24：UCF101的数据来自Youtube，包含101行为类别，总共13320个视频。对于行为检测任务，包含24个行为类别的3207个视频子集提供了密集标注，这个子集称为UCF101-24，不同于UCF
+Sports和J-HMDB，视频是被剪过的，UCF101-24是没有被剪过的。</li>
+<li>THUMOS and
+MultiTHUMOS：THMOS系列数据集包含4个数据集：THUMOS13，THUMOS14,THUMOS15和MultiTHUMOS，所有的视频是来自UCF101，THUMOS数据集包含24个action
+classes，视频的时长从几秒到几分钟不等。数据集包含13000个被剪过的视频，超过1000个没有剪过的视频，超过2500个negative
+sample
+video。这些视频可能包含none、one、或者单个行为或者多个行为的实例。MultiTHUMOS是一个THUMOS的增强的版本，是一个dense、multi-class、frame-wise
+labeled video dataset with 400 videos of 30
+hours和65个类别的38690个标注。平均每帧有1.5个标注，每个视频10.5个行为类别。</li>
+<li>AVA：来自Youtube的430个movies，每个movie提供了第15到30分钟的这个clip，每个clip分成897个重叠3s的segments
+with a stride of 1
+second。对于每个segment，中间帧被选为keyframe，在每个keyframe，每个人都用bbox和actions标注，430个movies分成235个training，64个validation和131
+test movies，差不多是55:15:30的比例，包含80个原子行为，60个actions
+用来evaluation。</li>
+<li>MultiSports：这个视频来自Youtube上奥林匹克和世界杯的竞赛，包含4个运动，66个行为类别，每个运动800个clips，共3200个clips；包含37701个action
+instances with
+902k个bboxes，每个行为类别的instance从3个到3477个不等，显示了自然的长尾分布。每个视频被多个行为类别的多个实例标注，视频的平均长度是750帧，每个行为的segment比较短，平均24帧。</li>
+</ul></li>
+<li><p>评估指标：主要是两个：frame mAP和video-mAP</p>
+<ul>
+<li>frame mAP: area under the PR curve of bbox detections at each
+frame.<strong>如果和GT bbox的IoU大于给定的阈值且action
+label是正确的，则detection是对的，阈值设为0.5</strong>。Frame-mAP能够独立于linking
+strategy来比较检测精度。</li>
+<li>Video-mAP：area under PR curve of action tube
+predictions。<strong>如果和GT tube的IoU大于给定的阈值且action
+label是正确的，则tube
+detection是对的</strong>，两个tubes之间的IoU被定义为时序上的IoU，<strong>multiplied
+by the average of the IoU between boxes averaged over all overlapping
+frames</strong>。 video-mAP的阈值通常设为0.2、0.5、0.75，and
+0.5:0.95。对应于average video-mAP for thresholds with step 0.05 in this
+range.
+然而frame-mAP衡量的是单帧里的分类和空间检测的能力，video-mAP能够进一步评估时序检测的能力。</li>
+</ul></li>
+<li><p>未来的方向：</p>
+<ul>
+<li><strong>Lable-efficient learning for
+STAD</strong>：STAD需要密集的标注，然而密集的标注是昂贵的。</li>
+<li><strong>Online real-time
+STAD</strong>：STAD有很多的在线的应用，必须基于过去的数据来给出当前帧的预测。这要求模型必须是轻量和高效的，还有很长的路。</li>
+<li><strong>STAD under large
+motion</strong>：在真实场景中，很多行为由于fast actor
+displacement，camera motion,actions有很大的motion。</li>
+<li><strong>Multimodal learning for STAD</strong>：action
+video包含多个模态，包括视觉、声音甚至语言，因此，通过多模态学习，有潜力实现比单个模态更好的检测精度。另一方面，actions可以通过多种传感器得到，例如深度相机，红外相机，Lidar等，STAD或者可以从多个模态数据中学到的融合表征受益。</li>
+<li><strong>Diffusion models for
+STAD</strong>：扩散模型作为一类生成模型，从 sample in
+随机分布开始，通过逐步地去噪恢复样本数据。尽管它们属于生成模型，它们对于表征的感知任务(例如目标检测和时序动作定位)，表现有效,输入随机的spatial
+boxes(temporal proposals)，基于扩散的模型能够精确地产生目标框(action
+proposals)，自从STAD视为目标检测和时序动作定位(temporal action
+location)和结合体，有一些工作展示了利用diffusion
+models来解决STAD任务。</li>
+</ul></li>
 </ol>
 <h4 id="参考链接">参考链接：</h4>
 <ul>
 <li>https://0809zheng.github.io/2021/07/15/stad.html：
 时空行为检测的比较好的介绍</li>
 </ul>
+<p>一些STAD相关的解释和算法图示：</p>
 <figure>
 <img
 src="https://d3i71xaburhd42.cloudfront.net/2217f65a3fade532f079dbefe1230b47063417b7/8-Figure7-1.png"
@@ -465,6 +727,62 @@ alt="illustration" />
 src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/3-Figure3-1.png"
 alt="Taxonomy of STAD models" />
 <figcaption aria-hidden="true">Taxonomy of STAD models</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/3-Figure4-1.png"
+alt="RPN for STAD" />
+<figcaption aria-hidden="true">RPN for STAD</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/4-Figure5-1.png"
+alt="I3D for STAD" />
+<figcaption aria-hidden="true">I3D for STAD</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/4-Figure6-1.png"
+alt="YOWO" />
+<figcaption aria-hidden="true">YOWO</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/5-Figure7-1.png"
+alt="ARCN" />
+<figcaption aria-hidden="true">ARCN</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/6-Figure8-1.png"
+alt="CFAD" />
+<figcaption aria-hidden="true">CFAD</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/10-Table2-1.png"
+alt="STAD datasets" />
+<figcaption aria-hidden="true">STAD datasets</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/12-Table3-1.png"
+alt="Performance on J-HMDB and UCF101-24" />
+<figcaption aria-hidden="true">Performance on J-HMDB and
+UCF101-24</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/13-Table4-1.png"
+alt="Performance on UCF Sports and MultiSports datasets" />
+<figcaption aria-hidden="true">Performance on UCF Sports and MultiSports
+datasets</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/471baa377495a4175bbb2097809e0c64b8655d93/13-Table5-1.png"
+alt="Performance on AVA" />
+<figcaption aria-hidden="true">Performance on AVA</figcaption>
 </figure>
 
     </div>
@@ -517,13 +835,13 @@ alt="Taxonomy of STAD models" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">44k</span>
+    <span title="站点总字数">48k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:40</span>
+    <span title="站点阅读时长">2:53</span>
   </span>
 </div>
 <div class="busuanzi-count">
