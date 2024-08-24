@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-08-23T08:38:57.194Z</updated>
+  <updated>2024-08-24T08:30:01.914Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Holistic Interaction Transformer</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/08/24/Holistic-Interaction-Transformer/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/08/24/Holistic-Interaction-Transformer/</id>
+    <published>2024-08-24T01:24:04.000Z</published>
+    <updated>2024-08-24T08:30:01.914Z</updated>
+    
+    <content type="html"><![CDATA[<h4id="holistic-interaction-transformer-network-for-action-detection1">HolisticInteraction Transformer Network for Action Detection<sup>[1]</sup></h4><blockquote><p>作者是来自国立清华大学和微软AI的Gueter Josmy Faure, Min-HungChen和Shang-Hong Lai.论文引用[1]:Faure, Gueter Josmy et al. “HolisticInteraction Transformer Network for Action Detection.” 2023 IEEE/CVFWinter Conference on Applications of Computer Vision (WACV) (2022):3329-3339.</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Nov.18</li></ul><h3 id="key-words">Key Words</h3><ul><li>bi-modal structure</li><li>combine different interactions</li></ul><h3 id="总结">总结</h3><ol type="1"><li>行为是关于我们如何与环境互动的，包括其他人、物体和我们自己。作者提出了一个新的多模态的<strong>HolisticInteraction Transformer Network(HIT)</strong>，利用大量被忽略的、但是对人类行为重要的手部和姿态信息。HIT网络是一个全面的bi-modal框架，由一个RGBstream和pose stream组成。每个stream独立地建模person、object和handinteractions，对于每个子网络，用了一个<strong>Intra-Modality Aggregationmodule(IMA)</strong>，选择性地融合个体的交互。从每个模态的得到的features然后用一个<strong>AttentiveFusion Mechanism(AFM)</strong>进行融合，最后，从temporalcontext中提取cues，用cached memory来更好地分类存在的行为。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>一个合理的时空行为检测的框架旨在正确地label帧里的每个人。应该在相邻帧之间keep a link来更好地理解带有连续性特点的活动例如："open"、"close"。最近，更多鲁棒的工作来考虑spatialentities之间的关系，因为如果两个人在同一帧，他们大概率会和彼此互动。然而，仅用personfeatures是不足以获得object-related action。其他人try to understand不仅是帧里的人物之间的关系，而且还有他们周围的物体。这些方法有两个主要的缺点：(1)他们仅依赖于highdetectionconfidence的目标，可能会导致忽略重要的没有检测到的目标；(2)这些模型努力检测没有出现在frame里的和目标相关的actions。例如：考虑到行为："pointto (an object)",actor所指向的object可能不在当前帧中。</p></li><li><p>HIT网络用细粒度的上下文，包括personpose，hands，objects，来构建一个<font color=red> bi-modal interactionstructure </font>，每个modality包括3个主要的components：<font color=red>person interaction </font>，<font color=red> object interaction</font>，<font color=red>hand interaction</font>，每个component学习有价值的local actionpatterns。在从相邻帧学习时序信息之前，用<font color=red>Attentive FusionMechanism </font>结合不同模态的信息，来帮助更好地检测发生在当前帧中的行为。主要的contributions有：</p><ul><li>提出了新的框架、<strong>结合RGB、pose和hand features for actiondetection</strong></li><li>引入了一个<strong>bi-modal HIT网络，结合不同的interaction in anintuitive and meaningful way</strong></li><li>提出了一个<strong>Attentive FusionModuel</strong>，作为一个选择性地过滤器，保持每个modal中信息量最多的features，<strong>Intra-ModalityAggregator</strong>用来学习modalities内有用的actionrepresentations.</li></ul></li><li><p>Related work:</p><ul><li><p>spatio-temporal actiondetection，不同于将整个视频分为1类，需要在空间上和时间上检测到行为。很多近期的spatio-temporalaction detection上的工作是用3D CNN作为backbone来提取视频特征，然后用ROIpooling或者ROI align来crop person features from videofeatures，这么做，抛弃了视频中潜在的有用信息。</p></li><li><p>时空行为检测任务实际是一个<strong>交互建模</strong>的任务，大多数的行为是在和环境互动。很多研究是用<strong>attentionmechanism</strong>，有人提出了<strong>Temporal RelationNetwork(TRN)</strong>，学习帧间的依赖，或者说，interaction betweenentities from相邻帧。其它的方法进一步，不仅建模temporal，也建模spatialinteractions between different entities from the same frame.然而，选择什么entities来model interactions也是因model而异的，不只用humanfeatures，也有人用background information来model interactions between theperson in the frame and context. 选择crop persons'features，但是不抛弃剩下的backgroundfeatures，这样提供了丰富的信息，但是，可能会引入很多噪音。也有人尝试bemore selective about the features to use. 有人首先pass the video framesthrough an object detecotr, crop both the object and personfeatures，model它们的interactions。interaction的额外的层，提供了更好的representationsthan 单独的human interaction modeling models，能够helps with classesrelated to objects such as "work on acomputer"，然而，当目标太小没有检测到或者没有出现在frame中的时候，这些方法会fallshort。</p></li><li><p>很多最近的action detection frameworks仅用RGBfeatures，也有人用光流来获取motion，有人用inception-likemodel来concatenates RGB和flow features at the <font color=red> Mixed4blayer </font>，然而也有人用I3D 网络来分别得到RGB和flowfeatures，然后在actionclassifier之前，concatenate两个模态。作者提出的bi-modal方法，用了<font color=red>visual and skeleton-based features</font>，每个modality计算一系列的interactions includingperson、object、and hands before being fused。一个temporal interactionmodule用在fused features上，来学习global information regardingneighboring frames.</p></li></ul></li><li><p>Methods: HIT由<strong>RGB和posesubnetwork组成</strong>,每个旨在学习persions interactions with theirsurroundings by focusing on the key entities that drive most of ouractions。在融合了两个sub-networks的输出之后，进一步通过<font color=red>lookingat cached features from past and future frames，model how actions evolveintime</font>。这样全面的活动的理解方案能够帮助实现更好的行为检测性能。几个步骤：<strong>entityselection</strong>、<strong>RGB modality</strong>、<strong>posemodality</strong>、<strong>Attentive FusionModule(AFM)</strong>、<strong>Temporal Interaction Module</strong>.</p><ul><li><strong>entity selection</strong>: HIT由两个mirroring modalitieswith distinct modules组成，来学习不同类型的interactions。Humanactions大部分基于它们的pose、hand movements和interactions with theirsurroundings。基于这些观察，选择human poses 和handsbboxes作为模型的entities along with object and personbboxes。用<strong>Detectron</strong> for human posedetection，然后create a bbox 包围location of the person's hands.用<font color=red> Faster-RCNN</font> 来计算**object bbox proposals。Video feature extractor是一个 3D CNN backbone。poseencoder是一个轻量的<font color=red>spatialtransformer</font>，用ROIAlign 来trim videofeatures，来抽取person、hands和object features。</li><li><strong>RGB branch</strong>：RGBbranch包含3个components，每个包含一系列的操作，来学习目标person的特定的信息。这个object和handsinteraction modules model person-object and person-handsinteraction。person interaction moduel学习当前帧之间的persons的interaction。在每个interaction unit的heart，是要给<font color=red>cross-atttentincomputation</font>，这个<strong>query是target person(or the output ofthe previous unit), key and value are derived from the objects, or handsfeatures,depending on which moduele we are at</strong>.<font color=blue> it is like asking "how can these particular featureshelp detect what the target person is doing?"</font>，公式如下： <spanclass="math display">\[F_{rgb}=(A(\mathcal{P})\to z_{r}\toA(\mathcal{O})\to z_{r}\to A(\mathcal{H})\toz_{r})\\A(*)=softmax(\frac{w_q(\widetilde{P})\timesw_k(*)}{\sqrt{d_r}})\times w_v(*)\\z_{r}=\sum_{b}A(b)\timessoftmax(\theta_{b}),b\in(\widetilde{P},\mathcal{O},\mathcal{H},\mathcal{M})\]</span></li></ul><p><span class="math inline">\(d_r\)</span> 代表RGB features的dimensionchannel,<font color=red> <span class="math inline">\(w_q\)</span>、<spanclass="math inline">\(w_k\)</span>、<spanclass="math inline">\(w_v\)</span>project their inputs into query,keyand value</font>，<em>A(*)</em>是cross-attention机制，only takes personfeatures as input when computing person interaction <spanclass="math inline">\(A(P)\)</span>，对于hand interaction(objectsinteraction):只有两个sets的输入：output of <spanclass="math inline">\(z_r\)</span> which serves as query(<spanclass="math inline">\(\bar{P}\)</span>)、hands features(object features)from which we obtain the key and values.</p><p><span class="math inline">\(Z_r\)</span>是所有interactionmodules的加权和，包括termporal interaction module <spanclass="math inline">\(TI\)</span>，<spanclass="math inline">\(Z_r\)</span>很重要，首先，它允许网络aggregate尽可能多的信息；另外可学习的参数<spanclass="math inline">\(\theta\)</span>版主过滤不同sets的features，hand-pickingthe best each of them has to offer while discarding noisy andunimportant information。</p><ul><li><strong>Pose branch</strong>：pose model类似于它的RGBcounterpart，reuses most of its outputs。首先通过一个轻量的transformerencoder <span class="math inline">\(f\)</span>来抽取pose features <spanclass="math inline">\(K&#39;\)</span> <spanclass="math display">\[\mathcal{K}^{\prime}=f(\mathcal{K})\]</span></li></ul><p>然后通过mirroring RGB modality的不同的constituents来计算 <spanclass="math inline">\(F_pose\)</span>，然后reusing 对应的outputs，<spanclass="math inline">\(P&#39;\)</span>、<spanclass="math inline">\(O&#39;\)</span>、<spanclass="math inline">\(H&#39;\)</span>是对应的outputs of <spanclass="math inline">\(A(P),A(O),A(H)\)</span>。 <spanclass="math display">\[F_{pose}=(A(\mathcal{K}^{\prime},\mathcal{P}^{\prime})\toz_{p}\to A(\mathcal{O}^{\prime})\to z_{p}\to A(\mathcal{H}^{\prime})\toz_{p})\\A(\mathcal{K}^{\prime},\mathcal{P}^{\prime})=softmax(\frac{w_{q}(\mathcal{K}^{\prime})\timesw_{k}(\mathcal{P}^{\prime})}{\sqrt{d_{p}}})\timesw_{v}(\mathcal{P}^{\prime})\]</span></p><p><spanclass="math inline">\(A(\mathcal{K}^{\prime},\mathcal{P}^{\prime})\)</span>计算cross-attentionbetween pose features <spanclass="math inline">\(K&#39;\)</span>和增强的person interaction features<span class="math inline">\(P&#39;\)</span>，这样的cross-modal blendenforces the pose features by focusing on the key correspondingattributes of the RGB features。其它的components，<spanclass="math inline">\(A(O&#39;)\)</span>和<spanclass="math inline">\(A(H&#39;)\)</span>对 <spanclass="math inline">\(Z_p\)</span>做一个线性的projection as query whiletheir key-value pairs stem from <span class="math inline">\(A(O) andA(H)\)</span>，<spanclass="math inline">\(Z_p\)</span>是要给intra-modality aggregationcomponent for the pose model,类似于 <spanclass="math inline">\(Z_r\)</span>，它过滤和汇聚了每个interactionmodule的信息。</p><ul><li><p>Attentive Fusion Module(AFM)：在进入action分类器之前，RGB和posestream需要结合到一个set of features。出于这个目的，提出了AttentionFusion Module，用<font color=red>channel-wise concatenation of twofeatures sets followed by self-attention for featurerefinement</font>。通过用project matrix <spanclass="math inline">\(\Theta_{fused}\)</span>来减小输出特征的值。 <spanclass="math display">\[F_{fused}=\Theta_{fused}(SelfAttention(F_{rgb},F_{pose}))\]</span></p></li><li><p>Temporal Interaction Unit：fusion module之后，就是一个temporalinteraction block <span class="math inline">\(TI\)</span>，humanactions是连续发生的，因此，long-term context对于理解行为是重要的，alongwith <span class="math inline">\(F_fused\)</span>，这个Module receives压缩的 memory data <span class="math inline">\(M\)</span> with length<span class="math inline">\(2S+1\)</span>，memory cache包含了videobackbone得到的person features. <spanclass="math inline">\(F_fused\)</span> inquirs <spanclass="math inline">\(M\)</span> as to which of the neighboring framescontains informative features, 然后absorb。<spanclass="math inline">\(TI\)</span>是另一个 cross-attention module where<span class="math inline">\(F_fused\)</span>是query,memory <spanclass="math inline">\(M\)</span>两个不同的projections构成了key-valuepairs. <spanclass="math display">\[F_{cls}=TI(F_{fused},\mathcal{M})\]</span>最后，分类头 <span class="math inline">\(g\)</span>是有两个 feed-forwardlayers with relu activation 和output layer组成的， <spanclass="math display">\[\hat{y}=g(F_{cls})\]</span></p></li></ul></li><li><p>实验：</p></li></ol><ul><li><p>person和object detector:从数据集中的每个视频抽取keyframes，然后用detected person bbox from(YOWO[16]) fo inference。作为一个object detector，用FasterRCNN withResNet-50-FPN作为backbone，模型是在ImageNet上进行的预训练，然后再MSCOCO上微调。</p></li><li><p>Keypoints Detection and Processing：对于keypoints detection，采用<span class="math inline">\(Detectron\)</span>中的posemodel，用在ImageNet for object detection上预训练 and fine-tuned onMSCOCO keypoints using precomputed RPN proposals的ResNet-50-FPN，targetdataset中的每个keyframe通过model，输出17个keypoints for each detectedperson corresponding to the COCO format.进一步后处理这些检测到的posecoordinates，因此match GT person bboxes(during training) and bboxes from<a href="during%20testing">16</a>。对于person handslocation，仅对人的手腕的部位的keypoints感兴趣，因此，对这个keypoints做一个bboxes，来highlight人物的hands和everything in between。</p></li><li><p>用SlowFast网络作为视频的backbone</p></li><li><p><strong>Limitations</strong>: 该框架依赖于离线的detector和poseestimator，因此detector和poseestimator的精度可能会对这个方法有影响。similar-lookingclasses例如："throw"和"catch"看起来很像；第二个是部分的occlusion。</p></li></ul><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/ea3763cbc7bc7b502dd50fe0a54b7d06d8d8163b/3-Figure2-1.png"alt="HIT Network" /><figcaption aria-hidden="true">HIT Network</figcaption></figure><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/ea3763cbc7bc7b502dd50fe0a54b7d06d8d8163b/3-Figure3-1.png"alt="Illustration of the Interaction module" /><figcaption aria-hidden="true">Illustration of the Interactionmodule</figcaption></figure><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/ea3763cbc7bc7b502dd50fe0a54b7d06d8d8163b/3-Figure4-1.png"alt="Illustration of the Intra-Modality" /><figcaption aria-hidden="true">Illustration of theIntra-Modality</figcaption></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h4
+id=&quot;holistic-interaction-transformer-network-for-action-detection1&quot;&gt;Holistic
+Interaction Transformer Network for Action Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自国立清华大学和微软AI的Gueter Josmy Faure, Min-Hung
+Chen和Shang-Hong Lai.论文引用[1]:Faure, Gueter Josmy et al. “Holistic
+Interaction Transformer Network for Action Detection.” 2023 IEEE/CVF
+Winter Conference on Applications of Computer Vision (WACV) (2022):
+3329-3339.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2022.Nov.18&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;bi-modal structure&lt;/li&gt;
+&lt;li&gt;combine different interactions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;行为是关于我们如何与环境互动的，包括其他人、物体和我们自己。作者提出了一个新的多模态的&lt;strong&gt;Holistic
+Interaction Transformer Network
+(HIT)&lt;/strong&gt;，利用大量被忽略的、但是对人类行为重要的手部和姿态信息。HIT网络是一个全面的bi-modal框架，由一个RGB
+stream和pose stream组成。每个stream独立地建模person、object和hand
+interactions，对于每个子网络，用了一个&lt;strong&gt;Intra-Modality Aggregation
+module(IMA)&lt;/strong&gt;，选择性地融合个体的交互。从每个模态的得到的features然后用一个&lt;strong&gt;Attentive
+Fusion Mechanism(AFM)&lt;/strong&gt;进行融合，最后，从temporal
+context中提取cues，用cached memory来更好地分类存在的行为。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Action Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Action-Detection/"/>
+    
+  </entry>
   
   <entry>
     <title>Video Understanding</title>
@@ -699,49 +749,6 @@ Conference on Computer Vision and Pattern Recognition (CVPR) (2016):
     <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
     
     <category term="Anchor-based" scheme="https://young-eng.github.io/YoungBlogs/tags/Anchor-based/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SPPNet</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/05/11/SPPNet/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/05/11/SPPNet/</id>
-    <published>2024-05-11T03:14:34.000Z</published>
-    <updated>2024-05-14T16:00:02.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="spatial-pyramid-pooling-in-deep-convolutional-networks-for-visual-recognition1">SpatialPyramid Pooling in Deep Convolutional Networks for VisualRecognition<sup>[1]</sup></h3><blockquote><p>作者是何恺明，张祥宇，任少卿和孙剑。论文引用[1]:He, Kaiming et al.“Spatial Pyramid Pooling in Deep Convolutional Networks for VisualRecognition.” IEEE Transactions on Pattern Analysis and MachineIntelligence 37 (2014): 1904-1916.</p></blockquote><h3 id="time">Time</h3><ul><li>2014.Jun</li></ul><h3 id="key-words">Key Words</h3><ul><li>spatial pyramid pooling</li></ul><h3 id="动机">动机</h3><ol type="1"><li>当前的CNNs要求输入图片有fixed-size， 这个要求可能会降低recognitionaccuracy for images or sub-images of an arbitrary size.</li></ol><span id="more"></span><h3 id="总结">总结</h3><ol type="1"><li><p>之前的CNNs有一个问题：要求固输入的图片时固定的尺寸，限制了aspectratio and scale of input image.当输入任意尺寸的图片时，当前的方法会通过crop,warp等方式将图片弄成fixed-size。crop/warp可能会造成目标的确实或者可能的形变。fixing input sizes 忽视了issues involving scales。CNN中的fc layers需要固定长度的输入，这个存在于深度的网络中。</p></li><li><p>在最后一个卷积上加一个SPP layer, 能够产生a fixed-lengthrepresentation regardless of image size/scale，pyramid pooling is alsorobust to object deformations。换句话说：这个是做了一个informationaggregation。</p></li><li><p>SPPNet，从整个图片中只计算一次feature map, 然后pool features inarbitrary regions to generate fixed-length representations for trainingdetecotors. 这个方法避免了重复计算conv features.</p></li><li><p>Spatial pyramid pooling,是Bag-of-words(BoW)的扩展，SPP用multi-level spatial bins, while sliding window pooling uses only asingle window size.</p></li><li><p>spatial bins have sizes proportional to the image size,因此bins的数量是固定的，这与之前的sliding window pooling不一样(slidingwindows 的数量依赖于input size)</p></li></ol><figure><imgsrc="https://pic4.zhimg.com/v2-da59abcbe56803aeeef24ffb5131ce83_r.jpg"alt="Pipeline" /><figcaption aria-hidden="true">Pipeline</figcaption></figure><figure><imgsrc="https://pic1.zhimg.com/v2-62c008799df798656236258c64082340_r.jpg"alt="Pooling" /><figcaption aria-hidden="true">Pooling</figcaption></figure>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;spatial-pyramid-pooling-in-deep-convolutional-networks-for-visual-recognition1&quot;&gt;Spatial
-Pyramid Pooling in Deep Convolutional Networks for Visual
-Recognition&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是何恺明，张祥宇，任少卿和孙剑。论文引用[1]:He, Kaiming et al.
-“Spatial Pyramid Pooling in Deep Convolutional Networks for Visual
-Recognition.” IEEE Transactions on Pattern Analysis and Machine
-Intelligence 37 (2014): 1904-1916.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2014.Jun&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;spatial pyramid pooling&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;当前的CNNs要求输入图片有fixed-size， 这个要求可能会降低recognition
-accuracy for images or sub-images of an arbitrary size.&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
     
   </entry>
   

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Holistic Interaction Transformer Network for Action Detection[1]  作者是来自国立清华大学和微软AI的Gueter Josmy Faure, Min-Hung Chen和Shang-Hong Lai.论文引用[1]:Faure, Gueter Josmy et al. “Holistic Interaction Transf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Holistic Interaction Transformer">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/08/24/Holistic-Interaction-Transformer/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Holistic Interaction Transformer Network for Action Detection[1]  作者是来自国立清华大学和微软AI的Gueter Josmy Faure, Min-Hung Chen和Shang-Hong Lai.论文引用[1]:Faure, Gueter Josmy et al. “Holistic Interaction Transf">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-08-24T01:24:04.000Z">
+<meta property="article:modified_time" content="2024-08-24T08:30:01.914Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Action Detection">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/08/24/Holistic-Interaction-Transformer/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/08/24/Holistic-Interaction-Transformer/","path":"2024/08/24/Holistic-Interaction-Transformer/","title":"Holistic Interaction Transformer"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Holistic Interaction Transformer | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#holistic-interaction-transformer-network-for-action-detection1"><span class="nav-number">1.</span> <span class="nav-text">Holistic
+Interaction Transformer Network for Action Detection[1]</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number"></span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number"></span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number"></span> <span class="nav-text">总结</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen201718@163.com" title="Email → mailto:yuen201718@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/08/24/Holistic-Interaction-Transformer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Holistic Interaction Transformer | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Holistic Interaction Transformer
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-08-24 09:24:04 / 修改时间：16:30:01" itemprop="dateCreated datePublished" datetime="2024-08-24T09:24:04+08:00">2024-08-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h4
+id="holistic-interaction-transformer-network-for-action-detection1">Holistic
+Interaction Transformer Network for Action Detection<sup>[1]</sup></h4>
+<blockquote>
+<p>作者是来自国立清华大学和微软AI的Gueter Josmy Faure, Min-Hung
+Chen和Shang-Hong Lai.论文引用[1]:Faure, Gueter Josmy et al. “Holistic
+Interaction Transformer Network for Action Detection.” 2023 IEEE/CVF
+Winter Conference on Applications of Computer Vision (WACV) (2022):
+3329-3339.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2022.Nov.18</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>bi-modal structure</li>
+<li>combine different interactions</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>行为是关于我们如何与环境互动的，包括其他人、物体和我们自己。作者提出了一个新的多模态的<strong>Holistic
+Interaction Transformer Network
+(HIT)</strong>，利用大量被忽略的、但是对人类行为重要的手部和姿态信息。HIT网络是一个全面的bi-modal框架，由一个RGB
+stream和pose stream组成。每个stream独立地建模person、object和hand
+interactions，对于每个子网络，用了一个<strong>Intra-Modality Aggregation
+module(IMA)</strong>，选择性地融合个体的交互。从每个模态的得到的features然后用一个<strong>Attentive
+Fusion Mechanism(AFM)</strong>进行融合，最后，从temporal
+context中提取cues，用cached memory来更好地分类存在的行为。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>一个合理的时空行为检测的框架旨在正确地label
+帧里的每个人。应该在相邻帧之间keep a link
+来更好地理解带有连续性特点的活动例如："open"、"close"。最近，更多鲁棒的工作来考虑spatial
+entities之间的关系，因为如果两个人在同一帧，他们大概率会和彼此互动。然而，仅用person
+features是不足以获得object-related action。其他人try to understand
+不仅是帧里的人物之间的关系，而且还有他们周围的物体。这些方法有两个主要的缺点：(1)他们仅依赖于high
+detection
+confidence的目标，可能会导致忽略重要的没有检测到的目标；(2)这些模型努力检测没有出现在frame里的和目标相关的actions。例如：考虑到行为："point
+to (an object)",actor所指向的object可能不在当前帧中。</p></li>
+<li><p>HIT网络用细粒度的上下文，包括person
+pose，hands，objects，来构建一个<font color=red> bi-modal interaction
+structure </font>，每个modality包括3个主要的components：<font color=red>
+person interaction </font>，<font color=red> object interaction
+</font>，<font color=red>hand interaction
+</font>，每个component学习有价值的local action
+patterns。在从相邻帧学习时序信息之前，用<font color=red>Attentive Fusion
+Mechanism </font>
+结合不同模态的信息，来帮助更好地检测发生在当前帧中的行为。主要的contributions有：</p>
+<ul>
+<li>提出了新的框架、<strong>结合RGB、pose和hand features for action
+detection</strong></li>
+<li>引入了一个<strong>bi-modal HIT网络，结合不同的interaction in an
+intuitive and meaningful way</strong></li>
+<li>提出了一个<strong>Attentive Fusion
+Moduel</strong>，作为一个选择性地过滤器，保持每个modal中信息量最多的features，<strong>Intra-Modality
+Aggregator</strong>用来学习modalities内有用的action
+representations.</li>
+</ul></li>
+<li><p>Related work:</p>
+<ul>
+<li><p>spatio-temporal action
+detection，不同于将整个视频分为1类，需要在空间上和时间上检测到行为。很多近期的spatio-temporal
+action detection上的工作是用3D CNN作为backbone来提取视频特征，然后用ROI
+pooling或者ROI align来crop person features from video
+features，这么做，抛弃了视频中潜在的有用信息。</p></li>
+<li><p>时空行为检测任务实际是一个<strong>交互建模</strong>的任务，大多数的行为是在和环境互动。很多研究是用<strong>attention
+mechanism</strong>，有人提出了<strong>Temporal Relation
+Network(TRN)</strong>，学习帧间的依赖，或者说，interaction between
+entities from相邻帧。其它的方法进一步，不仅建模temporal，也建模spatial
+interactions between different entities from the same frame.
+然而，选择什么entities来model interactions也是因model而异的，不只用human
+features，也有人用background information来model interactions between the
+person in the frame and context. 选择crop persons'
+features，但是不抛弃剩下的background
+features，这样提供了丰富的信息，但是，可能会引入很多噪音。也有人尝试be
+more selective about the features to use. 有人首先pass the video frames
+through an object detecotr, crop both the object and person
+features，model它们的interactions。interaction的额外的层，提供了更好的representations
+than 单独的human interaction modeling models，能够helps with classes
+related to objects such as "work on a
+computer"，然而，当目标太小没有检测到或者没有出现在frame中的时候，这些方法会fall
+short。</p></li>
+<li><p>很多最近的action detection frameworks仅用RGB
+features，也有人用光流来获取motion，有人用inception-like
+model来concatenates RGB和flow features at the <font color=red> Mixed4b
+layer </font>，然而也有人用I3D 网络来分别得到RGB和flow
+features，然后在action
+classifier之前，concatenate两个模态。作者提出的bi-modal方法，用了<font color=red>
+visual and skeleton-based features
+</font>，每个modality计算一系列的interactions including
+person、object、and hands before being fused。一个temporal interaction
+module用在fused features上，来学习global information regarding
+neighboring frames.</p></li>
+</ul></li>
+<li><p>Methods: HIT由<strong>RGB和pose
+subnetwork组成</strong>,每个旨在学习persions interactions with their
+surroundings by focusing on the key entities that drive most of our
+actions。在融合了两个sub-networks的输出之后，进一步通过<font color=red>looking
+at cached features from past and future frames，model how actions evolve
+in
+time</font>。这样全面的活动的理解方案能够帮助实现更好的行为检测性能。几个步骤：<strong>entity
+selection</strong>、<strong>RGB modality</strong>、<strong>pose
+modality</strong>、<strong>Attentive Fusion
+Module(AFM)</strong>、<strong>Temporal Interaction Module</strong>.</p>
+<ul>
+<li><strong>entity selection</strong>: HIT由两个mirroring modalities
+with distinct modules组成，来学习不同类型的interactions。Human
+actions大部分基于它们的pose、hand movements和interactions with their
+surroundings。基于这些观察，选择human poses 和hands
+bboxes作为模型的entities along with object and person
+bboxes。用<strong>Detectron</strong> for human pose
+detection，然后create a bbox 包围location of the person's hands.
+用<font color=red> Faster-RCNN</font> 来计算**object bbox proposals。
+Video feature extractor是一个 3D CNN backbone。pose
+encoder是一个轻量的<font color=red>spatial
+transformer</font>，用ROIAlign 来trim video
+features，来抽取person、hands和object features。</li>
+<li><strong>RGB branch</strong>：RGB
+branch包含3个components，每个包含一系列的操作，来学习目标person的特定的信息。这个object和hands
+interaction modules model person-object and person-hands
+interaction。person interaction moduel
+学习当前帧之间的persons的interaction。在每个interaction unit
+的heart，是要给<font color=red>cross-atttentin
+computation</font>，这个<strong>query是target person(or the output of
+the previous unit), key and value are derived from the objects, or hands
+features,depending on which moduele we are at</strong>.
+<font color=blue> it is like asking "how can these particular features
+help detect what the target person is doing?"</font>，公式如下： <span
+class="math display">\[F_{rgb}=(A(\mathcal{P})\to z_{r}\to
+A(\mathcal{O})\to z_{r}\to A(\mathcal{H})\to
+z_{r})\\A(*)=softmax(\frac{w_q(\widetilde{P})\times
+w_k(*)}{\sqrt{d_r}})\times w_v(*)\\z_{r}=\sum_{b}A(b)\times
+softmax(\theta_{b}),b\in(\widetilde{P},\mathcal{O},\mathcal{H},\mathcal{M})\]</span></li>
+</ul>
+<p><span class="math inline">\(d_r\)</span> 代表RGB features的dimension
+channel,<font color=red> <span class="math inline">\(w_q\)</span>、<span
+class="math inline">\(w_k\)</span>、<span
+class="math inline">\(w_v\)</span>project their inputs into query,key
+and value</font>，<em>A(*)</em>是cross-attention机制，only takes person
+features as input when computing person interaction <span
+class="math inline">\(A(P)\)</span>，对于hand interaction(objects
+interaction):只有两个sets的输入：output of <span
+class="math inline">\(z_r\)</span> which serves as query(<span
+class="math inline">\(\bar{P}\)</span>)、hands features(object features)
+from which we obtain the key and values.</p>
+<p><span class="math inline">\(Z_r\)</span>是所有interaction
+modules的加权和，包括termporal interaction module <span
+class="math inline">\(TI\)</span>，<span
+class="math inline">\(Z_r\)</span>很重要，首先，它允许网络aggregate
+尽可能多的信息；另外可学习的参数<span
+class="math inline">\(\theta\)</span>版主过滤不同sets的features，hand-picking
+the best each of them has to offer while discarding noisy and
+unimportant information。</p>
+<ul>
+<li><strong>Pose branch</strong>：pose model类似于它的RGB
+counterpart，reuses most of its outputs。首先通过一个轻量的transformer
+encoder <span class="math inline">\(f\)</span>来抽取pose features <span
+class="math inline">\(K&#39;\)</span> <span
+class="math display">\[\mathcal{K}^{\prime}=f(\mathcal{K})\]</span></li>
+</ul>
+<p>然后通过mirroring RGB modality的不同的constituents来计算 <span
+class="math inline">\(F_pose\)</span>，然后reusing 对应的outputs，<span
+class="math inline">\(P&#39;\)</span>、<span
+class="math inline">\(O&#39;\)</span>、<span
+class="math inline">\(H&#39;\)</span>是对应的outputs of <span
+class="math inline">\(A(P),A(O),A(H)\)</span>。 <span
+class="math display">\[F_{pose}=(A(\mathcal{K}^{\prime},\mathcal{P}^{\prime})\to
+z_{p}\to A(\mathcal{O}^{\prime})\to z_{p}\to A(\mathcal{H}^{\prime})\to
+z_{p})\\A(\mathcal{K}^{\prime},\mathcal{P}^{\prime})=softmax(\frac{w_{q}(\mathcal{K}^{\prime})\times
+w_{k}(\mathcal{P}^{\prime})}{\sqrt{d_{p}}})\times
+w_{v}(\mathcal{P}^{\prime})\]</span></p>
+<p><span
+class="math inline">\(A(\mathcal{K}^{\prime},\mathcal{P}^{\prime})\)</span>计算cross-attention
+between pose features <span
+class="math inline">\(K&#39;\)</span>和增强的person interaction features
+<span class="math inline">\(P&#39;\)</span>，这样的cross-modal blend
+enforces the pose features by focusing on the key corresponding
+attributes of the RGB features。其它的components，<span
+class="math inline">\(A(O&#39;)\)</span>和<span
+class="math inline">\(A(H&#39;)\)</span>对 <span
+class="math inline">\(Z_p\)</span>做一个线性的projection as query while
+their key-value pairs stem from <span class="math inline">\(A(O) and
+A(H)\)</span>，<span
+class="math inline">\(Z_p\)</span>是要给intra-modality aggregation
+component for the pose model,类似于 <span
+class="math inline">\(Z_r\)</span>，它过滤和汇聚了每个interaction
+module的信息。</p>
+<ul>
+<li><p>Attentive Fusion Module(AFM)：在进入action分类器之前，RGB和pose
+stream需要结合到一个set of features。出于这个目的，提出了Attention
+Fusion Module，用<font color=red>channel-wise concatenation of two
+features sets followed by self-attention for feature
+refinement</font>。通过用project matrix <span
+class="math inline">\(\Theta_{fused}\)</span>来减小输出特征的值。 <span
+class="math display">\[F_{fused}=\Theta_{fused}(SelfAttention(F_{rgb},F_{pose}))\]</span></p></li>
+<li><p>Temporal Interaction Unit：fusion module之后，就是一个temporal
+interaction block <span class="math inline">\(TI\)</span>，human
+actions是连续发生的，因此，long-term context对于理解行为是重要的，along
+with <span class="math inline">\(F_fused\)</span>，这个Module receives
+压缩的 memory data <span class="math inline">\(M\)</span> with length
+<span class="math inline">\(2S+1\)</span>，memory cache包含了video
+backbone得到的person features. <span
+class="math inline">\(F_fused\)</span> inquirs <span
+class="math inline">\(M\)</span> as to which of the neighboring frames
+contains informative features, 然后absorb。<span
+class="math inline">\(TI\)</span>是另一个 cross-attention module where
+<span class="math inline">\(F_fused\)</span>是query,memory <span
+class="math inline">\(M\)</span>两个不同的projections构成了key-value
+pairs. <span
+class="math display">\[F_{cls}=TI(F_{fused},\mathcal{M})\]</span>
+最后，分类头 <span class="math inline">\(g\)</span>是有两个 feed-forward
+layers with relu activation 和output layer组成的， <span
+class="math display">\[\hat{y}=g(F_{cls})\]</span></p></li>
+</ul></li>
+<li><p>实验：</p></li>
+</ol>
+<ul>
+<li><p>person和object detector:
+从数据集中的每个视频抽取keyframes，然后用detected person bbox from
+(YOWO[16]) fo inference。作为一个object detector，用FasterRCNN with
+ResNet-50-FPN作为backbone，模型是在ImageNet上进行的预训练，然后再MSCOCO上微调。</p></li>
+<li><p>Keypoints Detection and Processing：对于keypoints detection，采用
+<span class="math inline">\(Detectron\)</span>中的pose
+model，用在ImageNet for object detection上预训练 and fine-tuned on
+MSCOCO keypoints using precomputed RPN proposals的ResNet-50-FPN，target
+dataset中的每个keyframe通过model，输出17个keypoints for each detected
+person corresponding to the COCO format.进一步后处理这些检测到的pose
+coordinates，因此match GT person bboxes(during training) and bboxes from
+<a href="during%20testing">16</a>。对于person hands
+location，仅对人的手腕的部位的keypoints感兴趣，因此，对这个keypoints做一个bboxes，来highlight
+人物的hands和everything in between。</p></li>
+<li><p>用SlowFast网络作为视频的backbone</p></li>
+<li><p><strong>Limitations</strong>: 该框架依赖于离线的detector和pose
+estimator，因此detector和pose
+estimator的精度可能会对这个方法有影响。similar-looking
+classes例如："throw"和"catch"看起来很像；第二个是部分的occlusion。</p></li>
+</ul>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/ea3763cbc7bc7b502dd50fe0a54b7d06d8d8163b/3-Figure2-1.png"
+alt="HIT Network" />
+<figcaption aria-hidden="true">HIT Network</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/ea3763cbc7bc7b502dd50fe0a54b7d06d8d8163b/3-Figure3-1.png"
+alt="Illustration of the Interaction module" />
+<figcaption aria-hidden="true">Illustration of the Interaction
+module</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/ea3763cbc7bc7b502dd50fe0a54b7d06d8d8163b/3-Figure4-1.png"
+alt="Illustration of the Intra-Modality" />
+<figcaption aria-hidden="true">Illustration of the
+Intra-Modality</figcaption>
+</figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Action-Detection/" rel="tag"># Action Detection</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/08/20/Video-Understanding/" rel="prev" title="Video Understanding">
+                  <i class="fa fa-angle-left"></i> Video Understanding
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">50k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:02</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
