@@ -451,7 +451,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-08-24 16:51:02 / 修改时间：16:57:44" itemprop="dateCreated datePublished" datetime="2024-08-24T16:51:02+08:00">2024-08-24</time>
+      <time title="创建时间：2024-08-24 16:51:02 / 修改时间：22:21:00" itemprop="dateCreated datePublished" datetime="2024-08-24T16:51:02+08:00">2024-08-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -470,14 +470,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>73</span>
+      <span>949</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>3 分钟</span>
     </span>
 </div>
 
@@ -500,10 +500,58 @@ Localization.” ArXiv abs/1911.06644 (2019): n. pag.</p>
 </blockquote>
 <h4 id="time">Time</h4>
 <ul>
-<li>2019.Nov.15</li>
+<li>2019.Nov.15(v1)</li>
+<li>2021.Oct.18(v5)</li>
 </ul>
 <h4 id="key-words">Key Words</h4>
+<ul>
+<li>single-stage with two branches</li>
+</ul>
 <h4 id="总结">总结</h4>
+<ol type="1">
+<li><p>当前的网络抽取时序信息和keyframe的空间信息是用两个分开的网络，然后用一个额外的mechanism来融合得到detections。YOWO是一个单阶段的架构，有两个分支，来同时抽取当前的时序和空间信息，预测bboxes和action
+的概率 directly from video clips in one
+evaluation。因为架构是统一的，因此可以端到端的优化。YOWO架构速度快，能够做到在16-frames
+input clips上做到 34 frames-per-second，62 frames-per-second on 8-frames
+input clips。是当前在STAD任务上最快的架构。</p></li>
+<li><p>和静态图像里的目标检测相比，时序信息很重要，受目标检测FasterRCNN的启发，SOTA的工作将经典两阶段的网络架构扩展到action
+detection，第一阶段产生proposals，在第二阶段进行分类和定位的refinement，然而，两阶段的
+STAD任务有3个主要的缺点：(1):action tube是由bboxes across
+frames组成的，它的产生比2D
+case更复杂和耗时。分类的性能极度依赖这些Proposals，然而detected
+bboxes可能对于后续的分类任务是sub-optimal；(2)action
+proposals只关注视频里的人物的features，忽略人和背景中的其它特征，而这这能够提供对于action
+prediction相当重要的上下文信息。(3)训练RPN网络和分类网络是分开的，不能保证找到全局最优。只有局部最优
+from the combination of two stages can be found.
+训练的成本比单阶段的高，因此花费很多时间和存储。</p></li>
+<li><p>YOWO克服了上述提到的缺点，YOWO的本能的idea是来自人类视觉认知系统，为了理解视频中的人物的行为，需要<strong>将当前帧的信息2D
+features from key frame</strong>与之前记忆里获得的知识(3D features from
+clip)相关联，之后，两种features融合到一起，提供一个合理的结论。YOWO架构是一个单阶段的、有两个分支的网络。一个分支<strong>提取key
+frame的spatial features via a 2D-CNN，另一个分支models spatiotemporal
+features of the clip consisting of previous frames via a 3D
+CNN</strong>。YOWO是一个<strong>causal
+架构(因果架构)，就是没有利用future frames</strong>，能够operate online
+on incoming video streams。为了aggregate 2D CNN和3D CNN的features
+smoothly, 用了一个channel fusion和attention机制，get the utmost out of
+inter-channel dependencies。最后，用融合的特征，产生frame-level
+detections，用一个<strong>linking 算法</strong>来产生action tubes.
+YOWO不局限于RGB的模态，其它的例如光流也是可以的；任何一个CNN的架构根据实时性能的要求，都可以用。YOWO
+operates with maximum 16 frames input，因为short clip
+lengths对于实现STAD人物的实时性是必要的。然而，small clip
+size是时序信息累计的限制因素。因此，利用<strong>long-term feature
+bank</strong>，通过训练好的3D
+CNN从整个视频中提取非重叠的8帧片段的特征。在推理的时候，averaged 3D
+features centering the key-frame.</p></li>
+<li><p>主要贡献如下：</p>
+<ul>
+<li>提出了在视频流里的单阶段的STAD框架，能够端到端的训练。实现了在3D
+CNN和2D CNN上特征的bboxes 回归，同时，这两个特征对于彼此是互补的 for
+final bboxes 回归和分类。用了<strong>channel attention
+</strong>来汇聚两个branches的特征。实验证明：channel-wise
+attention机制，models inter-channel relationship within the concatenated
+feature maps，提高了性能。</li>
+</ul></li>
+</ol>
 <figure>
 <img
 src="https://d3i71xaburhd42.cloudfront.net/08c936517b8e8b9fcab9a544c735be2909fab3ee/8-Figure2-1.png"
@@ -1249,13 +1297,13 @@ xxx.run来安装</p></li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">50k</span>
+    <span title="站点总字数">51k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:02</span>
+    <span title="站点阅读时长">3:05</span>
   </span>
 </div>
 <div class="busuanzi-count">
