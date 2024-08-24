@@ -27,7 +27,7 @@
 <meta property="og:description" content="Holistic Interaction Transformer Network for Action Detection[1]  作者是来自国立清华大学和微软AI的Gueter Josmy Faure, Min-Hung Chen和Shang-Hong Lai.论文引用[1]:Faure, Gueter Josmy et al. “Holistic Interaction Transf">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-24T01:24:04.000Z">
-<meta property="article:modified_time" content="2024-08-24T08:30:01.914Z">
+<meta property="article:modified_time" content="2024-08-24T08:41:13.033Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
@@ -129,7 +129,7 @@ Interaction Transformer Network for Action Detection[1]</span></a></li></ol></li
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -205,7 +205,7 @@ Interaction Transformer Network for Action Detection[1]</span></a></li></ol></li
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-08-24 09:24:04 / 修改时间：16:30:01" itemprop="dateCreated datePublished" datetime="2024-08-24T09:24:04+08:00">2024-08-24</time>
+      <time title="创建时间：2024-08-24 09:24:04 / 修改时间：16:41:13" itemprop="dateCreated datePublished" datetime="2024-08-24T09:24:04+08:00">2024-08-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -362,8 +362,8 @@ surroundings。基于这些观察，选择human poses 和hands
 bboxes作为模型的entities along with object and person
 bboxes。用<strong>Detectron</strong> for human pose
 detection，然后create a bbox 包围location of the person's hands.
-用<font color=red> Faster-RCNN</font> 来计算**object bbox proposals。
-Video feature extractor是一个 3D CNN backbone。pose
+用<font color=red> Faster-RCNN</font> 来计算<strong>object bbox
+proposals</strong>。 Video feature extractor是一个 3D CNN backbone。pose
 encoder是一个轻量的<font color=red>spatial
 transformer</font>，用ROIAlign 来trim video
 features，来抽取person、hands和object features。</li>
@@ -387,7 +387,7 @@ softmax(\theta_{b}),b\in(\widetilde{P},\mathcal{O},\mathcal{H},\mathcal{M})\]</s
 <p><span class="math inline">\(d_r\)</span> 代表RGB features的dimension
 channel,<font color=red> <span class="math inline">\(w_q\)</span>、<span
 class="math inline">\(w_k\)</span>、<span
-class="math inline">\(w_v\)</span>project their inputs into query,key
+class="math inline">\(w_v\)</span> project their inputs into query,key
 and value</font>，<em>A(*)</em>是cross-attention机制，only takes person
 features as input when computing person interaction <span
 class="math inline">\(A(P)\)</span>，对于hand interaction(objects
@@ -400,7 +400,7 @@ modules的加权和，包括termporal interaction module <span
 class="math inline">\(TI\)</span>，<span
 class="math inline">\(Z_r\)</span>很重要，首先，它允许网络aggregate
 尽可能多的信息；另外可学习的参数<span
-class="math inline">\(\theta\)</span>版主过滤不同sets的features，hand-picking
+class="math inline">\(\theta\)</span>帮助过滤不同sets的features，hand-picking
 the best each of them has to offer while discarding noisy and
 unimportant information。</p>
 <ul>
@@ -528,6 +528,9 @@ Intra-Modality</figcaption>
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/08/24/YOWO/" rel="next" title="YOWO">
+                  YOWO <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
