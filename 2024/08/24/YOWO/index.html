@@ -27,7 +27,7 @@
 <meta property="og:description" content="You Only Watch Once: A Unified CNN Architecture for Real-Time Spatiotemporal Action Localization[1]  作者是来自Technical Univ of Munich的Okan Kopuklu, Xiangyu Wei, Gerhard Rigoll。论文引用[1]:Köpüklü, Okan">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-24T08:51:02.000Z">
-<meta property="article:modified_time" content="2024-08-25T06:49:13.842Z">
+<meta property="article:modified_time" content="2024-08-25T15:36:44.607Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
@@ -212,7 +212,7 @@ Action Localization[1]</span></a></li><li class="nav-item nav-level-4"><a class=
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-25 14:49:13" itemprop="dateModified" datetime="2024-08-25T14:49:13+08:00">2024-08-25</time>
+      <time title="修改时间：2024-08-25 23:36:44" itemprop="dateModified" datetime="2024-08-25T23:36:44+08:00">2024-08-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,14 +238,14 @@ Action Localization[1]</span></a></li><li class="nav-item nav-level-4"><a class=
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>950</span>
+      <span>3.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>13 分钟</span>
     </span>
 </div>
 
@@ -316,11 +316,234 @@ features centering the key-frame.</p></li>
 <ul>
 <li>提出了在视频流里的单阶段的STAD框架，能够端到端的训练。实现了在3D
 CNN和2D CNN上特征的bboxes 回归，同时，这两个特征对于彼此是互补的 for
-final bboxes 回归和分类。用了<strong>channel attention
-</strong>来汇聚两个branches的特征。实验证明：channel-wise
-attention机制，models inter-channel relationship within the concatenated
-feature maps，提高了性能。</li>
+final bboxes 回归和分类。用了<strong>channel attention</strong>
+来汇聚两个branches的特征。实验证明：channel-wise attention机制，models
+inter-channel relationship within the concatenated feature
+maps，提高了性能。</li>
 </ul></li>
+<li><p>Related work: 为了考虑时序信息，有twe-stream
+CNN来提取分别提取空间和时间特征，然后汇聚到一起；这样的工作大部分是基于光流的，很耗时和耗计算资源。然后就是3D
+CNN，用它来提取时空特征。为了resource efficiency，一些工作用2D
+CNN来学习2D 特征，然后用一个3D
+CNN来将它们融合到一起，学习时间特征。Attention是一个有效的mechanism来capture
+long-range dependencies，用在了CNNs中来尝试提高图像分类的性能。Attention
+mechanism在<strong>spatial-wise和channel-wise</strong>来执行。<strong>spatial
+attention解决inter-saptial relationship among features，channel
+attention
+增强最有意义的channels，弱化其它的</strong>。作为一个channel-wise
+attention block，Squeeze-and-Excitation
+moduel对于提高CNN的性能有益。另一方面，对于视频分类人物，non-local
+block考虑时空信息，来学习across
+frames的特征的dependencies。可以视为自注意力策略。不同于之前的工作，YOWO只使用clip一次，检测keyframe里的对应的actions。为了避免光流的复杂计算，用keyframe的2D
+features和clip的3D features。之后，两种类型的features用<strong>attention
+mechanism</strong>融合在一起，就能够考虑到丰富的上下文信息。</p></li>
+<li><p>YOWO的架构主要分为4个部分：<strong>3D CNN
+branch</strong>、<strong>2D CNN branch</strong>、<strong>CFAM</strong>
+和 <strong>bbox regression parts</strong>.</p>
+<ul>
+<li><font color=red>3D
+CNN</font>：因为上下文信息对于人类行为理解很重要，因此用3D
+CNN来提取时空特征。3D
+CNN能够获得运动信息(在空间和时间维度做卷积)，基本的3D CNN架构这里用的是
+3D-ResNext-101，对于所有的3D
+CNN架构，在最后的卷积层之后的所有层都会被丢弃。3D网络的输入是一个video
+clip。是由时间上连续的视频帧组成，shape为 <span class="math inline">\(C
+\times D \times H \times W\)</span>，最后一个3D
+ResNext-101的输出的feature map的shape为 <span
+class="math inline">\(C&#39; \times D&#39; \times H&#39; \times
+W&#39;\)</span>，<span class="math inline">\(C=3, D&#39;=1, H&#39; =
+\frac{H}{32}, W&#39; = \frac{W}{32}\)</span>，<span
+class="math inline">\(D\)</span> 是输入的帧数。输出特征图的depth
+维度减小到1，以至于 output volume可以squeezed to <span
+class="math inline">\(C&#39; \times H&#39; \times
+W&#39;\)</span>，为了和2D-CNN的输出匹配。</li>
+<li><font color=red>2D CNN</font>：为了解决空间定位问题，keyframe的2D
+特征被extracted in parallel，用Darknet-19作为2D
+CNN的基本架构，因为它在精度和效率上取得了平衡。key frame with the shape
+<span class="math inline">\(C \times H \times W\)</span> 是输入clip的
+<strong>most recent
+frame</strong>，因此不需要一个额外的dataloader，Darknet-19的输出特征图的shape为
+<span class="math inline">\(C&#39;&#39; \times H&#39; \times
+W&#39;\)</span>，<span class="math inline">\(C= 3\)</span>，<span
+class="math inline">\(C&#39;&#39;\)</span> 是输出的channels，<span
+class="math inline">\(H&#39;= \frac{H}{32}, W&#39; =
+\frac{W}{32}\)</span>，和3D
+CNN的情况类似。YOWO的另一个重要特性是，它的2D CNN和3D
+CNN的分支能够被任意的CNN架构代替，使其更灵活。需要注意的是：<strong>虽然YOWO有两个分支，但是它是一个统一的架构，能够端到端的训练</strong>。</li>
+<li><font color=red>Feature aggregation: Channel Fusion and Attention
+Mechanism(CFAM) </font>：让3D和2D网络的输出有相同的shape in the last two
+dimensions，以至于两个feature
+maps能够简单地融合。用concatenation来融合两个feature
+maps。因此，融合的feature map能够 <strong>encoders both motion and
+appearance
+informatin</strong>，然后这个融合的特征输到CFAM模块里，这个模块是基于<font color=red>
+Gram matrix</font>来映射 <strong>inter-channel
+dependencies</strong>。虽然<strong>Gram
+matrix</strong>最初是用来做<strong>style
+transfer</strong>，最近用在了segmentation
+task，这样一个注意力机制对于来自不同sources的feature的融合是有益的。能够提高性能。concatenated
+feature map <span class="math inline">\(A \in R^{(C&#39; + C&#39;&#39;)
+\times H \times W}\)</span>，可以被视为3D 和2D 信息的一个 <strong>abrupt
+combination</strong>，这忽略了它们之间的<strong>interrelationship</strong>。因此，将<span
+class="math inline">\(A\)</span>输给两个conv layers来产生新的特征图
+<span class="math inline">\(B \in R^{C \times H&#39; \times
+W&#39;}，之后，在特征图\)</span>B<span
+class="math inline">\(上进行一些操作。\)</span>F R^{C N} $是 feature map
+<span class="math inline">\(B\)</span>reshape之后的tensor， <span
+class="math inline">\(N=H \times
+W\)</span>，意味着每个channel中的features被 <strong>vectorized to one
+dimension</strong>。然后 对 <span class="math inline">\(F \in R^{C
+\times N}\)</span> 和它的转置 <span class="math inline">\(F^T \in R^{N
+\times C}\)</span> 进行 矩阵乘法，来得到 <strong>Gram Matrix G R^{C
+C}</strong>，这个矩阵能够表明不同channel之间的<strong>correlations</strong>。</li>
+</ul>
+<p><span
+class="math display">\[\begin{array}{rcl}\mathbf{G}&amp;=&amp;\mathbf{F}\cdot\mathbf{F}^\mathrm{T}&amp;with&amp;G_{ij}&amp;=&amp;\sum_{k=1}^{N}F_{ik}\cdot
+F_{jk}\end{array}\]</span></p>
+<p><strong>Gram matrix G</strong>中的每个元素 <span
+class="math inline">\(G_{ij}\)</span>代表 <strong>vectorize feature maps
+i and j</strong> 之间的<strong>inner product</strong>。</p>
+<p>在计算完Gram matrix之后，用一个softmax layer来得到 <strong>channel
+attention map M</strong>, <span class="math inline">\(M \in R^{C \times
+C}\)</span>，<span class="math inline">\(M_{ij}\)</span>表示<span
+class="math inline">\(j^{th}\)</span> channel对 <span
+class="math inline">\(i^{th}\)</span> channel之间的的影响。因此，<span
+class="math inline">\(M\)</span> summaries 给定feature
+map的features的<strong>inter-channel dependency</strong>。为了perform
+impact of attention map to original features，对<span
+class="math inline">\(M\)</span>和<span
+class="math inline">\(F\)</span>做一个矩阵乘法，将结果shape到3维空间
+<span class="math inline">\(R^{C \times H \times
+W}\)</span>，这将和输入的tensor有相同的shape。</p>
+<p><span class="math display">\[\mathbf{F}^{\prime} =
+\mathbf{M}\cdot\mathbf{F}\\\mathbf{F}^{\prime}\in\mathbb{R}^{C\times
+N}\xrightarrow{reshape}\mathbf{F}^{\prime\prime}\in\mathbb{R}^{C\times
+H\times W}\]</span></p>
+<p>channel attention module的输出 <span class="math inline">\(C \in R^{C
+\times H \times W}\)</span>是 <span
+class="math inline">\(F&#39;&#39;\)</span>和初始输入特征图 <span
+class="math inline">\(B\)</span> 的的结合，with a trainable scalar
+parameter <span class="math inline">\(\alpha\)</span>，用
+<strong>element-wise sum operation</strong>，<span
+class="math inline">\(\alpha\)</span> <strong>learns a weight from
+0</strong>。 <span class="math display">\[\mathbf{C} =
+\alpha\cdot\mathbf{F}^{\prime\prime}+\mathbf{B}\]</span></p>
+<p>该方程表明：每个channel的最后的特征是 <strong>weighted sum of the
+features of all channels and original features</strong>，这是对feature
+maps之间的long-range的semantics dependencies的建模。最后 <span
+class="math display">\[\mathbf{C}\in\mathbb{R}^{C\times H^{\prime}\times
+W^{\prime}}\]</span> 给到了两个conv layer，来得到 <em>CFAM module</em>
+的输出特征图 <span
+class="math display">\[\mathbf{D}\in\mathbb{R}^{C^{*}\times
+H^{\prime}\times W^{\prime}}\]</span>，在CFAM模块的开始和结束的2 个conv
+layer很重要，因为它们 <strong>mix the features from different
+distributions</strong>，没有这些conv
+layers，CFAM模块的性能提升会有限。</p>
+<p>这样的一个架构 promote feature representativeness in terms of
+<strong>inter-dependencies among
+channels</strong>，因此来自不同branches的features能够被reasonably and
+smoothly汇聚到一起。另外，<strong>Gram matrix</strong> 考虑整个 feature
+map。两个flattened feature vectors的<strong>点乘</strong> 展示了
+<strong>它们之间的relation
+information</strong>。一个比较大的product表明两个 channels的features
+<strong>more correlated</strong>，smaller
+product表明它们彼此不一样。对于一个给定的channel，<strong>allocate more
+weights to other channels which are much correlated and have more impact
+to it</strong>。通过这种机制，上下文的关系被
+<strong>emphasized，features discriminability is enhanced</strong>。</p>
+<ul>
+<li><font color=red> Bounding box regression</font>：follow
+YOLO相同的guidelines for bbox regression。最后一个conv layer with <span
+class="math inline">\(1 \times 1\)</span> kernels用来产生
+<strong>desired number of output channels。对于每个grid cel in <span
+class="math inline">\(H&#39; \times W&#39;\)</span>。用 k-means
+方法在对应的datasets上选择5个prior anchors, with </strong>NumCls class
+conditional action scores, 4 coordinates and confidence
+score**。YOWO的最后的输出的size是 <span
+class="math inline">\([(5\times(NumCls+5))\times H&#39;\times
+W&#39;]\)</span>。bboxes的回归然后基于这些anchors进行refined。</li>
+</ul></li>
+<li><p>在训练和测试阶段的输入分辨率都为 <span class="math inline">\(224
+\times 224\)</span>，用不同的分辨率进行multi-scale
+training在实验中没有发现有性能的提高。损失函数和原始的YOLOv2的网络中类似，除了这个采用了
+smooth L1 Loss with beta=1 for localization，</p>
+<p><span
+class="math display">\[L_{1,smooth}(x,y)=\begin{cases}0.5(x-y)^2&amp;if|x-y|&lt;1\\\\|x-y|-0.5&amp;otherwise\end{cases}\]</span></p>
+<p><span class="math inline">\(x,y\)</span>分别指prediction和ground
+truth。L1 loss相比于MSE loss，对
+outliers不那么敏感，能够在某些情况阻止梯度爆炸。用MSE loss for
+confidence scores.</p>
+<p><span class="math display">\[L_{MSE}(x,y)=(x-y)^2\]</span></p>
+<p>最后的detection loss是 individual coordiante losses for
+x,y,width,height和confidence score loss，</p>
+<p><span
+class="math display">\[L_D=L_x+L_y+L_w+L_h+L_{conf}\]</span></p>
+<p>用focal loss for classification:</p>
+<p><span class="math display">\[L_{focal}(x,y)=y(1-x)^\gamma
+log(x)+(1-y)x^\gamma log(1-x)\]</span></p>
+<p>x是 softmaxed network prediction, <span class="math inline">\(y \in
+{0,1}\)</span> is grouth truth class label。<span
+class="math inline">\(\gamma\)</span>是modulating factor，reduce loss of
+samples with high confidence(easy samples), increase the loss of samples
+with low confidence(hard
+samples)。AVA数据集是一个多标签数据集，每个人执行一个pose
+action和多个human-human or human-object interaction actions。因此，用
+<strong>softmax to pose classes and sigmoid to the interaction
+actions</strong>。另外，AVA是一个不平衡的数据集，modulating factor <span
+class="math inline">\(\gamma\)</span>
+不足以处理数据集的不平衡问题。因此用了一个focal loss的 <span
+class="math inline">\(\alpha -balanced variant\)</span>，对于 <span
+class="math inline">\(\alpha\)</span>，<strong>we have used exponential
+of class sample
+ratios</strong>。最后的YOWO用的loss是检测的loss和分类的loss的和。</p>
+<p><span class="math display">\[L_{final}=\lambda
+L_D+L_{Cls}\]</span></p>
+<p>这里 <span class="math inline">\(\lambda =0.5\)</span>
+在实验中表现最好。</p></li>
+<li><p>分别初始化3D 和2D CNN网络：用在Kinetics上预训练的models来初始化
+3D CNN，用在PASCAL VOC上预训练的models来初始化2D CNN。虽然架构是由2D
+CNN和 3D CNN组成。这些参数能够一起更新。选择 <strong>mini-batch SGD with
+momentum and weight decay</strong>来优化loss function。学习率初始为
+0.0001。在训练的时候，由于J-HMDB-21的样本数量少，冻结所有的 3D conv
+net的参数，因此收敛会更快，减小过拟合的风险。另外，在训练中用一些数据增强的方式例如flipping,
+random scaling等。</p></li>
+<li><p><strong>linking strategy</strong>：在得到了frame-level的 action
+detection之后，下一步是将这些检测到的 bboxes 连接起来，构建
+<strong>action tubes in the whole video</strong>。
+利用连接算法，来找到最优的video-level action detections。 假设 <span
+class="math inline">\(R_t\)</span>和 <span
+class="math inline">\(R_{t+1}\)</span>是连续帧 <span
+class="math inline">\(t\)</span> 和 <span
+class="math inline">\(t+1\)</span>的两个区域。linking score for an
+action class <span class="math inline">\(c\)</span> 定义为： <span
+class="math display">\[\begin{aligned}s_{c}(R_{t},R_{t+1})&amp;=\quad\psi(ov)\cdot[s_{c}(R_{t})+s_{c}(R_{t+1})\\&amp;+\alpha\cdot
+s_{c}(R_{t})\cdot s_{c}(R_{t+1})\\&amp;+\beta\cdot
+ov(R_{t},R_{t+1})]\end{aligned}\]</span></p>
+<p><span class="math inline">\(s_{c}(R_{t})\)</span>和<span
+class="math inline">\(s_{c}(R_{t+1})\)</span> 是regions <span
+class="math inline">\(R_t\)</span>和 <span
+class="math inline">\(R_{t+1}\)</span>的 class specific socres。<span
+class="math inline">\(ov\)</span>是
+两个区域的IoU，如果overlap存在，则<span
+class="math inline">\(\psi(ov)\)</span>为1，否则为0.在linking
+score的定义上增加了一个额外的项：<span class="math inline">\(\alpha\cdot
+s_{c}(R_{t})\cdot
+s_{c}(R_{t+1})\)</span>。将两个连续帧的剧烈变化考虑进来了，能够提高video
+detections的性能。在计算出所有的linking scores之后，用 <strong>Viterbi
+algorithm</strong>来找到最有的路径，生成 action tubes。</p></li>
+<li><p><strong>long-term feature
+bank</strong>：虽然YOWO的推理是在线的和因果的 with small clip
+size，但是16帧的输入限制了 temporal information required for action
+understanding。因此，利用long-term feature
+back(LFB)，这个包含了不同的timestamps的来自3D
+CNN的features。在推理时，3D features centering the keyframe are
+averaeged and resulting feature map用作输入，给到CFAM block，<strong>LFB
+features are extracted for non-overlapping 8-frames clips using the
+pretrained 3D ResNeXt-101 backbone</strong>。用 8 features centering the
+key-frame。因此在推理的时候，利用了总共64帧的数据。LFB增加了action
+classificatin的性能，类似于difference between clip accuracy and video
+ccuracy in video datasets。然后，LFB会导致一个非因果的架构，因为 future
+3D features在推理的时候用到了。</p></li>
 </ol>
 <figure>
 <img
@@ -388,13 +611,13 @@ alt="Channel Fusion" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">51k</span>
+    <span title="站点总字数">54k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:05</span>
+    <span title="站点阅读时长">3:15</span>
   </span>
 </div>
 <div class="busuanzi-count">
