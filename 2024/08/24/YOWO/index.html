@@ -27,7 +27,7 @@
 <meta property="og:description" content="You Only Watch Once: A Unified CNN Architecture for Real-Time Spatiotemporal Action Localization[1]  作者是来自Technical Univ of Munich的Okan Kopuklu, Xiangyu Wei, Gerhard Rigoll。论文引用[1]:Köpüklü, Okan">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-24T08:51:02.000Z">
-<meta property="article:modified_time" content="2024-08-25T15:36:44.607Z">
+<meta property="article:modified_time" content="2024-08-25T15:39:08.692Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
@@ -212,7 +212,7 @@ Action Localization[1]</span></a></li><li class="nav-item nav-level-4"><a class=
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-25 23:36:44" itemprop="dateModified" datetime="2024-08-25T23:36:44+08:00">2024-08-25</time>
+      <time title="修改时间：2024-08-25 23:39:08" itemprop="dateModified" datetime="2024-08-25T23:39:08+08:00">2024-08-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -387,15 +387,16 @@ feature map <span class="math inline">\(A \in R^{(C&#39; + C&#39;&#39;)
 combination</strong>，这忽略了它们之间的<strong>interrelationship</strong>。因此，将<span
 class="math inline">\(A\)</span>输给两个conv layers来产生新的特征图
 <span class="math inline">\(B \in R^{C \times H&#39; \times
-W&#39;}，之后，在特征图\)</span>B<span
-class="math inline">\(上进行一些操作。\)</span>F R^{C N} $是 feature map
-<span class="math inline">\(B\)</span>reshape之后的tensor， <span
+W&#39;}\)</span>，之后，在特征图<span
+class="math inline">\(B\)</span>上进行一些操作。$F R^{C N} $是 feature
+map <span class="math inline">\(B\)</span>reshape之后的tensor， <span
 class="math inline">\(N=H \times
 W\)</span>，意味着每个channel中的features被 <strong>vectorized to one
 dimension</strong>。然后 对 <span class="math inline">\(F \in R^{C
 \times N}\)</span> 和它的转置 <span class="math inline">\(F^T \in R^{N
-\times C}\)</span> 进行 矩阵乘法，来得到 <strong>Gram Matrix G R^{C
-C}</strong>，这个矩阵能够表明不同channel之间的<strong>correlations</strong>。</li>
+\times C}\)</span> 进行 矩阵乘法，来得到 <strong>Gram Matrix</strong>
+<span class="math inline">\(G \in R^{C \times
+C}\)</span>，这个矩阵能够表明不同channel之间的<strong>correlations</strong>。</li>
 </ul>
 <p><span
 class="math display">\[\begin{array}{rcl}\mathbf{G}&amp;=&amp;\mathbf{F}\cdot\mathbf{F}^\mathrm{T}&amp;with&amp;G_{ij}&amp;=&amp;\sum_{k=1}^{N}F_{ik}\cdot
