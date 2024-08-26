@@ -19,14 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="TubeR: Tubelet Transformer for Video Action Detection[1]  作者是来自阿姆斯特丹大学、罗格斯大学和AWS AI Labs的Jiaojiao Zhao、Yanyi Zhang等人。论文引用[1]:Zhao, Jiaojiao et al. “TubeR: Tubelet Transformer for Video Action Det">
+<meta property="og:type" content="article">
 <meta property="og:title" content="TubeR">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/08/24/TubeR/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="TubeR: Tubelet Transformer for Video Action Detection[1]  作者是来自阿姆斯特丹大学、罗格斯大学和AWS AI Labs的Jiaojiao Zhao、Yanyi Zhang等人。论文引用[1]:Zhao, Jiaojiao et al. “TubeR: Tubelet Transformer for Video Action Det">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-24T08:53:46.000Z">
-<meta property="article:modified_time" content="2024-08-24T08:53:46.964Z">
+<meta property="article:modified_time" content="2024-08-26T06:25:39.506Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#tuber-tubelet-transformer-for-video-action-detection1"><span class="nav-number">1.</span> <span class="nav-text">TubeR:
+Tubelet Transformer for Video Action Detection[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -201,6 +206,22 @@
 
       <time title="创建时间：2024-08-24 16:53:46" itemprop="dateCreated datePublished" datetime="2024-08-24T16:53:46+08:00">2024-08-24</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-26 14:25:39" itemprop="dateModified" datetime="2024-08-26T14:25:39+08:00">2024-08-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
@@ -216,14 +237,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>3.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>12 分钟</span>
     </span>
 </div>
 
@@ -233,7 +254,350 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3 id="tuber-tubelet-transformer-for-video-action-detection1">TubeR:
+Tubelet Transformer for Video Action Detection<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自阿姆斯特丹大学、罗格斯大学和AWS AI Labs的Jiaojiao
+Zhao、Yanyi Zhang等人。论文引用[1]:Zhao, Jiaojiao et al. “TubeR: Tubelet
+Transformer for Video Action Detection.” 2022 IEEE/CVF Conference on
+Computer Vision and Pattern Recognition (CVPR) (2021): 13588-13597.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2021.April</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>tubelet queries, tubelet-attention</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>不同于现有的依赖于离线检测器或者人工设计的actor-positional
+hypotheses like proposals or anchors，提出了一个通过同时进行action
+localization和recognition from a single
+representation，直接检测视频里的action
+tubelet的方法。TubeR学习一系列的tubelet queries，利用tubelet-attention
+module来model video clip里的动态的spatio-tempral
+nature。相比于用actor-positional hypotheses in the spatio-temporal
+space，它能够有效的强化模型的能力。对于包含transitional states或者scene
+changes的视频，提出了一个context aware classification
+head，来利用short-term和long-term context to strengthen action
+classification，和一个action switch regression head
+来检测精确的时序上的行为范围。TubeR直接产生不同长度的action
+tubelets，对于长的视频clips，也能保持一个比较好的结果。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>Action
+detection是一个复杂的任务，要求逐帧的任务的定位、将检测到的person
+instances连接成action
+tubes、预测action的类别。STAD中两种路径很流行：frame-level和video-level。<strong>frame-level的detection在每一帧上独立地进行检测和分类，然后将per-frame
+detections连接起来，形成连贯的action
+tubes</strong>；为了弥补时序信息的缺失，一些方法简单地重复2D proposals
+或者离线的人物检测 over time，来得到时空特征。<strong>tubelet-level
+detection，直接生成spatio-temporal volumes from a video
+clip，来获得连贯和动态的natures of actions。通常预测action
+localization和classification jointly over spatio-temporal
+hypotheses</strong>。像 3D cuboid proposals。然而， 这些 3D
+cuboids仅能够 capture a short period of time, when spatial location of a
+person changes as soon as they move or due to camera
+motion。Ideally，这些模型能够用灵活的spatio-temporal tubelets，能够track
+the person over a longer time。但是，large configuration space of such a
+parameterization限制了之前的方法只能用short
+cuboids。这里，作者提出了一个tubelet-level的detection
+approach，<strong>能够同时定位和识别action tubelets in a flexible
+manner，使得tubelets能够随着时间改变size和location</strong>。这使得系统能够利用更长的tubelets，在更长的时间上汇聚人物和它们的行为的视觉信息。</p>
+<p>从NLP中的sequence-to-sequence获得启发，特别是机器翻译和它在目标检测上的应用，DETR。DETR是一个frame-level的action
+detection。这里，用decoder
+queries来表示整个视频序列上的人物和它们的行为，不限制tubelets是一个固定的cuboids。</p>
+<p>提出了<font color=red>tubelet-transformer</font>：称之为
+<strong>TubeR for localizing and recognizing actions from a single
+representation</strong>。基于DETR的框架，TubeR学习一系列的 tubelet
+queries，来从spatio-temporal video representation中pull action-specific
+tubelet-level features。TubeR的包括特别的 <strong>spatial and temporal
+tubelet attention</strong>，使得tubelets能够随着时间在它们的spatial
+location 和scale上没有限制。克服了之前对于cuboidsd
+限制。TubeR随着时间在一个 tubelet里 回归
+bboxes。考虑到tubelets之间的时序关联。汇聚visual features over the
+tubelet to classify
+actions。这个涉及表现很好，但是并没有比用离线人物检测器的方法好很多。猜想是因为query
+based features缺少全局上下文，only look at a single
+person的话，很难对涉及到的relationships 行为例如：
+listening-to或者talking-to进行分类。因此，提出了一个 <strong>context
+aware classification head</strong>， along with the tubelet feature,
+利用完整的clip
+features，分类头能够得出上下文信息。这个设计能够使得网络将person
+tubelet和完整的scene context(where tubelet
+appears)关联起来。这个设计的限制就是 *context feature仅能够从 tubelet
+占据的same clip中得到。包含long term contextual
+features对于最后的行为分类很重要。因此受到
+要锁和存储tubelet附近的视频内容的contextual features的启发，引入了memory
+system。用相同的feature injection策略，将long term contextual memory给到
+分类头。</p>
+<p>主要的贡献如下：</p>
+<ol type="1">
+<li>提出来TubeR：一个tubelet-level的transformer 框架 for human action
+detection</li>
+<li>tubelet query和attention based
+formulation能够产生任意位置和尺寸的tubelets。</li>
+<li>context aware classification head能够汇聚short-term
+和long-term上下文信息。</li>
+</ol></li>
+<li><p>相关工作：</p>
+<ul>
+<li><strong>frame-level action detection</strong>：用2D positional
+hypothese(anchors) 或者离线的person detector on a keyframe
+来定位actors，然后更多地关注提高action
+recognition。通过利用光流分支来包含temporal patterns。其它的用 3D
+convNet来获取时序信息来识别行为。不同于frame-level的方法，面向tubelet-level
+video action
+detection，用一个统一的configuration，来进行定位和识别。</li>
+<li><strong>Tubelet-level action detection</strong>：通过将tubelet
+作为一个representation unit来 detect actions变得流行了，有人重复 2D
+anchors per-frame来pooling ROI features，然后stack frame-wise
+features来预测行为类别。有人依赖严格设计的 3D cuboid
+proposal，前者直接俄检测tubelets，后者逐步第refines 3D cuboid proposals
+across time。除了box/cuboid anchors，也有人通过center
+position假设，来检测tubelet
+instances。基于假设的方法来处理长视频clips有很多困难。通过学习tubelet
+queries的子集，来表示tubelets的动态nature。将action detection task
+reformulate程一个 sequence-to-sequence
+学习的问题，在一个tubelet里显式地model temporal correlations。</li>
+<li><strong>Transformer-based action detection</strong>：Girdhar
+提出来一个video action transformer network for detecting
+actions。用region-proposal-network for
+localization,通过汇聚actors附近的时空上下文信息，提高action
+recognition.</li>
+</ul></li>
+<li><p>TubeR：TubeR的输入是一个video clip，直接输出一个
+<strong>tubelet：a sequence of bboxes and the action
+label</strong>，TubeR是受 DETR的启发，但是将transformer架构 reformulate
+for sequence-to-sequence modeling in video。 给定一个video clip $I
+R^{T_{in} H W C} <span class="math inline">\(，\)</span>T_{in}, H, W,
+C$分别表示帧数，height,width和channel， TubeR首先用一个 3D
+backbone来提取 video feature <span
+class="math inline">\(F_{\mathrm{b}}\in\mathbb{R}^{T^{\prime}\times
+H^{\prime}\times W^{\prime}\times C^{\prime}}\)</span>，<span
+class="math inline">\(T&#39;\)</span> 表示 temporal dimension， <span
+class="math inline">\(C&#39;\)</span>是 feature
+dimension。用一个transformer的encoder-decoder来transform视频的特征 into
+a set of tubelet-specific feature <span
+class="math inline">\(F_{\mathrm{tub}}\in\mathbb{R}^{N\times
+T_{\mathrm{out}}\times C^{\prime}}\)</span>，<span
+class="math inline">\(N\)</span>是 tubelets的数量。为了处理长的video
+clips，用temporal 下采样，使得 $ T_{out} &lt; T' &lt; T_{in}$，减小
+memory的 requirement。TubeR 产生了稀疏的sparse，对于短的video
+clips，去掉时序下采样，使得 <span class="math inline">\(T_{out} &lt;
+T&#39; &lt; T_{in}\)</span>，results in dense tubelets。Tubelet
+回归和associated action classification能够用一个separated task heads
+同时实现：</p>
+<p><span
+class="math display">\[y_{\mathrm{coor}}=f(F_{\mathrm{tub}});y_{\mathrm{class}}=g(F_{\mathrm{tub}}),\]</span></p>
+<p><span class="math inline">\(f\)</span>表示 tubelet 回归头， <span
+class="math inline">\(y_{coor} \in \mathbb{R}^{N\times
+T_{\mathrm{out}}\times4}\)</span> 表示<span
+class="math inline">\(N\)</span>个 tubelets的坐标，each of which is
+across <span class="math inline">\(T_{out}\)</span> frames(或者 <span
+class="math inline">\(T_{out}\)</span> sampled frames for long
+clips)。<span class="math inline">\(g\)</span>表示行为分类头，<span
+class="math inline">\(y_{\mathrm{class}}\in\mathbb{R}^{N\times
+L}\)</span>表示 <span class="math inline">\(N\)</span>个 tubelets with
+<span class="math inline">\(L\)</span> 个可能的labels的行为分类。</p>
+<ul>
+<li><font color=red>TubeR
+Encoder</font>：不同于普通的transformer的encoder，TubeR encoder用于处理
+3D 时空中的信息。每个 encoder layer由 self-attention
+layer(SA)、两个normalization layer和一个 FFN组成。core attention
+layers的公式如下：</li>
+</ul>
+<p><span
+class="math display">\[F_\mathrm{en}=\mathrm{Encoder}(F_\mathrm{b}),\]</span>
+<span
+class="math display">\[\mathrm{SA}(F_\mathrm{b})=\mathrm{softmax}(\frac{\sigma_q(F_\mathrm{b})\times\sigma_k(F_\mathrm{b})^T}{\sqrt{C^{\prime}}})\times\sigma_v(F_\mathrm{b}),\]</span>
+<span
+class="math display">\[\sigma(*)=\mathrm{Linear}(*)+\mathrm{Emb}_{\mathrm{pos}},\]</span></p>
+<p><span class="math inline">\(F_b\)</span>是 backbone feature,<span
+class="math inline">\(F_{en} \in R^{T&#39;H&#39;W&#39; \times
+C&#39;}\)</span>，<span class="math inline">\(C&#39;\)</span>表示
+dimensional encoded feature embedding。<span
+class="math inline">\(\sigma(*)\)</span> 是线性变换加上 positional
+embedding。<span class="math inline">\(Emb_{pos}\)</span>是 3D
+positional embedding。optional temporal down-sampling 能够用在backbone
+features上，来shrink 输入的sequence length to transformer for better
+memory efficiency。</p>
+<ul>
+<li><p><font color=red>TubeR Decoder</font>：</p>
+<ul>
+<li><p><strong>tubelet query</strong>：基于anchor
+假设来直接检测tubelets是相当有挑战的。tubelet space along the
+spatio-temporal dimension相比于single frame bbox space来说是巨大的。考虑
+FasterRCNN，requires for each position in a feature map with spatial
+size <span class="math inline">\(H^{\prime}\times W^{\prime},
+K(=9)\)</span> anchors，总共有 <span
+class="math inline">\(KH&#39;W&#39;\)</span>个anchors。对于一个across
+<span class="math inline">\(T_{out}\)</span> frames的tubelet来说，需要
+<span
+class="math inline">\(KH&#39;W&#39;^{T_{out}}\)</span>个anchors，来保持同样的sampling
+in space-time。为了减小tubelet space，一些方法通过忽略短的video
+clip中的action的空间位移，用 3D
+cuboids来近似tubelets。然而，视频clip越长， 3D
+cuboids代表的tubelet的精度越低。提出了学习tubelet queries小的子集，
+<span class="math inline">\(Q{=}\{Q_{1},...,Q_{N}\}\)</span>, <span
+class="math inline">\(N\)</span>是queries的数量。 第 <span
+class="math inline">\(i\)</span>个 tubelet query <span
+class="math inline">\(Q_{i}=\{q_{i,1},...,q_{i,T_{\mathrm{out}}}\}\)</span>
+包含 <span class="math inline">\(T_{out}\)</span> box query embeddings
+<span class="math inline">\(q_{i,t} \in R^{C&#39;}\)</span> across <span
+class="math inline">\(T_{out}\)</span> frames。学习一个tubelet
+query表示dynamics of a tubelet, 而不是手工设计的 3D anchors。初始化box
+embeddings identically for a tubelet query。</p></li>
+<li><p><strong>tubelet attention</strong>：为了model tubelet
+queries内的relations，提出来一个 tubelet-attention (TA)
+module，包含连个self-attention layers。首先有一个 <em>spatial
+self-attention layer</em>来处理一帧内的box query
+embeddings的空间relations。这个layer的intuition是识别actions 受益于
+interactions between actors，或者between actos and objects in the same
+frame。接下来有 <strong>temporal self-attentin layer</strong>来models
+同一个tubelet里的box query embeddings across
+tiem的correlations。这一层促使 TubeR query 去track
+actors，然后产生action tubelets，聚焦于single actors而不是一个fixed area
+in the frame。TubeR decoder把tubelet attention module用在了 tubelet
+queries <span class="math inline">\(Q\)</span>上，来产生 tubelet query
+feature <span
+class="math inline">\(F_{\mathfrak{a}}\in\mathbb{R}^{N\times
+T_{\mathrm{out}}\times C^{\prime}}\)</span>：</p></li>
+</ul>
+<p><span class="math inline">\(F_q = TA(Q)\)</span></p>
+<ul>
+<li><strong>Decoder</strong>：decoder包含一个 tubele-attention
+module和一个 cross-attention (CA) layer，用来decode tubelet-specific
+feature <span class="math inline">\(F_{tub}\)</span> from <span
+class="math inline">\(F_{en}\)</span> to <span
+class="math inline">\(F_q\)</span>：</li>
+</ul>
+<p><span
+class="math display">\[\mathrm{CA}(F_{q},F_{\mathrm{en}})=\mathrm{softmax}(\frac{F_{q}\times\sigma_{k}(F_{\mathrm{en}})^{T}}{\sqrt{C^{\prime}}})\times\sigma_{v}(F_{\mathrm{en}}),\\F_{\mathrm{tub}}=\mathrm{Decoder}(F_{q},F_{\mathrm{en}}).\]</span></p>
+<p><span class="math inline">\(F_\mathrm{tub}\in\mathbb{R}^{N\times
+T_\mathrm{out}\times C^{\prime}}\)</span> 是tubelet specific
+features。有temporal pooling的时候，<span class="math inline">\(T_{out}
+&lt; T_{in}\)</span>，TubeR产生 <strong>sparse tubelets</strong>，对于
+<span class="math inline">\(T_{out} = T{in}\)</span>，TubeR产生 dense
+tubelets。</p></li>
+</ul>
+<p><font color=red>Task-Specific Heads</font>：
+对于每个tubelet，bbox和action classification可以用独立的task-specific
+heads来处理。这样的设计最大化的减小了计算量。</p>
+<ul>
+<li><strong>Context aware classification
+head</strong>：这个分类用一个简单的linear project就能实现。 <span
+class="math display">\[y_{\mathrm{class}}=\mathrm{Linear_c}(F_{\mathrm{tub}}),\]</span></li>
+</ul>
+<p><span class="math inline">\(y_{class} \in R^{N \times
+L}\)</span>表示在 <span
+class="math inline">\(L\)</span>个可能的label上的分类的分数。one for
+each tubelet。</p>
+<ol type="1">
+<li><em>Short-term context head</em>:
+对于理解sequences，context是重要的。进一步提出利用spatio-temporal video
+context来帮助理解sequence。query the action specific feature <span
+class="math inline">\(F_{tub}\)</span> from some context feature <span
+class="math inline">\(F_{context}\)</span> to strengthen <span
+class="math inline">\(F_{tub}\)</span>，得到了 feature <span
+class="math inline">\(F_{c}\in R^{N \times
+C&#39;}\)</span>，用于最后的分类： <span
+class="math display">\[F_\text{c}=\text{CA}(\text{Pool}_t(F_\text{tub}),\text{SA}(F_\text{context}))+\text{Pool}_t(F_\text{tub}).\]</span></li>
+</ol>
+<p>这里设置 <span class="math inline">\(F_{context} = F_b\)</span> for
+utilizing the short-term context in the backbone feature。称之为
+<strong>Short-term context head</strong>，<span
+class="math inline">\(F_{context}\)</span> 首先用一个自注意力层，然后
+cross-attenion layer utilizes <span
+class="math inline">\(F_{tub}\)</span> to query from <span
+class="math inline">\(F_{context}\)</span>。<span
+class="math inline">\(F_{c}\)</span>经过线性层，用于最后的分类。</p>
+<ol start="2" type="1">
+<li><em>Long-term context head</em>：为了利用long-range
+的时序信息，但是在有限的memory下，采用两阶段的decoder for long-term
+context compression。</li>
+</ol>
+<p><span
+class="math display">\[\mathrm{Emb}_{\mathrm{long}}=\mathrm{Decoder}(\mathrm{Emn}_{n1},\mathrm{Decoder}(\mathrm{Emb}_{n0},F_{\mathrm{long}}).\]</span></p>
+<p>long-term context <span
+class="math inline">\(F_{\mathrm{long}}\quad\in\quad\mathbb{R}^{T_{\mathrm{long}}\times
+H^{\prime}W^{\prime}\times C^{\prime}}\)</span> 是一个buffer，包含从
+<span
+class="math inline">\(2W\)</span>个在时间上concatenated的相邻的clips抽取出来的backbone
+feature。为了将long-term video feature buffer压缩到 embedding <span
+class="math inline">\(Emb_{long}\)</span> with a lower temporal
+dimension，用了两个 stacked decoders with token <span
+class="math inline">\(Emn_{n0}\)</span> 和 <span
+class="math inline">\(Emn_{n1}\)</span>。首先用一个压缩的token <span
+class="math inline">\(Emb_{n0} (n0 &lt; T_{long})\)</span> to query
+<span
+class="math inline">\(F_{long}\)</span>中重要的信息，得到一个temporal
+dimension 为 <span
+class="math inline">\(n0\)</span>的中间压缩embedding。然后，进一步利用另外一个压缩的token
+<span class="math inline">\(Emb_{n1} (n1 &lt; n0)\)</span> to query from
+中间压缩的embedding，然后得到最后的压缩embedding <span
+class="math inline">\(Emb_{long}\)</span>。<span
+class="math inline">\(Emb_{long}\)</span>包含
+long-term的视频信息，但是有着 lower temporal dimension <span
+class="math inline">\(n1\)</span>，然后，对 <span
+class="math inline">\(F_b\)</span>和 <span
+class="math inline">\(Emb_{long}\)</span>采用cross-attention
+layer，来得到long-term context feature <span
+class="math inline">\(F_{\mathrm{lt}}\in\mathbb{R}^{T^{\prime}\times
+H^{\prime}\times\bar{W}^{\prime}\times C^{\prime}}\)</span>：</p>
+<p><span
+class="math display">\[F_{\mathrm{lt}}=\mathrm{CA}(F_{\mathrm{b}},\mathrm{Emb}_{\mathrm{long}}),\]</span></p>
+<p>设置 <span class="math inline">\(F_{context} =
+F_{lt}\)</span>，来利用 long-term context for classification。</p>
+<p><font color=red>Action Switch regression head</font> <span
+class="math inline">\(T_{out}\)</span> bboxes in a tubelet是用一个 FC
+layer同时进行回归。</p>
+<p><span
+class="math display">\[y_{\mathrm{coor}}=\mathrm{Linear}_{\mathrm{b}}(F_{\mathrm{tub}}),\]</span></p>
+<p><span class="math inline">\(y_{\mathrm{coor}}\in\mathbb{R}^{N\times
+T_{\mathrm{out}}\times4}\)</span>， <span
+class="math inline">\(N\)</span>是 action tubelet的数量， <span
+class="math inline">\(T_{out}\)</span>是一个action tubelet的temporal
+length。为了去掉tubelet里的non-action boxes。进一步用 FC layer来决定 a
+box 是否描述了tubelet里actor的行为。称之为 action switch。这个action
+switch 使得能够产生action tubelets witha more precise temporal
+extent。<span class="math inline">\(T_{out}\)</span> predicted boxes in
+a tubelet的概率是： <span
+class="math display">\[y_\mathrm{switch}=\mathrm{Linear}_\mathrm{s}(F_\mathrm{tub}),\]</span></p>
+<p><span class="math inline">\(y_\mathrm{switch}\in\mathbb{R}^{N\times
+T_\mathrm{out}}\)</span>，对于每个预测的tubelet, each of its <span
+class="math inline">\(T_{out}\)</span> bboxes 包含一个action switch
+score。</p>
+<p><font color=red> Losses</font>：4个loss的线性组合是： <span
+class="math display">\[\mathcal{L}=\lambda_{1}\mathcal{L}_{\mathrm{switch}}(y_{\mathrm{switch}},Y_{\mathrm{switch}})+\lambda_{2}\mathcal{L}_{\mathrm{class}}(y_{\mathrm{class}},Y_{\mathrm{class}})\\+\lambda_{3}\mathcal{L}_{\mathrm{box}}(y_{\mathrm{coor}},Y_{\mathrm{coor}})+\lambda_{4}\mathcal{L}_{\mathrm{iou}}(y_{\mathrm{coor}},Y_{\mathrm{coor}}),\]</span></p>
+<p><span class="math inline">\(y\)</span>是模型的输出，<span
+class="math inline">\(Y\)</span>表示ground truth，action switch loss
+<span class="math inline">\(L_{switch}\)</span> 是一个binary
+cross-entropy loss，<span class="math inline">\(L_{class}\)</span> cross
+entropy loss，<span class="math inline">\(L_{box}\)</span> 和 <span
+class="math inline">\(L_{iou}\)</span> 表示per-frame bboxes matching
+error。当 <span class="math inline">\(T_{out} &lt; T_{in}\)</span>，
+tubelet是sparse，coordinate ground truth <span
+class="math inline">\(Y_{coor}\)</span>是来自对应的时序下采样的frame
+sequence。用 匈牙利匹配，根据经验，设置参数 <span
+class="math inline">\(\lambda_{1}=1, \lambda_{2}=5, \lambda_{3}=2,
+\lambda_{4}=2\)</span>。</p></li>
+</ol>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/e36c35f3b3d898898a1b63817ce70397555cef76/1-Figure1-1.png"
+alt="tube" />
+<figcaption aria-hidden="true">tube</figcaption>
+</figure>
+<figure>
+<img
+src="https://d3i71xaburhd42.cloudfront.net/e36c35f3b3d898898a1b63817ce70397555cef76/3-Figure2-1.png"
+alt="structure of TubeR" />
+<figcaption aria-hidden="true">structure of TubeR</figcaption>
+</figure>
 
     </div>
 
@@ -242,6 +606,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Action-Detection/" rel="tag"># Action Detection</a>
+          </div>
 
         
 
@@ -285,13 +652,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">54k</span>
+    <span title="站点总字数">57k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:15</span>
+    <span title="站点阅读时长">3:27</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -284,6 +284,22 @@
 
       <time title="创建时间：2024-08-24 16:53:46" itemprop="dateCreated datePublished" datetime="2024-08-24T16:53:46+08:00">2024-08-24</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-26 14:25:39" itemprop="dateModified" datetime="2024-08-26T14:25:39+08:00">2024-08-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-break"></span>
@@ -292,14 +308,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>3.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>12 分钟</span>
     </span>
 </div>
 
@@ -310,8 +326,46 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          
-
+          <h3 id="tuber-tubelet-transformer-for-video-action-detection1">TubeR:
+Tubelet Transformer for Video Action Detection<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自阿姆斯特丹大学、罗格斯大学和AWS AI Labs的Jiaojiao
+Zhao、Yanyi Zhang等人。论文引用[1]:Zhao, Jiaojiao et al. “TubeR: Tubelet
+Transformer for Video Action Detection.” 2022 IEEE/CVF Conference on
+Computer Vision and Pattern Recognition (CVPR) (2021): 13588-13597.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2021.April</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>tubelet queries, tubelet-attention</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>不同于现有的依赖于离线检测器或者人工设计的actor-positional
+hypotheses like proposals or anchors，提出了一个通过同时进行action
+localization和recognition from a single
+representation，直接检测视频里的action
+tubelet的方法。TubeR学习一系列的tubelet queries，利用tubelet-attention
+module来model video clip里的动态的spatio-tempral
+nature。相比于用actor-positional hypotheses in the spatio-temporal
+space，它能够有效的强化模型的能力。对于包含transitional states或者scene
+changes的视频，提出了一个context aware classification
+head，来利用short-term和long-term context to strengthen action
+classification，和一个action switch regression head
+来检测精确的时序上的行为范围。TubeR直接产生不同长度的action
+tubelets，对于长的视频clips，也能保持一个比较好的结果。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/08/24/TubeR/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1261,13 +1315,13 @@ xxx.run来安装</p></li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">54k</span>
+    <span title="站点总字数">57k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:15</span>
+    <span title="站点阅读时长">3:27</span>
   </span>
 </div>
 <div class="busuanzi-count">
