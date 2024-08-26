@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">81</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -160,6 +160,272 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/03/13/TrainWithVideoMAE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/03/13/TrainWithVideoMAE/" class="post-title-link" itemprop="url">Train With VideoMAE</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-03-13 10:47:04" itemprop="dateCreated datePublished" datetime="2024-03-13T10:47:04+08:00">2024-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-09 15:21:20" itemprop="dateModified" datetime="2024-04-09T15:21:20+08:00">2024-04-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/methods/" itemprop="url" rel="index"><span itemprop="name">methods</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>304</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="对videomae进行训练或者微调的遇到的bug">对VideoMAE进行训练或者微调的遇到的Bug</h3>
+<ol type="1">
+<li>训练videoMAE时报错， File
+"/home/MAE-Action-Detection/run_class_finetuning.py", line 404, in main
+train_stats = train_one_epoch( File
+"/home/MAE-Action-Detection/engine_for_finetuning.py", line 59, in
+train_one_epoch for step, (samples, boxes, _) in
+enumerate(metric_logger.log_every(data_loader, print_freq, header)):
+File "/home/MAE-Action-Detection/utils.py", line 141, in log_every for
+obj in iterable: File
+"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",
+line 517, in <strong>next</strong> data = self._next_data() File
+"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",
+line 1199, in _next_data return self._process_data(data) File
+"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/utils/data/dataloader.py",
+line 1225, in _process_data data.reraise() File
+"/home/anaconda3/envs/VideoMAE/lib/python3.9/site-packages/torch/_utils.py",
+line 429, in reraise raise self.exc_type(msg) File "av/error.pyx", line
+78, in av.error.FFmpegError.<strong>init</strong> TypeError:
+<strong>init</strong>() takes at least 3 positional arguments (2
+given)</li>
+</ol>
+<p>解决方法是：将torch,
+torchvision等相应的版本升级到1.13就行了，原来是1.9</p>
+<ol start="2" type="1">
+<li>AVA数据集格式的问题</li>
+</ol>
+<p>参照<a
+target="_blank" rel="noopener" href="https://github.com/MVIG-SJTU/AlphAction/blob/master/DATA.md">AlphAction</a>的格式，其中，boxs文件夹下的ava_det.json文件的中的bbox的格式默认是
+x1,y1,w,h而不是x1,y1,x2,y2，所以后续的AVADataset里的有个地方，就是Box(mode="xyxy).convert("xywh")。如果bbox的格式是x1,y1,x2,y2，则不需要convert.("xywh")，如果是默认的x1,y1,w,h，则需要convert("xywh")。这是个大坑。。好像也没有看到作者有说明。。。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/03/11/Slowfast/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/03/11/Slowfast/" class="post-title-link" itemprop="url">Slowfast</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-03-11 19:12:30" itemprop="dateCreated datePublished" datetime="2024-03-11T19:12:30+08:00">2024-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-14 11:21:18" itemprop="dateModified" datetime="2024-04-14T11:21:18+08:00">2024-04-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/methods/" itemprop="url" rel="index"><span itemprop="name">methods</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>721</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="slowfast-networks-for-video-recognition1">SlowFast Networks for
+Video Recognition<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自FAIR的Christoph Feichtenhofer, Haoqi Fan, Jitendra Malik,
+and Kaiming He.论文引用[1]:Feichtenhofer, Christoph et al. “SlowFast
+Networks for Video Recognition.” 2019 IEEE/CVF International Conference
+on Computer Vision (ICCV) (2018): 6201-6210.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2018.Dec</li>
+</ul>
+<h3 id="key-words"><strong>Key Words</strong></h3>
+<ul>
+<li>Slow pathway to capture spatial semantics</li>
+<li><em>lightweight</em> Fast pathway to capture temporal motion and
+fine temporal resolution</li>
+</ul>
+<h3 id="动机">动机</h3>
+<ol type="1">
+<li>all spatiotemporal orientations are not equally likely, there is no
+reason for us to treat space and time symmetrically.</li>
+<li>inspired by biological studies on the retinal ganglion cells in the
+primate visual
+system，受灵长类动物的视觉系统的视网膜神经节细胞的启发。一种Parvocellualr(P-cells)约80%，Magnocellualr(M-cells)约20%，
+<ul>
+<li>M-cells operates at high temporal frequency <span
+class="math inline">\(\rightarrow\)</span> fast temporal changes</li>
+<li>P-cells可以检测到空间信息：spatial detail and color, lower temporal
+resolution
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/03/11/Slowfast/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1130,230 +1396,8 @@ IEEE/CVF Conference on Computer Vision and Pattern Recognition.
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/01/24/YOLO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/01/24/YOLO/" class="post-title-link" itemprop="url">YOLO</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-01-24 23:25:08" itemprop="dateCreated datePublished" datetime="2024-01-24T23:25:08+08:00">2024-01-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-03-01 14:49:38" itemprop="dateModified" datetime="2024-03-01T14:49:38+08:00">2024-03-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>631</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="yolo-系列论文">YOLO 系列论文</h2>
-<p>开头说几句题外话：这几天想了想，打算用Blog来记录一下看到的论文，给自己一个督促。现在AI发展日新月异，尤其是ChatGPT出来之后，各种新的论文太多了，都不知道从哪里开始看，有点眼花缭乱，思来想去，还是一步一步来，从经典论文开始，当然也会看新的热度很高的论文，通过这种方式，来一点一点的进步吧。不积跬步无以至千里；千里之行，始于足下。加油！！！只要想做，什么时候都不算晚！！🏃</p>
-<h3 id="you-only-look-once-unified-real-time-object-detection1">You Only
-Look Once: Unified, Real-Time Object Detection<sup>[1]</sup>🚀</h3>
-<blockquote>
-<p>作者是来自U of Washington、Allen Institute for AI和FAIR,包括Joseph
-Redmon、Santosh Divvalala、Ross Girshick 等。论文出处：[1]Redmon, Joseph
-et al. “You Only Look Once: Unified, Real-Time Object Detection.” 2016
-IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
-(2015): 779-788.</p>
-</blockquote>
-<h3 id="总结">总结：</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/01/24/YOLO/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/01/24/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/01/24/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-01-24 22:44:26" itemprop="dateCreated datePublished" datetime="2024-01-24T22:44:26+08:00">2024-01-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-11-14 20:23:12" itemprop="dateModified" datetime="2023-11-14T20:23:12+08:00">2023-11-14</time>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>79</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very
-first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for
-more info. If you get any problems when using Hexo, you can find the
-answer in <a
-target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or
-you can ask me on <a
-target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/01/24/hello-world/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/YoungBlogs/page/8/">8</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/8/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/YoungBlogs/page/8/">8</a><a class="page-number" href="/YoungBlogs/page/9/">9</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -1381,7 +1425,7 @@ target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitH
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:27</span>
+    <span title="站点阅读时长">3:29</span>
   </span>
 </div>
 <div class="busuanzi-count">
