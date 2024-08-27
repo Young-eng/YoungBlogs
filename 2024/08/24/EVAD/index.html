@@ -27,7 +27,7 @@
 <meta property="og:description" content="Efficient Video Action Detection with Token Dropout and Context Refinement[1]  作者是来自nju、蚂蚁集团、复旦和上海AI Lab的Lei Chen、Zhan Tong、Yibing Song等人。论文引用[1]:Chen, Lei et al. “Efficient Video Action Detecti">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-24T08:51:19.000Z">
-<meta property="article:modified_time" content="2024-08-26T14:45:24.287Z">
+<meta property="article:modified_time" content="2024-08-27T07:06:26.815Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
@@ -212,7 +212,7 @@ Refinement[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-26 22:45:24" itemprop="dateModified" datetime="2024-08-26T22:45:24+08:00">2024-08-26</time>
+      <time title="修改时间：2024-08-27 15:06:26" itemprop="dateModified" datetime="2024-08-27T15:06:26+08:00">2024-08-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,14 +238,14 @@ Refinement[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.3k</span>
+      <span>3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
+      <span>11 分钟</span>
     </span>
 </div>
 
@@ -368,7 +368,136 @@ sampling。<strong>STTS</strong>用transformer在时间和空间上sequentially
 为了和这些方法对比，考虑keyframe和邻近帧的correlation,来drop out
 冗余的tokens，然后执行端到端的基于transformer的action detector。</li>
 </ul></li>
-<li><p>Method：</p></li>
+<li><p>Method：EVAD使encoder with token pruning
+来去掉多余的tokens，decoder来refine actor spatiotemporal
+features。和<strong>WOO</strong>设置相同，利用encoder中的keyframe的多个中间的spatial
+feature maps for actor localization，最后一个encoder
+layer输出的spatiotemporal feature map 用来做action classification。</p>
+<ul>
+<li><strong>Keyframe-centric Token
+Pruning</strong>：相邻帧有着相似语义信息的video是高度冗余的，使得用一个比较高的dropout
+rate on video transformers来做token
+pruning是可能的。这里，将所有的spatiotemporal tokens分成keyframe
+tokens和non-keyframe tokens。keyframe中，保留所有的tokens for accurate
+actor localization。</li>
+</ul>
+<ol type="1">
+<li><font color=red>Non-keyframe token pruning</font>：用
+<strong>EViT</strong>中的方法，预先计算一个attention
+map来表示每个token的重要性，不需要额外的learnable
+parameters和计算开销。首先，average attention
+map的<em>num_heads</em>维度，来得到一个 <span class="math inline">\(N
+\times N\)</span>的matrix，表示tokens之间的
+<strong>attentiveness</strong>。因为没有classification token for
+video-level recognition，所以计算每个token的平均重要性分数 <span
+class="math inline">\(I_{j}=\frac{1}{N}\sum_{i=1}^{N}attn(i,j)\)</span>。然后从
+<span class="math inline">\(N_2\)</span> non-keyframe
+tokens中，通过重要性分数的降序排列，找到 top(<span
+class="math inline">\(N \times \rho - N_1\)</span>) tokens，这里<span
+class="math inline">\(N, N_1, N_2\)</span>分别表示所有的tokens、keyframe
+tokens和non-keyframe tokens。<span class="math inline">\(\rho\)</span>
+表示 token keeping
+rate，通常情况下，keyframe包含当前样本的最精确的语义信息，其它帧会带来信息bias。guided
+by keyframe进行token pruning是符合实际的。为了这个目的，在acquiring
+attention map和计算non-keyframe token重要之间插入一个 <strong>Keyframe
+Attentiveness Enhancement</strong> step。用一个greater weight value to
+keyframe queries，保留和keyframe
+tokens高关联的tokens。每个token的重要性分数是这样更新的：</li>
+</ol>
+<p><span class="math display">\[I_j=\frac{1}{N}\sum_{i=1}^N
+\begin{cases} w_{tf} \cdot attn(i,j),&amp;i \in
+(0,N_1)\\\\attn(i,j),&amp;i \in (N_1,N)\end{cases}\]</span></p>
+<p>假设first <span class="math inline">\(N_1\)</span>
+tokens属于keyframe，weigth value <span
+class="math inline">\(w_{kf}\)</span>
+是一个超参数。丢掉仅和non-keyframes 有high
+response的tokens，这些可能不是高质量的tokens。仅当non-keyframe变成了previous
+or next samples的keyframe的时候，这些highly responsive
+tokens才是高质量的。通过dropout
+这些冗余的tokens，进一步减少tokens的数量；做完token
+pruning之后，将这些保留的tokens给到之后的FFN。</p>
+<p>第一次token pruning是在encoder layers 的1/3开始，之后，每个 1/4的
+total layers进行一次 token pruning，丢弃冗余的tokens，保留effective
+ones。</p>
+<ul>
+<li><strong>Video Action Detection</strong>：</li>
+</ul>
+<ol type="1">
+<li><p><font color=red>Actor localization branch</font> 得到了keyframe
+tokens，就能得到多个完整的keyframe feature maps。然后对这些feature
+maps进行上采样或者下采样，来从palin ViT中产生hierarchical
+features。受Sparse RCNN的启发，引入了query-based actor localization
+head，来检测keyframe中的actors。actor localization branch的输出是 <span
+class="math inline">\(n\)</span>个 prediction boxes in the
+keyframe和对应的actor confidence scores。</p></li>
+<li><p><font color=red>Action Classification branch</font>
+不同于传统的特征提取，EVAD产生<span
+class="math inline">\(M\)</span>个离散的video tokens。需要恢复video
+feature map的时空结构，然后进行location-related
+操作例如RoIAlign。初始化blank feature map shape as <span
+class="math inline">\((T/2,H/16,W/16)\)</span>，用保留的tokens来填充这个feature
+map according to 它们对应的时空位置，剩余的用0进行pad。</p></li>
+</ol>
+<p>然后，用localization branch产生的boxes，通过3D RoIAlign来提取actor
+RoI features for subsequent action prediction。由于actor
+movement或者相机的变化，actor的空间位置是逐帧变化的，用keyframe box for
+3D RoIAlign不能得到partial actor feature deviated from the
+box。直接扩展scope of the box来cover整个motion
+trajectory，可能会引入背景或者其它的干扰信息，对actor feature
+representation不利。然而，在EVAD feature
+extraction阶段，<strong>视频中的干扰项会被逐步去掉，因此可以扩展scope of
+box来增加deviated feature</strong>. <strong>
+观察发现：</strong>直接用vision classification的token pruning
+方法能减少计算中的tokens的数量，但是会对最后的检测性能有负面的影响。Video
+action detection要localizing和classifying actions of all
+actors，但是token pruning算法会导致时空上不连贯的actor
+features**。在encoder中，pair-wise self-attention能够modeling global
+dependency among tokens，actor regions内的dropout
+tokens的语义信息能够被incorporated into some preserved
+tokens，因此能够从保留的video tokens中恢复去掉的actor
+features。为了这个目的，设计了一个<font color=red>context refinement
+decoder</font>来refine actor的spatiotemporal
+representation。具体地说：concatenate <span
+class="math inline">\(M\)</span>个video tokens的 <span
+class="math inline">\(n\)</span>个actor RoI
+features，然后送到deocder中，guiding by 保留的tokens，actor features can
+enrich themselves with actor represntation and motion information from
+other frames。没有token pruning，decoder会被用来作为relational modeling
+modules，来得到inter-actor和actor-context的interaction information。</p>
+<p>decoder输出的<span class="math inline">\(n\)</span>个refined actor
+features are retrieved，然后通过一个classification layer，做最后的action
+prediction。</p></li>
+<li><p>实验：</p>
+<ul>
+<li><strong>RoI extension</strong>：由于人的large
+motion，从keyframe中得到的box不能cover整个motion
+trajectory，Intuitively，通过适当地扩展box scope来解决这个问题。pruning
+mechanism能够消除extension带来的interference information。结合了RoI
+extension的pruning能够在一定程度上消除human movements的影响。</li>
+<li>EVAD能够实现实时的推理in an end-to-end manner。</li>
+<li>之前流行的model
+是VideoMAE，是一个两阶段的model，需要一个离线的person
+detector来pre-compute person
+proposals。现在EVAD，用同样的预训练的backbone，能够获得和VideoMAE相当的性能。和其它端到端的模型例如
+<strong>WOO</strong>和<strong>TubeR</strong>，用明显的性能提升；比基于CNN的model有更快的推理速度,
+more friendly to real-time action detection。
+比STMixer的性能略微好一点，<strong>STMixer是最近的端到端的模型，设计了一个decoder来采样discriminative
+features。EVAD is deivsed for efficient video feature
+extraction，进一步结合这两个或许会得到更好的检测性能</strong>。</li>
+</ul></li>
+<li><p>Conclusion：受video
+sequence的transformer的大量的计算开销和视频检测中高度冗余时空信息的的启发，通过
+<strong>droping out spatiotemporal tokens and refining scene context to
+enable efficient transformer-based action
+detection</strong>,设计了EVAD的方法。 EVAD的局限是：它需要
+<strong>retraining once to take the benefits of reduced computations and
+faster inference from removing redundancy</strong>。一个潜在的方法是探索
+transformer-adaptive token pruning algorithms。另外，follow 端到端的框架
+<strong>WOO</strong>来验证<strong>EVAD的效率和有效性</strong>，但是<strong>WOO</strong>是一个两阶段的pipeline，sequentially
+执行actor localization和action classification
+modules。在未来的工作中，旨在将这两个modules集成到一个 unified
+head，能够减小通过 detector head的推理时间，能够amplify
+EVAD的高效的特点。</p></li>
 </ol>
 <figure>
 <img
@@ -376,6 +505,14 @@ src="https://d3i71xaburhd42.cloudfront.net/f3ea68b1948c43518259dc22dc121b2c97301
 alt="Structure" />
 <figcaption aria-hidden="true">Structure</figcaption>
 </figure>
+<p><span class="math inline">\(Figure \ 1^{[1]}\)</span>: Pipeline of
+EVAD. Our detector consists of three parts: an encoder with
+keyframe-centric token pruning for efficient video feature extraction, a
+query-based localization branch using multiscale features of the
+keyframe for actor boxes prediction, and a classification branch
+conducting actor spatiotemporal feature refinement and relational
+modeling between actor RoI features and compact context tokens from ViT
+encoder.</p>
 <figure>
 <img
 src="https://d3i71xaburhd42.cloudfront.net/f3ea68b1948c43518259dc22dc121b2c9730103a/4-Figure3-1.png"
@@ -383,6 +520,12 @@ alt="Keyframe-centric token pruning" />
 <figcaption aria-hidden="true">Keyframe-centric token
 pruning</figcaption>
 </figure>
+<p><span class="math inline">\(Figure \ 2^{[1]}\)</span>: Structure of
+keyframe-centric token pruning.We conduct token pruning within the
+original encoder layer.Specifically, we calculate the importance scores
+of non-keyframe tokens using a keyframe-enhanced attention map.Then, we
+preserve the top-k important non-keyframe tokens concatenated with
+keyframe tokens as the resul</p>
 
     </div>
 
@@ -437,13 +580,13 @@ pruning</figcaption>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">59k</span>
+    <span title="站点总字数">60k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:33</span>
+    <span title="站点阅读时长">3:39</span>
   </span>
 </div>
 <div class="busuanzi-count">
