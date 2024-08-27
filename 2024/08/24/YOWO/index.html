@@ -27,7 +27,7 @@
 <meta property="og:description" content="You Only Watch Once: A Unified CNN Architecture for Real-Time Spatiotemporal Action Localization[1]  作者是来自Technical Univ of Munich的Okan Kopuklu, Xiangyu Wei, Gerhard Rigoll。论文引用[1]:Köpüklü, Okan">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-24T08:51:02.000Z">
-<meta property="article:modified_time" content="2024-08-25T15:39:08.692Z">
+<meta property="article:modified_time" content="2024-08-27T07:15:14.850Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
@@ -212,7 +212,7 @@ Action Localization[1]</span></a></li><li class="nav-item nav-level-4"><a class=
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-25 23:39:08" itemprop="dateModified" datetime="2024-08-25T23:39:08+08:00">2024-08-25</time>
+      <time title="修改时间：2024-08-27 15:15:14" itemprop="dateModified" datetime="2024-08-27T15:15:14+08:00">2024-08-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,7 +238,7 @@ Action Localization[1]</span></a></li><li class="nav-item nav-level-4"><a class=
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>3.6k</span>
+      <span>3.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -552,12 +552,24 @@ src="https://d3i71xaburhd42.cloudfront.net/08c936517b8e8b9fcab9a544c735be2909fab
 alt="YOWO" />
 <figcaption aria-hidden="true">YOWO</figcaption>
 </figure>
+<p><span class="math inline">\(Figure \ \ 1^{[1]}\)</span>: The YOWO
+architecture. An input clip and corresponding key frame is fed to a 3D
+CNN and 2D-CNN to produce output feature volumes of <span
+class="math inline">\([C&#39;&#39; × H&#39; × W&#39;]\)</span> and <span
+class="math inline">\([C&#39; × H&#39; × W&#39;]\)</span>,respectively.
+These output volumes are fed to channel fusion and attention mechanism
+(CFAM) for a smooth feature aggregation. Finally, one last conv layer is
+used to adjust the channel number for final bounding box
+predictions.</p>
 <figure>
 <img
 src="https://d3i71xaburhd42.cloudfront.net/08c936517b8e8b9fcab9a544c735be2909fab3ee/9-Figure3-1.png"
 alt="Channel Fusion" />
 <figcaption aria-hidden="true">Channel Fusion</figcaption>
 </figure>
+<p><span class="math inline">\(Figure \ \ 2^{[1]}\)</span>: Channel
+fusion and attention mechanism for aggregating output feature maps
+coming from 2D-CNN and 3D-CNN branches</p>
 
     </div>
 
@@ -612,13 +624,13 @@ alt="Channel Fusion" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">60k</span>
+    <span title="站点总字数">61k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:39</span>
+    <span title="站点阅读时长">3:40</span>
   </span>
 </div>
 <div class="busuanzi-count">
