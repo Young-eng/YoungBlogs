@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-08-26T06:45:35.130Z</updated>
+  <updated>2024-08-26T10:48:06.840Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -21,17 +21,26 @@
     <link href="https://young-eng.github.io/YoungBlogs/2024/08/26/YOWOv3/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/08/26/YOWOv3/</id>
     <published>2024-08-26T06:35:34.000Z</published>
-    <updated>2024-08-26T06:45:35.130Z</updated>
+    <updated>2024-08-26T10:48:06.840Z</updated>
     
-    <content type="html"><![CDATA[<h3id="yowov3-an-efficient-and-generalized-framework-for-human-action-detection-and-recognition1">YOWOv3:An Efficient and Generalized Framework for Human Action Detection andRecognition<sup>[1]</sup></h3><blockquote><p>作者是Nguyen Dang Duc Manh, Duong Viet Hang等人。论文引用[1]:Dang,Duc M et al. “YOWOv3: An Efficient and Generalized Framework for HumanAction Detection and Recognition.” (2024).</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Aug</li></ul><h3 id="key-words">Key Words</h3><h3 id="总结">总结</h3><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/d02a8d30424422b99990cc394ca7d6526efc0a20/3-Figure2-1.png"alt="Structure" /><figcaption aria-hidden="true">Structure</figcaption></figure><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/d02a8d30424422b99990cc394ca7d6526efc0a20/4-Figure3-1.png"alt="CFAM" /><figcaption aria-hidden="true">CFAM</figcaption></figure>]]></content>
+    <content type="html"><![CDATA[<h3id="yowov3-an-efficient-and-generalized-framework-for-human-action-detection-and-recognition1">YOWOv3:An Efficient and Generalized Framework for Human Action Detection andRecognition<sup>[1]</sup></h3><blockquote><p>作者是Nguyen Dang Duc Manh, Duong Viet Hang等人。论文引用[1]:Dang,Duc M et al. “YOWOv3: An Efficient and Generalized Framework for HumanAction Detection and Recognition.” (2024).</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Aug</li></ul><h3 id="key-words">Key Words</h3><h3 id="总结">总结</h3><span id="more"></span><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/d02a8d30424422b99990cc394ca7d6526efc0a20/3-Figure2-1.png"alt="Structure" /><figcaption aria-hidden="true">Structure</figcaption></figure><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/d02a8d30424422b99990cc394ca7d6526efc0a20/4-Figure3-1.png"alt="CFAM" /><figcaption aria-hidden="true">CFAM</figcaption></figure>]]></content>
     
     
-      
-      
     <summary type="html">&lt;h3
 id=&quot;yowov3-an-efficient-and-generalized-framework-for-human-action-detection-and-recognition1&quot;&gt;YOWOv3:
-An Efficient and Generalized Fr</summary>
-      
+An Efficient and Generalized Framework for Human Action Detection and
+Recognition&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是Nguyen Dang Duc Manh, Duong Viet Hang等人。论文引用[1]:Dang,
+Duc M et al. “YOWOv3: An Efficient and Generalized Framework for Human
+Action Detection and Recognition.” (2024).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2024.Aug&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;</summary>
     
     
     
@@ -47,17 +56,26 @@ An Efficient and Generalized Fr</summary>
     <link href="https://young-eng.github.io/YoungBlogs/2024/08/26/YOWOv2/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/08/26/YOWOv2/</id>
     <published>2024-08-26T06:35:29.000Z</published>
-    <updated>2024-08-26T06:46:50.131Z</updated>
+    <updated>2024-08-26T10:47:51.853Z</updated>
     
-    <content type="html"><![CDATA[<h3id="yowov2-a-stronger-yet-efficient-multi-level-detection-framework-for-real-time-stad1">YOWOv2:A Stronger yet Efficient Multi-level Detection Framework for Real-timeSTAD<sup>[1]</sup></h3><blockquote><p>作者是来自哈工大的 Jianhuan Yang和Kun Dai，论文引用[1]:Yang, Jianhuaand Kun Dai. “YOWOv2: A Stronger yet Efficient Multi-level DetectionFramework for Real-time Spatio-temporal Action Detection.” ArXivabs/2302.06848 (2023): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Feb</li></ul><h3 id="key-words">Key Words</h3><h3 id="总结">总结</h3><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/5f039c1410a764ad673dbb3336d360fad9e4e9e6/2-Figure1-1.png"alt="Structure" /><figcaption aria-hidden="true">Structure</figcaption></figure><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/5f039c1410a764ad673dbb3336d360fad9e4e9e6/3-Figure2-1.png"alt="channel encoder" /><figcaption aria-hidden="true">channel encoder</figcaption></figure><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/5f039c1410a764ad673dbb3336d360fad9e4e9e6/4-Figure3-1.png"alt="Coupled fusion head" /><figcaption aria-hidden="true">Coupled fusion head</figcaption></figure>]]></content>
+    <content type="html"><![CDATA[<h3id="yowov2-a-stronger-yet-efficient-multi-level-detection-framework-for-real-time-stad1">YOWOv2:A Stronger yet Efficient Multi-level Detection Framework for Real-timeSTAD<sup>[1]</sup></h3><blockquote><p>作者是来自哈工大的 Jianhuan Yang和Kun Dai，论文引用[1]:Yang, Jianhuaand Kun Dai. “YOWOv2: A Stronger yet Efficient Multi-level DetectionFramework for Real-time Spatio-temporal Action Detection.” ArXivabs/2302.06848 (2023): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Feb</li></ul><h3 id="key-words">Key Words</h3><span id="more"></span><h3 id="总结">总结</h3><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/5f039c1410a764ad673dbb3336d360fad9e4e9e6/2-Figure1-1.png"alt="Structure" /><figcaption aria-hidden="true">Structure</figcaption></figure><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/5f039c1410a764ad673dbb3336d360fad9e4e9e6/3-Figure2-1.png"alt="channel encoder" /><figcaption aria-hidden="true">channel encoder</figcaption></figure><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/5f039c1410a764ad673dbb3336d360fad9e4e9e6/4-Figure3-1.png"alt="Coupled fusion head" /><figcaption aria-hidden="true">Coupled fusion head</figcaption></figure>]]></content>
     
     
-      
-      
     <summary type="html">&lt;h3
 id=&quot;yowov2-a-stronger-yet-efficient-multi-level-detection-framework-for-real-time-stad1&quot;&gt;YOWOv2:
-A Stronger yet Efficient Multi-level </summary>
-      
+A Stronger yet Efficient Multi-level Detection Framework for Real-time
+STAD&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自哈工大的 Jianhuan Yang和Kun Dai，论文引用[1]:Yang, Jianhua
+and Kun Dai. “YOWOv2: A Stronger yet Efficient Multi-level Detection
+Framework for Real-time Spatio-temporal Action Detection.” ArXiv
+abs/2302.06848 (2023): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2023.Feb&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;</summary>
     
     
     
@@ -149,19 +167,56 @@ tubelets，对于长的视频clips，也能保持一个比较好的结果。&lt;
     <link href="https://young-eng.github.io/YoungBlogs/2024/08/24/EVAD/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/08/24/EVAD/</id>
     <published>2024-08-24T08:51:19.000Z</published>
-    <updated>2024-08-24T08:51:19.827Z</updated>
+    <updated>2024-08-26T14:45:24.287Z</updated>
     
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
+    <content type="html"><![CDATA[<h3id="efficient-video-action-detection-with-token-dropout-and-context-refinement1">EfficientVideo Action Detection with Token Dropout and ContextRefinement<sup>[1]</sup></h3><blockquote><p>作者是来自nju、蚂蚁集团、复旦和上海AI Lab的Lei Chen、ZhanTong、Yibing Song等人。论文引用[1]:Chen, Lei et al. “Efficient VideoAction Detection with Token Dropout and Context Refinement.” 2023IEEE/CVF International Conference on Computer Vision (ICCV) (2023):10354-10365.</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Aug</li></ul><h3 id="key-words">Key Words</h3><ul><li>spatiotemporal token dropout</li><li>maintain all tokens in keyframe representing scene context</li><li>select tokens from other frames representing actor motions</li><li>drop out irrelavant tokens.</li></ul><h3 id="总结">总结</h3><ol type="1"><li>视频流clips with large-scale vieo tokens 阻止了ViTs for efficientrecognition，特别是在video actiondetection领域，这是需要大量的时空representations来精确地actoridentification。这篇工作，提出了端到端的框架 <strong>for efficient videoaction detection(EVAD) based on vanillaViTs</strong>。EVAD包含两个为视频行为检测的特殊设计。首先：提出来时空tokendropout from a keyframe-centric perspective. 在一个video clip中，mainall tokens from its keyframe，保留其它帧中和actormotions相关的tokens。第二：通过利用剩余的tokens，refine scene contextfor better recognizing actor identities。actiondetector中的RoI扩展到时间域。获得的时空actor identity representationsare refined via scene context in a decoder with the attentionmechanism。这两个设计使得EVAD高效的同时保持精度。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>image patches视为ViT输入的tokens for自注意力的计算。当识别一个video clip的时候，tokens来自每个frame，形成大规模的input for ViTs，这些videotokens会在训练和推理的时候引入很多计算，特别是在计算自注意力的时候。有一些尝试来减少visiontokens for fast computations。对于video action detection任务来说，平衡精度和效率是个挑战。这是因为在VAD中，需要定位每一帧中的actors，视频序列中的temporalmotion需要保持 for consistent identification。同时，scene context应该被保留以区别其它actors。大量的表示actor motions和scenecontext的video tokens会保持VAD的精度。这篇文章中，保留表示actormotions和scene context的video tokens，同时dropping out不相关的tokens。<strong>基于视频clips的时序连贯性，从keyframe-centric的角度，提出来时空tokendropout</strong>。<strong>对于每个视频clip,选择代表scenecontext的keyframe，这里的所有tokens将被maintained。同时，从其它代表actormotions的帧中选择tokens。另外，drop out 这个clip中的剩余的videotokens</strong>。</p><p><font color=red>通过一个keyframe-centric token pruning module withthe ViT encoder backbone，实现spatiotemporal tokendropout。这个keyframe要么是均匀采样得到的，要么人为在videoclips中定义的。默认是选择input clip中带有box annotations的middleframe</font>。另外，提取由这个keyframe增强的attention map。这个attentionmap在non-keyframe中知道tokedropout。在定位之后，需要分类每个定位好的bbox for actoridentification。当video tokens在non-keyframes中是不完整的时候，分类的性能在bbox regions (where tokenshave been droppedout)中是较差的。然而，视频的内在时序一致性使得能够refine bothactor和scene context from the remaining videotokens。扩展时域上的localized bboxes for RoIAlign，来获得与actormotion相关的tokenfeatures。然后，引入一个decoder，通过这个clip中的剩余videotokens的指导，来refine actor features。这个decoder concatenatesactor和token features，进行自注意力操作来产生丰富的actor features forbetter identification。在token dropout之后，退化的actionclassification能够用剩余的video tokens for contextrefinement来恢复。这个恢复的性能和用整个video tokens for actionclassification是一样的。通过这个context refinement，用减少了的videotokens保持了VAD的性能。</p></li><li><p>相关工作:</p><ul><li><strong>Spatio-temporal ActionDetection</strong>：当前的SOTA方法采用两个分开的backbones、2个stagespipelines。例如2D backbone for actor localization on keyframes，3Dbackbone for video featureextraction.之前的方法通过端到端的方式训练这两个backbone，来简化pipeline。这个会导致很高的复杂度和优化困难。最近的方法用统一的一个backbone来进行actiondetection。 VAT是一个transformer风格的actiondetector，来汇聚目标actor附近的时空上下文。WOO和TubeR是query-based的actiondetectors，来预测actor bboxes和actionclasses。STMixer是一个但阶段的query-based detector，来adaptively samplediscriminativefeatures。几个新的基于transformer的方法，用ViT的变种backbone，用两阶段的pipeline得到了一个比较好的结果。</li><li><strong>Spatio-temporal Redundancy</strong>：<ol type="1"><li>SpatialRedundancy：<strong>DynamicViT</strong>观察到，精确的图像识别是基于最富有信息的tokens的子集，设计了一个dynamictokensparsification的框架，来剪掉多余的tokens。<strong>EViT</strong>计算了classtoken to each token的attentiveness，确定了top-k tokens using theattentiveness value。<strong>ATS</strong>引入了一个differentiableadaptive token sampler for adaptively sampling 重要的tokens based onimage content。</li><li>Spatio-temporalredundancy：由于视频数据集的高冗余性，有很多的研究关注于开发高效的视频识别。最近的方法展示了高效的schemesspecialized for videotransformers。<strong>MAR</strong>提出了一个人为设计的masking策略，来丢弃 部分patches，减少videotokens。<strong>K-centered</strong>提出了patch-basedsampling，超越了传统的frame-basedsampling。<strong>STTS</strong>用transformer在时间和空间上sequentially选择tokens。</li></ol>为了和这些方法对比，考虑keyframe和邻近帧的correlation,来drop out冗余的tokens，然后执行端到端的基于transformer的action detector。</li></ul></li><li><p>Method：</p></li></ol><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/f3ea68b1948c43518259dc22dc121b2c9730103a/3-Figure2-1.png"alt="Structure" /><figcaption aria-hidden="true">Structure</figcaption></figure><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/f3ea68b1948c43518259dc22dc121b2c9730103a/4-Figure3-1.png"alt="Keyframe-centric token pruning" /><figcaption aria-hidden="true">Keyframe-centric tokenpruning</figcaption></figure>]]></content>
     
     
+    <summary type="html">&lt;h3
+id=&quot;efficient-video-action-detection-with-token-dropout-and-context-refinement1&quot;&gt;Efficient
+Video Action Detection with Token Dropout and Context
+Refinement&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自nju、蚂蚁集团、复旦和上海AI Lab的Lei Chen、Zhan
+Tong、Yibing Song等人。论文引用[1]:Chen, Lei et al. “Efficient Video
+Action Detection with Token Dropout and Context Refinement.” 2023
+IEEE/CVF International Conference on Computer Vision (ICCV) (2023):
+10354-10365.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2023.Aug&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;spatiotemporal token dropout&lt;/li&gt;
+&lt;li&gt;maintain all tokens in keyframe representing scene context&lt;/li&gt;
+&lt;li&gt;select tokens from other frames representing actor motions&lt;/li&gt;
+&lt;li&gt;drop out irrelavant tokens.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;视频流clips with large-scale vieo tokens 阻止了ViTs for efficient
+recognition，特别是在video action
+detection领域，这是需要大量的时空representations来精确地actor
+identification。这篇工作，提出了端到端的框架 &lt;strong&gt;for efficient video
+action detection(EVAD) based on vanilla
+ViTs&lt;/strong&gt;。EVAD包含两个为视频行为检测的特殊设计。首先：提出来时空token
+dropout from a keyframe-centric perspective. 在一个video clip中，main
+all tokens from its keyframe，保留其它帧中和actor
+motions相关的tokens。第二：通过利用剩余的tokens，refine scene context
+for better recognizing actor identities。action
+detector中的RoI扩展到时间域。获得的时空actor identity representations
+are refined via scene context in a decoder with the attention
+mechanism。这两个设计使得EVAD高效的同时保持精度。&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Action Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Action-Detection/"/>
     
   </entry>
   
