@@ -27,7 +27,7 @@
 <meta property="og:description" content="Spatio-Temporal Action Detection Under Large Motion[1]  作者是来自ETHZ的Gurkirt Singh, Vasileios Choutas, Suman Saha, Fisher Yu和Luc Van Gool。论文引用[1]:Singh, Gurkirt et al. “Spatio-Temporal Action Detect">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-24T08:53:52.000Z">
-<meta property="article:modified_time" content="2024-08-27T07:36:52.313Z">
+<meta property="article:modified_time" content="2024-08-30T01:47:32.563Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
@@ -211,7 +211,7 @@ Action Detection Under Large Motion[1]</span></a></li><li class="nav-item nav-le
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-27 15:36:52" itemprop="dateModified" datetime="2024-08-27T15:36:52+08:00">2024-08-27</time>
+      <time title="修改时间：2024-08-30 09:47:32" itemprop="dateModified" datetime="2024-08-30T09:47:32+08:00">2024-08-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -237,14 +237,14 @@ Action Detection Under Large Motion[1]</span></a></li><li class="nav-item nav-le
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>160</span>
+      <span>2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>7 分钟</span>
     </span>
 </div>
 
@@ -268,7 +268,161 @@ Applications of Computer Vision (WACV) (2022): 5998-6007.</p>
 <li>2022.Oct</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
+<ul>
+<li>track-aware features</li>
+<li>3 motion categories: large motion、medium motion、small motion</li>
+</ul>
 <h3 id="总结">总结</h3>
+<ol type="1">
+<li>当前的STAD的tube
+detection的方法经常将一个给定的<strong>keyframe</strong>上的bbox
+proposal扩展成一个<strong>3D temporal
+cuboid</strong>，然后从邻近帧进行pool
+features。如果actor的位置或者shape表现出了large 2D motion和variability
+through frames，这样的pooling不能够积累有意义的spaito-temporal
+features。在这个工作中，作者旨在研究<strong>cuboid-aware feature
+aggregation in action detection under large
+action</strong>。进一步，提出了在<strong>large
+motion</strong>的情况下，通过<strong>tracking actors和进行temporal
+feature aggregation along the respective tracks</strong>增强actor
+feature representation，定义了在不同的固定的time scales下的<strong>actor
+motion的IoU</strong>。有large motion的action会随着时间导致lower
+IoU，slower actions会随着时间维持higher IoU。作者发现<strong>track-aware
+feature aggregation持续地实现了很大的提升in action
+detection</strong>。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>目前的很多工作聚焦于通过复杂的上下文建模和更大的backbone，或者利用光流stream，来提升action
+detection的性能。上述方法用了cuboid-aware temporal pooling for feature
+aggregation。在这个工作中，旨在研究action
+instance的不同角度的情况下的cuboid-aware action detection。<strong>large
+object motion</strong>有不同的原因：例如fast camera motion，fast
+action，body shape deformation due to pose change, or mixed camera and
+action motions。所有的这些原因会造成sub-optimal feature
+aggregation，导致action classification的错误。</p></li>
+<li><p>作者将actions分成了3类：large
+motion、medium-motion和small-motion。这个区分是基于同一个actor over
+time的boxes的IoU,可以用actors的ground truth
+tubes来计算。研究cuboid-aware的基线方法在不同motion
+categories上的表现，不用context features或者long-term
+features之类的。因为large-motion在很短的时间窗口中发生的很快。<strong>large-motion
+cases, IoU会比较小，因此一个3D cuboid-aware feature
+extractor不能获取actor location上的features throughtout
+action</strong>。为了解决large-motion，提出了随着时间来<strong>track the
+actor</strong>，用 <strong>Track-of-Interest
+Align(TOI-Align)</strong>来extract features，resulting in <strong>Track
+Aware Action Detector(TAAD)</strong>。Further，研究了TOI-Aligned
+features上的不同类型的 feature aggregation modules for TAAD网络。</p>
+<p>为了这个目的，有以下的contributions：</p>
+<ul>
+<li>是第一个用evaluaiton metrics for each type of
+motion，来研究large-motion action detection。</li>
+<li>提出了用 <strong>tube/track-aware feature aggregation
+modules</strong>来处理large
+motion，这种类型的module实现了很好的提升。</li>
+</ul></li>
+<li><p>Related work: Action recognition models提供了很强的video
+representation models；action detection是一个在large
+motion下的理解actions的问题。主要关注于STAD 问题，这里一个<strong>action
+instance被定义为随着时间的一系列的linked bboxes</strong>。最近的online
+action
+detection的方法的性能直追离线的STAD的方法。MultiSports数据集有更多的fine-grained
+action
+class；有多个actors在同一个视频里执行不同类型的action。另外，MultiSports是一个<strong>densely
+annotated</strong>。 很多的方法关注于keyframe，基于action detection on
+AVA，long-term feature banks起到了重要作用，获得了一些temporal
+context，但是没有actors之间的temporal
+associations；另外也有人研究了actors和object之间的interactions。这些以上的方法都是用<strong>cuboid-aware
+pooling for local feature aggregation</strong>，作者们发现，当motion is
+quick和large，这不是最理想的方法。作者这里用SlowFast作为基线方法。</p>
+<p><strong>Weinzaepfel</strong>是首个用<strong>tracking for action
+detection</strong>的工作，用一个tracker来解决tube generation
+part的<strong>linking</strong>问题，给定tracks中的bboxes
+proposals，可以on a frame-by-frame basis做action
+classification。作者提出通过<strong>pooling features from within entire
+tracks</strong>来处理action detection。</p></li>
+<li><p>Methodology：提出了处理large motions的方法，称之为Track Aware
+Action Detector(TAAD)，在视频中track
+actor，同时，用了一个神经网络designed for video
+recognition，来从每个clip中提取特征。用track boxes和video features，pool
+per-frame features with a RoI-Align operation，之后，<strong>Temporal
+Feature Aggregation module</strong>得到per-track
+features，计算单个feature vector，这里classifier预测最后的action
+label。</p>
+<ul>
+<li><p><font color=red>Baseline Action
+Detector</font>：选择Slowfast作为video
+backbone，原因是它相对于大型的transformer模型仍然有竞争力 on the task of
+STAD；另外，Slowfast比其它的transformer的方法更高效。而且提供了不同temporal
+scales的features，有不同的temporal
+scales是重要的，特别是作者旨在处理fast/large motions,where a smaller
+scale是必须的；最后Slofast是MultiSports和UCF24
+datasets默认的backbone。用基于Slowfast的架构的pySlowFast with a
+ResNet-50来执行baseline。首先，增加background frame,作为训练action
+detector的额外的negative samples。接下来，用一个multiclass
+classifier来代替multi-label，switching from a binary cross entropy per
+class to a cross entropy loss(CE-loss)。最后，加一个<strong>downward FPN
+block</strong></p></li>
+<li><p><font color=red>Tracker</font>：用YOLOv5-DeepSort的class
+agnostic版本作为tracker，这个是基于YOLOv5和TrochReID，fine-tune
+YOlOv5的medium size作为detection model for person
+classes。一个预训练的OsNet-x0-25被用作ReID模型。一个high recall、small
+number of association的tracker对于提高action tube
+detection的性能是重要的。<strong>微调detector</strong>也是重要的一步。<strong>Tracker可以被用作bboxes
+proposal filtering module</strong>,有时候detector产生多个high scoring
+detections，有些会导致false
+positives,这些detections不和任何的tracks相匹配，因为它们时序上不是一致的。tracks产生的proposals能够在测试的时候用上。</p></li>
+<li><p><font color=red>Temporal Feature Aggregation</font>：</p></li>
+</ul>
+<ol type="1">
+<li><strong>Track-of-Interest Align(TOI-Align)</strong>：SlowFast video
+backbone处理输入的clip，产生 <span class="math inline">\(T \times H
+\times W\)</span> feature tensor，然而trackers返回一个 <span
+class="math inline">\(N_t \times T \times
+4\)</span>的array，包含物体附近的boxes。RoI-Align将这两个arrays作为输入，得到一个feature
+array <span class="math inline">\(N_t \times T \times H \times
+W\)</span>，one feature tube per track，在track的length小于input
+clip的情况下，在时序上复制最后的available bbox。</li>
+<li><strong>Feature
+aggregation</strong>：为了预测keyframe中的bbox的label，需要aggregate
+features across time and
+space。首先，在TOI-Align提取出来的features上，在空间维度上做一个average
+pooling，然后执行Temporal Feature Aggregation的一个变体。
+<ul>
+<li>Max-pooling over temporal axes(MaxPoo)</li>
+<li>A sequence of temporal conv(TCN)</li>
+<li>A temporal variant of Atrous Spatial Pyramid
+Pooling(ASPP)，修改Detectron2中的ASPP，用1D conv代替2D
+也尝试了ConvNeXt和VideoSwin的temporal
+version，然而，这些导致不稳定的训练，即使调整学习率和其它的超参数，实验中，仅用了temporal
+conv for TCN module的一个layer。</li>
+</ul></li>
+</ol>
+<ul>
+<li><font color=red>Tube Construction</font>：<strong>Video-level tube
+detection要求从per-frame detections中构建action
+tubes。这个过程分为两步：首先将proposals连接起来形成tube
+hypotheses；然后trim这些proposals，得到有action的部分。可以将这两部视为tracking
+step加上一个temporal action detection step</strong>。大多数的
+<strong>action tube detection
+method</strong>在第一步用一个贪心的proposal连接算法；<strong>由于TAAD已经有tracks，所以不需要linking
+step</strong>。action tracks的temporal trimming是通过<strong>label
+smoothing
+optimisation</strong>来做的，之前的很多工作都用到了，具体地，用了<strong>class-wise
+temporal trimming</strong>。</li>
+</ul></li>
+<li><p>实验：</p></li>
+<li><p>讨论和结论：在实验中发现，TAAD用<strong>tracking information for
+feature aggregation，而不是从proposal
+boxes得到的tube</strong>,提高了性能，这不意味着没有了提高的空间，作者的方法对于<strong>tracker的性能比较敏感</strong>，因为这是pipeline的第一步。用更好的SOTA的tracker和person
+detector，可以进一步提高性能。通过在<strong>TAAD中加上spatial/actor
+context modelling, long-term temporal context 或者一个transformer head
+or backbone</strong>，也能提高性能。 关于motion
+分类的定义可以说是不精确，不同于MS COCO中的object size类别，motion
+类别不容易定义。除了普遍的复杂的相机运动和quick actor
+motion外，必须特别注意错误标记。</p></li>
+</ol>
 <figure>
 <img
 src="https://d3i71xaburhd42.cloudfront.net/978129084bd486157f3cc0997204554956a7cca3/4-Figure4-1.png"
@@ -284,7 +438,7 @@ and the track boxes, returning a <span class="math inline">\(N_t × T ×
 C\)</span> feature array. Next, the Temporal Feature Aggregation (TFA)
 module aggregates the features along the temporal dimension and passes
 the resulting <span class="math inline">\(N_t × C\)</span> array to the
-action classifier that predicts the action label</p>
+action classifier that predicts the action label.</p>
 
     </div>
 
@@ -339,13 +493,13 @@ action classifier that predicts the action label</p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">64k</span>
+    <span title="站点总字数">66k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:53</span>
+    <span title="站点阅读时长">4:01</span>
   </span>
 </div>
 <div class="busuanzi-count">

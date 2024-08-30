@@ -574,7 +574,7 @@ abs/2302.06848 (2023): n. pag.</p>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-27 15:36:52" itemprop="dateModified" datetime="2024-08-27T15:36:52+08:00">2024-08-27</time>
+      <time title="修改时间：2024-08-30 09:47:32" itemprop="dateModified" datetime="2024-08-30T09:47:32+08:00">2024-08-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -593,14 +593,14 @@ abs/2302.06848 (2023): n. pag.</p>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>160</span>
+      <span>2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>7 分钟</span>
     </span>
 </div>
 
@@ -625,24 +625,37 @@ Applications of Computer Vision (WACV) (2022): 5998-6007.</p>
 <li>2022.Oct</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
+<ul>
+<li>track-aware features</li>
+<li>3 motion categories: large motion、medium motion、small motion</li>
+</ul>
 <h3 id="总结">总结</h3>
-<figure>
-<img
-src="https://d3i71xaburhd42.cloudfront.net/978129084bd486157f3cc0997204554956a7cca3/4-Figure4-1.png"
-alt="Pipleline of TAAD" />
-<figcaption aria-hidden="true">Pipleline of TAAD</figcaption>
-</figure>
-<p><span class="math inline">\(Figure \ 1^{[1]}\)</span>: Proposed Track
-Aware Action Detector (TAAD): Given an input clip with T frames, we
-extract features using a video recognition network and Nt per-actor
-tracks from a tracker. The TOI-Align operation extracts per-track
-features from the entire video sequence, using an RoI-Align operation
-and the track boxes, returning a <span class="math inline">\(N_t × T ×
-C\)</span> feature array. Next, the Temporal Feature Aggregation (TFA)
-module aggregates the features along the temporal dimension and passes
-the resulting <span class="math inline">\(N_t × C\)</span> array to the
-action classifier that predicts the action label</p>
-
+<ol type="1">
+<li>当前的STAD的tube
+detection的方法经常将一个给定的<strong>keyframe</strong>上的bbox
+proposal扩展成一个<strong>3D temporal
+cuboid</strong>，然后从邻近帧进行pool
+features。如果actor的位置或者shape表现出了large 2D motion和variability
+through frames，这样的pooling不能够积累有意义的spaito-temporal
+features。在这个工作中，作者旨在研究<strong>cuboid-aware feature
+aggregation in action detection under large
+action</strong>。进一步，提出了在<strong>large
+motion</strong>的情况下，通过<strong>tracking actors和进行temporal
+feature aggregation along the respective tracks</strong>增强actor
+feature representation，定义了在不同的固定的time scales下的<strong>actor
+motion的IoU</strong>。有large motion的action会随着时间导致lower
+IoU，slower actions会随着时间维持higher IoU。作者发现<strong>track-aware
+feature aggregation持续地实现了很大的提升in action
+detection</strong>。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/08/24/TAAD/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1499,13 +1512,13 @@ qwen2:7b这样来下载模型，也可以下载模型的GGUF文件，然后需�
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">64k</span>
+    <span title="站点总字数">66k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:53</span>
+    <span title="站点阅读时长">4:01</span>
   </span>
 </div>
 <div class="busuanzi-count">
