@@ -27,7 +27,7 @@
 <meta property="og:description" content="YOWOv3: An Efficient and Generalized Framework for Human Action Detection and Recognition[1]  作者是Nguyen Dang Duc Manh, Duong Viet Hang等人。论文引用[1]:Dang, Duc M et al. “YOWOv3: An Efficient and Gener">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-26T06:35:34.000Z">
-<meta property="article:modified_time" content="2024-08-26T10:48:06.840Z">
+<meta property="article:modified_time" content="2024-09-01T14:54:21.633Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
@@ -204,9 +204,15 @@ Recognition[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-lin
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-08-26 14:35:34 / 修改时间：18:48:06" itemprop="dateCreated datePublished" datetime="2024-08-26T14:35:34+08:00">2024-08-26</time>
+      <time title="创建时间：2024-08-26 14:35:34" itemprop="dateCreated datePublished" datetime="2024-08-26T14:35:34+08:00">2024-08-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-09-01 22:54:21" itemprop="dateModified" datetime="2024-09-01T22:54:21+08:00">2024-09-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -232,14 +238,14 @@ Recognition[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-lin
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>60</span>
+      <span>2.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -263,20 +269,228 @@ Action Detection and Recognition.” (2024).</p>
 <li>2024.Aug</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
+<ul>
+<li>one-stage detector</li>
+<li>different configurations to customie different model components</li>
+<li>efficient while reducing computational resource requirements</li>
+</ul>
 <h3 id="总结">总结</h3>
+<ol type="1">
+<li>YOWOv3是YOWOv2的增强版，提供了更多的approach,用了不同的configurations来定制不同的model，YOWOv3比YOWOv2更好。</li>
+<li>STAD是计算机视觉中一个常见的任务，涉及到检测<strong>location(bbox),
+timing(exact frame),and type(class of action)</strong>，
+需要对时间和空间特征进行建模。有很多的方法来解决STAD的问题，例如ViT，ViT的效果很好，但是计算量比较大。例如Hiera
+model由超过600M的参数，VideoMAEv2由超过1B的参数，增加了训练的成本和消耗。为了解决STAD问题，同时最大程度减弱训练和推理时间的成本，有人提出用了YOWO方法，虽然可以做到实时，但是也有限制：不是一个efficient
+model with low computational
+requirements。框架的作者已经停止维护了，但是还有很多的问题。本文的contribution如下：
+<ul>
+<li>new lightweight framework for STAD</li>
+<li>efficient model</li>
+<li>multiple pretrained resources for application：creating a range of
+pretrained resources spanning from lightweight to sophisticated models
+to cater to diverse requirements for real-world applications。</li>
+</ul></li>
+</ol>
 <span id="more"></span>
-<figure>
-<img
+<ol start="3" type="1">
+<li><p>YOWO的架构过时了，缺乏sophistication和davancements seen in
+contemporary
+models，限制了它的applicability和性能。YOWOv2基于YOWO，用了anchor-free
+object
+detection和FPN，提高了性能。但是增加了GLOP，和高效轻量的model的目标不相符。</p></li>
+<li><p><strong>Framework</strong>：YOWOv3采用了<strong>two-stream</strong>网络，包括连个processing
+streams，第一个用来提取 <strong>spatial information and context from the
+image using a 2D CNN</strong>，第二个stream，一个3D
+CNN，主要用来提取temporal
+information和motion。两个stream的输出结合到一起，来得到包含关于视频的spatial和temporal的信息。最后，用一个CNN
+layer基于这些extracted features进行预测。</p>
+<ul>
+<li><strong>Spatial Feature Extractor</strong>：模型需要一个spaital
+feature extracto来提供关于location的信息。为了满足这个目的，采用了YOLOv8
+model，去掉了其中的detection layer，输入这个module的是size为<span
+class="math inline">\([3,H,W]\)</span>的feature map，代表final frame of
+the input video。通过利用pyramid network
+架构，输出包含3个不同level的feature maps：<span
+class="math inline">\(F_{lv1}:[{C}_{2D},\frac{H}{8},\frac{W}{8}],F_{lv2}:[{C_{2D}},\frac{H}{16},\frac{W}{16}]\)</span>，
+<span
+class="math inline">\(F_{lv3}:[C_{2D},\frac{H}{32},\frac{W}{32}].\)</span></li>
+<li><strong>Decoupled head</strong>：decoupled head是用来separate
+分类和回归的任务。<strong>YOLOX
+model团队发现，在早期的模型中，用单个feature map来做分类和回归 made
+training more
+challenging</strong>。因此，用了相似的approach，用两个独立的CNN streams
+for each task，来增强模型的comprehension。</li>
+</ul>
+<p><span
+class="math display">\[F_{cls}=Conv_{cls2}(Conv_{cls1}(x))\\F_{box}=Conv_{box2}(Conv_{box1}(x))\]</span></p>
+<p>2D backbone的输出包含3个feature map at different levels，每个feature
+map 送到Decoupled Head中来产生<strong>two feature maps for
+classification and regression</strong>，Decoupled
+Head的输入是一个tensor，<span class="math inline">\(F_{lv} :
+[C_{2D},H_{lv},W_{lv}]\)</span>,输出两个相同shape的tensors：<span
+class="math inline">\(F_{lv}:[C_{inter},H_{lv},W_{lv}].\)</span></p>
+<ul>
+<li><p><strong>temporal motion feature
+extractor</strong>：为了增强预测action label的精确度，用了3D
+CNN模型，采用了I3D的模型，输入3D backbone的是一个tensor <span
+class="math inline">\(F_{3D}：[3, D,
+H,W]\)</span>，是整个视频，输出是一个tensor：<span
+class="math inline">\(F_{3D}:[C_{3D},1,\frac{H}{32},\frac{W}{32}]\)</span>。</p></li>
+<li><p><strong>Fusion Head</strong>：Fusion head用于整合2D CNN和3D CNN
+streams的特征。输入这个layer包含两个tensors：<span
+class="math inline">\(F_{lv}:[C_{inter},H_{lv},W_{lv}]\)</span>，<span
+class="math inline">\(F_{3D} :
+[C_{3D},1,\frac{H}{32},\frac{W}{32}]\)</span>。首先 <span
+class="math inline">\(F_{3D}\)</span>被squeeze to shape <span
+class="math inline">\([C_{3D},\frac{H}{32},\frac{W}{32}]\)</span>，然后，upscale来match
+dimension <span class="math inline">\(H_{lv}\)</span> 和 <span
+class="math inline">\(W_{lv}\)</span>。接下来，<span
+class="math inline">\(F_{3D}\)</span> 和 <span
+class="math inline">\(F_{lv}\)</span> 被concatenated，来得到 tensor
+<span class="math inline">\(F_{concat}\)</span>，最后， <span
+class="math inline">\(F_{concat}\)</span>输入到 CFAM
+module，这是一个attention mechanism。CFAM module的输出是一个feature map
+<span
+class="math inline">\(F_{final}:[C_{inter},H_{lv},W_{lv}]\)</span>。</p></li>
+<li><p><strong>Detection Head</strong>：有人指出：拥有给<strong>Diarc
+distribution</strong>来预测bboxes会使模型训练困难，因此提出了让模型学习更general的distribution，而不是简单地回归到
+single value。为了减小模型 dependence on selecting hyperparameters for
+predefined bboxes as in previous
+studies。也用了anchor-free。输入Detection Head的包含两个tensors：<span
+class="math inline">\(F_{cls}\)</span> 和 <span
+class="math inline">\(F_{box}\)</span> for classification and regression
+tasks respectively。通过一系列的卷积实现最后的预测： <span
+class="math display">\[Predict_{cls}=\mathrm{conv}(Conv_{cls2}(Conv_{cls1}(F_{cls})))\\Predict_{box}=\mathrm{conv}(Conv_{box2}(Conv_{box1}(F_{box})))\]</span></p></li>
+</ul></li>
+<li><p><strong>Label Assignment</strong>：<strong>用了2个不同的label
+assignment mechanisms来match 模型的predictions with the ground truth
+labels from the data</strong>：<strong>TAL</strong> and
+<strong>SimOTA</strong>，SimOTA是OTA的简化版。两个机制都依赖于 <span
+class="math inline">\(d_{predict}\)</span>和 <span
+class="math inline">\(d_{truth}\)</span>之间的相似度测量函数，来perform
+matching between them。</p>
+<ul>
+<li><strong>TAL</strong>：prediction <span
+class="math inline">\(d_{pred} \in A\)</span> 和 ground truth <span
+class="math inline">\(d_{truth} \in T\)</span>之间的相似度测量函数如下：
+<span class="math display">\[\begin{aligned}
+&amp;metric&amp;&amp; =cls_err^{\alpha}box_err^{\beta} \\
+&amp;cls_err&amp;&amp; =BCE(cls_{pred},cls_{truth}) \\
+&amp;box_err&amp;&amp; =CIoU(box_{pred},box_{truth})
+\end{aligned}\]</span></li>
+</ul>
+<p>对于each <span class="math inline">\(d_{truth} \in
+T\)</span>，将它们和有最高的<span
+class="math inline">\(metric\)</span>的 <span
+class="math inline">\(top_k\)</span> 个 <span
+class="math inline">\(d_{pred}\)</span> 进行匹配，但每个 <span
+class="math inline">\(d_{pred}\)</span>只能和 most one <span
+class="math inline">\(d_{truth}\)</span>进行匹配，如果 <span
+class="math inline">\(d_{pred}\)</span> is in the <span
+class="math inline">\(top_k\)</span> of multiple <span
+class="math inline">\(d_{truth}\)</span>，将有着最高的 <span
+class="math inline">\(CIOU(box_{pred},boxJ_{truth})\)</span>的 <span
+class="math inline">\(d_{pred}\)</span>和<span
+class="math inline">\(d_{truth}\)</span>进行匹配。<strong>另外，只考虑
+receptive field的center落在 box of <span
+class="math inline">\(d_{truth}\)</span>内、且 receptive field center到
+box of <span class="math inline">\(d_{depth}\)</span> center的距离不超过
+</strong>radius<strong>的 <span
+class="math inline">\(d_{pred}\)</span></strong>。</p>
+<p>如果 <span class="math inline">\(d_{pred}\)</span>和 <span
+class="math inline">\(d_{truth}\)</span>匹配，就认为 <span
+class="math inline">\(d_{pred}\)</span>的target是 <span
+class="math inline">\(d_{truth}\)</span>，probability of the target for
+corresponding class is set to 1 if they appear,否则就是0。</p>
+<ul>
+<li><strong>SimOTA</strong>：和TAL类似，SimOTA利用了相似度测量，来matching
+between <span class="math inline">\(d_{pred}\)</span>和 <span
+class="math inline">\(d_{truth}\)</span>： <span
+class="math display">\[\begin{aligned}metric&amp;=BCE(\lambda
+cls_{pred},cls_{truth})-\alpha\log(\lambda)\\&amp;\lambda=CIoU(box_{pred},box_{truth})\end{aligned}\]</span></li>
+</ul>
+<p>不同于TAL，这里只考虑将 <span
+class="math inline">\(d_{truth}\)</span> 和有<strong>smallest
+metric</strong>的 <span class="math inline">\(top_k\)</span>个 <span
+class="math inline">\(d_{pred}\)</span>进行匹配。SimOTA不会去fix <span
+class="math inline">\(top_k\)</span>个 value，而是利用一个方式来估计
+<span class="math inline">\(top_k\)</span> for each <span
+class="math inline">\(d_{truth}\)</span>。实验表明：用动态的 <span
+class="math inline">\(top_k\)</span>会减慢训练过程，增加额外的计算开销。</p></li>
+<li><p><strong>Loss Function</strong>：用两个loss function对应两个 label
+assignment mechanisms。总的loss是由两部分： <span
+class="math display">\[\mathcal{L}=\mathcal{L}_{box}+\mathcal{L}_{cls}\]</span></p></li>
+</ol>
+<p>一个是bbox regression，一个是 loss for label classification，两个loss
+里有多个subcomponents。对于 <span class="math inline">\(d_{pred} \in
+N\)</span>， <span class="math inline">\(L_{box}\)</span> =0, <span
+class="math inline">\(cls_{truth}\)</span>也会完全为0.</p>
+<ul>
+<li><strong>TAL</strong>：Loss function为： <span
+class="math display">\[\mathcal{L}=\frac{\mathcal{L}_{box}+\mathcal{L}_{cls}}\omega
+\]</span></li>
+</ul>
+<p><span
+class="math display">\[\mathcal{L}_{box}=\delta(d_{truth})(\alpha
+CIoU(d_{pred},d_{truth})+\beta\mathcal{L}_{distribution})\\\mathcal{L}_{cls}=\gamma
+BCE(cls_{pred},cls_{truth})\]</span></p>
+<p><span class="math inline">\(L_{distribution}\)</span>代表Distribution
+Loss function。</p>
+<p><span
+class="math display">\[\begin{aligned}\delta(d_{i})&amp;=\sum_{p_{j}\in
+cls_{i}}p_{j}\\\omega&amp;=\sum_{d_{pred}\in\mathcal{A}}\sum_{d_{i}\in\mathcal{M}(d_{pred})}\delta(d_{i})\end{aligned}\]</span></p>
+<p><span class="math inline">\(\alpha，\belta,\gamma\)</span>是
+超参数，用来 scale components of the <span
+class="math inline">\(L\)</span> function。fix <span
+class="math inline">\(\alpha=7.5, \belta=1.5, \gamma= 0.5\)</span>。</p>
+<ul>
+<li><strong>SimOTA</strong>：loss function： <span
+class="math display">\[\mathcal{L}=\frac{\mathcal{L}_{box}+\mathcal{L}_{cls}}{|\mathcal{P}|}\]</span></li>
+</ul>
+<p><span class="math display">\[\mathcal{L}_{box}=\alpha
+CIoU(d_{pred},d_{truth})+\beta\mathcal{L}_{distribution}\\\mathcal{L}_{cls}=exp(cls_{t})|cls_{truth}-cls_{pred}|^{\nu}BCE(cls_{pred},cls_{truth})\]</span></p>
+<p><span class="math inline">\(L_{cls}\)</span>是 generalized focal loss
+function，multiplied by a class balancing factor <span
+class="math inline">\(exp(cls_t)\)</span>。</p>
+<p><span class="math display">\[p_i\in
+cls_t=\begin{cases}class_ratio,&amp;p_{truth}\neq0\\1-class_ratio,&amp;p_{truth}=0\end{cases}\]</span></p>
+<p><span class="math inline">\(class_ratio\)</span> 是class balancing
+factor,classes have lower frequencies，<span
+class="math inline">\(class_{ratio}\)</span> will be higher。这里 <span
+class="math inline">\(\alpha=5.5,\belta=0.5, \gamma=0.5, \nu =
+0.5\)</span></p>
+<ol start="7" type="1">
+<li>实验：在实验中，由于AVAv2.2是一个极度不平衡的dataset，因此，需要额外的方法来减小这个不平衡的影响，来提高overall
+mAP。解决这个问题的两个方法是：softLabels(qualified Loss)和inclusion of
+a class balance term。<strong>对于频繁出现的common classes，<span
+class="math inline">\(class_{ratio}\)</span>会接近0.5, class balance
+term
+exp(cls_{t})会基本不变，意味着如果预测错误的话，loss不会有很大的改变；对于很少出现的classes，它会接近0,模型没有正确预测的话，<span
+class="math inline">\(exp(cls_t)\)</span>
+会严重地惩罚。这会创造一个bias，能够帮助提高 less common
+classes的预测。</strong>另外，soft
+labels用在了减小模型overconfidence的影响，特别是出现的很频繁的classes**。
+<ul>
+<li>对于label assignment one to many, 一个ground truth box
+会和多个multiple predicted boxes
+匹配，选择matching的boxes的数量可以被动态的估计或者predetermined。实验表明，选择<span
+class="math inline">\(k\)</span>个能够产生很好的结果，自动估计 <span
+class="math inline">\(top_k\)</span>导致额外增加 <span
+class="math inline">\(6%\)</span>的训练时间。这些结果倾向于将 <span
+class="math inline">\(top_k\)</span>视为一个超参数，而不是用来做优化的方法。</li>
+<li>保留了<strong>Exponential Moving
+Average(EMA)</strong>的模型的变体，来评估EMA的影响。结果展示了EMA在初始的epochs中，对模型的性能有很大的影响，在后面的epochs中有很小的影响，表明EMA帮助模型在早期的阶段快速收敛，在之后的训练过程，能提高mAP
+score。</li>
+</ul></li>
+</ol>
+<p><img
 src="https://d3i71xaburhd42.cloudfront.net/d02a8d30424422b99990cc394ca7d6526efc0a20/3-Figure2-1.png"
-alt="Structure" />
-<figcaption aria-hidden="true">Structure</figcaption>
-</figure>
-<figure>
-<img
+alt="Structure" /> <span class="math inline">\(figure
+1^{[1]}\)</span>：overview architecture of YOWOv3</p>
+<p><img
 src="https://d3i71xaburhd42.cloudfront.net/d02a8d30424422b99990cc394ca7d6526efc0a20/4-Figure3-1.png"
-alt="CFAM" />
-<figcaption aria-hidden="true">CFAM</figcaption>
-</figure>
+alt="CFAM" /> <span class="math inline">\(figure
+2^{[2]}\)</span>：Overview of CFAM module</p>
 
     </div>
 
@@ -331,13 +545,13 @@ alt="CFAM" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">69k</span>
+    <span title="站点总字数">71k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:10</span>
+    <span title="站点阅读时长">4:17</span>
   </span>
 </div>
 <div class="busuanzi-count">

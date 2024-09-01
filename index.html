@@ -336,9 +336,15 @@ classification的性能。</li>
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-08-26 14:35:34 / 修改时间：18:48:06" itemprop="dateCreated datePublished" datetime="2024-08-26T14:35:34+08:00">2024-08-26</time>
+      <time title="创建时间：2024-08-26 14:35:34" itemprop="dateCreated datePublished" datetime="2024-08-26T14:35:34+08:00">2024-08-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-09-01 22:54:21" itemprop="dateModified" datetime="2024-09-01T22:54:21+08:00">2024-09-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -357,14 +363,14 @@ classification的性能。</li>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>60</span>
+      <span>2.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -389,7 +395,28 @@ Action Detection and Recognition.” (2024).</p>
 <li>2024.Aug</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
+<ul>
+<li>one-stage detector</li>
+<li>different configurations to customie different model components</li>
+<li>efficient while reducing computational resource requirements</li>
+</ul>
 <h3 id="总结">总结</h3>
+<ol type="1">
+<li>YOWOv3是YOWOv2的增强版，提供了更多的approach,用了不同的configurations来定制不同的model，YOWOv3比YOWOv2更好。</li>
+<li>STAD是计算机视觉中一个常见的任务，涉及到检测<strong>location(bbox),
+timing(exact frame),and type(class of action)</strong>，
+需要对时间和空间特征进行建模。有很多的方法来解决STAD的问题，例如ViT，ViT的效果很好，但是计算量比较大。例如Hiera
+model由超过600M的参数，VideoMAEv2由超过1B的参数，增加了训练的成本和消耗。为了解决STAD问题，同时最大程度减弱训练和推理时间的成本，有人提出用了YOWO方法，虽然可以做到实时，但是也有限制：不是一个efficient
+model with low computational
+requirements。框架的作者已经停止维护了，但是还有很多的问题。本文的contribution如下：
+<ul>
+<li>new lightweight framework for STAD</li>
+<li>efficient model</li>
+<li>multiple pretrained resources for application：creating a range of
+pretrained resources spanning from lightweight to sophisticated models
+to cater to diverse requirements for real-world applications。</li>
+</ul></li>
+</ol>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/YoungBlogs/2024/08/26/YOWOv3/#more" rel="contents">
@@ -459,7 +486,7 @@ Action Detection and Recognition.” (2024).</p>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-09-01 10:14:34" itemprop="dateModified" datetime="2024-09-01T10:14:34+08:00">2024-09-01</time>
+      <time title="修改时间：2024-09-01 10:15:01" itemprop="dateModified" datetime="2024-09-01T10:15:01+08:00">2024-09-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1538,13 +1565,13 @@ qwen2:7b这样来下载模型，也可以下载模型的GGUF文件，然后需�
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">69k</span>
+    <span title="站点总字数">71k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:10</span>
+    <span title="站点阅读时长">4:17</span>
   </span>
 </div>
 <div class="busuanzi-count">
