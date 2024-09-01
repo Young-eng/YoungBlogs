@@ -27,7 +27,7 @@
 <meta property="og:description" content="YOWOv2: A Stronger yet Efficient Multi-level Detection Framework for Real-time STAD[1]  作者是来自哈工大的 Jianhuan Yang和Kun Dai，论文引用[1]:Yang, Jianhua and Kun Dai. “YOWOv2: A Stronger yet Efficient Multi-">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-26T06:35:29.000Z">
-<meta property="article:modified_time" content="2024-08-26T10:47:51.853Z">
+<meta property="article:modified_time" content="2024-09-01T02:14:34.596Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
@@ -204,9 +204,15 @@ STAD[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-08-26 14:35:29 / 修改时间：18:47:51" itemprop="dateCreated datePublished" datetime="2024-08-26T14:35:29+08:00">2024-08-26</time>
+      <time title="创建时间：2024-08-26 14:35:29" itemprop="dateCreated datePublished" datetime="2024-08-26T14:35:29+08:00">2024-08-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-09-01 10:14:34" itemprop="dateModified" datetime="2024-09-01T10:14:34+08:00">2024-09-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -232,14 +238,14 @@ STAD[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>76</span>
+      <span>2.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>10 分钟</span>
     </span>
 </div>
 
@@ -264,26 +270,289 @@ abs/2302.06848 (2023): n. pag.</p>
 <li>2023.Feb</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
-<span id="more"></span>
+<ul>
+<li>combined 2D CNN of diffferent size with 3D CNN</li>
+<li>anchor-free mechanism</li>
+<li>dynamic label assignment</li>
+<li>multi-level detection structure</li>
+</ul>
 <h3 id="总结">总结</h3>
-<figure>
-<img
+<ol type="1">
+<li>YOWOv2利用了3D backbone和2D backbone的优势，来做accurate action
+detection。设计了一个multi-level detection
+pipeline来检测不同scales的action
+instances。为了实现这个目标，<strong>构建了一个 简单高效地2D backbone
+with FPN，来提取不同level的classification features和regression
+features</strong>。对于 3D backbone，采用现有的3D CNN，通过结合3D
+CNN和不同size的2D CNN，设计了YOWOv2 family,
+包括:YOWOv2-Tiny，YOWOv2-Medium和YOWOv2-Large。同时引入了<strong>dynamic
+label assignment
+strategy</strong>和<strong>anchor-free</strong>机制，来使得YOWOv2和先进的模型架构一致。YOWOv2比YOWO好很多，同时能够保证实时检测。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>之前的工作中，由于3D
+CNN的网络的计算量比较大，实时性比较差；因此有人用一个参数共享的2D
+CNN网络，来提取spatial features frame by
+frame，然后把他们放到buffer中，在那之后，他们仅处理新的input
+frame，将它的spaital feature和features in the
+buffer一起形成spatio-temporal features for the final
+detection。然而，这样的pipeline，不能很好地model temporal
+association，实时的detection只能在RGB
+streams的条件下实现，当用了光流的时候，尽管表现不错，但是速度下降了很多。之前的工作YOWO，效果很不错，但是也有两个不足。</p>
+<ol type="1">
+<li><strong>YOWO是一个one-level detector,在一个low-level feature
+map上进行最后的detection，损失了small action
+instances的性能。</strong></li>
+<li><strong>YOWO是一个anchor-based 方法，有很多的anchor boxes with many
+hyperparameters，例如数量、尺寸和anchor boxes的aspect
+ratio。这些超参数必须仔细地设计，泛化性不够。</strong></li>
+</ol>
+<p>总的来说，设计一个实时的detection framework for spatio-temporal
+action detection task仍然是一个挑战。 本文中，提出了一个新的实时的action
+detector，YOWOv2，<strong>YOWOv2包括一个3D backbone和multi-level的2D
+backbone</strong>，辛亏有multi-level 2D backbone with
+FPN，YOWOv2设计了一个<strong>multi-level detection pipeline来检测action
+instances of different scales</strong>.对于3D backbone，也用一个高效的3D
+CNN。另外，利用<strong>anchor-free mechanism</strong>，避免了anchor
+box的缺点，因为anchor box去掉了，采用了一个<strong>dynamic label
+assignment
+strategy</strong>,进一步提高了YOWOv2的多功能性。<strong>通过结合3D
+backbone和不同尺寸的2D
+backbones，构建了多个YOWOv2的模型，包括YOWOv2-Tiny，YOWOv2-Medium和YOWOv2-Large</strong>
+for the platforms with different computing power。</p>
+<p>相比于YOWO，YOWOv2实现了更好的性能。另外，YOWOv2能够实时运行，相比于其它的实时的action
+detector，YOWOv2实现了更好的性能，contributions如下：</p>
+<ul>
+<li>YOWOv2是一个multi-level detection structure to detect small action
+instances。</li>
+<li>YOWOv2是一个<strong>anchor-free</strong> detection pipeline</li>
+<li>通过结合3D backbones和2D backbones of different sizes for the
+platforms with different computing power。</li>
+</ul></li>
+<li><p>相关工作：STAD需要一个action
+detector来locate和identify当前帧中所有的instances。如何提取spatio-temporal
+features对于精确的action detection是重要的。</p>
+<ul>
+<li>3D CNN-based：一些研究人员用3D CNN来设计actio
+detectors，Girdhar用I3D来生产action region
+proposals，然后用Transformer完成最后的detection；也有人用3D CNN来encoder
+input video，然后用<strong>Transformer with the tuber queries for final
+detection</strong>。虽然3D
+CNN的方法很成功，但是需要大量的计算。<font color=red>实时性比较差</font></li>
+<li>2D CNN-based：另外一种方式是将spatio-temporal
+associations进行解耦，<strong>然后设计一个2D CNN-based action detectors
+for efficient detection</strong>。有人设计了一个one-stage detection
+framework,<strong>ActionTubelet(ACT)</strong>：先用SSD来从video
+clip中的每帧提取<strong>spatial
+features</strong>然后stacked，再用一个<strong>detection
+head</strong>来处理stacked spatial features for the final
+detection。然后有人follow ACT的工作，设计了一个<strong>anchor-free
+one-stage action detector Moving
+Center</strong>。有人用自注意力增强了MOC，然而，这些方法的实时性是仅当输入时RGB的时候才可以，一旦加上了光流，尽管performance
+gain，但是速度是下降了。Moreover，高质量的光流需要离线获得，不满足在线的操作。</li>
+</ul></li>
+<li><p>Methodology： 给定 <span
+class="math inline">\(K\)</span>个frames的video clip <span
+class="math inline">\(V = \{I_{1},I_{2},\ldots,I_{K}\}\)</span> where
+<span class="math inline">\(I_K\)</span>是当前帧，YOWOv2用一个高效的3D
+CNN作为3D backbone来提取spatio-temporal features，<span
+class="math inline">\(F_{ST} \in
+\mathbb{R}^{\frac{H}{32}\times\frac{H}{32}\times C_{o_{2}}}\)</span>,
+YOWOv2的2D backbone是一个multi-level 2D CNN，用于输出解耦的multi-level
+spatial features <span class="math inline">\(F_{cls} =
+\{F_{cls_i}\}_{i=1}^{3}\)</span> 和 <span class="math inline">\(F_{reg}
+= \{F_{reg_i}\}_{i=1}^3\mathrm{~of~}I_K\)</span>，where the <span
+class="math inline">\(F_{cls_{i}}\in\mathbb{R}^{\frac{H}{2^{i+2}}\times\frac{W}{2^{i+2}}\times
+C_{o_{1}}}\)</span> 是分类的features，<span
+class="math inline">\(F_{reg_{i}} \in
+\mathbb{R}^{\frac{H}{2^{i+2}}\times\frac{W}{2^{i+2}}\times
+C_{o_{1}}}\)</span>是回归的features。在这两个backbone之后，用了两个channel
+encoders on each feature map of level to integrate
+features。在这之后，两个额外并行的branches with two <span
+class="math inline">\(3 \times 3\)</span> conv layers followed the
+channel encoders 来预测 <span class="math inline">\(Y_{cls_{i}}\in
+\mathbb{R}^{\frac{H}{2^{i+2}}\times\frac{W}{2^{i+2}}\times
+N_{C}}\)</span> for classification。一个confidence branch
+加在了actionness confidence。</p>
+<ul>
+<li><strong>Design of YOWOv2</strong>：</li>
+</ul>
+<ol type="1">
+<li><font color=red>2D backbone</font>：2D
+backbone是用来抽取当前帧的multi-level spatial
+feature。考虑性能和速度的balance，从先进的object
+detectors中得到了一些ideas。重新用了YOLOv7的backbone和FPN来节省时间，在FPN之后，加了一个额外的<span
+class="math inline">\(1 \times 1\)</span> conv layer 来压缩每个level
+feature map的channel number <span class="math inline">\(F_{s_i}\)</span>
+to <span
+class="math inline">\(C_o1\)</span>，默认设置为256。加了两个并行的branches
+with two <span class="math inline">\(3 \times 3\)</span> conv layers to
+output decoupled features。</li>
+</ol>
+<p><span
+class="math display">\[F_{cls_{i}}=f_{conv_{2}}^{1}\left(f_{conv_{1}}^{1}\left(F_{S_{i}}\right)\right)\\F_{reg_{i}}=f_{conv_{2}}^{2}\left(f_{conv_{1}}^{2}\left(F_{S_{i}}\right)\right)\]</span></p>
+<p><span class="math inline">\(f^i_{convj}\)</span> 是第<span
+class="math inline">\(i\)</span>个branch的第<span
+class="math inline">\(j\)</span>个 <span class="math inline">\(3 \times
+3\)</span> conv layer。</p>
+<p>在YOWOv2的框架中，2D backbone输出3个level的解耦的feature maps。 <span
+class="math inline">\(F_{cls} = \{F_{cls_{i}}\}_{i=1}^{3}\)</span> 和
+<span class="math inline">\(F_{reg} =
+\{F_{reg_{i}}\}_{i=1}^{3}\)</span>，为了方便，称2D
+backbone的为FreeYOLO。通过控制FreeYOLO的depth和width，设计了两个不同size的FreeYOLO，FreeYOLO-Tiny
+for YOWOv2-Tiny，FreeYOLO-Large for
+YOWOv2-Medium和YOWOv2-Large。为了加速训练，在COCO上预训练带有一个额外
+<span class="math inline">\(1 \times 1\)</span> conv layers的2D
+backbone。</p>
+<ol start="2" type="1">
+<li><font color=red>3D backbone</font>：3D backbone用来从video
+clip中提取spatio-temporal features <span
+class="math inline">\(F_{ST}\)</span> for spatio-temporal
+association。采用高效的3D CNN来减小计算，保证实时检测，为了和decoupled
+spatial features融合，简单地upsample <span
+class="math inline">\(F_{ST}\)</span> 来得到 <span
+class="math inline">\(\{F_{STi}\}_{i=1}^{3}\)</span>，公式如下：</li>
+</ol>
+<p><span
+class="math display">\[\begin{aligned}&amp;F_{ST_{1}}=\mathrm{Upsample}_{4\times}\left(F_{ST}\right)\\&amp;F_{ST_{2}}=\mathrm{Upsample}_{2\times}\left(F_{ST}\right)\\&amp;F_{ST_{3}}=F_{ST}\end{aligned}\]</span></p>
+<p>上采样操作是为了在空间维度上对齐 <span class="math inline">\(F_{ST_i}
+\in \mathbb{R}^{\frac{H}{2^{i+2}}\times\frac{H}{2^{i+2}}\times
+C_{o_2}}\)</span> 和 <span class="math inline">\(F_{cls_i}\)</span>和
+<span class="math inline">\(F_{reg_i}\)</span>。</p>
+<ul>
+<li><font color=red>ChannelEncoder</font>：YOWO提出了Channel
+Encoder，用来融合2D 和3D backbone出来的features。给定一个 <span
+class="math inline">\(F_{S} \in \mathbb{R}^{H_{o}\times W_{o}\times
+C_{o_{1}}}\)</span> 和<span class="math inline">\(F_{ST} \in
+\mathbb{R}^{H_{o}\times W_{o}\times C_{o_{2}}}\)</span>，这个Channel
+Encoder首先在channel dimension上进行concatenates，用两个conv layer
+followed a BN 和LeakyReLU来实现主要的channel integration： <span
+class="math display">\[F_f=f_{conv_2}\left(f_{conv_1}\left(\text{Concat}\left[F_S,F_{ST}\right]\right)\right)\]</span></li>
+</ul>
+<p><span class="math inline">\(F_{f} \in \mathbb{R}^{H_{o}\times
+W_{o}\times C_{o_{3}}}\)</span>，Concat是要给channel
+concatenation操作。然后 <span
+class="math inline">\(F_f\)</span>reshape成<span
+class="math inline">\(F_{f_{2}}\in\mathbb{R}^{C_{o_{3}}\times
+H_{o}W_{o}}\)</span>，用来做之后的 self-attention mechanism inspired by
+DANet，这样包括不同levels的features能够完全的集成。</p>
+<p><span
+class="math display">\[F_{f_{3}}=\text{Softmax}\left(F_{f_{2}}F_{f_{2}}^{T}\right)F_{f_{2}}\]</span></p>
+<p>最后，<span class="math inline">\(F_{f_{3}} \in \mathbb{R}^{C_{o_{3}}
+\times H_{O}W_{o}}\)</span> 通过另一个conv layer被reshape成 <span
+class="math inline">\(F_{f} \in \mathbb{R}^{H_{o}\times W_{o}\times
+C_{o_{3}}}\)</span>。</p>
+<ul>
+<li><font color=red>Decoupled fusion head</font>：YOWOv2中，2D
+backbone输出当前帧的decoupled spatial features，3D backbone输出的是video
+clip上采样的 <span
+class="math inline">\(F_{ST}\)</span>。<strong>注意到，<span
+class="math inline">\(F_{cls_{i}}\)</span>和<span
+class="math inline">\(F_{reg_{i}}\)</span>包含不同的语义信息，因此需要将它们分别和
+<span
+class="math inline">\(F_{ST_{i}}\)</span>融合</strong>，因此设计了一个
+<strong>decoupled fusion head</strong> 来独立地融合 <span
+class="math inline">\(F_{ST_{i}}\)</span> into <span
+class="math inline">\(F_{cls_{i}}\)</span>，<span
+class="math inline">\(F_{reg_{i}}\)</span>。</li>
+</ul>
+<p><span class="math display">\[F_{cls_{i}}^{f}=\text{ChannelEncoder
+}(F_{cls_{i}},F_{ST_{i}})\\F_{reg_{i}}^{f}=\text{ChannelEncoder
+}(F_{reg_{i}},F_{ST_{i}})\]</span></p>
+<p>在feature aggregation之后，用两个并行的branches on each level
+来做最后的detection，设计很简单，一个是分类的branch，一个是box
+regression branch。</p>
+<p>对于分类branch，输出分类的预测 <span
+class="math inline">\(Y_{cls_{i}}\)</span>, <span
+class="math inline">\(Y_{cls_{i}}\)</span> 表示 <span
+class="math inline">\(Y_{cls_{i}}\)</span>上面的每个空间位置的action
+instances的概率。 <span class="math inline">\(N_c\)</span>是action
+classes的数量。Taking <span
+class="math inline">\(F^f_{cls_{i}}\)</span>，分支应用两个 <span
+class="math inline">\(3 \times 3\)</span> conv layers，每个有 <span
+class="math inline">\(C\)</span>个filters，followed by SiLU
+activations。最后，一个 conv layer with <span
+class="math inline">\(N_c\)</span> filters和sigmoid activations来输出
+<span class="math inline">\(N_c\)</span>个binary predictions per spatial
+position。</p>
+<p>对于box regression 分支，输出box regression prediction <span
+class="math inline">\(Y_{reg_{i}}\)</span>，<span
+class="math inline">\(Y_{reg_{i}}\)</span>代表每个空间位置的4个relative
+offsets。另外，一个额外的 $1 $ conv layer with 1
+filter加在了这个分支上for actioness confidence prediction，<span
+class="math inline">\(Y_{conf_{i}}\)</span>，注意到，在每个spatial
+position，没有anchor box，<strong>YOWOv2是 anchor-free</strong>。</p>
+<ul>
+<li><strong>Loss assignment</strong>: 因为YOWOv2是anchor-free的action
+detector without any anchor boxes，multi-lelve label
+assignment重要。最近，dynamic label
+assignment在目标检测领域很成功，受YOLOX的启发，用<strong>SimOAT</strong>
+for the label assignment of YOWOv2。具体地，计算所有predicted
+bboxes和ground truths之间的cost。每个ground truth分配了<span
+class="math inline">\(top_k\)</span>个预测的bboxes with least
+cost，<span class="math inline">\(k\)</span>是由预测的bboxes和target
+bboes之间的IoU决定的。</li>
+</ul>
+<p><span
+class="math display">\[c_{ij}\left(\hat{a}_i,a_j,\hat{b}_i,b_j\right)=L_{cls}(\hat{a}_i,a_j)+\gamma
+L_{seg}(\hat{b}_i,b_j)\]</span></p>
+<p><span class="math inline">\(\hat{\alpha}_i\)</span>和 <span
+class="math inline">\(\alpha_j\)</span>是分类的预测和target，<span
+class="math inline">\(\hat{b}_i\)</span>和 <span
+class="math inline">\(b_j\)</span>是回归的预测和target。<span
+class="math inline">\(\gamma\)</span>是cost平衡系数。</p>
+<ul>
+<li><strong>Loss function</strong>：<span
+class="math display">\[\begin{aligned}
+L(\{a_{x,y}\},\{b_{x,y}\},\{c_{x,y}\})&amp;
+=\frac{1}{N_{pos}}\sum_{x,y}L_{conf}(\hat{c}_{x,y},c_{x,y}) \\
+&amp;+
+\frac{1}{N_{pos}}\sum_{x,y}\mathbb{I}_{\{\hat{a}_{x,y}&gt;0\}}L_{cls}(\hat{a}_{x,y},a_{x,y})
+\\
+&amp;+\frac{\lambda}{N_{pos}}\sum_{x,y}\mathbb{I}_{\{\hat{a}_{x,y}&gt;0\}}L_{reg}(\hat{b}_{x,y},b_{x,y})
+\end{aligned}\]</span></li>
+</ul>
+<p><span class="math inline">\(L_cls\)</span>是binary
+cross-entropy，<span
+class="math inline">\(L_{reg}\)</span>是GIoU损失，<span
+class="math inline">\(a_{x,y}\)</span>，<span
+class="math inline">\(b_{x,y}\)</span>和<span
+class="math inline">\(c_{x,y}\)</span>分别是分类的预测、回归的预测和confidence
+prediction。<span class="math inline">\(\hat{a}_{x,y}\)</span>，<span
+class="math inline">\(\hat{b}_{x,y}\)</span>和<span
+class="math inline">\(\hat{c}_{x,y}\)</span> 是groundtruths。<span
+class="math inline">\(\mathbb{I}_{\{\hat{a}_{x,y}&gt;0\}}\)</span>是indicator
+function，<span class="math inline">\(\hat{a}_{x,y}\)</span> &gt;
+0的时候为1，否则为0。<span
+class="math inline">\(N_{pos}\)</span>是positive的预测的数量。<span
+class="math inline">\(\lambda\)</span>是损失的平衡系数，在实验中为5.</p></li>
+<li><p>实验：实验中表明，<strong>decoupled feature
+fusion</strong>是有必要的，因为<strong>categorical 和regressive
+features的语义信息不一样</strong>；3D
+CNN和光流的方法都会导致计算量过大，很难保证实时性。</p></li>
+</ol>
+<p><img
 src="https://d3i71xaburhd42.cloudfront.net/5f039c1410a764ad673dbb3336d360fad9e4e9e6/2-Figure1-1.png"
-alt="Structure" />
-<figcaption aria-hidden="true">Structure</figcaption>
-</figure>
-<figure>
-<img
+alt="Structure" /> <span class="math inline">\(Fig. \ 1^{[1]}\)</span>.
+Overview of YOWOv2. YOWOv2 uses upsampling operation to align the
+spatio-temporal features output by the 3D backbone with the spatial
+features of each level output by the 2D bakcbone and uses the Decoupled
+fusion head to achieve the fusion of the two features on each level.
+Finally, YOWOv2 outputs the multi-level confidence predictions,
+classification predictions, and regression predictions respectively.</p>
+<p><img
 src="https://d3i71xaburhd42.cloudfront.net/5f039c1410a764ad673dbb3336d360fad9e4e9e6/3-Figure2-1.png"
-alt="channel encoder" />
-<figcaption aria-hidden="true">channel encoder</figcaption>
-</figure>
-<figure>
-<img
+alt="channel encoder" /> <span class="math inline">\(Fig. \
+2^{[1]}\)</span>. Overview of ChannelEncoder. It contains the channel
+fusion and channel self-attention mechanism, which are both used to fuse
+2D and 3D features.</p>
+<p><img
 src="https://d3i71xaburhd42.cloudfront.net/5f039c1410a764ad673dbb3336d360fad9e4e9e6/4-Figure3-1.png"
-alt="Coupled fusion head" />
-<figcaption aria-hidden="true">Coupled fusion head</figcaption>
-</figure>
+alt="Coupled fusion head" /> <span class="math inline">\(Fig. \
+3^{[1]}\)</span>. Coupled fusion head. In the coupled head, the spatial
+features from the 2D backbone is also coupled which means that the
+parallel 3 × 3 conv layers after the FPN are removed.</p>
 
     </div>
 
@@ -338,13 +607,13 @@ alt="Coupled fusion head" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">66k</span>
+    <span title="站点总字数">69k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:01</span>
+    <span title="站点阅读时长">4:10</span>
   </span>
 </div>
 <div class="busuanzi-count">
