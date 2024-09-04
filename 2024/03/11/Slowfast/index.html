@@ -27,7 +27,7 @@
 <meta property="og:description" content="SlowFast Networks for Video Recognition[1]  作者是来自FAIR的Christoph Feichtenhofer, Haoqi Fan, Jitendra Malik, and Kaiming He.论文引用[1]:Feichtenhofer, Christoph et al. “SlowFast Networks for Video Recog">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-11T11:12:30.000Z">
-<meta property="article:modified_time" content="2024-04-14T03:21:18.000Z">
+<meta property="article:modified_time" content="2024-09-04T02:44:55.774Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
@@ -130,7 +130,7 @@ recognition</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a 
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-count">83</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -141,7 +141,7 @@ recognition</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a 
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@ recognition</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a 
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-04-14 11:21:18" itemprop="dateModified" datetime="2024-04-14T11:21:18+08:00">2024-04-14</time>
+      <time title="修改时间：2024-09-04 10:44:55" itemprop="dateModified" datetime="2024-09-04T10:44:55+08:00">2024-09-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,7 +238,7 @@ recognition</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a 
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>721</span>
+      <span>845</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -340,20 +340,33 @@ target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4477329
 <li>数据集的格式和要求</li>
 </ol>
 <p>下次弄完了再更</p>
+<ol start="2" type="1">
+<li>AVA的Google官网没有提供视频的下载，有视频下载的链接：
+<ul>
+<li>trainval/test:
+<code>https://github.com/ItzJuny/Download-AVA_Kinetics-and-AVA_Actions/tree/master/ava-actions</code>,
+<code>https://github.com/cvdfoundation/ava-dataset</code></li>
+<li>这个链接也可以，还有后续的处理步骤：<code>https://github.com/yjh0410/AVA_Dataset</code>,</li>
+<li>在YOWOv3这个仓库里，有ucf24和AVA的下载链接，<code>https://github.com/Hope1337/YOWOv3</code></li>
+<li>VideoMAE-Action-Detection处理的ava和其他的不太一样：<code>https://github.com/MCG-NJU/VideoMAE-Action-Detection/blob/main/DATASET.md</code></li>
+<li>SlowFast的处理的AVA：<code>https://github.com/facebookresearch/video-long-term-feature-banks/blob/main/DATASET.md</code></li>
+</ul></li>
+<li></li>
+</ol>
 <p>AVA格式数据集制作的相关参考链接：</p>
 <ul>
-<li><p>https://github.com/Blueyao17/self-made_ava_dataset_tool</p></li>
-<li><p>https://blog.csdn.net/WhiffeYF/article/details/124358725?spm=1001.2014.3001.5502</p></li>
-<li><p>https://blog.csdn.net/weixin_43720054/article/details/126298006</p></li>
-<li><p>https://github.com/Whiffe/Custom-ava-dataset_Custom-Spatio-Temporally-Action-Video-Dataset</p></li>
-<li><p>https://blog.csdn.net/lanyan90/article/details/125796563?spm=1001.2014.3001.5502</p></li>
-<li><p>https://blog.csdn.net/Bluemoon17/article/details/123238573</p></li>
-<li><p>https://www.jianshu.com/p/0784ebc269a5</p></li>
-<li><p>https://blog.csdn.net/qq_45672807/article/details/123294954</p></li>
-<li><p>https://github.com/wufan-tb/yolo_slowfast</p></li>
-<li><p>https://blog.csdn.net/WhiffeYF/article/details/115375949?spm=1001.2014.3001.5501</p></li>
-<li><p>https://blog.csdn.net/WhiffeYF/article/details/115444694</p></li>
-<li><p>https://blog.csdn.net/WhiffeYF/article/details/115431794</p></li>
+<li><p><code>https://github.com/Blueyao17/self-made_ava_dataset_tool</code></p></li>
+<li><p><code>https://blog.csdn.net/WhiffeYF/article/details/124358725?spm=1001.2014.3001.5502</code></p></li>
+<li><p><code>https://blog.csdn.net/weixin_43720054/article/details/126298006</code></p></li>
+<li><p><code>https://github.com/Whiffe/Custom-ava-dataset_Custom-Spatio-Temporally-Action-Video-Dataset</code></p></li>
+<li><p><code>https://blog.csdn.net/lanyan90/article/details/125796563?spm=1001.2014.3001.5502</code></p></li>
+<li><p><code>https://blog.csdn.net/Bluemoon17/article/details/123238573</code></p></li>
+<li><p><code>https://www.jianshu.com/p/0784ebc269a5</code></p></li>
+<li><p><code>https://blog.csdn.net/qq_45672807/article/details/123294954</code></p></li>
+<li><p><code>https://github.com/wufan-tb/yolo_slowfast</code></p></li>
+<li><p><code>https://blog.csdn.net/WhiffeYF/article/details/115375949?spm=1001.2014.3001.5501</code></p></li>
+<li><p><code>https://blog.csdn.net/WhiffeYF/article/details/115444694</code></p></li>
+<li><p><code>https://blog.csdn.net/WhiffeYF/article/details/115431794</code></p></li>
 </ul>
 
     </div>
@@ -415,7 +428,7 @@ target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4477329
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:17</span>
+    <span title="站点阅读时长">4:20</span>
   </span>
 </div>
 <div class="busuanzi-count">
