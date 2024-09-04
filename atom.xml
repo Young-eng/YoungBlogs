@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-09-03T08:41:57.170Z</updated>
+  <updated>2024-09-04T06:26:40.865Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker配置及使用</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/09/04/Docker%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/09/04/Docker%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8/</id>
+    <published>2024-09-04T06:22:14.000Z</published>
+    <updated>2024-09-04T06:26:40.865Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="docker的配置及使用">Docker的配置及使用</h3><ol type="1"><li><p>windows和linux安装docker的方式有点不一样，但也不复杂，主要的地方在于需要弄一个registry_mirror，虽然不知道还有没有效，当然，能科学上网的话就方便很多了。</p></li><li></li></ol><span id="more"></span><h3 id="参考链接">参考链接：</h3><ul><li><p><code>https://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html</code>，阮一峰老师的博客</p></li><li><p><code>https://docker-practice.github.io/zh-cn/image/pull.html</code>,DockerPractice</p></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;docker的配置及使用&quot;&gt;Docker的配置及使用&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;windows和linux安装docker的方式有点不一样，但也不复杂，主要的地方在于需要弄一个registry_mirror，虽然不知道还有没有效，当然，能科学上网的话就方便很多了。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
+    
+    
+    <category term="Docker" scheme="https://young-eng.github.io/YoungBlogs/tags/Docker/"/>
+    
+  </entry>
   
   <entry>
     <title>SLAM 学习记录</title>
@@ -570,19 +595,26 @@ qwen2:7b这样来下载模型，也可以下载模型的GGUF文件，然后需�
     <link href="https://young-eng.github.io/YoungBlogs/2024/08/14/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/08/14/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</id>
     <published>2024-08-14T09:51:44.000Z</published>
-    <updated>2024-08-14T09:51:44.872Z</updated>
+    <updated>2024-09-04T13:49:43.177Z</updated>
     
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
+    <content type="html"><![CDATA[<h3 id="强化学习">强化学习</h3><ol type="1"><li>基本概念<ul><li>智能体(agent)</li><li>环境(environment)</li></ul></li></ol><span id="more"></span><ol start="2" type="1"><li><p>马尔可夫决策过程：智能体与环境交互进行学习最终实现目标的过程就是马尔可夫决策过程(MarkovDecisionProcess,MDP)：智能体与环境交互的过程：在t时刻，智能体在当前状态<spanclass="math inline">\(S_t\)</span>采取动作 <spanclass="math inline">\(A_t\)</span>。在下一时刻 <spanclass="math inline">\(t+1\)</span>，智能体接收到环境反馈的对于动作 <spanclass="math inline">\(A_t\)</span>的奖励 <spanclass="math inline">\(R_{t+1}\)</span>，以及该时刻状态 <spanclass="math inline">\(S_{t+1}\)</span>。从而，MDP和智能体共同给出一个轨迹：<span class="math display">\[S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2,R_3, S_3, A_3, ...\]</span> <spanclass="math inline">\(S_t\)</span>是有限状态的集合，<spanclass="math inline">\(A_t\)</span>是有限动作的集合，<spanclass="math inline">\(P\)</span>是基于环境的状态转移矩阵：其中每一个项为智能体在某个状态下<spanclass="math inline">\(s\)</span>下，采取动作 <spanclass="math inline">\(a\)</span>后，与环境交互后转移到其它状态 <spanclass="math inline">\(s&#39;\)</span>的概率值，表示为 <spanclass="math inline">\(P(S_{t+1}=s&#39;|s_t = s, a_t = a)\)</span>。</p><p>R是奖励函数：智能体在某个状态<spanclass="math inline">\(s\)</span>下，采取动作a后，与环境交互后所获得的奖励，表示为<spanclass="math inline">\(R(s_t = s, a_t = a)\)</span>。 <spanclass="math inline">\(\gamma\)</span>是折扣因子(discounted factor),取值区间为[0,1]。</p><p>所以<strong>MDP过程可以表示为 <spanclass="math inline">\((S,A,P,R,\gamma)\)</span>，如果该过程中的状态转移矩阵<spanclass="math inline">\(P\)</span>和奖励 <spanclass="math inline">\(R(s,a)\)</span>对智能体都是可见的，称这样的Agent为Model-basedAgent，否则称为Model-free Agent</strong>。</p></li><li><p>策略梯度定理：策略函数的参数化可表示为 <spanclass="math inline">\(\pi_{\theta}(s,a)\)</span>，其中<spanclass="math inline">\(\theta\)</span>为一组参数，函数取值表示在状态<spanclass="math inline">\(s\)</span>下选择动作a的概率。为了优化策略函数，首先需要有一个对策略函数优劣进行衡量的标准。假设强化学习问题的初始状态为<span class="math inline">\(s_0\)</span>，则希望达到最大化的目标为：<span class="math display">\[J(\theta):=V_{\pi_\theta}(s_0)\]</span>其中, <span class="math inline">\(v_{\pi_theta}\)</span>是在策略 <spanclass="math inline">\(\pi_{\theta}\)</span>下的真实价值函数，这个价值函数代表衡量一个状态的价值，<strong>即一个状态采取所有行为后的一个价值的期望值</strong>。如果能求出梯度<spanclass="math inline">\(\nabla_{\theta}J(\theta)\)</span>，就可以用<strong>梯度上升法</strong>求解这个问题，即求解价值函数的最大值。</p><p>在这个函数中，<spanclass="math inline">\(J(\theta)\)</span>既依赖于动作的选择，又依赖于动作选择时所处状态的分布。给定一个状态，策略参数对动作选择及收益的影响可以根据参数比较直观地计算出来，但因为状态分布和环境有关，所以策略参数对动作选择及收益的影响可以根据参数比较直观地计算出来，但因为状态分布和环境有关，所以策略对状态分布的影响一般很难确切知道。<spanclass="math inline">\(J(\theta)\)</span>对模型参数的梯度却依赖于这种未知的影响，那么如何估计这个梯度呢。Sutton等人在文献中给出了这个梯度的表达式： <spanclass="math display">\[\nabla_\thetaJ(\theta)\propto\sum_s\mu_{\pi_\theta}(s)\sum_aq_{\pi_\theta}(s,a)\nabla_\theta\pi_\theta(s,a)\]</span>其中，<span class="math inline">\(\mu_{\pi_\theta}(s)\)</span>称为策略<span class="math inline">\(\pi_{theta}\)</span>的策略分布。在持续问题中，<spanclass="math inline">\(\mu_{\pi_\theta}(s)\)</span>为算法 <spanclass="math inline">\(s_0\)</span>出发经过无限多步后位于状态 <spanclass="math inline">\(s\)</span>的概率。</p></li><li><p>蒙特卡洛策略梯度定理：更具策略梯度定理表达式计算策略梯度并不是一个简单的问题，其中对<spanclass="math inline">\(\mu_{\pi_\theta}\)</span>和 <spanclass="math inline">\(q{\pi_\theta}\)</span>的准确比较难。用蒙特卡洛法能用来估计这类问题的取值。</p></li><li><p>REINFORCE算法：REINFORCE（蒙特卡洛策略梯度）算法是一种策略参数学习方法，其中策略参数<span class="math inline">\(\theta\)</span>的更新方法为梯度上升法，它的目标是为了最大化性能指标 <spanclass="math inline">\(J(\theta)\)</span>，其更新公式为：</p><p><spanclass="math display">\[\theta_{t+1}=\theta_t+\alpha\widehat{\nablaJ(\theta_t)}\]</span> 根据蒙特卡洛定理中对 <spanclass="math inline">\(\nabla_\theta J(\theta)\)</span>的计算，则有：</p><p><span class="math display">\[\nabla_\thetaJ(\theta)=\mathbb{E}_{s,a\sim\pi}[G_t\nabla_\theta\ln\pi_\theta(s,a)]\]</span>根据上述梯度更新公式，得到蒙特卡洛策略梯度更新公式：</p><p><spanclass="math display">\[\theta=\theta+\eta\gamma^{&#39;}G\nabla_\theta\ln\pi_\theta(s_t,a_t)\]</span>其中， <span class="math inline">\(\Eta\)</span>为学习率，<spanclass="math inline">\(\gamma&#39;\)</span>为衰减率，在REINFORCE算法中，暂不考虑衰减问题，设置<spanclass="math inline">\(\gamma&#39;=1\)</span>。</p><p>REINFOCE算法流程： 输入：马尔可夫决策过程<spanclass="math inline">\(MDP=(S,A,P,R,\gamma)\)</span>，即状态，智能体，决策，奖励和折现系数。输出：策略<span class="math inline">\(\pi(a|s,\theta)\)</span>。即在状态为<spanclass="math inline">\(s\)</span>，参数为<spanclass="math inline">\(\theta\)</span>的条件下，选择动作a的概率，具体流程如下：</p><ol type="1"><li>随机初始化；</li><li>repeat</li><li>根据一个策略<spanclass="math inline">\(\pi_{\theta}\)</span>采样一个片段(episode，即智能体由初始状态不断通过动作与环境交互，直至终止状态的过程)，得到<spanclass="math inline">\(s_0,a_0,R_1,s_1,a_1,r_2,...,s_{T-1},a_{T-1},R_T\)</span>；<ol type="1"><li>for t <span class="math inline">\(\leftarrow\)</span> 0 to <spanclass="math inline">\(T-1\)</span> do <span class="math inline">\(G=\sum_{k=t}^{T-t}\gamma_{k-t}R_{t+k}\)</span>；G是对回报的计算，回报是奖励随时间步的积累，这里<span class="math inline">\(\gamma=1\)</span>。 <spanclass="math inline">\(\theta=\theta+\eta \gamma&#39;G\nabla_\theta\ln\pi_\theta(s_t,a_t)\)</span>；其中<spanclass="math inline">\(\eta\)</span>是学习率，策略梯度采用神经网络来拟合策略梯度函数，计算策略梯度用于优化策略网络。</li><li>end for</li></ol></li><li>until 收敛；</li></ol></li><li><p><strong>SARSA(State-Action-Reward-State-Action)是一个学习马尔可夫决策过程策略的算法</strong>，通常用于机器学习和强化学习领域中。其学习更新函数依赖的5个值：**当前状态S1，当前状态选中的动作A1，获得的奖励Reward，S1状态下执行A1后取得的状态S2及S2状态下将会执行的动作A2。核心思想简化为：<span class="math display">\[Q(S_t,A_t)=Q(S_t,A_t)+\alpha[R_{t+1}+\gammaQ(S_{t+1},A_{t+1})-Q(S_t,A_t)]\]</span></p><p>其中， <span class="math inline">\(Q(S_{t+1},A_{t+1})\)</span>是下一时刻的状态和实际采取的行动对应的Q值，<spanclass="math inline">\(Q(S_{t},A_{t})\)</span>是当前时刻的状态和实际采取的行动对应的Q值，折扣因子<spanclass="math inline">\(\gamma\)</span>的取值范围为[0,1]，其本质是一个衰减值，如果gamma更接近0，agent趋向于只考虑瞬时奖励值；反之如果接近1，则agent为延迟奖励赋予更大的权重，侧重于延迟奖励；奖励值<spanclass="math inline">\(R_{t+1}\)</span>为 t+1时刻得到的奖励值，<spanclass="math inline">\(\alpha\)</span>是学习率。</p></li><li><p><strong>Q-Learning</strong>：<strong>Q-Learning属于值函数近似算法中，蒙特卡洛方法和时间差分法结合的算法。Q-Learning假设可能出现的动作a和状态S是有限多，这时a和S的全部组合也是有限多个</strong>，并且引入价值量Q表示智能体认为做出某个a时所能够获得的利益。在这种假设下，智能体收到S，选择可以产生最大的Q的a。</p><ul><li>Q-learning的训练过程就是Q表的Q值逐渐调整的过程，其核心是根据已经知道的Q值，当前选择行动a作用于环境获得的回报R，和下一轮<spanclass="math inline">\(S_{t+1}\)</span>对应可以获得的最大利益Q，总共3个量，进行加权求和算出新的Q值，来更新Q表：<span class="math display">\[Q(S_t,A_t)=Q(S_t,A_t)+\alpha[R_{t+1}+\gammamax Q(S_{t+1},a)-Q(S_t,A_t)]\]</span></li></ul><p>其中，<span class="math inline">\(Q(S_{t+1},a)\)</span>是在<spanclass="math inline">\(t+1\)</span>时刻的状态和采取的行动(并不是实际行动，所以公式采用了所有可能采取行动的Q的最大值)对应的Q值，<spanclass="math inline">\(Q(S_{t},a_t)\)</span>是当前时刻的状态和实际采取的行动对应的Q值，折扣因子 <spanclass="math inline">\(\gamma\)</span>的取值范围为[0,1]。</p><p>Q-Learning的缺点是有限且离散的状态。</p></li><li><p><strong>DQN</strong>：当状态比较多的时候，Q表格很难进行存储。为了解决这个问题，一种解决方案是将Q表格参数化，使用深度神经网络拟合动作价值函数<spanclass="math inline">\(q_{\pi}\)</span>。<strong>参数化可以解决无限状态下的动作价值函数的存储问题，因为算法只需记住一组参数，动作价值函数的具体值可根据这一组参数算出</strong>。</p><p>但是，动作价值函数的参数化也会带来一些新的问题：因为相邻样本来自同一条轨迹，会导致样本间关联性过强，而集中优化关联性过强的样本会导致神经网络处理其他样本时无法取得较好的结果。有人提出了深度Q网络(DeepQ-Network,DQN)，其本质是Q-learning算法，<strong>但使用深度学习网络拟合Q函数，解决了无线状态下的动作价值函数存储问题，同时采用经验重现(ExperienceReplay)和固定Q目标(Fixed-Q-Target)两个创新点来解决上述问题</strong>。</p><ul><li><font color=red>经验重现(ExperienceReplay)</font>：使用一个经验池存储多条经验<spanclass="math inline">\(s,a,r,s&#39;\)</span>，再从中随机抽取一批用于训练，很好地解决了样本关联性的问题，同时，因为经验池里的经验可以得到重复利用，也提升了效率。</li><li><font color=red>固定Q目标(Fixed-Q-target)</font>：复制一个和原来Q网络结构一样的TargetQ网络，用于计算Q目标值，这样在原来的Q网络中，targetQ就是一个固定的数值，不会再产生优化目标不明确的问题。</li></ul><p>流程：再DQN算法中，智能体会在与所处环境中<spanclass="math inline">\(environment\)</span>进行交互后，获得一个环境提供的状态<spanclass="math inline">\(s_t\)</span>。接受状态后，智能体会根据深度学习网络预测出在该状态下不同行动<spanclass="math inline">\(action\)</span>对应的Q值，并给出一个行动<spanclass="math inline">\(a_t\)</span>，当行动反馈给环境后，环境会给出对应的奖励<spanclass="math inline">\(r_t\)</span>、新的状态<spanclass="math inline">\(s_{t+1}\)</span>，以及是否触发终止条件<spanclass="math inline">\(done\)</span>，每一次交互完成后，DQN算法都会将<span class="math inline">\(s_t, a_t, r_t, s_{t+1},done\)</span>作为一条经验存储在经验池中，每次会从经验池中抽取一定量的经验作为输入数据训练神经网络。</p><p>具体流程：</p><ol type="1"><li>初始化经验池，随机初始化Q网络；</li><li>for episode=1,M do:</li><li>重置环境，获得第一个状态；</li><li>for t=1, T do:<ol type="1"><li><p>用 <span class="math inline">\(\epsilon-greedy\)</span>策略生成一个action；其中有 <spanclass="math inline">\(\epsilon\)</span>的概率会随机选择一个action，即为探索模式；其它情况下，则 <spanclass="math inline">\(a_t = max_a Q(s_t,a;\theta)\)</span>，选择在 <spanclass="math inline">\(s_t\)</span>状态下使得Q最大的action，即为经验模式；</p></li><li><p>根据动作与环境的交互，获得反馈的reward <spanclass="math inline">\(r_t\)</span>、下一个状态 <spanclass="math inline">\(s_{t+1}\)</span>和是否触发终止条件done。</p></li><li><p>将经验 <span class="math inline">\(s_t, a_t, r_t,s_{t+1},done\)</span> 存入经验池；</p></li><li><p>从经验池中随机获取一个minibatch的经验；</p></li><li><p><spanclass="math inline">\(\left.Qtarget_t=\left\{\begin{array}{c}r_t,\quadif done\\r_t+\gammamax_{a^{\prime}}Qtarget(s_{t+1},a^{&#39;};\theta),\quad if notdone\end{array}\right.\right.\)</span></p></li><li><p>根据<span class="math inline">\(Qpred_t\)</span>和 <spanclass="math inline">\(Qtarget_t\)</span>求loss，梯度下降法更新Q网络。</p></li></ol></li><li>end for</li><li>每隔固定个episode，更新Qtarget网络</li><li>end for</li></ol></li><li><p><strong>Actor-Critic</strong>：在REINFORCE算法中，每次需要根据一个策略采集一条完整的轨迹，并计算这条轨迹上的回报，这种采样的方式的方差比较大，学习效率比较低。可以借鉴时序差分学习的思路，使用<strong>动态规划</strong>来提高采样的效率，即从状态s开始的总回报可以通过当前动作的即时奖励<spanclass="math inline">\(r(s,a,s&#39;)\)</span>和下一个状态<spanclass="math inline">\(s&#39;\)</span>的值函数来近似估计。演员-评论家算法(Actor-Critic)是一种结合策略梯度和时序差分学习的强化学习算法，包括：演员(Actor)和评价者(Critic)，跟生成对抗网络(GAN)的流程类似：</p><ul><li>演员(Actor)是指策略函数 <spanclass="math inline">\(\pi_{\theta}(a|s)\)</span>，即学习一个策略来得到尽量高的回报，用于生成动作(Action)并和环境交互。</li><li>评论家(Critic)是指值函数<spanclass="math inline">\(V^{\pi}(s)\)</span>，对当前策略的值函数进行估计，即评估演员的好坏。用于评估Actor的表现，并指导Actor下一阶段的动作。</li></ul><p>借助于值函数，演员-评论家算法可以进行单步更新参数，不需要等到回合结束才进行更新。在Actor-Critic算法里，最知名的方法就是A3C(Asynchronous AdvantageActor-Critic)。</p><ul><li>如果去掉Asynchronous,只有AdvantageActor-Critic，就叫做<strong>A2C</strong>。</li><li>如果加上了Asynchronous，变成Asynchronous AdvantageActor-Critic，就变成<strong>A3C</strong>。</li></ul><p>Actor-Critic是Q-learning和PolicyGradient的结合，为了导出Actor-Critic算法，必须先了解PolicyGradient算法是如何一步步优化策略的。</p></li></ol><h3 id="参考链接">参考链接</h3><ul><li><code>https://paddlepedia.readthedocs.io/en/latest/tutorials/reinforcement_learning/index.html</code>,PaddlePaddle 强化学习</li></ul><figure><imgsrc="https://github.com/ZhangHandi/images-for-paddledocs/blob/main/images/reinforcement_learning/MDP.png?raw=true"alt="智能体-环境交互过程" /><figcaption aria-hidden="true">智能体-环境交互过程</figcaption></figure><figure><imgsrc="https://raw.githubusercontent.com/w5688414/paddleImage/main/rl_img/dqn_alg.png"alt="Reinforcement Learning" /><figcaption aria-hidden="true">Reinforcement Learning</figcaption></figure>]]></content>
     
     
+    <summary type="html">&lt;h3 id=&quot;强化学习&quot;&gt;强化学习&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;基本概念
+&lt;ul&gt;
+&lt;li&gt;智能体(agent)&lt;/li&gt;
+&lt;li&gt;环境(environment)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
+    
+    
+    <category term="Learning" scheme="https://young-eng.github.io/YoungBlogs/categories/Learning/"/>
+    
+    
+    <category term="Reinforcement Learning" scheme="https://young-eng.github.io/YoungBlogs/tags/Reinforcement-Learning/"/>
     
   </entry>
   
@@ -820,31 +852,6 @@ region information&lt;/p&gt;&lt;/li&gt;
     
     
     <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ubuntu with Nvidia Drivers</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/05/22/Ubuntu-with-Nvidia-Drivers/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/05/22/Ubuntu-with-Nvidia-Drivers/</id>
-    <published>2024-05-22T10:30:43.000Z</published>
-    <updated>2024-05-22T10:38:38.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="在ubuntu-20.04里安装-nvidia-rtx-3060显卡的驱动">在Ubuntu20.04里安装 Nvidia RTX 3060显卡的驱动</h3><ol type="1"><li><p>之前照着网上的教程弄过一次，记得是通过命令行来弄的，结果搞得黑屏，好不容易解决了黑屏的问题，进入桌面之后，显示不了Wifi和蓝牙，好像缺了很多东西，搞得很狂躁。这两天跑Tracking，大部分是Ubuntu环境下的，就趁这次机会重装一下系统，然后找个新的教程</p></li><li><p>找到了两个方式：</p><ul><li>通过 Ubuntu 自带的Software &amp; updates里头的additionaldrivers里，能看到有Nvidia的显卡驱动，勾一个合适的就行，很简单。。全程没有什么bug。。害得我上次弄了好久。</li><li>去nvidia官网上下载驱动，名称一般是Nvidia-Linux-xxx.run，运行的时候需要先禁用掉 nouveau，在哪个文件里加上:blacklist nouveau, options nouveaumodeset=0，然后重启，看看lsmod一下，看看nouveau有没有被禁用掉。然后运行.run文件，在运行.run文件的时候：提示可以用Ubuntu里 additionaldrivers来安装。</li></ul></li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3 id=&quot;在ubuntu-20.04里安装-nvidia-rtx-3060显卡的驱动&quot;&gt;在Ubuntu
-20.04里安装 Nvidia RTX 3060显卡的驱动&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;之前照着网上的教程弄过一次，记得是通过命令行来弄的，</summary>
-      
-    
-    
-    
-    <category term="methods" scheme="https://young-eng.github.io/YoungBlogs/categories/methods/"/>
-    
     
   </entry>
   
