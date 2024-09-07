@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-09-04T06:26:40.865Z</updated>
+  <updated>2024-09-07T07:34:45.718Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>internLM 学习</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/09/07/internLM-%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/09/07/internLM-%E5%AD%A6%E4%B9%A0/</id>
+    <published>2024-09-07T07:33:07.000Z</published>
+    <updated>2024-09-07T07:34:45.718Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="记录一下参加internlm活动的学习过程">记录一下参加internLM活动的学习过程</h3><ol type="1"><li>InternLM的链接为<code>https://github.com/InternLM/Tutorial</code>,</li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3
+id=&quot;记录一下参加internlm活动的学习过程&quot;&gt;记录一下参加internLM活动的学习过程&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;InternLM的链接为
+&lt;code&gt;https://github.com/InternLM/Tutorial&lt;/cod</summary>
+      
+    
+    
+    
+    <category term="Learning" scheme="https://young-eng.github.io/YoungBlogs/categories/Learning/"/>
+    
+    
+    <category term="LLM" scheme="https://young-eng.github.io/YoungBlogs/tags/LLM/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker配置及使用</title>
@@ -801,57 +829,6 @@ Recognition (CVPR) (2022): 9686-9696.&lt;/p&gt;
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>Mixformer</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/05/22/Mixformer/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/05/22/Mixformer/</id>
-    <published>2024-05-22T14:33:43.000Z</published>
-    <updated>2024-05-30T16:11:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="mixformer-end-to-end-tracking-with-iterative-mixed-attention1">MixFormer:End-to-End Tracking with Iterative Mixed Attention<sup>[1]</sup></h3><blockquote><p>作者是来自南大的Yutao Cui, Cheng Jiang, Limin Wang, Gangshan Wu.论文引用[1]:Cui, Yutao et al. “MixFormer: End-to-End Tracking withIterative Mixed Attention.” 2022 IEEE/CVF Conference on Computer Visionand Pattern Recognition (CVPR) (2022): 13598-13608.</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>compact tracking framework</li><li>unify the feature extraction and target integration solely with atransformer-based architecture</li></ul><h3 id="votmotsot的区别">VOT，MOT,SOT的区别</h3><ol type="1"><li>VOT是标首帧，MOT是多目标追踪，SOT是单目标追踪。</li></ol><h3 id="动机">动机</h3><ol type="1"><li><p>Tracking经常用多阶段的pipeline：<strong>featureextraction，target information integration，bounding boxestimation</strong>。为了简化这个pipeline，作者提出了一个紧凑的tracking框架，名为MixFormer。</p></li><li><p>target information integration解释： fuse the target and searchregion information</p></li></ol><span id="more"></span><h3 id="总结">总结</h3><ol type="1"><li><p>核心设计利用是attentation操作的灵活，提出了Mixed AttentionModule(MAM) for simultaneous feature extraction and target informationintegration. 这个即时的modeling scheme，能够抽取target-specificdiscriminative features以及在target和searcharea之间能够进行大量的communication。基于MAM,通过堆叠MAMs withprogressive patch embedding 和place a localization head ontop，来构建MixFormer追踪框架。</p></li><li><p>为了在onlinetracking的时候处理多个目标的template，在MAM中设计了一个非对称的注意力，来减小计算成本，提出了一个有效的scoreprediction module来选择高质量的template。</p></li><li><p>视觉目标追踪的仍然是有很多挑战，包括：scale variations, objectdeformations, occlusions, confusion from similar objects.</p></li><li><p>之前的流行的trackers通常包括几个部分：</p><ul><li>a backbone 来提取tracking target和 search area 的feature，</li><li>为了后续的target-aware的定位，一个集成的模块(integrationmodule)来使得tracking target和search area进行信息交流</li><li>task-specific heads来精确地定位目标和估计bounding box.</li></ul></li><li><p>集成模块(integration moduel) 是追踪算法的关键，它能够整合targetinformation，在通用特征提取和目标感知定位架起桥梁。传统的集成方法包括correlation-basedoperations(e.g., SiamFC, SiamRPN, CRPN, SiamFC++, 将Simaese网络和correlation操作结合起来，对target和search之间的全局依赖进行建模),online learning 算法(e.g., DCF, KCF, ATOM, FCOT，对于有区别的tracking，学习到独立于目标的model)，最近，多亏了全局和动态的modelingcapacity，引入了transformer来进行基于注意力的integration，有了很好的效果(STMTrack,STARK)，然而，这些基于transformer的trackers仍然基于CNN作为特征提取例如ResNet，仅仅用attention操作 in the latter high-level and abstract representation space.CNN是有限的，它们通常用来pre-trained for 通用目标提取，可能忽略finestructure information for tracking.CNN用局部卷积核，缺乏全局建模能力。</p></li><li><p>为了解决以上问题，在tracking frameworkdesign上，提出了新的思路。通用特征提取和target informationintegration集成到一个统一的框架，coupled processing paradigm有很多好的advantages:</p><ul><li>能够使得feature extraction to be more specific to the correspondingtracking target and capture more target-specific discriminativefeatures.</li><li>能够使得target information to be more extentively 集成到search area,然后更好地capture their correlation</li><li>得到一个更为紧凑的tracking pipelien with a single backbone andtracking head, without an explicit integration module.</li></ul></li><li><p>Attention module是一个非常灵活的架构，building block wiht dynamicand global modeling capacity, 提出了一个mixed attentionmodule(MAM)，能够同时进行特征提取和 mutual interaction of targettemplate and search area。在MAM中，设计了一个混合的interactionscheme，包括自注意力和cross-attention operations on tokens from templateand search area。自注意力能够抽取target or searcharea的自己的特征，然而cross-attention allows for communications betweenthem(search and target area) to mix the target and search areainformations。为了降低MAM的计算成本，能够使得多个templates 来处理obectdeformation，提出了一个定制的非对称的attentionscheme通过修建不必要的target-to-search area cross-attention.</p></li><li><p>MixFormer backone: 通过堆叠Patchembedding和MAM，最后放一个简单的localization head 来得到整个的trackingframework。 为了处理追踪过程中的目标变形，提出了基于target templateupdate机制的score，MixFormer能够容易地适应multiple target templateinputs.</p></li><li><p>最近的trackers引入了基于transformer的integrationmodule，来得到更复杂的依赖(dependencies),实现更好的效果。</p></li><li><p>MAM的输入使target template和searcharea。旨在提取long-range特征，融合它们之间的特征。和原始的MHA不同，MAM执行dualattention operations on two separate tokens sequences of target templateand search area. 对每个sequences上的tokens进行自注意力来得到target orsearch specific information；同时，对来自2个sequencnes的tokens进行crossattention来得到target template and searcharea的交互信息。通过拼接concatenated token sequences来进行mix attentionmechanism.</p></li><li><p>给定一个concatenated tokens of multiple targets andsearch，首先将其分成2个部分，然后reshape成一个2D的featuremap，为了实现additional modeling of local spatial context, 在每个featuremap上用一个可分离的depth-wise convolutional projection layer. target和search的每个feature map 然后通过linear project 来得到queries, keys,values of the attention operation. <span class="math inline">\(q_t, k_t,v_t\)</span>代表target, <span class="math inline">\(q_s, k_s,v_s\)</span>代表search region. mixed attention的定义如下: <spanclass="math display">\[\begin{aligned}&amp;k_{m}=\mathrm{Concat}(k_{t},k_{s}),\quadv_{m}=\mathrm{Concat}(v_{t},v_{s}),\\&amp;\mathrm{Attention}_{\mathrm{t}}=\mathrm{Softmax}(\frac{q_{t}k_{m}^{T}}{\sqrt{d}})v_{m},\\&amp;\mathrm{Attention}_{s}=\mathrm{Softmax}(\frac{q_{s}k_{m}^{T}}{\sqrt{d}})v_{m},\end{aligned}\]</span></p><ul><li><span class="math inline">\(Attention_s\)</span>和<spanclass="math inline">\(Attention_t\)</span>包含了featureextraction和信息融合，最后，targets token 和search token通过一个linearprojection 进行concatenated 和processed。</li></ul></li><li><p>非对称的mixed attention scheme：通过剪掉不必要的target-to-searcharea cross-attention，降低了MAM的计算成本，能够高效地用multipletemplates来处理目标变形的问题。</p><p><spanclass="math display">\[\begin{aligned}&amp;k_{m}=\mathrm{Concat}(k_{t},k_{s}),\quadv_{m}=\mathrm{Concat}(v_{t},v_{s}),\\&amp;\mathrm{Attention}_{\mathrm{t}}=\mathrm{Softmax}(\frac{q_{t}k_{m}^{T}}{\sqrt{d}})v_{m},\\&amp;\mathrm{Attention}_{s}=\mathrm{Softmax}(\frac{q_{s}k_{m}^{T}}{\sqrt{d}})v_{m},\end{aligned}\]</span></p></li><li><p>Corner-based localization head: 受STARK的启发，用了全卷积的cornerbased localization head来估计tracked object的boundingbox。通过计算corner probability distribution，来得到boundingbox。</p></li><li><p>Query based localization head:在最后一个stage的序列中，加了一个可学习的regressiontoken，用这个token作为anchor来aggregate整个目标和搜索区域的信息。最后一个3个fclayers的FFN来回归bounding box。不需要后处理。</p></li><li><p><strong>Training</strong>:用CVT模型对MAM进行预训练，然后再整个目标dataset上进行微调。</p></li><li><p><strong>Template Online Update</strong>:这个再得到时序信息和处理目标形变、外观变化上很重要，在追踪的时候，低质量的templates可能导致较差的追踪性能。引入了一个scoreprediction module(SPM)。SPM由2个attention blocks，three-layerperceptron组成。一个可学习的<em>score token</em>和search ROItokens进行attention，然后scoretoken与初始目标的所有positions进行attention, implicitly compare minedtarget with first target.最后，通过一个MLP和sigmoid来得到score，低于0.5的onlinetemplate被视为negative.</p></li></ol><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/b6eaec7917439d79ce840fa97bc371552e9b6685/1-Figure1-1.png"alt="Comparison" /> <span class="math inline">\(Fig.1^{[1]}\)</span>Comparison of tracking pipeline. (a) The dominant tracking frameworkcontains three components: a convolutional or transformer backbone, acarefully-designed integration module, and task-specific heads. (b) OurMixFormer is more compact and composed of two components: atarget-search mixed attention based backbone and a simple localizationhead.</p><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/b6eaec7917439d79ce840fa97bc371552e9b6685/3-Figure2-1.png"alt="MAM" /> <span class="math inline">\(Fig.2^{[2]}\)</span> MixedAttention Module (MAM) is a flexible attention operation that unifiesthe process of feature extraction and information integration for targettemplate and search area. This mixed attention has dual attentionoperations where self-attention is performed to extract features fromitself while cross-attention is conducted to communicate between targetand search. This MAM could be easily implemented with a concatenatedtoken sequence. To further improve efficiency, we propose an asymmetricMAM by pruning the target to-search cross attention (denoted by dashedlines).</p><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/b6eaec7917439d79ce840fa97bc371552e9b6685/4-Figure3-1.png"alt="MixFormer" /> <span class="math inline">\(Fig.3^{[3]}\)</span>MixFormer presents a compact end-to-end framework for tracking withoutexplicitly decoupling steps of feature extraction and target informationintegration. It is only composed of a single MAM backbone and alocalization head.</p><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/b6eaec7917439d79ce840fa97bc371552e9b6685/5-Figure4-1.png"alt="SPM" /><figcaption aria-hidden="true">SPM</figcaption></figure>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;mixformer-end-to-end-tracking-with-iterative-mixed-attention1&quot;&gt;MixFormer:
-End-to-End Tracking with Iterative Mixed Attention&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自南大的Yutao Cui, Cheng Jiang, Limin Wang, Gangshan Wu.
-论文引用[1]:Cui, Yutao et al. “MixFormer: End-to-End Tracking with
-Iterative Mixed Attention.” 2022 IEEE/CVF Conference on Computer Vision
-and Pattern Recognition (CVPR) (2022): 13598-13608.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2022.Mar&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;compact tracking framework&lt;/li&gt;
-&lt;li&gt;unify the feature extraction and target integration solely with a
-transformer-based architecture&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;votmotsot的区别&quot;&gt;VOT，MOT,SOT的区别&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;VOT是标首帧，MOT是多目标追踪，SOT是单目标追踪。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;Tracking经常用多阶段的pipeline：&lt;strong&gt;feature
-extraction，target information integration，bounding box
-estimation&lt;/strong&gt;。为了简化这个pipeline，作者提出了一个紧凑的tracking框架，名为MixFormer。&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;target information integration解释： fuse the target and search
-region information&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
     
   </entry>
   
