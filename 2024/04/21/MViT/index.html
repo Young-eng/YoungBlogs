@@ -27,7 +27,7 @@
 <meta property="og:description" content="Multiscale Vision Transformer  MViT的作者是来自FAIR和 UC Berkeley的Haoqi Fan, Bo Xiong, Karttikeya Mangalam, Yanghao Li, Zhichegn Yan, Jitendra, Malik, Christoph Feichtenhofer。MViTv2的作者也是他们，多了Chao-Yuan W">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-21T01:47:18.000Z">
-<meta property="article:modified_time" content="2024-05-05T14:08:54.000Z">
+<meta property="article:modified_time" content="2024-09-24T02:36:19.563Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Transformer">
 <meta name="twitter:card" content="summary">
@@ -114,7 +114,7 @@
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#multiscale-vision-transformer"><span class="nav-number">1.</span> <span class="nav-text">Multiscale Vision
-Transformer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mvit"><span class="nav-number">3.</span> <span class="nav-text">MViT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">3.1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#key-words"><span class="nav-number">3.2.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+Transformer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mvit"><span class="nav-number">3.</span> <span class="nav-text">MViT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">5.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -129,7 +129,7 @@ Transformer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -211,7 +211,7 @@ Transformer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-05 22:08:54" itemprop="dateModified" datetime="2024-05-05T22:08:54+08:00">2024-05-05</time>
+      <time title="修改时间：2024-09-24 10:36:19" itemprop="dateModified" datetime="2024-09-24T10:36:19+08:00">2024-09-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -237,14 +237,14 @@ Transformer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>720</span>
+      <span>1.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -272,13 +272,13 @@ Vision and Pattern Recognition (CVPR) (2021): 4794-4804.</p>
 <li>MViTv2: 2021.Dec</li>
 </ul>
 <h3 id="mvit">MViT</h3>
-<h4 id="动机">动机</h4>
+<h3 id="动机">动机</h3>
 <ol type="1">
-<li>posit that the fundamental vision principle of resolution and
-channel scaling, can be beneficial for transformer models across a
-variety of visual recognition tasks.</li>
+<li><strong>posit that the fundamental vision principle of resolution
+and channel scaling, can be beneficial for transformer models across a
+variety of visual recognition tasks.</strong></li>
 </ol>
-<h4 id="key-words">Key Words</h4>
+<h3 id="key-words">Key Words</h3>
 <ul>
 <li>connect seminal idea of multiscale feature hierarchy with
 transformer model</li>
@@ -286,11 +286,11 @@ transformer model</li>
 the resolution from input to output of the network.</li>
 </ul>
 <span id="more"></span>
-<h4 id="总结">总结</h4>
+<h3 id="总结">总结</h3>
 <ol type="1">
 <li><p>starting from input resolution and a small channel dimension,
 stages hierarchically expand channel capacity while reducing the spatial
-resolution. Creates a 多尺度的特征金字塔，with early layers operating at
+resolution. 构建一个多尺度的特征金字塔，with early layers operating at
 high spatial resolution to model simple low-level visual information,
 deeper layers at spatially coarse, but complex, high-dimensional
 features.</p></li>
@@ -326,9 +326,9 @@ models没有显示出性能下降。表明这些模型没有有效利用时间�
 MViT表现出来很好的性能，不需要任何额外的预训练数据。</p></li>
 <li><p>Multi Head Pooling Attention:MHPA</p>
 <ul>
-<li>enables flexible resolution modeling in a transformer block. MHPA
-pools sequence of latent tensors 来减小attended
-input的序列的长度(resolution).</li>
+<li>enables flexible resolution modeling in a transformer block.
+<strong>MHPA pools sequence of latent tensors 来减小attended
+input的序列的长度(resolution)</strong>.</li>
 <li>在 attending input之前， 中间tensor: <span
 class="math inline">\(\hat{Q}, \hat{K},\hat{V}\)</span> 通过pooling
 operator <span class="math inline">\(P\)</span> 进行pool操作。</li>
@@ -336,11 +336,55 @@ operator <span class="math inline">\(P\)</span> 进行pool操作。</li>
 <p><img
 src="https://d3i71xaburhd42.cloudfront.net/18863dbfa32eaa1ccdb56ff180e6ab079a7f1ec6/3-Figure3-1.png"
 alt="Pooling" /> <span class="math inline">\(Fig.1^{[1]}\)</span>.
-Pooling Attention</p>
+Pooling Attention is a flexible attention mechanism that allows
+obstaining the reduced space-time resolution(<span
+class="math inline">\(\hat{T}\hat{H}\hat{W}\)</span>) of the input (THW)
+by pooling the query, <span
+class="math inline">\(Q=\mathcal{P}(\hat{Q};\boldsymbol{\Theta}_{Q})\)</span>,
+and/or computes attention on a reduce length <span
+class="math inline">\(\tilde{T}\tilde{H}\tilde{W}\)</span> by pooling
+the key, <span
+class="math inline">\(K=\mathcal{P}(\hat{K};\mathbf{\Theta}_{K})\)</span>,
+and value, <span
+class="math inline">\(V=\mathcal{P}(\hat{V};\boldsymbol{\Theta}_{V})\)</span>,
+sequences.</p>
 <ul>
-<li>将input tensor <span class="math inline">\(L = T \times H \times
+<li><p>将input tensor <span class="math inline">\(L = T \times H \times
 W\)</span> to <span
-class="math display">\[\tilde{\mathbf{L}}=\left\lfloor\frac{\mathbf{L}+2\mathbf{p}-\mathbf{k}}{\mathbf{s}}\right\rfloor+1\]</span></li>
+class="math display">\[\tilde{\mathbf{L}}=\left\lfloor\frac{\mathbf{L}+2\mathbf{p}-\mathbf{k}}{\mathbf{s}}\right\rfloor+1\]</span></p></li>
+<li><p><strong>Query Pooling</strong>:
+目的是在stage的开始减小resolution，然后保持这个resolution throughout the
+stage. 只有每个stage的第一个pooling attention operator 在non-degenerate
+query stride <span class="math inline">\(s^Q &gt;
+1\)</span>上操作，其它的operators限制在了 <span
+class="math inline">\(\mathbf{s}^{Q}\equiv(1,1,1)\)</span></p></li>
+<li><p><strong>Key-Value pooling</strong>：不同于Query Pooling，
+改变K和V tensors的sequence length并不改变输出sequence
+length。<strong>将K,V, Q pooling的用法进行解耦，Q pooling
+只用在每个stage的第一个layer，K,V pooling被用在其它所有的layers，因为key
+和value tensors的sequence length需要是一样的，来做attention weight
+calculation，用在K和V tensors上的pooling
+stride也需要是相同的</strong>。在默认设置中，限制所有的pooling
+parameters (<strong>k</strong>,<strong>p</strong>,s) be
+identical，但是vary <em>s</em> adaptively w.r.t to the scale across
+stages(随着不同stage的scale 自适应地变化)。</p></li>
+<li><p><strong>Skip connections</strong>：因为channel
+dimension和sequence length在一个residual block中改变，<strong>将skip
+connection进行pool,来适应两端dimension
+的mismatch</strong>。MHPA通过在residual path上增加一个pooling operator
+<span
+class="math inline">\(\mathcal{P}(\cdot;\boldsymbol{\Theta}_{Q})\)</span>
+来处理这个mismatch。为了处理不同stage之间的channel
+dimension的mismatch，<strong>用一个额外的linear
+layer在MHPA的layer-norm的输出上进行操作，这个不同于其它的skip
+connection(operate on the un-normalized signal)</strong>。</p></li>
+<li><p><strong>Network
+details</strong>：<font color=red>所有的pooling操作，resolution
+downsampling，都只在data sequence上进行，不涉及class token
+embedding</font>。 在每个stage transition， 之前stage输出的MLP
+dimension增加2倍，MHPA 在下一个stage的输入上，pools on <span
+class="math inline">\(Q\)</span> tensors with <span
+class="math inline">\(s^Q = (1,2,2)\)</span></p></li>
 </ul></li>
 </ol>
 <p><img
@@ -351,15 +395,6 @@ and simple (in channels) to coarse and complex features. Several
 resolution-channel scale stages progressively increase the channel
 capacity of the intermediate latent sequence while reducing its length
 and thereby spatial resolution.</p>
-<!-- ### MViTv2
-
-#### 动机
-
-
-#### Key Words
-
-
-#### 总结 -->
 
     </div>
 
@@ -414,13 +449,13 @@ and thereby spatial resolution.</p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">76k</span>
+    <span title="站点总字数">77k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:37</span>
+    <span title="站点阅读时长">4:41</span>
   </span>
 </div>
 <div class="busuanzi-count">

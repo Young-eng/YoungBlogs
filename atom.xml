@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-09-20T14:37:15.979Z</updated>
+  <updated>2024-09-26T14:38:28.266Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,72 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Exploring Plain ViT for Object Detection</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/09/26/Exploring-Plain-ViT-for-Object-Detection/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/09/26/Exploring-Plain-ViT-for-Object-Detection/</id>
+    <published>2024-09-26T14:32:12.000Z</published>
+    <updated>2024-09-26T14:38:28.266Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="exploring-plain-vision-transformer-backbones-for-object-detection1">ExploringPlain Vision Transformer Backbones for ObjectDetection<sup>[1]</sup></h3><blockquote><p>作者是来自FAIR的Yanghao Li, Hanzi Mao, Ross Girshick和Kaiming He.论文引用[1]:Li, Yanghao, et al. "Exploring plain vision transformerbackbones for object detection." European conference on computer vision.Cham: Springer Nature Switzerland, 2022.</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>Plain ViT for Object Detection</li></ul><h3 id="总结">总结</h3><ol type="1"><li></li></ol><span id="more"></span><ol start="2" type="1"><li></li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;exploring-plain-vision-transformer-backbones-for-object-detection1&quot;&gt;Exploring
+Plain Vision Transformer Backbones for Object
+Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自FAIR的Yanghao Li, Hanzi Mao, Ross Girshick和Kaiming He.
+论文引用[1]:Li, Yanghao, et al. &quot;Exploring plain vision transformer
+backbones for object detection.&quot; European conference on computer vision.
+Cham: Springer Nature Switzerland, 2022.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2022.Mar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Plain ViT for Object Detection&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>人类群星闪耀时</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/09/23/%E4%BA%BA%E7%B1%BB%E7%BE%A4%E6%98%9F%E9%97%AA%E8%80%80%E6%97%B6/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/09/23/%E4%BA%BA%E7%B1%BB%E7%BE%A4%E6%98%9F%E9%97%AA%E8%80%80%E6%97%B6/</id>
+    <published>2024-09-23T11:30:08.000Z</published>
+    <updated>2024-09-23T11:46:44.870Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="人类群星闪耀时">人类群星闪耀时</h3><blockquote><p>这是斯蒂芬.茨威格的书，本科的时候看了《一个陌生女人的来信》，还有一些小说集，真心写的不错，茨威格的心思太细腻了，将人物的心理活动描写的活灵活现，感觉到书中的人物都似乎真实的在脑海中存在过；又似乎像是把自己的心里想法描写出来了，这是我之前读完茨威格的书的最大的感受。这次的《人类群星闪耀时》,十四篇历史特写，不知道又会是什么样的故事。</p></blockquote><h3 id="序言">序言</h3><p>"一个真正具有世界历史意义的时刻--一个人类的群星闪耀时刻出现以前，必然会有漫长的无谓岁月流逝而去”。“历史才是真正的诗人和戏剧家，任何一个作家都别想超越历史本身。”</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;人类群星闪耀时&quot;&gt;人类群星闪耀时&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这是斯蒂芬.茨威格的书，本科的时候看了《一个陌生女人的来信》，还有一些小说集，真心写的不错，茨威格的心思太细腻了，将人物的心理活动描写的活灵活现，感觉到书中的人物都似乎真实的在脑海中存</summary>
+      
+    
+    
+    
+    <category term="Books" scheme="https://young-eng.github.io/YoungBlogs/categories/Books/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>MViTv2</title>
@@ -779,53 +845,6 @@ xxx.run来安装&lt;/p&gt;&lt;/li&gt;
     
     
     <category term="tips" scheme="https://young-eng.github.io/YoungBlogs/tags/tips/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>大模型综述</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/06/29/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BB%BC%E8%BF%B0/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/06/29/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BB%BC%E8%BF%B0/</id>
-    <published>2024-06-29T05:41:52.000Z</published>
-    <updated>2024-06-29T05:41:54.000Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Object Tracking Survey</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/06/03/Object-Tracking-Survey/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/06/03/Object-Tracking-Survey/</id>
-    <published>2024-06-03T12:41:20.000Z</published>
-    <updated>2024-06-03T12:42:50.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="visual-objec-trackingvot">Visual Objec Tracking(VOT)</h3><h3 id="multiple-object-trackingmot">Multiple Object Tracking(MOT)</h3>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3 id=&quot;visual-objec-trackingvot&quot;&gt;Visual Objec Tracking(VOT)&lt;/h3&gt;
-&lt;h3 id=&quot;multiple-object-trackingmot&quot;&gt;Multiple Object Tracking(MOT)&lt;/h3&gt;
-</summary>
-      
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
     
   </entry>
   
