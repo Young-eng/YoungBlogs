@@ -27,7 +27,7 @@
 <meta property="og:description" content="Exploring Plain Vision Transformer Backbones for Object Detection[1]  作者是来自FAIR的Yanghao Li, Hanzi Mao, Ross Girshick和Kaiming He. 论文引用[1]:Li, Yanghao, et al. &quot;Exploring plain vision transformer b">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-09-26T14:32:12.000Z">
-<meta property="article:modified_time" content="2024-09-26T14:38:28.266Z">
+<meta property="article:modified_time" content="2024-10-06T12:35:43.095Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object Detection">
 <meta name="twitter:card" content="summary">
@@ -204,9 +204,15 @@ Detection[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-09-26 22:32:12 / 修改时间：22:38:28" itemprop="dateCreated datePublished" datetime="2024-09-26T22:32:12+08:00">2024-09-26</time>
+      <time title="创建时间：2024-09-26 22:32:12" itemprop="dateCreated datePublished" datetime="2024-09-26T22:32:12+08:00">2024-09-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-06 20:35:43" itemprop="dateModified" datetime="2024-10-06T20:35:43+08:00">2024-10-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -232,14 +238,14 @@ Detection[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>69</span>
+      <span>1.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>6 分钟</span>
     </span>
 </div>
 
@@ -269,12 +275,130 @@ Cham: Springer Nature Switzerland, 2022.</p>
 </ul>
 <h3 id="总结">总结</h3>
 <ol type="1">
-<li></li>
+<li>作者探索了<strong>plain, non-hierarchical</strong>
+ViT作为backbone，用于object
+detection，这个涉及使得原始的ViT架构能够被fine-tuned，用于object
+detection，不需要重新设计一个hierarchical backbone for
+pre-training。只需很小的adaptations for fine-tuning，这个plain-backbone
+detector能够实现很好的结果。作者观察到：
+<ul>
+<li><strong>从单个尺度的feature map构建一个simple feature
+pyramid就足够了，不需要FPN的设计</strong></li>
+<li><strong>用window attention(without shifting)，辅以很少的cross-window
+propagation blocks就足够了。</strong></li>
+</ul>
+用经过MAE预训练的plain ViT
+backbone，detector称之为(ViTDet)，能够和之前的基于hierarchical
+backbone的leading methods竞争。</li>
 </ol>
 <span id="more"></span>
 <ol start="2" type="1">
-<li></li>
+<li><p>现在的目标检测器通常包括一个<strong>backbone feature
+extractor</strong>(agnostic to the detection
+task)，和一些<strong>necks</strong>，<strong>heads</strong>，这些包含了检测相关的先验知识。necks/heads中的通常的组件有RoI
+操作，RPN 或者anchors，FPN, etc. 如果task-specific
+necks/heads的设计从backbone的设计中解耦出来，它们可能evolve in
+parallel。从经验上来看，目标检测的研究从大的独立的通用的backbones和detection-specific
+modules中受益。很长一段时间，这些backbone都是<font color=red>multi-scale,
+hierarchical</font>的架构，是由于ConvNet的设计，这个影响了neck/head的设计。</p></li>
+<li><p>过去的一段时间，ViT是一个powerful backbone for visual
+recognition。不同于典型的ConvNets，原始的ViT是一个<em>plain,
+non-hierarchical</em> 的架构，保持了single-scale feature map
+throughout。当用于目标检测时，遇到了挑战。如何用上游预训练的plain
+backbone解决下游任务中的多尺度的目标？plain
+ViT是否不够高效用于high-resolution detection images?
+一个解决方式：重新引入hierarchical designs into backbone，例如
+<strong>Swin
+Transformers</strong>相关的，继承了ConvNet的检测器的设计。</p></li>
+<li><p>在这篇工作中，<strong>作者探索只用 <em>plain,
+non-hierarchical</em>的 backbones来做目标检测。这个将pre-training
+design和fine-tuning
+demands进行解耦</strong>。保持上游和下游任务的独立性。这个方向同样follows
+ViT的<strong>Philosophy： 更少的inductive bias</strong>。
+局部自注意力能够学习<font color=red>translatio-equivariant
+features</font>，它们也能够从特定的监督或者自监督中学习<font color=red>scale-equivariant
+features</font>。</p></li>
+<li><p>作者目的不在于开发新的components；相反，用最小的改变，来足够克服上述的challenges。<strong>只从plain
+ViT backbone的最后一个feature map中构建一个简单的feature
+pyramid</strong>，这个抛弃了FPN的设计，去掉了很多hierarchical
+backbone的要求。为了高效地从high-resolution
+images提取特征，检测器用了简单的<strong>non-overlapping window
+attention(without shifting)</strong>，用了一些cross-window blocks，could
+be global attention or convolutions。用于propagate
+information。<strong>这些调整只在fine-tuning中，不改变pre-training</strong>。</p></li>
+<li><p>作者简单的设计取得了很好的结果。发现FPN的设计在plain
+ViT中不是必须的，its benefit能够通过从一个large-stride的single-scale
+map构建的简单的pyramid得到。同时也发现， window
+attention是足够的，只要信息在windows之间很好地propagated。取得这么好的结果可能部分是由于MAE预训练的作用。</p></li>
+<li><p>除了这些结果，作者的方法保持了<strong>将detector-specific
+designs从task-agnostic的backbone中解耦</strong>，这个思路和将Transformer
+backbone重新设计成multi-scale
+hierarchies的趋势相反。使得检测器和ViT的不同方向的发展能够兼容。</p></li>
+<li><p><strong>related work</strong>：UViT是一个single-scale Transformer
+for object detection。 在pre-training中改变了网络架构。</p></li>
+<li><p><strong>Backboen
+Adaptation</strong>：作者关注这个场景：<strong>预训练的backbone进行global
+self-attention, 在fine-tuning中，adapted to
+higher-resolution</strong>。这和近期的方法直接修改attention computation
+with backbone pretraning不同，不需要重新设计预训练的架构。</p>
+<ul>
+<li>在fine-tuning的时候，将一个high-resolution的feature map分成regular
+non-overlapping windows，自注意力是在每个window内部进行。</li>
+<li>不同于Swin，不用'shift' across
+layers，为了允许信息propagation,只用了很少的blocks that can go across
+windows。将一个pre-trained backbone <em>evenly</em> 分成 4个 subsets of
+blocks，在每个subset的最后一个block用一个propagation
+strategy。研究了两个strategy：</li>
+<li><em>Global propagation</em>：在每个subset的最后一个block机型global
+self-attention,这样的话，计算和存储的成本就比较小。类似于hybrid window
+attention</li>
+<li><em>Conv Propagation</em>：在每个subset后加一个conv
+block，这个block是residual block，包含了一个或多个conv和一个identity
+shortcut。这个block的最后一层初始化为0，因此这个block的初始状态是identity，这样使得可以将其插入到pre-trained
+backbone的任何一个位置。</li>
+</ul></li>
+<li><p><strong>Discussion</strong>：目标检测器包含task
+agnostic的components，例如backbone；还有其它的components是task-specific的，例如:RoI
+heads。这个model decomposition使得task-agnostic
+components可以用non-detection
+data进行pre-trained，可能会有好处，因为detection training
+data是相对稀缺的。从这个角度，<strong>追求一个backbone that involves
+fewer inductive
+biases是合理的，因为backbone可以用大量的数据进行训练或者进行自监督训练；相比之下，detection
+task-specific components有相对少的数据，可能从额外的inductive
+biases中受益</strong>。追求更少的additional inductive biases的detection
+heads是一个活跃的工作。受这些观察的启发，<strong>ViT关注在减小 inductive
+biases on translation
+equivarnace。在这篇文章里，是关于有更少或者没有inductive biases on scale
+equivariance in the backbone</strong>。作者猜想：plain backbone实现scale
+equivariance的方式是从数据中学习先验知识，类似于它怎样学习translation
+equivariance 和locality without convolutions。</p></li>
+<li><p>在IN-1K上进行监督预训练的结果比没有预训练的好，MAE预训练的效果更好。作者猜想：<strong>vanilla
+ViT，with fewer inductive biases,
+可能需要higher-capacity来学习translation和scale equivariant
+features，然而higher-capacity的模型可能更容易过拟合，MAE预训练能够缓解这个问题</strong>。</p></li>
+<li><p><strong>结论</strong>：作者的探索展示了<font color=red>plain-backbone
+detection is a promising research
+direction</font>。这个方法保持了通用backbone和下游task-specific
+designs的独立性，将pre-training从fine-tuning中解耦。</p></li>
 </ol>
+<p><img
+src="https://dt5vp8kor0orz.cloudfront.net/a09cbcaac305884f043810afc4fa4053099b5970/2-Figure1-1.png"
+alt="hierarchical" /> $Fig.1^{[1]}A typical hierarchical-backbone
+detector (left) vs. our plain-backbone detector (right). Traditional
+hierarchical backbones can be naturally adapted for multi-scale
+detection, e.g., using FPN. Instead, we explore building a simple
+pyramid from only the last, large-stride (16) feature map of a plain
+backbone</p>
+<p><img
+src="https://dt5vp8kor0orz.cloudfront.net/a09cbcaac305884f043810afc4fa4053099b5970/5-Figure2-1.png"
+alt="feature pyramid" /> <span
+class="math inline">\(Fig.2^{[2]}\)</span> Building a feature pyramid on
+a plain backbone. (a) FPN-like: to mimic a hierarchical backbone, the
+plain backbone is artificially divided into multiple stages. (b)
+FPN-like, but using only the last feature map without stage division.
+(c) Our simple feature pyramid without FPN. In all three cases, strided
+convolutions/deconvolutions are used whenever the scale changes.</p>
 
     </div>
 
@@ -326,13 +450,13 @@ Cham: Springer Nature Switzerland, 2022.</p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">77k</span>
+    <span title="站点总字数">79k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:41</span>
+    <span title="站点阅读时长">4:47</span>
   </span>
 </div>
 <div class="busuanzi-count">
