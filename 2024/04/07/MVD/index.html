@@ -27,7 +27,7 @@
 <meta property="og:description" content="Masked Video Distillation: Rethinking Masked Feature Modeling for Self-supervised Video Representation Learning[1]  作者是来自复旦大学和Microsoft Cloud+ AI团队的 Rui Wang, Dongdong Chen, Zuxuan Wu, Yinpeng Ch">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-07T02:48:49.000Z">
-<meta property="article:modified_time" content="2024-08-20T02:40:58.571Z">
+<meta property="article:modified_time" content="2024-10-08T07:55:01.879Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Action Detection">
 <meta property="article:tag" content="Self-supervised">
@@ -132,7 +132,7 @@ Self-supervised Video Representation Learning[1]</span></a></li><li class="nav-i
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-count">91</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -214,7 +214,7 @@ Self-supervised Video Representation Learning[1]</span></a></li><li class="nav-i
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-20 10:40:58" itemprop="dateModified" datetime="2024-08-20T10:40:58+08:00">2024-08-20</time>
+      <time title="修改时间：2024-10-08 15:55:01" itemprop="dateModified" datetime="2024-10-08T15:55:01+08:00">2024-10-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -240,14 +240,14 @@ Self-supervised Video Representation Learning[1]</span></a></li><li class="nav-i
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>96</span>
+      <span>1.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -274,15 +274,103 @@ and Pattern Recognition (CVPR) (2022): 6312-6322.</p>
 <li>2022.Dec</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
+<ul>
+<li>Masked Video Modeling/Masked Image Modeling</li>
+<li>High-level features from video teacher and image teacher for
+continued masked feature prediction</li>
+<li>spatial-temporal co-teaching</li>
+<li>简单地说，就是用MIM/MVM预训练的image 和video model作为masked feature
+prediction target, 用作student的teacher，从而实现视频表征学习。</li>
+</ul>
 <h3 id="动机">动机</h3>
+<ul>
+<li>对于自监督视觉表征学习，最近的MIM方法，例如MAE，BEiT，PeCO，用Vision
+transformer实现了很好的性能。这样的预训练范式，用在了video
+domain，使video transformer有了显著的提升。代表性的MVM(masked video
+modeling) 的工作包括：BEVT,VideoMAE和ST-MAE。跟着MAE和BEiT，现有的masked
+video modeling的方法通过重建low-level features来预训练video
+transformers，例如raw pixel values or low-level VQVAE
+tokens。然而，<strong>用low-level的features重建目标，通常存在噪声</strong>，由于视频数据的高度冗余，对于MVM很容易学习到shortcuts，因此造成在下游任务上有限的迁移性能。为了缓解这个问题，MVM通常用了更大的masking
+ratios。</li>
+</ul>
 <span id="more"></span>
 <h3 id="总结">总结</h3>
-<figure>
-<img
+<ol type="1">
+<li><p>受益于MIM，自监督视频表征学习有了很大的进步。然而，<strong>现有的方法关注于通过重建low-level的features
+like raw pixel RGB
+values</strong>，来从零学习表征。本文提出了<font color=red>Masked video
+distillation(MVD)</font>，一个简单高效的两阶段masked feature modeling
+framework for video representation learning.</p>
+<ul>
+<li>首先，通过恢复masked
+patches的low-level的features，来预训练iamge/video model</li>
+<li>然后，<strong>用resulting features作为targets for masked feature
+modeling</strong>。 对于teacher model的选择，观察到：video
+teachers教的student在temporally-heavy video
+tasks上表现更好，<strong>然而image teachers transfer stronger spatial
+representations for spatialy-heaevy video
+tasks</strong>。视觉分析表明：不同的teachers对students产生不同的学习模式。</li>
+</ul>
+<p>受这一观察的启发，为了利用不同teachers的优势，设计了一个<strong>时空co-teaching
+method for MVD</strong>，特别地，通过masked feature
+modeling，从<strong>video teachers</strong>和<strong>image
+teachers</strong>中蒸馏出student
+models。实验表明，用了时空co-teaching预训练的vision
+transformers的表现比在 多个数据集上、单个teacher蒸馏出来的model要好。MVD
+with vanilla ViT实现了SOTA的performance。</p></li>
+<li><p>在本文中，观察到，<font color=red>通过用MIM和MVM预训练得到的high-level
+features作为masked prediction targets，进行masked feature
+prediction，实现了更好的性能</font>。这个可以视为<strong>两阶段的masked
+video modeling</strong>。MIM预训练的image models(image
+teacher)/MVM预训练的video models(video
+teacher)在第一阶段中得到，然而它们在第二阶段中作为teachers for the
+student model via providing the high-level feature
+targets。因此，称这个方法为Masked Video Distillation(MVD).</p></li>
+<li><p>有趣的是，发现不同的teachers蒸馏出来的student
+models在不同的下游任务上表现出了不同的特点。从image
+teachers中蒸馏出来的students在<strong>mainly rely on spatial
+clues的video tasks</strong>上表现更好；从video teacher
+model上蒸馏出来的students在temporal dynamics are necessary的video
+tasks上表现更好。作者认为，<strong>在MVM的预训练的过程中，video
+teachers学习到了spatial-temporal context in their high-level
+features，因此，当用这样的high-lelve的表征作为masked feature
+modeling的预测targets的时候，能够encourage student
+model去学习更强的temproal dynamics</strong>。类似地，image
+teachers提供了包括更多空间信息的high-level features as
+targets，能够帮助student
+model学习到更多的空间有意义的表征。进一步分析image teachers和video
+teachers 提供的feature targets，然后计算cross-frame feature
+similarity，展示了video teachers提供的features包含更多的temporal
+dynamics。</p></li>
+<li><p>受上述的观察的启发，为了利用video teachers和image
+teachers的优点，提出来一个简单高效的时空co-teaching的策略。具体地，student
+model用两个不同的decoders重建来自image teacher和video
+teacher的features，为了同时学习到更强的空间表征和temporal
+dynamics。</p></li>
+<li><p><font color=red>知识蒸馏(Knowledge
+Distillation)</font>：<strong>知识蒸馏旨在通过用teacher
+model的输出作为target来训练studetn model，来实现将teacher
+model的知识迁移到student
+model中</strong>，典型的知识蒸馏网络主要关注于监督学习，例如图像分类。近期，自监督的知识蒸馏通过自监督模型来学习表征。</p></li>
+<li><p>Masked Feature Modeling范式：核心是训练网络模型来预测 masked
+input regions的features。文章中，follow解耦的encoder-decoder
+transformer的架构，对于输入<span
+class="math inline">\(X\)</span>，划分成不同的非重叠的patches，然后每个patch
+通过liner projection layer映射到一个visual
+token。在将tokens送到transformer encoder f 之前，对a subset of
+tokens进行mask，然后drop from the token sequence。为了重建masked
+tokens的信息，token序列包括来自encoder的visible tokens和learnable mask
+tokens，作为shallow transformer decoder的输入。</p></li>
+<li></li>
+</ol>
+<p><img
 src="https://d3i71xaburhd42.cloudfront.net/715c34474a6272b643103d0ca7f56c064faf2099/4-Figure2-1.png"
-alt="Framework" />
-<figcaption aria-hidden="true">Framework</figcaption>
-</figure>
+alt="Framework" /> $Fig.1^{[1]}An overview of MVD framework. Firstly the
+image teacher is pretrained by masked image modeling and the video
+teacher is pretrained by masked video modeling. <strong>Then the student
+model is trained from scratch to predict target high-level features
+encoded by the image teacher and the video teacher</strong>. The teacher
+models are fixed in the distillation stage.</p>
 
     </div>
 
@@ -339,13 +427,13 @@ alt="Framework" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">79k</span>
+    <span title="站点总字数">80k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:48</span>
+    <span title="站点阅读时长">4:52</span>
   </span>
 </div>
 <div class="busuanzi-count">

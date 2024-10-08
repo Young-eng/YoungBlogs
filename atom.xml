@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-10-06T12:35:43.095Z</updated>
+  <updated>2024-10-08T01:57:19.387Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,48 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Deformable-DETR</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/10/08/Deformable-DETR/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/10/08/Deformable-DETR/</id>
+    <published>2024-10-08T01:57:19.000Z</published>
+    <updated>2024-10-08T01:57:19.387Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>non-local</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/10/08/non-local/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/10/08/non-local/</id>
+    <published>2024-10-08T01:57:08.000Z</published>
+    <updated>2024-10-08T01:57:08.065Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Exploring Plain ViT for Object Detection</title>
@@ -783,82 +825,6 @@ qwen2:7b这样来下载模型，也可以下载模型的GGUF文件，然后需�
     
     
     <category term="Reinforcement Learning" scheme="https://young-eng.github.io/YoungBlogs/tags/Reinforcement-Learning/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Softwares&#39; installations</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/07/17/Softwares-installations/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/07/17/Softwares-installations/</id>
-    <published>2024-07-17T10:05:36.000Z</published>
-    <updated>2024-09-03T11:54:34.864Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="在服务器的个人账户下上安装cuda">在服务器的个人账户下上安装cuda</h3><ol type="1"><li><p>去<ahref="https://developer.nvidia.com/cuda-toolkit-archive">cudaarchive</a>里找到对应的cuda版本的runfile文件，通过shxxx.run来安装</p></li><li><p>安装的时候，需要去Options里更改toolkit和library的path，设置完后即可进行install</p></li><li><p>install完了之后，需要去bashrc里添加以下内容：</p></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;/xxx/cuda/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="string">&quot;/xxx/cuda/lib64:<span class="variable">$LD_LIBRARY_PATH</span>&quot;</span></span><br></pre></td></tr></table></figure><ol start="4" type="1"><li><p>然后source一下bashrc，再nvcc-V，如果显示版本号，则说明安装成功</p></li><li><p>遇到需要本地cuda的时候，可以</p></li></ol><p><code>export CUDA_HOME=="/xxx/cuda/"</code></p><h3 id="在服务器个人账户下安装gcc">在服务器个人账户下安装GCC</h3><ol type="1"><li><p>去清华源下载需要的gcc的版本，网址在这里:<code>https://mirrors.tuna.tsinghua.edu.cn/gnu/gcc/</code></p></li><li><p>解压完后，进入文件夹gcc-x.x.x，执行命令：<code>./contrib/download_prerequisites</code></p></li><li><p><code>make build</code>，新建一个文件夹，<code>cd build</code>，<code>../configure --prefix=/home/xxx/gcc-x.x.0 --enable-shared --enable-threads=posix --enable-languages=c,c++,fortran --disable-multilib</code></p></li><li><p><code>make -j10 &amp;&amp; make install</code></p></li><li><p>打开 <code>.bashrc</code>，添加一下内容：</p></li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/path/to/install/gcc-5.4/bin:$PATH</span><br><span class="line">export LD_LIBRARY_PATH=/path/to/install/gcc-5.4/lib/:/path/to/install/gcc-5.4/lib64:$LD_LIBRARY_PATH`</span><br><span class="line"></span><br></pre></td></tr></table></figure><ol start="6" type="1"><li>source一下bashrc，然后<code>gcc --version</code>，如果显示版本号，则说明安装成功<span id="more"></span></li></ol><h3 id="参考链接">参考链接</h3><ul><li><code>https://blog.csdn.net/qq_35082030/article/details/110387800</code></li><li><code>https://blog.csdn.net/sdbyp/article/details/139853774</code></li><li><code>https://blog.csdn.net/Sihang_Xie/article/details/127347139</code></li></ul><p>非root环境下安装gcc -<code>https://blog.csdn.net/Fhujinwu/article/details/113786909</code> -<code>https://blog.csdn.net/qq_33278461/article/details/106357783?spm=1001.2014.3001.5502</code>-<code>https://blog.csdn.net/qq_38308388/article/details/127574517</code>- <code>https://www.cnblogs.com/TonyYPZhang/p/17614809.html</code></p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;在服务器的个人账户下上安装cuda&quot;&gt;在服务器的个人账户下上安装cuda&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;去&lt;a
-href=&quot;https://developer.nvidia.com/cuda-toolkit-archive&quot;&gt;cuda
-archive&lt;/a&gt;里找到对应的cuda版本的runfile文件，通过sh
-xxx.run来安装&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;安装的时候，需要去Options里更改toolkit和library的path，设置完后即可进行install&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;install完了之后，需要去bashrc里添加以下内容：&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;export&lt;/span&gt; PATH=&lt;span class=&quot;string&quot;&gt;&amp;quot;/xxx/cuda/bin:&lt;span class=&quot;variable&quot;&gt;$PATH&lt;/span&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;export&lt;/span&gt; LD_LIBRARY_PATH=&lt;span class=&quot;string&quot;&gt;&amp;quot;/xxx/cuda/lib64:&lt;span class=&quot;variable&quot;&gt;$LD_LIBRARY_PATH&lt;/span&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ol start=&quot;4&quot; type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;然后source一下bashrc，再nvcc
--V，如果显示版本号，则说明安装成功&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;遇到需要本地cuda的时候，可以&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;code&gt;export CUDA_HOME==&quot;/xxx/cuda/&quot;&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id=&quot;在服务器个人账户下安装gcc&quot;&gt;在服务器个人账户下安装GCC&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;去清华源下载需要的gcc的版本，网址在这里:
-&lt;code&gt;https://mirrors.tuna.tsinghua.edu.cn/gnu/gcc/&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;解压完后，进入文件夹gcc-x.x.x，执行命令：&lt;code&gt;./contrib/download_prerequisites&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;make build&lt;/code&gt;，新建一个文件夹，&lt;code&gt;cd build&lt;/code&gt;，&lt;code&gt;../configure --prefix=/home/xxx/gcc-x.x.0 --enable-shared --enable-threads=posix --enable-languages=c,c++,fortran --disable-multilib&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;make -j10 &amp;amp;&amp;amp; make install&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;打开 &lt;code&gt;.bashrc&lt;/code&gt;，添加一下内容：&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;export PATH=/path/to/install/gcc-5.4/bin:$PATH&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;export LD_LIBRARY_PATH=/path/to/install/gcc-5.4/lib/:/path/to/install/gcc-5.4/lib64:$LD_LIBRARY_PATH`&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ol start=&quot;6&quot; type=&quot;1&quot;&gt;
-&lt;li&gt;source一下bashrc，然后&lt;code&gt;gcc --version&lt;/code&gt;，如果显示版本号，则说明安装成功</summary>
-    
-    
-    
-    <category term="methods" scheme="https://young-eng.github.io/YoungBlogs/categories/methods/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>绘图</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/07/01/%E7%BB%98%E5%9B%BE/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/07/01/%E7%BB%98%E5%9B%BE/</id>
-    <published>2024-07-01T07:54:56.000Z</published>
-    <updated>2024-07-01T07:58:44.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="matplotlib-绘图">Matplotlib 绘图</h3><ol type="1"><li>3D plot时候的需要注意的地方</li></ol><p>https://www.codenong.com/48442713/</p><p>https://www.coder.work/article/2032713#google_vignette</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3 id=&quot;matplotlib-绘图&quot;&gt;Matplotlib 绘图&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;3D plot时候的需要注意的地方&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;https://www.codenong.com/48442713/&lt;/p&gt;
-&lt;p&gt;h</summary>
-      
-    
-    
-    
-    <category term="methods" scheme="https://young-eng.github.io/YoungBlogs/categories/methods/"/>
-    
-    
-    <category term="tips" scheme="https://young-eng.github.io/YoungBlogs/tags/tips/"/>
     
   </entry>
   
