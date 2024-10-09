@@ -19,14 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="Non-local Neural Networks[1]  作者是来自CMU和FAIR的Xiaolong Wang, Ross Girshick, Abhinav Gupta, Kaiming He.论文引用[1]:Wang, X. et al. “Non-local Neural Networks.” 2018 IEEE&#x2F;CVF Conference on Computer Visio">
+<meta property="og:type" content="article">
 <meta property="og:title" content="non-local">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/10/08/non-local/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Non-local Neural Networks[1]  作者是来自CMU和FAIR的Xiaolong Wang, Ross Girshick, Abhinav Gupta, Kaiming He.论文引用[1]:Wang, X. et al. “Non-local Neural Networks.” 2018 IEEE&#x2F;CVF Conference on Computer Visio">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-10-08T01:57:08.000Z">
-<meta property="article:modified_time" content="2024-10-08T01:57:08.065Z">
+<meta property="article:modified_time" content="2024-10-09T08:56:21.841Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="Action Recognition">
 <meta name="twitter:card" content="summary">
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#non-local-neural-networks1"><span class="nav-number">1.</span> <span class="nav-text">Non-local Neural
+Networks[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -135,7 +140,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -201,6 +206,22 @@
 
       <time title="创建时间：2024-10-08 09:57:08" itemprop="dateCreated datePublished" datetime="2024-10-08T09:57:08+08:00">2024-10-08</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-09 16:56:21" itemprop="dateModified" datetime="2024-10-09T16:56:21+08:00">2024-10-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
@@ -216,14 +237,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>2.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>10 分钟</span>
     </span>
 </div>
 
@@ -233,7 +254,243 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3 id="non-local-neural-networks1">Non-local Neural
+Networks<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自CMU和FAIR的Xiaolong Wang, Ross Girshick, Abhinav Gupta,
+Kaiming He.论文引用[1]:Wang, X. et al. “Non-local Neural Networks.” 2018
+IEEE/CVF Conference on Computer Vision and Pattern Recognition (2017):
+7794-7803.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2017.Nov</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>non-local 和 3D 卷积可以被视为将C2D扩展到时间维度的两种方式。</li>
+<li>long-range dependencies</li>
+<li>computes the response at a position as a weighted sum of the
+features at all positions</li>
+</ul>
+<h3 id="动机">动机</h3>
+<ol start="2" type="1">
+<li>计算长程依赖在神经网络中很重要，对于系列数据(speech,
+language)，循环操作是主流，对于图像数据，通过构建卷积的deep
+stacks，能够得到大的感受野，建模长程依赖。卷积和循环操作都处理局部相邻信息，either
+in space or
+time。因此，长程依赖只有当这些操作重复应用的时候才能捕捉到，通过数据逐步地propagating信号。重复Local
+operation有一些限制：首先，计算是不高效的；其次，造成了优化困难；最后，这些挑战造成了<em>multihop
+dependency modeling</em>。</li>
+</ol>
+<span id="more"></span>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>卷积和recurrent操作都是基于处理局部相邻信息的blocks的，本文中，提出了non-local的操作，作为building
+blocks通用family，用于捕捉long-range dependencies。受CV中经典的non-local
+方法的启发，作者的non-local的方法，<strong>计算一个位置的response as a
+weighted sum of the features at all positions</strong>。这个building
+block能够插入很多架构中，对于视频分类任务，non-local模型表现很好。</p></li>
+<li><p>在这篇文章当中，提出了non-local操作，来捕捉长程操作。提出的non-local操作是经典<strong>non-local
+mean操作的</strong>泛化，non-local 操作是计算一个位置的response as a
+weighted sum of the features at all
+positions。non-local操作可以插入到很多架构中，对于视频分类任务，non-local模型表现很好。set
+of
+positions可以是空间、时间或者时空；表明这个操作是可以用于图像、序列和视频的。</p></li>
+<li><p>用non-local操作有一些优点：</p>
+<ul>
+<li>相比于卷积和循环操作的progressive
+behavior，non-local操作通过计算两个任意位置的interactions，捕捉了长程依赖，不管它们之间的距离；</li>
+<li>像实验中所展示的，non-local操作是高效的，仅用少量的layers就能实现比较好的结果。</li>
+<li>non-local操作保持了variable input
+sizes，能够很容易和其它操作结合。</li>
+</ul></li>
+<li><p>non-local操作在视频分类、目标检测/分割/姿态估计上都有很好的结果。</p></li>
+<li><p><strong>Non-local image processing</strong>：non-local
+means是一个经典的滤波算法：计算图像中所有像素的weighted
+mean，它允许distant pixels基于patch的外观相似性来 contribute to the
+filtered response at a
+location，这个non-local滤波的想法后来发展成了BM3D：在一组相似的，non-local，
+patches上进行滤波操作。BM3D是一个solid image denoising baseline，block
+matching和神经网络用在一起，用于image enoising。non-local
+matching也是纹理合成、超分和impainting的精髓。</p></li>
+<li><p><strong>图模型</strong>：长程依赖可以通过图模型进行建模，例如条件随机场(conditional
+random fields,CRF)，在context of
+DNN，一个CRF能够被利用，来后处理网络的语义分割的预测。这个iterative
+mean-field inference
+CRF可以变成一个神经网络进行训练。相比之下，作者的方法是一个简单的feedforward
+block for computing non-local
+filtering。不同于用于分割的方法，通用的component适用于分类和检测。这些方法都和一个更抽象的模型(图神经网络)相关。</p></li>
+<li><p><strong>feedforward modeling for
+sequences</strong>：最近出现了一个用feedforward网络来建模speech和language中序列的趋势，在这些方法中，长程依赖能够被大的感受野捕获到。这些feedforward
+model are amenable 来并行化执行，比广泛应用的循环网络更加高效</p></li>
+<li><p><strong>self-attention</strong>：本文的工作和最近的自注意力相关，一个<strong>自注意力模块计算the
+response at a position in a sequence by attending to all positions and
+taking their weighted average in an embedding
+space</strong>，<strong>自注意力可以被视为一种形式的non-local
+mean</strong>，在这个意义上，我们的工作**讲自注意力连接到更一般的non-local
+滤波操作，这些滤波操作用于图像视频问题。</p></li>
+<li><p><strong>Interaction
+networks</strong>：这个工作最近提出来用于建模物理系统，它们在参与pairwise
+interactions的objects
+图上进行操作，Hoshen提出了在多智能体预测建模环境下更高效的Vertex
+Attention IN，另一个变体，称为Relation
+Networks，在其输入的所有位置对的特征嵌入上计算一个函数。作者的方法也处理所有的pairs。当non-local
+网络连接到其他方法，实验表明：模型的<em>non-locality</em>，和attention/interaction/relation的想法是orthogonal的，non-local
+建模，一个long-time crucial element of image
+processing。在最近的神经网络中被忽视了。</p></li>
+<li><p>视频分类架构：一个自然的视频分类的解决方式是结合CNNs for images
+and RNNs for sequences。相比之下，feedforward模型通过3D卷积实现 ，3D
+滤波器可以通过膨胀预训练的2D
+滤波器来获得。除了原始视频进行端到端的建模之外，发现光流和轨迹也有帮助。光流和轨迹是现有的modules，能够发现长程的、non-local的依赖。</p></li>
+<li><p><strong>Non-local Neural
+Networks</strong>：定义深度神经网络中通用的non-local的操作: <span
+class="math display">\[\mathbf{y}_i=\frac{1}{\mathcal{C}(\mathbf{x})}\sum_{\forall
+j}f(\mathbf{x}_i,\mathbf{x}_j)g(\mathbf{x}_j).\]</span> 这里 <span
+class="math inline">\(i\)</span>是输出位置的index，它的response被计算，<span
+class="math inline">\(j\)</span>是index，来枚举所有可能的位置, <span
+class="math inline">\(X\)</span>是输入信号(image,sequence,video)，<span
+class="math inline">\(y\)</span>是输出信号，和<span
+class="math inline">\(X\)</span>有相同的size。一个pairwise function
+<span class="math inline">\(f\)</span>计算一个标量(代表relationship)
+between <span class="math inline">\(i\)</span> 和 <span
+class="math inline">\(j\)</span>。这个一元的function <span
+class="math inline">\(g\)</span>计算输入信号在位置 <span
+class="math inline">\(j\)</span>的一个representation. 这个response 通过
+factor <span class="math inline">\(C(x)\)</span>进行归一化。</p>
+<p><strong>公式中的non-local是考虑了所有的位置。相比之下，一个卷积操作sums
+up the weighted input in a local
+neighborhood(卷积操作是对局部邻域的加权输入进行求和)，时间<span
+class="math inline">\(i\)</span>的循环操作通常只基于当前和最新的time
+steps</strong>。</p>
+<p>这个non-local操作不同于全连接层，公式基于不同位置之间的relationships计算responses。换句话说，<span
+class="math inline">\(X_j\)</span>和 <span
+class="math inline">\(X_i\)</span>之间的relationship不是 <span
+class="math inline">\(fc\)</span>中输入数据的function，不像non-local
+layers。更进一步，公式支持不同输入的size，保持了输出中的一致的size，对比之下，一个<span
+class="math inline">\(fc\)</span>
+层要求一个固定的size的输入/输入，丢失了位置一致性。</p>
+<p>一个non-local 操作是一个灵活的building block，能够很容易地和卷积/循环
+layers结合，可以加入到神经网络中earlier part，不同于<span
+class="math inline">\(fc\)</span>层只能用在最后。这样能够构建一个丰富的hierarchy，结合了non-local和local
+information。</p></li>
+<li><p><strong>Instantiations</strong>：接下来描述 <span
+class="math inline">\(f\)</span>和 <span
+class="math inline">\(g\)</span>的不同的版本，有趣的是，实验表明：non-local模型对这些选择不sensitive，表明这个通用的non-local
+behaviour是主要的理由。简单来说，考虑 <span
+class="math inline">\(g\)</span>是一种线性的embedding：<span
+class="math inline">\(g(x_j) = W_gX_j\)</span>，<span
+class="math inline">\(W_g\)</span>是一个可学习的权重矩阵，这个通过空间上的
+<span class="math inline">\(1 \times 1\)</span>卷积或者 时空上的 <span
+class="math inline">\(1 \times 1 \times 1\)</span>
+卷积实现。接下来塔伦pairwiwse functin <span
+class="math inline">\(f\)</span>。</p>
+<ul>
+<li><strong>高斯</strong>：跟随non-local mean 和 双向的滤波器， <span
+class="math inline">\(f\)</span>的一个自然的选择就是高斯函数，考虑：
+<span
+class="math display">\[f(\mathbf{x}_i,\mathbf{x}_j)=e^{\mathbf{x}_i^T\mathbf{x}_j}.\]</span></li>
+</ul>
+<p>这里 <span class="math inline">\(X^T_i X_j\)</span>是一个dot-product
+similarity。欧氏距离也可以用，但是dot-product执行起来更友好，归一化factor设为：<span
+class="math inline">\(\mathcal{C}(\mathbf{x})=\sum_{\forall
+j}f(\mathbf{x}_{i},\mathbf{x}_{j})\)</span></p>
+<ul>
+<li><strong>嵌入高斯</strong>：高斯函数的一个简单的扩展是计算向量空间中的相似性：
+<span
+class="math display">\[f(\mathbf{x}_i,\mathbf{x}_j)=e^{\theta(\mathbf{x}_i)^T\phi(\mathbf{x}_j)}.\]</span></li>
+</ul>
+<p>这里 <span class="math inline">\(\theta(\mathbf{x}_i) =
+W_\theta\mathbf{x}_i\)</span> 和 <span
+class="math inline">\(\phi(\mathbf{x}_j) = W_\phi\mathbf{x}_j\)</span>
+是两个嵌入，设置 <span
+class="math inline">\(\mathcal{C}(\mathbf{x})=\sum_{\forall
+j}f(\mathbf{x}_{i},\mathbf{x}_{j}).\)</span></p>
+<p>注意到自注意力模块嵌入高斯版本的一个non-local的特例。可以从事实看出来：给定一个<span
+class="math inline">\(i\)</span>，<span
+class="math inline">\({\frac{1}{\mathcal{C}(\mathbf{x})}}f(\mathbf{x}_{i},\mathbf{x}_{j})\)</span>
+在 dimension <span class="math inline">\(j\)</span>上是一个 softmax
+计算。因此，有 <span
+class="math inline">\(\mathbf{y}=softmax(\mathbf{x}^TW_\theta^TW_\phi\mathbf{x})g(\mathbf{x})\)</span>，这个是自注意力的形式。这个工作将最近的自注意力模块和经典的non-local
+means联系起来，将sequential self-attention
+network扩展到通用的space/spacetime non-local network for image/video
+recognition。</p>
+<p>作者展示了注意力行为不是所研究的application重要。</p>
+<ul>
+<li><strong>Dot product</strong>：<span class="math inline">\(f\)</span>
+可以定义为： <span class="math display">\[
+f ( \mathbf{x}_{i}, \mathbf{x}_{j} )=\theta( \mathbf{x}_{i} )^{T} \phi(
+\mathbf{x}_{j} ).
+\]</span></li>
+</ul>
+<p>这里采用嵌入的版本，设置归一化factor <span class="math inline">\(C(x)
+= N\)</span>，这里 <span class="math inline">\(N\)</span>是 <span
+class="math inline">\(x\)</span>中的位置的数量，不同于 <span
+class="math inline">\(f\)</span>
+的和,因为它简化了梯度计算。一个归一化是有必要的。这个
+dot-product和嵌入高斯主要的不同是softmax，这个扮演了激活函数的角色。</p>
+<ul>
+<li><strong>Concatenation</strong>：在Relation Networks中的pairwise
+function用到了concatenation，评估 <span class="math inline">\(f\)</span>
+的一个 concatenation的形式：</li>
+</ul>
+<p><span class="math display">\[
+f ( \mathbf{x}_{i}, \mathbf{x}_{j} )=\mathrm{R e L U} (
+\mathbf{w}_{f}^{T} [ \theta( \mathbf{x}_{i} ), \; \phi( \mathbf{x}_{j} )
+] ).
+\]</span></p>
+<p>这里，[.,.]表示 concatenation，<span
+class="math inline">\(w_f\)</span>是一个权重向量，将concatenated
+vector投射到一个标量。如上，设置 <span class="math inline">\(C(x) =
+N\)</span>，这里，采用 ReLU。以上的变体展示了通用
+non-local操作的灵活性。</p></li>
+<li><p><strong>Non-local
+Block</strong>：将non-local操作弄到一个non-local
+blocks，能够用于很多现有的架构，定义一个non-local block如下：</p>
+<p><span class="math display">\[
+\mathbf{z}_{i}=W_{z} \mathbf{y}_{i}+\mathbf{x}_{i},
+\]</span> 这里 <span
+class="math inline">\(&quot;+X_i&quot;\)</span>表示residual
+connection，这个residual connection使得能够将一个新的non-local
+block插入到任意一个预训练的模型，不需要破坏初始的behavior(如果 <span
+class="math inline">\(W_z\)</span>是初始化为0)。</p>
+<ul>
+<li><strong>Implementation of non-local blocks</strong>：设置 <span
+class="math inline">\(W_g、W_{\theta}、W_{\phi}\)</span>的通道数为
+x的一半。这个follow了bottleneck的设计，减小了block的一半的计算。这个weight
+matrix <span class="math inline">\(W_z\)</span> 计算了一个position-wise
+embedding on <span class="math inline">\(y_i\)</span>，匹配了<span
+class="math inline">\(x\)</span>的通道。一个subsample的trick可以用于进一步减小计算。修改公式(1)为：<br />
+<span class="math display">\[
+y_i = \frac{1} {\mathcal{C} ( \mathbf{\hat{x}} )} \sum_{\forall j} f (
+\mathbf{x}_{i}, \mathbf{\hat{x}}_{j} ) g ( \mathbf{\hat{x}}_{j} )
+\]</span></li>
+</ul>
+<p><span class="math inline">\(\hat{x}\)</span> 是
+x的subsample。在空间域中执行这个，能够减小pairwise
+大约1/4的计算。这个trick没有改变non-local的behavior。但是使得计算更稀疏。可以通过增加一个max
+pooling layer after <span class="math inline">\(\phi\)</span> 和 <span
+class="math inline">\(g\)</span> 来实现。</p></li>
+</ol>
+<figure>
+<img
+src="https://dt5vp8kor0orz.cloudfront.net/8899094797e82c5c185a0893896320ef77f60e64/3-Figure2-1.png"
+alt="non-local" />
+<figcaption aria-hidden="true">non-local</figcaption>
+</figure>
+<p><span class="math inline">\(Fig.1^{[1]}\)</span> A spacetime
+non-local block. The feature maps are shown as the shape of their
+tensors, e.g., <span class="math inline">\(T \times H \times W \times
+1024\)</span> for 1024 channels (proper reshaping is performed when
+noted). “⊗” denotes matrix multiplication, and “⊕” denotes element-wise
+sum. The softmax operation is performed on each row. The blue boxes
+denote <span class="math inline">\(1 \times 1 \times 1\)</span>
+convolutions. Here we show the embedded Gaussian version, with a
+bottleneck of 512 channels. The vanilla Gaussian version can be done by
+removing <span class="math inline">\(\theta\)</span> and <span
+class="math inline">\(\phi\)</span>, and the dot-product version can be
+done by replacing softmax with scaling by <span
+class="math inline">\(1/N\)</span>.</p>
 
     </div>
 
@@ -242,6 +499,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Action-Recognition/" rel="tag"># Action Recognition</a>
+          </div>
 
         
 
@@ -285,13 +545,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">80k</span>
+    <span title="站点总字数">83k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:52</span>
+    <span title="站点阅读时长">5:02</span>
   </span>
 </div>
 <div class="busuanzi-count">
