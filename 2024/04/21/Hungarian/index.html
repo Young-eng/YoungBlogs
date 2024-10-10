@@ -27,7 +27,7 @@
 <meta property="og:description" content="Hungarian Algorithm(Kuhn-Munkres)(匈牙利算法)  匈牙利算法又称为KM算法，可以在 \(O(n^3)\) 的时间复杂度内解决二分图最大匹配问题。考虑到二分图中的两个集合中的点并不总是相同，为了能应用KM算法解决二分图的最大权匹配，需要先做如下处理：将两个集合中点数比较少的补点，使得两边点数相同，再将不存在的边权重设为0，这种情况下，问题就转换成 最大权完">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-21T01:44:16.000Z">
-<meta property="article:modified_time" content="2024-10-10T12:11:54.050Z">
+<meta property="article:modified_time" content="2024-10-10T12:36:41.884Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -211,7 +211,7 @@ Algorithm(Kuhn-Munkres)(匈牙利算法)</span></a></li></ol></div>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-10-10 20:11:54" itemprop="dateModified" datetime="2024-10-10T20:11:54+08:00">2024-10-10</time>
+      <time title="修改时间：2024-10-10 20:36:41" itemprop="dateModified" datetime="2024-10-10T20:36:41+08:00">2024-10-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -237,7 +237,7 @@ Algorithm(Kuhn-Munkres)(匈牙利算法)</span></a></li></ol></div>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>651</span>
+      <span>683</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -267,7 +267,10 @@ class="math inline">\(O(n^4)\)</span>，但杰克爱德蒙斯与理查德卡普�
 <span class="math inline">\(O(n^3)\)</span> 的时间复杂度。</p></li>
 <li><p>匈牙利算法寻找<strong>最大匹配，就是通过不断寻找原有的匹配M的增广路径，因为找到一条M匹配的增广路径，就意味着一个更大的匹配M'，其恰好比M多一条边</strong>。</p></li>
 <li><p>对于图来说，最大匹配不是唯一的，但是最大匹配的大小是唯一的。</p></li>
-<li><p><strong>二分图：图 <span class="math inline">\(G=(V,E)\)</span>:
+</ol>
+<span id="more"></span>
+<ol start="4" type="1">
+<li><strong>二分图：图 <span class="math inline">\(G=(V,E)\)</span>:
 <span class="math inline">\(V\)</span>是顶点集，<span
 class="math inline">\(E\)</span>是边集，将顶点集合分成两类，每类之间的顶点没有边相连接，只有不同顶点集合的点之间才可以有边相连接</strong>。匹配(matching)
 <span class="math inline">\(M\subseteq E\)</span> 是一个边集合，使得对于
@@ -277,7 +280,7 @@ V\)</span>，至多只属于M中的一个边。匹配M中的边的个数称为�
 是一个匹配，使得任何其它的匹配 <span class="math inline">\(|M&#39;|
 &lt;=|M|\)</span>。 如果顶点<span class="math inline">\(v\)</span>是匹配
 <span
-class="math inline">\(M\)</span>的某个边的端点，则它是匹配的，否则，称为是自由的。</p></li>
+class="math inline">\(M\)</span>的某个边的端点，则它是匹配的，否则，称为是自由的。</li>
 </ol>
 <p><img
 src="https://i-blog.csdnimg.cn/direct/902bd343a4b0405e8ca57297d88aa710.png"
@@ -290,6 +293,11 @@ src="https://i-blog.csdnimg.cn/direct/c41d459b763c4701be9d16a554b31393.png"
 alt="匈牙利算法" /> <img
 src="https://i-blog.csdnimg.cn/direct/9944f25dbf3643c39076a1723ee5d166.png"
 alt="匈牙利算法" /></p>
+<p>参考链接：</p>
+<ul>
+<li><code>https://zh.wikipedia.org/wiki/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95</code></li>
+<li><code>https://www.youtube.com/watch?v=bSoZQkxc1Zw&amp;list=PLvOO0btloRnsbnIIbX6ywvD8OZUTT0_ID&amp;index=16</code></li>
+</ul>
 
     </div>
 
