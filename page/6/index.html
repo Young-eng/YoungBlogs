@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-count">92</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -160,6 +160,156 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/04/15/torch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/04/15/torch/" class="post-title-link" itemprop="url">torch notes</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-04-15 15:49:37" itemprop="dateCreated datePublished" datetime="2024-04-15T15:49:37+08:00">2024-04-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-09-23 15:05:30" itemprop="dateModified" datetime="2024-09-23T15:05:30+08:00">2024-09-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Notes/" itemprop="url" rel="index"><span itemprop="name">Notes</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>661</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="总结一些使用torch过程中的常用的tips和相关知识点">总结一些使用torch过程中的常用的tips和相关知识点</h3>
+<ol type="1">
+<li>torch 中的dim:</li>
+</ol>
+<figure>
+<img
+src="https://pic1.zhimg.com/v2-70e1e7a61d2987e5b1ba848cfb8be208_r.jpg"
+alt="Dimension" />
+<figcaption aria-hidden="true">Dimension</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>Softmax 和Sigmoid函数：</li>
+</ol>
+<p><code>https://zhuanlan.zhihu.com/p/525276061</code></p>
+<p><code>https://www.cnblogs.com/cy0628/p/13921725.html</code></p>
+<ol start="3" type="1">
+<li>torchscript
+是pytorch模型的中间表示，Pytorch提供了一套JIT工具：Just-in-Time，允许用户将模型转换为Torchscript格式；保存后的torchscript模型可以在像C++这种高性能的环境中运行，torchscript是一种从pytorch代码创建可序列化和可优化模型的方法。任何torchscript程序都可以从python进程中加载，并加载到没有python解释器的环境中。torchscript能将动态图转化为静态图。torchscript常和torch.jit合起来用。两种方式：
+<ul>
+<li>torch.jit.trace：把模型和example输入进去，然后调用模型，记录下模型run的时候所进行的操作，但是有decision
+branch例如if-else这种，torch.jit.trace只是记录当前代码走的路径，control-flow被抹除了；生成的TorchScript模型可以直接用于推理，而不需要Python解释器。只支持前向传播。这意味着它不能用于训练或反向传播。此外，由于它是通过实际输入数据来跟踪模型的，因此它可能无法处理一些边缘情况或异常输入</li>
+<li>torch.jit.script：这有分支的情况下，用torch.jit.script。forward方法会被默认编译，forward中被调用的方法也会按照被调用的顺序被编译；相比之下，torch.jit.script允许用户将整个训练循环（包括前向传播和反向传播）转换为TorchScript模型。这意味着它可以直接用于模型的训练和验证。torch.jit.script可以处理更广泛的模型和计算图，并且可以更好地处理异常情况。此外，它还支持自定义类和函数，这使得它更加灵活和强大</li>
+<li>如果想要方法不被编译，可以使用 <strong><span class="citation"
+data-cites="torch.jit.ignore">@torch.jit.ignore</span></strong> 或者
+<strong><span class="citation"
+data-cites="torch.jit.unused">@torch.jit.unused</span></strong></li>
+<li>把pytorch模型部署到c++平台上的流程主要是：模型转换、保存序列化模型、C++中加载序列化的pytorch模型以及执行script
+module</li>
+<li>相关链接：
+<ul>
+<li><code>https://mp.weixin.qq.com/s/7JjRGgg1mKlIRuSyPC9tmg</code></li>
+<li><code>https://blog.csdn.net/hxxjxw/article/details/120835884</code></li>
+<li><code>Pytorch中文翻译的网站：https://pytorch.ac.cn/docs/stable/index.html</code></li>
+<li><code>https://developer.baidu.com/article/detail.html?id=2995518</code></li>
+<li><code>https://pytorch.panchuang.net/EigthSection/torchScript/</code></li>
+</ul></li>
+</ul></li>
+<li>常用的注意力模块的一些链接：
+<ul>
+<li><code>https://www.cnblogs.com/wxkang/p/17133460.html</code>，各种注意力机制</li>
+<li><code>https://www.cnblogs.com/Fish0403/p/17221430.html</code>,
+SE和CBAM</li>
+<li><code>https://cloud.tencent.com/developer/article/1776357</code>,
+Vision Transformer的综述</li>
+</ul></li>
+<li>一个好用的可视化工具：<strong>torchinfo</strong>:
+<ul>
+<li><code>pip install torchinfo</code>，能够查看网络模型的输入输出，尺寸，参数量等各类型的指标，方便理解模型。</li>
+</ul></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -703,9 +853,24 @@ temporal sequences of action labels.
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-04-09 14:40:33 / 修改时间：14:40:34" itemprop="dateCreated datePublished" datetime="2024-04-09T14:40:33+08:00">2024-04-09</time>
+      <time title="创建时间：2024-04-09 14:40:33" itemprop="dateCreated datePublished" datetime="2024-04-09T14:40:33+08:00">2024-04-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-11 08:23:30" itemprop="dateModified" datetime="2024-10-11T08:23:30+08:00">2024-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Learning/" itemprop="url" rel="index"><span itemprop="name">Learning</span></a>
+        </span>
     </span>
 
   
@@ -715,7 +880,7 @@ temporal sequences of action labels.
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>16</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -733,7 +898,14 @@ temporal sequences of action labels.
     
     
     <div class="post-body" itemprop="articleBody">
-          
+          <h3 id="kalman-filtering卡尔曼滤波">Kalman Filtering(卡尔曼滤波)</h3>
+<ol type="1">
+<li></li>
+</ol>
+<p>参考链接:</p>
+<ul>
+<li><code>https://www.kalmanfilter.net/CN/default_cn.aspx</code></li>
+</ul>
 
       
     </div>
@@ -1246,136 +1418,6 @@ ratios。</li>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/04/05/DDAE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/04/05/DDAE/" class="post-title-link" itemprop="url">DDAE</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-04-05 20:57:13" itemprop="dateCreated datePublished" datetime="2024-04-05T20:57:13+08:00">2024-04-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-04-15 08:50:38" itemprop="dateModified" datetime="2024-04-15T08:50:38+08:00">2024-04-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>405</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="denoising-diffusion-autoencoders-are-unified-self-supervised-learners1">Denoising
-Diffusion Autoencoders are Unified Self-supervised
-Learners<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自北航的Weilai Xiang, Hongyu Yang, Di Huang, Yunhong Wang.
-论文引用[1]: Xiang, Weilai et al. “Denoising Diffusion Autoencoders are
-Unified Self-supervised Learners.” 2023 IEEE/CVF International
-Conference on Computer Vision (ICCV) (2023): 15756-15766.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2023.Mar</li>
-</ul>
-<h3 id="key-words"><strong>Key Words</strong></h3>
-<ul>
-<li>generative (translation,...) and discriminative (classification,
-recognition) tasks</li>
-<li>generative pre-training and denoising autoencoding</li>
-<li>DDAE as generative models and competitive recognition models</li>
-<li>exntend generative models for discriminative purposes</li>
-<li>linear-separable features in unsupervised manner</li>
-<li>latent space VS pixel-space</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/04/05/DDAE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/YoungBlogs/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/10/">10</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1399,13 +1441,13 @@ recognition) tasks</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">84k</span>
+    <span title="站点总字数">85k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:05</span>
+    <span title="站点阅读时长">5:11</span>
   </span>
 </div>
 <div class="busuanzi-count">

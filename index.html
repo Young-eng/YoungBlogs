@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-count">92</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -160,6 +160,137 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/10/16/YOWOv3-lightweight/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/10/16/YOWOv3-lightweight/" class="post-title-link" itemprop="url">YOWOv3_lightweight</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-10-16 09:33:17 / 修改时间：15:05:33" itemprop="dateCreated datePublished" datetime="2024-10-16T09:33:17+08:00">2024-10-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="yowov3-a-lightweight-spatio-temporal-joint-network-for-video-action-detection1">YOWOv3:
+A Lightweight Spatio-Temporal Joint Network for Video Action
+Detection<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自江南大学的Anlei Zhu, Yinghui Wang等人。论文引用[1]:Zhu,
+Anlei et al. “YOWOv3: A Lightweight Spatio-Temporal Joint Network for
+Video Action Detection.” IEEE Transactions on Circuits and Systems for
+Video Technology 34 (2024): 8148-8160.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li><ol start="2024" type="1">
+<li>Sept</li>
+</ol></li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Channel Fusion and Attention Convolution Mix(CFACM) module</li>
+<li>spatio-temporal shift module</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>时空行为检测网络，需要同时提取和融合时间和空间特征，经常导致目前的模型变得膨胀和很难实时和部署在边缘设备上，文章引入了一个高效实时的时空检测网路模型，YOWOv3，这个模型用了3D
+和2D backbone
+来本别提取时间和时空特征，通过继承卷积和自注意力，来设计一个轻量的时空特征融合模块，进一步增强了时空特征的抽取。将这个模块称之为CFACM,这个方法不仅在lightness上超过了最新的高效的STAD模型，减小了24%的模型的大小，同时提高了mAP，保持了很好的速度。现有的模型用3D
+卷积来提取时序信息，会受限于特定的设备上，为了减小3D卷积操作的潜在的不被支持在边缘部署的问题，用了一个时空shift
+module by 2D 卷积，使得模型能够获取时序信息，将得到的特征插入multi-level
+spatio-temporal feature extraction models.这样不仅将模型从3D
+卷积操作中释放出来，同时也很好地balance了速度和精度。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/10/16/YOWOv3-lightweight/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1149,145 +1280,6 @@ Detection)</strong>：回环检测判断机器人是否到达过先前的位置�
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/08/27/WOO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/08/27/WOO/" class="post-title-link" itemprop="url">WOO</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-08-27 15:23:26" itemprop="dateCreated datePublished" datetime="2024-08-27T15:23:26+08:00">2024-08-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-29 13:58:17" itemprop="dateModified" datetime="2024-08-29T13:58:17+08:00">2024-08-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.4k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>13 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="watch-only-oncean-end-to-end-video-action-detection-framework1">Watch
-Only Once：An End-to-end Video Action Detection
-Framework<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自港大的罗平老师组的Shoufa Chen、Peize Sun、Enze
-Xie等人。论文引用[1]:Chen, Shoufa et al. “Watch Only Once: An End-to-End
-Video Action Detection Framework.” 2021 IEEE/CVF International
-Conference on Computer Vision (ICCV) (2021): 8158-8167.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2021.Oct</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>end-to-end unified network</li>
-<li>task-specific features</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>提出了一个端到端的pipeline for video action
-detection。<strong>当前的方法要么是将video action detection
-这个任务解耦成action localization和action
-classification这两个分离的阶段，要么在一个阶段里训练两个separated
-models</strong>。相比之下，作者的方法将actor localization和action
-classification弄在了一个网络里。通过统一backbone网络，去掉很多认为的手工components，整个pipeline被简化了。<strong>WOO</strong>用一个unified
-video backbone来提取features for actor location 和action
-localization,另外，引入了<font color=red>spatial-temporal action
-embeddings</font>，设计了一个 spatial-temporal fusion
-module来得到更多的含有丰富信息的discriminative features，提升了action
-classification的性能。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/08/27/WOO/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/YoungBlogs/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/10/">10</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1311,13 +1303,13 @@ classification的性能。</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">84k</span>
+    <span title="站点总字数">85k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:05</span>
+    <span title="站点阅读时长">5:11</span>
   </span>
 </div>
 <div class="busuanzi-count">
