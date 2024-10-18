@@ -27,7 +27,7 @@
 <meta property="og:description" content="Video Twin Transformer[1]  作者是来自MSRA、USTC、HUST、THU的Ze Liu, Jia Ning, Yue Cao, Yixuan Wei,Zheng Zhang, Stephen Lin, Han Hu。论文引用[1]:Liu, Ze et al. “Video Swin Transformer.” 2022 IEEE&#x2F;CVF Conference">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-19T11:29:45.000Z">
-<meta property="article:modified_time" content="2024-04-19T11:34:08.000Z">
+<meta property="article:modified_time" content="2024-10-18T06:13:40.223Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Transformer">
 <meta name="twitter:card" content="summary">
@@ -114,7 +114,7 @@
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#video-twin-transformer1"><span class="nav-number">1.</span> <span class="nav-text">Video Twin
-Transformer[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">3.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+Transformer[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结：</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -203,9 +203,15 @@ Transformer[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-lin
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-04-19 19:29:45 / 修改时间：19:34:08" itemprop="dateCreated datePublished" datetime="2024-04-19T19:29:45+08:00">2024-04-19</time>
+      <time title="创建时间：2024-04-19 19:29:45" itemprop="dateCreated datePublished" datetime="2024-04-19T19:29:45+08:00">2024-04-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-18 14:13:40" itemprop="dateModified" datetime="2024-10-18T14:13:40+08:00">2024-10-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -231,14 +237,14 @@ Transformer[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-lin
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>66</span>
+      <span>1.4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -260,15 +266,124 @@ Pattern Recognition (CVPR) (2021): 3192-3201.</p>
 <ul>
 <li>2021.Jun</li>
 </ul>
-<h3 id="动机">动机</h3>
-<ol type="1">
-<li></li>
-</ol>
-<span id="more"></span>
 <h3 id="总结">总结：</h3>
 <ol type="1">
-<li></li>
+<li>建立在Transformer上的视频模型能偶全局链接patches across the spatial
+and temporal dimensions。在本文中，**支持video
+Transformers的局部的归纳偏置(inductive bias of
+locality)。能够实现很好的速度-精度的平衡。这个locality是通过采用Swin
+Transformer来实现的。之前的卷积模型的backbone for
+video都是采用来自iamge的，通过简单地在时间轴上进行扩展。例如：3D
+卷积是2D 卷积的直接扩展，用于spatial 和 temporal modeling at the
+operator level。</li>
 </ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>本文提出了一个纯transformer的backbone，用于video
+recognition，发现超过了那些factorized
+model，通过利用视频内在的spatiotemporal
+locality来实现，pixels在时空距离上更相近的更可能相关；由于这个特性，full
+spatiotemporal
+self-attention能够通过自注意力很好地近似，同时节省了计算量和模型的大小。通过对Swin
+Transformer进行时空上的改变。<strong>SwinTransformer</strong>引入了归纳偏置
+for spatial locality, as well as for hierarchy and translation
+invariance。Video Swin Transformer严格地follow原始的Swin
+Transformer的hierarchical的结构，但是局部的注意力的计算从spatial扩展到spatial-temporal。由于local
+attention是在non-overlapping windows上进行计算的，原始的Swin
+Transformer的shifted window mechanism也重新转换来处理spatio-temporal
+input。</p></li>
+<li><p>输入的视频的大小为 <span class="math inline">\(T \times H \times
+W \times 3\)</span>，包含了 <span class="math inline">\(T\)</span>
+frames，每个是 <span class="math inline">\(H \times W \times 3\)</span>
+个像素。将每个3D patch <span class="math inline">\(2 \times 4 times 4
+\times 3\)</span> 视为一个token。因此，输入token的数量为 <span
+class="math inline">\(\frac{T}{2} \times \frac{H}{4} \times
+\frac{W}{4}\)</span> 个 3D token。每个token包含
+96维的feature。然后用一个linear embedding layer，来project
+每个token的feature 到 <span class="math inline">\(C\)</span> 维。 Video
+Swin Transformer block主要是用了3D shifted window。
+相比于图像，视频会输入更多的tokens，因为有了额外的temporal
+dimension。一个全局的self-attention
+module不太适合了，因为会导致大量的计算和存储成本。这里，跟着Swin
+Transformer，引入locality inductive bias to the self-attention
+module，这个表明比video recognition更有效。</p></li>
+<li><p><strong>非重叠3D窗口上的多头自注意力</strong>：这里，直接将2D
+种的MSA用来处理视频输入，给定一个视频，包含 <span
+class="math inline">\(T&#39; \times H&#39; \times W&#39;\)</span> 个3D
+tokens的视频，和一个 <span class="math inline">\(P \times M \times
+M\)</span> 的 3D window size。windows是用来对video
+input进行不重叠的划分。因此，输入的tokens被划分成 $ $ 个不重叠的 3D
+窗口。如图所示，对于一个 <span class="math inline">\(8 \times 8 \times
+8\)</span> 的输入tokens和 $4 $ 的window size。windows的数量就是 <span
+class="math inline">\(2 \times 2 \times 2\)</span>。然后在每个3D
+窗口内进行多头自注意力。</p></li>
+<li><p>当每个非重叠的3D
+window内进行多头自注意力操作时，缺乏不同windows之间的连接。可能限制了架构的represetation的能力。因此，将shifted
+2D window mechanism of Swin Transformer扩展到 3D
+window，用于引入cross-windows的连接，同时维持非重叠window的高效的计算。给定输入
+<span class="math inline">\(T&#39; \times H&#39; \times W&#39;\)</span>
+个3D 输入tokens，每个 3D window的size是 <span class="math inline">\(P
+\times M \times
+M\)</span>，对于连续的两个layer，第一个layer中的自注意力模块用常规的window
+partition 策略，得到 $ $ 个
+非重叠的窗口。对于第二个窗口中的自注意力模块，window
+partition在temporal、height、width上shift了 <span
+class="math inline">\((\frac{P}{2}, \frac{M}{2}，\frac{M}{2})\)</span>
+个tokens。</p></li>
+<li><p><strong>3D Relative Position
+Bias</strong>：之前的很多工作展示了引入relative position bias to each
+head i self-attention
+computation是有利的。因此，follow之前的工作，引入3D relative position
+bias <span class="math inline">\(B\in\mathbb{R}^{P^{2}\times M^{2}\times
+M^{2}}\)</span> for each head as <span
+class="math display">\[\mathrm{Attention}(Q,K,V)=\mathrm{SoftMax}(QK^T/\sqrt{d}+B)V,\]</span></p></li>
+</ol>
+<p><span class="math inline">\(Q,K,V\in\mathbb{R}^{PM^{2}\times
+d}\)</span> 是 Query, Key, value。d 是query和key的dimension。<span
+class="math inline">\(PM^2\)</span>是 3D window的tokens的数量。因为每个
+axis上的relative position是在 <span
+class="math inline">\([-P+1,+-1](temporal) or [-M+1, M-1](height or
+width)，对 bias 矩阵B进行参数化，\)</span>^{(2P-1)(2M-1)(2M-1)}$，values
+in <span class="math inline">\(B\)</span> 都是来自 <span
+class="math inline">\(\hat{B}\)</span>。</p>
+<ol start="7" type="1">
+<li>在这个模型中，输入的token膨胀到temporal dimension of 2, 因此 linear
+embedding layer的shape从原始Swin的 <span class="math inline">\(48 \times
+C\)</span> 变成了 <span class="math inline">\(96 \times
+C\)</span>。这里，直接复制pre-trained model里的weighs
+twice，然后乘以整个矩阵 by 0.5 来保证 mean 和variance of the output
+不变。 relative position bias matrix的shape是 <span
+class="math inline">\((2P-1, 2M-1, 2M-1)\)</span>，相比于原始Swin中的
+<span class="math inline">\((2M-1, 2M-1)\)</span>，为了使relative
+position bias在每个frame中相同，在pre-trained model中复制 <span
+class="math inline">\(2P-1\)</span> 次，来得到 <span
+class="math inline">\((2P-1, 2M-1, 2M-1)\)</span> for
+initialization。</li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/94eae578e6af3382f6449506965639f18aab3fa0/3-Figure1-1.png"
+alt="Model Architecture" /> <span
+class="math inline">\(Fig.1^{[1]}\)</span> Overall architecture of Video
+Swin Transformer</p>
+<p><img
+src="https://figures.semanticscholar.org/94eae578e6af3382f6449506965639f18aab3fa0/4-Figure3-1.png"
+alt="3D shifted window" /> <span
+class="math inline">\(Fig.2^{[1]}\)</span> An illustrated example of 3D
+shifted windows. The input size <span class="math inline">\(T&#39;
+\times H&#39; \times W&#39;\)</span> is <span class="math inline">\(8
+\times 8 \times 8\)</span>, and the 3D window size <span
+class="math inline">\(P \times M \times M\)</span> is <span
+class="math inline">\(4 \times 4 \times 4\)</span>. As layer <span
+class="math inline">\(l\)</span> adopts regular window partitioning, the
+number of windows in layer <span class="math inline">\(l\)</span> is
+<span class="math inline">\(2 \times 2 \times 2=8\)</span>. For layer
+<span class="math inline">\(l+1\)</span>, as the windows are shifted by
+<span class="math inline">\((\frac{P}{2},\frac{M}{2}, \frac{M}{2}) =
+(2,2,2)\)</span> tokens, the number of windows becomes <span
+class="math inline">\(3 \times 3 \times 3=27\)</span>. Though the number
+of windows is increased, the efficient batch computation in for the
+shifted configuration can be followed, such that the final number of
+windows for computation is still 8.</p>
 
     </div>
 
@@ -323,13 +438,13 @@ Pattern Recognition (CVPR) (2021): 3192-3201.</p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">86k</span>
+    <span title="站点总字数">87k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:11</span>
+    <span title="站点阅读时长">5:16</span>
   </span>
 </div>
 <div class="busuanzi-count">
