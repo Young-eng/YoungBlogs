@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-10-16T08:20:51.980Z</updated>
+  <updated>2024-10-23T14:39:55.147Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,51 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>RT-DETR</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/10/23/RT-DETR/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/10/23/RT-DETR/</id>
+    <published>2024-10-23T14:11:04.000Z</published>
+    <updated>2024-10-23T14:39:55.147Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="detrs-beat-yolos-on-real-time-object-detection1">DETRs BeatYOLOs on Real-time Object Detection<sup>[1]</sup></h3><blockquote><p>作者是来自北大和百度的Yian Zhao, Wenyu Lv等人。论文引用[1]:Lv, Wenyuet al. “DETRs Beat YOLOs on Real-time Object Detection.” 2024 IEEE/CVFConference on Computer Vision and Pattern Recognition (CVPR) (2023):16965-16974.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Apr</li></ul><h3 id="key-words">Key Words</h3><ul><li>hybrid encoder to process multi-scale features</li><li>uncertainty-minimal query selection to provide high-quality initialqueries to the decoder</li></ul><h3 id="动机">动机</h3><p>YOLO系列受到了NMS的影响，会降低推理速度。在不同的scenarios下，需要仔细地选择NMS的阈值。DETR不需要手工设计的components，没有NMS，但是计算成本高。因此，探索DETR能够做到实时是一个重要的方向。</p><h3 id="总结">总结</h3><ol type="1"><li>YOLO系列变成了最流行的实施目标检测的框架因为trade-off betweenspeed和accuracy。然而，观察到，YOLO的速度和精度收到了NMS的负面影响。端到端的DETR不需要NMS。然而，它的计算成本还是很高。这个不仅降低了推理的速度，也引入了超参数，造成速度和精度的不稳定。DETR去掉了手工设计的component，然而它的计算成本很高，很难做到实时。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>multi-scalefeatures的interaction造成了计算成本，实时的DETR需要重新设计encoder；objectqueries很难优化，阻碍了DETRs的性能。提出了query selectionschemes来代替vanilla learnable embeddings with encoderfeatures。然而，观察到，<strong>当前的query selection直接采用分类的scoreforselection,忽略了detector需要同时对目标的category和location同时进行model，这俩都决定了features的质量</strong>。这个不可避免地造成了lowlocalization confidence的encoder features被选为了initialqueries。因此导致了大量的不确定性。将<strong>queryinitialization视为一个breakthrough，来进一步提高performance</strong>。</p></li><li></li></ol><figure><imgsrc="https://figures.semanticscholar.org/3a6c423cc0f687fc43a671e55dce06f681df7476/4-Figure3-1.png"alt="Overview" /><figcaption aria-hidden="true">Overview</figcaption></figure><figure><imgsrc="https://figures.semanticscholar.org/3a6c423cc0f687fc43a671e55dce06f681df7476/4-Figure4-1.png"alt="CCFM" /><figcaption aria-hidden="true">CCFM</figcaption></figure><figure><imgsrc="https://figures.semanticscholar.org/3a6c423cc0f687fc43a671e55dce06f681df7476/5-Figure5-1.png"alt="Different types of encoders" /><figcaption aria-hidden="true">Different types of encoders</figcaption></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;detrs-beat-yolos-on-real-time-object-detection1&quot;&gt;DETRs Beat
+YOLOs on Real-time Object Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自北大和百度的Yian Zhao, Wenyu Lv等人。论文引用[1]:Lv, Wenyu
+et al. “DETRs Beat YOLOs on Real-time Object Detection.” 2024 IEEE/CVF
+Conference on Computer Vision and Pattern Recognition (CVPR) (2023):
+16965-16974.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2024.Apr&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;hybrid encoder to process multi-scale features&lt;/li&gt;
+&lt;li&gt;uncertainty-minimal query selection to provide high-quality initial
+queries to the decoder&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
+&lt;p&gt;YOLO系列受到了NMS的影响，会降低推理速度。在不同的scenarios下，需要仔细地选择NMS的阈值。DETR不需要手工设计的components，没有NMS，但是计算成本高。因此，探索DETR能够做到实时是一个重要的方向。&lt;/p&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;YOLO系列变成了最流行的实施目标检测的框架因为trade-off between
+speed和accuracy。然而，观察到，YOLO的速度和精度收到了NMS的负面影响。端到端的DETR不需要NMS。然而，它的计算成本还是很高。这个不仅降低了推理的速度，也引入了超参数，造成速度和精度的不稳定。DETR去掉了手工设计的component，然而它的计算成本很高，很难做到实时。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
+    
+  </entry>
   
   <entry>
     <title>YOWOv3_lightweight</title>
@@ -876,38 +921,6 @@ recognition)的，很多都是基于早期的Slowfast的那个检测的方式：
     
     
     <category term="Video Understanding" scheme="https://young-eng.github.io/YoungBlogs/tags/Video-Understanding/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ollama 大模型部署</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/08/19/ollama-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/08/19/ollama-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2/</id>
-    <published>2024-08-19T13:22:22.000Z</published>
-    <updated>2024-08-20T02:49:57.242Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="记录一下用ollama和openwebui来部署几个大模型qwen2llama3和llava">记录一下用ollama和openwebui来部署几个大模型：Qwen2、LLaMa3和LLaVa</h3><h4 id="安装ollama-及pull-model">安装Ollama 及pull model</h4><ol type="1"><li><p>去ollama的官网下载安装ollama</p></li><li><p>更改变量：windows中添加环境变量: OLLAMA_MODELS:XXXXpath，linux需要到systemd中找到ollama的哪个文件，然后进行修改，这样ollamapull 模型的时候，就会安装到指定的路径</p></li><li><p>ollama安装完成后，可以用ollama pullqwen2:7b这样来下载模型，也可以下载模型的GGUF文件，然后需要写一个配置文件，如config.txt，内容如下：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">FROM &quot;path/to/llama3-8b-cn-q6/Llama3-8B-Chinese-Chat.q6_k.GGUF&quot;</span><br><span class="line"></span><br><span class="line">TEMPLATE &quot;&quot;&quot;&#123;&#123;- if .System &#125;&#125;</span><br><span class="line">&lt;|im_start|&gt;system &#123;&#123; .System &#125;&#125;&lt;|im_end|&gt;</span><br><span class="line">&#123;&#123;- end &#125;&#125;</span><br><span class="line">&lt;|im_start|&gt;user</span><br><span class="line">&#123;&#123; .Prompt &#125;&#125;&lt;|im_end|&gt;</span><br><span class="line">&lt;|im_start|&gt;assistant</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">SYSTEM &quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">PARAMETER stop &lt;|im_start|&gt;</span><br><span class="line">PARAMETER stop &lt;|im_end|&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure></p></li></ol><span id="more"></span><p>这个From后面的路径需要修改，然后使用<code>ollama create llama3-cn -f ./config.txt</code>导入模型，导入成功后，可以用<code>ollama list</code>查看，使用<code>ollama run xxx</code>运行，使用<code>/exit</code>退出</p><h4 id="openwebui">OpenWebUI</h4><ol type="1"><li><p>运行之前需要先安装docker</p></li><li><p>运行命令:<code>docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main</code>，通过Docker运行OpenWebUI，这里输入<code>localhost:3000</code>就能访问，如果没有看到模型，需要修改<code>OLLAMA_HOSTS=0.0.0.0</code>，然后重新启动ollama的服务</p></li><li><p>docker的相关命令：</p><ul><li><p><code>docker ps</code>：查看正在运行的docker容器</p></li><li><p><code>docker kill container_id</code>：杀死正在运行的docker容器</p></li><li><p><code>docker rm container_id</code>：删除已经停止的docker容器</p></li></ul></li></ol><h4id="llava及相关视觉语言模型vlm的微调">LLaVa及相关视觉语言模型(VLM)的微调</h4><h4 id="参考链接">参考链接</h4><ul><li><p>https://www.cnblogs.com/obullxl/p/18295202/NTopic2024071001</p></li><li><p>https://blog.csdn.net/u010522887/article/details/140651584</p></li><li><p>https://liaoxuefeng.com/blogs/all/2024-05-06-llama3/index.html</p></li><li><p>https://www.cnblogs.com/obullxl/p/18295202/NTopic2024071001</p></li><li><p>https://github.com/qianniucity/ollama-doc/blob/main/ollama/docs/ollama%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%A7%A3%E7%AD%94.md</p></li><li><p>https://www.cnblogs.com/ting1/p/18358286</p></li><li><p>https://github.com/open-webui/open-webui</p></li><li><p>https://github.com/ollama/ollama/blob/main/docs/faq.md</p></li><li><p>https://blog.csdn.net/joeyoj/article/details/136427362</p></li><li><p>https://blog.csdn.net/2401_85328934/article/details/139749167(用lobe chat代替openWebUI)</p></li><li><p>https://cuterwrite.top/p/ollama/ (用Continue 插件部署自己的 codecopliot)</p></li><li><p>https://mp.weixin.qq.com/s/vt1EXVWtwm6ltZVYtB4-Tg</p></li></ul>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;记录一下用ollama和openwebui来部署几个大模型qwen2llama3和llava&quot;&gt;记录一下用ollama和openwebui来部署几个大模型：Qwen2、LLaMa3和LLaVa&lt;/h3&gt;
-&lt;h4 id=&quot;安装ollama-及pull-model&quot;&gt;安装Ollama 及pull model&lt;/h4&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;去ollama的官网下载安装ollama&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;更改变量：windows中添加环境变量: OLLAMA_MODELS:
-XXXXpath，linux需要到systemd中找到ollama的哪个文件，然后进行修改，这样ollama
-pull 模型的时候，就会安装到指定的路径&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;ollama安装完成后，可以用ollama pull
-qwen2:7b这样来下载模型，也可以下载模型的GGUF文件，然后需要写一个配置文件，如config.txt，内容如下：
-&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;FROM &amp;quot;path/to/llama3-8b-cn-q6/Llama3-8B-Chinese-Chat.q6_k.GGUF&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;TEMPLATE &amp;quot;&amp;quot;&amp;quot;&amp;#123;&amp;#123;- if .System &amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;|im_start|&amp;gt;system &amp;#123;&amp;#123; .System &amp;#125;&amp;#125;&amp;lt;|im_end|&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&amp;#123;- end &amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;|im_start|&amp;gt;user&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&amp;#123; .Prompt &amp;#125;&amp;#125;&amp;lt;|im_end|&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;|im_start|&amp;gt;assistant&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;SYSTEM &amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;PARAMETER stop &amp;lt;|im_start|&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;PARAMETER stop &amp;lt;|im_end|&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
-    
-    
-    <category term="LLM" scheme="https://young-eng.github.io/YoungBlogs/tags/LLM/"/>
     
   </entry>
   
