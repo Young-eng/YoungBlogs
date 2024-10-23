@@ -19,14 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="LW-DETR: A Transformer Replacement to YOLO for Real-Time Detection[1]  作者是来自百度、阿德莱德大学、北航、自动化所和澳洲国立大学的Qiang Chen,Xiangbo Su, Xinyu Zhang等人。论文引用[1]:  Key Words  Real-Time Detection With Transfo">
+<meta property="og:type" content="article">
 <meta property="og:title" content="LW-DETR">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/09/16/LW-DETR/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="LW-DETR: A Transformer Replacement to YOLO for Real-Time Detection[1]  作者是来自百度、阿德莱德大学、北航、自动化所和澳洲国立大学的Qiang Chen,Xiangbo Su, Xinyu Zhang等人。论文引用[1]:  Key Words  Real-Time Detection With Transfo">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-09-16T14:57:15.000Z">
-<meta property="article:modified_time" content="2024-09-16T14:57:15.829Z">
+<meta property="article:modified_time" content="2024-10-23T14:07:59.502Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="Object Detection">
 <meta name="twitter:card" content="summary">
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#lw-detr-a-transformer-replacement-to-yolo-for-real-time-detection1"><span class="nav-number">1.</span> <span class="nav-text">LW-DETR:
+A Transformer Replacement to YOLO for Real-Time
+Detection[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">2.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">3.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -201,6 +207,22 @@
 
       <time title="创建时间：2024-09-16 22:57:15" itemprop="dateCreated datePublished" datetime="2024-09-16T22:57:15+08:00">2024-09-16</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-23 22:07:59" itemprop="dateModified" datetime="2024-10-23T22:07:59+08:00">2024-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
@@ -216,14 +238,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>1.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>6 分钟</span>
     </span>
 </div>
 
@@ -233,7 +255,154 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3
+id="lw-detr-a-transformer-replacement-to-yolo-for-real-time-detection1">LW-DETR:
+A Transformer Replacement to YOLO for Real-Time
+Detection<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自百度、阿德莱德大学、北航、自动化所和澳洲国立大学的Qiang
+Chen,Xiangbo Su, Xinyu Zhang等人。论文引用[1]:</p>
+</blockquote>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Real-Time Detection With Transformer</li>
+<li>interleaved window and global attention</li>
+<li>window-major order feature map organization</li>
+</ul>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Jun</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者提出了一个light-weight transformer,
+LW-DETR，在实时检测上超过了YOLOs，这个架构是简单地ViT
+encoder、projector、和一个浅的DETR
+decoder的堆叠。这个方法利用了最近的技术包括training-effective
+techniques：improved loss和预训练，interleaved window 和global
+attention用来减小ViT encoder的复杂度。通过汇聚多个level的feature
+maps、intermediate 和final feature mapss来提高ViT
+encoder，形成更丰富的特征图，引入window-major feature
+map，来提高interleaved
+attention计算的效率。结果展示提出的方法超过了现有的检测器，包括YOLO和它的变体。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>实时目标检测有很广的真实的应用。当前的解决方案是基于卷积网络的，例如YOLO系列。最近，Transformer的方法，例如DETR，有很多的进步，然而，DETR的实时的检测还没有fully
+explored。还不清楚它的性能和SOTA的卷积相比怎么样。本文提出了light-weight
+DETR用于目标检测，架构很简单，一个plain ViT encoder，一个DETR的decoder
+connected by 一个卷积projector。提出了汇聚mulit-level feature
+maps，中间层和最后的feature maps in the encoder，形成了更强的encoded
+feature maps。这个方法利用了高效的训练techniques。例如：用了deformable
+cross-attention 来构成encoder。IoU-aware classification loss，
+encoder-decoder pretraining策略。
+另一方面，这个方法利用了inference-efficient
+techniques。例如：采用了interleaved window和global attentions。用window
+attention代替了global attentions in the plain ViT
+encoder来减小复杂度。通过一个window-major feature map
+organization方法，来做一个高效的implementation for the interleaved
+attentions，能够有效地减小存储的permutation操作。</p></li>
+<li><p>LW-DETR是由一个ViT encoder, 一个projector和一个DETR
+decoder构成。</p>
+<ul>
+<li><strong>Encoder</strong>：采用ViT 用作detection encoder，一个plain
+ViT 包括一个patchification layer和transformer encoder
+layers。由于全局的attention成本很高，在一些encoder layers中用 window
+self-attetion来减小计算复杂度。提出了汇聚多个level的feature
+maps，中间层和最后的feature maps in the encoder，形成更强的encoded
+feature maps。</li>
+<li><strong>Decoder</strong>: decoder多个transformer decoder
+layers的堆叠。每个layer包括一个自注意力，交叉注意力和一个FFN。采用deformable
+cross-attention用于高效计算。DETR及其变体通常采用6个decoder
+layers。在我们的实施中，用了3个transformer decoder
+layers。这导致时间的减小。<strong>采用一个mixed-query selection
+scheme来形成object queries 作为额外的content queries和spatial
+queries</strong>。这个content queries是learnable
+embeddings，类似于DETR。这个spatial queries是基于两阶段的方案：选择top-K
+features from last layer in the projector,然后预测bounding
+boxes，将对应的boxes变成embeddings 作为spatial queries。</li>
+<li><strong>Projector</strong>：用一个projector来连接encoder和decoder。这个projector将来自encoder的aggregated
+encoded feature maps作为输入，Projector是一个C2f block(an extention of
+cross-stage partial DenseNet)，用在了YOLOv8中。
+当构成LW-DETR的large和xlarge版本的时候，修改projector，来输出两个尺寸的feature
+maps，然后用multi-scale decoder。这个projector包含两个并行的C2f
+blocks。一个处理 <span class="math inline">\(\frac{1}{8}\)</span>
+的feature
+maps(它是通过一个deconvolution对输入进行上采样得到)。然后通过一个stride
+conv对输入进行下采样得到 <span
+class="math inline">\(\frac{1}{32}\)</span> 的feature
+map，用另一个block对其进行处理。</li>
+<li><strong>目标函数</strong>：采用IoU-aware classification loss，IA-BCE
+loss, 这里 <span class="math inline">\(N_{pos}\)</span> 和 <span
+class="math inline">\(N_{neg}\)</span> 是正样本和负样本的数量。 <span
+class="math inline">\(s\)</span>是预测的分类的score， <span
+class="math inline">\(t\)</span>是目标score absorbing the IoU score
+<span class="math inline">\(u\)</span>(with the ground truth), <span
+class="math inline">\(t = s^{\alpha}u^{1-\alpha}\)</span>，<span
+class="math inline">\(\alpha\)</span>设为0.25。整个的loss是分类的loss和bbox
+loss的结合。 bbox loss和DETR框架中的一样。</li>
+</ul>
+<p><span
+class="math display">\[\ell_{\text{cls}}=\sum_{i=1}^{N_{pos}}\mathrm{BCE}(s_i,t_i)+\sum_{j=1}^{N_{neg}}s_j^2
+\mathrm{BCE}(s_j,0),\]</span></p>
+<p><span class="math display">\[
+\ell_{\mathrm{c l s}}+\lambda_{\mathrm{i o u}} \ell_{\mathrm{i o
+u}}+\lambda_{\ell_{1}} \ell_{1}.
+\]</span></p>
+<p><span class="math inline">\(\lambda_{iou}\)</span> 和 <span
+class="math inline">\(\lambda_{l1}\)</span> 分别设为 2.0和5.0。<span
+class="math inline">\(l_{iou}\)</span> 和 <span
+class="math inline">\(l_1\)</span> 是generalized IoU(GIoU) loss。L1 loss
+for the box regression。</p></li>
+<li><p>高效训练：</p>
+<ul>
+<li><strong>More
+supervision</strong>：多个techniques用于引入更多的supervision，用来加速DETR的训练，采用Group
+DETR，很容易执行，不改变推理的过程。用了13个并行的weight-sharing
+decoders for training。对于每个decoder，产生object queries for each
+group from the output features of the projector。用primary decoder for
+the inference。</li>
+<li><strong>Pretraining on
+Object365</strong>：预训练的过程包含两个阶段，在object365数据集上用MIM的方法进行预训练。另外，跟着之气的方法，retrain
+encoder，用监督的方式在object365数据集上训练projector和decoder。</li>
+</ul></li>
+<li><p>高效推理：</p>
+<ul>
+<li>在之前的方法上进行了简单第修改，采用了interleaved window和global
+attentions。用window attention代替一些global
+attention。例如在一个6-layer的ViT中，1，3，5用window
+attentions，<strong>window attention</strong>是通过将feature
+map划分成不重叠的windows，然后在每个windows内进行注意力操作。</li>
+<li><strong>采用一个window-major feature map
+organization用于高效的interleaved attention</strong>。能够将feature
+maps通过window by window的方式组织起来。ViTDet是将feature maps以row by
+row的方式组织的，需要很高的permutation operations，来将feature maps
+从row-major transition到 window-major for window
+attention。作者的方法去掉了这些operations，减小了model latency。
+window-major的解释如图：</li>
+</ul>
+<p><span class="math display">\[\begin{bmatrix}f_{11} f_{12} f_{13}
+f_{14}\\f_{21} f_{22} f_{23} f_{24}\\f_{31} f_{32} f_{33} f_{34}\\f_{41}
+f_{42} f_{43} f_{44}\end{bmatrix},\]</span></p>
+<p>window-major organization for a window size <span
+class="math inline">\(2 \times 2\)</span>： <span
+class="math display">\[f_{11},f_{12},f_{21},f_{22};f_{13},f_{14},f_{23},f_{24};\\f_{31},f_{32},f_{41},f_{42};f_{33},f_{34},f_{43},f_{44}.\]</span></p>
+<p>这个organization对于window attention和global
+attention都是适用的，不需要rearranging the features。row-major
+organization是这样的：</p>
+<p><span
+class="math display">\[f_{11},f_{12},f_{13},f_{14};f_{21},f_{22},f_{23},f_{24};\\f_{31},f_{32},f_{33},f_{34};f_{41},f_{42},f_{43},f_{44},\]</span></p>
+<p>用于global attention是可以的，需要很多的permutation操作，来执行window
+attention。大的提升来自于在object365上的预训练，表明<strong>Transformer</strong>得益于大的数据。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/15acdab8b50e8d1c835a4a1ff6a23075332912eb/4-Figure2-1.png"
+alt="encoder" /> <span class="math inline">\(Fig.1^{[1]}\)</span></p>
+<p><img
+src="https://figures.semanticscholar.org/15acdab8b50e8d1c835a4a1ff6a23075332912eb/5-Figure3-1.png"
+alt="projector" /> <span class="math inline">\(Fig.2^{[2]}\)</span>
+Single-scale projector and multi-scale projector for (a) the tiny,
+small, and medium models, and (b) the large and xlarge models.</p>
 
     </div>
 
@@ -242,6 +411,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Object-Detection/" rel="tag"># Object Detection</a>
+          </div>
 
         
 
@@ -285,13 +457,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">88k</span>
+    <span title="站点总字数">90k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:22</span>
+    <span title="站点阅读时长">5:27</span>
   </span>
 </div>
 <div class="busuanzi-count">

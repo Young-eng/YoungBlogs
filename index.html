@@ -912,6 +912,22 @@ residual pooling connections.
 
       <time title="创建时间：2024-09-16 22:57:15" itemprop="dateCreated datePublished" datetime="2024-09-16T22:57:15+08:00">2024-09-16</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-23 22:07:59" itemprop="dateModified" datetime="2024-10-23T22:07:59+08:00">2024-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-break"></span>
@@ -920,14 +936,14 @@ residual pooling connections.
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>1.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>6 分钟</span>
     </span>
 </div>
 
@@ -938,8 +954,45 @@ residual pooling connections.
     
     
     <div class="post-body" itemprop="articleBody">
-          
-
+          <h3
+id="lw-detr-a-transformer-replacement-to-yolo-for-real-time-detection1">LW-DETR:
+A Transformer Replacement to YOLO for Real-Time
+Detection<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自百度、阿德莱德大学、北航、自动化所和澳洲国立大学的Qiang
+Chen,Xiangbo Su, Xinyu Zhang等人。论文引用[1]:</p>
+</blockquote>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Real-Time Detection With Transformer</li>
+<li>interleaved window and global attention</li>
+<li>window-major order feature map organization</li>
+</ul>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Jun</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者提出了一个light-weight transformer,
+LW-DETR，在实时检测上超过了YOLOs，这个架构是简单地ViT
+encoder、projector、和一个浅的DETR
+decoder的堆叠。这个方法利用了最近的技术包括training-effective
+techniques：improved loss和预训练，interleaved window 和global
+attention用来减小ViT encoder的复杂度。通过汇聚多个level的feature
+maps、intermediate 和final feature mapss来提高ViT
+encoder，形成更丰富的特征图，引入window-major feature
+map，来提高interleaved
+attention计算的效率。结果展示提出的方法超过了现有的检测器，包括YOLO和它的变体。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/09/16/LW-DETR/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1304,13 +1357,13 @@ Detection)</strong>：回环检测判断机器人是否到达过先前的位置�
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">88k</span>
+    <span title="站点总字数">90k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:22</span>
+    <span title="站点阅读时长">5:27</span>
   </span>
 </div>
 <div class="busuanzi-count">
