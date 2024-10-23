@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="Kalman Filtering(卡尔曼滤波)    参考链接:  https:&#x2F;&#x2F;www.kalmanfilter.net&#x2F;CN&#x2F;default_cn.aspx">
+    <meta name="description" content="Kalman Filtering(卡尔曼滤波)  卡尔曼滤波是最常用最重要的状态估计算法之一。卡尔曼滤波能从不确定且非精确的测量中估计隐藏状态，同时还可以根据历史估计值对未来系统状态进行预测。滤波算法以 Rudolf E.Kalman的名字命名。在1960年，卡尔曼发表了著名的论文，描述了一个离散数据的线性滤波问题的递归算法。如今它被广泛应用于目标追踪、定位和导航系统、控制系统等领域。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="KalmanFiltering">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/04/09/KalmanFiltering/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="Kalman Filtering(卡尔曼滤波)    参考链接:  https:&#x2F;&#x2F;www.kalmanfilter.net&#x2F;CN&#x2F;default_cn.aspx">
+<meta property="og:description" content="Kalman Filtering(卡尔曼滤波)  卡尔曼滤波是最常用最重要的状态估计算法之一。卡尔曼滤波能从不确定且非精确的测量中估计隐藏状态，同时还可以根据历史估计值对未来系统状态进行预测。滤波算法以 Rudolf E.Kalman的名字命名。在1960年，卡尔曼发表了著名的论文，描述了一个离散数据的线性滤波问题的递归算法。如今它被广泛应用于目标追踪、定位和导航系统、控制系统等领域。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-09T06:40:33.000Z">
-<meta property="article:modified_time" content="2024-10-11T00:23:30.554Z">
+<meta property="article:modified_time" content="2024-10-23T09:02:28.231Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -210,7 +210,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-10-11 08:23:30" itemprop="dateModified" datetime="2024-10-11T08:23:30+08:00">2024-10-11</time>
+      <time title="修改时间：2024-10-23 17:02:28" itemprop="dateModified" datetime="2024-10-23T17:02:28+08:00">2024-10-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -236,14 +236,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>16</span>
+      <span>1.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>6 分钟</span>
     </span>
 </div>
 
@@ -255,11 +255,149 @@
     
     <div class="post-body" itemprop="articleBody"><h3 id="kalman-filtering卡尔曼滤波">Kalman Filtering(卡尔曼滤波)</h3>
 <ol type="1">
-<li></li>
+<li>卡尔曼滤波是最常用最重要的状态估计算法之一。卡尔曼滤波能从不确定且非精确的测量中估计隐藏状态，同时还可以根据历史估计值对未来系统状态进行预测。滤波算法以
+Rudolf
+E.Kalman的名字命名。在1960年，卡尔曼发表了著名的论文，描述了一个离散数据的线性滤波问题的递归算法。如今它被广泛应用于目标追踪、定位和导航系统、控制系统等领域。</li>
 </ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>五个公式：</p>
+<ul>
+<li><strong>时间更新(预测方程)</strong>： <span
+class="math display">\[先验估计，
+\hat{x}_{k}^{-}=A\hat{x}_{k-1}+Bu_{k-1} + w_{k-1}\]</span></li>
+</ul>
+<p><span class="math display">\[先验估计协方差，
+P_{k}^{-}=AP_{k-1}A^T+Q\]</span></p>
+<ul>
+<li><strong>测量更新(校正方程)</strong>： <span
+class="math display">\[计算卡尔曼增益：K_{k}=P_{k}^{-}H^{T}(HP_{k}^{-}H^{T}+R)^{-1}\]</span>
+<span class="math display">\[ 由观测变z_k更新估计：
+\hat{x}_{k}=\hat{x}_{k}^{-}+K_{k}(z_{k}-H\hat{x}_{k}^{-})，这里的\hat{x_k}
+就是最优估计\]</span> <span class="math display">\[ 更新误差协方差：
+P_{k}=(I-K_{k}H)P_{k}^{-}\]</span></li>
+</ul>
+<p>参数解释：状态变量 <span class="math inline">\(x_k\)</span>,
+观测变量<span class="math inline">\(z_k = Hx_k + v_k\)</span>。
+A为增益矩阵，B表示控制输入的增益。H表示状态变量 <span
+class="math inline">\(x_k\)</span>对测量变量 <span
+class="math inline">\(z_k\)</span>的增益。实际中H可能随时间变化，这里假设为常数。
+随机信号 <span class="math inline">\(w_k\)</span> 和 <span
+class="math inline">\(v_k\)</span>分别表示过程激励噪声和观测噪声，假设它们为相互独立、正态分布的白色噪声：
+<span class="math display">\[p(w)\sim N(0,Q),\\p(v)\sim
+N(0,R).\]</span></p>
+<p>实际系统中，过程激励噪声协方差矩阵Q和观测噪声协方差矩阵R可能会随每次迭代计算而变化。<span
+class="math inline">\(u_{k-1}\)</span>为控制函数。<span
+class="math inline">\(\hat{x}_{k}^{-}\)</span>
+为在已知第k步以前状态情况下第k步的先验状态估计。<span
+class="math inline">\(\hat{x}_{k}\)</span> 为已知测量变量 <span
+class="math inline">\(z_k\)</span>时第k步的后验状态估计。由此定义先验估计误差和后验估计误差：</p>
+<p><span class="math display">\[
+e_{k}^{-} \equiv x_{k}-\hat{x}_{k}^{-},\\
+e_{k} \equiv x_{k}-\hat{x}_{k}
+\]</span></p></li>
+<li><p>扩展卡尔曼滤波器(Extended Kalman Filter,
+EKF)：卡尔曼滤波器估计一个用<strong>线性随机差分方程</strong>描述的离散时间过程的状态变量x。但如果被估计的过程和观测变量与过程的关系是非线性的，那应该怎么办？将期望和方差线性化的卡尔曼滤波器称作扩展卡尔曼滤波器。简称(EKF)。同泰勒级数类似，面对非线性关系时，可以通过求过程和量测方程的偏导来线性化并计算当前估计。假设过程仍具有状态向量x。但其状态方程已变为非线性随机差分方程的形式。
+<span class="math display">\[
+x_{k}=f ( x_{k-1}, u_{k-1}, w_{k-1} ),
+\]</span> 观测变量z为： <span class="math display">\[
+z_{k}=h ( x_{k}, v_{k} ),
+\]</span> 随机变量 <span class="math inline">\(w_k\)</span>和<span
+class="math inline">\(v_k\)</span>分别表示过程激励噪声和观测噪声，上面的公式中的非线性函数
+<span class="math inline">\(f\)</span>将上一时刻 <span
+class="math inline">\(k-1\)</span>的状态映射到当前时刻 <span
+class="math inline">\(k\)</span>的状态。<span
+class="math inline">\(u_k\)</span> 和 <span
+class="math inline">\(w_k\)</span> 是它的参数。非线性函数h反映了状态变量
+<span class="math inline">\(x_k\)</span> 和观测变量 <span
+class="math inline">\(z_k\)</span>的关系。假设每一时刻的噪声 <span
+class="math inline">\(w_k\)</span> 和 <span
+class="math inline">\(v_k\)</span> 为0，从而估计状态向量和观测向量为：
+<span class="math display">\[
+\tilde{x}_{k}=f ( \hat{x}_{k-1}, u_{k-1}, 0 ) \\
+\tilde{z}_{k}=h ( \hat{x},  0 )
+\]</span></p>
+<p><span class="math inline">\(\hat{x}_{k}\)</span>
+是过程相对前一时刻k的后验估计。
+扩展卡尔曼滤波的一个基本缺陷：<strong>离散随机变量的分布(或连续随机变量的密度)在经过非线性系统转化后不再是正态的了。扩展卡尔曼滤波器其实就是一个通过线性化而达到渐进最优贝叶斯决策的特殊状态估计器</strong>。</p>
+<p>为了估计一个具有非线性差分和量测关系的过程，给出线性化的表示： <span
+class="math display">\[
+x_{k} \approx\tilde{x}_{k}+A ( x_{k-1}-\hat{x}_{k-1} )+W w_{k-1},
+\]</span> <span class="math display">\[
+z_{k} \approx\tilde{z}_{k}+H ( x_{k}-\tilde{x}_{k} ) V v_{k}.
+\]</span></p>
+<p>其中， <span class="math inline">\(x_k\)</span>和 <span
+class="math inline">\(z_k\)</span>是状态变量和观测向量的真值，<span
+class="math inline">\(\hat{x}_{k}，\hat{z}_{k}\)</span>
+是状态向量和观测向量的观测值。<span
+class="math inline">\(\hat{x}_{k}\)</span> 是 k
+时刻状态向量的后验估计。随机变量 <span
+class="math inline">\(w_k，v_k\)</span> 表示过程激励噪声和观测噪声。A
+是<span class="math inline">\(f\)</span>对 <span
+class="math inline">\(x\)</span>的偏导的雅可比矩阵： <span
+class="math display">\[
+A_{[ i, j ]}=\frac{\partial f_{[ i ]}} {\partial x_{[ j ]}} (
+\hat{x}_{k-1}, u_{k-1}, 0 ),
+\]</span></p>
+<p>H 是 <span class="math inline">\(h\)</span>对 <span
+class="math inline">\(x\)</span>的偏导的雅可比矩阵： <span
+class="math display">\[
+H_{[ i, j ]}=\frac{\partial h_{[ i ]}} {\partial x_{[ j ]}} (
+\hat{x}_{k}, 0 ).
+\]</span></p>
+<p>W是h对x的偏导的雅可比矩阵： <span class="math display">\[
+W_{[ i, j ]}=\frac{\partial f_{[ i ]}} {\partial w_{[ j ]}} (
+\hat{x}_{k-1}, u_{k-1}, 0 ),
+\]</span></p>
+<p>V是h对v的偏导的雅可比矩阵：</p>
+<p><span class="math display">\[
+V_{[ i, j ]}=\frac{\partial h_{[ i ]}} {\partial v_{[ j ]}} (
+\tilde{x}_{k}, 0 ).
+\]</span> 定义一个新的预测误差的表达式：</p>
+<p><span class="math display">\[
+\tilde{e}_{x_{k}} \equiv x_{k}-\tilde{x}_{k},
+\]</span> 观测变量的残余： <span class="math display">\[
+\tilde{e}_{z_{k}} \equiv z_{k}-\tilde{z}_{k},
+\]</span></p>
+<p>由以上两个式子，写出误差过程的表达式： <span class="math display">\[
+\tilde{e}_{x_{k}} \approx A ( x_{k-1}-\hat{x}_{k-1} )+\epsilon_{k},
+\]</span> <span class="math display">\[
+\tilde{e}_{z_{k}} \approx H \tilde{e}_{x_{k}}+\eta_{k},
+\]</span></p>
+<p><span class="math inline">\(\epsilon_{k}, \eta{k}\)</span>
+代表具有零均值和协方差矩阵 <span
+class="math inline">\(WQW^T\)</span>，<span
+class="math inline">\(VRV^T\)</span> 的独立随机变量。</p>
+<p>时间更新方程：</p>
+<p><span class="math display">\[
+\hat{x}_{k}^{-}=f ( \hat{x}_{k-1}, u_{k-1}, 0 )
+\]</span> <span class="math display">\[
+P_{k}^{-}=A_{k} P_{k-1} A_{k}^{T}+W_{k} Q_{k-1} W_{k}^{T}
+\]</span> 状态更新方程：</p>
+<p><span
+class="math display">\[K_{k}=P_{k}^{-}H_{k}^{T}(H_{k}P_{k}^{-}H_{k}^{T}+V_{k}R_{k}V_{k}^{T})^{-1}\\\hat{x}_{k}=\hat{x}_{k}^{-}+K_{k}(z_{k}-h(\hat{x}_{k}^{-},0))\\P_{k}=(I-K_{k}H_{k})P_{k}^{-}\]</span></p>
+<p>扩展卡尔曼滤波器的一个重要特性是卡尔曼增益 <span
+class="math inline">\(K_k\)</span>的表达式中的雅可比矩阵 <span
+class="math inline">\(H_k\)</span>能够正确地传递或加权观测信息中的有用部分。例如，如果通过h观测变量
+<span
+class="math inline">\(z_k\)</span>和状态变量没有一一对应的关系，雅可比矩阵
+<span class="math inline">\(H_k\)</span>便通过改变卡尔曼增益从而使得残余
+<span class="math inline">\(z_k -
+h(\hat{x}_{k}^{-},0)\)</span>中真正作用域状态变量的部分被加权。当然，如果整个观测中观测变量
+<span class="math inline">\(z_k\)</span>
+和状态变量通过h都没有一个一一对应的关系，那么滤波器很快就发散，这种情况下过程是不可观测的。</p></li>
+</ol>
+<figure>
+<img
+src="https://i-blog.csdnimg.cn/direct/b20410e141b04717b3a10bac910fb88f.png"
+alt="Pipeline" />
+<figcaption aria-hidden="true">Pipeline</figcaption>
+</figure>
 <p>参考链接:</p>
 <ul>
 <li><code>https://www.kalmanfilter.net/CN/default_cn.aspx</code></li>
+<li><code>https://www.cs.unc.edu/~welch/kalman/media/pdf/kalman_intro_chinese.pdf</code></li>
+<li><code>https://www.kalmanfilter.net/CN/multiSummary_cn.html</code></li>
 </ul>
 
     </div>
@@ -315,13 +453,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">87k</span>
+    <span title="站点总字数">88k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:16</span>
+    <span title="站点阅读时长">5:22</span>
   </span>
 </div>
 <div class="busuanzi-count">
