@@ -27,7 +27,7 @@
 <meta property="og:description" content="DETRs Beat YOLOs on Real-time Object Detection[1]  作者是来自北大和百度的Yian Zhao, Wenyu Lv等人。论文引用[1]:Lv, Wenyu et al. “DETRs Beat YOLOs on Real-time Object Detection.” 2024 IEEE&#x2F;CVF Conference on Computer">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-10-23T14:11:04.000Z">
-<meta property="article:modified_time" content="2024-10-23T14:39:55.147Z">
+<meta property="article:modified_time" content="2024-10-24T08:03:15.326Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object Detection">
 <meta name="twitter:card" content="summary">
@@ -203,9 +203,15 @@ YOLOs on Real-time Object Detection[1]</span></a></li><li class="nav-item nav-le
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-10-23 22:11:04 / 修改时间：22:39:55" itemprop="dateCreated datePublished" datetime="2024-10-23T22:11:04+08:00">2024-10-23</time>
+      <time title="创建时间：2024-10-23 22:11:04" itemprop="dateCreated datePublished" datetime="2024-10-23T22:11:04+08:00">2024-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-24 16:03:15" itemprop="dateModified" datetime="2024-10-24T16:03:15+08:00">2024-10-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -231,14 +237,14 @@ YOLOs on Real-time Object Detection[1]</span></a></li><li class="nav-item nav-le
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>446</span>
+      <span>2.4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>9 分钟</span>
     </span>
 </div>
 
@@ -265,6 +271,7 @@ Conference on Computer Vision and Pattern Recognition (CVPR) (2023):
 <li>hybrid encoder to process multi-scale features</li>
 <li>uncertainty-minimal query selection to provide high-quality initial
 queries to the decoder</li>
+<li>intra-scale interaction and cross-scale feature interaction</li>
 </ul>
 <h3 id="动机">动机</h3>
 <p>YOLO系列受到了NMS的影响，会降低推理速度。在不同的scenarios下，需要仔细地选择NMS的阈值。DETR不需要手工设计的components，没有NMS，但是计算成本高。因此，探索DETR能够做到实时是一个重要的方向。</p>
@@ -285,26 +292,148 @@ selection,忽略了detector需要同时对目标的category和location同时进�
 localization confidence的encoder features被选为了initial
 queries。因此导致了大量的不确定性。将<strong>query
 initialization视为一个breakthrough，来进一步提高performance</strong>。</p></li>
-<li></li>
+<li><p>在本文中，提出了RT-DETR，为了加速处理multi-scale
+features，设计了一个高效的hybrid encoder来代替vanilla Transformer
+encoder, <strong>通过解耦intra-scale interaction和 cross-scale fusion of
+features with different
+scales，来提高速度</strong>。为了避免有低localization
+confidence的encoder features被选为initial
+queries，提出了<strong>uncertainty-minimal query
+selection</strong>，通过优化不确定性，提供高质量的initial
+queries给decoder，来提高精度。另外，RT-DETR支持flexible speed
+tuning，不需要训练来适应不同的实时的场合，多亏了multi-layer decoder
+architecture of DETR。</p></li>
+<li><p>DETR有很多的问题：(1)收敛比较慢; (2)计算成本高;
+(3)queries很难优化; Deformable-DETR通过增强attention机制的效率，with
+multi-scale
+features来加速训练的收敛。DAB-DETR和DN-DETR通过引入迭代的refinement
+scheme和去噪训练，来提高性能。Group-DETR引入了group-wise one-to-many
+assignment; Efficient DETR和Sparse DETR通过减小encoder和decoder
+layer的数量或者updated queries的数量来减小计算成本；Lite
+DETR通过减小low-level feature的更新频率来提高encoder的效率。Conditional
+DETR和Anchor DETR减小了queries的优化困难；有人也提出了query selection
+用于两阶段的DETR; DINO用mixed query
+selection来帮助更好地初始化queries。</p></li>
+<li><p>NMS广泛地用于目标检测的后处理，来消除overlapping output
+boxes。NMS中有两个阈值：confidence threshold和IoU
+threshold。特别地，box的score低于阈值的会被过滤掉；任意两个boxes的IoU超过IoU阈值的，lower
+score的box会被丢弃；这个过程一直迭代的进行，直到所有的boxes被处理；因此，NMS的执行时间依赖于box的数量和两个阈值；为了验证这个observation，利用YOLOv5和YOLOv8
+for analysis。</p></li>
+<li><p>首先，在过滤掉boxes with different confidence thresholds on the
+same input之后，数出boxes的数量，sample values from 0.001 to 0.25 as
+confidence
+thresholds，来计算出两个检测器的剩余的boxes的数量；结果显示：当confidence
+threshold增加的时候，更多的prediction
+boxes被过滤掉了，剩余需要来计算IoU的boxes的数量减小了，因此减小了NMS的执行时间。实验结果表明：anchor-free
+的检测器有着相同精度的情况下，比anchor-based检测器好，因为anchor-free检测器需要很少的NMS
+time。</p></li>
+<li><p>Model：RT-DETR包含了一个backbone，一个高效的hybrid
+encoder，一个Transformer Decoder with auxiliary prediction
+heads。将最后3个stage的features给到encoder，混合encoder将多尺度的features通过intra-scale
+feature interaction和cross-scale feature fusion转换成image
+features的序列。用uncertainty-minimal query
+selection来选择固定数量的encoder features作为initial queries for
+decoder。最后，有着auxiliary prediction heads的decoder能够迭代优化object
+queries，来产生类别和boxes。</p></li>
+<li><p>multi-scale
+features的引入，加速了训练收敛，提高了性能。然而，尽管deformable
+attention降低了计算成本，增加了序列的长度，导致encoder变成了计算瓶颈。为了克服这个瓶颈，首先分析多尺度encoder中的计算冗余，直觉上来说，high-level的features包含了从low-level
+features提取出来的物体的丰富的语义信息，使得它在concated multi-scale
+features上进行feature
+interaction的时候是冗余的。因此，设计了不同类型的encoder，证明了intra-scale
+和cross-scale feature interaction是不高效的。作者用了DINO-Deformable-R50
+with the smalller size data reader 和ligher decoder used in RT-DETR for
+experiments，首先remove了multi-scale Transformer encoder in
+DINO-Deformable-R50作为变体A；然后不同类型的encoder基于A产生了不同的变体。</p></li>
+<li><p>基于以上的分析，提出了混合的encoder，包含两个module：一个是Attention-based
+Intra-scale Feature Interaction(AIFI)，CNN-based Cross-scale Feature
+Fusion(CCFF)。特别的，AIFI基于D，通过执行intra-scale interaction only on
+<span class="math inline">\(S_5\)</span>
+进一步降低了计算成本。<strong>原因是将自注意力操作用在high-level
+features with richer semantic concepts，能够得到conceptual
+entities之间的联系，方便了后续模块的目标的定位和识别。然而，lower-level
+feature的intra-scale interaction是不必要的，因为缺乏semantic
+concepts，还有重复以及和high-level
+feature混淆的风险</strong>。为了验证这个观点，执行了intra-scale
+interaction only on $S_5 in variant D。相比于D, <span
+class="math inline">\(D_{s5}\)</span>不仅显著降低了延迟，也提高了精度。CCFF基于cross-scale
+fusion module进行优化，插入了几个包含卷积层的fusion blocks into fusion
+path。这个fusion block的角色是融合两个相邻的scale features into a new
+feature。fusion block包含了两个 <span class="math inline">\(1 \times
+1\)</span> 的卷积来调整通道。<span class="math inline">\(N
+RepBlocks\)</span>: <span class="math display">\[
+\mathcal{Q}=\mathcal{K}=\mathcal{V}=\mathtt{F l a t t e n} (
+\mathcal{S}_{5} ), \\
+\mathcal{F}_{5}=\operatorname{R e s h a p e} ( \mathtt{A I F I} (
+\mathcal{Q}, \mathcal{K}, \mathcal{V} ) ), \\
+\mathcal{O}=\operatorname{C C F F} ( \{\mathcal{S}_{3}, \mathcal{S}_{4},
+\mathcal{F}_{5} \} ),
+\]</span></p>
+<p>Reshape表示恢复flattened feature的shape，使其和 <span
+class="math inline">\(S_5\)</span>一样。</p></li>
+<li><p><strong>Uncertainty-minimal Query
+Selection</strong>：为了减小优化object queries的困难，有人提出了query
+selection的方案。相同之处在于用confidence score来选择top K features from
+encoder，来初始化object queries(or just position queries)。confidence
+score表示包含前景目标的可能性。因为detector需要同时model the
+category和location of
+objects，这俩都决定了features的质量。因此feature的score是与分类和定位都相关的。当前的query
+selection会导致大量的不确定性，导致sub-optimal initialization for
+decoder，阻碍了detector的性能。为了解决这个问题，提出了不确定性最小的query选择方案，显示地构建和优化
+<strong>epistermic uncertainty</strong>。具体地，feature uncertainty
+<span class="math inline">\(U\)</span> 定义为预测的定位 <span
+class="math inline">\(P\)</span> 和分类 <span
+class="math inline">\(C\)</span>
+的分布之间的差异。为了最小化queries的不确定性，将uncertainty集成到loss
+function中, for gradient-based optimization。</p>
+<p><span
+class="math display">\[\mathcal{U}(\hat{\mathcal{X}})=\|\mathcal{P}(\hat{\mathcal{X}})-\mathcal{C}(\hat{\mathcal{X}})\|,\hat{\mathcal{X}}\in\mathbb{R}^{D}\\\mathcal{L}(\hat{\mathcal{X}},\hat{\mathcal{Y}},\mathcal{Y})=\mathcal{L}_{box}(\hat{\mathbf{b}},\mathbf{b})+\mathcal{L}_{cls}(\mathcal{U}(\hat{\mathcal{X}}),\hat{\mathbf{c}},\mathbf{c})\]</span></p>
+<p><span class="math inline">\(\hat{y}\)</span> 和 <span
+class="math inline">\(y\)</span> 表示预测和真值，<span
+class="math inline">\(\hat{\boldsymbol{y}}=\{\hat{\mathbf{c}},\hat{\mathbf{b}}\}\)</span>,
+<span class="math inline">\(\hat{c}\)</span> 和 <span
+class="math inline">\(\hat{b}\)</span> 分别表示类别和bounding box。<span
+class="math inline">\(\hat{x}\)</span>表示encoder feature.</p></li>
+<li><p><strong>Scaled
+RT-DETR</strong>：实时的检测器提供了不同scale的模型来适应不同的情景，RT-DETR支持灵活的scaling。特别地，对于混合encoder，通过调整嵌入的维度和channel的数量控制width，通过调整Transformer
+layers和RepBlocks来控制depth。decoder的width和depth可以通过调整object
+queries和decoder layers的数量来控制。更多的，通过调整decoder
+layers的数量，RT-DETR的速度支持灵活的调整。</p></li>
 </ol>
-<figure>
-<img
+<p><img
 src="https://figures.semanticscholar.org/3a6c423cc0f687fc43a671e55dce06f681df7476/4-Figure3-1.png"
-alt="Overview" />
-<figcaption aria-hidden="true">Overview</figcaption>
-</figure>
-<figure>
-<img
+alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span> The
+encoder structure for each variant. SSE represents the single-scale
+Transformer encoder, MSE represents the multi-scale Transformer encoder,
+and CSF represents cross-scale fusion. AIFI and CCFF are the two modules
+designed into our hybrid encoder.Variant B inserts a single-scale
+Transformer en coder into A, which uses one layer of Transformer block.
+The multi-scale features share the encoder for intra-scale feature
+interaction and then concatenate as output. Variant C introduces
+cross-scale feature fusion based on B and feeds the concatenated
+features into the multi-scale Transformer encoder to perform
+simultaneous intra-scale and cross-scale feature interaction. Variant D
+decouples intra-scale interaction and cross-scale fusion by utilizing
+the single-scale Transformer encoder for the former and a PANet-style
+structure for the latter. Variant E enhances the intra-scale interaction
+and cross-scale fusion based on D, adopting an efficient hybrid encoder
+designed by us.</p>
+<p><img
 src="https://figures.semanticscholar.org/3a6c423cc0f687fc43a671e55dce06f681df7476/4-Figure4-1.png"
-alt="CCFM" />
-<figcaption aria-hidden="true">CCFM</figcaption>
-</figure>
-<figure>
-<img
+alt="CCFM" /> <span class="math inline">\(Fig.2^{[1]}\)</span> Overview
+of RT-DETR. We feed the features from the last three stages of the
+backbone into the encoder. The efficient hybrid encoder transforms
+multi-scale features into a sequence of image features through the
+Attention-based Intra-scale Feature Interaction (AIFI) and the CNN-based
+Cross-scale Feature Fusion (CCFF). Then, the uncertainty-minimal query
+selection selects a fixed number of encoder features to serve as initial
+object queries for the decoder. Finally, the decoder with auxiliary
+prediction heads iteratively optimizes object queries to generate
+categories and boxes.</p>
+<p><img
 src="https://figures.semanticscholar.org/3a6c423cc0f687fc43a671e55dce06f681df7476/5-Figure5-1.png"
-alt="Different types of encoders" />
-<figcaption aria-hidden="true">Different types of encoders</figcaption>
-</figure>
+alt="Different types of encoders" /> <span
+class="math inline">\(Fig.3^{[1]}\)</span> The fusion block in CCFF</p>
 
     </div>
 
@@ -356,13 +485,13 @@ alt="Different types of encoders" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">90k</span>
+    <span title="站点总字数">92k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:29</span>
+    <span title="站点阅读时长">5:36</span>
   </span>
 </div>
 <div class="busuanzi-count">
