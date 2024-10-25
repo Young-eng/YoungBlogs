@@ -27,7 +27,7 @@
 <meta property="og:description" content="视频理解及分析的计算机视觉任务  之前看的时候，不管是论文还是一些博客，感觉都不是很清晰和全面，大家的定义不全面，特别是英文的名称上，这里写一下我的理解： 几个任务：  行为识别(Action Recognition): 实质是对视频的分类任务，可以类别图像领域的分类任务 时序动作定位(Temporal Action Localization): 在时间上对视频进行分类，给出动作的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-20T06:12:07.000Z">
-<meta property="article:modified_time" content="2024-08-23T08:38:57.194Z">
+<meta property="article:modified_time" content="2024-10-25T06:50:04.850Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Video Understanding">
 <meta name="twitter:card" content="summary">
@@ -116,7 +116,7 @@
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E5%8F%8A%E5%88%86%E6%9E%90%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">视频理解及分析的计算机视觉任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deep-learnign-based-action-detection-in-untrimmed-videos-a-survey"><span class="nav-number">2.</span> <span class="nav-text">Deep
 Learnign-based Action Detection in Untrimmed Videos: A Survey</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#a-survey-on-deep-learning-based-spatio-temporal-action-detection"><span class="nav-number">3.</span> <span class="nav-text">A
 Survey on Deep Learning-based Spatio-temporal Action
-Detection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">4.</span> <span class="nav-text">参考链接：</span></a></li></ol></div>
+Detection</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AA%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number"></span> <span class="nav-text">3个数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">1.</span> <span class="nav-text">参考链接：</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -131,7 +131,7 @@ Detection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" hr
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">93</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -213,7 +213,7 @@ Detection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" hr
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-23 16:38:57" itemprop="dateModified" datetime="2024-08-23T16:38:57+08:00">2024-08-23</time>
+      <time title="修改时间：2024-10-25 14:50:04" itemprop="dateModified" datetime="2024-10-25T14:50:04+08:00">2024-10-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -239,7 +239,7 @@ Detection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" hr
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>5.9k</span>
+      <span>6.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -693,6 +693,44 @@ location)和结合体，有一些工作展示了利用diffusion
 models来解决STAD任务。</li>
 </ul></li>
 </ol>
+<h3 id="个数据集">3个数据集</h3>
+<ul>
+<li><p><strong>UCF01-24</strong>： <a
+target="_blank" rel="noopener" href="https://github.com/yjh0410/YOWOv2?tab=readme-ov-file">YOWOv2</a>的作者这里给出了下载链接</p></li>
+<li><p><strong>AVAv2.2</strong>：
+AVA的Google官网没有提供视频的下载，有视频下载的链接：</p>
+<ul>
+<li><p>trainval/test:</p>
+<p><a
+target="_blank" rel="noopener" href="https://github.com/ItzJuny/Download-AVA_Kinetics-and-AVA_Actions/tree/master/ava-actions"
+class="uri">https://github.com/ItzJuny/Download-AVA_Kinetics-and-AVA_Actions/tree/master/ava-actions</a>,</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/cvdfoundation/ava-dataset"
+class="uri">https://github.com/cvdfoundation/ava-dataset</a></p></li>
+<li><p>这个链接也可以，还有后续的处理步骤：<a
+target="_blank" rel="noopener" href="https://github.com/yjh0410/AVA_Dataset"
+class="uri">https://github.com/yjh0410/AVA_Dataset</a>,</p></li>
+<li><p>在YOWOv3这个仓库里，有ucf24和AVA的下载链接，<a
+target="_blank" rel="noopener" href="https://github.com/Hope1337/YOWOv3"
+class="uri">https://github.com/Hope1337/YOWOv3</a></p></li>
+<li><p>VideoMAE-Action-Detection处理的ava和其他的不太一样：<a
+target="_blank" rel="noopener" href="https://github.com/MCG-NJU/VideoMAE-Action-Detection/blob/main/DATASET.md"
+class="uri">https://github.com/MCG-NJU/VideoMAE-Action-Detection/blob/main/DATASET.md</a></p></li>
+<li><p>SlowFast的处理的AVA：<a
+target="_blank" rel="noopener" href="https://github.com/facebookresearch/video-long-term-feature-banks/blob/main/DATASET.md"
+class="uri">https://github.com/facebookresearch/video-long-term-feature-banks/blob/main/DATASET.md</a></p></li>
+</ul></li>
+<li><p><strong>JHMDB21</strong>： 下载地址：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://jhmdb.is.tue.mpg.de/challenge/JHMDB/datasets"
+class="uri">http://jhmdb.is.tue.mpg.de/challenge/JHMDB/datasets</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://github.com/stoneMo/YOWOv2/blob/main/datasets/download_data.bash"
+class="uri">https://github.com/stoneMo/YOWOv2/blob/main/datasets/download_data.bash</a>，作者这里给出了下载链接，包括视频图片和标注</li>
+<li><a
+target="_blank" rel="noopener" href="https://github.com/wei-tim/YOWO?tab=readme-ov-file">YOWO</a>的作者也提供了下载链接。Issues
+里有人也给出了labels。</li>
+</ul></li>
+</ul>
 <h4 id="参考链接">参考链接：</h4>
 <ul>
 <li>https://0809zheng.github.io/2021/07/15/stad.html：
@@ -841,13 +879,13 @@ alt="Performance on AVA" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">92k</span>
+    <span title="站点总字数">93k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:36</span>
+    <span title="站点阅读时长">5:37</span>
   </span>
 </div>
 <div class="busuanzi-count">
