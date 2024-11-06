@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Multiscale Vision Transformers meet Bipartite Matching for efficient single-stage Action Localization[1]  作者是来自英国玛丽女王大学、三星剑桥AI center等机构的Ioanna Ntinou, Enrique Sanchez, Georgios Tzimiropoulos。论文引">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BMViT">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/10/28/BMViT/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Multiscale Vision Transformers meet Bipartite Matching for efficient single-stage Action Localization[1]  作者是来自英国玛丽女王大学、三星剑桥AI center等机构的Ioanna Ntinou, Enrique Sanchez, Georgios Tzimiropoulos。论文引">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-28T09:27:50.000Z">
+<meta property="article:modified_time" content="2024-11-06T13:50:33.937Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Action Detection">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/10/28/BMViT/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/10/28/BMViT/","path":"2024/10/28/BMViT/","title":"BMViT"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>BMViT | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#multiscale-vision-transformers-meet-bipartite-matching-for-efficient-single-stage-action-localization1"><span class="nav-number">1.</span> <span class="nav-text">Multiscale
+Vision Transformers meet Bipartite Matching for efficient single-stage
+Action Localization[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">96</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen201718@163.com" title="Email → mailto:yuen201718@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/10/28/BMViT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="BMViT | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BMViT
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-10-28 17:27:50" itemprop="dateCreated datePublished" datetime="2024-10-28T17:27:50+08:00">2024-10-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-06 21:50:33" itemprop="dateModified" datetime="2024-11-06T21:50:33+08:00">2024-11-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="multiscale-vision-transformers-meet-bipartite-matching-for-efficient-single-stage-action-localization1">Multiscale
+Vision Transformers meet Bipartite Matching for efficient single-stage
+Action Localization<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自英国玛丽女王大学、三星剑桥AI center等机构的Ioanna Ntinou,
+Enrique Sanchez, Georgios Tzimiropoulos。论文引用[1]:Ntinou, Ioanna,
+Enrique Sanchez, and Georgios Tzimiropoulos. "Multiscale vision
+transformers meet bipartite matching for efficient single-stage action
+localization." Proceedings of the IEEE/CVF Conference on Computer Vision
+and Pattern Recognition. 2024.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.May</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>bipartite matching loss</li>
+<li>Video Transformer with bipartite matching loss without learnable
+queries and decoder</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>Action
+localization是一个挑战行的问题，结合了检测和识别，通常是分开处理的，SOTA方法都是依赖off-the-shelf
+bboxes detection，然后用transformer model来聚焦于classification task。
+这样的两阶段的方法不利于实时的部署。另外，单节段的方法通过共享大部分的负载来实现这两个任务，牺牲性能换取速度。类似DETR的架构训练起来有挑战。本文观察到：一个直接的bipartite
+matching loss可以用在ViT的output tokens上，导致一个 backbone + MLP
+架构能够需要要额外的encoder-decoder head和learnable
+queries来同时处理这两个任务。用单一的MViTv2-S架构 with bipartite
+matching 来执行两个tasks，超过了MViTv2-S trained with RoI align on
+pre-computed bboxes。用设计的token
+pooling和提出的训练的pipeline，<strong>B</strong>ipartite-<strong>M</strong>atching
+Vision Transformer, <strong>BMViT</strong>。实现了很好的结果。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>STAD任务和目标检测类似，但是特殊之处在于，检测的目标通常是人，有很多个不同的类别有时同时发生。提出了额外的挑战：actions需要时序reasoning；如果人物没有执行目标的行为，person
+detector可能导致假阳性。目前的SOTA方法有很高的mAP，是将detection
+task给到了预训练的FasterRCNN；然后只聚焦于网络模型和大的训练数据。本文提出的模型能够同时执行两个任务。因为和目标检测类似，最近的针对单节段的模型都是建立在strong
+backbone上，能够为DETR提供强大的时序特征。基于DETR的方法展示了用于end-to-end的action
+localization的高效性。它们的设计用了video
+backbone和一个encoder-decoder的transformer。在网络设计上，是否还有提升？
+从最近的 <strong>Open-World Object Detection using
+ViT(OWL-ViT)</strong>得到了灵感。贡献如下：</p>
+<ul>
+<li>bipartite matching loss between saptio-temporal output embeddings of
+a single transformer backbone and the GT instances in a video clip.</li>
+</ul>
+<p>在这个设定中，video
+embeddings是独立的tokens，可以类似于DETR那样matched to
+predictions。也就意味着：learnable tokens是不需要的；transformer
+decoder也是不需要的；video backbone和encoder可以merge into一个strong
+video transformer，这样一个简单的approach with a careful token
+selection使得能够训练MViTv2-S with a simple MLP head，来直接预测bounding
+boxes和action
+classes。不需要额外的elements或者数据，<strong>单节段的MViTv2-S超过了两阶段的MViTv2-S
+trained using RoI align and pre-computed bounding
+boxes</strong>。</p></li>
+<li><p><strong>Two-stage</strong>:</p>
+<ul>
+<li><p>目前大多数现有的action detection的工作都是依赖于额外的person
+detector for actor
+localization。典型的就是FasterRCNN-R101-FPN，在COCO上训练，然后在AVA进行微调，用在STAD任务中，通过引入off-the-shelf
+detection,STAD的任务简化了成了一个action
+classification的问题。之前的方法SlowFast、MViT、VideoMAE、Hiera，这里的RoI
+features都是直接用于action
+classification。然而，这样的features将信息限制在bounding
+box之类。忽略的contextual
+information。为了解决这个问题，AIA和ACARN用了一个额外的module来捕捉actor和context/other
+actor之间的interactin。另外，为了建模时序信息，MeMViT基于MViT引入了<strong>mermory
+mechanism</strong>。实现了很高的精度。这些方法对于部署不高效。</p></li>
+<li><p><strong>Single-stage</strong>：受之前的工作的启发，一些工作开始尝试同时处理detection和classification
+in a unified framework。一些工作借鉴了目标检测的思路，然后引入action
+detection。其它的通过joint actor prposal和action classification
+networks来简化训练，或者将其吸引到TAL任务上；SE-STAD是基于FasterRCNN，将其引入action
+classification。Video action transformer是一个transformer风格的action
+detector，用来汇聚spatial-temporal context around target
+actors。最近的工作利用DETR，用learnable
+queries来建模action和bboxes。TubeR提出了一个基于DETR的架构，一些列的queries，coined
+Tubelet Queries，同时编码temporal dynamics of a specific actor's
+bounding box as well as 对应的actions。TubeR用单一的DETR
+head来建模Tubelet
+Queries。类似地，STMixer，提出了一个自适应地，从multi-scale
+spatio-temporal feature space来采样discriminative
+features，然后用自适应的策略under the guidance of
+queries来对它们进行编码。EVAD用了两个video action detection
+designs：token dropout focusing on keyframe-centric spatiotemporal
+preservation; Scene context refinement using RoI align operation and a
+decoder；和之前的工作相比，用一个decoder或者一个heavy
+module，引入了interaction features of context or other actors。</p></li>
+</ul></li>
+<li><p>Action localization的目标是检测和分类video
+clip中间帧的一些actions。因为video clip中，不是每个person都在执行action
+of interest。将一个person和actor区分开，<span
+class="math inline">\(t\)</span>时刻的actor 定义为一个bbox：$<span
+class="math inline">\(b = [x_b, y_c, h, w]\)</span>。</p></li>
+<li><p>DETR的在训练的过程中，<strong>用Hungarian 算法来将 <span
+class="math inline">\(N &lt; L\)</span> 的(L为图像中的objects)
+映射到最近的predictions，使得assignments能够最小化bbox和class cost；
+<span class="math inline">\(L - N\)</span>剩下的predictions分配给empty
+class。通过反向传播bbox和class error for those outputs matched to a GT
+object and only the class error for assigned to the empty
+class</strong>。DETR有很好的特性 for action
+localization。因为<strong>learnable object queries能够convey object
+localization和action classification</strong>。</p></li>
+<li><p>作者follow
+OWL-ViT的工作，OWL-ViT引入了CLIP的encoder，最后的pooling
+layer去掉了。每个output embeddings 被forward to
+一个小的head，包含了一个box MLP和class linear projection。因此，<span
+class="math inline">\(\hat{L} = h \times w\)</span> output tokens from
+vision encoder，作为独立的output pairs <span
+class="math inline">\(&lt;\hat{b},
+p(\hat{a})&gt;\)</span>。这些pairs用DETR的Bipartite matching
+loss和GT进行match。为了改进OWL-ViT，注意到MViT是一个natural pool of
+spatio-temporal output embeddings that can be one-to-one matched to
+triplets。一个简单的用了bipartite
+matching进行训练的MViTv2-S架构比相同给的MViTv2-S精度要更高。称这个方法为<strong>Bipartite-Matching
+Vision
+Transformer,BMViT</strong>。给定简单的MLPs的heads。不需要给backbone增加额外的复杂度。</p></li>
+<li><p>对于一个 <span class="math inline">\(16 \times 256 \times
+256\)</span> 的视频输入，输出为 <span class="math inline">\(8 \times 8
+\times 8\)</span>
+的tokens，超过了基于DETR的架构，这个输出的tokens不回影响网络的复杂度，因为被3个MLPs独立地处理。Following
+OWL-ViT，增加了一个bias to predicted bounding
+boxes，使得每个默认是在image patch的中心，与2D grid的一致。"there is no
+strict correspondence between image patches and tokens representations";
+然而，<strong>bias box
+prediction能够加速训练和提高最后的性能</strong>。在3D
+时空设定中，沿着时间轴增加了相同的 2D bias to all tokens on the same 2D
+grid。</p></li>
+<li><p>因为每个head会独立地处理output tokens来产生 <span
+class="math inline">\(\hat{b}, p(\alpha),
+p(\hat{a})\)</span>。可以选择哪些是能够更好地用于检测和识别的子任务。唯一的技术限制是每个head的输出需要和其它head的输出一对一的对应，来形成<strong>triplets
+(will be matched to the ground-truth
+instances)</strong>。这是一个很重要的考虑，因为actor detection和action
+classification在定义上是opposed。当检测actors的时候，只需要<strong>中间帧</strong>的信息，action
+recognition的任务从使用时序支持上收益。因为我们没有局限于使用相同的输出tokens
+for each task，考虑 <span class="math inline">\(w \times h\)</span>
+tokens和 <span class="math inline">\(t = \lfloor
+\frac{T}{2}\)</span>，来产生 <span class="math inline">\(\hat{L} = w
+\times h\)</span> bounding boxes <span
+class="math inline">\(\hat{b}\)</span>和 actor/no actor的概率 <span
+class="math inline">\(p(\alpha)\)</span>, 然后应用temporal
+pooling来产生一个 <strong>equivalent set of</strong> <span
+class="math inline">\(\hat{L}\)</span> tokens，能够用来计算action 的概率
+<span class="math inline">\(p(\hat{a})\)</span>。</p></li>
+<li><p>首先，为了避免当使用MViTv2-S的时候的poor
+detection，去掉最后的pooling layer来增加output resolution，来产生output
+tokens，然后用central tokens用于detection task。应用<strong>temporal
+pooling</strong>来形成equivalent spatio-temporal
+tokens用于分类任务。也要研究了alternative strategy，考虑bounding
+boxes和actor prediction, 对应于 <span class="math inline">\(t= \lfloor
+\frac{T}{2}\)</span> 和 <span class="math inline">\(t = \lceil
+\frac{T}{2}\)</span>。将其结果进行
+concatenate得到512个tokens，来进行actor detection task。在past和future
+tokens上应用 temporal pooling w.r.t
+中间帧。就是说，将两者进行concatenate形成最后的512
+tokens。注意到actor和action tokens需要一对一的对应。是产生 <span
+class="math inline">\(\hat{L}\)</span> triplets的必要条件。</p></li>
+<li><p>结论：Vision Transformer的输出的tokens能够独立地forwarded to
+对应的MLP heads，来产生固定序列的predictions类似于DETR，用Bipartite
+matching
+loss来直接训练backbone，不需要牺牲性能来执行两个tasks是可能的。结果表明简单的模型能够实现和两阶段的方法类似的精度。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/60462808feec1aaecc49127b11eb794c3d8de7fd/2-Figure1-1.png"
+alt="Comparison" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+Comparison between existing works and our proposed approach. (a)
+Traditional two-stage methods work on developing strong vision
+transformers that are applied in the domain of Action Localization by
+outsourcing the bounding box detections to an external detector. ROI
+Align is applied to the output of the transformer using the detected
+bounding boxes, and the pooled features are forwarded to an MLP that
+returns the class predictions. (b) Recent approaches in one-stage Action
+Localization leverage on the DETR capacity to model both the bounding
+boxes and the action classes. A video backbone produces strong
+spatio-temporal features that are handled by a DETR transformer encoder.
+A set of learnable queries are then used by a DETR transformer decoder
+to produce the final outputs. (c) Our method builds a vision transformer
+only that is trained against a bipartite matching loss between the
+individual predictions given by the output spatio-temporal tokens and
+the ground-truth bounding boxes and classes. Our method does not need
+learnable queries, as well as a DETR decoder, and can combine the
+backbone and the DETR encoder into a single architecture.</p>
+<p><img
+src="https://figures.semanticscholar.org/60462808feec1aaecc49127b11eb794c3d8de7fd/5-Figure2-1.png"
+alt="tokens" /> <span class="math inline">\(Fig.2^{[1]}\)</span> The
+output spatio-temporal tokens are fed to 3 parallel heads. We use the
+central tokens to predict the bounding box and the actor likelihood
+while averaging the output tokens over the temporal axis to generate the
+action tokens. Each head comprises a small MLP that generates the output
+triplets. We depict the flow diagram for each head, following the
+standard OWL-ViT head</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Action-Detection/" rel="tag"># Action Detection</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/10/24/MSRN/" rel="prev" title="MRSN">
+                  <i class="fa fa-angle-left"></i> MRSN
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">95k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:46</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
