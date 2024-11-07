@@ -27,7 +27,7 @@
 <meta property="og:description" content="End-to-End Spatio-Temporal Action Localisation with Video Transformers[1]  作者是来自google的Alexey Gritsenko, Xuehan Xiong等人，论文引用[1]:Gritsenko, Alexey A. et al. “End-to-End Spatio-Temporal Action Loc">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-10-24T09:15:19.000Z">
-<meta property="article:modified_time" content="2024-10-28T12:30:48.101Z">
+<meta property="article:modified_time" content="2024-11-07T07:41:38.392Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Action Detection">
 <meta name="twitter:card" content="summary">
@@ -212,7 +212,7 @@ Transformers[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-li
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-10-28 20:30:48" itemprop="dateModified" datetime="2024-10-28T20:30:48+08:00">2024-10-28</time>
+      <time title="修改时间：2024-11-07 15:41:38" itemprop="dateModified" datetime="2024-11-07T15:41:38+08:00">2024-11-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,14 +238,14 @@ Transformers[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-li
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>68</span>
+      <span>2.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -271,13 +271,165 @@ IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
 <li>2023.Apr</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
+<ul>
+<li>without resorting to external proposals or memory banks</li>
+<li>directly predicts tubelets even do not have full tubelet
+annotations</li>
+</ul>
 <h3 id="总结">总结</h3>
-<figure>
-<img
+<ol type="1">
+<li>最好的时空行为检测使用额外的person proposals和复杂的external memory
+banks。作者提出了一个端到端的、纯transformer的模型，能够直接输入一个视频，输出tubelets(一系列的bboxes和action
+classes at each frame). 这个灵活的模型能够用<strong>稀疏的bbox
+supervision on individual frames or full tubelet
+annotations</strong>。在这两种情况下，预测连贯的tubelet作为输出。另外，这个模型不需要额外的对proposals的前处理或者NMS这样的后处理。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>STAD/STAL任务通常有两种处理方式：</p>
+<ul>
+<li>在给定相邻帧作为时空上下文的时候，在单一的keyframe预测bbox和actions</li>
+<li>预测一系列的bboxes和actions(tubes) for each actor at each frame in
+the video. 最强的模型，是基于keyframe来做的，用一个两阶段的pipeline
+inspired by
+FastRCNN：首先用一个单独的检测器来得到proposals，proposals中的features然后根据actions
+of interest进行汇聚和分类。这些模型需要很多的memory
+banks，来包含其它帧的上下文信息。<strong>proposal-free</strong>算法，不需要额外的person
+detectors，可以用于keyframe-level和tubelet-level，它们的性能落后于proposal-based的方法。这里，作者展示了端到端的可训练的模型超过了两阶段的approach。</li>
+</ul></li>
+<li><p>STAR包含一个pure-transformer，是基于DETR检测的模型，这个模型是端到端，不需要前处理或者后处理，相比于之前的大多数的工作。<strong>这个模型的初始阶段是一个vision
+encoder，紧接着是一个decoder，将可学习的latent queries(这个代表每个actor
+in the video in video)处理成output
+tubelets(tubelet是一系列的bboxes和action classes at each time step of
+input video
+clip)</strong>。这个模型是多种功能的，能够用<strong>fully-labeled tube
+annotations</strong>，或者 <strong>sparse keyframe
+annotations</strong>进行训练。后者，这个网络仍然能够预测tubelets，学习将actor的检测联系起来。这个behaviour是由<strong>factorised
+queries，解码器的结构和tubelet matching in loss which all contain
+temporal inductive
+biases</strong>促成的。两阶段的先得到detections计算proposals，然后进行行为的分类，这种方法在AVA这种数据集上表现很好。之前的一些proposal-free的方法基于目标检测的架构例如SSD,
+CenterNet, YOLO等，它们被proposal-based
+方法所超越；另外，这些方法包含了一个separate
+network，一个是学习视频表征，一个是学习proposals for
+keyframe，不能预测tubelets。这个工作最像TubeR，作者的这个模型是基于DETR，是一个纯的transformer，不同于TubeR，展示了这个模型也能够预测tubelets。</p></li>
+<li><p><strong>Encoder</strong>: 这个模型包含一个vision
+encoder，紧接着是一个decoder将学习到的query
+tokens处理成tubelets。吸收temporal inductive biases into
+decoder，来提高精度和tubelet prediction。这个模型是受DETR架构的启发，
+也是用set-based
+loss和匈牙利匹配来训练。backbone输入一个视频，产生输入视频的feature
+representation。用了ViViT factorised encoder，这个spatio-temporal
+dimensions依赖于patch size when tokenising the
+input。为了保持spatio-temporal
+information，去掉了原始transformer中的spatial-和temporal-aggregation
+steps，如果temporal patch size大于1，沿着时间轴对最后一个feature
+map进行双线性上采样，保持原始的时序resolution。</p></li>
+<li><p><strong>Tubelet Decoder</strong>：decoder处理视觉特征，<span
+class="math inline">\(x \in \mathbb{R}^{T\times h\times w\times
+c}\)</span> along with learned queries。<span class="math inline">\(q
+\in \mathbb{R}^{T\times S\times d}\)</span> to outputs tubelets, <span
+class="math inline">\(y=(b,a)\)</span>是一系列的bboxes。<span
+class="math inline">\(b \in \mathbb{R}^{T\times S\times
+4}\)</span>和对应的actions， <span class="math inline">\(a \in
+\mathbb{R}^{T\times S\times C}\)</span>。这里 <span
+class="math inline">\(S\)</span>表示每帧的最大的数量的bboxes。<span
+class="math inline">\(C\)</span> 表示输出类别的数量。将learned
+queries用transformer
+decoder解码成输出的detections。总的来说，这个decoder包含 <span
+class="math inline">\(L\)</span>
+layers，每个对queries执行自注意力操作，在queries和encdoer
+outputs之间进行交叉注意力操作。这里作者修改了queries，
+自注意力和交叉注意力 for spatio-temporal localization
+scenario，加入了额外的<strong>temporal inductive
+biases</strong>，来提高精度。</p></li>
+<li><p><strong>Queries</strong>：Qeries, q, in DETR，用encoderd visual
+features解码成 bboxes
+predictions，类似于其它检测架构中的<strong>anchors</strong>。定义queries的最直接的方式是<strong>随机初始化</strong><span
+class="math inline">\(q \in \mathbb{R}^{T\times S\times
+d}\)</span>。然而，作者找到了一个更有效的方式来factorise queries into
+separate learned spatial (<span class="math inline">\(q \in
+\mathbb{R}^{S\times d}\)</span>) and temporal(<span
+class="math inline">\(q \in \mathbb{R}^{T\times
+d}\)</span>)。为了得到最后的tubelet queries，<strong>简单地重复spatial
+queries across all frames, 然后将它们加到它们对应的temporal embedding at
+each location中</strong>。如图所示，更准确地说，<span
+class="math inline">\(\mathbf{q}_{ij} =
+\mathbf{q}_i^t+\mathbf{q}_j^s\)</span>，这里<span
+class="math inline">\(i\)</span>和 <span
+class="math inline">\(j\)</span>分别表示temporal和spatial
+indices。这个factorised query representation表示相同的spatial
+embedding在所有帧中都在使用。直觉上来说，这个encourage <span
+class="math inline">\(i^{th}\)</span> spatial query embedding, <span
+class="math inline">\(q_{i}^s\)</span>来bind to the same location across
+different frames of the
+video。因为物体在不同的帧之间会有位移，对于将bboxes连接到一起可能有帮助。</p></li>
+<li><p><strong>Decoder layer</strong>：原始transformer中的decoder
+layer包含自注意力 on the queries, <span
+class="math inline">\(q\)</span>，紧接着是 queries and the outputs of
+the encoder, x之间的交叉注意力，然后是一个MLP
+layer。在这个模型中，将自注意力和交叉注意力在时间和空间上进行分解，引入了一个temporal
+locality inductive
+bias，增加了模型的效率。具体地说，应用MHSA，首先计算queries,
+keys和values。</p></li>
+<li><p><strong>localisation and classification
+heads</strong>：得到了网络最后的预测，<span
+class="math inline">\(y=(b,a)\)</span>，通过应用一个小的feed-forward
+网络来输出to decoder，这个bboxes序列，通过3层的MLP获得，一个单层的liear
+projection用来得到class logits。当每一帧预测固定数量的 <span
+class="math inline">\(S\)</span> bboxes的时候，<span
+class="math inline">\(S\)</span>
+是比frame中的GT的数量的最大值都大，也引入了额外的class
+label，代表背景</p></li>
+<li><p>模型直接预测bboxes和action classes at each frame of the input
+video。在很多数据集上例如AVA，是稀疏标注，只标注了关键帧。为了利用可用的annotations，计算training
+loss only at the annotated frames of the video。set-based
+检测模型例如DETR能够以任意的order进行predictions，这就是为什么在计算training
+loss之前先将predictions和ground进行match。这里有两种matching的方式：</p>
+<ul>
+<li>独立地执行bipartite matching at each frame to align model's
+predictions to the ground truth before computing the loss.</li>
+<li>另一个是执行tubelet matching，所有的有着相同spatial index的queries
+<span class="math inline">\(q^s\)</span> 必须和相同的ground truth across
+all frames of the input video。直觉上来看，当有full tubelet
+annotations的时候，tubelet
+matching提供了更强的监督信息，注意到不管执行哪种matching，这个损失的计算和整个的模型架构是一样的。</li>
+</ul></li>
+<li><p>这个思路是基于DETR的，不需要额外的proposals或者NMS来做后处理，用DETR的思路for
+action
+localization已经被TubeR和WOO采用了，然而，不同之处在于：WOO不检测tubelets，只有中间的keyframe的actions。**将queries在空间和时间上进行分解，来提供inductive
+biases。另外，预测action classes separately for each time step in the
+tubelet, 意味着每个queries binds to an actor in the video. 相反，
+TubR，对比之下，将queries进行参数化，以至于它们能够和separate
+actions进行关联(features在tubelet上进行average pool，然后linearly
+classified into a single action
+class)。这个choice也意味着TubeR需要一个额外的action switch
+head来预测tubelets什么时候开始和结束，作者这里就不需要了，因为tubelet中不同的时间step有不同的action
+classes。另外，考虑两种不同的matching in the loss computation unlike
+TubeR，tubelet matching
+设计用来预测更多的时序连续的tubelets。相比于TubeR，实验性地表明decoder的设计允许这个模型能够精确地预测tubelets，即使有weak,
+keyframe supervision。最后TubeR要求额外的复杂度(short-term context
+module和额外的memory bank)，</p></li>
+</ol>
+<p><img
 src="https://figures.semanticscholar.org/254ddb66ae10e6ad263e34a7bb9036e903f26be0/3-Figure2-1.png"
-alt="Overview" />
-<figcaption aria-hidden="true">Overview</figcaption>
-</figure>
+alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span> Our
+model processes a fixed-length video clip, and for each frame, outputs
+tubelets (i.e. linked bounding boxes with associated action class
+probabilities). It consists of a transformer-based vision encoder which
+outputs a video representation, x RT h w d. The video representation,
+along with learned queries, q (which are factorised into spatial qs and
+temporal components qt) are decoded into tubelets by a decoder of L
+layers followed by shallow box and class prediction heads</p>
+<p><img
+src="https://figures.semanticscholar.org/254ddb66ae10e6ad263e34a7bb9036e903f26be0/4-Figure3-1.png"
+alt="Factorised SA" /> <span class="math inline">\(Fig.2^{[1]}\)</span>
+Our decoder layer consists of factorised self-attention(SA)(left) and
+cross-attention(CA)(right) operations designed to provide a
+spatio-temporal inductive bias and reduce computation. Both operations
+restrict attention to the same spatial and temporal slices as the query
+token, as illustrated by the receptive field(blue) for a given query
+token(magenta). Factorised SA consists of two operations, whilst in
+Factorised CA, there is one operation.</p>
 
     </div>
 
@@ -332,13 +484,13 @@ alt="Overview" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">95k</span>
+    <span title="站点总字数">97k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:46</span>
+    <span title="站点阅读时长">5:54</span>
   </span>
 </div>
 <div class="busuanzi-count">
