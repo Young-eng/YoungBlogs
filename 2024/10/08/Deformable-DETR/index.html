@@ -19,14 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="Deformable DETR: Deformable Transformers for End-to-End Object Detection[1]  作者是来自商汤、中科大和CUHK的Xizhou Zhou, Weijie Su, Lewei Lu 等人，论文引用[1]:  Time  2021.Mar  Key Words  deformable attention">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Deformable-DETR">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/10/08/Deformable-DETR/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Deformable DETR: Deformable Transformers for End-to-End Object Detection[1]  作者是来自商汤、中科大和CUHK的Xizhou Zhou, Weijie Su, Lewei Lu 等人，论文引用[1]:  Time  2021.Mar  Key Words  deformable attention">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-10-08T01:57:19.000Z">
-<meta property="article:modified_time" content="2024-10-08T01:57:19.387Z">
+<meta property="article:modified_time" content="2024-11-23T08:46:30.512Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="Object Detection">
 <meta name="twitter:card" content="summary">
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#deformable-detr-deformable-transformers-for-end-to-end-object-detection1"><span class="nav-number">1.</span> <span class="nav-text">Deformable
+DETR: Deformable Transformers for End-to-End Object
+Detection[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -201,6 +207,22 @@
 
       <time title="创建时间：2024-10-08 09:57:19" itemprop="dateCreated datePublished" datetime="2024-10-08T09:57:19+08:00">2024-10-08</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-23 16:46:30" itemprop="dateModified" datetime="2024-11-23T16:46:30+08:00">2024-11-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
@@ -216,14 +238,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>3.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>12 分钟</span>
     </span>
 </div>
 
@@ -233,7 +255,261 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3
+id="deformable-detr-deformable-transformers-for-end-to-end-object-detection1">Deformable
+DETR: Deformable Transformers for End-to-End Object
+Detection<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自商汤、中科大和CUHK的Xizhou Zhou, Weijie Su, Lewei Lu
+等人，论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2021.Mar</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>deformable attention module aggregates multi-scale feature maps via
+attention mechanism</li>
+<li></li>
+</ul>
+<h3 id="动机">动机</h3>
+<ul>
+<li>DETR收敛慢</li>
+<li>DETR检测小目标的性能比较低</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>DETR在目标检测中，用来去掉很多人工设计的components，同时也有很好的性能。然而，它收敛比较慢，由于Attention在处理图像特征中的限制，特征的spatial
+resolution有限。为了缓解这些问题，提出了<strong>Deformable
+DETR</strong>，这个attention<strong>只对一个referrence附近的ke sampling
+points进行attend</strong>，Deformable
+DETR能够实现很好的性能，超越了DETR(特别是小目标)。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>很多检测器用了手工设计的components，例如anchor，training target
+assignment,
+NMS等。不是完全端到端。最近提出的DETR，能够消除这些手工设计的components，建立一个完全端到端的检测器，实现了很好的效果。DETR用了一个简单的架构，通过结合CNN和Transformer，探索了一个多功能的和高效的relation
+modeling capability of Transformers来代替hand-crafted rules，under
+properly designed training
+signals。尽管这个设计和很好的性能表现，DETR有一些问题：<strong>需要更多的训练epoch来收敛；DETR在检测小目标的时候，性能比较低。现代的目标检测器通常用了多尺度特征，这里的小目标是从high-resolution
+feature maps中检测到。同时，high-resolution feature
+maps会导致DETR不可接受的复杂度。这些问题是由于Transformer在处理图像特征中的特点</strong>。在初始化的时候，这些attention
+modules对特征图中的所有像素<strong>cast nearly uniform attention
+weights</strong>。long training epoches对于attention
+weights是必要的，来学习sparse meaningful
+locations。在另一方面，attention weights的计算是与pixel
+numbers成平方关系。因此，是一个high computational 和memory
+complexities来处理这些high-resolution的feature maps。</p></li>
+<li><p>在图像域中，<strong>可变性卷积deformable
+convolution是一个有效且高效的机制来attend to sparse spatial
+locations</strong>，自然地避免了上述的问题。然而它缺乏了<strong>element
+relation modeling
+mechanism</strong>，这对于DETR的成功很关键。在本文中，<strong>提出了
+Deformable DETR，缓解了收敛慢和DETR的高复杂度的问题。结合了sparse
+spatial sampling of deformable convolution和relation modeling of
+Transformer</strong>，提出了 <font color=red>deformable attention
+module</font>，<strong>这个attend to a small set of sampling locations
+as a pre-filter for prominent key elements out of all the feature map
+pixels</strong>。<strong>这个模块能够自然地扩展到汇聚多尺度特征 without
+help of FPN</strong>。在Deformable DETR中，利用了(multi-scale)deformable
+attention modules来代替Transformer attention modules，来处理feature
+maps。</p></li>
+<li><p>Deformable
+DETR为我们提供了可能性，探索端到端的目标检测的变体，thanks to its fast
+convergence和计算和高效的Memory。探索了一个简单有效的<font color=red>iterative
+bounding box
+refinement</font>机制，来提高检测性能。同时也尝试了两阶段的Deformable
+DETR，由Deformable DETR来产生region proposals，然后送入decoder for
+iterative bounding box refinement。</p></li>
+<li><p>对于Transformer的由于之一是high time和memory complexity at vast
+key element
+numbers，在很多情况下阻碍了模型的可扩展性。最近，很多的努力来克服这个问题，可以主要分为3类。</p>
+<ul>
+<li>用pre-defined sparse attention patterns on
+keys，最直接的范式是将attention
+pattern限制在一个局部窗口。虽然将attention限制在一个局部的位置能够减小复杂度，丢失了全局信息。为了弥补这个，有人提出了key
+elements at fixed
+intervals，显著地增强了keys的感受野。很多人的工作表明了很少数量的<strong>special
+tokens能够access to all key elements</strong>，也有人增加了一些pre-fixed
+sparse attention patterns来attend distant key elements。</li>
+<li>learn data-dependent sparse
+attention。有人提出了一个<strong>locality sensitive hashing(LSH) based
+attention</strong>，能够hashed both query 和key elments to different
+bins。一个类似的idea也有人提出来了，这个k-means来发现最相关的keys。有人用block
+permutation for block-wise sparse attention。</li>
+<li>第三类是探索low-rank property in self-attention。有人通过一个linear
+projection on the size dimension instead of the channel
+dimension，来减小key elements的数量，有人通过kernelization
+approximation来重写自注意力的计算。</li>
+</ul></li>
+<li><p>在图像域，高效注意力机制的设计仍然限制在第一个类别，尽管理论上减小了复杂度，这样的方法执行起来比传统的CNN更慢，由于memory
+access patterns的内在限制。在另一方面，有很多的CNN的变体例如deformable
+conv和dynamic conv，也能视作自注意力机制。deformable conv在image
+recognition上操作比Transformer更高效和更有效，同时，它缺乏element
+relation modeling机制。作者提出的deformable attention
+module是受deformable conv的启发，属于第二种类别，只关注<strong>a small
+fixed set of sampling points predicted from the feature of query
+elements</strong>。deformable attention
+比传统的CNN在相同的FLOPS下要慢一些。</p></li>
+<li><p>目标检测的主要的困难是有效地represent objects at vastly different
+scales。现代的目标检测器通常用multi-scale
+features来做这个，这方面的工作有:FPN，PANet，NAS-FPN和Auto-FPN，BiFPN。NAS-FPN和Auto-FPN通过网络架构搜索来自动涉及cross-scale
+connections。BiFPN是PANet的简化版。作者提出的<strong>multi-scale
+deformable attention module
+能够自然地通过注意力机制，汇聚多尺度特征图，不需要特征金字塔网络</strong>。</p></li>
+<li><p>Transformer有两个问题：</p>
+<ul>
+<li>一个是Transformer在收敛之前，需要长时间的训练，注意力权重 <span
+class="math inline">\(A_{mqk}\approx \frac{1}{N_k}\)</span>，当 <span
+class="math inline">\(N_k\)</span>
+很大的时候，会导致输入特征的模糊的梯度，因此，需要更长时间的训练，来使attention
+weights聚焦于specific keys。在图像域，key elements通常是image
+pixels，<span class="math inline">\(N_k\)</span>
+可以是很大，收敛是冗长的。</li>
+<li>另一个是多头注意力的计算和内存复杂度。当大量的query和key的时候，计算和存储的复杂度是特征图尺寸的二次方。</li>
+</ul></li>
+<li><p>DETR是建立在Transformer结构上的，结合了基于set的匈牙利损失，通过<strong>bipartite
+matching</strong>，使得每个ground-truth的bbox有一个predictions。DETR的简介如下：</p>
+<ul>
+<li>给定一个经过CNN backbone的特征图的输入，<span
+class="math inline">\(x\in\mathbb{R}^{C\times H\times
+W}\)</span>，DETR用一个标准的Transformer结构来将输入的特征图转换成一系列object
+queries的features。一个3层的FFN和一个linear projection加在了object query
+features的顶部，作为检测头。FFN作为回归分支预测bbox的坐标，linear
+projection作为分类分支预测每个query的类别。</li>
+</ul>
+<p>对于DETR中的Transformer的encoder，query和key都是特征图中的像素。自注意力的计算复杂度是
+<span class="math inline">\(O(H^2W^2C)\)</span>，和spatial
+size是二次方的关系。</p>
+<p>对于DETR中的Transformer的decoder，输入包括来自encoder的feature
+maps，还有用learnable positional embeddings表示的N个object
+queries。decoder中有两种类型的注意力，交叉注意力和自注意力。交叉注意力的复杂度和自注意力的复杂度分别是
+<span class="math inline">\(O(NHWC^2+ NHWC)\)</span> 和 <span
+class="math inline">\(O(2NC^2 +
+N^2C)\)</span>。这个复杂度对于中等数量的object queries是可接受的。</p>
+<p>DETR是一个有吸引力的设计，用于目标检测，去掉了很多手工设计的需要，然而也有问题，主要是来自Transformer
+attention的缺陷，DETR在检测小目标的时候表现不行，现代的目标检测器用一个high-resolutioN
+feature
+map来检测小目标，然而，hight-resolution的特征图会导致不可接受的复杂度；相比于现代的目标检测器，DETR需要更多的训练epoch来达到收敛，主要是因为注意力module来处理image
+features很难训练。例如，在初始化的时候，交叉注意力模块几乎是在整个特征图上的平均attention。然而，在训练结束的时候，attention
+maps变得sparse，关注在object
+extremities上，似乎DETR需要更长的训练来学习significant changes in the
+attentino maps。</p></li>
+<li><p><strong>Deformable Attention Module</strong>：把Transformer
+attention用在图像特征图上的主要问题是，它会look
+over所有可能的空间位置。为了解决这个问题，提出了一个<em>deformable
+attention module</em>，受deformable conv的启发，deformable attention
+module只attend to a small set of key sampling points around a reference
+point，忽略特征图的spatial size。通过assigning一小部分的keys for each
+query，收敛的问题和feature spatial resolution能够被解决。</p>
+<p>给定一个特征图，<span class="math inline">\(\mathbf{x} \in
+\mathbb{R}^{C \times H \times W}\)</span>，q表示一个query，content
+feature <span class="math inline">\(z_q\)</span>和一个 2-d的reference
+point <span class="math inline">\(p_q\)</span>，deformable attention
+module的计算公式是这样的： <span
+class="math display">\[\text{DeformAttn}(\mathbf{z}_q, \mathbf{p}_q, x)
+= \sum_{m=1}^{M} W_m \left[ \sum_{k=1}^{K} A_{mqk} \cdot W&#39;_m x
+\left( \mathbf{p}_q + \Delta \mathbf{p}_{mqk} \right)
+\right]\]</span></p>
+<p>m表示attention head，k表示 sampled keys，K是总共的sampled
+keys的数量。<span class="math inline">\(\Delta
+\mathbf{p}_{mqk}\)</span>和 <span class="math inline">\(A_{mqk}\)</span>
+分别表示sampling offset和第m个attention head的第k个sampling
+point的attention weight。attention weight <span
+class="math inline">\(A_{mqk}\)</span> 属于 [0, 1]的区间，<span
+class="math inline">\(\Delta \mathbf{p}_{mqk}\)</span>和 <span
+class="math inline">\(A_{mqk}\)</span> 通过 query feature <span
+class="math inline">\(z_q\)</span> 进行linear
+projection得到。在执行中，query feature <span
+class="math inline">\(z_q\)</span> 给到一个linear projection operator of
+3MK channels，前 2MK个channels 对 sampling offsets <span
+class="math inline">\(\Delta \mathbf{p}_{mqk}\)</span> 进行编码，剩余的
+mk channels 给到一个 softmax operator，来得到 attention weights <span
+class="math inline">\(A_{mqk}\)</span>。</p>
+<p>deformable attention module是将卷积特征图作为key elements进行处理。
+<span class="math inline">\(N_b\)</span> 是 query
+elements的数量，当MK相对比较小，deformable attention module的复杂度是
+<span class="math inline">\(O\left( 2N_q C^2 + \min(HWC^2, N_q KC^2)
+\right)\)</span>，当用在 DETR的encoder的时候，<span
+class="math inline">\(N_q\)</span>= HW，复杂度变成了 <span
+class="math inline">\(O(HWC^2)\)</span>，和spatial
+size是线性的关系，当用在交叉注意力上的时候，复杂度变成了 <span
+class="math inline">\(O(NKC^2)\)</span>，和spatial
+size不相关了。</p></li>
+<li><p><strong>Multiscale Deformable Attention
+Module</strong>：大多数的现在的目标检测器的框架受益于multiscale feature
+maps，提出的deformable attention module能够自然地扩展到multiscale
+feature maps上。multiscale deformable attention 类似于之前的single-scale
+version，除了它从multiscale feature
+maps中采样LK个points，而不是从single-scale feaure
+maps中采样K个points。</p>
+<p>当L=1, K=1的时候，提出的attention module退化成 deformable conv，<span
+class="math inline">\(W_{m}^{\prime} \in \mathbb{R}^{C_{v}\times
+C}\)</span> 作为identity matrix是固定的。Deformable
+conv是为了single-scale inputs而设计的，对于每个attention
+head，聚焦于一个sampling point。然而，<strong>multiscale deformable
+attention 从多个inputs中，look over多个sampling
+points</strong>。提出的deformable attention
+module可以被视为一个Transformer attention的高效地变体，通过deformable
+sampling locations引入了pre-filtering 机制。当sampling
+points经过了所有的locations的时候，提出的attention
+module等价于Transformer attention。</p>
+<p>在multiscale deformable attention
+module在encoder中的应用的时候，多尺度特征图的输出和输入有相同的resolutions。key
+和query是来自多尺度特征图的pixels。对于每个query pixel，reference
+point是它本省。为了确定每个query pixel是在哪个feature
+level。我们给feature representation增加了一个scale level embedding，记为
+<span class="math inline">\(e_l\)</span>。不同于positional
+embedding，scale-level embedding是随机初始化，和网络一起训练的。</p>
+<p><strong>Deformable Transformer
+Decoder</strong>：对于交叉注意力和自注意力，query elements是object
+queries。在交叉注意力中，object queries从feature maps中提取特征，key
+elements是encoder的输出的特征图。在自注意力中，object queries和each
+other进行interact，key elements是object
+queries。因为提出的<strong>deformable attention是将conv feature map作为
+key elements进行处理</strong>，仅将每个cross-attention module替换成
+multi-scale deformable attention
+module，自注意力的modules没变。对于每个object query，reference point的
+<span class="math inline">\(\hat{p}_q\)</span> 2-d的normalized
+coordinate 是通过一个可学习的linear projection，object query
+embedding进行预测的。</p>
+<p>因为multiscale deformable attention module是从referenece
+point附近提取image features，让detection head预测bbox as relative
+offsets w.r.t the reference point,为了降低优化困难。这个reference point
+用作初始的box center的预测。检测头预测相对于 reference point的relative
+offsets。这样，学习到的decoder
+attention会和预测的bbox有很强的关联，加速了收敛。</p></li>
+<li><p><strong>Additional improvements</strong>:</p>
+<ul>
+<li><font color=red>Iterative bbox refinement</font>：这个受optical flow
+estimation的iterative refinement的启发。建立了一个简单有效的iterative
+bbox refinement 机制，来提高检测性能。这个每个decoder layer基于previous
+layer的预测对bbox进行refine.</li>
+<li><font color=red>Two-Stage Deformable
+DETR</font>：在原始的DETR中，decoder中的object queries和当前的image
+不相关，受两阶段的目标检测器的启发，探索了一种Deformable
+DETR的变体，在第一阶段产生region proposals，产生的region
+proposals会给到decoder 作为object
+queries用于之后的refinement，形成两阶段的Deformable DETR。</li>
+</ul>
+<p>在第一阶段，为了实现high-recall
+proposals，多尺度特征图中的每个pixel将会serve as object
+query。然而，直接将object
+queries设为pixels，会带来不可接受的计算和存储成本。为了避免这个问题，为了region
+proposal generation，去掉了decoder，形成了encoder-only的deformable
+DETR，top scoring bboxes会被选为region proposals。在将region
+proposals给到第二阶段的时候，没有NMS。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/39ca8f8ff28cc640e3b41a6bd7814ab85c586504/2-Figure1-1.png"
+alt="DETR" /> <span class="math inline">\(Fig.1^{[1]}, illustration of
+the proposed Deformable DETR object detector\)</span></p>
+<p><img
+src="https://figures.semanticscholar.org/39ca8f8ff28cc640e3b41a6bd7814ab85c586504/9-Figure3-1.png"
+alt="multiscale" /> <span class="math inline">\(Fig.2^{[1]}, Deformable
+attention module\)</span></p>
 
     </div>
 
@@ -242,6 +518,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Object-Detection/" rel="tag"># Object Detection</a>
+          </div>
 
         
 
@@ -285,13 +564,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">97k</span>
+    <span title="站点总字数">101k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:54</span>
+    <span title="站点阅读时长">6:06</span>
   </span>
 </div>
 <div class="busuanzi-count">
