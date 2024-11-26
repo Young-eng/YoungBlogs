@@ -27,7 +27,7 @@
 <meta property="og:description" content="DETRs with Collaborative Hybrid Assignments Training[1]  作者是来自商汤的Zhuofan Zong，Guanglu Song和Yu Liu，论文引用[1]:Zong, Zhuofan et al. “DETRs with Collaborative Hybrid Assignments Training.” 2023 IEEE&#x2F;CV">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-11-23T09:05:55.000Z">
-<meta property="article:modified_time" content="2024-11-23T09:09:27.371Z">
+<meta property="article:modified_time" content="2024-11-26T03:40:29.367Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="object detection">
 <meta name="twitter:card" content="summary">
@@ -129,7 +129,7 @@ with Collaborative Hybrid Assignments Training[1]</span></a></li><li class="nav-
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">99</span>
+          <span class="site-state-item-count">100</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -203,9 +203,15 @@ with Collaborative Hybrid Assignments Training[1]</span></a></li><li class="nav-
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-11-23 17:05:55 / 修改时间：17:09:27" itemprop="dateCreated datePublished" datetime="2024-11-23T17:05:55+08:00">2024-11-23</time>
+      <time title="创建时间：2024-11-23 17:05:55" itemprop="dateCreated datePublished" datetime="2024-11-23T17:05:55+08:00">2024-11-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-26 11:40:29" itemprop="dateModified" datetime="2024-11-26T11:40:29+08:00">2024-11-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -231,14 +237,14 @@ with Collaborative Hybrid Assignments Training[1]</span></a></li><li class="nav-
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>63</span>
+      <span>2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>7 分钟</span>
     </span>
 </div>
 
@@ -261,10 +267,147 @@ Zhuofan et al. “DETRs with Collaborative Hybrid Assignments Training.”
 <li>2023.Aug</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
+<ul>
+<li>one-to-many label assignment</li>
+</ul>
 <h3 id="总结">总结</h3>
 <ol type="1">
-<li></li>
+<li>在本文中，作者观察到，太少的queries作为positive samples in DETR with
+one-to-one set matching 会导致sparse supervision on the encoder's
+output, 回影响encoer的discriminative feature
+learning。为了缓解这个问题，提出了一个新的<strong>collaborative hybrid
+assignments training scheme, 称之为Co-DETR</strong>，从versatile label
+assignment
+manners学习更有效的基于DETR的检测器。这个新的训练策略能够通过训练multiple
+parallel auxiliary heads supervised by one-to-many label assigments such
+as ATSS and
+FasterRCNN，简单地增强encdoer的学习能力。另外，通过其它auxiliary
+heads中的positive coordinates，执行extra customized positive
+queries，来提高decoder中的positive
+samples的训练效率。推理的时候，这些auxiliary
+heads被丢弃了，因此这个方法没有引入额外的参数和计算开销，不需要NMS。</li>
 </ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>在先前的目标检测工作中，一对多的label
+assignment是它们的核心方法，每个groundtruth
+box分配给检测器的输出的多个coordinates，和proposals，anchors，window
+centers共同作为监督目标。尽管它们的效果比较好，这些检测器严重依赖于很多手工设计的组件，例如NMS或者anchor
+generation。为了conduct一个更灵活的端到端的detector。有人提出了DETR，将目标检测视为一个集合预测问题，引入了一对一的set
+matching。以这种方式，每个ground-truth
+box将被分配给一个特定的query，不再需要很多手工设计的组件。这个方法引入了更加灵活的pipeline，使得很多DETR的变体能够进一步地提高。然而，普通的端到端的目标检测器仍然不如传统的一对多的label
+assignments。</p></li>
+<li><p>在本文中，<strong>作者尝试使DETR类型的检测器超过传统的检测器，同时保持它们端到端的特点。为了解决这个挑战，作者聚焦于一对一set
+matching的intuitive drawback that it explores less positive
+queries</strong>。这会导致严重的训练问题。<strong>作者从两个方面进行分析，一个是encoder的产生的latent
+representation，然后就是decoder中的attention
+learning。首先比较Deformable DETR和one-to-many label assignment
+方法(where we simply replace the decoder with the ATSS head)之间的latent
+features的discriminability score</strong>。每个spatial coordiante中的
+<span class="math inline">\(l^2\)</span> norm
+特征用来代表discriminability score。给定encoder的输出，<span
+class="math inline">\(\mathcal{F} \in \mathbb{R}^{C \times H \times
+W}\)</span>，我们能够得到discriminability score map <span
+class="math inline">\(\mathcal{S} \in \mathbb{R}^{1 \times H \times
+W}\)</span>。当对应区域的分数更高的时候，目标能更好的检测到。如图所示，在一些重要的位置的特征are
+fully activated in the 一对多的label assignment，然而less explored in
+一对一的set matching。对于decoder training的exploration，对于decoder
+training的exploration，我们也展示了decoder中的交叉注意力分数的IoF-IoB曲线，基于Deformable
+DETR和Group-DETR的，这个讲more positive
+queries引入到了decoder中。图2中显示，太少的positive
+queries会影响attention learning，增加decoder中的positive
+queries能够缓解这个。
+这个重要的观察驱使我们提出了一个简单高效的方法，一种协作混合的分配的训练方式，<strong>collaborative
+hybrid assignment training scheme,Co-DETR</strong>，co-DETR的key
+insight使用多样的一对多的label
+assignments来提高encoder和decoder的训练的效率和有效性。更具体地，作者讲transformer
+encoder的输出和auxiliary heads进行了集成。这些heads能够通过versatile
+一对多的label assignments 例如ATSS，FCOS，Faster
+RCNN进行监督，不同的label assignments丰富了encoder
+outputs的监督，使其能够be discriminative
+enough来支持这些heads的训练收敛。为了进一步提高decoder的训练效率。作者对auxiliary
+heads中的正样本的坐标进行编码，包括positive anchors和positive
+proposals。然后送入到原始的decoder中作为多组的positive
+queries，来预测pre-assigned 类别和bboxes。每个auxiliary head中的positive
+coordinates作为independent group，和其它的group隔离开。versatile
+一对多的label assignments能够引入大量的(positive query, ground-truth)
+pairs，来提高decoder的训练效率。<strong>注意到，原始的decoder尽在推理的时候用到了，提出的training
+scheme尽在training的时候引入额外的overheads</strong>。</p></li>
+<li><p><strong>一对多的label
+assignment</strong>：对于目标检测中的一对多的label assignment，多个box
+candidates能够分配给相同的groundtruth box作为positive samples in the
+training。在经典的anchor-based detectors 例如Faster RCNN，
+RetinaNet中，sample
+selection是通过预先定义的IoU的阈值和anchors与annotated
+boxes之间的匹配的IoU决定。anchor-free的FCOS利用了center
+priors，将每个bbox附近的中心位置作为positives。另外，自适应的机制引入到了一对多的label
+assignment，来克服固定label
+assignments的局限。ATSS通过统计动态的top-k最近的anchors的IoU的值，来自适应的anchor
+选择。PAA以概率的方式自适应的将anchors分为positive和negative
+samples。本文中，提出的collaborative hybrid assignment
+scheme，能够通过auxiliary heads with 一对多的label
+assignments来提高encoder representations。</p></li>
+<li><p><strong>一对一 set matching</strong>：DETR将一对一的set
+matching引入object detection，进行端到端的目标检测。这个一对一的set
+matching首先通过匈牙利匹配计算global matching cost，然后为每个ground
+truth box分配有着最小matching cost的正样本。DN-DETR展示了由于一对一set
+matching的不稳定性，收敛慢，引入了denoising
+training来缓解这个问题。DINO集成了DAB-DETR的query
+formulation，引入了改进的contrastive
+denoising来达到很好的效果。Group-DETR构建了group-wise 一对多的label
+assignment来exploit 多个positive object queries，类似于hybrid matchign
+scheme in H-DETR。</p></li>
+<li><p>跟着标准的DETR的路子，输入的图像送到backbone中，encoder产生latent
+features。多个预定义的object queries在decoder中和它们进行interact via
+cross-attention。引入co-DETR在encoder中提高feature
+learning，在decoder中通过collaborative hybrid assignment
+training和customized positive queries generation来提高attention
+learning。</p></li>
+<li><p><strong>Collaborative Hybrid Assignments
+Training</strong>：为了缓解decoder中fewer positive queries造成的encoder
+output的sparse supervision，作者引入了versatile auxiliary heads
+with不同的一对多的label assignment，例如 ATSS, Faster
+RCNN。**不同的label assignments丰富了encoder outputs上的监督，能够使其be
+discriminative
+enough来支持这些heads的训练收敛，特别地，给定encoder的latent feature
+<span class="math inline">\(\mathcal{F}\)</span>，首先转换到特征金字塔
+via multi-scale adapter。定义 K个collaborative heads with 对应的label
+assignment manners <span class="math inline">\(A_{k}\)</span>，对于第
+i个collaborative head, <span class="math inline">\({F_1, ...,
+F_j}\)</span>给到它，来得到预测 $_i，在第 i个head， <span
+class="math inline">\(A_i\)</span>用来计算supervised targets for the
+positive and negative samples in <span
+class="math inline">\(P_i\)</span>，将G记为 groundtruth
+set，这个过程formulated as: <span
+class="math display">\[\mathbf{P}_{i}^{\{pos\}},\mathbf{B}_{i}^{\{pos\}},\mathbf{P}_{i}^{\{neg\}}=\mathcal{A}_{i}(\mathbf{\hat{P}}_{i},\mathbf{G}),\]</span>
+{pos}和{neg}表示pair set of (j, positive coordinates or negative
+coordinates in <span class="math inline">\(\mathcal{F}_j\)</span>)
+determined by <span class="math inline">\(A_i\)</span>。j表示feature
+index in <span class="math inline">\({F_1, ..., F_j}\)</span>. <span
+class="math inline">\(B^{pos}_i\)</span> 是spatial positive
+coordinates的集合。<span class="math inline">\(P^{pos}_i\)</span>和<span
+class="math inline">\(P^{neg}_i\)</span> 是对应坐标的supervised
+targets，包括类别和regressed offsets。损失函数定义如下：</p>
+<p><span
+class="math display">\[\mathcal{L}_{i}^{enc}=\mathcal{L}_{i}(\mathbf{\hat{P}}_{i}^{\{pos\}},\mathbf{P}_{i}^{\{pos\}})+\mathcal{L}_{i}(\mathbf{\hat{P}}_{i}^{\{neg\}},\mathbf{P}_{i}^{\{neg\}}),\]</span></p>
+<p>注意到，对于负样本，回归损失没有用上，对于K个auxiliary
+heads，优化的训练目标是： <span
+class="math display">\[\mathcal{L}^{enc}=\sum_{i=1}^K\mathcal{L}_i^{enc}\]</span></p></li>
+<li><p><strong>Customized Positive Queries
+Generation</strong>：在一对一的set matching范式中，每个groundtruth
+box会被唯一分配给一个特定的query作为supervised target。太少的positive
+queries导致decoder中的交叉注意力学习不够。为了减缓这个，根据每个auxiliary
+head中的label assignment，产生足够的customized positive
+queries。特别低，给定positive coordinates set，<span
+class="math inline">\(\mathbf{B}_{i}^{\{pos\}}\in\mathbb{R}^{M_{i}\times4}\)</span>
+在第i个auxiliary head，<span
+class="math inline">\(M_i\)</span>是positive
+samples的数量，额外的positive queries <span
+class="math inline">\(\mathbf{Q}_{i} \in \mathbb{R}^{M_{i}\times
+C}\)</span> 可以通过以下公式生成：</p></li>
+</ol>
+<p><span
+class="math display">\[\mathbf{Q}_{i}=\mathrm{Linear}(\mathrm{PE}(\mathbf{B}_{i}^{\{pos\}}))+\mathrm{Linear}(\mathrm{E}(\{\mathcal{F}_{*}\},\{pos\})).\]</span></p>
 <p><img
 src="https://figures.semanticscholar.org/3d3a76a2fedccea741f34303b06358440dc2a212/3-Figure4-1.png"
 alt="Framework" /> <span class="math inline">\(Fig.1^{[1]}\)</span></p>
@@ -322,13 +465,13 @@ alt="Framework" /> <span class="math inline">\(Fig.1^{[1]}\)</span></p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">103k</span>
+    <span title="站点总字数">106k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6:16</span>
+    <span title="站点阅读时长">6:24</span>
   </span>
 </div>
 <div class="busuanzi-count">
