@@ -27,7 +27,7 @@
 <meta property="og:description" content="DINO: DETR with Improved DeNoising Anchor Boxes for End-to-End Object Detection[1]  作者是来HKUST(Guangzhou)、HKUST、清华、IDEA研究院的Hao Zhang, Feng Li, Shilong Liu, Lei Zhang, Hang Su, Jun Zhu, Lionel M.Ni">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-20T01:44:06.000Z">
-<meta property="article:modified_time" content="2024-04-21T16:50:10.000Z">
+<meta property="article:modified_time" content="2024-11-26T09:32:54.994Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object Detection">
 <meta property="article:tag" content="DETR">
@@ -213,7 +213,7 @@ Detection[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-04-22 00:50:10" itemprop="dateModified" datetime="2024-04-22T00:50:10+08:00">2024-04-22</time>
+      <time title="修改时间：2024-11-26 17:32:54" itemprop="dateModified" datetime="2024-11-26T17:32:54+08:00">2024-11-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -239,14 +239,14 @@ Detection[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>570</span>
+      <span>3.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>13 分钟</span>
     </span>
 </div>
 
@@ -277,7 +277,6 @@ Anchor Boxes for End-to-End Object Detection.” ArXiv abs/2203.03605
 <li>DeNoising Anchor</li>
 <li>mixed query</li>
 </ul>
-<span id="more"></span>
 <h3 id="动机">动机</h3>
 <ol type="1">
 <li>DETR训练收敛很慢，meaning of
@@ -288,50 +287,235 @@ a large-scale data set.</li>
 </ol>
 <h3 id="总结">总结</h3>
 <ol type="1">
-<li>DETR模型和之前的检测器不一样，它将目标检测视为一个集合预测的任务，assign
+<li>DINO通过一个contrastive way for denoising training, a mixed query
+selection method for anchor initialization, and a look forward twice
+scheme for box prediction，提高了DETR-like model的性能和效率。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>经典的卷积形式的目标检测算法实现了很好的性能。尽管这样的算法包括了手工设计的components例如anchor
+generation和NMS，他们产生了最好的检测模型例如DyHead, Swin, SwinV2 with
+HTC++。像比如这些经典的检测算法，DETR是一个新的基于Transformer的算法，它消除了手工设计组件的需要，实现了很好的性能。<strong>DETR模型和之前的检测器不一样，它将目标检测视为一个集合预测的任务，assign
 labels by 双边的graph matching。
-利用可学习的qeuries来probe目标的存在，结合图像feature map的特征，which
-behaves like soft ROI pooling. 尽管表现很好，DETR训练收敛很慢，meaning
-of queries不清楚，为了解决这个问题，提出了很多方法：引入deformable
+利用可学习的queries来probe目标的存在，结合图像feature
+map的特征，像是一个soft ROI pooling.
+尽管表现很好，DETR训练收敛很慢，meaning of
+queries不清楚</strong>，为了解决这个问题，提出了很多方法：引入deformable
 attention， decoupling positional and content information，providing
 spatial priors。DAB-DETR将DETR的queries作为dynamic anchor
 boxes(DAB)，bridges gap between classical anchor-based detectors and
 DETR-like
-ones。DN-DETR通过引入denoising来解决双边matching的instability。DAB和DN的结合使DETR类型的model在训练的效率和推理的表现上与经典的检测器competitive。目前最好的检测器使基于DyHead和HTC的，</li>
-<li>作者的改进：基于DAB-DETR，formulate queries in decoder ad dynamic
-anchor boxes and refine them step-by-step across decoder layers.
-基于Following DN-DETR，加入了ground truth labels and boxes with noises
-into the Transformer decoder to help stablilize bipartite matching
-during training.同样也用了formable attention for
-计算效率。提出了新的几个方法:
+ones。DN-DETR通过引入denoising来解决双边matching的不稳定性。DAB和DN的结合使DETR类型的model在训练的效率和推理的表现上与经典的检测器competitive。目前最好的检测器使基于DyHead和HTC的，DETR类型的检测的scalability还没有被研究过，在大的backbone和大规模的数据集上性能还没有被研究过。通过改善denosing
+training, query initialization和box
+prediction，设计了一个新的DETR类型的model based on DN-DETR, DAB-DETR and
+Deformable DETR，称之为DINO。 <strong>DINO包含一个backbone，
+一个multilayer Transformer encoder, 一个multilayer Transformer
+decodre和multiple prediction heads，基于DAB-DETR，formulate queries in
+decoder ad dynamic anchor boxes and refine them step-by-step across
+decoder layers. 基于Following DN-DETR，加入了ground truth labels and
+boxes with noises into the Transformer decoder to help stablilize
+bipartite matching during training.同样也用了deformable attention for
+计算效率</strong>。提出了新的几个方法:</p>
 <ul>
-<li>为了提高one-to-one matching, 提出了contrastive denoising training by
+<li>为了改善one-to-one matching, 提出了contrastive denoising training by
 adding both positive and negative samples of the same ground truth at
 the same time.在adding two different noises to the same ground truth,
 将box with smaller noise as positive and the other as negative.
-Contrastive denoising training helps the model to avoid duplicate
-outputs of the same target.</li>
+Contrastive denoising training 帮助模型避免相同target的重复输出。</li>
 <li>dynamic anchor box formulation of queries
 将DETR类型的model与经典的两阶段的模型联系起来。提出了mixed query
-selection 方法, which helps better initialize the queries。</li>
-<li>为了leverage refined box information from later layers to help
-optimize the parameters of their adjacent early layers, 提出了look
-forward twice 来纠正updated parameters with gradients from later
-layers.</li>
+selection 方法, 帮助更好地初始化 queries。选择initial anchor boxes
+作为positional queries from the output of the encoder。然而，将content
+queries像之前一样，encouraging 第一个decoder layer来聚焦于soatial
+prior。</li>
+<li>为了利用 refined box information from later
+layers，来帮助优化邻近层的参数，提出了look forward twice 来纠正updated
+parameters with gradients from later layers.</li>
 </ul></li>
+<li><p>作者的贡献如下：</p>
+<ul>
+<li>设计了一个新的端到端的DETR类的目标检测器with several novel
+techniques，包括对比DN training，mixed query selection和look forward
+twice for different parts of the DINO model.</li>
+<li>做了很多消融研究，验证了不同设计的有效性。</li>
+</ul></li>
+<li><p>早期的目标检测器用两阶段或者单节段。两阶段的模型通常用一个RPN来产生potential
+boxes，在第二阶段进行refined。单节段的模型例如YOLOv2,
+YOLOv3，直接输出相对于预定义anchors的offsets。最近的基于卷积的模型例如HTC++和Dyhead，实现了很好的性能。基于卷积模型的性能依赖于他们产生anchors的方式，另外，他们需要手工设计的组件例如NMS来去掉多余的boxes，不能做到端到端的优化。</p></li>
+<li><p>DETR及其变体。DETR不需要手工设计的组件例如anchor
+design和NMS。很多follow-up的论文尝试通过引入Decoder的交叉注意力，解决DETR收敛慢的问题，例如，有人提出了一个仅有encoder的DETR，没有decoder有人也提出了dynamic
+decoder，来聚焦于重要的区域from multiple feature
+levels。另一个思路是对于DETR中的decoder
+queries的理解。很多论文将queries和spatial position from different
+perspectives联系起来。Deformable DETR预测2D anchor
+points，设计了一个deformable attention module，仅对reference
+point附近的sampling points进行attend。Efficient DETR选择top K positions
+from encoders dense
+prediction，来增强decoder的queries。DAB-DETR进一步将2D anchor
+points扩展到4D anchor box coordinates，来represent
+queries，动态地在每一个decoder
+layer更新boxes。近期，DN-DETR引入了一个denoising training
+方法来苏DETR训练，它将增加了噪声的groundtruth
+labels和boxes作为decoder的输入，训练模型来重建原始的。作者的工作是基于DAB-DETR和DN-DETR，同时采用了deformable
+attention用于高效计算。</p></li>
+<li><p>大规模的预训练在NLP和CV领域都有很重要的影响。目前检测器最后的性能通过用大的backbone在大规模的数据上进行预训练得到的。</p></li>
+<li><p>想Conditional
+DETR和DAB-DETR中研究的那样，在DETR中的queries是由两部分组成：positional
+part和content part，被称为positional queries和content queries in this
+paper。DAB-DETR显示地将每个positional query formulate为一个4D的anchor
+box(x,y,w,h),x和y是box的中心，w和h是相应的宽和高。这样的一个显式的anchor
+box formulation使得它能够容易地定义anchor boxes layer by layer in the
+decoder。DN-DETR引入了denosing(DN)
+training方法来加速DETR模型的训练。<strong>它展示了造成DETR收敛慢的原因是bipartite
+matching</strong>，为了缓解这个额问题，DN-DETR提出了将有噪声的GT
+labels和boxes作为Transformer decoder的输入，然后训练模型来重建GT
+ones。增加的噪声(<span
+class="math inline">\(\Delta{x},\Delta{x},\Delta{w},\Delta{h}\)</span>)被限制在
+<span class="math inline">\(\delta{x} &lt; \frac{\lambda w}{2},\Delta{y}
+&lt; \frac{\lambda h}{2},\Delta{w} &lt; \lambda w,\Delta{h} &lt; \lamdba
+h\)</span>, (x, y, w, h)表示GT box，<span
+class="math inline">\(\lambda\)</span>
+是一个超参数，来控制噪声的scale。因为DN-DETR follows DAB-DETR，将decoder
+queries视作anchors，一个加了噪声的GT box可以被视为一个特殊的anchor with
+a GT box nearby。除了原有的DETR queries之外，DN-DETR增加了一个DN
+part，将有噪声的GT labels和boxes给到decoder，提供一个auxiliary DN
+loss。这个DN
+loss有效和加速了DETR的训练，能够插入任何DETR类型的模型。</p></li>
+<li><p>Deformable
+DETR是另外一个工作，来加速DETR的收敛。为了计算deformable
+attention，引入了参考点的概念，因此deformable attention能够attend to a
+small set of key sampling points around a
+reference。这个参考点的概念使得能够开发一些工具来进一步提高DETR的性能。第一个technique是query
+selection，从encoder中选择features和reference
+boxes作为decoder的输入。第二个technique是iterative bbox refinement with
+a careful gradient detachment design between two decoder
+layers。称这个gradient detachment为"look forward
+once"。跟随DAB-DETR和DN-DETR，DINO将positional queries
+formulate为dynamic anchor boxes，用一个额外的DN
+loss进行训练。注意到DN-DETR也采用了一些来自Deforamble
+DETR的方法，来实现更好的性能，包括它的deformable attention 机制和"look
+forward once"设计，DINO进一步采用了来自Deformable DETR的query
+selection放啊，来更好地初始化positional
+queries，基于这个baseline，DINO引入了3个方法，来进一步提高性能。</p></li>
+<li><p><strong>DINO的架构</strong>：给定一个image，从ResNet，Swin等backbone提取multi-scale
+features。然后将它们和相应的positional embeddings给到Encoder，在feature
+enhancement之后，提出了一个新的mixed query selection
+strategy，来初始化anchors as positional queries for the
+decoder。注意到这个策略不初始化content
+queries，让它们作为可学习的queries。有了初始化的anchors和可学习的content
+queries，用deformable
+attention来结合encoder输出的特征，逐层更新queries。最后的输出是refined
+anchor boxes和refined content
+features预测的分类结果。像DN-DETR，有一个额外的DN branch来进行denoising
+training approach，在这个标准的DN方法之外，通过考虑hard negative
+samples，提出了一个新的contrastive denoising
+training方法。为了利用后面层的refined box
+information，来帮助优化它们邻近层的参数，提出了一个新的look forward
+twice方法，来pass gradients between adjacent layers。</p></li>
+<li><p><strong>Contrastive Denoising
+Training</strong>：DN-DETR是在稳定训练的有效的方式，能够加速收敛，在DN
+queries的帮助下，它learns to 做预测基于anchors， which have GT boxes
+nearby。然而，他缺乏预测没有object的anchor的no
+object的能力。为了解决这个问题，提出来一个Contrastive
+Denoising方法，来据判没有用的anchors。 DN-DETR有一个超参数<span
+class="math inline">\(\lambda\)</span>来控制噪声的scale。产生的噪声不会比
+<span class="math inline">\(\lambda\)</span>
+大，因为DN-DETR想要模型来重建ground truth from moderately noised
+queries。在作者的方法里，有两个超参数。产生两种类型的CDN
+queries：positive 和negative queries。Positive queries within inner
+square有一个noise scale，期望重建他们对应的GT boxes。negative queries
+between inner 和outer squares有一个noise scale larger than <span
+class="math inline">\(\lambda_1\)</span>，小于<span
+class="math inline">\(\lambda_2\)</span>，期望它们来预测 "no
+object"，通常采用small <span
+class="math inline">\(\lambda_2\)</span>，因为hard negative samples
+closer to GT boxes对于提升性能更有帮助。每个CDN group有一组 positive
+queries和一组negative queries。如果一个image有n个GT boxes，一个CDN
+group将有 <span class="math inline">\(2 \times n\)</span>
+queries，每个GT box产生一个positive 和negative
+query。类似于DN-DETR，用多个CDN groups来提高方法的有效性。这个重建损失是
+<span class="math inline">\(l_1\)</span>，GIOU losses用于 box
+regression，focal loss用于分类，用于将negative
+samples分为background的loss也是focal loss。</p>
+<p>作者方法的有效的理由是它能够阻止混淆，选择高质量的anchors(queries)用于预测bboxes，当多个anchors离一个object太近的时候，就会发生混淆。这种情况下，对于模型来说，很难选择哪个anchor。这个confusion会导致两个问题。一个是duplicate
+predictions。虽然DETR类型的模型能够用set-based
+loss和自注意力，阻止duplicate
+boxes，这个能力是有限的。第二个问题是，离GT box远的unwanted
+anchor可能被选择到，尽管denoising training提高了模型选择nearby
+anchors的能力，CDN进一步通过教模型拒绝farther anchors来提高能力。</p>
+<p>为了验证CDN的有效性，定义了一个metric，称之为Average Top-K
+distance(ATD(K))，在matching part用它来评估anchors离它们的target GT
+boxes有多远。As in
+DETR，每个anchor对应于一个prediction，这个可能和一个GT
+box或者background进行匹配。这里仅考虑和GT boxes匹配的。假定有 N个GT
+bboxes，<span class="math inline">\(b_0, b_2，..., b_{N-1}\)</span> in a
+validation set。<span class="math inline">\(b_i = (x_i, y_i, w_i,
+h_i)\)</span>，对于每个 <span
+class="math inline">\(b_i\)</span>，可以找到它对应的anchor，记为 <span
+class="math inline">\(a_i = (x_i, y_i, w_i, h_i)\)</span>, <span
+class="math inline">\(a_i\)</span> 是decoder的初始化的anchor
+box，在最后的decoder layer的refined box 分配给<span
+class="math inline">\(b_i\)</span> during matching。公式如下：</p>
+<p><span
+class="math display">\[ATD(k)=\frac{1}{k}\sum\left\{topK\left(\left\{\|b_0-a_0\|_1,\|b_1-a_1\|_1,...,\|b_{N-1}-a_{N-1}\|_1\right\},k\right)\right\}\]</span></p>
+<p>然而<span class="math inline">\(||b_i - a_i||\)</span> 是 <span
+class="math inline">\(b_i\)</span> 和<span
+class="math inline">\(a_i\)</span> 之间的 <span
+class="math inline">\(l_1\)</span>距离，
+topK(x,k)是一个函数，返回x中的k个最大的元素集合。</p></li>
+<li><p><strong>Mixed Query
+Selection</strong>：在DETR和DN-DETR中，decoder
+queries是静态的embeddings，不需要从individual image中take any encoder
+features，直接从训练数据中学习anchors or positional queries，将content
+queries设为0，Deformable DETR学习positional 和content queries，是static
+query initialization的另一种方式。为了进一步提高性能，Deformable
+DETR有一个query selection variant。从最后的encoder layer中选择top K
+encoder features作为先验，来增强decoder queries。图中所示，positional
+和content
+queries都是通过选择的feautres的线性变换产生。另外，选择的features给到一个额外的detection
+head，来产生预测boxes，用于初始化reference boxes。类似地, Efficient
+DETR也选择top K features based on the objectiveness score of each
+encoder features。动态的4D anchor box formulation of
+queries使其和decoder positional queries紧密相关，能够通过query
+selection来提高。follow 之前的工作，提出了mixed query
+selection。用和selected top-K features关联的position
+information来初始化anchor boxes，让content
+queries和之前一样。注意到Deformable DETR用top-K features不仅enhance
+positional queries，还有content
+queries。因为选择的features是预备的content
+features，没有进一步的refinement，它们可能是ambiguous，对decoder有误导。</p></li>
+<li><p><strong>Look forward Twice</strong>：提出了一个box
+prediction的新的方式，deformable DETR中的iterative box
+refinement阻止了梯度的反向传播，来稳定训练。作者提出了一个方式：look
+forward twice来进行box
+update，layer-i的参数受layer-i和layer-(i+1)的影响。对于每个预测的偏置
+<span class="math inline">\(\Delta b_{i}\)</span>,
+它将被用来更新box两次，一次是 <span
+class="math inline">\(b_i\)</span>，一个是<span
+class="math inline">\(b^{pred}_{i+1}\)</span>。最后predicted box <span
+class="math inline">\(b^{pred}_{i+1}\)</span>
+的精度取决于两个殷蹙，初始box <span
+class="math inline">\(b_{i-1}\)</span>的之狼和预测的偏置 <span
+class="math inline">\(\Delta b_{i}\)</span>。look forward
+once是优化的后者，</p></li>
 </ol>
-<figure>
-<img
+<p><img
 src="https://d3i71xaburhd42.cloudfront.net/9dc481ec44178e797466bbad968071917842156b/8-Figure3-1.png"
-alt="CDN" />
-<figcaption aria-hidden="true">CDN</figcaption>
-</figure>
-<figure>
-<img
+alt="CDN" /> <span class="math inline">\(Fig.1^{[1]}\)</span> CDN
+group的结构，positive 和negative examples的demonstration。虽然positive
+和negative examples都是4D anchors，可以在4D
+space中用点进行表示作者illustrate them as points in 2D space on
+concentric squares for simplicity。假设square center是一个GT box，inner
+space中的points被视为positive example，inner space和outer
+space之间的points被视为 negative examples。</p>
+<p><img
 src="https://d3i71xaburhd42.cloudfront.net/9dc481ec44178e797466bbad968071917842156b/6-Figure2-1.png"
-alt="Framework" />
-<figcaption aria-hidden="true">Framework</figcaption>
-</figure>
+alt="Framework" /> <span class="math inline">\(Fig.2^{[1]}\)</span>
+DINO的框架，主要的提升在于Transformer的encoder和decoder，最后一层中的top-K
+encoder features被选来用作初始化positional queries for the Transformer
+decoder。然而content queries仍然作为learnable parameters。decoder
+包含一个contrastive Denoising part with both positive and negative
+samples。</p>
 
     </div>
 
@@ -387,13 +571,13 @@ alt="Framework" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">106k</span>
+    <span title="站点总字数">109k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6:27</span>
+    <span title="站点阅读时长">6:38</span>
   </span>
 </div>
 <div class="busuanzi-count">
