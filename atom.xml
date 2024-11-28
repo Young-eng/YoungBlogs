@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-11-26T04:42:18.517Z</updated>
+  <updated>2024-11-28T14:31:57.410Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,132 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DetCLIPv3</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/11/28/DetCLIPv3/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/11/28/DetCLIPv3/</id>
+    <published>2024-11-28T14:31:57.000Z</published>
+    <updated>2024-11-28T14:31:57.410Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>DetCLIP</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/11/28/DetCLIP/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/11/28/DetCLIP/</id>
+    <published>2024-11-28T14:31:53.000Z</published>
+    <updated>2024-11-28T14:31:53.548Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>F-VLM</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/11/28/F-VLM/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/11/28/F-VLM/</id>
+    <published>2024-11-28T14:31:28.000Z</published>
+    <updated>2024-11-28T14:31:28.653Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>openMixer</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/11/28/openMixer/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/11/28/openMixer/</id>
+    <published>2024-11-28T14:25:59.000Z</published>
+    <updated>2024-11-28T14:25:59.159Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>OV-STAD</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/11/28/OV-STAD/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/11/28/OV-STAD/</id>
+    <published>2024-11-28T14:25:19.000Z</published>
+    <updated>2024-11-28T14:25:19.546Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>openmax</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/11/28/openmax/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/11/28/openmax/</id>
+    <published>2024-11-28T09:17:02.000Z</published>
+    <updated>2024-11-28T09:17:02.186Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>WSL-installation</title>
@@ -41,18 +167,21 @@
     <link href="https://young-eng.github.io/YoungBlogs/2024/11/24/YOLO-World/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/11/24/YOLO-World/</id>
     <published>2024-11-24T06:07:47.000Z</published>
-    <updated>2024-11-24T06:07:47.978Z</updated>
+    <updated>2024-11-28T14:30:25.338Z</updated>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<h3id="yolo-world-real-time-open-vocabulary-object-detection1">YOLO-World:Real-Time Open-Vocabulary Object Detection<sup>[1]</sup></h3><blockquote><p>作者是来自华科和腾讯的Tianheng Cheng, LinSong等人，论文引用[1]:Cheng, Tianheng et al. “YOLO-World: Real-TimeOpen-Vocabulary Object Detection.” 2024 IEEE/CVF Conference on ComputerVision and Pattern Recognition (CVPR) (2024): 16901-16911.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Feb</li></ul><h3 id="key-words">Key Words</h3><h3 id="总结">总结</h3><ol type="1"><li></li></ol><p><imgsrc="https://figures.semanticscholar.org/37c112454a236ab91c9c6b5cc165a6c3251e9206/3-Figure3-1.png" /></p><figure><imgsrc="https://figures.semanticscholar.org/37c112454a236ab91c9c6b5cc165a6c3251e9206/5-Figure4-1.png"alt="RepVL-PAN" /><figcaption aria-hidden="true">RepVL-PAN</figcaption></figure><figure><imgsrc="https://figures.semanticscholar.org/37c112454a236ab91c9c6b5cc165a6c3251e9206/14-Figure8-1.png"alt="Labeling Pipeline" /><figcaption aria-hidden="true">Labeling Pipeline</figcaption></figure>]]></content>
     
     
       
       
-    <summary type="html">
-</summary>
+    <summary type="html">&lt;h3
+id=&quot;yolo-world-real-time-open-vocabulary-object-detection1&quot;&gt;YOLO-World:
+Real-Time Open-Vocabulary Object Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;</summary>
       
     
     
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
     
     
   </entry>
@@ -62,19 +191,44 @@
     <link href="https://young-eng.github.io/YoungBlogs/2024/11/24/OWL-ViT/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/11/24/OWL-ViT/</id>
     <published>2024-11-24T06:07:12.000Z</published>
-    <updated>2024-11-24T06:07:12.978Z</updated>
+    <updated>2024-11-28T09:17:59.129Z</updated>
     
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
+    <content type="html"><![CDATA[<h3id="simple-open-vocabulary-object-detection-with-vision-transformers1">SimpleOpen-Vocabulary Object Detection with VisionTransformers<sup>[1]</sup></h3><blockquote><p>作者是来自Google的Matthias Minderer, AlexeyGritsenko等人，论文引用[1]:Minderer, Matthias, et al. "Simpleopen-vocabulary object detection." European Conference on ComputerVision. Cham: Springer Nature Switzerland, 2022.</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Jun</li></ul><h3 id="key-words">Key Words</h3><ul><li>open-vocabulary detection</li></ul><h3 id="总结">总结</h3><ol type="1"><li>将简单的架构和大规模预训练结合起来，会导致图像分类上取得很大的提高。对于目标检测，预训练和scaling方法还没有很好地建立，特别是长尾和开集，这些训练数据都很少。本文中，提出了一个很强的方法，将image-text模型迁移到开集目标检测。用了一个标准的ViT架构和一些小的修改，contrastiveimage-text pre-training和端到端的detectionfine-tunign。作者分析这个设置的scaling特性，展示了增加image-level的预训练和模型大小，能够对下游任务有持续的提高，作者提供了在零样本文本条件和单样本图像条件下的目标检测的适配策略和正则化方法。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>目标检测是一个基础任务。直到最近，检测模型通常被限制在一个小的，固定集合的语义类别，因为要得到有定位标注的大量或者openlabel spaces训练数据是有成本的且花时间的。**这个随着languageencoders和contrastive image-text training的发展而改变。这些模型从looselyaligned图像文本对中学习图像和文本共享的representation，这个在web上有大量的数据。通过利用大量的图像文本对，contrastivetraining在零样本的分类性能和其它language-basedtasks上取得了很大的提高。</p></li><li><p>很多最近的工作旨在将模型的语言能力迁移到目标检测上，这些方法，例如distillationagainst embeddings of imagescrops，用图像级labels的弱监督或者self-training。这里，作者提供了一个简单的架构和端到端的训练放啊，得到了很强的open-vocabularydetection，不需要这些方法，即使在训练过程中这些类别不可见。</p></li><li><p>首先用ViT架构，展示了很强的扩展性，在大的图像文本对上进行contrastively预训练。为了将模型的能力迁移到检测上，做了一些改进。去掉了最后的tokenpooling layer，相反，在每个transformer outputtoken上加了一个轻量的分类和回归头，<strong>开集分类是通过从textmodel中得到的class-name embeddings 替换固定的classification layerweights实现</strong>，在标准的检测数据集上用bipartite matchingloss微调预训练模型，图像和文本模型都能够端到端的微淘。</p></li><li><p>作者分析这个方法的scaling特性，发现，增加的模型尺寸和预训练时间，能够持续提高检测的性能，这很重要，因为相比于检测数据，图像文本对是大量的，且能够furtherscaling。作者模型的关键特征是它的简洁和模块化。因为模型的图像和文本内容没有融合，模型对于queryrepresentation的来源是未知的。因此，可以用模型，不要修改，作为一个one-shot检测学习器，简单地通过querying it with image-derivedembeddings。one-shot 目标检测是基于query image patch showing theobject，检测新目标的有挑战性的问题。基于图像的one-shot能力是基于文本的检测的扩展，因为它能够检测很难通过文本描述的物体，例如特征的构件。尽管用通用的架构，在unseen的COCO数据集上取得了SOTA。作者的贡献如下：</p><ul><li>一个简单的和很强的方法，用于将图像级的预训练迁移到开集目标检测</li><li>one-shot image-conditional的SOTA方法</li></ul></li><li><p>作者相信模型能够作为一个很强的基线方法，能够在很多框架中执行，称这个方法为<em>VisionTransformer for Open-World Localization(OWL-ViT)</em>。</p></li><li><p><strong>Contrastive Vision-LanguagePre-Training</strong>：将图像和文本嵌入到一个共享空间用于实现zero-shot泛化，这个idea用了很长时间。得益于对比损失和更好的架构，最近的模型能够从web-drivedimage和text pairs中学习一致的视觉和语言representations，不需要explicitannotation。这增加了可用的训练数据，在benchmarks上有了很大的提高。最近的很多图像文本对模型和作者的方法兼容，模型和数据集类似于LiT和ALIGN。</p></li><li><p><strong>Closed-Vocabulary ObjectDetection</strong>：目标检测模型传统上用于闭集，有一阶段和两阶段的检测器。最近的DETR展示了，目标检测能够作为一个集合预测问题，用bipartitematching进行训练，实现了很好的效果。这些架构不需要region prposalgeneration或者NMS。后续的工作提出了一些更高效的DETR的变体，包括不需要Decoder的架构，作者的工作简化了DETR，不需要decoder，通过从每个imagetoken中直接预测object instance，简化了模型。</p></li><li><p><strong>Long-Tailed and Open-Vocabulary ObjectDetection</strong>：为了超越闭集，固定的分类层被languageembeddings代替，来创建一个开集检测器，开集目标检测器近期有很大的进步，通过结合图像文本训练的模型和经典的目标检测器，这个任务主要的挑战是**如何将image-text的backbone的image-level的representation迁移到检测，尽管对于rareclasses，localizedannotations很少。利用好图像文本的预训练是很重要的，因为它不需要大量的人类标注，就能够scaling。有人提出了很多的方法，通过CLIP或者ALIGN用在croppedimages from class-agnostic region prposalnetwork上，ViLD对得到的embeddings进行蒸馏。RPN限制了在新的目标上的泛化能力，ViLD两步的蒸馏训练过程加剧了这个问题。RegionCLIP也用了多阶段训练，在captioningdata上产生pseudo-labels，紧接着region-text对比预训练，然后迁移到检测。相比之下，作者的方法在图像和文本模型上进行端到端的微调，简化了训练，提高了对于unseen类别的泛化性。MDETR和GLIP对整张图像用了一个single textquery，将检测formualte为一个phrase grounding问题，这些限制了目标的类别。作者的架构更加灵活，不需要image-text融合，能够处理多个独立的text或者image-derivedqueries，OVR-CNN和作者的方法最相似，微调image-text模型 to detection on alimitedvocabulary，依赖于图像文本的预训练。然而，作者的方法和其它的模型不同，用了ViT而不是ResNet，一个DETR类型的模型，而不是FasterRCNN，和LiT一样，用了image-text pre-training，而不是PixelBERT和visualgroundingloss。Detic通过只在有image-level的标注上，训练分类头，提高长尾检测的性能。注意到，这里定义的开集检测，目标类别可能在detectiontraining和testing的可能重叠。检测训练过程中，没有见过的任何定位实例的样本时，称之为zero-shot。</p></li><li><p><strong>Image-ConditionedDetection</strong>：和开集检测相关的是image-conditioneddetection，是检测目标，匹配single query image which shows an object ofthe category in question。这个任务也称之为 <em>one-shot objectdetection</em>。因为这个query image是single trainingexample。image-based querying允许open worlddetection，当object的name是未知的时候，例如对于uniqueobjects或者特殊的parts。作者的模型能够做到这个任务，不需要修改，通过简单地用image-derived而不是text-derivedembeddinngs作为queries。近期的在这个问题上的工作主要聚焦于架构的创新，例如用了query和targetimage之间的复杂的交叉注意力的形式，作者的方法依赖于简单地，但是比较大的模型和大量的image-text预训练。</p></li><li><p>作者的目标是构建一个简单可扩展的开集检测器，聚焦于标准Transformer的模型，因为它们的可扩展性，提出了一个两阶段的方法：</p><ul><li>contrastively pre-train image and text encoders on large-scaleimage-text data</li><li>增加了分类头，在中等的检测数据上进行微调模型能够以不同的方式进行query，来执行open-vocabulary或者few-shotdetection</li></ul></li><li><p>架构：模型采用标准的ViT作为图像的encoder和一个类似的Transformer架构作为textencoder，为了使image encoder适应detection，去掉了tokenpooling和最后的projection layer，相反，线性地映射每个output tokenrepresentation，来得到per-object image embeddings forclassification。预测的objects的最大的数量等于imageencoder的token的数量。实际中这不是瓶颈，因为模型的sequencelength至少是576.比现在的数据集的最大数量的instances都大。将tokenrepresentations通过一个MLP，得到boxcoordinates，设置类似于DETR，但是去掉了decoder，简化了模型。</p></li><li><p>开集目标检测：对于检测到的objects的open-vocabulary分类，跟着之前的工作，用在分类头的最后一层，用textembeddings，而不是learned class embeddings。textembeddings称之为queries，将categorynames或者其它的文本目标描述通过一个textencoder，来得到。这个模型的任务变成了<strong>预测每个object，一个bbox和一个eachquery applies to theobject的概率。对于每个image，queries是不一样的。每个image有它自己的discriminativelabel space，是通过一系列的text strings定义的。当完整的object categorynames用作query set for each image，这个方法就归类于经典的闭集目标检测。相比于其它的方法，没有把一个image的所有queries结合到single tokensequence中，相反，</strong>每个query 包含一个separate tokensequence，which 代表啊一个单独的目标描述，单独地被textencoder进行处理，另外，这个架构没有包含image和text的融合，尽管融合似乎是有益的，它降低了推理的效率，因为编码一个query需要一个forwardpass through the entire image model，对于每个image/querycombination都要重复。在这个设定中，计算queryembeddings独立于image，使得每张图片能够用大量的queries，many more thanis possible with early fusion**。</p></li><li><p><strong>One-or few-shot Transfer</strong>：这个设置不要求queryembeddings是文本来源，因为image和text没有进行融合，可以将image-derivedembeddings而不是text-derived embeddings作为queries to the classificationhead，不需要修改模型，通过使用prototypical objectimages的embeddings作为queries，模型能够进行image-conditioned one-shotobject detection。用imageembeddings作为queries，使得能够对用语言难以描述的object进行detection。</p></li><li><p><strong>Image-level contrastivePre-training</strong>：用相同的image-text dataset预训练image和textencoder，用对比损失和随机初始化来从零开始训练encoders，对于imagerepresentation，用一个多头的attention pooling(MAP)来汇聚tokenrepresentatin。这个text representation是textencoder的最后一个end-of-sequence得到的，或者，用了公开的预训练的CLIP模型。encoder-only架构的优势是，几乎所有的模型参数都能从image-levelpre-training中受益。detection-specific heads包含1.1%的模型参数</p></li><li><p><strong>Training theDetector</strong>：微调预训练模型用于分类是一个well-studies问题，分类器，特别是大的Transformers，需要仔细的tuned正则化和数据增强，来得到很好的效果，用于分类器训练的方法现在有很多了，这里，作者旨在提供一个类似的微调方法，用于开集检测。模型的检测训练过程和闭集的检测器一样，除了<strong>为每个image提供类别名称作为queries，分类头输出logitsover the per-image label space defined by thequeries，而不是一个固定的global label space</strong>。</p><p>采用DETR的bipartite matching loss，将其用于长尾/开集检测。由于需要对数据集进行详尽的注释，有大量类别的数据集是以federatedmanner进行标注的。这样的数据集有着non-disjoint labelspaces，意味着每个object有多个labels。因此，用了focal sigmoid交叉熵，而不是softmax交叉熵作为分类损失。进一步，因为不是所有的object类别在每个image中都有标注，federated数据集提供了positive和negative annotations for eachimage。在训练的时候，对于一个给定的图像，用所有的positive和negative标注作为queries，另外，随机地采样类别，和它们出现在数据中的频率成正比，将它们增加为pseudo-negatives，每个图片至少有50个negatives。</p><p>最大的feerated detection 数据集包含<spanclass="math inline">\(10^6\)</span>图像，相比于十亿量级的image-levelweaklabels还是比较小的，大的Transformers在这样的数据集上进行训练，需要仔细的正则化和数据增强。作者发现，对于检测的训练也一样，提供了用大的Transformer实现高性能的增强和正则化的详细分析。</p></li><li><p>对于图像模型，用标准的ViT，跟着命令法for model size, patchsize。对于textmodel，用一个类似于图像模型的Transformer，文本图像模型首先在image-level上进行预训练，然后在object-levelannotations上进行微调，预训练是从零开始。在预训练之后，tokenpooling去掉了，增加了检测头，对于每个outputtoken预测一个box，对于每个预测的box，增加了一个bias，因此每个box默认centeredon the image patch，对应于将token sequence弄成2Dgrid的时候的预测的box的token。模型因此预测和默认未知的不同，类似于RPN网络预测预定义anchors的偏置。虽然imagepatches和tokens representations later in the Transformernetwork没有严格的对应，增加box预测的偏置加速了训练，提高了最后的性能。</p></li><li><p>为了评估在没有见过的类别上的性能，去掉了稀少类别的标注，<spanclass="math inline">\(AP^{LVIS}_{rare}\)</span>评估模型的zero-shot性能，模型没有见过这些类别的标注。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/9dae204dad41633188022002a04c8aa67c79a4e1/3-Figure1-1.png"alt="Framework" /> <span class="math inline">\(Fig.1^{[1]}\)</span>左边：首先用图像文本对预训练一个图像和文本的encoder，类似于CLIP,ALIGN和LiT。右边：然后将预训练的encoders，通过去掉tokenpooling，在image encoder outputtokens上增加轻量的目标分类和定位头，迁移到开集目标检测，为了实现开集检测，querystrings用textencoder进行嵌入，用于分类，这些模型在标准的检测数据集上进行微调。推理的时候，用text-derivedembeddings用于开集检测，或者image-derived embeddings for few-shotimage-conditioned 检测。</p>]]></content>
     
     
+    <summary type="html">&lt;h3
+id=&quot;simple-open-vocabulary-object-detection-with-vision-transformers1&quot;&gt;Simple
+Open-Vocabulary Object Detection with Vision
+Transformers&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自Google的Matthias Minderer, Alexey
+Gritsenko等人，论文引用[1]:Minderer, Matthias, et al. &quot;Simple
+open-vocabulary object detection.&quot; European Conference on Computer
+Vision. Cham: Springer Nature Switzerland, 2022.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2022.Jun&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;open-vocabulary detection&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;将简单的架构和大规模预训练结合起来，会导致图像分类上取得很大的提高。对于目标检测，预训练和scaling
+方法还没有很好地建立，特别是长尾和开集，这些训练数据都很少。本文中，提出了一个很强的方法，将image-text
+模型迁移到开集目标检测。用了一个标准的ViT架构和一些小的修改，contrastive
+image-text pre-training和端到端的detection
+fine-tunign。作者分析这个设置的scaling特性，展示了增加image-level的预训练和模型大小，能够对下游任务有持续的提高，作者提供了在零样本文本条件和单样本图像条件下的目标检测的适配策略和正则化方法。&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Open-Set Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Open-Set-Object-Detection/"/>
     
   </entry>
   
@@ -578,247 +732,6 @@ residual pooling connections.</summary>
     
     
     <category term="Vision Transformer" scheme="https://young-eng.github.io/YoungBlogs/tags/Vision-Transformer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LW-DETR</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/09/16/LW-DETR/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/09/16/LW-DETR/</id>
-    <published>2024-09-16T14:57:15.000Z</published>
-    <updated>2024-10-23T14:07:59.502Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="lw-detr-a-transformer-replacement-to-yolo-for-real-time-detection1">LW-DETR:A Transformer Replacement to YOLO for Real-TimeDetection<sup>[1]</sup></h3><blockquote><p>作者是来自百度、阿德莱德大学、北航、自动化所和澳洲国立大学的QiangChen,Xiangbo Su, Xinyu Zhang等人。论文引用[1]:</p></blockquote><h3 id="key-words">Key Words</h3><ul><li>Real-Time Detection With Transformer</li><li>interleaved window and global attention</li><li>window-major order feature map organization</li></ul><h3 id="time">Time</h3><ul><li>2024.Jun</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者提出了一个light-weight transformer,LW-DETR，在实时检测上超过了YOLOs，这个架构是简单地ViTencoder、projector、和一个浅的DETRdecoder的堆叠。这个方法利用了最近的技术包括training-effectivetechniques：improved loss和预训练，interleaved window 和globalattention用来减小ViT encoder的复杂度。通过汇聚多个level的featuremaps、intermediate 和final feature mapss来提高ViTencoder，形成更丰富的特征图，引入window-major featuremap，来提高interleavedattention计算的效率。结果展示提出的方法超过了现有的检测器，包括YOLO和它的变体。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>实时目标检测有很广的真实的应用。当前的解决方案是基于卷积网络的，例如YOLO系列。最近，Transformer的方法，例如DETR，有很多的进步，然而，DETR的实时的检测还没有fullyexplored。还不清楚它的性能和SOTA的卷积相比怎么样。本文提出了light-weightDETR用于目标检测，架构很简单，一个plain ViT encoder，一个DETR的decoderconnected by 一个卷积projector。提出了汇聚mulit-level featuremaps，中间层和最后的feature maps in the encoder，形成了更强的encodedfeature maps。这个方法利用了高效的训练techniques。例如：用了deformablecross-attention 来构成encoder。IoU-aware classification loss，encoder-decoder pretraining策略。另一方面，这个方法利用了inference-efficienttechniques。例如：采用了interleaved window和global attentions。用windowattention代替了global attentions in the plain ViTencoder来减小复杂度。通过一个window-major feature maporganization方法，来做一个高效的implementation for the interleavedattentions，能够有效地减小存储的permutation操作。</p></li><li><p>LW-DETR是由一个ViT encoder, 一个projector和一个DETRdecoder构成。</p><ul><li><strong>Encoder</strong>：采用ViT 用作detection encoder，一个plainViT 包括一个patchification layer和transformer encoderlayers。由于全局的attention成本很高，在一些encoder layers中用 windowself-attetion来减小计算复杂度。提出了汇聚多个level的featuremaps，中间层和最后的feature maps in the encoder，形成更强的encodedfeature maps。</li><li><strong>Decoder</strong>: decoder多个transformer decoderlayers的堆叠。每个layer包括一个自注意力，交叉注意力和一个FFN。采用deformablecross-attention用于高效计算。DETR及其变体通常采用6个decoderlayers。在我们的实施中，用了3个transformer decoderlayers。这导致时间的减小。<strong>采用一个mixed-query selectionscheme来形成object queries 作为额外的content queries和spatialqueries</strong>。这个content queries是learnableembeddings，类似于DETR。这个spatial queries是基于两阶段的方案：选择top-Kfeatures from last layer in the projector,然后预测boundingboxes，将对应的boxes变成embeddings 作为spatial queries。</li><li><strong>Projector</strong>：用一个projector来连接encoder和decoder。这个projector将来自encoder的aggregatedencoded feature maps作为输入，Projector是一个C2f block(an extention ofcross-stage partial DenseNet)，用在了YOLOv8中。当构成LW-DETR的large和xlarge版本的时候，修改projector，来输出两个尺寸的featuremaps，然后用multi-scale decoder。这个projector包含两个并行的C2fblocks。一个处理 <span class="math inline">\(\frac{1}{8}\)</span>的featuremaps(它是通过一个deconvolution对输入进行上采样得到)。然后通过一个strideconv对输入进行下采样得到 <spanclass="math inline">\(\frac{1}{32}\)</span> 的featuremap，用另一个block对其进行处理。</li><li><strong>目标函数</strong>：采用IoU-aware classification loss，IA-BCEloss, 这里 <span class="math inline">\(N_{pos}\)</span> 和 <spanclass="math inline">\(N_{neg}\)</span> 是正样本和负样本的数量。 <spanclass="math inline">\(s\)</span>是预测的分类的score， <spanclass="math inline">\(t\)</span>是目标score absorbing the IoU score<span class="math inline">\(u\)</span>(with the ground truth), <spanclass="math inline">\(t = s^{\alpha}u^{1-\alpha}\)</span>，<spanclass="math inline">\(\alpha\)</span>设为0.25。整个的loss是分类的loss和bboxloss的结合。 bbox loss和DETR框架中的一样。</li></ul><p><spanclass="math display">\[\ell_{\text{cls}}=\sum_{i=1}^{N_{pos}}\mathrm{BCE}(s_i,t_i)+\sum_{j=1}^{N_{neg}}s_j^2\mathrm{BCE}(s_j,0),\]</span></p><p><span class="math display">\[\ell_{\mathrm{c l s}}+\lambda_{\mathrm{i o u}} \ell_{\mathrm{i ou}}+\lambda_{\ell_{1}} \ell_{1}.\]</span></p><p><span class="math inline">\(\lambda_{iou}\)</span> 和 <spanclass="math inline">\(\lambda_{l1}\)</span> 分别设为 2.0和5.0。<spanclass="math inline">\(l_{iou}\)</span> 和 <spanclass="math inline">\(l_1\)</span> 是generalized IoU(GIoU) loss。L1 lossfor the box regression。</p></li><li><p>高效训练：</p><ul><li><strong>Moresupervision</strong>：多个techniques用于引入更多的supervision，用来加速DETR的训练，采用GroupDETR，很容易执行，不改变推理的过程。用了13个并行的weight-sharingdecoders for training。对于每个decoder，产生object queries for eachgroup from the output features of the projector。用primary decoder forthe inference。</li><li><strong>Pretraining onObject365</strong>：预训练的过程包含两个阶段，在object365数据集上用MIM的方法进行预训练。另外，跟着之气的方法，retrainencoder，用监督的方式在object365数据集上训练projector和decoder。</li></ul></li><li><p>高效推理：</p><ul><li>在之前的方法上进行了简单第修改，采用了interleaved window和globalattentions。用window attention代替一些globalattention。例如在一个6-layer的ViT中，1，3，5用windowattentions，<strong>window attention</strong>是通过将featuremap划分成不重叠的windows，然后在每个windows内进行注意力操作。</li><li><strong>采用一个window-major feature maporganization用于高效的interleaved attention</strong>。能够将featuremaps通过window by window的方式组织起来。ViTDet是将feature maps以row byrow的方式组织的，需要很高的permutation operations，来将feature maps从row-major transition到 window-major for windowattention。作者的方法去掉了这些operations，减小了model latency。window-major的解释如图：</li></ul><p><span class="math display">\[\begin{bmatrix}f_{11} f_{12} f_{13}f_{14}\\f_{21} f_{22} f_{23} f_{24}\\f_{31} f_{32} f_{33} f_{34}\\f_{41}f_{42} f_{43} f_{44}\end{bmatrix},\]</span></p><p>window-major organization for a window size <spanclass="math inline">\(2 \times 2\)</span>： <spanclass="math display">\[f_{11},f_{12},f_{21},f_{22};f_{13},f_{14},f_{23},f_{24};\\f_{31},f_{32},f_{41},f_{42};f_{33},f_{34},f_{43},f_{44}.\]</span></p><p>这个organization对于window attention和globalattention都是适用的，不需要rearranging the features。row-majororganization是这样的：</p><p><spanclass="math display">\[f_{11},f_{12},f_{13},f_{14};f_{21},f_{22},f_{23},f_{24};\\f_{31},f_{32},f_{33},f_{34};f_{41},f_{42},f_{43},f_{44},\]</span></p><p>用于global attention是可以的，需要很多的permutation操作，来执行windowattention。大的提升来自于在object365上的预训练，表明<strong>Transformer</strong>得益于大的数据。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/15acdab8b50e8d1c835a4a1ff6a23075332912eb/4-Figure2-1.png"alt="encoder" /> <span class="math inline">\(Fig.1^{[1]}\)</span></p><p><imgsrc="https://figures.semanticscholar.org/15acdab8b50e8d1c835a4a1ff6a23075332912eb/5-Figure3-1.png"alt="projector" /> <span class="math inline">\(Fig.2^{[2]}\)</span>Single-scale projector and multi-scale projector for (a) the tiny,small, and medium models, and (b) the large and xlarge models.</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;lw-detr-a-transformer-replacement-to-yolo-for-real-time-detection1&quot;&gt;LW-DETR:
-A Transformer Replacement to YOLO for Real-Time
-Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自百度、阿德莱德大学、北航、自动化所和澳洲国立大学的Qiang
-Chen,Xiangbo Su, Xinyu Zhang等人。论文引用[1]:&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Real-Time Detection With Transformer&lt;/li&gt;
-&lt;li&gt;interleaved window and global attention&lt;/li&gt;
-&lt;li&gt;window-major order feature map organization&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2024.Jun&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;作者提出了一个light-weight transformer,
-LW-DETR，在实时检测上超过了YOLOs，这个架构是简单地ViT
-encoder、projector、和一个浅的DETR
-decoder的堆叠。这个方法利用了最近的技术包括training-effective
-techniques：improved loss和预训练，interleaved window 和global
-attention用来减小ViT encoder的复杂度。通过汇聚多个level的feature
-maps、intermediate 和final feature mapss来提高ViT
-encoder，形成更丰富的特征图，引入window-major feature
-map，来提高interleaved
-attention计算的效率。结果展示提出的方法超过了现有的检测器，包括YOLO和它的变体。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>internLM 学习</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/09/07/internLM-%E5%AD%A6%E4%B9%A0/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/09/07/internLM-%E5%AD%A6%E4%B9%A0/</id>
-    <published>2024-09-07T07:33:07.000Z</published>
-    <updated>2024-09-20T08:45:16.338Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="记录一下参加internlm活动的学习过程">记录一下参加internLM活动的学习过程</h3><ol type="1"><li>InternLM的链接为<code>https://github.com/InternLM/Tutorial</code>,</li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3
-id=&quot;记录一下参加internlm活动的学习过程&quot;&gt;记录一下参加internLM活动的学习过程&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;InternLM的链接为
-&lt;code&gt;https://github.com/InternLM/Tutorial&lt;/cod</summary>
-      
-    
-    
-    
-    <category term="Learning" scheme="https://young-eng.github.io/YoungBlogs/categories/Learning/"/>
-    
-    
-    <category term="LLM" scheme="https://young-eng.github.io/YoungBlogs/tags/LLM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker配置及使用</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/09/04/Docker%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/09/04/Docker%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8/</id>
-    <published>2024-09-04T06:22:14.000Z</published>
-    <updated>2024-09-04T06:26:40.865Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="docker的配置及使用">Docker的配置及使用</h3><ol type="1"><li><p>windows和linux安装docker的方式有点不一样，但也不复杂，主要的地方在于需要弄一个registry_mirror，虽然不知道还有没有效，当然，能科学上网的话就方便很多了。</p></li><li></li></ol><span id="more"></span><h3 id="参考链接">参考链接：</h3><ul><li><p><code>https://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html</code>，阮一峰老师的博客</p></li><li><p><code>https://docker-practice.github.io/zh-cn/image/pull.html</code>,DockerPractice</p></li></ul>]]></content>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;docker的配置及使用&quot;&gt;Docker的配置及使用&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;windows和linux安装docker的方式有点不一样，但也不复杂，主要的地方在于需要弄一个registry_mirror，虽然不知道还有没有效，当然，能科学上网的话就方便很多了。&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Tools" scheme="https://young-eng.github.io/YoungBlogs/categories/Tools/"/>
-    
-    
-    <category term="Docker" scheme="https://young-eng.github.io/YoungBlogs/tags/Docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SLAM 学习记录</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/09/03/SLAM-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/09/03/SLAM-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</id>
-    <published>2024-09-03T08:25:10.000Z</published>
-    <updated>2024-09-03T08:41:57.170Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="slam介绍">SLAM介绍</h3><ol type="1"><li>SLAM: <strong>S</strong>imultaneous <strong>L</strong>ocalization<strong>a</strong>nd<strong>M</strong>apping，翻译为“即时定位与建图”，是指<strong>搭载特定传感器的主体，在没有环境先验信息的情况下，于运动过程中建立环境的模型，同时估计自己的运动，如果这里的传感器主要为相机，那就称为“视觉SLAM”</strong>。</li></ol><h3 id="visual-slam">Visual SLAM</h3><ol type="1"><li>经典视觉SLAM的框架主要有几个步骤：<ul><li><strong>传感器信息读取</strong>：在视觉SLAM中主要为相机图像信息的读取和预处理；如果在机器人中，可能还有码盘、IMU等传感器信息的读取和同步。</li><li><strong>前端视觉里程计(Visual Odometry,VO)</strong>：视觉里程计的任务是估算相邻图像间相机的运动，以及局部地图的样子，VO又称为前端(FrontEnd)。</li><li><strong>后端(非线性)优化(Optimization)</strong>：后端接受不同时刻视觉里程计测量的相机位姿，以及回环检测的信息，对它们进行优化，得到全局一致的轨迹和地图，由于接在VO之后，又称为后端(BackEnd)。</li><li><strong>回环检测(Loop ClosureDetection)</strong>：回环检测判断机器人是否到达过先前的位置，如果检测到回环，它会把信息提供给后端进行处理。</li><li><strong>建图(Mapping)</strong>。它是根据估计的轨迹，建立与任务要求对应的地图。</li></ul></li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3 id=&quot;slam介绍&quot;&gt;SLAM介绍&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;SLAM: &lt;strong&gt;S&lt;/strong&gt;imultaneous &lt;strong&gt;L&lt;/strong&gt;ocalization
-&lt;strong&gt;a&lt;/strong&gt;nd
-&lt;st</summary>
-      
-    
-    
-    
-    <category term="Learning" scheme="https://young-eng.github.io/YoungBlogs/categories/Learning/"/>
-    
-    
-    <category term="SLAM" scheme="https://young-eng.github.io/YoungBlogs/tags/SLAM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WOO</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/08/27/WOO/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/08/27/WOO/</id>
-    <published>2024-08-27T07:23:26.000Z</published>
-    <updated>2024-08-29T05:58:17.880Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="watch-only-oncean-end-to-end-video-action-detection-framework1">WatchOnly Once：An End-to-end Video Action DetectionFramework<sup>[1]</sup></h3><blockquote><p>作者是来自港大的罗平老师组的Shoufa Chen、Peize Sun、EnzeXie等人。论文引用[1]:Chen, Shoufa et al. “Watch Only Once: An End-to-EndVideo Action Detection Framework.” 2021 IEEE/CVF InternationalConference on Computer Vision (ICCV) (2021): 8158-8167.</p></blockquote><h3 id="time">Time</h3><ul><li>2021.Oct</li></ul><h3 id="key-words">Key Words</h3><ul><li>end-to-end unified network</li><li>task-specific features</li></ul><h3 id="总结">总结</h3><ol type="1"><li>提出了一个端到端的pipeline for video actiondetection。<strong>当前的方法要么是将video action detection这个任务解耦成action localization和actionclassification这两个分离的阶段，要么在一个阶段里训练两个separatedmodels</strong>。相比之下，作者的方法将actor localization和actionclassification弄在了一个网络里。通过统一backbone网络，去掉很多认为的手工components，整个pipeline被简化了。<strong>WOO</strong>用一个unifiedvideo backbone来提取features for actor location 和actionlocalization,另外，引入了<font color=red>spatial-temporal actionembeddings</font>，设计了一个 spatial-temporal fusionmodule来得到更多的含有丰富信息的discriminative features，提升了actionclassification的性能。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>Video action detection 包含 <strong>actor bboxlocalization</strong>和 <strong>action typeclassification</strong>，当前方法的复杂性来自于actorlocalization和action classification之间的基本的困境。thatis，*用一个single key frame is "positive" for actor localization，但是"negative" for actionclassification，然而用多个frames有相反的影响。这是因为actionlocalization需要一个2D的检测模型同预测video clip的key frame上的actorbbox。在这个阶段，考虑clip中的相邻帧会带来额外的计算和存储成本，相比之下，actionclassification严重依赖于一个 3D video model来提取videosequence中的时序的信息，单帧图像有很少的temporal motion representationfor action classification。</p><p>之前提出了两种可能的替代方法来解决这个困境。第一个是用离线的persondetector，用来产生actor proposals，不是和actionclassification一起训练的，然后一个独立的video model用这些actorproposals和raw frames作为输入来预测action classes。单独的一个persondetector是已经足够复杂了，which is pre-trained on the ImageNet and COCOhuman keypoint detection，and further fine-tuned on the target actiondetection dataset。这个方法比较复杂，计算成本高，需要两个separatemodels和两个训练阶段。更进一步，<strong>separate optimization on twosub-problems leads to a sub-optimal solution</strong>。</p><p>第二种类型的方法，是将actor detection和action classificationmodels一起在单个trainingstage中进行联合训练。虽然训练的pipeline在某种程度上是简化了，两个模型仍然需要独立的从rawimages中提取特征。因此，整个框架仍然有很高的computation和memorycost。</p><p><strong>一个很自然的问题是：有没有可能设计一个简单的unified的网络来解决actorlocalization和action classification in a single end-to-endmodel</strong>。</p><p>本文提出了 <strong>Watch OnlyOnce(WOO)</strong>的框架，WOO直接预测actors的bbox和action classes from avideo clip。"watch" the clip onlyonce，就能够预测actor的位置和action的类别。方法主要包含3个keycomponents：<font color=red>unified backbone、a spatial-temporal actionembedding、a spatial-temporal knowledge fusion mechanism</font>。</p><p>首先，设计了一个简单的有效的module，使得单个backbone能偶提供task-specificfeature maps for actor localization head 和action classificationhead。这个module是轻量的，能够用来isolate keyframe features from allframes in the early stage of thebackbone。这个动机是，当model走深的时候，keyframe能够得到moreinteraction with neighboringframes，提出的module能够很容易地插入到现有的backbone中，例如I3D,X3D等。</p><p><strong>另外，注意到，同一个的架构tends to behave well for actorlocalization，但是对于action classification是有限的。这个困难是actiondetection主要lies in action classification。因此，怀疑单个backbone forboth tasks是否会bias towards localization，然后找到一个undesiredsolution，因此对actionclassification的性能造成了影响。基于这个观察，提出了spatial和tempoalaction embedding和interaction mechanism between them，来使得actionclassification features在spatial 和temporal perspectives更加的discriminative。</strong></p><p>第三，提出了一个spatial-temporal fusion module来汇聚spatial和temporalknowledge，这个spatial properties例如shape和pose，temporalproperties例如dynamic motion和temporal scale ofaction,结合在一起，通过spatial-temporal fusion module，来生成actionfeatures for actio classification。</p><p>主要贡献如下：</p><ol type="1"><li><p>提出了一个端到端的框架for video action detection，给定一个videoclip作为输入，能够直接产生bboxes 和action classes，不需要独立的persondetector(这个是在之前的工作中必不可少的).</p></li><li><p>提出了一个spatial-temporal embedding，一个embedding interactionmechanism，能够提高features的discriminativeness for actionclassificatin。一个spatial-temporal fusionmodule来进一步从spatial和temporal来汇聚features。</p></li></ol></li><li><p>相关工作：</p><ul><li><p><font color=red>two-stage, twobackbone</font>：当前的STAD的SOTA模型通常用了两阶段的pipeline，用了两个backbone。这些方法简单地把STAD任务划分成actorlocalization和action classification。具体地说，在第一阶段，在COCOkeypoint上预训练一个model，然后再目标STADdataset上进行微调；第二阶段，用video clip的keyframe作为第一阶段中得到的detection model的输入，来预测actorbboxes。然后将video clip和actor bboxes作为3Dbackbone的输入，来提取RoI区域的特征 for action classprediction。<strong>这些方法有很高的复杂度和很低的效率，因为sequentialtraining stage和separatemodel架构。另外，在两个独立的阶段的独立的优化可能导致一个sub-optimal的结果</strong>。</p></li><li><p><font color=red>One-stage,two-backbone</font>：<strong>YOWO和ACRN通过同时训练2D的actor检测网络和3D video model，来简化网络。然而，这里仍然有两个separatemodels来优化</strong>。<strong>以YOWO为例，它包含一个在Kinetics上预训练的一个3D model和 YOLO pre-trained on PASCAL VOC上的 2Dmodel，有很高的计算量和memoryburden</strong>。是虽然这个pipeline在一定程度上简化了。</p></li></ul><p>相比于这些方法，WOOrefreshing的简单：给定一个videoclip，直接预测actor bboxes和对应的action classes。</p><ul><li><p><font color=red>End-to-end objectdetection</font>：最近的端到端的目标检测框架，不需要任何手工设计的过程例如NMS，直接输出预测，实现了很好的性能。在这些工作中，DETR可以被视为端到端的目标检测方法，它采用了globalattention mechanism和双向matching between predictions和ground truthobjects。DETR抛弃了NMS步骤，实现了很好的性能。它在小目标上性能不太好，相比主流的检测器需要更长的训练时间。为了解决上述的问题，提出了<strong>Deformable-DETR</strong>，来将每个objectquery 限制在 a small set of crucial sampling points around referencepoints，而不是all points in the featuremap。Deformable-DETR是高效和快速收敛的；Sparse RCNN利用一组稀疏的learnedobject proposals，以iterative way来进行分类和定位。SparseRCNN和well-established的检测器相比，展示了精度、实时和训练收敛。在本次工作中，主要采用<strong>SparseRCNN的检测头来做定位</strong>。</p></li><li><p><font color=red>Attention mechanism for actionrecognition</font>：对于language相关的任务，注意力机制是一个流行的概念。对于actiorecognition，Non-local网络利用自注意力来得到不同时间或者空间features的<strong>dependencies</strong>。使得注意力机制applicablefor action classification，有人利用non-local block作为一个long-termfeature bank operator，使得video models能得到long-terminformation，提高了action detection的性能。</p></li></ul></li><li><p>Methods: <spanclass="math inline">\(X\quad\in\quad\mathbb{R}^{C\times T\times H\timesW}\)</span> 是一个layer的输入的spatial-temporal featuremap。跟随前人的工作，in this work，将key frame放在videoclip的中间，<span class="math inline">\(X_{t=\lfloorT/2\rfloor}\in\quad\mathbb{R}^{C\times H\timesW}\)</span>表示<strong>keyframe feature map</strong>。</p><ul><li><strong>union backbone</strong>：在之前的video backbone中，key framefeatures将会和相邻的frame features通过temporalpooling或者3D卷积(temporal kernel size 大于1，会给keyframe特征带来意想不到的disturbance)进行interact。为了克服这个问题，video backbone设计的时候，将keyframe和temporal interaction之前的早期的网络的features隔离开。</li></ul><p>和之前的backbon Slowfast(将spatial stride of res5设为1，用a dilationof 2 for its filters，来增加spatial resolution of res5 by <spanclass="math inline">\(2 \times\)</span>)不同，作者去掉了res5中的dialtedconv，采用FPN module来做<strong>keyframe</strong>特征提取。FPNmodule用res2,res3,res4,res5的输出的<strong>keyframefeature</strong>作为输入。进一步用FPN的输出的特征 for actorlocalization,res5输出的特征来做actionclassification。为了这个目的，一个统一的actionbackbone用来提供task-relevant features。</p><p>以上的设计有几个好处，首先，actor localizationhead采用层次化的feature representation作为sourcefeatures。对于目标检测是有好处的。第二，用于actor localization的keyframefeatures通过FPN结构，和所有的video frames的features隔离开，starting atthe early stage of thebackbone。这能减少邻近帧的干扰，因为keyframe会随着model的深入，和邻近帧有更多的interaction。第三，相比于存在的两个backbone的网络(用独立的backbone)for actor localization，作者仅用一个轻量的FPN module that tasks imagefeatures as input，减少了参数和FLOPS。</p><ul><li><p><strong>Acotr Localization Head</strong>：受最近的SparseRCNN的启发，设计了一个端到端的actor detection head for actorlocalization,detection head在得到hierarchical features fromFPN之后，能够预测bbox和对应的scores indicating model's confidence on thebox containing an actor。另外，person detector利用 set prediction lossfor optimal bipartite matching between prediciton和ground truth attrainingstage，在验证的阶段不需要post-process。不同于two-backbone的方法，不许哟啊额外的预训练，因为persondetector和action classifier共享一个backbone。</p></li><li><p><strong>Action Classification Head</strong>：给定有persondetector生成的 <span class="math inline">\(N\)</span>个actor proposalboxes。用RoIAlign来提取每个box的spatial和temporalfeatures，这两种类型的features然后融合，得到最终的action classprediction。细节如下：</p><ol type="1"><li><p><strong>Spatial Action Features</strong>：<spanclass="math inline">\(X_{5} \in \mathbb{R}^{C\times T\times H\timesW}\)</span>表示 res5得到的feature，在时间维度上进行一个<strong>globalaverage pooling</strong>，得到一个spatial feature map，<spanclass="math inline">\(f^{s} \in \mathbb{R}^{C\times1\times H\timesW}\)</span>，在 <span class="math inline">\(f^s\)</span> 上用RoIAlignwith <span class="math inline">\(N\)</span> 个actor proposals，得到<span class="math inline">\(N\)</span>个 spatial RoI features。<spanclass="math inline">\(f_{1}^{s},f_{2}^{s},\cdots,f_{N}^{s} \in\mathbb{R}^{C\times S\times S},\)</span>， <span class="math inline">\(S\times S\)</span>是 RoIAlign输出的spatial output size。</p></li><li><p><strong>Temporal Action Features</strong>：除了spatial actionfeatures，temporal properties也很重要，为了得到temporal motioninformation，从feature volume <spanclass="math inline">\(X_5\)</span>中的every frame提取temporalfeatures。因为这里主要关注temporal information，在spatialdimension上用一个global average pooling，来提取temporal RoIfeatures。temporal action feature表示为<spanclass="math inline">\(f_{1}^{t},f_{2}^{t},\cdots,f_{N}^{t}\in\mathbb{R}^{C\times T\times1\times1}\)</span>。</p></li><li><p><strong>Embedding Interaction</strong>：为了得到discriminativefeatures，为了增强instance的特性，引入了spatial 和temporal embedding tobe convolved with aforementioned spatial and temporal features。spatialembedding期望能够encoder spatial properties例如shape,pose等。temporalembedding能够encode temporal dynamicproperties，例如dynamics和action的temporalscale。注意到embedding是对于每个 <span class="math inline">\(N\)</span>features是exclusive的。定义 <span class="math inline">\(E^{s}\in\mathbb{R}^{N\times d},E^{t}\in \mathbb{R}^{N\times d}\)</span> forspatial and temporal embedding。<span class="math inline">\(E_n^s \in\mathbb{R}^d,E_n^t \in \mathbb{R}^d\)</span> are working for n-th RoIfeature。为了获得不同actors之间的relation 信息，构建了一个attentionmodule for all RoI features。因为每个actor RoI有自己的spatial和temporalembedding，embedding相比于featuremap更lighter，在对不同给的embedding之间而不是featuremaps之间采用attention mechanism for efficiency。这里给定一个queryelement和一系列key elements，多头注意力module能够根据attentionweights(measure compatibility of query-key pairs adaptively)来汇聚keycontents。最后，<span class="math inline">\(x = (x_,...,x_n)\)</span>表示 <span class="math inline">\(n\)</span>个input elements，输出 <spanclass="math inline">\(z= (z_1,...,z_n)\)</span>，<spanclass="math inline">\(z_i\)</span>是weighted sum of a linearlytransformed input：</p></li></ol><p><spanclass="math display">\[z_i=\sum_{j=1}^n\alpha_{ij}(x_jW^V).\]</span></p><p>weight coefficient <spanclass="math inline">\(\alpha_{ij}\)</span>是通过softmax计算出来的：<span class="math display">\[\alpha_{ij}=\frac{\expz_{ij}}{\sum_{k=1}^n\exp z_{ik}}, \text{where}z_ij=\frac{(x_iW^Q)(x_jW^K)^T}{\sqrt{d_z}}.\]</span> 将 <spanclass="math inline">\(E^s\)</span>和 <spanclass="math inline">\(E^t\)</span>送到 self-attentionmodule，得到对应的输出 <spanclass="math inline">\(\phi^s，\phi^t\)</span>，和 原始的embeddings <spanclass="math inline">\(E^s, E^t\)</span>有相同的shape，最后的actionfeature是： <spanclass="math display">\[f=\mathcal{G}(\mathcal{F}(f^s,\phi^s),\mathcal{F}(f^t,\phi^t)),\]</span></p><p><span class="math inline">\(F\)</span>是一个卷积操作 with parameters<span class="math inline">\(\phi\)</span>，<spanclass="math inline">\(G\)</span>是spatio-temporal fusion操作。初始化<span class="math inline">\(F\)</span> with <spanclass="math inline">\(1 \times 1\)</span> kernels for efficiency。</p><ol start="4" type="1"><li><strong>ObjectiveFunction</strong>：提出的model以端到端的方式解决了定位和分类，整个的目标函数由对应的两部分组成：<spanclass="math display">\[\mathcal{L}=\underbrace{\lambda_{cls}\cdot\mathcal{L}_{cls}+\lambda_{L1}\cdot\mathcal{L}_{L1}+\lambda_{giou}\cdot\mathcal{L}_{giou}}_{\text{setpredictionloss}}+\underbrace{\lambda_{act}\cdot\mathcal{L}_{act}}_{\text{action}}.\]</span></li></ol><p>第一部分是 <em>set prediciton loss</em>，produces an optimal<strong>bipartite matching between predictions and ground truthobjects</strong>。用 <span class="math inline">\(L_{cls}\)</span>表示cross-entropy loss over two classes(containing actor vs notcontaining actor)。<span class="math inline">\(L_{L1}\)</span> 和 <spanclass="math inline">\(L_{giou}\)</span>是box loss。<spanclass="math inline">\(\lambda_{cls},\lambda_{L1},\lambda_{giou}\)</span>是常量，平衡这些loss的contributions。对于第二部分， <spanclass="math inline">\(L_{act}\)</span>是一个binary cross entropy lossused for action classification，<spanclass="math inline">\(\lambda_{act}\)</span> 是对应的weight。</p></li></ul></li><li><p>实验：</p><ul><li>Spatial-temporal fusion：有不同的instantiations of fusing temporal和spatial action features：summation、concatenation和cross-attention(CA)，结果表明CA效果比另外两个好。</li></ul></li></ol><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/068ff8c9c5cea92c4a14ac1036cc9033e4bf695d/1-Figure1-1.png"alt="Motivation of WOO" /><figcaption aria-hidden="true">Motivation of WOO</figcaption></figure><p><span class="math inline">\(Figure \ 1^{[1]}\)</span>: Motivation ofWOO. (a) Previous dominant video action detection methods usually adopttwo separate networks: an independent 2D detection model for actorlocalization from every key frames, and a 3D video model for actionclassification from video clips. (b) Our end-to-end unified frameworkuses a single backbone network to handle both 2D image detection and 3Dvideo classification (i.e.2D spatial dimensions plus a temporaldimension). This unified backbone only “watches” an input video once,and directly produces both actor localization and actionclassification</p><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/068ff8c9c5cea92c4a14ac1036cc9033e4bf695d/3-Figure2-1.png"alt="Comparison of Backbone" /><figcaption aria-hidden="true">Comparison of Backbone</figcaption></figure><p><span class="math inline">\(Figure \ 2^{[1]}\)</span>: Comparisons ofbackbone architecture. (a) Two separate backbones for actor localizationand action classification. Video backbone adopts res5 stage with dilatedconvolution (DC5). (b) A single union backbone which can providetask-specific features for actor localization and action classificationsimultaneously, enabling nearly cost-free feature extraction for actorlocalization compared to (a). Key frame features are illustrated inlight orange color. Here we purposely omit the res2 features for visualsimplicity</p><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/068ff8c9c5cea92c4a14ac1036cc9033e4bf695d/4-Figure3-1.png"alt="Action classification head" /><figcaption aria-hidden="true">Action classification head</figcaption></figure><p><span class="math inline">\(Figure \ 3^{[1]}\)</span>: Actionclassification head. Given the RoI feature of a specific box for Tframes, spatial and temporal action features are generated. Then,spatial and temporal embedding is used to make action featurerepresentation more discriminative through the interaction module.Finally, the multi-layer perceptron (MLP) takes as input the fusedspatial-temporal feature and predicts the action class logits. See textfor details</p><figure><imgsrc="https://d3i71xaburhd42.cloudfront.net/068ff8c9c5cea92c4a14ac1036cc9033e4bf695d/5-Figure4-1.png"alt="Structure of interaction module" /><figcaption aria-hidden="true">Structure of interactionmodule</figcaption></figure><p><span class="math inline">\(Figure \ 4^{[1]}\)</span>: Structure ofinteraction module. Here we plot spatial embedding interaction as anexample. ‘⊗’ denotes matrix multiplication, and ‘⊛’ denotes 1 × 1convolution</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;watch-only-oncean-end-to-end-video-action-detection-framework1&quot;&gt;Watch
-Only Once：An End-to-end Video Action Detection
-Framework&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自港大的罗平老师组的Shoufa Chen、Peize Sun、Enze
-Xie等人。论文引用[1]:Chen, Shoufa et al. “Watch Only Once: An End-to-End
-Video Action Detection Framework.” 2021 IEEE/CVF International
-Conference on Computer Vision (ICCV) (2021): 8158-8167.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2021.Oct&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;end-to-end unified network&lt;/li&gt;
-&lt;li&gt;task-specific features&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;提出了一个端到端的pipeline for video action
-detection。&lt;strong&gt;当前的方法要么是将video action detection
-这个任务解耦成action localization和action
-classification这两个分离的阶段，要么在一个阶段里训练两个separated
-models&lt;/strong&gt;。相比之下，作者的方法将actor localization和action
-classification弄在了一个网络里。通过统一backbone网络，去掉很多认为的手工components，整个pipeline被简化了。&lt;strong&gt;WOO&lt;/strong&gt;用一个unified
-video backbone来提取features for actor location 和action
-localization,另外，引入了&lt;font color=red&gt;spatial-temporal action
-embeddings&lt;/font&gt;，设计了一个 spatial-temporal fusion
-module来得到更多的含有丰富信息的discriminative features，提升了action
-classification的性能。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Action Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Action-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>YOWOv3</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/08/26/YOWOv3/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/08/26/YOWOv3/</id>
-    <published>2024-08-26T06:35:34.000Z</published>
-    <updated>2024-10-25T07:11:23.063Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="yowov3-an-efficient-and-generalized-framework-for-human-action-detection-and-recognition1">YOWOv3:An Efficient and Generalized Framework for Human Action Detection andRecognition<sup>[1]</sup></h3><blockquote><p>作者是Nguyen Dang Duc Manh, Duong Viet Hang等人。论文引用[1]:Dang,Duc M et al. “YOWOv3: An Efficient and Generalized Framework for HumanAction Detection and Recognition.” (2024).</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Aug</li></ul><h3 id="key-words">Key Words</h3><ul><li>one-stage detector</li><li>different configurations to customie different model components</li><li>efficient while reducing computational resource requirements</li></ul><h3 id="总结">总结</h3><ol type="1"><li>YOWOv3是YOWOv2的增强版，提供了更多的approach,用了不同的configurations来定制不同的model，YOWOv3比YOWOv2更好。</li><li>STAD是计算机视觉中一个常见的任务，涉及到检测<strong>location(bbox),timing(exact frame),and type(class of action)</strong>，需要对时间和空间特征进行建模。有很多的方法来解决STAD的问题，例如ViT，ViT的效果很好，但是计算量比较大。例如Hieramodel由超过600M的参数，VideoMAEv2由超过1B的参数，增加了训练的成本和消耗。为了解决STAD问题，同时最大程度减弱训练和推理时间的成本，有人提出用了YOWO方法，虽然可以做到实时，但是也有限制：不是一个efficientmodel with low computationalrequirements。框架的作者已经停止维护了，但是还有很多的问题。本文的contribution如下：<ul><li>new lightweight framework for STAD</li><li>efficient model</li><li>multiple pretrained resources for application：creating a range ofpretrained resources spanning from lightweight to sophisticated modelsto cater to diverse requirements for real-world applications。</li></ul></li></ol><span id="more"></span><ol start="3" type="1"><li><p>YOWO的架构过时了，缺乏sophistication和davancements seen incontemporarymodels，限制了它的applicability和性能。YOWOv2基于YOWO，用了anchor-freeobjectdetection和FPN，提高了性能。但是增加了GLOP，和高效轻量的model的目标不相符。</p></li><li><p><strong>Framework</strong>：YOWOv3采用了<strong>two-stream</strong>网络，包括连个processingstreams，第一个用来提取 <strong>spatial information and context from theimage using a 2D CNN</strong>，第二个stream，一个3DCNN，主要用来提取temporalinformation和motion。两个stream的输出结合到一起，来得到包含关于视频的spatial和temporal的信息。最后，用一个CNNlayer基于这些extracted features进行预测。</p><ul><li><strong>Spatial Feature Extractor</strong>：模型需要一个spaitalfeature extracto来提供关于location的信息。为了满足这个目的，采用了YOLOv8model，去掉了其中的detection layer，输入这个module的是size为<spanclass="math inline">\([3,H,W]\)</span>的feature map，代表final frame ofthe input video。通过利用pyramid network架构，输出包含3个不同level的feature maps：<spanclass="math inline">\(F_{lv1}:[{C}_{2D},\frac{H}{8},\frac{W}{8}],F_{lv2}:[{C_{2D}},\frac{H}{16},\frac{W}{16}]\)</span>，<spanclass="math inline">\(F_{lv3}:[C_{2D},\frac{H}{32},\frac{W}{32}].\)</span></li><li><strong>Decoupled head</strong>：decoupled head是用来separate分类和回归的任务。<strong>YOLOXmodel团队发现，在早期的模型中，用单个feature map来做分类和回归 madetraining morechallenging</strong>。因此，用了相似的approach，用两个独立的CNN streamsfor each task，来增强模型的comprehension。</li></ul><p><spanclass="math display">\[F_{cls}=Conv_{cls2}(Conv_{cls1}(x))\\F_{box}=Conv_{box2}(Conv_{box1}(x))\]</span></p><p>2D backbone的输出包含3个feature map at different levels，每个featuremap 送到Decoupled Head中来产生<strong>two feature maps forclassification and regression</strong>，DecoupledHead的输入是一个tensor，<span class="math inline">\(F_{lv} :[C_{2D},H_{lv},W_{lv}]\)</span>,输出两个相同shape的tensors：<spanclass="math inline">\(F_{lv}:[C_{inter},H_{lv},W_{lv}].\)</span></p><ul><li><p><strong>temporal motion featureextractor</strong>：为了增强预测action label的精确度，用了3DCNN模型，采用了I3D的模型，输入3D backbone的是一个tensor <spanclass="math inline">\(F_{3D}：[3, D,H,W]\)</span>，是整个视频，输出是一个tensor：<spanclass="math inline">\(F_{3D}:[C_{3D},1,\frac{H}{32},\frac{W}{32}]\)</span>。</p></li><li><p><strong>Fusion Head</strong>：Fusion head用于整合2D CNN和3D CNNstreams的特征。输入这个layer包含两个tensors：<spanclass="math inline">\(F_{lv}:[C_{inter},H_{lv},W_{lv}]\)</span>，<spanclass="math inline">\(F_{3D} :[C_{3D},1,\frac{H}{32},\frac{W}{32}]\)</span>。首先 <spanclass="math inline">\(F_{3D}\)</span>被squeeze to shape <spanclass="math inline">\([C_{3D},\frac{H}{32},\frac{W}{32}]\)</span>，然后，upscale来matchdimension <span class="math inline">\(H_{lv}\)</span> 和 <spanclass="math inline">\(W_{lv}\)</span>。接下来，<spanclass="math inline">\(F_{3D}\)</span> 和 <spanclass="math inline">\(F_{lv}\)</span> 被concatenated，来得到 tensor<span class="math inline">\(F_{concat}\)</span>，最后， <spanclass="math inline">\(F_{concat}\)</span>输入到 CFAMmodule，这是一个attention mechanism。CFAM module的输出是一个feature map<spanclass="math inline">\(F_{final}:[C_{inter},H_{lv},W_{lv}]\)</span>。</p></li><li><p><strong>Detection Head</strong>：有人指出：拥有给<strong>Diarcdistribution</strong>来预测bboxes会使模型训练困难，因此提出了让模型学习更general的distribution，而不是简单地回归到single value。为了减小模型 dependence on selecting hyperparameters forpredefined bboxes as in previousstudies。也用了anchor-free。输入Detection Head的包含两个tensors：<spanclass="math inline">\(F_{cls}\)</span> 和 <spanclass="math inline">\(F_{box}\)</span> for classification and regressiontasks respectively。通过一系列的卷积实现最后的预测： <spanclass="math display">\[Predict_{cls}=\mathrm{conv}(Conv_{cls2}(Conv_{cls1}(F_{cls})))\\Predict_{box}=\mathrm{conv}(Conv_{box2}(Conv_{box1}(F_{box})))\]</span></p></li></ul></li><li><p><strong>Label Assignment</strong>：<strong>用了2个不同的labelassignment mechanisms来match 模型的predictions with the ground truthlabels from the data</strong>：<strong>TAL</strong> and<strong>SimOTA</strong>，SimOTA是OTA的简化版。两个机制都依赖于 <spanclass="math inline">\(d_{predict}\)</span>和 <spanclass="math inline">\(d_{truth}\)</span>之间的相似度测量函数，来performmatching between them。</p><ul><li><strong>TAL</strong>：prediction <spanclass="math inline">\(d_{pred} \in A\)</span> 和 ground truth <spanclass="math inline">\(d_{truth} \in T\)</span>之间的相似度测量函数如下：<span class="math display">\[\begin{aligned}&amp;metric&amp;&amp; =cls_err^{\alpha}box_err^{\beta} \\&amp;cls_err&amp;&amp; =BCE(cls_{pred},cls_{truth}) \\&amp;box_err&amp;&amp; =CIoU(box_{pred},box_{truth})\end{aligned}\]</span></li></ul><p>对于each <span class="math inline">\(d_{truth} \inT\)</span>，将它们和有最高的<spanclass="math inline">\(metric\)</span>的 <spanclass="math inline">\(top_k\)</span> 个 <spanclass="math inline">\(d_{pred}\)</span> 进行匹配，但每个 <spanclass="math inline">\(d_{pred}\)</span>只能和 most one <spanclass="math inline">\(d_{truth}\)</span>进行匹配，如果 <spanclass="math inline">\(d_{pred}\)</span> is in the <spanclass="math inline">\(top_k\)</span> of multiple <spanclass="math inline">\(d_{truth}\)</span>，将有着最高的 <spanclass="math inline">\(CIOU(box_{pred},boxJ_{truth})\)</span>的 <spanclass="math inline">\(d_{pred}\)</span>和<spanclass="math inline">\(d_{truth}\)</span>进行匹配。<strong>另外，只考虑receptive field的center落在 box of <spanclass="math inline">\(d_{truth}\)</span>内、且 receptive field center到box of <span class="math inline">\(d_{depth}\)</span> center的距离不超过</strong>radius<strong>的 <spanclass="math inline">\(d_{pred}\)</span></strong>。</p><p>如果 <span class="math inline">\(d_{pred}\)</span>和 <spanclass="math inline">\(d_{truth}\)</span>匹配，就认为 <spanclass="math inline">\(d_{pred}\)</span>的target是 <spanclass="math inline">\(d_{truth}\)</span>，probability of the target forcorresponding class is set to 1 if they appear,否则就是0。</p><ul><li><strong>SimOTA</strong>：和TAL类似，SimOTA利用了相似度测量，来matchingbetween <span class="math inline">\(d_{pred}\)</span>和 <spanclass="math inline">\(d_{truth}\)</span>： <spanclass="math display">\[\begin{aligned}metric&amp;=BCE(\lambdacls_{pred},cls_{truth})-\alpha\log(\lambda)\\&amp;\lambda=CIoU(box_{pred},box_{truth})\end{aligned}\]</span></li></ul><p>不同于TAL，这里只考虑将 <spanclass="math inline">\(d_{truth}\)</span> 和有<strong>smallestmetric</strong>的 <span class="math inline">\(top_k\)</span>个 <spanclass="math inline">\(d_{pred}\)</span>进行匹配。SimOTA不会去fix <spanclass="math inline">\(top_k\)</span>个 value，而是利用一个方式来估计<span class="math inline">\(top_k\)</span> for each <spanclass="math inline">\(d_{truth}\)</span>。实验表明：用动态的 <spanclass="math inline">\(top_k\)</span>会减慢训练过程，增加额外的计算开销。</p></li><li><p><strong>Loss Function</strong>：用两个loss function对应两个 labelassignment mechanisms。总的loss是由两部分： <spanclass="math display">\[\mathcal{L}=\mathcal{L}_{box}+\mathcal{L}_{cls}\]</span></p></li></ol><p>一个是bbox regression，一个是 loss for label classification，两个loss里有多个subcomponents。对于 <span class="math inline">\(d_{pred} \inN\)</span>， <span class="math inline">\(L_{box}\)</span> =0, <spanclass="math inline">\(cls_{truth}\)</span>也会完全为0.</p><ul><li><strong>TAL</strong>：Loss function为： <spanclass="math display">\[\mathcal{L}=\frac{\mathcal{L}_{box}+\mathcal{L}_{cls}}\omega\]</span></li></ul><p><spanclass="math display">\[\mathcal{L}_{box}=\delta(d_{truth})(\alphaCIoU(d_{pred},d_{truth})+\beta\mathcal{L}_{distribution})\\\mathcal{L}_{cls}=\gammaBCE(cls_{pred},cls_{truth})\]</span></p><p><span class="math inline">\(L_{distribution}\)</span>代表DistributionLoss function。</p><p><spanclass="math display">\[\begin{aligned}\delta(d_i)&amp;=\sum_{p_j\incls_i}p_j\\\omega&amp;=\sum_{d_{pred}\in\mathcal{A}}\sum_{d_i\in\mathcal{M}(d_{pred})}\delta(d_i)\end{aligned}\]</span></p><p><span class="math inline">\(\alpha, \beta,\gamma\)</span> 是超参数，用来 scale components of the <spanclass="math inline">\(L\)</span> function。fix <spanclass="math inline">\(\alpha\)</span>=7.5, <spanclass="math inline">\(\beta\)</span>=1.5, <spanclass="math inline">\(\gamma\)</span>= 0.5。</p><ul><li><strong>SimOTA</strong>：loss function： <spanclass="math display">\[\mathcal{L}=\frac{\mathcal{L}_{box}+\mathcal{L}_{cls}}{|\mathcal{P}|}\]</span></li></ul><p><span class="math display">\[\mathcal{L}_{box}=\alphaCIoU(d_{pred},d_{truth})+\beta\mathcal{L}_{distribution}\\\mathcal{L}_{cls}=exp(cls_{t})|cls_{truth}-cls_{pred}|^{\nu}BCE(cls_{pred},cls_{truth})\]</span></p><p><span class="math inline">\(L_{cls}\)</span>是 generalized focal lossfunction，multiplied by a class balancing factor <spanclass="math inline">\(exp(cls_t)\)</span>。</p><p><span class="math display">\[p_i\incls_t=\begin{cases}class_ratio,&amp;p_{truth}\neq0\\1-class_ratio,&amp;p_{truth}=0\end{cases}\]</span></p><p><span class="math inline">\(class_ratio\)</span> 是class balancingfactor,classes have lower frequencies，<spanclass="math inline">\(class_{ratio}\)</span> will be higher。这里 <spanclass="math inline">\(\alpha=5.5,\beta=0.5, \gamma=0.5, \nu =0.5\)</span></p><ol start="7" type="1"><li>实验：在实验中，由于AVAv2.2是一个极度不平衡的dataset，因此，需要额外的方法来减小这个不平衡的影响，来提高overallmAP。解决这个问题的两个方法是：softLabels(qualified Loss)和inclusion ofa class balance term。<strong>对于频繁出现的common classes，<spanclass="math inline">\(class_{ratio}\)</span>会接近0.5, class balancetermexp(cls_{t})会基本不变，意味着如果预测错误的话，loss不会有很大的改变；对于很少出现的classes，它会接近0,模型没有正确预测的话，<spanclass="math inline">\(exp(cls_t)\)</span>会严重地惩罚。这会创造一个bias，能够帮助提高 less commonclasses的预测。</strong>另外，softlabels用在了减小模型overconfidence的影响，特别是出现的很频繁的classes**。<ul><li>对于label assignment one to many, 一个ground truth box会和多个multiple predicted boxes匹配，选择matching的boxes的数量可以被动态的估计或者predetermined。实验表明，选择<spanclass="math inline">\(k\)</span>个能够产生很好的结果，自动估计 <spanclass="math inline">\(top_k\)</span>导致额外增加 <spanclass="math inline">\(6%\)</span>的训练时间。这些结果倾向于将 <spanclass="math inline">\(top_k\)</span>视为一个超参数，而不是用来做优化的方法。</li><li>保留了<strong>Exponential MovingAverage(EMA)</strong>的模型的变体，来评估EMA的影响。结果展示了EMA在初始的epochs中，对模型的性能有很大的影响，在后面的epochs中有很小的影响，表明EMA帮助模型在早期的阶段快速收敛，在之后的训练过程，能提高mAPscore。</li></ul></li><li>看了YOWOv2和YOWOv3的图之后，看上去貌似是一样的，画的不一样，不知道是不是就换了个backbone，具体还是看看代码</li></ol><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/d02a8d30424422b99990cc394ca7d6526efc0a20/3-Figure2-1.png"alt="Structure" /> <span class="math inline">\(figure1^{[1]}\)</span>：overview architecture of YOWOv3</p><p><imgsrc="https://d3i71xaburhd42.cloudfront.net/d02a8d30424422b99990cc394ca7d6526efc0a20/4-Figure3-1.png"alt="CFAM" /> <span class="math inline">\(figure2^{[2]}\)</span>：Overview of CFAM module</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;yowov3-an-efficient-and-generalized-framework-for-human-action-detection-and-recognition1&quot;&gt;YOWOv3:
-An Efficient and Generalized Framework for Human Action Detection and
-Recognition&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是Nguyen Dang Duc Manh, Duong Viet Hang等人。论文引用[1]:Dang,
-Duc M et al. “YOWOv3: An Efficient and Generalized Framework for Human
-Action Detection and Recognition.” (2024).&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2024.Aug&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;one-stage detector&lt;/li&gt;
-&lt;li&gt;different configurations to customie different model components&lt;/li&gt;
-&lt;li&gt;efficient while reducing computational resource requirements&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;YOWOv3是YOWOv2的增强版，提供了更多的approach,用了不同的configurations来定制不同的model，YOWOv3比YOWOv2更好。&lt;/li&gt;
-&lt;li&gt;STAD是计算机视觉中一个常见的任务，涉及到检测&lt;strong&gt;location(bbox),
-timing(exact frame),and type(class of action)&lt;/strong&gt;，
-需要对时间和空间特征进行建模。有很多的方法来解决STAD的问题，例如ViT，ViT的效果很好，但是计算量比较大。例如Hiera
-model由超过600M的参数，VideoMAEv2由超过1B的参数，增加了训练的成本和消耗。为了解决STAD问题，同时最大程度减弱训练和推理时间的成本，有人提出用了YOWO方法，虽然可以做到实时，但是也有限制：不是一个efficient
-model with low computational
-requirements。框架的作者已经停止维护了，但是还有很多的问题。本文的contribution如下：
-&lt;ul&gt;
-&lt;li&gt;new lightweight framework for STAD&lt;/li&gt;
-&lt;li&gt;efficient model&lt;/li&gt;
-&lt;li&gt;multiple pretrained resources for application：creating a range of
-pretrained resources spanning from lightweight to sophisticated models
-to cater to diverse requirements for real-world applications。&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Action Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Action-Detection/"/>
     
   </entry>
   

@@ -19,14 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="Simple Open-Vocabulary Object Detection with Vision Transformers[1]  作者是来自Google的Matthias Minderer, Alexey Gritsenko等人，论文引用[1]:Minderer, Matthias, et al. &quot;Simple open-vocabulary object detection">
+<meta property="og:type" content="article">
 <meta property="og:title" content="OWL-ViT">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/11/24/OWL-ViT/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Simple Open-Vocabulary Object Detection with Vision Transformers[1]  作者是来自Google的Matthias Minderer, Alexey Gritsenko等人，论文引用[1]:Minderer, Matthias, et al. &quot;Simple open-vocabulary object detection">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-11-24T06:07:12.000Z">
-<meta property="article:modified_time" content="2024-11-24T06:07:12.978Z">
+<meta property="article:modified_time" content="2024-11-28T09:17:59.129Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="Open-Set Object Detection">
 <meta name="twitter:card" content="summary">
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#simple-open-vocabulary-object-detection-with-vision-transformers1"><span class="nav-number">1.</span> <span class="nav-text">Simple
+Open-Vocabulary Object Detection with Vision
+Transformers[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -124,7 +130,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">100</span>
+          <span class="site-state-item-count">106</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -135,7 +141,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">38</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -201,6 +207,22 @@
 
       <time title="创建时间：2024-11-24 14:07:12" itemprop="dateCreated datePublished" datetime="2024-11-24T14:07:12+08:00">2024-11-24</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-28 17:17:59" itemprop="dateModified" datetime="2024-11-28T17:17:59+08:00">2024-11-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
@@ -216,14 +238,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>3.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>13 分钟</span>
     </span>
 </div>
 
@@ -233,7 +255,192 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3
+id="simple-open-vocabulary-object-detection-with-vision-transformers1">Simple
+Open-Vocabulary Object Detection with Vision
+Transformers<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Google的Matthias Minderer, Alexey
+Gritsenko等人，论文引用[1]:Minderer, Matthias, et al. "Simple
+open-vocabulary object detection." European Conference on Computer
+Vision. Cham: Springer Nature Switzerland, 2022.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2022.Jun</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>open-vocabulary detection</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>将简单的架构和大规模预训练结合起来，会导致图像分类上取得很大的提高。对于目标检测，预训练和scaling
+方法还没有很好地建立，特别是长尾和开集，这些训练数据都很少。本文中，提出了一个很强的方法，将image-text
+模型迁移到开集目标检测。用了一个标准的ViT架构和一些小的修改，contrastive
+image-text pre-training和端到端的detection
+fine-tunign。作者分析这个设置的scaling特性，展示了增加image-level的预训练和模型大小，能够对下游任务有持续的提高，作者提供了在零样本文本条件和单样本图像条件下的目标检测的适配策略和正则化方法。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>目标检测是一个基础任务。直到最近，检测模型通常被限制在一个小的，固定集合的语义类别，因为要得到有定位标注的大量或者open
+label spaces训练数据是有成本的且花时间的。**这个随着language
+encoders和contrastive image-text training的发展而改变。这些模型从loosely
+aligned
+图像文本对中学习图像和文本共享的representation，这个在web上有大量的数据。通过利用大量的图像文本对，contrastive
+training在零样本的分类性能和其它language-based
+tasks上取得了很大的提高。</p></li>
+<li><p>很多最近的工作旨在将模型的语言能力迁移到目标检测上，这些方法，例如distillation
+against embeddings of images
+crops，用图像级labels的弱监督或者self-training。这里，作者提供了一个简单的架构和端到端的训练放啊，得到了很强的open-vocabulary
+detection，不需要这些方法，即使在训练过程中这些类别不可见。</p></li>
+<li><p>首先用ViT架构，展示了很强的扩展性，在大的图像文本对上进行contrastively预训练。为了将模型的能力迁移到检测上，做了一些改进。去掉了最后的token
+pooling layer，相反，在每个transformer output
+token上加了一个轻量的分类和回归头，<strong>开集分类是通过从text
+model中得到的class-name embeddings 替换固定的classification layer
+weights实现</strong>，在标准的检测数据集上用bipartite matching
+loss微调预训练模型，图像和文本模型都能够端到端的微淘。</p></li>
+<li><p>作者分析这个方法的scaling
+特性，发现，增加的模型尺寸和预训练时间，能够持续提高检测的性能，这很重要，因为相比于检测数据，图像文本对是大量的，且能够further
+scaling。作者模型的关键特征是它的简洁和模块化。因为模型的图像和文本内容没有融合，模型对于query
+representation的来源是未知的。因此，可以用模型，不要修改，作为一个one-shot
+检测学习器，简单地通过querying it with image-derived
+embeddings。one-shot 目标检测是基于query image patch showing the
+object，检测新目标的有挑战性的问题。基于图像的one-shot能力是基于文本的检测的扩展，因为它能够检测很难通过文本描述的物体，例如特征的构件。尽管用通用的架构，在unseen的COCO数据集上取得了SOTA。作者的贡献如下：</p>
+<ul>
+<li>一个简单的和很强的方法，用于将图像级的预训练迁移到开集目标检测</li>
+<li>one-shot image-conditional的SOTA方法</li>
+</ul></li>
+<li><p>作者相信模型能够作为一个很强的基线方法，能够在很多框架中执行，称这个方法为<em>Vision
+Transformer for Open-World Localization(OWL-ViT)</em>。</p></li>
+<li><p><strong>Contrastive Vision-Language
+Pre-Training</strong>：将图像和文本嵌入到一个共享空间用于实现zero-shot泛化，这个idea用了很长时间。得益于对比损失和更好的架构，最近的模型能够从web-drived
+image和text pairs中学习一致的视觉和语言representations，不需要explicit
+annotation。这增加了可用的训练数据，在benchmarks上有了很大的提高。最近的很多图像文本对模型和作者的方法兼容，模型和数据集类似于LiT和ALIGN。</p></li>
+<li><p><strong>Closed-Vocabulary Object
+Detection</strong>：目标检测模型传统上用于闭集，有一阶段和两阶段的检测器。最近的DETR展示了，目标检测能够作为一个集合预测问题，用bipartite
+matching进行训练，实现了很好的效果。这些架构不需要region prposal
+generation或者NMS。后续的工作提出了一些更高效的DETR的变体，包括不需要Decoder的架构，作者的工作简化了DETR，不需要decoder，通过从每个image
+token中直接预测object instance，简化了模型。</p></li>
+<li><p><strong>Long-Tailed and Open-Vocabulary Object
+Detection</strong>：为了超越闭集，固定的分类层被language
+embeddings代替，来创建一个开集检测器，开集目标检测器近期有很大的进步，通过结合图像文本训练的模型和经典的目标检测器，这个任务主要的挑战是**如何将image-text的backbone的image-level的representation迁移到检测，尽管对于rare
+classes，localized
+annotations很少。利用好图像文本的预训练是很重要的，因为它不需要大量的人类标注，就能够scaling。有人提出了很多的方法，通过CLIP或者ALIGN用在cropped
+images from class-agnostic region prposal
+network上，ViLD对得到的embeddings进行蒸馏。RPN限制了在新的目标上的泛化能力，ViLD两步的蒸馏训练过程加剧了这个问题。RegionCLIP也用了多阶段训练，在captioning
+data上产生pseudo-labels，紧接着region-text对比预训练，然后迁移到检测。相比之下，作者的方法在图像和文本模型上进行端到端的微调，简化了训练，提高了对于unseen
+类别的泛化性。MDETR和GLIP对整张图像用了一个single text
+query，将检测formualte为一个phrase grounding
+问题，这些限制了目标的类别。作者的架构更加灵活，不需要image-text融合，能够处理多个独立的text或者image-derived
+queries，OVR-CNN和作者的方法最相似，微调image-text模型 to detection on a
+limited
+vocabulary，依赖于图像文本的预训练。然而，作者的方法和其它的模型不同，用了ViT而不是ResNet，一个DETR类型的模型，而不是Faster
+RCNN，和LiT一样，用了image-text pre-training，而不是PixelBERT和visual
+grounding
+loss。Detic通过只在有image-level的标注上，训练分类头，提高长尾检测的性能。注意到，这里定义的开集检测，目标类别可能在detection
+training和testing的可能重叠。检测训练过程中，没有见过的任何定位实例的样本时，称之为zero-shot。</p></li>
+<li><p><strong>Image-Conditioned
+Detection</strong>：和开集检测相关的是image-conditioned
+detection，是检测目标，匹配single query image which shows an object of
+the category in question。这个任务也称之为 <em>one-shot object
+detection</em>。因为这个query image是single training
+example。image-based querying允许open world
+detection，当object的name是未知的时候，例如对于unique
+objects或者特殊的parts。作者的模型能够做到这个任务，不需要修改，通过简单地用image-derived
+而不是text-derived
+embeddinngs作为queries。近期的在这个问题上的工作主要聚焦于架构的创新，例如用了query和target
+image之间的复杂的交叉注意力的形式，作者的方法依赖于简单地，但是比较大的模型和大量的image-text预训练。</p></li>
+<li><p>作者的目标是构建一个简单可扩展的开集检测器，聚焦于标准Transformer的模型，因为它们的可扩展性，提出了一个两阶段的方法：</p>
+<ul>
+<li>contrastively pre-train image and text encoders on large-scale
+image-text data</li>
+<li>增加了分类头，在中等的检测数据上进行微调
+模型能够以不同的方式进行query，来执行open-vocabulary或者few-shot
+detection</li>
+</ul></li>
+<li><p>架构：模型采用标准的ViT作为图像的encoder和一个类似的Transformer架构作为text
+encoder，为了使image encoder适应detection，去掉了token
+pooling和最后的projection layer，相反，线性地映射每个output token
+representation，来得到per-object image embeddings for
+classification。预测的objects的最大的数量等于image
+encoder的token的数量。实际中这不是瓶颈，因为模型的sequence
+length至少是576.比现在的数据集的最大数量的instances都大。将token
+representations通过一个MLP，得到box
+coordinates，设置类似于DETR，但是去掉了decoder，简化了模型。</p></li>
+<li><p>开集目标检测：对于检测到的objects的open-vocabulary分类，跟着之前的工作，用在分类头的最后一层，用text
+embeddings，而不是learned class embeddings。text
+embeddings称之为queries，将category
+names或者其它的文本目标描述通过一个text
+encoder，来得到。这个模型的任务变成了<strong>预测每个object，一个bbox和一个each
+query applies to the
+object的概率。对于每个image，queries是不一样的。每个image有它自己的discriminative
+label space，是通过一系列的text strings定义的。当完整的object category
+names用作query set for each image，这个方法就归类于经典的闭集目标检测。
+相比于其它的方法，没有把一个image的所有queries结合到single token
+sequence中，相反，</strong>每个query 包含一个separate token
+sequence，which 代表啊一个单独的目标描述，单独地被text
+encoder进行处理，另外，这个架构没有包含image和text的融合，尽管融合似乎是有益的，它降低了推理的效率，因为编码一个query需要一个forward
+pass through the entire image model，对于每个image/query
+combination都要重复。在这个设定中，计算query
+embeddings独立于image，使得每张图片能够用大量的queries，many more than
+is possible with early fusion**。</p></li>
+<li><p><strong>One-or few-shot Transfer</strong>：这个设置不要求query
+embeddings是文本来源，因为image和text没有进行融合，可以将image-derived
+embeddings而不是text-derived embeddings作为queries to the classification
+head，不需要修改模型，通过使用prototypical object
+images的embeddings作为queries，模型能够进行image-conditioned one-shot
+object detection。用image
+embeddings作为queries，使得能够对用语言难以描述的object进行detection。</p></li>
+<li><p><strong>Image-level contrastive
+Pre-training</strong>：用相同的image-text dataset预训练image和text
+encoder，用对比损失和随机初始化来从零开始训练encoders，对于image
+representation，用一个多头的attention pooling(MAP)来汇聚token
+representatin。这个text representation是text
+encoder的最后一个end-of-sequence得到的，或者，用了公开的预训练的CLIP模型。
+encoder-only架构的优势是，几乎所有的模型参数都能从image-level
+pre-training中受益。detection-specific heads包含1.1%的模型参数</p></li>
+<li><p><strong>Training the
+Detector</strong>：微调预训练模型用于分类是一个well-studies
+问题，分类器，特别是大的Transformers，需要仔细的tuned正则化和数据增强，来得到很好的效果，用于分类器训练的方法现在有很多了，这里，作者旨在提供一个类似的微调方法，用于开集检测。
+模型的检测训练过程和闭集的检测器一样，除了<strong>为每个image提供类别名称作为queries，分类头输出logits
+over the per-image label space defined by the
+queries，而不是一个固定的global label space</strong>。</p>
+<p>采用DETR的bipartite matching loss，将其用于长尾/开集
+检测。由于需要对数据集进行详尽的注释，有大量类别的数据集是以federated
+manner进行标注的。这样的数据集有着non-disjoint label
+spaces，意味着每个object有多个labels。因此，用了focal sigmoid
+交叉熵，而不是softmax交叉熵作为分类损失。进一步，因为不是所有的object类别在每个image中都有标注，federated
+数据集提供了positive和negative annotations for each
+image。在训练的时候，对于一个给定的图像，用所有的positive和negative标注作为queries，另外，随机地采样类别，和它们出现在数据中的频率成正比，将它们增加为pseudo-negatives，每个图片至少有50个negatives。</p>
+<p>最大的feerated detection 数据集包含<span
+class="math inline">\(10^6\)</span>图像，相比于十亿量级的image-level
+weak
+labels还是比较小的，大的Transformers在这样的数据集上进行训练，需要仔细的正则化和数据增强。作者发现，对于检测的训练也一样，提供了用大的Transformer实现高性能的增强和正则化的详细分析。</p></li>
+<li><p>对于图像模型，用标准的ViT，跟着命令法for model size, patch
+size。对于text
+model，用一个类似于图像模型的Transformer，文本图像模型首先在image-level上进行预训练，然后在object-level
+annotations上进行微调，预训练是从零开始。在预训练之后，token
+pooling去掉了，增加了检测头，对于每个output
+token预测一个box，对于每个预测的box，增加了一个bias，因此每个box默认centered
+on the image patch，对应于将token sequence弄成2D
+grid的时候的预测的box的token。模型因此预测和默认未知的不同，类似于RPN网络预测预定义anchors的偏置。虽然image
+patches和tokens representations later in the Transformer
+network没有严格的对应，增加box预测的偏置加速了训练，提高了最后的性能。</p></li>
+<li><p>为了评估在没有见过的类别上的性能，去掉了稀少类别的标注，<span
+class="math inline">\(AP^{LVIS}_{rare}\)</span>
+评估模型的zero-shot性能，模型没有见过这些类别的标注。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/9dae204dad41633188022002a04c8aa67c79a4e1/3-Figure1-1.png"
+alt="Framework" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+左边：首先用图像文本对预训练一个图像和文本的encoder，类似于CLIP,ALIGN和LiT。右边：然后将预训练的encoders，通过去掉token
+pooling，在image encoder output
+tokens上增加轻量的目标分类和定位头，迁移到开集目标检测，为了实现开集检测，query
+strings用text
+encoder进行嵌入，用于分类，这些模型在标准的检测数据集上进行微调。推理的时候，用text-derived
+embeddings用于开集检测，或者image-derived embeddings for few-shot
+image-conditioned 检测。</p>
 
     </div>
 
@@ -242,6 +449,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Open-Set-Object-Detection/" rel="tag"># Open-Set Object Detection</a>
+          </div>
 
         
 
@@ -285,13 +495,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">109k</span>
+    <span title="站点总字数">113k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6:38</span>
+    <span title="站点阅读时长">6:52</span>
   </span>
 </div>
 <div class="busuanzi-count">
