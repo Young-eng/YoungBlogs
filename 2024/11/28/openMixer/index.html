@@ -19,14 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="Exploiting VLM Localizability and Semantics for Open Vocabulary Action Detection[1]  作者是来自密西根州立大学，NEC和罗格斯大学的Wentao Bao, Kai Li, Yuxiao Chen等人。论文引用[1]:  Time  2024.Nov  ### Key Words 总结">
+<meta property="og:type" content="article">
 <meta property="og:title" content="openMixer">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/11/28/openMixer/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Exploiting VLM Localizability and Semantics for Open Vocabulary Action Detection[1]  作者是来自密西根州立大学，NEC和罗格斯大学的Wentao Bao, Kai Li, Yuxiao Chen等人。论文引用[1]:  Time  2024.Nov  ### Key Words 总结">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-11-28T14:25:59.000Z">
-<meta property="article:modified_time" content="2024-11-28T14:25:59.159Z">
+<meta property="article:modified_time" content="2024-11-29T14:33:36.894Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="Open-set Object Detection">
 <meta name="twitter:card" content="summary">
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#exploiting-vlm-localizability-and-semantics-for-open-vocabulary-action-detection1"><span class="nav-number">1.</span> <span class="nav-text">Exploiting
+VLM Localizability and Semantics for Open Vocabulary Action
+Detection[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key-words"><span class="nav-number"></span> <span class="nav-text">### Key Words</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -135,7 +141,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">39</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -201,6 +207,22 @@
 
       <time title="创建时间：2024-11-28 22:25:59" itemprop="dateCreated datePublished" datetime="2024-11-28T22:25:59+08:00">2024-11-28</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-29 22:33:36" itemprop="dateModified" datetime="2024-11-29T22:33:36+08:00">2024-11-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
@@ -216,14 +238,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>4.4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>16 分钟</span>
     </span>
 </div>
 
@@ -233,7 +255,235 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3
+id="exploiting-vlm-localizability-and-semantics-for-open-vocabulary-action-detection1">Exploiting
+VLM Localizability and Semantics for Open Vocabulary Action
+Detection<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自密西根州立大学，NEC和罗格斯大学的Wentao Bao, Kai Li, Yuxiao
+Chen等人。论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Nov</li>
+</ul>
+<h2 id="key-words">### Key Words</h2>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>Action
+Detection旨在检测视频里的空间和时间上的动作，现有的方式聚焦于闭集检测，action
+detector是训练和测试都是在一个固定的行为类比的集合上。然而，这个限制的设定在一个开放的世界中不可行，测试的视频超过了训练的行为类别，本文中，解决这个挑战性的开集行为检测问题。旨在检测测试视频中的任意行为，然而在一个固定的行为类别上训练模型。为了实现这样一个开集的能力，提出了<strong>OpenMixer</strong>的方法，利用内在的语义和大的视觉语言模型的定位能力
+within the family of query-based detection
+models(DETR)。特别地，OpenMixer是通过时空上的OpenMixer Blocks(S-OMB and
+T-OMB)，一个动态的融合模块。这三个模块一起用来预训练VLMs的强大的表征能力和来自DETR设计的端到端的学习。更多的，在多个设定下，建立了OVAD
+benchmarks，实验结果表明，OpenMixer在检测见过和没见过的行为上，都超过了基线方法。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>行为检测旨在在时空上定位视频里的actors。在视频监控等应用上很重要，引起了很多的关注。现有的AD方法主要是在闭集上，模型训练和测试视频都是在同一个固定的行为类别上。然而，最近取得了很大的进步，从同一个行为类别中进行训练和测试的假设限制了它们应用到实际真实世界中的能力,
+where
+测试视频包含了预定义训练类别之外的行为。例如，视频监控可能能够检测大家，但是其它的危险行为例如射击和追逐不能检测到，如果这个系统没有用标注的视频进行训练，另外，在开放世界中检测行为促进了整个的视频理解，开启了高阶视频理解的大门，像是reasoning，forecasting等，这通常要求检测视频中的多个行为。这个促使我们研究开集行为检测，针对检测视频中的任意行为，包括训练集中见过的行为和训练集中没有见过的行为，然而，OVAD时挑战的，因为它要求逐帧的理解行为动态，然而，运动动态建模已经被传统的闭集行为检测研究的很多了，利用训练的全监督，在开集设定中仍然是有挑战的，因为对于没有见过的类别，这里没有监督信息。</p>
+<p>最近，预训练VLMs有很强大的泛化能力，很多的开集方法用于图像识别，目标检测和图像分割，然而，这些方法用于图像，没有考虑视频帧的时序动态，另外，图像VLMs例如CLIP
+are struggling 来捕捉文本中的action
+verbs和视频中的人类行为，这不可避免地要求学习时序动态或者进行微调，来识别下游任务中的行为，冒着对于没有见过类别的很差的泛化能力。</p>
+<p>有很少的重要的工作利用VLMs来做开集视频理解，包括行为识别和时序动作定位，然而，对于region-level的行为检测by
+VLM，在video-level 预训练 和region-level adaptation之间有representation
+gap，类似于基于图像的开集检测的representation
+gap问题。对于OVAD任务，这个representation
+gap来自于整体的预训练中的video-action 对齐和下游region-level
+子任务，例如region-action alignment和action-relevant person
+localization。representation
+gap造成的原因来自预训练视频VLM内在的不同的adaption
+goals，例如将VLMs的语义和定位从视频迁移到region，用于两个子任务。</p>
+<p>重新考虑VLM的Transformer的设计，发现，用VLM的语义特征和低估了的定位能力对于OVAD是重要的，首先，将video-level语义迁移到each
+region，提出了<strong>学习a set of region-wise
+queries来编码视频的时序动态，通过用预训练的视频级的特征，作为自适应的语义条件</strong>。更新的queries和视频级的特征进一步动态的进行融合，和用于识别的文本语义进行对齐；第二，为了利用视频VLMs的定位能力，用于region-wise定位，学习一系列的queries，从VLM视觉attention
+reveal的先前的位置，解码person boxes。</p>
+<p>特别地，开发了一个query-based
+开集行为检测器，OpemMixer，来检测开集中的任意行为，它适合DETR，基本的思路是通过学习两组queries和对应的解码modules，来解耦行为识别和定位。OpenMixer包含一个空间的OpenMixer
+Block(S-OMB)用于定位，一个时间上的OpenMixer
+Block(T-OMB)用于捕捉region-level
+时序动作，和一个动态的融合对齐(DFA)，用于开集行为识别。这个S-OMB通过text-patch交叉注意力，继承了VLMs的定位，T-OMB利用了VLMs的视觉语义特征，来捕捉时序动态，DFA动态地融合预训练的语义，将其融合成可学习的region-level
+queries，用于泛化的识别，最后，模型能够利用VLMs的语义和定位能力，从DETR的pipeline，实现端到端的检测。</p>
+<p>主要的贡献如下：</p>
+<ul>
+<li>构建了开集行为检测的任务，是有价值的</li>
+<li>开发了OpenMixer模型，能够利用预训练视频语言模型的语义和定位能力，面向OVAD任务。</li>
+<li>在多个视频行为检测数据集上，验证了提出的模块的有效性</li>
+</ul></li>
+<li><p>时空行为检测最近的工作都是采用两个backbone的设计，分别提取关键帧和整个视频的特征，用于actor定位和actor-context关系建模。虽然它们通过利用图像和视频backbone，实现了很好的性能，模型的参数比较大，很难优化，最近的DETR的进步，通过单个的backbone就能够是西安端到端的action
+detection，展示了很好的性能。基本的想法是用单个video
+transformer来得到所有的视频frames的特征，然后引入可学习的queries，和video
+features进行mix，用于特别地，WOO用Sparse
+RCNN用于定位，TubeR用经典的DETR来学习action
+tubes，STMixer用AdaMixer的设计，实现SOTA的性能。在对actors和actor
+context的interaction进行建模的时候，query-base的设计有益的，同时将整个架构简化为了单阶段的设计。然而，这些方法，没有一个能处理开放世界的没有见过的行为，因此，引入了一个开集行为检测的方法，基于query-based的设计，来检测任意的行为。</p>
+<p>开集视觉理解。<strong>由于VLM强大的对齐能力，没有见过的类别的视觉数据能够通过视觉特征和类别名的文本特征进行对齐，来识别</strong>，这促使了一系列的开集的目标检测、行为识别和时序动作定位的工作。对于定位，最近的基于图像的开集目标检测器OV-DETR和CORA和作者的方法有相同之处，都是讲VLMs的语义注入到可学习的queries。然而，OV-DETR的query
+conditions是特定类别的，以至于它们不能适应测试时的样本，CORA两阶段的训练限制了在视频领域的灵活性。对于视频理解，最近的工作和STAN，都是建立在基于图像的CLIP模型，然而，相比于OVTAL任务，提出的OVAD任务更具挑战性，因为它需要在时间和空间上进行识别，iCLIP旨在zero-shot行为检测，没有考虑测试时候的行为。另外，它跳过了利用现有的检测器来定位行为，只学习识别没有见过得到行为，缺乏定位action-relevant
+persons的能力，注意到一个同期的工作for
+OVAD，但这是一个两阶段的设计，依赖于额外的大规模的region-text预训练数据，不许哟啊利用基于视频的VLMs的内在的检测知识。据作者所知，OpenMixer是第一个query-base的OVAD模型，能够和任意的视频VLMs进行结合，不需要region-level
+预训练。</p></li>
+<li><p>相比于闭集的视频行为检测，开集行为检测旨在识别和在时空上定位视频中的人物的行为，包括训练阶段中见过的和没有见过的行为类别。具体地，一个OVAD模型从
+<span class="math inline">\(N_train\)</span> 个训练样本 <span
+class="math inline">\({(X,Y)_i | i = 1,...,N_{train}}\)</span>
+中学习，X表示训练视频，Y表示关键帧的bbox标注，包含bbox coordinates
+b和行为类别y，在训练的时候，行为y来自固定的行为类别 <span
+class="math inline">\(C_b\)</span>，在测试的时候，学习的行为检测器能够从开集
+$C_B $ 检测给定视频中的任意行为类别, <span
+class="math inline">\(C_N\)</span>包含任意的新的行为类别。</p></li>
+<li><p>OpenMixer是在query-base的action
+DETR系列中开发的，<strong>DETR类型的模型讲行为检测任务识别一个集合预测问题，从视频中学习一组稀疏的query
+features，讲ground truth boxes和action
+classes进行匹配。对于OVAD任务，从开集中预测的行为类别包含基本的和新的行为</strong>。OpenMixer如图所示，给定一个video
+X和text prompted action class list作为输入，利用预训练video
+VLM的视觉和文本编码器，来得到所有的视频和行为text。<span
+class="math inline">\(\mathbf{V},\mathbf{f}_{v},\mathbf{S}=\Psi_{\mathrm{VE}}(\mathbf{X})\)</span>
+和 <span class="math inline">\(\mathbf{f}_{t} =
+\Psi_{\mathrm{TE}}(\mathbf{y})\)</span>，这里V, <span
+class="math inline">\(f_v\)</span>和S是4D的patch-level的视频特征，video-level
+feature和video attention。<span
+class="math inline">\(f_t\)</span>是类别y的text
+feature，构建级联的M个openMixer Blocks(OMBJ)，来学习一组N个空间queries
+<span class="math inline">\(Q_s\)</span>，和N个时序的queries <span
+class="math inline">\(Q_t\)</span> from <span class="math inline">\(V,
+S, f_v, f_t\)</span> for person detection
+和行为类别。OMB将来自VLM的所有features作为输入，<span
+class="math inline">\(Q_s\)</span> 和 <span
+class="math inline">\(Q_t\)</span> 来预测person boxes, person
+scores和action scores.</p>
+<p>对于第M个OMB，如图中所示，它包含了一个时序opemMixer
+block(T-OMB)，一个S-OMB和一个动态的融合对齐(DFA)，S-OMB包含先验的位置采样，query-query(Q-Q)
+mixing by self-attention和 query-video(Q-V) mixing by
+AdaMixer，T-OMB包含Q-Q mixing，query conditioning和Q-V
+mixing。DFA模块更新 <span class="math inline">\(Q_s\)</span>, <span
+class="math inline">\(Q_t\)</span>，第(m-1)个OMB的person
+boxes，预测的person scores和action scores。这三个模块用于OVAD任务 with
+consideration of VLM semantics和localizability。</p></li>
+<li><p><strong>Spatial OMB的Localizability
+Prior</strong>：一个主要的挑战用于one-stage query-based detectors的是low
+convergence of
+localization，造成的主要原因是缺乏目标位置的先验知识，对于行为检测，近期的两阶段行为检测通过离线的person
+detector和RoIAlign cropping解决定位问题，但是feature
+cropping缺乏时空上下文，当引入VLM的时候，会有representation
+gap，对于最近的query-based action detectors，person
+location的先验知识是缺失的，因此，当谈到VLMs的OVAD任务时，一个自然的问题是：能够从预训练的VLMs中以一个低的代价，得到actors的先验位置，受这些考虑的启发，依赖于预训练的VLM的视觉attention。</p>
+<ul>
+<li><p><strong>来自VLM
+attention的位置先验</strong>：视觉注意力maps是通过class activation map
+表征的，用来解释recognition
+models，在ViT和VLM的时代，最近的工作提出用ViT
+最后一层的多头自注意力或者gradient-weighted accumulative product over
+multi-layer self-attention，然而，MHSA不是visually faithful，因为video
+tokens的高度冗余，在video VLM上，gradient-based方法的缺点是在video
+VLM上有很大的计算成本，对于不同的VLMs有不同的执行。另外，由于缺乏token-level的video-text关联，它们的attention
+map和action不是紧密相关。因此，一个高效的、结构未知的CAM对于大的video
+VLM更合适，使得我们用patch-text关联作为VLM
+attention来编码未知先验，特别地，4D video feature。features都是L2
+归一化，首先通过最大相似度得到pre-matched text
+feature，因为在测试的时候没法得到类别标签，因此，<span
+class="math inline">\(f_t\)</span>和V的内积决定了patch-text 关联。<span
+class="math inline">\(\mathbf{S}=\mathbf{V}\otimes\mathbf{f}_{t}\)</span>。自注意力层中的q-v
+attention展示了一个相反的heatmap，前景region和low attention
+value相关联。CAM是由reversed patch-text 相似度决定。<span
+class="math inline">\(\hat{S} = 1 -S\)</span>，通过reshaping和spatial
+interpolation over <span
+class="math inline">\(\hat{S}\)</span>，得到attention
+map用于先验未知采样。将 <span class="math inline">\(\hat{S}\)</span>
+作为VLM indicated的person location的先验分布，因此，top-N
+个位置被采样作为初始的box center， <span
+class="math inline">\(\{(u,v)_{i}|i=1,\ldots,N\}{\sim}\hat{\mathbf{S}}(u,v,k)\)</span>，
+(u,v)是关键帧k的2D 坐标，N是queries的数量。</p></li>
+<li><p><strong>Spatial
+OMB</strong>：有了采样的先验位置，S-OMB包含Q-Q和Q-V mixing
+module，将video patch features V和第(m-1)阶段的box prediction <span
+class="math inline">\(\hat{b}_{m-1}\)</span>，来更新spatial queries
+<span class="math inline">\(\hat{Q}_s\)</span>，更新的spatial queries
+<span class="math inline">\(\hat{Q}_s\)</span> 用来预测person scores
+<span class="math inline">\(\hat{o}_m\)</span> 和person box offsets
+<span class="math inline">\(\Delta \hat{b}_m\)</span> by MLP。stage
+m的预测的boxes通过 <span class="math inline">\(\hat{b}_m = \hat{b}_{m-1}
++ \Delta \hat{b}_m\)</span>，初始的box queries <span
+class="math inline">\(\hat{b}_0\)</span> 包含采样的先验位置和video
+spatial range。</p></li>
+<li><p>后面的设计的technical intuition是鼓励proposed spatial
+OMB，来学习box 偏置 <span class="math inline">\(\Delta
+b\)</span>，从继承自预训练的VLM的先验位置开始，相比于之前的方法，用固定的non-informative
+frame
+centers作为先验位置，作者的VLM基于attention的先验位置能够自适应的test-time
+video content和vocabulary，不仅提高了seen action
+的定位，而且泛化到unseen。</p></li>
+<li><p><strong>Adaptive Semantics for Temporal
+OMB</strong>：对于query-based OVAD模型，temporal queries 期望用来be
+discriminative 对于base和novel的行为。这个对于query-video(Q-V) mixing
+module，需要很强的content 解码的能力。pioneering work
+DETR用交叉注意力，同时采样MLP-Mixer，然而，没有VLM语义，这些方法不可避免地在seen
+class
+data上过拟合，不能检测到unseen。最近的工作能够解决VLM语义的重要性for
+query features，但是它们缺乏对测试视觉内容的适应性，因为class-wise
+semantic condition和region prompting。这个趋势我们提出了Temporal
+OMB，利用预训练的VLMs适应的semantics。</p></li>
+<li><p><strong>Temporal OMB</strong>：时序queries <span
+class="math inline">\(Q_t\)</span> 和 当前阶段m的预测的boxes <span
+class="math inline">\(\hat{b}_m\)</span>，通过和video features V 和
+<span
+class="math inline">\(f_v\)</span>的interacting，来更新queries。为了实现用适应的语义的动机，提出了query
+update：</p></li>
+</ul>
+<p>Q-Q mixing和Q-V mixing modules by
+self-attention和AdaMixer，这里，<span class="math inline">\(f_v\)</span>
+是预训练VLM video feature的适应的semantic condtition，broadcastly added
+to the output of Q-Q mixing。</p>
+<p>注意到语义条件的自适应性来自于测试时的video feature <span
+class="math inline">\(f_v\)</span>。Alternatively，当语义条件 <span
+class="math inline">\(f_v\)</span> 变到了 <span
+class="math inline">\(f_t\)</span> over C
+classes的时候，等同于way，然而，empirically展示了，这导致inferior
+performance，特别是对于seen
+动作检测。这个inferiority归因于对于测试时的视频内容缺少adaptability。Besides，作为另一个替代，后条件是将condition
+<span class="math inline">\(f_v\)</span> 放在 Q-V mixing之后，模块
+学习residual of <span
+class="math inline">\(f_v\)</span>，empirically发现，pre-condition优于post-condition，因为更好的query
+features用来学习重要的Q-V mixing module。</p>
+<ul>
+<li><p><strong>动态融合对齐</strong>：为了识别seen和unseen
+actions，模型需要学习有区别的region-wise 视觉特征，来对齐seen
+actions，同时保持预训练VLMs的泛化的知识，来对齐unseen
+actions。处理两个目标是有挑战的。最近的方法是通过prompt
+tuning，adapters和gradient preserving来用model
+adaptation。然而，这些方法要么难以泛化到新的类别，要么通过大的VLM反向传播时产生很大的成本，特别是对于长视频。因此，对于开集行为识别用了动态融合对齐，设计的时候是轻量的，对于seen和unseen的行为都效果很好。DFA为了学习每个阶段的行为分类而制定，</p></li>
+<li><p><strong>动态特征融合</strong>：这个步骤旨在融合video-level
+feature <span class="math inline">\(f_v\)</span> into each of the
+queries <span class="math inline">\(\hat{Q}_t\)</span>。特别地，首先重复
+<span class="math inline">\(f_v\)</span> N次，然后，<span
+class="math inline">\(F_v\)</span> 和 <span
+class="math inline">\(\hat{Q}_t\)</span> 通过这个实现，query-specific
+learnable <span class="math inline">\(\lambda\)</span>
+背后的intuition是它允许 dynamic contributions of the video-level
+knowledge from <span class="math inline">\(f_v\)</span> to the different
+learnable queries in the set-matching training。</p></li>
+<li><p><strong>Query-Text
+Alignment</strong>：为了做分类和开集行为，对于行为类别，用GPT-4来产生多个视觉描述的行为prompts
+for each category，用VLM text encoder，汇聚的 C个类别的文本特征用 <span
+class="math inline">\(F_t\)</span> 表示，最后，用visual-text cosine
+相似度的softmax来表示多类别的分类概率。在测试的时候，开集行为识别for all
+queries 是通过找到最大的visual-text 余弦相似度。</p></li>
+</ul>
+<p>注意到，不用spatial
+queries作为DFA的输入，这使得T-OMB和S-OMB在训练的时候解耦，以至于person
+localization是类别未知的，这对于开集任务是重要的。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/7cd4f79243c11ea79e52a2488c9202a342967447/3-Figure1-1.png"
+alt="Framework" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+Framework 和opemMixer Block，给定一个vieo和开集行为，用prompted
+classes和预训练的video VLM来得到所有的VLM features，有了openMixer
+blocks的级联和时空queries，模型预测action scores，persion
+boxes和相关联的person scores。</p>
+<p><img
+src="https://figures.semanticscholar.org/7cd4f79243c11ea79e52a2488c9202a342967447/4-Figure2-1.png"
+alt="S-OMB和T-OMB" /> <span class="math inline">\(Fig.2^{[1]}\)</span>
+Spatial 和Temporal OMB, DFA，Q-Q和Q-V mixing
+modules旨在融合queries和across query-visual 特征。</p>
 
     </div>
 
@@ -242,6 +492,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Open-set-Object-Detection/" rel="tag"># Open-set Object Detection</a>
+          </div>
 
         
 
@@ -285,13 +538,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">116k</span>
+    <span title="站点总字数">121k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">7:03</span>
+    <span title="站点阅读时长">7:20</span>
   </span>
 </div>
 <div class="busuanzi-count">
