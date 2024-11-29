@@ -27,7 +27,7 @@
 <meta property="og:description" content="YOLO-World: Real-Time Open-Vocabulary Object Detection[1]  作者是来自华科和腾讯的Tianheng Cheng, Lin Song等人，论文引用[1]:Cheng, Tianheng et al. “YOLO-World: Real-Time Open-Vocabulary Object Detection.” 2024 IEEE">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-11-24T06:07:47.000Z">
-<meta property="article:modified_time" content="2024-11-28T14:30:25.338Z">
+<meta property="article:modified_time" content="2024-11-29T06:19:29.928Z">
 <meta property="article:author" content="Young">
 <meta name="twitter:card" content="summary">
 
@@ -210,7 +210,7 @@ Real-Time Open-Vocabulary Object Detection[1]</span></a></li><li class="nav-item
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-11-28 22:30:25" itemprop="dateModified" datetime="2024-11-28T22:30:25+08:00">2024-11-28</time>
+      <time title="修改时间：2024-11-29 14:19:29" itemprop="dateModified" datetime="2024-11-29T14:19:29+08:00">2024-11-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -236,14 +236,14 @@ Real-Time Open-Vocabulary Object Detection[1]</span></a></li><li class="nav-item
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>71</span>
+      <span>3.4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>12 分钟</span>
     </span>
 </div>
 
@@ -269,22 +269,200 @@ Vision and Pattern Recognition (CVPR) (2024): 16901-16911.</p>
 <h3 id="key-words">Key Words</h3>
 <h3 id="总结">总结</h3>
 <ol type="1">
-<li></li>
+<li>YOLO系列的检测器已经是高效和实际的工具了，然而，它们依赖于预先定义和训练的目标类别限制了它们在开集上的应用。为了解决这个问题，引入了YOLO-World。一个新的方式，通过VLM增强了YOLO开集检测的能力，特别地，提出了一个新的重新参数化的视觉语言Path
+Aggregation
+Network(RepVL-PAN)，和region-text对比损失，来促进视觉和语言信息的interaction，方法能够以zero-shot的方式，检测非常广范围的目标。在LVIS数据集上，YOLO-World实现了35.4AP，实现了很好的速度和精度平衡。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>尽管目标检测的方法很成功，但是它们仍然限制在一个固定的vocabulary，例如COCO数据集中的80类，一旦目标类别定义和标注了，训练检测器就智能检测这些类别，限制了在open
+scenarios上的能力。最近的工作探索了视觉语言模型来解决开集检测的问题，通过从language
+encoders蒸馏vocabulary
+knowledge，BERT。然而，这些蒸馏的方法有限，因为训练数据少，多样性也有限，OV-COCO数据集包含48个base
+categories。一些方法将目标检测训练reformulate为region-level
+视觉语言训练，训练开集目标检测器at scale。然而，这些方法仍然struggle for
+detection in real-world
+scenarios，主要是两个方面：计算成本高；在边缘设备上部署复杂。之前的工作展示了预训练大的检测器的良好性能，然而，预训练小的检测器使他们具有检测识别的能力没有被explored。
+本文中，提出了YOLO-world，旨在高效的开集目标检测。探索大规模的预训练的策略，来提高YOLO检测器，相比于之前的方法，提出的YOLO-world很高效，容易在下游应用上部署。<strong>特别地，YOLO-World是follows标准的YOLO架构，利用预训练的CLIP
+text encoder来编码输入的文本，进一步提出了Re-parameterizable
+Vision-Language Path Aggregation
+Network(RepVL-PAN)来连接文本特征和图像特征 for better visual-semantic
+representation。在推理期间，文本编码器可以被去掉，text
+embeddings能够被reparameterized into weights of RepVL-PAN for efficient
+deployment</strong>。进一步研究了开集预训练策略for
+YOLO，通过在大规模数据集上的region-text
+对比学习，联合了检测数据，grounding data和image-text data into
+region-text pairs。预训练的YOLO-world有着大量的region-text
+pairs，展示了很强的开集检测的能力，训练更多的数据导致开集能力的提高。</p>
+<p>另外，探索了<strong>prompt-then-detect</strong>范式，来进一步提高开集目标检测的能力，传统的检测器聚焦于固定集合的检测，然而，之前的开集检测器用text
+encoder编码prompts。注意到，这些方法倾向于用heavy backbone来employ
+detectors，来增加开集的capacity，相比之下，prompt-then-detect范式首先编码用户的prompts，来构建离线的vocabulary，这个vocabulary因不同的需要而不同。然后，高效的检测器能够推理离线的vocabulary,不需要重新编码prompts，为了实际的应用，一旦训练了检测器，可以pre-encode
+prompts或者类别，来构建一个离线的vocabulary，然后将它们无缝的集成到检测器中。</p>
+<p>主要贡献如下：
+引入了YOLO-World，一个先进的开集检测器，提出了Re-parameterizable
+Vision-Language Path Aggregation
+Network(RepVL-PAN)来连接视觉和语言特征，还有开集的region-text对比预训练策略。</p></li>
+<li><p>之前的目标检测聚焦于固定集合的检测，在过去的很多年，传统目标检测的方法可以简单地分为3类，region-based，pixel-base和query-based，region-based有FasterRCNN，采用了两阶段的框架，pixel-based倾向于一阶段的检测器，进行分类和回归over
+predefined anchors or
+pixels。DETR首先探索了用Transformer来做目标检测，在推理速度方面，YOLO系列用传统的卷积实现了很好的效果。一些工作提出了很多的架构或者设计，包括Path
+aggregation networks，cross-stage partial
+networks和re-parameterization，进一步提高了速度和精度。相比于之前的YOLO系列，YOLO-World旨在检测固定集合之外的目标</p></li>
+<li><p>开集目标检测是现代目标检测器的一个新的趋势，旨在检测预定义类别之外的目标，一些工作跟着标准的OVD，通过训练检测器on
+the base
+classes，然后在新的类别上评估。然而，这个开集能够评估检测器的能力，来检测和识别新的目标。它仍然限制在开集，缺乏泛化到其它domains的能力，因为在有限的数据集上进行的训练。受视觉语言预训练的启发，最近的工作将开集目标检测formualte为image-text
+matching，利用大规模的image-text
+dat来增加训练的vocabulary。OWL-ViTs用检测数据和grounding
+datasets在简单的ViT上进行微调，构建了一个简单的开集检测器，GLIP展示了基于phrase
+grounding的用于开集检测的预训练框架，用zero-shot的设定进行评估。Grounding
+DINO引入了grounded pre-training into detection transformers with
+cross-modality
+fusions。一些方法统一了检测数据集和image-text数据集通过region-text
+matching和用大规模image-text对进行预训练的检测器，实现了很好的性能和泛化性。然而，这些方法用了heavy
+detectors，像ATSS或者DINO，用Swin-L作为backbone，导致很高的计算需求和部署挑战，相比之下，YOLO-World，旨在
+高效的开集检测，不同于ZSD-YOLO，通过语言模型的对齐，用YOLO实现的开集检测，YOLO-World引入了一个新的YOLO框架，用了高效的预训练策略，增强了开集检测的能力。</p></li>
+<li><p><strong>Region-Text
+Pairs</strong>：传统的目标检测方法，包括YOLO系列，用实例的标注进行训练，包含了bbox和类别标签，本文中，将实例标注reformulate为region-text
+pairs <span class="math inline">\(\Omega = {B_i,t_i}^N_{i=1}\)</span>,
+<span class="math inline">\(t_i\)</span>是区域 <span
+class="math inline">\(B_i\)</span> 对应的文本，特别的，文本 <span
+class="math inline">\(t_i\)</span>
+可以是类别名字，名词短语或者目标描述。另外，YOLO-World采用 image I和text
+T作为输入，输出预测的boxes <span
+class="math inline">\({\hat{B_k}}\)</span> 和对应的Object embeddings
+<span class="math inline">\(e_k, (e_k \in
+\mathbb{R}^D)\)</span>。</p></li>
+<li><p>模型架构，YOLO-world包含一个YOLO检测器，一个text
+encoder和re-parameterizable Vision-Language Path Aggregation
+Network(RepVL-PAN)，给定输入的文本，YOLO-world中的text
+encoder将本文编码为text embeddings，检测器中的image
+encoder从输入图像中提取多尺度特征，然后通过图像特征和text
+embeddings之间的跨模态融合，利用RepVL-PAN来增强text和image的represnetation。</p>
+<ul>
+<li><strong>YOLO-Detector</strong>：YOLO-World主要是基于YOLOv8，包含一个Darknet
+backbone作为Image encoder,一个path aggregation network
+用于多尺度特征金字塔，和一个head用于bbox回归和object embeddings。</li>
+<li><strong>Text
+Encoder</strong>：给定文本T，采用CLIP预训练的transformer的text
+encoder来提取对应的文本embeddings <span class="math inline">\(W =
+TextEncoderJ(T) \in \mathbb{R}^{C \times
+D}\)</span>，C是名词的数量，D是embedding的维度。CLIP
+文本编码器相比于text-only language encoders，提供了很好的visual-semantic
+能力用于连接视觉目标和texts。当输入的文本是一个caption或者referring
+expression，采用简单的n-gram算法来提取名词短语，然后将它们给到text
+encoder。</li>
+<li><strong>Text Contrastive Head</strong>：采用解耦头，连个 <span
+class="math inline">\(3 \times 3\)</span> 的卷积，来回归bbox和object
+embeddings，K表示目标的数量，提出了一个text contrastive
+head，来得到object-text相似度，L2-norm是L2正则化，<span
+class="math inline">\(w_j \in W\)</span> 是第j个text
+embeddings，另外，增加了仿射变换，用可学习的scaling factor <span
+class="math inline">\(\alpha\)</span> 和shifting factor <span
+class="math inline">\(\beta\)</span>，L2-Norm和仿射变换对于为你的难过region-text训练都很重要</li>
+<li><strong>Training with Online
+Vocabulary</strong>：在训练期间，构建一个在线的vocabulary <span
+class="math inline">\(T\)</span> for each mosaic sample containing 4
+images。特别地，采样所有positive nouns，涉及到mosaic
+images，从对应的数据集中，随机采样一些negative nouns，vocabulary for
+each mosaic sample包含最多M个nouns，M默认设为80.</li>
+<li><strong>Inference with Offline
+Vocabulary</strong>：在推理阶段，提出了prompt-then-detect策略，用离线的vocabulary
+for further efficiency。如图3所示，用户可以定义一系列的custom
+prompts，包括captions或者类别，然后用text
+encoder编码这些prompts，得到离线的vocabulary
+embeddings，离线的vocabulary 避免了每个Input的计算，提供了灵活性。</li>
+</ul></li>
+<li><p><strong>RepVL-PAN</strong>：图4展示了提出的RepVL-PAN的结构，follows
+the top-down和bottom-up paths，来构建feature pyramids with multi-scale
+image features。另外，提出了Text-guided CSPLayer和Image-pooling
+attention，来进一步增强图像特征和文本特征之间的interaction，能够提高visual-semantic
+representation for open-vocabulary 的能力。在推理期间，离线的vocabulary
+embeddings能够被re-parameterized into 卷积的参数或者线性层。</p>
+<ul>
+<li><strong>Text-guided CSPlayer</strong>：cross-stage partial
+layers在top-down或者bottom-up融合之后被使用了。通过将text
+guidance引入multi-scale image features，扩展CSPLayer，构建Text-guide
+CSPLayer，特别地，给定text embedings W 和image features <span
+class="math inline">\(X_l \in \mathbb{R}^{H \times W \times
+D}\)</span>，在最后的dark bottleneck
+block之后采用max-sigmoid，来汇聚text features into image features：</li>
+</ul>
+<p><span
+class="math display">\[X_l&#39;=X_l\cdot\delta(\max_{j\in\{1..C\}}(X_lW_j^\top))^\top,\]</span></p>
+<p>更新的 <span class="math inline">\(X_l&#39;\)</span> 和cross-stage
+features进行concatenate，作为输出， <span
+class="math inline">\(\delta\)</span> 表示sigmoid 函数。</p>
+<ul>
+<li><strong>Image-Pooling Attention</strong>：为了用image-aware
+信息，增强text embeddings，通过Image-pooling attention来汇聚image
+features，更新text embeddings。不是直接在image
+features上用cross-attention，在多尺度特征上利用max pooling，得到 <span
+class="math inline">\(3 \times 3\)</span> regions，最后得到总共 27 patch
+tokens， <span class="math inline">\(\hat{X} \in \mathbb{R}^{27 \times
+D}\)</span>，text embeddings这样进行更新：</li>
+</ul>
+<p><span
+class="math display">\[W&#39;=W+\text{MultiHead-Attention}(W,\tilde{X},\tilde{X})\]</span></p></li>
+<li><p><strong>预训练策略</strong>：这里，提出了将YOLO-world在大规模检测，grounding和image-text
+datasets上进行预训练的方法。</p>
+<ul>
+<li><strong>Learning from Region-Text Contrastive
+Loss</strong>：给定mosaic sample I和text
+T，YOLO-world输出K个目标预测，along with annotations，利用task-aligned
+label assignment，给每个positive prediction分配一个text
+index，作为分类的label，基于这个vocabulary，构建region-text contrastive
+loss with region-text pairs，通过object-text相似度和object-text
+assignments之间的交叉熵损失。另外，采用IoU loss和分布的focal loss
+用于bbox回归，总的training loss定义为：<span
+class="math inline">\(\mathcal{L}(I) = \mathcal{L}_{\mathrm{con}} +
+\lambda_{I} \cdot (\mathcal{L}_{\mathrm{iou}} +
+\mathcal{L}_{\mathrm{dfl}})\)</span>，<span
+class="math inline">\(\lambda_{I}\)</span> 是 indicator
+factor，当输入的图像I来自detection 或者grounding
+data的时候，设为1，来自image-text数据的时候，设为0，考虑到image-text数据集有噪声的boxes，仅计算有精确的bboxes的samples的回归损失。</li>
+<li><strong>pseudo labeling with Image-Text
+data</strong>：不直接用image-text
+pairs用于预训练，提出了一个自动标注的方法，来产生region-text
+pairs，特别地，labeling
+方法包含3个步骤：(1):提取名字短语：首先用n-gram算法从text中提取noun
+phrases，(2): psedu
+labeling:采用预训练的开集检测器，例如GLIP，为每个image，给定的名词短语，来产生pseudo
+boxes，因此，提供了粗糙的region-text
+pairs。(3)过滤：用预训练的CLIP来评估image-text对和region-text对的相关性，然后过滤相关性低的pseudo
+标注和images。进一步利用如NMS的方式，过滤大量的bbox。</li>
+</ul></li>
+<li><p>实验：YOLO-World是基于MMYOLO
+toolbox开发的，根据不同的latency的要求，提供了3中YOLO-world的变体，采用开源的CLIP
+text encoder with pre-trained weights来编码input
+text，除了特别说明，不需要额外的加速，测量所有模型的推理速度。在预训练阶段，采用AdamW优化器，初始学习率是0.002，weight
+decay是0.05.text encoder在预训练期间被冻结。</p></li>
+<li><p>结论：提出了YOLO-world，将YOLOs变成视觉语言架构的YOLO，用于开集预训练和检测，提出了RepVL-PAN，连接视觉和语言信息，能够被re-parameterized
+for efficient deployment。进一步提出了有效的预训练策略，用detection,
+grounding和image-text数据赋予YOLO-world很强的能力，用于开集检测。</p></li>
 </ol>
 <p><img
-src="https://figures.semanticscholar.org/37c112454a236ab91c9c6b5cc165a6c3251e9206/3-Figure3-1.png" /></p>
-<figure>
-<img
+src="https://figures.semanticscholar.org/37c112454a236ab91c9c6b5cc165a6c3251e9206/3-Figure3-1.png"
+alt="Framework" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+相比于传统的YOLO检测器，YOLO-World作为一个开集检测器，用text作为输入，text
+encoder首先将input text编码成input text embeddings。然后，Image
+encoder将输入图像编码成multi-scale image
+features，提出的RepVL-PAN利用多尺度跨模态融合 for both image 和 text
+features。最后，YOLO-World预测bboxes和object
+embeddings，用于匹配出现在input text中的categories或者nouns。</p>
+<p><img
 src="https://figures.semanticscholar.org/37c112454a236ab91c9c6b5cc165a6c3251e9206/5-Figure4-1.png"
-alt="RepVL-PAN" />
-<figcaption aria-hidden="true">RepVL-PAN</figcaption>
-</figure>
-<figure>
-<img
+alt="RepVL-PAN" /> <span class="math inline">\(Fig.2^{[1]}\)</span>
+提出的RepVL-PAN 采用Text-guided
+CSPLayer，将语言信息注入到图像特征中，Image pooling attention用于增强
+image-aware text embeddings。</p>
+<p><img
 src="https://figures.semanticscholar.org/37c112454a236ab91c9c6b5cc165a6c3251e9206/14-Figure8-1.png"
-alt="Labeling Pipeline" />
-<figcaption aria-hidden="true">Labeling Pipeline</figcaption>
-</figure>
+alt="Labeling Pipeline" /> <span
+class="math inline">\(Fig.3^{[1]}\)</span> Labeling Pipeline for
+Image-Text Data，首先利用简单的n-gram来从captions中提取object
+nouns，利用预训练的开集检测器来产生pseudo boxes given object
+nouns，形成粗糙的region-text
+proposals，然后用预训练的CLIP来rescore或者relabel boxes along with
+filtering。</p>
 
     </div>
 
@@ -336,13 +514,13 @@ alt="Labeling Pipeline" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">113k</span>
+    <span title="站点总字数">116k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6:52</span>
+    <span title="站点阅读时长">7:03</span>
   </span>
 </div>
 <div class="busuanzi-count">
