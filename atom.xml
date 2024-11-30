@@ -131,19 +131,44 @@ benchmarks，实验结果表明，OpenMixer在检测见过和没见过的行为�
     <link href="https://young-eng.github.io/YoungBlogs/2024/11/28/OV-STAD/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/11/28/OV-STAD/</id>
     <published>2024-11-28T14:25:19.000Z</published>
-    <updated>2024-11-28T14:25:19.546Z</updated>
+    <updated>2024-11-30T15:04:34.743Z</updated>
     
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
+    <content type="html"><![CDATA[<h3id="open-vocabulary-saptio-temporal-action-detection1">Open-VocabularySaptio-Temporal Action Detection<sup>[1]</sup></h3><blockquote><p>作者是来自南大，南航和上海AI Lab的Tao Wu, ShuqiuGe等人，论文引用[1]:Wu, Tao et al. “Open-Vocabulary Spatio-TemporalAction Detection.” ArXiv abs/2405.10832 (2024): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.May</li></ul><h3 id="key-words">Key Words</h3><ul><li>VLMs</li></ul><h3 id="总结">总结</h3><ol type="1"><li>时空行为检测是一个fine-grained视频理解任务，当前的方法需要所有box和label的监督信息。然而，在真实世界中，很可能出现在训练集中没有出现过的行为类别，因为行为类别空间是大的，很难枚举。对于新的类别，模型训练和数据标注的成本很高，需要仔细的box标注，和从头训练网络。<strong>在本文中，通过进行开集STAD，提出了一个新的挑战性的设定，来更好的模拟开放世界中的行为检测。开集时空行为检测需要在有限行为类别和box监督中训练模型</strong>，期望在新的类别上产生良好的泛化表现。对于开集时空行为检测，基于已有的STAD数据集，建立了两个benchmarks，提出了一个基于VLM的简单有效的方法，为了更好的将VLM适配fine-grained行为检测任务，将其仔细地在localized video region-textpairs上进行微调。这定制化的fine-tuning使得VLM有更好的模型理解，导致videoregions和texts有更精确地的对齐。在对齐之前的局部特征和全局视频特征融合isadopted ，通过提供全局上下文，来进一步提高行为检测能力。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>时空行为检测旨在定位视频帧中的行为实例的boxes和识别它们的类别。它有广泛的应用，当前主流的STAD模型包含两阶段的方法，将humandetection和行为分类进行解耦，还有query-based一阶段的方法。尽管有很大的进步，当前的方法要求所有行为类别的bboxes和行为标签，用于监督训练，训练的模型在训练期间只能处理seenactionlabels。一些视觉语言模型VLMs例如CLIP，ALIGN，通过在大规模的图像文本对上的对比预训练，有zero-shot的视觉识别能力。最近，一些目标检测方法利用了VLMs用于开集目标检测，用了预训练VLMs提供的视觉和文本表征，在有限的baseclasses上进行训练，用于目标检测任务。训练的模型期望在新的目标类别上实现很好的泛化性能，新的目标类别是在训练过程中没有见过的。至于videodomain，视频文本数据预训练模型例如VideoCLIP和ViCLIP使得开发用于视频识别和检测的开集方法成为可能。有很多其它的方法聚焦于开集行为识别或者时序行为检测，但是据作者所知，morefine-grained 时空行为检测任务在开集情况下还没有被研究。</p><p><strong>然而，作者相信，开集时空行为检测有很大的研究价值，行为的类别是巨大的，当构建一个时空行为检测数据集的时候，很难枚举所有的行为类别，时空行为检测的数据的标注的成本也很高，因为它要求细粒度的标注，就是，用bboxes来精确地标记每一帧的所有存在的行为实例，同时标上类别标签。在真实的应用中，很可能遇到数据集里没有的行为类别，每次遇到新的行为类别的时候，需要消耗很多的资源来搜集和标注新类别的数据和重新训练模型，在开集设定下，时空行为检测模型在有限的行为类别上进行训练，用提供的boxes和标签作为监督信息，训练的模型期望在没有见过的行为类别上有很好的泛化性，能够有效地减少数据标注的成本，提高模型训练的效率</strong>。</p></li></ol>]]></content>
     
     
+    <summary type="html">&lt;h3
+id=&quot;open-vocabulary-saptio-temporal-action-detection1&quot;&gt;Open-Vocabulary
+Saptio-Temporal Action Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自南大，南航和上海AI Lab的Tao Wu, Shuqiu
+Ge等人，论文引用[1]:Wu, Tao et al. “Open-Vocabulary Spatio-Temporal
+Action Detection.” ArXiv abs/2405.10832 (2024): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2024.May&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;VLMs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;时空行为检测是一个fine-grained
+视频理解任务，当前的方法需要所有box和label的监督信息。然而，在真实世界中，很可能出现在训练集中没有出现过的行为类别，因为行为类别空间是大的，很难枚举。对于新的类别，模型训练和数据标注的成本很高，需要仔细的box标注，和从头训练网络。&lt;strong&gt;在本文中，通过进行开集STAD，提出了一个新的挑战性的设定，来更好的模拟开放世界中的行为检测。开集时空行为检测需要在有限行为类别和box
+监督中训练模型&lt;/strong&gt;，期望在新的类别上产生良好的泛化表现。对于开集时空行为检测，基于已有的STAD数据集，建立了两个benchmarks，提出了一个基于VLM的简单有效的方法，为了更好的将VLM适配fine-grained
+行为检测任务，将其仔细地在localized video region-text
+pairs上进行微调。这定制化的fine-tuning使得VLM有更好的模型理解，导致video
+regions和texts有更精确地的对齐。在对齐之前的局部特征和全局视频特征融合is
+adopted ，通过提供全局上下文，来进一步提高行为检测能力。&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="open-set object detection" scheme="https://young-eng.github.io/YoungBlogs/tags/open-set-object-detection/"/>
     
   </entry>
   
