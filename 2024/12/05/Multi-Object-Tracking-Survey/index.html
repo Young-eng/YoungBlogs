@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Multi-Object Tracking Survey  来自论文:&quot;Deep Learning in Video Multi-Object Tracking: A Survey&quot;, 作者是来自意大利和西班牙等院校的Gioele Ciaparrone等人。论文引用[1]:Ciaparrone, Gioele et al. “Deep learning in video multi-ob">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Multi-Object Tracking Survey">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/12/05/Multi-Object-Tracking-Survey/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Multi-Object Tracking Survey  来自论文:&quot;Deep Learning in Video Multi-Object Tracking: A Survey&quot;, 作者是来自意大利和西班牙等院校的Gioele Ciaparrone等人。论文引用[1]:Ciaparrone, Gioele et al. “Deep learning in video multi-ob">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-05T02:59:14.000Z">
+<meta property="article:modified_time" content="2024-12-06T15:27:46.781Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Multi-Object Tracking">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/12/05/Multi-Object-Tracking-Survey/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/12/05/Multi-Object-Tracking-Survey/","path":"2024/12/05/Multi-Object-Tracking-Survey/","title":"Multi-Object Tracking Survey"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Multi-Object Tracking Survey | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#multi-object-tracking-survey"><span class="nav-number">1.</span> <span class="nav-text">Multi-Object Tracking Survey</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">108</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen201718@163.com" title="Email → mailto:yuen201718@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/12/05/Multi-Object-Tracking-Survey/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Multi-Object Tracking Survey | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Multi-Object Tracking Survey
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-05 10:59:14" itemprop="dateCreated datePublished" datetime="2024-12-05T10:59:14+08:00">2024-12-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-06 23:27:46" itemprop="dateModified" datetime="2024-12-06T23:27:46+08:00">2024-12-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>24 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="multi-object-tracking-survey">Multi-Object Tracking Survey</h3>
+<blockquote>
+<p>来自论文:"Deep Learning in Video Multi-Object Tracking: A Survey",
+作者是来自意大利和西班牙等院校的Gioele
+Ciaparrone等人。论文引用[1]:Ciaparrone, Gioele et al. “Deep learning in
+video multi-object tracking: A survey.” Neurocomputing 381 (2019):
+61-88.</p>
+</blockquote>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>多目标跟踪的问题是指在一个序列中跟踪不同目标的轨迹，通常是一个视频。近些年随着深度学习的兴起，算法从深度模型的表征能力中收益。本文提供了提供了用深度学习模型来解决MOT问题的全面的综述。</p></li>
+<li><p>MOT问题不同于目标检测(输出一系列的bounding
+box)。MOT算法还将target
+ID和每个box(detection)进行关联，为了区分类内的目标。<strong>单目标跟踪中，目标的外观是已知的先验，在MOT中，检测这一步对于识别targets是必须的，追踪多个目标的主要困难在于多样的阻塞和目标之间的交互，有时它们还有相似的背景</strong>。因此，将单目标跟踪应用于多目标跟踪会导致目标漂移和多个ID切换，这样的模型通常在区分相似目标和类内目标的时候有困难。专门针对多目标跟踪的一系列的算法被调整出来，用于解决这个问题，还有数据benchmarks和比赛，来方便不同方法的对比。
+最近，很多的算法用深度学习来做，深度学习模型的长处在于学习丰富表征和提取特征。卷积神经网络长处在于空间模式提取，循环神经网络想LSTM用于处理时序数据。</p></li>
+</ol>
+<span id="more"></span>
+<ol start="3" type="1">
+<li><p>MOT算法介绍：MOT采用的标准方式是<strong>tracking-by-detection</strong>：从视频帧中提取一系列的detections，然后用来指导追踪过程，通常将它们进行关联，为了给包含相同目标的bounding
+boxes分配相同的ID。因此，很多MOT算法将这个任务视为分配问题。现代的检测器保证了很好的检测质量，大多数的MOT方法聚焦于提升<strong>association</strong>；事实上，很多MOT数据集提供了标准的detections的集合，为了能在关联算法的质量上比较它们的性能，因为检测器的性能对追踪结果有很大的影响。
+MOT算法也可以分为batch和online方法。当决定特征帧中的目标的时候，Batch
+tracking算法允许用future
+information。它们利用全局信息，导致更好的追踪质量。在线tracking算法，相反，只能用现在和过去的信息来对当前帧做预测。在一些场景下有这个要求例如自动驾驶。相比于batch方法，在线方法效果会差一些，因为不能利用future
+information来修正过去的errors。事实上，在线方法在实际环境中跑得很慢，特别是当利用深度学习算法的时候。</p>
+<p>尽管文献中有各种各样的方法，大多数的MOT算法有下列的几个步骤：</p>
+<ul>
+<li><strong>Detection
+Stage</strong>：目标检测算法分析每一帧，来识别目标类别using
+bboxes，在MOT语境中称为<strong>Detections</strong>。</li>
+<li><strong>Feature extraction/motion
+prediction</strong>：一个或多个特征提取算法分析detections/tracklets来提取外观，运动或者interaction
+features。optionally, 一个运动预测器预测每个tracked
+target的下一个位置。</li>
+<li><strong>Affinity Stage</strong>：features和motion
+predictions用来计算detections/tracklets
+pairs之间的相似度/距离分数。</li>
+<li><strong>Association
+Stage</strong>：相似度/距离用来关联属于同一目标的detections/tracklets，通过为识别相同目标的检测结果分配相同的ID。
+这些阶段可以按照上述顺序执行。有很多算法将这些步骤合并了，或者用不同的techniques多次执行。更多的是，一些方法没有直接将检测进行关联，而是用它们来refine
+轨迹预测，来管理新的tracks的初始化和终结，尽管如此，这种情况下，这些步骤仍然能够被识别。</li>
+</ul></li>
+<li><p><strong>Metrics</strong>：为了提供common
+的实验设定，算法能够被公正地测试和比较，建立了一组metrics，用的很广泛。</p>
+<ul>
+<li><p><strong>Classical
+metrics</strong>：强调了MOT算法犯得一些错误，为了展示这些问题，计算了下列的值：</p>
+<ul>
+<li><em>Mostly Tracked</em>
+trajectories(MT)：在至少80%的帧中，正确地追踪到的ground
+truth的轨迹。</li>
+<li><em>Fragments</em>：是一个轨迹假设，覆盖了至少groundtruth
+轨迹的80%。一个true trajectory至少有多个fragment。</li>
+<li><em>Mostly Lost</em>：groundtruth 轨迹少于20%的帧被追踪到。</li>
+<li><em>False Positives</em>：被追踪到的轨迹，没有ground
+truth对应。</li>
+<li><em>ID
+swithces</em>：目标被正确追踪的次数，但是目标关联的ID改变了。</li>
+</ul></li>
+<li><p><strong>CLEAR MOT metrics</strong>：CLEAR MOT
+metrics是在2006/2007年举办的workshop上的CLEAR开发的。这个Metrics是MOTA和MOTP。他们作为其它构成它们的简单的metrics的summary。首先会解释简单的metrics，然后构建复杂的。因为关注的是2D
+tracking，用的最多的metric，来决定object和prediction是否相关的是bboxes的IoU。groundtruth和hypotheses之间的mapping如下：**如果ground
+truth object <span class="math inline">\(o_j\)</span>和 hypothesis <span
+class="math inline">\(h_j\)</span> 在 <span
+class="math inline">\(t-1\)</span> 帧 匹配，在<span
+class="math inline">\(t\)</span> 帧， IoU(<span
+class="math inline">\(o_i,h_j\)</span>) &gt;= 0.5, 则 <span
+class="math inline">\(o_i,h_j\)</span>
+在这帧是匹配的，即使有另外一个hypothesis <span
+class="math inline">\(h_k\)</span>， IoU(<span
+class="math inline">\(o_i,h_j\)</span>) &lt; IoU(<span
+class="math inline">\(o_i,h_k\)</span>)。匹配执行完之后，剩余的objects会和剩余的hypotheses进行匹配，仍然用0.5的IoU阈值。不能和一个hypothesis进行关联的ground
+truth bboxes记为false
+negatives(FN)，不能和一个真实的bboes进行关联的hypothesess记为false
+positives(FP)。每次，一个ground truth object
+tracking中断之后，之后又继续的，记为一个fragmentation。在追踪期间，每次一个追踪到的groundtruth
+object ID不正确地改变，记为 ID switch。MOTA和MOTP分别定义为：</p>
+<ul>
+<li>FP：整个视频中的false positives的数量</li>
+<li>FN：整个视频中的false negatives的数量</li>
+<li>Fragm：fragmentation的数量</li>
+<li>IDSW：ID switch的数量 <strong>MOTA的定义如下</strong>： <span
+class="math display">\[MOTA=1-\frac{(FN+FP+IDSW)}{GT}\quad\in(-\infty,1]\]</span>
+GT是ground truth
+boxes的数量。这个分数可以是负数，因为算法犯的错误可能大于groundtruth
+boxes的数量，通常，相反用MOTA，更common的是用MOTA，就是用百分比表示，
+<strong>MOTP计算如下</strong>：</li>
+</ul>
+<p><span class="math inline">\(c_t\)</span>
+表示帧t中的matches的数量，<span class="math inline">\(d_{t,i}\)</span>
+是hypothesis i和分配的ground truth object之间的 bbox
+overlap，注意到这个metric考虑了很少的tracking，而是关注于detections的质量。</p>
+<p><strong>ID
+scores</strong>：MOTA的主要问题考虑了tracker做的不正确的decision的次数，例如ID
+switch，但是在一些场合，人们更感兴趣的是奖励那些能够长时间跟踪目标的跟踪器。因此，定义了一些新的metrics，来补充信息。不是通过逐帧的匹配ground
+truth和detections。这个mapping是全局进行的。分配给一个给定ground truth
+trajectory的轨迹预测 是 最大化 正确分为ground
+truth的frames的数量。为了解决这个问题，构建了一个bipartite
+graph，这个问题的最小的成本解决思路是将其视为problem
+solution。对于bipartite
+graph，一系列的vertices定义如下：第一组的vertices，<span
+class="math inline">\(V_T\)</span>，对于每个true
+trajectory，有一个所谓的regular node，对于每个计算的轨迹有一个false
+positive node。第二个set，<span
+class="math inline">\(V_c\)</span>，对于每个计算的轨迹有一个regular
+node，对于每个true one，有一个false negative。边缘的cost are
+set，为了计算false negative的数量和false negative frames，防止edge were
+chosen。在关联之后，有四个不同的pairs，如果来自 <span
+class="math inline">\(V_T\)</span> 的regular node和 <span
+class="math inline">\(V_C\)</span>的一个regular node相匹配(一个true
+trajectory和一个计算的trajectory相匹配)，则计数一个 <span
+class="math inline">\(true positive ID\)</span>，来自 <span
+class="math inline">\(V_T\)</span>的每个false positive 和来自 <span
+class="math inline">\(V_C\)</span>的一个regular
+node相匹配，计数为一个false positive ID。每个来自 <span
+class="math inline">\(V_T\)</span>的regular node和来自 <span
+class="math inline">\(V_C\)</span>的false negative计数为一个 false
+negative ID，最后，每个false positive和false negative
+匹配，计数为一个true negative
+ID。之后，三个分数都计算了，IDTP是真正被选为true positive ID
+matches的边的权重之和(可以被视为整个视频中争取分配的detections的百分比)。IDFN是selected
+false negative ID edges的权重之和，IDFP是selected false positive ID
+edges的权重之和。有了这三个basic measures，其它的三个计算如下：</p>
+<ul>
+<li><p>Identification precision: <span
+class="math inline">\(IDP=\frac{IDTP}{IDTP+IDFP}\)</span></p></li>
+<li><p>Identification recall: <span
+class="math inline">\(IDR=\frac{IDTP}{IDTP+IDFN}\)</span></p></li>
+<li><p>Identification F1: <span
+class="math inline">\(IDF1=2\frac{IDP*IDR}{IDP+IDR}\)</span></p></li>
+</ul></li>
+</ul>
+<ol start="5" type="1">
+<li><p><strong>Benchmark datasets</strong>：</p>
+<ul>
+<li><strong>MOTChallenge</strong>：MOTChallenge是用的最多的MOTbenchmark。对于每个数据集，提供了groundtruth
+for training split, detections for both training and tests
+splits，MOT数据集提供detections的原因是detection的质量对于tracker的性能有很大的影响，但是算法的检测部分通常独立于tracking
+part，通常用的是现有的模型；提供public
+detections，每个模型都能用，方便追踪算法的比较，由于检测质量从性能计算中被剔除，trackers从一个共同的基础上开始。在test
+dataset上的算法的评估是通过把结果提交到test server。</li>
+<li><strong>MOT15</strong>：是第一个MOTChallenge
+dataset，包含了22个序列的videos，11 for training和11 for
+testing。包含11283个不同分辨率的frames，有1221个不同的identities和101345个boxes。提供的detections是通过ACF
+detector得到的。</li>
+<li><strong>MOT16/17</strong>：2016年提出的新版本的数据集，共有14个videos，7
+for training, 7 for testing。用DPMv5得到的public
+detections，共计包括11235frames，有1342个identies和292733个boxes。MOT17数据集和MOT16的视频一样，但是有更精确的ground
+truth，对于每个视频，有三组detections：一个是来自Faster
+RCNN，一个来自DPM，一个来自Scale-Dependent Pooling detector(SDP)。</li>
+<li><strong>MOT19</strong>：用在了CVPR2019
+Tracking上的新版本的数据集。包含8个视频, 4 for training 4 for
+testing。在最拥挤的视频中，平均每帧有245个行人，数据集有13410frames，有6869个tracks和共计2259143个boxes，比之前的数据集都多。</li>
+<li><strong>KITTI</strong>：MOTChallegne主要关注于行人追踪，KITTI数据集追踪行人和车辆。这个数据集是通过开车绕着城市收集的，包含21个training
+videos和29个test ones，共计19000frames。包含了用DPM和RegionLets
+检测器得到的detections，还有立体和laser 信息。</li>
+</ul></li>
+<li><p><strong>DL in detection
+step</strong>：尽管许多研究使用数据集中由不同检测器生成的检测结果作为其算法的输入，例如DPM
+for MOT16。也有很多算法继承了定制的detection
+step，通过增强检测质量，提高了整体的追踪性能。很多的算法利用FasterRCNN及其变体作为custom
+detections。尽管很多算法用深度学习模型来提取rectangular
+bboxes，很少的工作用deep networks在检测阶段有不同的用途。</p>
+<ul>
+<li><p>SORT算法是第一个MOT
+pipelines用卷积神经网络用于行人检测。它们展示了通过FasterRCNN计算的detections比ACF检测器计算的detections，能够提高MOTA，它们用了一个简单的方法，用卡尔曼滤波器预测目标运动，然后用匈牙利算法关联detections，用IoU
+distances来计算cost
+matrix，高质量的detections降低了复杂追踪算法需要。MOTA分数被false
+positives和false negatives严重影响。</p></li>
+<li><p>有人用SSD检测器用来查找行为和车辆，用了基于CNN的相关滤波来使得SSD能够产生更多的精确的bboxes。CCF利用PCA压缩的CNN特征，来预测后面帧的目标的位置；预测的位置然后用来crop
+RoI around
+it。作为SSD的输入。这样，网络能够用更深的layers计算小的detections。提取更多有价值的语义信息，产生更多的精确的bboxes和less
+false negatives。算法然后将这些detections和在fulll image上用NMS
+step得到的ones进行结合，然后用匈牙利算法执行tracks和detections之间的association，
+with a matrix that took into account geometric(IoU) and
+appearance(Average Peak-to-Correlation Energy-APCE)
+cues。APCE也用作object
+re-identification，来去掉occlusions。作者展示了<strong>用多尺度增强训练一个detector能够在tracking中有更好的结果</strong>。</p></li>
+<li><p>有时候MOT中的CNN用来除了计算object
+bboxes之外的用途。例如：CNN用来计算减小false positives</p></li>
+</ul></li>
+<li><p><strong>DL in feature extraction and motion
+prediction</strong>：特征提取阶段是使用深度学习模型的首选，因为它们有很强的表征能力，使得它们擅长提取有意义的高阶features。典型的方式是用CNN
+模型来提取特征。</p>
+<ul>
+<li>自编码器：有人提出了两层的自编码器网络，用来refine visual
+features。在extraction 之后，用SVM计算affinity，关联任务formulated as a
+minimum spanning tree problem。feature
+refinement极大地提升了模型性能。</li>
+<li>CNN作为visual feature
+extractors：用的最广的特征提取是基于卷积网络的修改。有人将visual
+features引入了经典算法，visual features结合用卡尔曼滤波提取的spatial
+ones，然后计算affinity matrix； DeepSORT引入了CNN提取的visual
+information。CNN提供了128 features的vector
+作为output，这些vectors之间的余弦距离加入到affinity
+scorse。实验表明这个修改克服了SORT算法的缺点(ID switch比较大)；
+有人用了DeepSORT
+特征提取器，用一个区别相关滤波来测量特征之间的关系，之后，matching
+score和时空关系score相结合，最后的score用作一个likelihood in a Gaussian
+Mixture Probability Hypothesis Density filter。</li>
+<li>Siamese networks：另一个idea是用结合不同images信息的loss
+functions来训练CNNs，为了学习能够区分不同目标的features。这些网络称之为孪生网络。有人提出了孪生网络，用一个contrastive
+loss进行训练，网络将两个images、IoU score和area
+ratio作为输入，产生的contrastive
+loss作为输出。在网络训练之后，计算对比损失的loss被去掉，最后一层作为feature
+vector for the input image。相似度分数通过结合feature
+vectors之间的欧氏距离、bbox之间的IoU score和area
+ratio被计算出来。通过用一个贪心算法解决关联的步骤。有人也提出了一个Siamese
+network，将两个image
+patches，计算它们之间的相似度分数。测试时的得分是通过比较网络提取的两张图像的视觉特征，并结合时间约束信息来计算的。</li>
+<li>SymTriplet
+loss：在训练期间，用了3个共享权重的CNNs，损失函数结合了属于同一个Object的两张图片提取的信息，和不同目标的一张图片的信息。当positive
+pair的feature vectors之间的distance小的时候，Symtriplet
+loss减小，当negative pairs
+features接近的时候，增加。优化这个函数导致相同物体的图像的相似的特征，不同的物体不同的vectors，它们之间有很大的distance。首先，执行帧间的关联，这种情况下affinity
+score是detections的feature
+vectors的欧氏距离和时序运动信息的结合。之后，tracklets进行连接，用一个Hierarchical
+Agglomerative Clustering 算法over 外观特征。</li>
+</ul>
+<p>也有人提出了Siamese
+CNN，接受连个image作为输入，输出两张图片都属于同一个人的概率，用这个训练网络，因此它能学到更多的表征特征来区分subjects。这之后，输出层去掉了，最后一个隐藏层提取的features和上下文信息一起作为Gradient
+Boosting model的输入，为了得到detections之间的affinity
+score。然后，用线性规划解决关联步骤。</p>
+<ul>
+<li><strong>CNNs用于motion
+prediction：相关滤波</strong>：有人研究相关滤波的employment，输出是一个追踪的物体的response
+map。这个map是下一帧物体的新的位置的估计。这个affinity可以进一步和光流affinity结合，用Lucas-Kanade
+算法计算。motion affinity用卡尔曼滤波计算，scale affinity
+通过一个设计bboxes的高和宽的ratio表示。<strong>两个detections之间的affinity是先前分数的线性组合</strong>。也有一个用SVM分类器去掉false
+detections的步骤，missing detections handling用作之前步骤计算的response
+map。如果一个目标mistakely
+lost，然后重新识别，这个步骤能够修正mistake，重新连接broken
+tracklet。也有人将相关滤波用来预测序列帧中的目标的位置，滤波器将CNN提取的外观特征作为输入，之前用PCA降过维，产生的下一帧中的目标的预测的位置作为输出，预测的位置之后用来计算相似度分数，结合预测和检测之间的IoU，和response
+map之间的APCE 分数。之后构建cost matrix，计算every pair of detections
+between frames的said score，分配的问题用匈牙利算法解决。</li>
+</ul>
+<p>还有人用了强化学习的方法，来训练一些agents，帮助特征提取，算法完全基于Motion
+features。不需要任何视觉信息，用卡尔曼滤波器学习motion
+model。它的行为有一个agent管理，用一个agentfor each tracked
+object。这个agent学习决定卡尔曼滤波器应该采取哪个行为between a set of
+actions，包括忽略预测，忽略new
+measure。这个作者声称他们的算法可以在即使非视觉场景下解决它们的算法，和性能深受视觉特征影响的经典算法相比。</p></li>
+</ol></li>
+<li><p><strong>DL in affinity
+computation</strong>：很多工作通过用一些distance measure over features
+extracted by a
+CNN，计算tracklets和detections之间的affinity，也有一些算法用深度学习模型来直接输出affinity
+score，不需要显示地计算features之间的distance metric。</p>
+<ul>
+<li><strong>CNNs for affinity
+computation</strong>：有人用4个不同的CNNs来计算图中点之间的affinity
+score，关联任务视为最小化成本的对切口问：它可以被视为graph clustering
+问题，每个输出的cluster表示单个tracked
+object。与边关联的代价考虑了两个检测之间的相似性。这相似性是person
+re-id置信度，深度一致匹配和时空关联匹配的结合。为了计算person-reid
+affinity，用了多种的架构。Siamese CNNs也是一种用于affinity
+计算的常用的方式，</li>
+</ul></li>
+<li><p><strong>DL in Association/Tracking
+step</strong>：有一些工作用深度学习模型，来提高通常由经典算法例如匈牙利算法执行的关联过程。有人用一个双向GRU
+RNN来决定在哪split tracklets，算法在三个方面进行：一个tracklet
+generation
+step，包含一个NMS步骤，来去掉冗余的检测，用外观和运动affinity的匈牙利算法来形成高置信度的tracklets；然后，是一个tracklet
+cleaving步骤；因为occlusions，一个tracklet可能包含一个ID switch
+error。这个步骤旨在分离ID
+switch发生的点，为了得到包含相同identity的两个分离的tracklets，最后用了一个tracklet
+重连步骤，用一个customized关联算法，用来Siamese
+双向GRU提取的特征。GRU为每一帧输出一组feature vectors。计算这些feature
+vectors之间的距离。</p>
+<p>也有一些工作用深度强化学习agents在跟踪阶段做决定。用多个deep RL
+agents来manage 多个tracked
+targents，决定tracks什么时候开始和结束。这个agent是用3层的MLP建模的。
+有人用了3个不同的CNN。第一个称之为PafNet，用来从tracked
+objects中区分背景。第二个称之为PartNet，用来区分不同的目标。第三个CNN，有一个卷积和FC层构成，用来决定是否更新tracking
+model。整个的算法流程是这样的：对于之前帧的中每个追踪到的目标，在当前帧中用PafNet和PartNet计算score
+maps。然后，用核相关滤波器tracker，预测目标的新的位置。更多的是，在特定帧之后，执行一个检测验证的步骤；检测器输出的结果通过解决一个graph
+multicut 问题，分配给tracked
+targets。没有和一定数量的帧的detection关联的targets会被终结。然后，第三个CNN用来检查关联的detection
+box是否比预测的更好，如果是，KCF模型参数会更新，反应目标特性的变化。这样的CNN用PafNet提取的maps，用强化学习进行训练。没有关联的detections用SVM分类器和匈牙利算法用来恢复target
+occlusion；最后，剩余的没有关联的detections用来初始化新的targets。</p></li>
+<li><p>分析：用public
+detections在降低FNs方面有很有限的提升，最有效的方式是构建和训练一个custom
+检测器，降低了FNs的数量是private
+detectors有更好的tracking效果的主要原因，能够识别之前uncovered
+targets。SORT算法对丢失的detections很敏感，当相关的检测丢失的时候，不能检测一个target。
+为了避免这个问题，很多新的算法用了新的策略来解决这个问题。事实上，执行插值的方法能够在occlusion期间恢复missing
+boxes，对于检测没有被single detection
+cover的目标来说这是不够的。深度学习算法在检测和特征提取上扮演了重要的角色，用深度网络来学习affinity
+函数没有那么普遍，对于MOT来说还没有被证实是一个重要的算法。很多算法依赖于在深度和非深度特征上的手工distance
+metrics的结合。然而，这些工作展示了用affinity
+网络能够产生top-performing的算法，从用Siamese
+CNNs到循环神经网络。特别地，有人提出了自适应的Siamese
+网络，能够产生可靠的相似度测量，帮助在occlusions之后的行人重识别，使得算法达到了最高的MOTA。body
+part information的集成对于StackNetPose CNN也是重要的。作为一个attention
+机制，允许网络关注输入图像的相关部分，能够产生更精确的similarity
+measures。这个算法用private
+detections在MOT16上达到了最高的性能。很少的工作用深度学习模型来指导association
+过程，这个是未来研究的一个方向。</p></li>
+<li><p>基于SOT的MOT方法必须小心，不要保持由不可避免的大量的false
+positive detections造成的虚假的轨迹。当前的方法仍然倾向于用detection
+overlap(detection cover了多少最近的帧)来理解一个轨迹在long run中是tru or
+false
+positive，但是更好的解决方法应该是用来避免detections中多余的reliance。<strong>很多方法将关联视为一个图优化问题</strong>，batch方法从中收益，因为它们能够执行全局优化；例如，最小成本lifted
+multicut problem在MOT16上取得了很好的表现，然而heterogeneous association
+graph fusion和correlation clustering用在了top MOT17方法中。
+最终，bboxes的精度影响了最终的算法性能。MOT15撒谎给你的top ranked
+tracker用了一个deep RL agent在之前的算法上进行了一个bbox
+回归的步骤。开发一个有效的bbox回归器用在MOT上也是一个有趣的研究方向。</p></li>
+<li><p><strong>总结</strong>：MOT
+pipeline的几个主要的步骤如下：<strong>Detection, feature extraction,
+affinity computation,
+association</strong>。在每个步骤上用深度学习都被探索过了，然而大多数的方法聚焦于前两个，一些用深度学习来学习affinity
+functions也展示了，但是只有少数的方法直接用深度学习来指导关联过程。在MOT挑战上的结果表明，尽管有很多不同的方法，现有方法也有一些共同点：</p>
+<ul>
+<li><strong>检测的质量很重要</strong>：false
+negative的数量主导着MOTA的分数，用高质量的detections仍然是减小false
+negatives的最有效的方式。因此，好好在检测阶段用上深度学习能够提高追踪算法的性能。</li>
+<li><strong>CNNs在特征提取上很重要</strong>：外观特征对于一个好的tracker是重要的，CNNs在提取这个上很有效。更多的是，strong
+trackers倾向于和motion
+features联合起来用，可以通过LSTMs，卡尔曼滤波器或者贝叶斯滤波器进行计算。</li>
+<li><strong>SOT trackers和全局图优化</strong>：SOT
+trackers适配到MOT任务，用深度学习，可以得到很好的online trackers；batch
+方法受益于深度学习模型在全局图优化算法上。 一些promising
+的研究方向：</li>
+<li><strong>研究更多的策略来减小检测误差</strong>：尽管现在的检测器实现了很好的性能，但是仍然倾向于产生一些false
+negatives和false positives in complex
+scenarios，一些算法提供了解决方式通过将它们和从其它sources提取到的信息结合起来，来降低exclusive
+reliance on detections。</li>
+<li><strong>用DL来追踪不同的targets</strong>：大多数的基于DL的MOT算法聚焦于行人追踪，一些不同的targets提出了不同的挑战</li>
+<li><strong>研究当前算法的稳健性</strong>：在不同的场景下对当前的算法提出了挑战</li>
+<li><strong>将DL用于指导关联</strong>：将DL用于指导association
+算法，直接执行tracking仍然是研究得比较少的问题；这个方向需要更多的研究，来理解DL算法是否有用。</li>
+<li><strong>将SOT tracker和private
+detections结合</strong>：一个可能的方式减小lost tracks的数量，降低false
+negatives，将SOT tracker和private detections结合特别是batch
+setting，有可能恢复之前丢失的detections</li>
+<li><strong>研究bbox回归</strong>：用bbox
+回归展示了一个promising的步骤，但是还没有被仔细的explored，有很大的提升空间，用过去和将来的信息来指导回归</li>
+<li><strong>研究post-tracking处理</strong>：在batch
+contexts中，有可能在tracker的输出上用一些correction
+算法来提高它的性能。</li>
+</ul></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/36973996f54a0dd1baf9e4e49a10db7b4d3a4fb9/4-Figure2-1.png"
+alt="Workflow of MOT" /> <span
+class="math inline">\(Fig.1^{[1]}\)</span>
+MOT算法的工作流，给定一个适配的raw
+frame，用一个目标检测器来得到objects的bboes；然后，对于每个检测到的objects，计算不同的features，通常是visual和motion；在这之后，affinity这个步骤计算两个objects属于同一个target的概率；最后，一个关联步骤给每个object配一个ID。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Multi-Object-Tracking/" rel="tag"># Multi-Object Tracking</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/12/01/ALIGN/" rel="prev" title="ALIGN">
+                  <i class="fa fa-angle-left"></i> ALIGN
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">132k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
