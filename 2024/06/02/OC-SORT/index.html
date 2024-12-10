@@ -27,7 +27,7 @@
 <meta property="og:description" content="Observation-Centric SORT: Rethinking SORT for Robust Multi-Object Tracking[1]  作者是来自CMU、上海AI Lab和英伟达的Junkun Cao, Jiangmiao Pang, Xinshuo Weng, Rawal Khirodkar, Kris Kitani. 论文引用[1]:Cao, Jinkun et">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-06-02T07:30:25.000Z">
-<meta property="article:modified_time" content="2024-06-20T13:25:52.000Z">
+<meta property="article:modified_time" content="2024-12-10T06:50:35.293Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object Tracking">
 <meta name="twitter:card" content="summary">
@@ -212,7 +212,7 @@ Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-06-20 21:25:52" itemprop="dateModified" datetime="2024-06-20T21:25:52+08:00">2024-06-20</time>
+      <time title="修改时间：2024-12-10 14:50:35" itemprop="dateModified" datetime="2024-12-10T14:50:35+08:00">2024-12-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,14 +238,14 @@ Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.9k</span>
+      <span>3.9k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>10 分钟</span>
+      <span>14 分钟</span>
     </span>
 </div>
 
@@ -272,7 +272,8 @@ Recognition (CVPR) (2022): 9686-9696.</p>
 </ul>
 <h3 id="key-words">Key Words</h3>
 <ul>
-<li>object observations</li>
+<li>limitations of SORT: sensitivity to the noise of state estimations,
+error accumulation over time and being estimation-centric</li>
 <li><strong>O</strong>bservation-<strong>C</strong>entric
 <strong>SORT</strong>, Simple，Online, and Real-Time</li>
 <li>occlusion and non-linear object motion</li>
@@ -292,150 +293,182 @@ tracking方法的误差会发生。</p></li>
 <ol type="1">
 <li><p>基于卡尔曼滤波的多目标追踪的方法是假设目标线性运动，这个假设对于很短的occlusion是可接受的，时间变长了的话，运动的线性估计会很不准确。Moreover，当这里没有可用的measurement来更新卡尔曼滤波的参数时，惯例是相信priori
 state estimations for posteriori
-update。这会导致occlusion期间的误差累积，这个误差会在实践中造成严重的运动方向的多变。本文中，作者展示了一个卡尔曼滤波当很好地处理了occlusion期间的噪声累加时，也能得到很好的效果。除了仅仅依赖于线性状态估计(estimation-centric
+update。这会导致occlusion期间的误差累积，这个误差会在实践中造成严重的运动方向的多变。<strong>本文中，作者展示了一个卡尔曼滤波很好地处理了occlusion期间的噪声累加时，也能得到很好的效果。不依赖于线性状态估计(estimation-centric
 approach)，用object observations(measurements by object
-detector)来计算一个虚拟的轨迹 over occlusion period，来修复occlusion
+detector)来计算一个被遮挡期间的虚拟的轨迹，来修复occlusion
 期间的滤波器的误差累加，提高了occlusion和non-linear
-motion期间的robustness。取名为<strong>Observation-Centric
+motion期间的robustness</strong>。取名为<strong>Observation-Centric
 SORT</strong>，</p></li>
 <li><p>目前的现存的motion model-based
-算法，假设一个时间段内追踪的物体速度不变，称之为线性运动假设，这个假设在许多实际场景中不成立。但是时间间隔足够小的时候，仍然有效，物体的motion能够近似为线性。为了减小造成的副作用，重新思考当前的模型，然后认识到了一些局限。为了追踪的性能，提出解决的方法：<strong>especially
+算法，假设一个时间段内追踪的物体速度不变，称之为线性运动假设，这个假设在许多实际场景中不成立。但是时间间隔足够小的时候，仍然有效，物体的motion能够近似为线性。<strong>当遮挡和非线性运动同时存在的发生的时候，基于运动模型的误差就会产生</strong>。为了减小造成的副作用，重新思考当前的模型，然后认识到了一些局限。为了追踪的性能，提出解决的方法：<strong>especially
 in occlusion</strong>。</p></li>
 <li><p>基于滤波器的方法(filtering-based)作为motion model-based
-tracking，假设一个转换函数，来预测未来时刻的目标的状态，称之为 state
-estimation；除了estimations，利用一个observation
+tracking的一个主要分支，假设一个转换函数，来预测未来时刻的目标的状态，称之为
+state estimation；除了estimations，利用一个observation
 model，例如一个目标检测器，来推导一个目标物体的state
 measurements，也称之为observations。observation通常作为一个附属的信息来帮助更新滤波器的后验参数。轨迹能够被state
 estimation来扩展。<strong>Among this line of
 work</strong>，用的最广的是SORT，用一个Kalman
-filter来估计目标的state，一个linear motion function最为<strong>trasition
+filter来估计目标的state，一个linear motion function作为<strong>trasition
 function between time steps</strong>， 然而，当object
-motion是非线性、更新滤波器的后验参数的时候没有观察到observation，SORT的鲁棒性不够。</p></li>
+motion是非线性、更新滤波器的后验参数的时候没有observation，SORT的鲁棒性不够。</p></li>
 <li><p>SORT的三个<strong>limitations</strong>；</p>
 <ul>
 <li>尽管高帧率能够近似物体的运动为线性的，它也放大了模型对于noise of
 state
 estimations的sensitivity。特别是，在高帧率视频的连续帧之间，物体位移的噪声可能与实际物体位移的大小相同，导致KF估计的物体速度有很大的方差。速度估计的噪声会通过transition
 process累计进入到位置估计(position estimate)。</li>
-<li>KF状态估计的噪声会随着时间累加，当在KF更新的阶段没有observation的时候。作者展示了相对于没有追踪到目标物体的时间，误差累加会非常快，在速度方向上的噪声的影响经常使得<strong>track
-lost</strong>即使在re-association之后。</li>
+<li>当在KF更新的阶段没有observation的时候，KF状态估计的噪声会随着时间累加。作者展示了相对于没有追踪到目标物体的时间，误差累加会非常快，在速度方向上的噪声的影响经常使得轨迹再次跟丢了，即使在re-association之后。</li>
 <li>考虑到现在检测器的发展，object state by detections
 相比于滤波器里的固定的trainsition function得到的state
 estimation，有很低的方差。然而，<strong>SORT是通过 state estimation
-而不是 observations来prolong object trajectories</strong>。</li>
+而不是 observations来延长目标轨迹</strong>。</li>
 </ul></li>
 <li><p>为了减小上述限制的负面影响，两点创新：</p>
 <ul>
 <li><p>设计了一个module来用object state observations
-来减小track丢失的时候的累计的误差；准确地说，在传统的 <em>predict 和
-update</em>阶段之外，在一段untrack的时间之后，通过关联到一个observation，track被重新激活，
-trigger <em>re-update</em>，<em>re-update</em> 用 <strong>virtual
-observation</strong> on the historical time steps to prevent error
-accumulation。 virtual observations 来自 a trajectory generated using
-the last-seen observatio before untracked and the latest observation
-re-activating this track as anchors. 称之为 <strong>Observation-centric
-Re-Update</strong>。</p></li>
-<li><p>线性运动的假设提供了目标物体运动的方向，但这个cue很难用在SORT
+来减小track丢失的时候的累计的误差；<strong>准确地说，在传统的 predict 和
+update阶段之外，增加了一个re-update来纠正累计误差</strong>。在一段untrack的时间之后，通过关联到一个observation，track被重新激活的时候，
+触发 <em>re-update</em>，<em>re-update</em> 用 <strong>virtual
+observation</strong> on the historical time steps 来阻止误差累积。
+virtual observations
+是这样生成的：用untracked之前的最后seen的observation和重新激活这个track的最新的observation作为anchors。称之为
+<strong>Observation-centric Re-Update</strong>。</p></li>
+<li><p>线性运动的假设提供了目标物体运动的方向的一致性，但这个cue很难用在SORT
 association上，因为direction
 estimation的大量的noise。提出了一个observation-centric
 方式，将tracks的方向一致性引入到cost matrix 里 for association。称之为
-<strong>Observation-Centric Momentum</strong></p></li>
+<strong>Observation-Centric Momentum</strong>。</p></li>
 </ul></li>
-<li><p>Motion Models: 大部分的MOT算法用了motion models，这些motion
-models用贝叶斯估计通过最大化后验估计，来预测下一个状态。最为最经典的motion
+<li><p><strong>Motion Models</strong>: 大部分的MOT算法用了motion
+models，这些motion
+models用贝叶斯估计通过最大化后验估计，来预测下一个状态。作为最经典的motion
 models，<strong>Kalman filter(KF)</strong>是一个recursive
-贝叶斯滤波器，跟随经i的那的 <em>predict-update</em>循环，measurements
-是来自隐马尔可夫模型的observations。给定一个先行运动假设限制KF，紧接着的一个工作是Extended
+贝叶斯滤波器，follow典型的 <em>predict-update</em>循环，true
+state被假设为没有观测到的马尔可夫过程。measurements
+是来自隐马尔可夫模型的observations。考虑到一个线性运动假设限制KF，紧接着的一个工作是Extended
 KF和Unscented
-KF,提出这两个是为了解决<strong>一阶和二阶泰勒估计的非线性motion</strong>；然而，它们还是依赖于KF假设的近似高斯先验，要求motion
+KF,提出这两个是为了<strong>用一阶和三阶泰勒估计解决非线性motion</strong>；然而，它们还是依赖于KF假设的近似高斯先验，要求motion
 pattern assumption。另一个方面，粒子滤波通过sample-based
 后验估计来解决非线性motion，但是计算量是指数级的。因此，Kalman
 filter的变体和粒子滤波很少在视觉多目标追踪中采用，用的最多的motion
 model还是基于Kalman filter的。</p></li>
 <li><p>Multi-object Tracking:多目标跟踪是从概率的角度进行的，现代的video
-object tracking通常建立在目标检测器上，<strong>SORT采用Kalman filter for
-motit ion-based multi-object tracking, given observations from deep
-detectors</strong>，DeepSORT进一步将深度视觉特征引入object association
-under framework of
-SORT，当场景拥挤，基于ReID的目标关联流行起来。最近，transformer被引入到MOT中，来学习深度特征
+object
+tracking通常建立在目标检测器上，<strong>SORT基于来自detectors的observations，采用卡尔曼滤波器用于基于motion的的MOT，DeepSORT在SORT的框架下，进一步将深度视觉特征引入object
+association</strong>，当场景拥挤，基于ReID的目标关联流行起来，当场景拥挤且目标被粗略表示时，它的表现就会不足，或者目标外观不能区分。最近，transformer被引入到MOT中，来学习深度特征
 from both visual information and object
 trajectories。然而，它们的性能和SOTA的tracking-by-detection的方法还有很大的差距，不管是精度还是时间效率。</p></li>
 <li><p>Kalman filter
 是一个在时间域离散的动态系统的线性估计器。KF只要求前一时刻的state
 estimations和当前的measurement来估计下一时刻的target
-state。这个滤波器维护两个变量: **后验状态估计 x, 后验估计协方差矩阵 P.
+state。这个滤波器维护两个变量: <strong>后验状态估计 x,
+后验估计协方差矩阵 P</strong>.
 在目标追踪任务，用一个状态变换模型F、观测模型H、过程噪声Q和观测噪声R来描述KF过程。在每个时刻t，给定观测
-z_t， KF在 predict和update两个阶段交替进行：</p>
+<span class="math inline">\(z_t\)</span>， KF在
+predict和update两个阶段交替进行：</p>
 <p><span
 class="math display">\[\begin{aligned}&amp;predict\begin{cases}\hat{\mathbf{x}}_{t|t-1}=\mathbf{F}_{t}\hat{\mathbf{x}}_{t-1|t-1}\\\mathbf{P}_{t|t-1}=\mathbf{F}_{t}\mathbf{P}_{t-1|t-1}\mathbf{F}_{t}^{\top}+\mathbf{Q}_{t}\end{cases},\\&amp;update\begin{cases}\mathbf{K}_{t}=\mathbf{P}_{t|t-1}\mathbf{H}_{t}^{\top}(\mathbf{H}_{t}\mathbf{P}_{t|t-1}\mathbf{H}_{t}^{\top}+\mathbf{R}_{t})^{-1}\\\hat{\mathbf{x}}_{t|t}=\hat{\mathbf{x}}_{t|t-1}+\mathbf{K}_{t}(\mathbf{z}_{t}-\mathbf{H}_{t}\hat{\mathbf{x}}_{t|t-1})\\\mathbf{P}_{t|t}=(\mathbf{I}-\mathbf{K}_{t}\mathbf{H}_{t})\mathbf{P}_{t|t-1}\end{cases}.\end{aligned}\]</span></p>
 <ul>
 <li>predict阶段是来推断下一时刻的state estimations。给定下一时刻的target
-states的measurement，update阶段旨在更新KF中的后验参数。因为measurement来自观测模型H，因此在很多场景中成为observation。</li>
+states的measurement，update阶段旨在更新KF中的后验参数。因为measurements来自观测模型H，因此在很多场景中称之为observation。</li>
 <li>SORT是建立在KF上的MOT, SORT里的KF的状态x定义为 $ x=[u,v,s,r,,,] $,
 <span class="math inline">\((u,v)\)</span>是
 image里的目标的center的coordinates, <span
 class="math inline">\((s,r)\)</span>分别是bbox的 scale(area)和 aspect
 ratio。aspect ratio假定为常数。其它的 <span
-class="math inline">\(\dot{u},\dot{v},\dot{s}\)</span>分别是相应的推导量。obervation是一个bbox
-<span class="math inline">\(z = [u,v,w,h,c]^T， (u,v)是object center,
+class="math inline">\(\dot{u},\dot{v},\dot{s}\)</span>
+分别是相应的推导量。obervation是一个bbox <span class="math inline">\(z =
+[u,v,w,h,c]^T， (u,v)是object center,
 w,h分别为weight和height，c为detection confidence.\)</span>.
-SORT假设线性运动为过渡模型F，状态估计为： <span
+SORT假设线性运动为转换模型F，状态估计为： <span
 class="math display">\[u_{t+1}=u_t+\dot{u}_t\Delta t,\quad
 v_{t+1}=v_t+\dot{v}_t\Delta t.\]</span></li>
 <li>为了利用SORT中的KF for visual MOT，predict阶段估计下一帧的object
-position。来自detection model的observation来更新stage。update
+position。来自detection model的observation用于update stage。update
 stage是来更新Kalman filter的参数，不直接edit tracking outcomes。</li>
-<li>当两个step的时间差在transition中是常数，例如视频帧率是常数；当帧率很高，SORT表现很好即使object
+<li>当两个step的时间差在transition期间是常数，例如视频帧率是常数；当帧率很高，SORT表现很好即使object
 motion是非线性的，因为在短的时间内可以近似为线性的。然而实际中<strong>observation通常会缺失，例如目标被occluded</strong>,这种情况下，无法通过update阶段来更新KF
-parameters。SORT通常用先验的直接作为后验，称之为<strong>dummy
+parameters。SORT通常用先验的estimations直接作为后验，称之为<strong>dummy
 update</strong>。</li>
 <li><span class="math display">\[ \hat{x}_{t|t} = \hat{x}_{t|t-1},
 P_{t|t} = P_{t|t-1}\]</span></li>
 </ul>
-<p>称这个算法为<strong>estimation-centric</strong>。当遇到non-linear和occlusion的时候，这个方法就不太行。</p></li>
+<p>这个设计背后的思想是当没有observations来监督的时候，trust
+estimations，称这个算法为<strong>estimation-centric</strong>。当遇到non-linear和occlusion的时候，这个方法就不太行。</p></li>
 <li><p>很小的 <span
-class="math inline">\(\Delta{t}\)</span>会放大噪声。</p></li>
-<li><p>Observation-Centric SORT, we introduce the proposed
-<em>observation-Centric SORT(OC-SORT)</em>,
+class="math inline">\(\Delta{t}\)</span>会放大噪声。在大多数的多目标跟踪场景里，目标在连续帧之间的位移只有几个像素。在这种情况下，即使估计的位置由单个像素的漂移，在速度估计的时候造成很大的变化。通常情况下，速度估计的方差的大小和速度一样甚至更大。这不会造成很大的影响，因为下一时刻的ground
+truth和observations只有几个像素的偏移，observations的方差独立于时间，当更新后验参数的时候，能够修正噪声。然而，作者发现，当没有observation用于KF
+update的时候，error随着时间的累计被放大之后，对state
+noise的高敏感度在实际中引入了重大的问题。</p></li>
+<li><p><strong>Observation-Centric
+SORT</strong>：<strong>上述的限制主要是来自于SORT用KF，成了estimation-centric，没有observations，只相信estimations来进行update</strong>。state
+estimations和observations之间的主要的不同是：假定每一帧中的目标检测器的observations被独立同分布的噪声影响；然而state
+estimations中的噪声会along
+隐马尔科夫模型中进行累积。另外，现代的目标检测器用了很强的目标视觉特征，即使在单帧图像上，噪声要小，因为检测得到的目标定位比通过线性运动估计的state
+estimations要准确地多。结合之前提到的两个限制，estimation-centric的SORT，当有遮挡和目标运动不是线性的时候，有很严重的噪声。
+we introduce the proposed <em>observation-Centric SORT(OC-SORT)</em>,
 为了解决上述SORT的限制。用目标进入associtation
 stage的momentum来开发一个在occulsion和非线性motion时，less noise和more
 robustness的pipeline。核心是将tracker设计为
 <strong>observation-centric</strong>而不是<strong>estimation-centric</strong>。如果一个track从untracked恢复，用一个
-<em>observation-centric Re-Update</em>来抵消
+<em>observation-centric Re-Update</em> 来抵消
 untracked期间的累计错误。OC-SORT也在association
 cost中加了Observation-Centric Momentum(OCM)。</p></li>
-<li><p>Observation-Centric Re-Update(ORU):</p>
+<li><p>Observation-Centric Re-Update(ORU):
+实际中，在一段时间untracked之后，即使通过SORT又将目标关联起来了，它可能还会跟丢，因为KF的参数和correct
+due有很大的偏离，因为时间上的误差放大。为了缓解这个问题，提出了<em>observation-Centric
+Re-Update(ORU)</em> 来降低累积误差。</p>
 <ul>
-<li>当一个track经过一段时间的untrack之后，又与observation关联起来(re-activation)，检查lost期间和重新更新KF的参数。参考untracked开始和结束时的observation，生成
-virtual trajectory。例如：untrack之前的last-seen observation为 <span
-class="math inline">\(z_t1\)</span>，triggering
-re-association的observation为$z_t2，virtual trajectory为： <span
+<li>当一个track经过一段时间的untrack之后，又与observation关联起来(re-activation)，检查lost期间和re-update
+KF的参数，<strong>这个re-update是基于来自virtual
+trajectory的observations。虚拟轨迹是参考未被追踪时间段起始和结束时的观测生成的</strong>。例如：untrack之前的last-seen
+observation为 <span class="math inline">\(z_t1\)</span>，triggering
+re-association的observation为<span
+class="math inline">\(z_t2\)</span>，virtual trajectory为： <span
 class="math display">\[\tilde{\mathbf{z}}_t=Traj_{\text{virtual}}(\mathbf{z}_{t_1},\mathbf{z}_{t_2},t),t_1&lt;t&lt;t_2.\]</span>
-然后接着 run the loop of predict and re-update.</li>
+然沿着轨迹，后接着 run the loop of predict and re-update。因为在virutal
+trajectory上的observations符合运动模式，这个是通过last-seen和最新association的真实的observations进行anchor的，这个update不会通过dummy
+update，出现误差累积。称这个过程为<strong>observation-centric
+re-update</strong>。它作为在predict-update之外的独立的过程，仅当track从没有observation的被re-activated的才触发。</li>
 </ul></li>
 <li><p>Observation-Centric Momentum(OCM):</p>
 <ul>
-<li><p>时间很短的间隔中，将motion近似为线性的，线性motion假设要求持续的motion
+<li>时间很短的间隔中，将motion近似为线性的，线性motion假设要求持续的motion
 direction。但是noise阻止了利用direction的一致性。更准确的说，为了决定motion
 direction，需要目标state on two steps with a time difference <span
 class="math inline">\(\delta t\)</span>。如果 <span
 class="math inline">\(\delta t\)</span> 太小了，因为estimation对state
-noise敏感，所以velocity noise很重要。如果 <span
+noise敏感，所以velocity noise影响会很大。如果 <span
 class="math inline">\(\delta t\)</span> 太大了，direction
 estimation的noise同样也是 significant，因为temporal error
-magnification和failure of linear motion assumption。提出用observations
-而不是 estimations来降低motion direction
-calculation的noise，引入consistency来帮助association。</p></li>
-<li><p>给定 <span class="math inline">\(N\)</span>个存在的tracks和 <span
-class="math inline">\(M\)</span>个 detections on the new-coming time
-step. Association Cost matrix是： <span
+magnification和failure of linear motion
+assumption，由于状态观测不存在状态估计所面临的时间误差放大问题，作者提出使用观测而不是估计值，以减少运动方向计算中的噪声，并引入其一致性概念来帮助数据关联。</li>
+<li>给定 <span
+class="math inline">\(N\)</span>个存在的tracks和接下来的时间上的 <span
+class="math inline">\(M\)</span>个 detections . Association Cost
+matrix是： <span
 class="math display">\[C(\hat{\mathbf{X}},\mathbf{Z})=C_{\mathrm{IoU}}(\hat{\mathbf{X}},\mathbf{Z})+\lambda
-C_v(\mathcal{Z},\mathbf{Z}),\]</span></p></li>
+C_v(\mathcal{Z},\mathbf{Z}),\]</span></li>
 </ul>
 <p><span class="math inline">\(\hat{X} \in R^{N \times 7}\)</span> 是
 object state estimations的集合，<span class="math inline">\(Z \in R^{M
-\times 5}\)</span>是 observations在new time step的集合。</p></li>
-<li></li>
+\times 5}\)</span> 是 observations在new time
+step的集合。接着之前的噪声分布的假设，在direction
+estimation中，推导一个噪声分布的closed-form的概率密度函数。通过分析这个分布的特点，得到一个结论：在线性运动模型下，direction
+estimation的噪声的scale和两个observation points之间的时间差 <span
+class="math inline">\(\delta t\)</span> 成负相关。这个表明增加 <span
+class="math inline">\(\delta t\)</span> 实现低噪声的 <span
+class="math inline">\(\theta\)</span> 的估计。然而，线性运动假设通常在
+<span class="math inline">\(\delta t\)</span>
+足够小的时候成立。因此，<span class="math inline">\(\delta t\)</span>
+的选择要求 trade-off。</p>
+<p>在ORU和OCM之外，发现，检查track的最后的Presence将它从being
+lost中恢复，是有帮助的。作者用了一个启发式的 <span
+class="math inline">\(Observation-Centric
+Recovery(OCR)\)</span>。在通常的关联阶段之后，OCR会第二次尝试，将unmatched
+tracked的最后的observation和unmatched
+observation进行关联。它能够处理目标短时间的停止或者被遮挡。</p></li>
 </ol>
 <p><img
 src="https://d3i71xaburhd42.cloudfront.net/643914ae0ad9dcc5868348e4d867374aedbf9531/4-Figure2-1.png"
@@ -501,13 +534,13 @@ t to t+2 for the parameters of its KF。</p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">134k</span>
+    <span title="站点总字数">135k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">8:09</span>
+    <span title="站点阅读时长">8:13</span>
   </span>
 </div>
 <div class="busuanzi-count">
