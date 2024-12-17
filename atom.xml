@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-12-17T02:15:33.443Z</updated>
+  <updated>2024-12-17T06:53:09.150Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,116 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SAMURAI</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/12/17/SAMURAI/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/12/17/SAMURAI/</id>
+    <published>2024-12-17T06:53:09.000Z</published>
+    <updated>2024-12-17T06:53:09.150Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>MOTIP</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/12/17/MOTIP/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/12/17/MOTIP/</id>
+    <published>2024-12-17T06:52:58.000Z</published>
+    <updated>2024-12-17T06:52:58.195Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>SORT</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/12/17/SORT/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/12/17/SORT/</id>
+    <published>2024-12-17T06:52:22.000Z</published>
+    <updated>2024-12-17T06:52:22.841Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>SparseTrack</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/12/17/SparseTrack/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/12/17/SparseTrack/</id>
+    <published>2024-12-17T06:51:58.000Z</published>
+    <updated>2024-12-17T13:16:29.199Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="sparsetrack-multi-object-tracking-by-performing-scene-decomposition-based-on-pseudo-depth1">SparseTrack:Multi-Object Tracking by Performing Scene Decomposition based onPseudo-Depth<sup>[1]</sup></h3><blockquote><p>作者是来自华科的Zelin Liu, Xinggang Wang等人。论文引用[1]:Liu, Zelinet al. “SparseTrack: Multi-Object Tracking by Performing SceneDecomposition based on Pseudo-Depth.” ArXiv abs/2306.05238 (2023): n.pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Nov</li></ul><h3 id="key-words">Key Words</h3><ul><li>sparse decomposition</li><li>a method for obtaining the relative depth of targets from 2D images:pseudo-depth</li><li>depth cascading matching(DCM)</li></ul><h3 id="总结">总结</h3><ol type="1"><li><p>探索鲁棒的、高效的关联方法一直是MOT中重要的问题，尽管现有的跟踪方法实现了很好的性能，阻塞和频繁的遮挡仍然是MOT中挑战性的问题。作者表明了：<strong>在密集场景中进行sparsedecomposition是增强关联遮挡目标的重要的步骤</strong>。为了这个目的，提出了一个pseudo-depth估计的方法，来得到2D图像中的targets的相对的深度。其次，设计了一个深度级联匹配算法，用得到的深度信息将densetarget 多个稀疏 的target subsets，在这些稀疏的targetsubsets中进行数据关联，以从近到远的方式。SparseTrack提供了一个新的视角，用于解决MOT中挑战性的拥挤场景。只用IoU匹配，SparseTrack实现了很好的性能。<span id="more"></span></p></li><li><p>MOT在很多场景中有应用。它旨在持续地在不同的视频帧中识别相同的目标，尽管之前的tracker在多个跟踪数据集上实现了很好的性能，密集场景和频繁的遮挡仍然是MOT中的重要挑战。当前的主流的跟踪方法是用tracking-by-detection(TBD)的范式，逐帧地进行数据关联。为了解决密集场景中的遮挡关联的障碍，一些方法例如bytetrack通过关联低置信度的detections，实现了有效的跟踪。尽管bytetrack展示了处理低置信度detections的高效，在大量低分数的遮挡或者频繁拥挤的场景中，它在locationassociation上的精度容易下降。其他的方法通过用了powerful时序建模和轨迹query机制来确保遮挡实例的跟踪性能。然而，这些方法是高计算成本的，特别是被大量的物体和频繁的遮挡所填充的场景。在这个工作中，<strong>作者证明了基于depthinformation的target setdecomposition是一个有效的路径，用于处理密集遮挡中的数据关联。作者展示了一个occlusionorder for the objects in a local region, occlusion order是和depthorder一致的，从近到远。因此，一组密集的occlusions可以通过基于深度信息的分割测量，被划分为几个不重叠的subsets</strong>。在相邻的targetsubsets之间，它们的x-y location可以是相似的，但是它们的x-y-depthlocations更容易区分。这个跟踪器在不同的depthlevel对稀疏的subsets进行数据关联。相比于直接关联整个的occluded objectset，<strong>在数据关联中，sparsedecomposition能够缓解位置相似但是深度不同的轨迹的冲突</strong>。特别地，优先对有更小的depths的targetsubsets进行关联，因为occlusion order和depthorder高度相关。因此，每个子集中的targets可以以fine-grained的方式被处理，受到较小的来自其他depthlevel的targets的影响。</p><p>为了实现以上的设计，提出了一个方法，用于得到来自2Dimage中的targets的relative depth: pseudo-depth，基于两个scene priors：(1)捕捉目标的相机is higher than the ground</p><ol start="2" type="1"><li>场景中的所有目标都是在平地上。换句话说，地面上没有明显的起伏。这种情况下，可以将targets的相对深度从三维空间投影到2D图像平面，<strong>得到target pseudo-depthvalues，即目标bbox的底部到图像底边的距离</strong>。<strong>这个pseudo-dpeth值用作reference，来测量targets之间的相对深度关系，用ground作为参考系统，而不是三维空间中的目标的groundtruth depth。另外，设计了一个depth cascadematching(DCM)算法，基于pseudo-depth信息，来执行层次化的关联。具体地，根据pseudo-depthvalue，将轨迹和检测划分成多个target subsets，DCM算法在这些稀疏的targetsubsets上，以pseudo-depthvalue从近到远的方式，执行IoU关联。通过将pseudo-dpeth方法和DCM集成到数据关联过程中，提出了一个新的tracker称之为SparseTrack，SparseTrack的本质是通过DCM、基于depth，对遮挡进行层次化的关联</strong>。</li></ol><p>SparseTrack在多个数据集上实现了很好的性能，证明了基于pseudo-depth的targetset decomposition的高效。 主要贡献如下：</p><ol type="1"><li>提出了一个从2D图像中得到目标的相对深度的方法：pseudo-depth，是基于场景中的两个先验，能够得到目标的pseudo-depthvalue，比较不同目标之间的相对深度关系</li><li>基于pseudo-depth方法提供的深度信息，设计了一个有效的、用于在密集场景关联遮挡的深度级联匹配方法，能够将密集的targetsets分解成多个稀疏的target subsets，实现scene decomposition</li></ol></li><li><p>MOT：当前的主流MOT关注于确保鲁棒的时序关联，导致多种tracking的发展，基于不同的时序建模方法，主流的tracking方法可以分为4类：通过位置信息的时序关联；通过外观特征的时序关联；通过图优化的时序关联；通过注意力机制的时序关联；早期的trackers，基于深度学习，执行连续帧之间的时序关联，基于恒速运动先验利用KF来对目标的帧间运动进行建模，确保了轨迹的稳定性。为了实现长期的关联，DeepSORT和MOTDT通过增加外观特征，补偿关联长期轨迹中位置信息的缺陷。尽管外观信息通过ReID模型产生的外观cuesu对于关联长期目标是有效的，目标遮挡和运动模糊对这些cues的可靠性提出了挑战，一些方法用自监督预训练增强的ReID模型来缓解遮挡目标的外观，但是有更高的计算成本。其他的tracker，通过用单一的框架，联合优化detection和reid，提高计算效率，这有点限制了检测性能和外观质量的上限。受Transformer启发，有的从注意力机制的角度执行轨迹时序的propagation，实现了复杂场景下的高性能。最近的一些工作将MOT视为一个图优化问题，用图神经网络或者图匹配，来实现鲁棒的数据关联。当场景中目标数量增加时，基于图的方法的计算开销会增加2倍。</p></li><li><p>处理目标遮挡的方法：tracker的性能一定程度上依赖于处理遮挡的能力，最近的工作尝试从不同的角度处理遮挡。例如MotionTrack学习轨迹的运动模式，将它和历史信息结合，来对遮挡的轨迹进行建模。MOTR是一个端到端的MOT框架，用detectionqueries和trajectoriesqueries处理新出现的目标和跟踪目标。由于queries和大量的时序训练之间的相对独立，MOTR在遮挡的时序建模表现很好。DPMOT提出subject-ordereddepth estimation方法，来自动的对2D 场景中的检测目标的deption位置进行排序，通过构建pseudo-3D卡尔曼滤波，DPMOT实现了鲁棒的遮挡目标的关联，BoTSORT结合相机运动补偿和IoU-ReID融合，能够结合运动和外观信息实现更精确的遮挡跟踪。OUTrack用一个无监督的reid模块和occlusion-awaremodule来预测目标遮挡出现的位置，为了补偿缺失的detections。ApLift引入了一个先进的近似求解器用于处理不相交的pathproblem，来管理扩展的和拥挤的轨迹序列。</p></li><li><p>目标集合分解：很多的trackers跟着tracking-by-detection范式，执行一定程度的targetset分解。例如DeepSORT通过多阶段的级联匹配，实现了逐步的检测关联。FairMOT基于外观和位置信息，分别处理detectionset，也可以被视为通过tracking clues的detectionset的分支。LMGP通过引入了一个pre-clustering的方法，有效地消除了single-cameratrackers的轨迹误差，将检测到的objects分组用于association。ByteTrack将detectionset基于置信度分数，分为高分和低分，用scores和occlusion之间的关联分别处理低分遮挡的目标。然而，在密集场景中，阻塞导致遮挡，导致低分的检测，虽然bytetrack将低分的occlusion从场景中解耦，低分的目标仍然是拥挤的。这种情况下，基于IoU的数量关联会产生更多的匹配误差，限制了跟踪的能力，为了这个目的，SparseTrack基于pseudo-depthlevels，划分detectionset和轨迹set，确保关联阶段中的目标不再拥挤。</p></li><li><p>深度信息在MOT中的应用：深度信息用在了很多与3D场景有关的应用中，例如单眼或者立体深度估计、3D检测和跟踪，最近流行的Nerf。标准的深度提供了物体的大量的外观和位置信息，导致不同的3Dtracking方法。例如TrackRCNN用外观和运动特征用于tracking，通过交替跟踪3D点云和2D图像中的物体，增强了精度和稳定性。FANTrack用了一个基于特征的关联网络FAN用于tracking，features是来自3DCNN from point cloud data和2D CNN from cameraimage。CenterPoint用keypoint检测器检测目标的中共新，回归出其他属性例如3Dsize、3D direction、speed等。然而，通过简单地greedy nearest pointmatching执行3D objecttracking。<strong>事实上，二维图像可以被视为在透视变换下三维场景的投影。根据相机模型，可以简单地推理2D图像和3D场景之间的关系。SparseTrack利用这个variablerelationship，来得到2D图像中目标的pseudo-depth，部分取代了标准深度在描述物体间位置关系的作用</strong>。</p></li><li><p>GeneralFramework：SparseTrack遵循tracking-by-detection范式，执行逐帧的数据关联。给定要给frame<spanclass="math inline">\(f_i\)</span>，首先被YOLOX处理，输出bbox和置信度分数。然后，基于每个检测到的bbox和输入的imagesize，用pseudo-depth方法得到2D图像中的目标的pseudo-depth值。pseudo-depth值反应了图像中目标之间的相对深度关系。在数据关联阶段，用pseudo-depth值和用DCM算法来完成decomposition和associationfor tracks and the detections。最后，SparseTrack输出tracking results(<span class="math inline">\(x_1,y_1,w,h,s\)</span>)</p></li><li><p>Pseudo-Depth：在通常的跟踪场景中，pseudo-depth方法是基于两个先验的假设：捕捉目标的相机isabove tehground和场景中的所有目标在同一个平面上。这些假设在一般的场景中很容易满足，特别地，pseudo-depth方法是一个获得pseudo-depthvalues的简单的几何方法；首先，得到位置点 <spanclass="math inline">\(P_0\)</span>，物体在3D space中接触地面的点，将<span class="math inline">\(p_0\)</span>投影到图像平面F上，得到对应的投影点 <spanclass="math inline">\(p_1\)</span>；第二，从<spanclass="math inline">\(p_1\)</span>点画个垂线到图像的底边 <spanclass="math inline">\(L_b\)</span>，得到垂线和底边 <spanclass="math inline">\(L_b\)</span>的交点 D。顶一个投影点 <spanclass="math inline">\(P_1\)</span>和交点D之间的欧氏距离作为物体的pseudo-depth value。设置图像的高度为H，pixelcoordinates of <span class="math inline">\(P_1\)</span>为 <spanclass="math inline">\((x_p,y_p)\)</span>，pseudo-depth计算如下：</p></li></ol><p><span class="math display">\[L_p = H - y_p\]</span></p><p><span class="math inline">\(L_P\)</span>是pseudo-depth值，尽管pseudo-depth值不能代表三维空间中物体的ground truthdepth，它能够充分地衡量不同物体之间的相对depth relationship，为在depthlevel上，密集场景的划分提供了基础。</p><ol start="9" type="1"><li>作者提出了一个简单但是powerful的数据关联方法，不同于其他的方法关注于提高外观特征和motioncues，来确保关联的可靠性，SparseTrack场景中的所有目标通过pseudo-depth方法和DCM划分为多个稀疏的targetsubsets，来有效地关联遮挡。将detection set划分为高分和低分的detectionsubsets based on confidence scores。然后，用DCM算法在高分detectionsubset上进行数据关联。对于出现在之前帧中的轨迹但是不匹配的，通过DCM将它们和低分的detectionsubset关联。对于未匹配的高分detections，将它们和之前帧中出现的轨迹关联。最后，没有匹配的高分detections初始化为新的轨迹，丢失的轨迹超过了一定的帧数就会被删除。因为置信度分数和目标的遮挡相关联，基于置信度分数，继承了decomposition方法，因为高分的检测通常意味着很低的遮挡，在关联高分目标的时候，将pseudo-depthlevel设为1或2，相反，在关联低分detection的时候，将pseudo-depthlevel设为4或8.帮助密集遮挡的细粒度关联</li></ol><p><imgsrc="https://figures.semanticscholar.org/8c82653331bf3b944d335e05042418c83e65bd96/1-Figure1-1.png"alt="密集场景中关联低分检测" /> <spanclass="math inline">\(Fig.2{[1]}\)</span>在bytetrack中，低分检测将和track set用IoU进行匹配，因为低分检测的位置的高度相似，容易出错。这篇文章尝试从低分检测分解的角度来解决这个问题，而不是将它们进行匹配。</p><p><imgsrc="https://figures.semanticscholar.org/8c82653331bf3b944d335e05042418c83e65bd96/2-Figure2-1.png"alt="local occlusions" /> <spanclass="math inline">\(Fig.2{[1]}\)</span>在局部区域的occlusions。随着depthvalues的增加，被遮挡目标的排序逐渐向背景偏移</p><p><imgsrc="https://figures.semanticscholar.org/8c82653331bf3b944d335e05042418c83e65bd96/2-Figure3-1.png"alt="DCM" /> <span class="math inline">\(Fig.1^{[1]}\)</span>DCM的层次化关联的例子，白色方形区域表示在水平和竖直方向上都没有对应的detection和轨迹subsets之间的数据关联。方形中的深色区域反应了轨迹和detections之间的相似度，更深的颜色表示更高的相似度。DCM根据depthorder 从近到远，将同一个depth level的targetset分解为多个subsets。对于每个depthlevel中的没有匹配的轨迹和检测，tracker会在下一个depthlevel中处理它们。</p><p><imgsrc="https://figures.semanticscholar.org/8c82653331bf3b944d335e05042418c83e65bd96/4-Figure4-1.png"alt="framework of SparseTrack" /> <spanclass="math inline">\(Fig.2{[1]}\)</span>SparseTrack的框架，图例信息位于右下角的框中，<spanclass="math inline">\(\tau\)</span>用来划分高分和低分，SparseTrack执行target setdecomposition，通过DCM和pseudo-depth来精确地关联低分occlusions。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;sparsetrack-multi-object-tracking-by-performing-scene-decomposition-based-on-pseudo-depth1&quot;&gt;SparseTrack:
+Multi-Object Tracking by Performing Scene Decomposition based on
+Pseudo-Depth&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自华科的Zelin Liu, Xinggang Wang等人。论文引用[1]:Liu, Zelin
+et al. “SparseTrack: Multi-Object Tracking by Performing Scene
+Decomposition based on Pseudo-Depth.” ArXiv abs/2306.05238 (2023): n.
+pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2023.Nov&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;sparse decomposition&lt;/li&gt;
+&lt;li&gt;a method for obtaining the relative depth of targets from 2D images:
+pseudo-depth&lt;/li&gt;
+&lt;li&gt;depth cascading matching(DCM)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;探索鲁棒的、高效的关联方法一直是MOT中重要的问题，尽管现有的跟踪方法实现了很好的性能，阻塞和频繁的遮挡仍然是MOT中挑战性的问题。作者表明了：&lt;strong&gt;在密集场景中进行sparse
+decomposition是增强关联遮挡目标的重要的步骤&lt;/strong&gt;。为了这个目的，提出了一个pseudo-depth估计的方法，来得到2D图像中的targets的相对的深度。其次，设计了一个深度级联匹配算法，用得到的深度信息将dense
+target 多个稀疏 的target subsets，在这些稀疏的target
+subsets中进行数据关联，以从近到远的方式。SparseTrack提供了一个新的视角，用于解决MOT中挑战性的拥挤场景。只用IoU匹配，SparseTrack实现了很好的性能。</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
+    
+  </entry>
   
   <entry>
     <title>Multi-Object Tracking Survey</title>
@@ -574,215 +684,6 @@ queries to the decoder&lt;/li&gt;
 &lt;ol type=&quot;1&quot;&gt;
 &lt;li&gt;YOLO系列变成了最流行的实施目标检测的框架因为trade-off between
 speed和accuracy。然而，观察到，YOLO的速度和精度收到了NMS的负面影响。端到端的DETR不需要NMS。然而，它的计算成本还是很高。这个不仅降低了推理的速度，也引入了超参数，造成速度和精度的不稳定。DETR去掉了手工设计的component，然而它的计算成本很高，很难做到实时。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>YOWOv3_lightweight</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/10/16/YOWOv3-lightweight/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/10/16/YOWOv3-lightweight/</id>
-    <published>2024-10-16T01:33:17.000Z</published>
-    <updated>2024-10-16T08:20:51.980Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="yowov3-a-lightweight-spatio-temporal-joint-network-for-video-action-detection1">YOWOv3:A Lightweight Spatio-Temporal Joint Network for Video ActionDetection<sup>[1]</sup></h3><blockquote><p>作者是来自江南大学的Anlei Zhu, Yinghui Wang等人。论文引用[1]:Zhu,Anlei et al. “YOWOv3: A Lightweight Spatio-Temporal Joint Network forVideo Action Detection.” IEEE Transactions on Circuits and Systems forVideo Technology 34 (2024): 8148-8160.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Sept</li></ul><h3 id="key-words">Key Words</h3><ul><li>Channel Fusion and Attention Convolution Mix(CFACM) module</li><li>spatio-temporal shift module</li><li>一句话总结：借鉴了前人的 <strong>ACmix(Attention Channelmix)</strong> 和 <strong>TSM(Temporal shift module)</strong>模块，将它们拿过来缝合一下，完了。。。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>时空行为检测网络，需要同时提取和融合时间和空间特征，经常导致目前的模型变得膨胀和很难实时和部署在边缘设备上，文章引入了一个高效实时的时空检测网路模型，YOWOv3，这个模型用了3D和2D backbone来本别提取时间和时空特征，通过继承卷积和自注意力，来设计一个轻量的时空特征融合模块，进一步增强了时空特征的抽取。将这个模块称之为CFACM,这个方法不仅在lightness上超过了最新的高效的STAD模型，减小了24%的模型的大小，同时提高了mAP，保持了很好的速度。现有的模型用3D卷积来提取时序信息，会受限于特定的设备上，为了减小3D卷积操作的潜在的不被支持在边缘部署的问题，用了一个时空shiftmodule by 2D 卷积，使得模型能够获取时序信息，将得到的特征插入multi-levelspatio-temporal feature extraction models.这样不仅将模型从3D卷积操作中释放出来，同时也很好地balance了速度和精度。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>STAD相比于传统了视觉目标检测，不仅需要检测行为主体，也需要独立地分析行为主体的行为。那就是理解目标的行为，例如开和关。不同用单张图像信息完成，需要时序信息。然而，一旦时序提取网路引入之后，模型变得臃肿，很难部署和直接使用。因此设计一个高效、轻量的时空行为检测网络是一个深度学习追求的目标。基于2D卷积的方法能保证网络的轻量，但是很难捕捉时序信息。导致进度的下降。例如C3D、I3D用3D卷积来捕捉时序信息。尽管这种方法能够精确地捕捉时序信息，参数大小和计算成本比较大，使其很难部署和实时运行。基于Transformer的模型能够有效地捕捉时序信息。</p></li><li><p>STAD不等同于图像目标检测，主要的区别在于actionsequences的识别，不仅是单张图片的目标的识别这就要求模型能够检测到目标。基于3DCNN的方法，首先用I3D来产生action areasuggestions，然后用Transformer-style架构来汇聚特征。</p></li><li><p>受YOWO的启发，进一步研究设计了一个更先进的STAD网络，利用主流的YOLOv8来提取空间特征。为了避免的3DCNN造成了网路臃肿的问题，用了一个仅有2D CNN的module来做spatio-temporalaction recognition，通过<strong>Temporal ShiftModule</strong>来得到时空特征信息。</p></li><li><p>采用了YOLOv8作为spatial featureextraction的backbone。用了一个高效的3D CNN来提取时序信息。</p></li><li><p><strong>Channel Fusion and Convolution Attention MixModule</strong>：提取到的特征被压缩之后，仅用卷积来融合空间和时空特征是不能得到全局特征。为了融合时空和时序特征，首先将它们在channel维度上进行concatenate，抽取时序特征之后，在最后的特征层上进行upsampling。因此，由于自注意力会带来计算量和参数量，不直接执行自注意力的计算。受<strong>ACMix</strong>的启发，结合卷积和自注意力，首先，用两个标准的<span class="math inline">\(3 \times 3\)</span> 卷积从concatenatedfeatures中提取特征，然后用3个 <span class="math inline">\(1 \times1\)</span>卷积来映射features。然后将它们reshape成 <spanclass="math inline">\(N\)</span> pieces。得到丰富的中间特征 <spanclass="math inline">\(3 \times N\)</span> featuremappings。之后，中间特征分为两个branches，一个分支执行自注意力：其中，shift和aggregation操作用来实现从localreceptivefield。另一个分支进行卷积计算。最后将两个分支的结果进行concatenated。</p></li><li><p>在实际中，发现ACMix需要大量的时间开销，因为它的unfold的设计需要高的内存消耗。为了避免这个，将window进行划分，进行cross-sparse自注意力计算，来减小运行时间。如图所示，思路就是：先在窗口内进行注意力的计算，得到局部的信息，然后通过Permutemethod，执行window内的计算。</p></li><li><p>用3D卷积能实现捕捉时序特征，但是一些设备不支持卷积操作，很难部署。另一个问题是：轻量的3D卷积提取时序特征确保了模型的高效，但是精度会下降。为了解决3D卷积的问题，不需要对整个网络做很多改变。放弃了3Dbackbone，在2D 卷积上加了一个<font color=red>Temporal ShiftModule</font>来提取时序信息。通过这个时空shiftmodule，输入的视频帧序列are shifted forward or backward intime。增加了temporalinformation的diveristy，以2D的方式，获得了时序信息。这个过程如图所示。首先，输入的视频进行格式转换，<strong>TemporalShift Module</strong>取代了2Dbackbone中的<strong>InvertedResidual</strong>结构，使得其能够提取时序信息。在headprocessing之后，得到了时序特征。下一步就是融合时空特征，得到最后的时空行为检测模型。</p></li></ol><p><imgsrc="https://dt5vp8kor0orz.cloudfront.net/d6ce4ceeaf1ffa2d64a9d8fd1370dd59419364ed/4-Figure1-1.png"alt="Structure" /> <span class="math inline">\(Fig.1^{[1]}\)</span> TheStructure Diagram of the YOWOv3 Framework. The input video frames areseparately processed through the spatial backbone network and thespatio-temporal backbone network to extract features. The spatialbackbone network utilizes a feature pyramid to extract richermulti-level features. T represents the number of frames in the inputvideo, which is 16 in this context. Upsampling is utilized to align thespatio-temporal features with the spatial features.</p><p><imgsrc="https://dt5vp8kor0orz.cloudfront.net/d6ce4ceeaf1ffa2d64a9d8fd1370dd59419364ed/5-Figure2-1.png"alt="CFACM" /> <span class="math inline">\(Fig.2^{[1]}\)</span> TheStructure Diagram of the CFACM Module. The Decoupled Feature FusionHeader inputs <span class="math inline">\(F_{Cls i}\)</span> and <spanclass="math inline">\(F_{Reg i}\)</span> are respectively fused with theextracted temporal features using the CFCAM module. When engaging withthe advanced convolution and self-attention fusion module ACISA, 2Dpositional encoding is performed prior to the computation of theself-attention branch. The self-attention and convolution branches arethen concatenated using adaptive weights <spanclass="math inline">\(\alpha\)</span> and <spanclass="math inline">\(\beta\)</span>.</p><p><imgsrc="https://dt5vp8kor0orz.cloudfront.net/d6ce4ceeaf1ffa2d64a9d8fd1370dd59419364ed/5-Figure3-1.png"alt="CFACM Attention" /> $Fig.3^{[1]} Self-attention computing branch ofCFACM Module. The calculation process of the two attention mechanisms isconsistent, but their inputs Q, K, V come from different sources. In thefirst self-attention calculation, Q, K, V come from three differentfeatures. In the second self-attention calculation, Q, K, V come fromthe same feature that has been integrated</p><p><imgsrc="https://dt5vp8kor0orz.cloudfront.net/d6ce4ceeaf1ffa2d64a9d8fd1370dd59419364ed/6-Figure5-1.png"alt="Temporal Shift Module" /> <spanclass="math inline">\(Fig.4^{[1]}\)</span> Spatio-temporal extractionbranch based on temporal shift module with only 2D convolution.</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;yowov3-a-lightweight-spatio-temporal-joint-network-for-video-action-detection1&quot;&gt;YOWOv3:
-A Lightweight Spatio-Temporal Joint Network for Video Action
-Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自江南大学的Anlei Zhu, Yinghui Wang等人。论文引用[1]:Zhu,
-Anlei et al. “YOWOv3: A Lightweight Spatio-Temporal Joint Network for
-Video Action Detection.” IEEE Transactions on Circuits and Systems for
-Video Technology 34 (2024): 8148-8160.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2024.Sept&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Channel Fusion and Attention Convolution Mix(CFACM) module&lt;/li&gt;
-&lt;li&gt;spatio-temporal shift module&lt;/li&gt;
-&lt;li&gt;一句话总结：借鉴了前人的 &lt;strong&gt;ACmix(Attention Channel
-mix)&lt;/strong&gt; 和 &lt;strong&gt;TSM(Temporal shift module)&lt;/strong&gt;
-模块，将它们拿过来缝合一下，完了。。。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;时空行为检测网络，需要同时提取和融合时间和空间特征，经常导致目前的模型变得膨胀和很难实时和部署在边缘设备上，文章引入了一个高效实时的时空检测网路模型，YOWOv3，这个模型用了3D
-和2D backbone
-来本别提取时间和时空特征，通过继承卷积和自注意力，来设计一个轻量的时空特征融合模块，进一步增强了时空特征的抽取。将这个模块称之为CFACM,这个方法不仅在lightness上超过了最新的高效的STAD模型，减小了24%的模型的大小，同时提高了mAP，保持了很好的速度。现有的模型用3D
-卷积来提取时序信息，会受限于特定的设备上，为了减小3D卷积操作的潜在的不被支持在边缘部署的问题，用了一个时空shift
-module by 2D 卷积，使得模型能够获取时序信息，将得到的特征插入multi-level
-spatio-temporal feature extraction models.这样不仅将模型从3D
-卷积操作中释放出来，同时也很好地balance了速度和精度。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Action Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Action-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Deformable-DETR</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/10/08/Deformable-DETR/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/10/08/Deformable-DETR/</id>
-    <published>2024-10-08T01:57:19.000Z</published>
-    <updated>2024-11-23T08:46:30.512Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="deformable-detr-deformable-transformers-for-end-to-end-object-detection1">DeformableDETR: Deformable Transformers for End-to-End ObjectDetection<sup>[1]</sup></h3><blockquote><p>作者是来自商汤、中科大和CUHK的Xizhou Zhou, Weijie Su, Lewei Lu等人，论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2021.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>deformable attention module aggregates multi-scale feature maps viaattention mechanism</li><li></li></ul><h3 id="动机">动机</h3><ul><li>DETR收敛慢</li><li>DETR检测小目标的性能比较低</li></ul><h3 id="总结">总结</h3><ol type="1"><li>DETR在目标检测中，用来去掉很多人工设计的components，同时也有很好的性能。然而，它收敛比较慢，由于Attention在处理图像特征中的限制，特征的spatialresolution有限。为了缓解这些问题，提出了<strong>DeformableDETR</strong>，这个attention<strong>只对一个referrence附近的ke samplingpoints进行attend</strong>，DeformableDETR能够实现很好的性能，超越了DETR(特别是小目标)。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>很多检测器用了手工设计的components，例如anchor，training targetassignment,NMS等。不是完全端到端。最近提出的DETR，能够消除这些手工设计的components，建立一个完全端到端的检测器，实现了很好的效果。DETR用了一个简单的架构，通过结合CNN和Transformer，探索了一个多功能的和高效的relationmodeling capability of Transformers来代替hand-crafted rules，underproperly designed trainingsignals。尽管这个设计和很好的性能表现，DETR有一些问题：<strong>需要更多的训练epoch来收敛；DETR在检测小目标的时候，性能比较低。现代的目标检测器通常用了多尺度特征，这里的小目标是从high-resolutionfeature maps中检测到。同时，high-resolution featuremaps会导致DETR不可接受的复杂度。这些问题是由于Transformer在处理图像特征中的特点</strong>。在初始化的时候，这些attentionmodules对特征图中的所有像素<strong>cast nearly uniform attentionweights</strong>。long training epoches对于attentionweights是必要的，来学习sparse meaningfullocations。在另一方面，attention weights的计算是与pixelnumbers成平方关系。因此，是一个high computational 和memorycomplexities来处理这些high-resolution的feature maps。</p></li><li><p>在图像域中，<strong>可变性卷积deformableconvolution是一个有效且高效的机制来attend to sparse spatiallocations</strong>，自然地避免了上述的问题。然而它缺乏了<strong>elementrelation modelingmechanism</strong>，这对于DETR的成功很关键。在本文中，<strong>提出了Deformable DETR，缓解了收敛慢和DETR的高复杂度的问题。结合了sparsespatial sampling of deformable convolution和relation modeling ofTransformer</strong>，提出了 <font color=red>deformable attentionmodule</font>，<strong>这个attend to a small set of sampling locationsas a pre-filter for prominent key elements out of all the feature mappixels</strong>。<strong>这个模块能够自然地扩展到汇聚多尺度特征 withouthelp of FPN</strong>。在Deformable DETR中，利用了(multi-scale)deformableattention modules来代替Transformer attention modules，来处理featuremaps。</p></li><li><p>DeformableDETR为我们提供了可能性，探索端到端的目标检测的变体，thanks to its fastconvergence和计算和高效的Memory。探索了一个简单有效的<font color=red>iterativebounding boxrefinement</font>机制，来提高检测性能。同时也尝试了两阶段的DeformableDETR，由Deformable DETR来产生region proposals，然后送入decoder foriterative bounding box refinement。</p></li><li><p>对于Transformer的由于之一是high time和memory complexity at vastkey elementnumbers，在很多情况下阻碍了模型的可扩展性。最近，很多的努力来克服这个问题，可以主要分为3类。</p><ul><li>用pre-defined sparse attention patterns onkeys，最直接的范式是将attentionpattern限制在一个局部窗口。虽然将attention限制在一个局部的位置能够减小复杂度，丢失了全局信息。为了弥补这个，有人提出了keyelements at fixedintervals，显著地增强了keys的感受野。很多人的工作表明了很少数量的<strong>specialtokens能够access to all key elements</strong>，也有人增加了一些pre-fixedsparse attention patterns来attend distant key elements。</li><li>learn data-dependent sparseattention。有人提出了一个<strong>locality sensitive hashing(LSH) basedattention</strong>，能够hashed both query 和key elments to differentbins。一个类似的idea也有人提出来了，这个k-means来发现最相关的keys。有人用blockpermutation for block-wise sparse attention。</li><li>第三类是探索low-rank property in self-attention。有人通过一个linearprojection on the size dimension instead of the channeldimension，来减小key elements的数量，有人通过kernelizationapproximation来重写自注意力的计算。</li></ul></li><li><p>在图像域，高效注意力机制的设计仍然限制在第一个类别，尽管理论上减小了复杂度，这样的方法执行起来比传统的CNN更慢，由于memoryaccess patterns的内在限制。在另一方面，有很多的CNN的变体例如deformableconv和dynamic conv，也能视作自注意力机制。deformable conv在imagerecognition上操作比Transformer更高效和更有效，同时，它缺乏elementrelation modeling机制。作者提出的deformable attentionmodule是受deformable conv的启发，属于第二种类别，只关注<strong>a smallfixed set of sampling points predicted from the feature of queryelements</strong>。deformable attention比传统的CNN在相同的FLOPS下要慢一些。</p></li><li><p>目标检测的主要的困难是有效地represent objects at vastly differentscales。现代的目标检测器通常用multi-scalefeatures来做这个，这方面的工作有:FPN，PANet，NAS-FPN和Auto-FPN，BiFPN。NAS-FPN和Auto-FPN通过网络架构搜索来自动涉及cross-scaleconnections。BiFPN是PANet的简化版。作者提出的<strong>multi-scaledeformable attention module能够自然地通过注意力机制，汇聚多尺度特征图，不需要特征金字塔网络</strong>。</p></li><li><p>Transformer有两个问题：</p><ul><li>一个是Transformer在收敛之前，需要长时间的训练，注意力权重 <spanclass="math inline">\(A_{mqk}\approx \frac{1}{N_k}\)</span>，当 <spanclass="math inline">\(N_k\)</span>很大的时候，会导致输入特征的模糊的梯度，因此，需要更长时间的训练，来使attentionweights聚焦于specific keys。在图像域，key elements通常是imagepixels，<span class="math inline">\(N_k\)</span>可以是很大，收敛是冗长的。</li><li>另一个是多头注意力的计算和内存复杂度。当大量的query和key的时候，计算和存储的复杂度是特征图尺寸的二次方。</li></ul></li><li><p>DETR是建立在Transformer结构上的，结合了基于set的匈牙利损失，通过<strong>bipartitematching</strong>，使得每个ground-truth的bbox有一个predictions。DETR的简介如下：</p><ul><li>给定一个经过CNN backbone的特征图的输入，<spanclass="math inline">\(x\in\mathbb{R}^{C\times H\timesW}\)</span>，DETR用一个标准的Transformer结构来将输入的特征图转换成一系列objectqueries的features。一个3层的FFN和一个linear projection加在了object queryfeatures的顶部，作为检测头。FFN作为回归分支预测bbox的坐标，linearprojection作为分类分支预测每个query的类别。</li></ul><p>对于DETR中的Transformer的encoder，query和key都是特征图中的像素。自注意力的计算复杂度是<span class="math inline">\(O(H^2W^2C)\)</span>，和spatialsize是二次方的关系。</p><p>对于DETR中的Transformer的decoder，输入包括来自encoder的featuremaps，还有用learnable positional embeddings表示的N个objectqueries。decoder中有两种类型的注意力，交叉注意力和自注意力。交叉注意力的复杂度和自注意力的复杂度分别是<span class="math inline">\(O(NHWC^2+ NHWC)\)</span> 和 <spanclass="math inline">\(O(2NC^2 +N^2C)\)</span>。这个复杂度对于中等数量的object queries是可接受的。</p><p>DETR是一个有吸引力的设计，用于目标检测，去掉了很多手工设计的需要，然而也有问题，主要是来自Transformerattention的缺陷，DETR在检测小目标的时候表现不行，现代的目标检测器用一个high-resolutioNfeaturemap来检测小目标，然而，hight-resolution的特征图会导致不可接受的复杂度；相比于现代的目标检测器，DETR需要更多的训练epoch来达到收敛，主要是因为注意力module来处理imagefeatures很难训练。例如，在初始化的时候，交叉注意力模块几乎是在整个特征图上的平均attention。然而，在训练结束的时候，attentionmaps变得sparse，关注在objectextremities上，似乎DETR需要更长的训练来学习significant changes in theattentino maps。</p></li><li><p><strong>Deformable Attention Module</strong>：把Transformerattention用在图像特征图上的主要问题是，它会lookover所有可能的空间位置。为了解决这个问题，提出了一个<em>deformableattention module</em>，受deformable conv的启发，deformable attentionmodule只attend to a small set of key sampling points around a referencepoint，忽略特征图的spatial size。通过assigning一小部分的keys for eachquery，收敛的问题和feature spatial resolution能够被解决。</p><p>给定一个特征图，<span class="math inline">\(\mathbf{x} \in\mathbb{R}^{C \times H \times W}\)</span>，q表示一个query，contentfeature <span class="math inline">\(z_q\)</span>和一个 2-d的referencepoint <span class="math inline">\(p_q\)</span>，deformable attentionmodule的计算公式是这样的： <spanclass="math display">\[\text{DeformAttn}(\mathbf{z}_q, \mathbf{p}_q, x)= \sum_{m=1}^{M} W_m \left[ \sum_{k=1}^{K} A_{mqk} \cdot W&#39;_m x\left( \mathbf{p}_q + \Delta \mathbf{p}_{mqk} \right)\right]\]</span></p><p>m表示attention head，k表示 sampled keys，K是总共的sampledkeys的数量。<span class="math inline">\(\Delta\mathbf{p}_{mqk}\)</span>和 <span class="math inline">\(A_{mqk}\)</span>分别表示sampling offset和第m个attention head的第k个samplingpoint的attention weight。attention weight <spanclass="math inline">\(A_{mqk}\)</span> 属于 [0, 1]的区间，<spanclass="math inline">\(\Delta \mathbf{p}_{mqk}\)</span>和 <spanclass="math inline">\(A_{mqk}\)</span> 通过 query feature <spanclass="math inline">\(z_q\)</span> 进行linearprojection得到。在执行中，query feature <spanclass="math inline">\(z_q\)</span> 给到一个linear projection operator of3MK channels，前 2MK个channels 对 sampling offsets <spanclass="math inline">\(\Delta \mathbf{p}_{mqk}\)</span> 进行编码，剩余的mk channels 给到一个 softmax operator，来得到 attention weights <spanclass="math inline">\(A_{mqk}\)</span>。</p><p>deformable attention module是将卷积特征图作为key elements进行处理。<span class="math inline">\(N_b\)</span> 是 queryelements的数量，当MK相对比较小，deformable attention module的复杂度是<span class="math inline">\(O\left( 2N_q C^2 + \min(HWC^2, N_q KC^2)\right)\)</span>，当用在 DETR的encoder的时候，<spanclass="math inline">\(N_q\)</span>= HW，复杂度变成了 <spanclass="math inline">\(O(HWC^2)\)</span>，和spatialsize是线性的关系，当用在交叉注意力上的时候，复杂度变成了 <spanclass="math inline">\(O(NKC^2)\)</span>，和spatialsize不相关了。</p></li><li><p><strong>Multiscale Deformable AttentionModule</strong>：大多数的现在的目标检测器的框架受益于multiscale featuremaps，提出的deformable attention module能够自然地扩展到multiscalefeature maps上。multiscale deformable attention 类似于之前的single-scaleversion，除了它从multiscale featuremaps中采样LK个points，而不是从single-scale feauremaps中采样K个points。</p><p>当L=1, K=1的时候，提出的attention module退化成 deformable conv，<spanclass="math inline">\(W_{m}^{\prime} \in \mathbb{R}^{C_{v}\timesC}\)</span> 作为identity matrix是固定的。Deformableconv是为了single-scale inputs而设计的，对于每个attentionhead，聚焦于一个sampling point。然而，<strong>multiscale deformableattention 从多个inputs中，look over多个samplingpoints</strong>。提出的deformable attentionmodule可以被视为一个Transformer attention的高效地变体，通过deformablesampling locations引入了pre-filtering 机制。当samplingpoints经过了所有的locations的时候，提出的attentionmodule等价于Transformer attention。</p><p>在multiscale deformable attentionmodule在encoder中的应用的时候，多尺度特征图的输出和输入有相同的resolutions。key和query是来自多尺度特征图的pixels。对于每个query pixel，referencepoint是它本省。为了确定每个query pixel是在哪个featurelevel。我们给feature representation增加了一个scale level embedding，记为<span class="math inline">\(e_l\)</span>。不同于positionalembedding，scale-level embedding是随机初始化，和网络一起训练的。</p><p><strong>Deformable TransformerDecoder</strong>：对于交叉注意力和自注意力，query elements是objectqueries。在交叉注意力中，object queries从feature maps中提取特征，keyelements是encoder的输出的特征图。在自注意力中，object queries和eachother进行interact，key elements是objectqueries。因为提出的<strong>deformable attention是将conv feature map作为key elements进行处理</strong>，仅将每个cross-attention module替换成multi-scale deformable attentionmodule，自注意力的modules没变。对于每个object query，reference point的<span class="math inline">\(\hat{p}_q\)</span> 2-d的normalizedcoordinate 是通过一个可学习的linear projection，object queryembedding进行预测的。</p><p>因为multiscale deformable attention module是从referenecepoint附近提取image features，让detection head预测bbox as relativeoffsets w.r.t the reference point,为了降低优化困难。这个reference point用作初始的box center的预测。检测头预测相对于 reference point的relativeoffsets。这样，学习到的decoderattention会和预测的bbox有很强的关联，加速了收敛。</p></li><li><p><strong>Additional improvements</strong>:</p><ul><li><font color=red>Iterative bbox refinement</font>：这个受optical flowestimation的iterative refinement的启发。建立了一个简单有效的iterativebbox refinement 机制，来提高检测性能。这个每个decoder layer基于previouslayer的预测对bbox进行refine.</li><li><font color=red>Two-Stage DeformableDETR</font>：在原始的DETR中，decoder中的object queries和当前的image不相关，受两阶段的目标检测器的启发，探索了一种DeformableDETR的变体，在第一阶段产生region proposals，产生的regionproposals会给到decoder 作为objectqueries用于之后的refinement，形成两阶段的Deformable DETR。</li></ul><p>在第一阶段，为了实现high-recallproposals，多尺度特征图中的每个pixel将会serve as objectquery。然而，直接将objectqueries设为pixels，会带来不可接受的计算和存储成本。为了避免这个问题，为了regionproposal generation，去掉了decoder，形成了encoder-only的deformableDETR，top scoring bboxes会被选为region proposals。在将regionproposals给到第二阶段的时候，没有NMS。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/39ca8f8ff28cc640e3b41a6bd7814ab85c586504/2-Figure1-1.png"alt="DETR" /> <span class="math inline">\(Fig.1^{[1]}, illustration ofthe proposed Deformable DETR object detector\)</span></p><p><imgsrc="https://figures.semanticscholar.org/39ca8f8ff28cc640e3b41a6bd7814ab85c586504/9-Figure3-1.png"alt="multiscale" /> <span class="math inline">\(Fig.2^{[1]}, Deformableattention module\)</span></p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;deformable-detr-deformable-transformers-for-end-to-end-object-detection1&quot;&gt;Deformable
-DETR: Deformable Transformers for End-to-End Object
-Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自商汤、中科大和CUHK的Xizhou Zhou, Weijie Su, Lewei Lu
-等人，论文引用[1]:&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2021.Mar&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;deformable attention module aggregates multi-scale feature maps via
-attention mechanism&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;DETR收敛慢&lt;/li&gt;
-&lt;li&gt;DETR检测小目标的性能比较低&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;DETR在目标检测中，用来去掉很多人工设计的components，同时也有很好的性能。然而，它收敛比较慢，由于Attention在处理图像特征中的限制，特征的spatial
-resolution有限。为了缓解这些问题，提出了&lt;strong&gt;Deformable
-DETR&lt;/strong&gt;，这个attention&lt;strong&gt;只对一个referrence附近的ke sampling
-points进行attend&lt;/strong&gt;，Deformable
-DETR能够实现很好的性能，超越了DETR(特别是小目标)。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>non-local</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/10/08/non-local/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/10/08/non-local/</id>
-    <published>2024-10-08T01:57:08.000Z</published>
-    <updated>2024-10-09T09:02:03.822Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="non-local-neural-networks1">Non-local NeuralNetworks<sup>[1]</sup></h3><blockquote><p>作者是来自CMU和FAIR的Xiaolong Wang, Ross Girshick, Abhinav Gupta,Kaiming He.论文引用[1]:Wang, X. et al. “Non-local Neural Networks.” 2018IEEE/CVF Conference on Computer Vision and Pattern Recognition (2017):7794-7803.</p></blockquote><h3 id="time">Time</h3><ul><li>2017.Nov</li></ul><h3 id="key-words">Key Words</h3><ul><li>non-local 和 3D 卷积可以被视为将C2D扩展到时间维度的两种方式。</li><li>long-range dependencies</li><li>computes the response at a position as a weighted sum of thefeatures at all positions</li><li>consider all positions</li></ul><h3 id="动机">动机</h3><ol start="2" type="1"><li>计算长程依赖在神经网络中很重要，对于系列数据(speech,language)，循环操作是主流，对于图像数据，通过构建卷积的deepstacks，能够得到大的感受野，建模长程依赖。卷积和循环操作都处理局部相邻信息，eitherin space ortime。因此，长程依赖只有当这些操作重复应用的时候才能捕捉到，通过数据逐步地propagating信号。重复Localoperation有一些限制：首先，计算是不高效的；其次，造成了优化困难；最后，这些挑战造成了<em>multihopdependency modeling</em>。</li></ol><span id="more"></span><h3 id="总结">总结</h3><ol type="1"><li><p>卷积和recurrent操作都是基于处理局部相邻信息的blocks的，本文中，提出了non-local的操作，作为buildingblocks通用family，用于捕捉long-range dependencies。受CV中经典的non-local方法的启发，作者的non-local的方法，<strong>计算一个位置的response as aweighted sum of the features at all positions</strong>。这个buildingblock能够插入很多架构中，对于视频分类任务，non-local模型表现很好。</p></li><li><p>在这篇文章当中，提出了non-local操作，来捕捉长程操作。提出的non-local操作是经典<strong>non-localmean操作的</strong>泛化，non-local 操作是计算一个位置的response as aweighted sum of the features at allpositions。non-local操作可以插入到很多架构中，对于视频分类任务，non-local模型表现很好。setofpositions可以是空间、时间或者时空；表明这个操作是可以用于图像、序列和视频的。</p></li><li><p>用non-local操作有一些优点：</p><ul><li>相比于卷积和循环操作的progressivebehavior，non-local操作通过计算两个任意位置的interactions，捕捉了长程依赖，不管它们之间的距离；</li><li>像实验中所展示的，non-local操作是高效的，仅用少量的layers就能实现比较好的结果。</li><li>non-local操作保持了variable inputsizes，能够很容易和其它操作结合。</li></ul></li><li><p>non-local操作在视频分类、目标检测/分割/姿态估计上都有很好的结果。</p></li><li><p><strong>Non-local image processing</strong>：non-localmeans是一个经典的滤波算法：计算图像中所有像素的weightedmean，它允许distant pixels基于patch的外观相似性来 contribute to thefiltered response at alocation，这个non-local滤波的想法后来发展成了BM3D：在一组相似的，non-local，patches上进行滤波操作。BM3D是一个solid image denoising baseline，blockmatching和神经网络用在一起，用于image enoising。non-localmatching也是纹理合成、超分和impainting的精髓。</p></li><li><p><strong>图模型</strong>：长程依赖可以通过图模型进行建模，例如条件随机场(conditionalrandom fields,CRF)，在context ofDNN，一个CRF能够被利用，来后处理网络的语义分割的预测。这个iterativemean-field inferenceCRF可以变成一个神经网络进行训练。相比之下，作者的方法是一个简单的feedforwardblock for computing non-localfiltering。不同于用于分割的方法，通用的component适用于分类和检测。这些方法都和一个更抽象的模型(图神经网络)相关。</p></li><li><p><strong>feedforward modeling forsequences</strong>：最近出现了一个用feedforward网络来建模speech和language中序列的趋势，在这些方法中，长程依赖能够被大的感受野捕获到。这些feedforwardmodel are amenable 来并行化执行，比广泛应用的循环网络更加高效</p></li><li><p><strong>self-attention</strong>：本文的工作和最近的自注意力相关，一个<strong>自注意力模块计算theresponse at a position in a sequence by attending to all positions andtaking their weighted average in an embeddingspace</strong>，<strong>自注意力可以被视为一种形式的non-localmean</strong>，在这个意义上，我们的工作**讲自注意力连接到更一般的non-local滤波操作，这些滤波操作用于图像视频问题。</p></li><li><p><strong>Interactionnetworks</strong>：这个工作最近提出来用于建模物理系统，它们在参与pairwiseinteractions的objects图上进行操作，Hoshen提出了在多智能体预测建模环境下更高效的VertexAttention IN，另一个变体，称为RelationNetworks，在其输入的所有位置对的特征嵌入上计算一个函数。作者的方法也处理所有的pairs。当non-local网络连接到其他方法，实验表明：模型的<em>non-locality</em>，和attention/interaction/relation的想法是orthogonal的，non-local建模，一个long-time crucial element of imageprocessing。在最近的神经网络中被忽视了。</p></li><li><p>视频分类架构：一个自然的视频分类的解决方式是结合CNNs for imagesand RNNs for sequences。相比之下，feedforward模型通过3D卷积实现 ，3D滤波器可以通过膨胀预训练的2D滤波器来获得。除了原始视频进行端到端的建模之外，发现光流和轨迹也有帮助。光流和轨迹是现有的modules，能够发现长程的、non-local的依赖。</p></li><li><p><strong>Non-local NeuralNetworks</strong>：定义深度神经网络中通用的non-local的操作: <spanclass="math display">\[\mathbf{y}_i=\frac{1}{\mathcal{C}(\mathbf{x})}\sum_{\forallj}f(\mathbf{x}_i,\mathbf{x}_j)g(\mathbf{x}_j).\]</span> 这里 <spanclass="math inline">\(i\)</span>是输出位置的index，它的response被计算，<spanclass="math inline">\(j\)</span>是index，来枚举所有可能的位置, <spanclass="math inline">\(X\)</span>是输入信号(image,sequence,video)，<spanclass="math inline">\(y\)</span>是输出信号，和<spanclass="math inline">\(X\)</span>有相同的size。一个pairwise function<span class="math inline">\(f\)</span>计算一个标量(代表relationship)between <span class="math inline">\(i\)</span> 和 <spanclass="math inline">\(j\)</span>。这个一元的function <spanclass="math inline">\(g\)</span>计算输入信号在位置 <spanclass="math inline">\(j\)</span>的一个representation. 这个response 通过factor <span class="math inline">\(C(x)\)</span>进行归一化。</p><p><strong>公式中的non-local是考虑了所有的位置。相比之下，一个卷积操作sumsup the weighted input in a localneighborhood(卷积操作是对局部邻域的加权输入进行求和)，时间<spanclass="math inline">\(i\)</span>的循环操作通常只基于当前和最新的timesteps</strong>。</p><p>这个non-local操作不同于全连接层，公式基于不同位置之间的relationships计算responses。换句话说，<spanclass="math inline">\(X_j\)</span>和 <spanclass="math inline">\(X_i\)</span>之间的relationship不是 <spanclass="math inline">\(fc\)</span>中输入数据的function，不像non-locallayers。更进一步，公式支持不同输入的size，保持了输出中的一致的size，对比之下，一个<spanclass="math inline">\(fc\)</span>层要求一个固定的size的输入/输入，丢失了位置一致性。</p><p>一个non-local 操作是一个灵活的building block，能够很容易地和卷积/循环layers结合，可以加入到神经网络中earlier part，不同于<spanclass="math inline">\(fc\)</span>层只能用在最后。这样能够构建一个丰富的hierarchy，结合了non-local和localinformation。</p></li><li><p><strong>Instantiations</strong>：接下来描述 <spanclass="math inline">\(f\)</span>和 <spanclass="math inline">\(g\)</span>的不同的版本，有趣的是，实验表明：non-local模型对这些选择不sensitive，表明这个通用的non-localbehaviour是主要的理由。简单来说，考虑 <spanclass="math inline">\(g\)</span>是一种线性的embedding：<spanclass="math inline">\(g(x_j) = W_gX_j\)</span>，<spanclass="math inline">\(W_g\)</span>是一个可学习的权重矩阵，这个通过空间上的<span class="math inline">\(1 \times 1\)</span>卷积或者 时空上的 <spanclass="math inline">\(1 \times 1 \times 1\)</span>卷积实现。接下来塔伦pairwiwse functin <spanclass="math inline">\(f\)</span>。</p><ul><li><strong>高斯</strong>：跟随non-local mean 和 双向的滤波器， <spanclass="math inline">\(f\)</span>的一个自然的选择就是高斯函数，考虑：<spanclass="math display">\[f(\mathbf{x}_i,\mathbf{x}_j)=e^{\mathbf{x}_i^T\mathbf{x}_j}.\]</span></li></ul><p>这里 <span class="math inline">\(X^T_i X_j\)</span>是一个dot-productsimilarity。欧氏距离也可以用，但是dot-product执行起来更友好，归一化factor设为：<spanclass="math inline">\(\mathcal{C}(\mathbf{x})=\sum_{\forallj}f(\mathbf{x}_{i},\mathbf{x}_{j})\)</span></p><ul><li><strong>嵌入高斯</strong>：高斯函数的一个简单的扩展是计算向量空间中的相似性：<spanclass="math display">\[f(\mathbf{x}_i,\mathbf{x}_j)=e^{\theta(\mathbf{x}_i)^T\phi(\mathbf{x}_j)}.\]</span></li></ul><p>这里 <span class="math inline">\(\theta(\mathbf{x}_i) =W_\theta\mathbf{x}_i\)</span> 和 <spanclass="math inline">\(\phi(\mathbf{x}_j) = W_\phi\mathbf{x}_j\)</span>是两个嵌入，设置 <spanclass="math inline">\(\mathcal{C}(\mathbf{x})=\sum_{\forallj}f(\mathbf{x}_{i},\mathbf{x}_{j}).\)</span></p><p>注意到自注意力模块嵌入高斯版本的一个non-local的特例。可以从事实看出来：给定一个<spanclass="math inline">\(i\)</span>，<spanclass="math inline">\({\frac{1}{\mathcal{C}(\mathbf{x})}}f(\mathbf{x}_{i},\mathbf{x}_{j})\)</span>在 dimension <span class="math inline">\(j\)</span>上是一个 softmax计算。因此，有 <spanclass="math inline">\(\mathbf{y}=softmax(\mathbf{x}^TW_\theta^TW_\phi\mathbf{x})g(\mathbf{x})\)</span>，这个是自注意力的形式。这个工作将最近的自注意力模块和经典的non-localmeans联系起来，将sequential self-attentionnetwork扩展到通用的space/spacetime non-local network for image/videorecognition。</p><p>作者展示了注意力行为不是所研究的application重要。</p><ul><li><strong>Dot product</strong>：<span class="math inline">\(f\)</span>可以定义为： <span class="math display">\[f ( \mathbf{x}_{i}, \mathbf{x}_{j} )=\theta( \mathbf{x}_{i} )^{T} \phi(\mathbf{x}_{j} ).\]</span></li></ul><p>这里采用嵌入的版本，设置归一化factor <span class="math inline">\(C(x)= N\)</span>，这里 <span class="math inline">\(N\)</span>是 <spanclass="math inline">\(x\)</span>中的位置的数量，不同于 <spanclass="math inline">\(f\)</span>的和,因为它简化了梯度计算。一个归一化是有必要的。这个dot-product和嵌入高斯主要的不同是softmax，这个扮演了激活函数的角色。</p><ul><li><strong>Concatenation</strong>：在Relation Networks中的pairwisefunction用到了concatenation，评估 <span class="math inline">\(f\)</span>的一个 concatenation的形式：</li></ul><p><span class="math display">\[f ( \mathbf{x}_{i}, \mathbf{x}_{j} )=\mathrm{R e L U} (\mathbf{w}_{f}^{T} [ \theta( \mathbf{x}_{i} ), \; \phi( \mathbf{x}_{j} )] ).\]</span></p><p>这里，[.,.]表示 concatenation，<spanclass="math inline">\(w_f\)</span>是一个权重向量，将concatenatedvector投射到一个标量。如上，设置 <span class="math inline">\(C(x) =N\)</span>，这里，采用 ReLU。以上的变体展示了通用non-local操作的灵活性。</p></li><li><p><strong>Non-localBlock</strong>：将non-local操作弄到一个non-localblocks，能够用于很多现有的架构，定义一个non-local block如下：</p><p><span class="math display">\[\mathbf{z}_{i}=W_{z} \mathbf{y}_{i}+\mathbf{x}_{i},\]</span> 这里 <spanclass="math inline">\(&quot;+X_i&quot;\)</span>表示residualconnection，这个residual connection使得能够将一个新的non-localblock插入到任意一个预训练的模型，不需要破坏初始的behavior(如果 <spanclass="math inline">\(W_z\)</span>是初始化为0)。</p><ul><li><strong>Implementation of non-local blocks</strong>：设置 <spanclass="math inline">\(W_g、W_{\theta}、W_{\phi}\)</span>的通道数为x的一半。这个follow了bottleneck的设计，减小了block的一半的计算。这个weightmatrix <span class="math inline">\(W_z\)</span> 计算了一个position-wiseembedding on <span class="math inline">\(y_i\)</span>，匹配了<spanclass="math inline">\(x\)</span>的通道。一个subsample的trick可以用于进一步减小计算。修改公式(1)为：<br /><span class="math display">\[y_i = \frac{1} {\mathcal{C} ( \mathbf{\hat{x}} )} \sum_{\forall j} f (\mathbf{x}_{i}, \mathbf{\hat{x}}_{j} ) g ( \mathbf{\hat{x}}_{j} )\]</span></li></ul><p><span class="math inline">\(\hat{x}\)</span> 是x的subsample。在空间域中执行这个，能够减小pairwise大约1/4的计算。这个trick没有改变non-local的behavior。但是使得计算更稀疏。可以通过增加一个maxpooling layer after <span class="math inline">\(\phi\)</span> 和 <spanclass="math inline">\(g\)</span> 来实现。</p></li></ol><figure><imgsrc="https://dt5vp8kor0orz.cloudfront.net/8899094797e82c5c185a0893896320ef77f60e64/3-Figure2-1.png"alt="non-local" /><figcaption aria-hidden="true">non-local</figcaption></figure><p><span class="math inline">\(Fig.1^{[1]}\)</span> A spacetimenon-local block. The feature maps are shown as the shape of theirtensors, e.g., <span class="math inline">\(T \times H \times W \times1024\)</span> for 1024 channels (proper reshaping is performed whennoted). “⊗” denotes matrix multiplication, and “⊕” denotes element-wisesum. The softmax operation is performed on each row. The blue boxesdenote <span class="math inline">\(1 \times 1 \times 1\)</span>convolutions. Here we show the embedded Gaussian version, with abottleneck of 512 channels. The vanilla Gaussian version can be done byremoving <span class="math inline">\(\theta\)</span> and <spanclass="math inline">\(\phi\)</span>, and the dot-product version can bedone by replacing softmax with scaling by <spanclass="math inline">\(1/N\)</span>.</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;non-local-neural-networks1&quot;&gt;Non-local Neural
-Networks&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自CMU和FAIR的Xiaolong Wang, Ross Girshick, Abhinav Gupta,
-Kaiming He.论文引用[1]:Wang, X. et al. “Non-local Neural Networks.” 2018
-IEEE/CVF Conference on Computer Vision and Pattern Recognition (2017):
-7794-7803.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2017.Nov&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;non-local 和 3D 卷积可以被视为将C2D扩展到时间维度的两种方式。&lt;/li&gt;
-&lt;li&gt;long-range dependencies&lt;/li&gt;
-&lt;li&gt;computes the response at a position as a weighted sum of the
-features at all positions&lt;/li&gt;
-&lt;li&gt;consider all positions&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
-&lt;ol start=&quot;2&quot; type=&quot;1&quot;&gt;
-&lt;li&gt;计算长程依赖在神经网络中很重要，对于系列数据(speech,
-language)，循环操作是主流，对于图像数据，通过构建卷积的deep
-stacks，能够得到大的感受野，建模长程依赖。卷积和循环操作都处理局部相邻信息，either
-in space or
-time。因此，长程依赖只有当这些操作重复应用的时候才能捕捉到，通过数据逐步地propagating信号。重复Local
-operation有一些限制：首先，计算是不高效的；其次，造成了优化困难；最后，这些挑战造成了&lt;em&gt;multihop
-dependency modeling&lt;/em&gt;。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Action Recognition" scheme="https://young-eng.github.io/YoungBlogs/tags/Action-Recognition/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Exploring Plain ViT for Object Detection</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/09/26/Exploring-Plain-ViT-for-Object-Detection/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/09/26/Exploring-Plain-ViT-for-Object-Detection/</id>
-    <published>2024-09-26T14:32:12.000Z</published>
-    <updated>2024-10-06T12:35:43.095Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="exploring-plain-vision-transformer-backbones-for-object-detection1">ExploringPlain Vision Transformer Backbones for ObjectDetection<sup>[1]</sup></h3><blockquote><p>作者是来自FAIR的Yanghao Li, Hanzi Mao, Ross Girshick和Kaiming He.论文引用[1]:Li, Yanghao, et al. "Exploring plain vision transformerbackbones for object detection." European conference on computer vision.Cham: Springer Nature Switzerland, 2022.</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>Plain ViT for Object Detection</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者探索了<strong>plain, non-hierarchical</strong>ViT作为backbone，用于objectdetection，这个涉及使得原始的ViT架构能够被fine-tuned，用于objectdetection，不需要重新设计一个hierarchical backbone forpre-training。只需很小的adaptations for fine-tuning，这个plain-backbonedetector能够实现很好的结果。作者观察到：<ul><li><strong>从单个尺度的feature map构建一个simple featurepyramid就足够了，不需要FPN的设计</strong></li><li><strong>用window attention(without shifting)，辅以很少的cross-windowpropagation blocks就足够了。</strong></li></ul>用经过MAE预训练的plain ViTbackbone，detector称之为(ViTDet)，能够和之前的基于hierarchicalbackbone的leading methods竞争。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>现在的目标检测器通常包括一个<strong>backbone featureextractor</strong>(agnostic to the detectiontask)，和一些<strong>necks</strong>，<strong>heads</strong>，这些包含了检测相关的先验知识。necks/heads中的通常的组件有RoI操作，RPN 或者anchors，FPN, etc. 如果task-specificnecks/heads的设计从backbone的设计中解耦出来，它们可能evolve inparallel。从经验上来看，目标检测的研究从大的独立的通用的backbones和detection-specificmodules中受益。很长一段时间，这些backbone都是<font color=red>multi-scale,hierarchical</font>的架构，是由于ConvNet的设计，这个影响了neck/head的设计。</p></li><li><p>过去的一段时间，ViT是一个powerful backbone for visualrecognition。不同于典型的ConvNets，原始的ViT是一个<em>plain,non-hierarchical</em> 的架构，保持了single-scale feature mapthroughout。当用于目标检测时，遇到了挑战。如何用上游预训练的plainbackbone解决下游任务中的多尺度的目标？plainViT是否不够高效用于high-resolution detection images?一个解决方式：重新引入hierarchical designs into backbone，例如<strong>SwinTransformers</strong>相关的，继承了ConvNet的检测器的设计。</p></li><li><p>在这篇工作中，<strong>作者探索只用 <em>plain,non-hierarchical</em>的 backbones来做目标检测。这个将pre-trainingdesign和fine-tuningdemands进行解耦</strong>。保持上游和下游任务的独立性。这个方向同样followsViT的<strong>Philosophy： 更少的inductive bias</strong>。局部自注意力能够学习<font color=red>translatio-equivariantfeatures</font>，它们也能够从特定的监督或者自监督中学习<font color=red>scale-equivariantfeatures</font>。</p></li><li><p>作者目的不在于开发新的components；相反，用最小的改变，来足够克服上述的challenges。<strong>只从plainViT backbone的最后一个feature map中构建一个简单的featurepyramid</strong>，这个抛弃了FPN的设计，去掉了很多hierarchicalbackbone的要求。为了高效地从high-resolutionimages提取特征，检测器用了简单的<strong>non-overlapping windowattention(without shifting)</strong>，用了一些cross-window blocks，couldbe global attention or convolutions。用于propagateinformation。<strong>这些调整只在fine-tuning中，不改变pre-training</strong>。</p></li><li><p>作者简单的设计取得了很好的结果。发现FPN的设计在plainViT中不是必须的，its benefit能够通过从一个large-stride的single-scalemap构建的简单的pyramid得到。同时也发现， windowattention是足够的，只要信息在windows之间很好地propagated。取得这么好的结果可能部分是由于MAE预训练的作用。</p></li><li><p>除了这些结果，作者的方法保持了<strong>将detector-specificdesigns从task-agnostic的backbone中解耦</strong>，这个思路和将Transformerbackbone重新设计成multi-scalehierarchies的趋势相反。使得检测器和ViT的不同方向的发展能够兼容。</p></li><li><p><strong>related work</strong>：UViT是一个single-scale Transformerfor object detection。 在pre-training中改变了网络架构。</p></li><li><p><strong>BackboenAdaptation</strong>：作者关注这个场景：<strong>预训练的backbone进行globalself-attention, 在fine-tuning中，adapted tohigher-resolution</strong>。这和近期的方法直接修改attention computationwith backbone pretraning不同，不需要重新设计预训练的架构。</p><ul><li>在fine-tuning的时候，将一个high-resolution的feature map分成regularnon-overlapping windows，自注意力是在每个window内部进行。</li><li>不同于Swin，不用'shift' acrosslayers，为了允许信息propagation,只用了很少的blocks that can go acrosswindows。将一个pre-trained backbone <em>evenly</em> 分成 4个 subsets ofblocks，在每个subset的最后一个block用一个propagationstrategy。研究了两个strategy：</li><li><em>Global propagation</em>：在每个subset的最后一个block机型globalself-attention,这样的话，计算和存储的成本就比较小。类似于hybrid windowattention</li><li><em>Conv Propagation</em>：在每个subset后加一个convblock，这个block是residual block，包含了一个或多个conv和一个identityshortcut。这个block的最后一层初始化为0，因此这个block的初始状态是identity，这样使得可以将其插入到pre-trainedbackbone的任何一个位置。</li></ul></li><li><p><strong>Discussion</strong>：目标检测器包含taskagnostic的components，例如backbone；还有其它的components是task-specific的，例如:RoIheads。这个model decomposition使得task-agnosticcomponents可以用non-detectiondata进行pre-trained，可能会有好处，因为detection trainingdata是相对稀缺的。从这个角度，<strong>追求一个backbone that involvesfewer inductivebiases是合理的，因为backbone可以用大量的数据进行训练或者进行自监督训练；相比之下，detectiontask-specific components有相对少的数据，可能从额外的inductivebiases中受益</strong>。追求更少的additional inductive biases的detectionheads是一个活跃的工作。受这些观察的启发，<strong>ViT关注在减小 inductivebiases on translationequivarnace。在这篇文章里，是关于有更少或者没有inductive biases on scaleequivariance in the backbone</strong>。作者猜想：plain backbone实现scaleequivariance的方式是从数据中学习先验知识，类似于它怎样学习translationequivariance 和locality without convolutions。</p></li><li><p>在IN-1K上进行监督预训练的结果比没有预训练的好，MAE预训练的效果更好。作者猜想：<strong>vanillaViT，with fewer inductive biases,可能需要higher-capacity来学习translation和scale equivariantfeatures，然而higher-capacity的模型可能更容易过拟合，MAE预训练能够缓解这个问题</strong>。</p></li><li><p><strong>结论</strong>：作者的探索展示了<font color=red>plain-backbonedetection is a promising researchdirection</font>。这个方法保持了通用backbone和下游task-specificdesigns的独立性，将pre-training从fine-tuning中解耦。</p></li></ol><p><imgsrc="https://dt5vp8kor0orz.cloudfront.net/a09cbcaac305884f043810afc4fa4053099b5970/2-Figure1-1.png"alt="hierarchical" /> $Fig.1^{[1]}A typical hierarchical-backbonedetector (left) vs. our plain-backbone detector (right). Traditionalhierarchical backbones can be naturally adapted for multi-scaledetection, e.g., using FPN. Instead, we explore building a simplepyramid from only the last, large-stride (16) feature map of a plainbackbone</p><p><imgsrc="https://dt5vp8kor0orz.cloudfront.net/a09cbcaac305884f043810afc4fa4053099b5970/5-Figure2-1.png"alt="feature pyramid" /> <spanclass="math inline">\(Fig.2^{[2]}\)</span> Building a feature pyramid ona plain backbone. (a) FPN-like: to mimic a hierarchical backbone, theplain backbone is artificially divided into multiple stages. (b)FPN-like, but using only the last feature map without stage division.(c) Our simple feature pyramid without FPN. In all three cases, stridedconvolutions/deconvolutions are used whenever the scale changes.</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;exploring-plain-vision-transformer-backbones-for-object-detection1&quot;&gt;Exploring
-Plain Vision Transformer Backbones for Object
-Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自FAIR的Yanghao Li, Hanzi Mao, Ross Girshick和Kaiming He.
-论文引用[1]:Li, Yanghao, et al. &quot;Exploring plain vision transformer
-backbones for object detection.&quot; European conference on computer vision.
-Cham: Springer Nature Switzerland, 2022.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2022.Mar&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Plain ViT for Object Detection&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;作者探索了&lt;strong&gt;plain, non-hierarchical&lt;/strong&gt;
-ViT作为backbone，用于object
-detection，这个涉及使得原始的ViT架构能够被fine-tuned，用于object
-detection，不需要重新设计一个hierarchical backbone for
-pre-training。只需很小的adaptations for fine-tuning，这个plain-backbone
-detector能够实现很好的结果。作者观察到：
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;从单个尺度的feature map构建一个simple feature
-pyramid就足够了，不需要FPN的设计&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;用window attention(without shifting)，辅以很少的cross-window
-propagation blocks就足够了。&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-用经过MAE预训练的plain ViT
-backbone，detector称之为(ViTDet)，能够和之前的基于hierarchical
-backbone的leading methods竞争。&lt;/li&gt;
 &lt;/ol&gt;</summary>
     
     

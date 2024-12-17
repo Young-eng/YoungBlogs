@@ -27,7 +27,7 @@
 <meta property="og:description" content="Deep OC-SORT: Multi-Pedestrian Tracking by Adaptive Re-Identification[1]  作者是来自CMU的Gerard Maggiolino, Adnan Ahmad, Jinkun Cao, Kris Kitani.论文引用[1]:Maggiolino, Gerard et al. “Deep OC-Sort: Multi-">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-05-06T13:12:25.000Z">
-<meta property="article:modified_time" content="2024-06-02T11:20:08.000Z">
+<meta property="article:modified_time" content="2024-12-17T06:36:32.120Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object tracking">
 <meta name="twitter:card" content="summary">
@@ -130,7 +130,7 @@ Re-Identification[1]</span></a></li><li class="nav-item nav-level-3"><a class="n
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">108</span>
+          <span class="site-state-item-count">112</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -212,7 +212,7 @@ Re-Identification[1]</span></a></li><li class="nav-item nav-level-3"><a class="n
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-06-02 19:20:08" itemprop="dateModified" datetime="2024-06-02T19:20:08+08:00">2024-06-02</time>
+      <time title="修改时间：2024-12-17 14:36:32" itemprop="dateModified" datetime="2024-12-17T14:36:32+08:00">2024-12-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,7 +238,7 @@ Re-Identification[1]</span></a></li><li class="nav-item nav-level-3"><a class="n
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.6k</span>
+      <span>1.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -313,9 +313,10 @@ association的方法差一些。也有一些尝试：将appearance cues
 加入到motion-based methods。</p></li>
 <li><p>Deep OC-SORT的三个module:</p>
 <ul>
-<li><p>Camera Motion Compensation(CMC): OC-SORT高度依赖detection
-quality，引入CMC更精确地定位物体。给定一个scale rotation matrix <span
-class="math inline">\(M_t = s_tR_t\)</span>，和一个translation <span
+<li><p><strong>Camera Motion Compensation(CMC)</strong>:
+OC-SORT高度依赖detection quality，引入CMC更精确地定位物体。给定一个scale
+rotation matrix <span class="math inline">\(M_t =
+s_tR_t\)</span>，和一个translation <span
 class="math inline">\(T_t\)</span>，分别将它们用在OC-SORT的三个components上。</p>
 <ul>
 <li><p>OOS + CMC. KF从线性的interpolated path更新，starting at the last
@@ -342,7 +343,9 @@ class="math display">\[\left.\left\{\begin{matrix}\mathbf{x}[0:2]\leftarrow
 M_t\mathbf{x}[0:2]+T_t,\\\mathbf{x}[4:6]\leftarrow
 M_t\mathbf{x}[4:6],\\P[0:2,0:2]\leftarrow
 M_tP[0:2,0:2]M_t^T,\\P[4:6,4:6]\leftarrow
-M_tP[4:6,4:6]M_t^T.\end{matrix}\right.\right.\]</span></p></li>
+M_tP[4:6,4:6]M_t^T.\end{matrix}\right.\right.\]</span></p>
+<p>在卡尔曼外推步骤之前按用CMC更新，因此预测阶段是来自于CMC的corrected
+states。</p></li>
 <li><p>Dynamic Appearance：在之前的工作中，用于描述tracklet的deep visual
 embedding是通过<strong>Exponetial Moving Average(EMA) of deep detection
 embeddings frame by frame</strong>来提供的，这个要求一个weighting factor
@@ -351,8 +354,11 @@ time steps的visual embedding的 ratio。作者提出，基于detector
 confidence修改 <span class="math inline">\(\alpha\)</span>，这个灵活的
 <span class="math inline">\(\alpha\)</span>
 仅用高质量的detections，将appearance information集成到track's
-model里。标准的EMA公式如下：</p></li>
+model里。</p></li>
 </ul>
+<p>用低的检测器置信度作为proxy来识别因为遮挡或者模糊噪声造成的图像退化，使得能够拒绝corrupted
+embeddings.<br />
+标准的EMA公式如下：</p>
 <p><span
 class="math display">\[\mathbf{e}_t=\alpha\mathbf{e}_{t-1}+(1-\alpha)\mathbf{e}^{\mathrm{new}}\]</span>
 <span class="math inline">\(e_t\)</span> 为tracklet's appearance
@@ -371,7 +377,7 @@ class="math inline">\(\alpha_f = 0.95\)</span></p>
 <li>Adaptive weighting：adaptive weighting基于appearacne
 embeddings的discrinimativeness来增加appearance
 features的weight。通过标准的余弦相似度<strong>arcoss track and box
-embeddings</strong> 导致一个 <span class="math inline">\(M \times
+embeddings</strong> 产生一个 <span class="math inline">\(M \times
 N\)</span> appearance costs matrix, <span
 class="math inline">\(A_c\)</span>。<span class="math inline">\(M,
 N\)</span>分别是tracks和detections的数量。通常和IoU cost
@@ -402,7 +408,9 @@ appearance match is indicated by one high score having a large distance
 from the next best match. 最后的cost matrix <span
 class="math inline">\(C\)</span> 如下： <span
 class="math display">\[C[m,n]=\mathrm{IoU}[m,n]+[a_{w}+w_{b}(m,n)]
-A_{c}[m,n].\]</span></p></li>
+A_{c}[m,n].\]</span></p>
+<p>选择基于first和second-highest
+scores，而不是像KL散度那样的概率分布来测量discriminativeness，因为低分匹配之间的值的分布是无关紧要的。一个真正的正匹配外观是通过一个高分与下一个最佳匹配之间有较大的距离来表示的。</p></li>
 <li><p>本文的工作是基于最近的基于卡尔曼滤波的OC-SORT算法，是SORT的扩展，<strong>SORT依赖于目标追踪的线性运动假设</strong>，利用卡尔曼滤波将目标检测器的predictions和motion
 model 通过IoU的position
 estimates。当视频的帧率很高的时候，线性运动假设对于目标在临近视频帧的移位是有效的。然而，当追踪的目标在occlusion的时候，消失了，在卡尔曼滤波的时候，
@@ -410,7 +418,7 @@ missed measurement会导致error加重，OC-SORT提出了三个模块，来解�
 model based error: **OCM(observation-centric momentum),
 OCR(observation-centric recovery)， OOS(observation-centric online
 smoothing)。集成了OC-SORT的总体框架，包括匈牙利算法来关联matches from a
-cost matrix.</p></li>
+cost matrix。</p></li>
 </ol>
 <figure>
 <img
@@ -472,13 +480,13 @@ alt="Illustration" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">142k</span>
+    <span title="站点总字数">146k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">8:35</span>
+    <span title="站点阅读时长">8:49</span>
   </span>
 </div>
 <div class="busuanzi-count">

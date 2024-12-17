@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="SparseTrack: Multi-Object Tracking by Performing Scene Decomposition based on Pseudo-Depth[1]  作者是来自华科的Zelin Liu, Xinggang Wang等人。论文引用[1]:Liu, Zelin et al. “SparseTrack: Multi-Object Tracking by">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SparseTrack">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/12/17/SparseTrack/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="SparseTrack: Multi-Object Tracking by Performing Scene Decomposition based on Pseudo-Depth[1]  作者是来自华科的Zelin Liu, Xinggang Wang等人。论文引用[1]:Liu, Zelin et al. “SparseTrack: Multi-Object Tracking by">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-17T06:51:58.000Z">
+<meta property="article:modified_time" content="2024-12-17T13:16:29.199Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Object Tracking">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/12/17/SparseTrack/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/12/17/SparseTrack/","path":"2024/12/17/SparseTrack/","title":"SparseTrack"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SparseTrack | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#sparsetrack-multi-object-tracking-by-performing-scene-decomposition-based-on-pseudo-depth1"><span class="nav-number">1.</span> <span class="nav-text">SparseTrack:
+Multi-Object Tracking by Performing Scene Decomposition based on
+Pseudo-Depth[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">112</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen201718@163.com" title="Email → mailto:yuen201718@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/12/17/SparseTrack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SparseTrack | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SparseTrack
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-12-17 14:51:58 / 修改时间：21:16:29" itemprop="dateCreated datePublished" datetime="2024-12-17T14:51:58+08:00">2024-12-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>13 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="sparsetrack-multi-object-tracking-by-performing-scene-decomposition-based-on-pseudo-depth1">SparseTrack:
+Multi-Object Tracking by Performing Scene Decomposition based on
+Pseudo-Depth<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自华科的Zelin Liu, Xinggang Wang等人。论文引用[1]:Liu, Zelin
+et al. “SparseTrack: Multi-Object Tracking by Performing Scene
+Decomposition based on Pseudo-Depth.” ArXiv abs/2306.05238 (2023): n.
+pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.Nov</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>sparse decomposition</li>
+<li>a method for obtaining the relative depth of targets from 2D images:
+pseudo-depth</li>
+<li>depth cascading matching(DCM)</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>探索鲁棒的、高效的关联方法一直是MOT中重要的问题，尽管现有的跟踪方法实现了很好的性能，阻塞和频繁的遮挡仍然是MOT中挑战性的问题。作者表明了：<strong>在密集场景中进行sparse
+decomposition是增强关联遮挡目标的重要的步骤</strong>。为了这个目的，提出了一个pseudo-depth估计的方法，来得到2D图像中的targets的相对的深度。其次，设计了一个深度级联匹配算法，用得到的深度信息将dense
+target 多个稀疏 的target subsets，在这些稀疏的target
+subsets中进行数据关联，以从近到远的方式。SparseTrack提供了一个新的视角，用于解决MOT中挑战性的拥挤场景。只用IoU匹配，SparseTrack实现了很好的性能。
+<span id="more"></span></p></li>
+<li><p>MOT在很多场景中有应用。它旨在持续地在不同的视频帧中识别相同的目标，尽管之前的tracker在多个跟踪数据集上实现了很好的性能，密集场景和频繁的遮挡仍然是MOT中的重要挑战。当前的主流的跟踪方法是用tracking-by-detection(TBD)的范式，逐帧地进行数据关联。为了解决密集场景中的遮挡关联的障碍，一些方法例如bytetrack通过关联低置信度的detections，实现了有效的跟踪。尽管bytetrack展示了处理低置信度detections的高效，在大量低分数的遮挡或者频繁拥挤的场景中，它在location
+association上的精度容易下降。其他的方法通过用了powerful
+时序建模和轨迹query
+机制来确保遮挡实例的跟踪性能。然而，这些方法是高计算成本的，特别是被大量的物体和频繁的遮挡所填充的场景。在这个工作中，<strong>作者证明了基于depth
+information的target set
+decomposition是一个有效的路径，用于处理密集遮挡中的数据关联。作者展示了一个occlusion
+order for the objects in a local region, occlusion order是和depth
+order一致的，从近到远。因此，一组密集的occlusions可以通过基于深度信息的分割测量，被划分为几个不重叠的subsets</strong>。在相邻的target
+subsets之间，它们的x-y location可以是相似的，但是它们的x-y-depth
+locations更容易区分。这个跟踪器在不同的depth
+level对稀疏的subsets进行数据关联。相比于直接关联整个的occluded object
+set，<strong>在数据关联中，sparse
+decomposition能够缓解位置相似但是深度不同的轨迹的冲突</strong>。特别地，优先对有更小的depths的target
+subsets进行关联，因为occlusion order和depth
+order高度相关。因此，每个子集中的targets可以以fine-grained的方式被处理，受到较小的来自其他depth
+level的targets的影响。</p>
+<p>为了实现以上的设计，提出了一个方法，用于得到来自2D
+image中的targets的relative depth: pseudo-depth，基于两个scene priors：
+(1)捕捉目标的相机is higher than the ground</p>
+<ol start="2" type="1">
+<li>场景中的所有目标都是在平地上。
+换句话说，地面上没有明显的起伏。这种情况下，可以将targets的相对深度从三维空间投影到2D
+图像平面，<strong>得到target pseudo-depth
+values，即目标bbox的底部到图像底边的距离</strong>。<strong>这个pseudo-dpeth值用作reference，来测量targets之间的相对深度关系，用ground作为参考系统，而不是三维空间中的目标的ground
+truth depth。另外，设计了一个depth cascade
+matching(DCM)算法，基于pseudo-depth信息，来执行层次化的关联。具体地，根据pseudo-depth
+value，将轨迹和检测划分成多个target subsets，DCM算法在这些稀疏的target
+subsets上，以pseudo-depth
+value从近到远的方式，执行IoU关联。通过将pseudo-dpeth方法和DCM集成到数据关联过程中，提出了一个新的tracker称之为SparseTrack，SparseTrack的本质是通过DCM、基于depth，对遮挡进行层次化的关联</strong>。</li>
+</ol>
+<p>SparseTrack在多个数据集上实现了很好的性能，证明了基于pseudo-depth的target
+set decomposition的高效。 主要贡献如下：</p>
+<ol type="1">
+<li>提出了一个从2D
+图像中得到目标的相对深度的方法：pseudo-depth，是基于场景中的两个先验，能够得到目标的pseudo-depth
+value，比较不同目标之间的相对深度关系</li>
+<li>基于pseudo-depth方法提供的深度信息，设计了一个有效的、用于在密集场景关联遮挡的深度级联匹配方法，能够将密集的target
+sets分解成多个稀疏的target subsets，实现scene decomposition</li>
+</ol></li>
+<li><p>MOT：当前的主流MOT关注于确保鲁棒的时序关联，导致多种tracking的发展，基于不同的时序建模方法，主流的tracking方法可以分为4类：通过位置信息的时序关联；通过外观特征的时序关联；通过图优化的时序关联；通过注意力机制的时序关联；早期的trackers，基于深度学习，执行连续帧之间的时序关联，基于恒速运动先验利用KF来对目标的帧间运动进行建模，确保了轨迹的稳定性。为了实现长期的关联，DeepSORT和MOTDT通过增加外观特征，补偿关联长期轨迹中位置信息的缺陷。尽管外观信息通过ReID模型产生的外观cuesu对于关联长期目标是有效的，目标遮挡和运动模糊对这些cues的可靠性提出了挑战，一些方法用自监督预训练增强的ReID模型来缓解遮挡目标的外观，但是有更高的计算成本。其他的tracker，通过用单一的框架，联合优化detection和reid，提高计算效率，这有点限制了检测性能和外观质量的上限。受Transformer启发，有的从注意力机制的角度执行轨迹时序的propagation，实现了复杂场景下的高性能。最近的一些工作将MOT视为一个图优化问题，用图神经网络或者图匹配，来实现鲁棒的数据关联。当场景中目标数量增加时，基于图的方法的计算开销会增加2倍。</p></li>
+<li><p>处理目标遮挡的方法：tracker的性能一定程度上依赖于处理遮挡的能力，最近的工作尝试从不同的角度处理遮挡。例如MotionTrack学习轨迹的运动模式，将它和历史信息结合，来对遮挡的轨迹进行建模。MOTR是一个端到端的MOT框架，用detection
+queries和trajectories
+queries处理新出现的目标和跟踪目标。由于queries和大量的时序训练之间的相对独立，MOTR在遮挡的时序建模表现很好。DPMOT提出subject-ordered
+depth estimation方法，来自动的对2D 场景中的检测目标的deption
+位置进行排序，通过构建pseudo-3D
+卡尔曼滤波，DPMOT实现了鲁棒的遮挡目标的关联，BoTSORT结合相机运动补偿和IoU-ReID
+融合，能够结合运动和外观信息实现更精确的遮挡跟踪。OUTrack用一个无监督的reid模块和occlusion-aware
+module来预测目标遮挡出现的位置，为了补偿缺失的detections。ApLift引入了一个先进的近似求解器用于处理不相交的path
+problem，来管理扩展的和拥挤的轨迹序列。</p></li>
+<li><p>目标集合分解：很多的trackers跟着tracking-by-detection范式，执行一定程度的target
+set
+分解。例如DeepSORT通过多阶段的级联匹配，实现了逐步的检测关联。FairMOT基于外观和位置信息，分别处理detection
+set，也可以被视为通过tracking clues的detection
+set的分支。LMGP通过引入了一个pre-clustering的方法，有效地消除了single-camera
+trackers的轨迹误差，将检测到的objects分组用于association。ByteTrack将detection
+set基于置信度分数，分为高分和低分，用scores和occlusion之间的关联分别处理低分遮挡的目标。然而，在密集场景中，阻塞导致遮挡，导致低分的检测，虽然bytetrack将低分的occlusion从场景中解耦，低分的目标仍然是拥挤的。这种情况下，基于IoU的数量关联会产生更多的匹配误差，限制了跟踪的能力，为了这个目的，SparseTrack基于pseudo-depth
+levels，划分detection
+set和轨迹set，确保关联阶段中的目标不再拥挤。</p></li>
+<li><p>深度信息在MOT中的应用：深度信息用在了很多与3D场景有关的应用中，例如单眼或者立体深度估计、3D检测和跟踪，最近流行的Nerf。标准的深度提供了物体的大量的外观和位置信息，导致不同的3D
+tracking方法。例如TrackRCNN用外观和运动特征用于tracking，通过交替跟踪3D点云和2D图像中的物体，增强了精度和稳定性。FANTrack用了一个基于特征的关联网络FAN用于tracking，features是来自3D
+CNN from point cloud data和2D CNN from camera
+image。CenterPoint用keypoint检测器检测目标的中共新，回归出其他属性例如3D
+size、3D direction、speed等。然而，通过简单地greedy nearest point
+matching执行3D object
+tracking。<strong>事实上，二维图像可以被视为在透视变换下三维场景的投影。根据相机模型，可以简单地推理2D图像和3D场景之间的关系。SparseTrack利用这个variable
+relationship，来得到2D图像中目标的pseudo-depth，部分取代了标准深度在描述物体间位置关系的作用</strong>。</p></li>
+<li><p>General
+Framework：SparseTrack遵循tracking-by-detection范式，执行逐帧的数据关联。给定要给frame
+<span
+class="math inline">\(f_i\)</span>，首先被YOLOX处理，输出bbox和置信度分数。然后，基于每个检测到的bbox和输入的image
+size，用pseudo-depth方法得到2D图像中的目标的pseudo-depth值。pseudo-depth值反应了图像中目标之间的相对深度关系。在数据关联阶段，用pseudo-depth值和用DCM算法来完成decomposition和association
+for tracks and the detections。最后，SparseTrack输出tracking results
+(<span class="math inline">\(x_1,y_1,w,h,s\)</span>)</p></li>
+<li><p>Pseudo-Depth：在通常的跟踪场景中，pseudo-depth方法是基于两个先验的假设：捕捉目标的相机is
+above teh
+ground和场景中的所有目标在同一个平面上。这些假设在一般的场景中很容易满足，特别地，pseudo-depth方法是一个获得pseudo-depth
+values的简单的几何方法；首先，得到位置点 <span
+class="math inline">\(P_0\)</span>，物体在3D space中接触地面的点，将
+<span class="math inline">\(p_0\)</span>投影到图像平面
+F上，得到对应的投影点 <span
+class="math inline">\(p_1\)</span>；第二，从<span
+class="math inline">\(p_1\)</span>点画个垂线到图像的底边 <span
+class="math inline">\(L_b\)</span>，得到垂线和底边 <span
+class="math inline">\(L_b\)</span>的交点 D。顶一个投影点 <span
+class="math inline">\(P_1\)</span>和交点
+D之间的欧氏距离作为物体的pseudo-depth value。设置图像的高度为H，pixel
+coordinates of <span class="math inline">\(P_1\)</span>为 <span
+class="math inline">\((x_p,y_p)\)</span>，pseudo-depth计算如下：</p></li>
+</ol>
+<p><span class="math display">\[L_p = H - y_p\]</span></p>
+<p><span class="math inline">\(L_P\)</span>
+是pseudo-depth值，尽管pseudo-depth值不能代表三维空间中物体的ground truth
+depth，它能够充分地衡量不同物体之间的相对depth relationship，为在depth
+level上，密集场景的划分提供了基础。</p>
+<ol start="9" type="1">
+<li>作者提出了一个简单但是powerful的数据关联方法，不同于其他的方法关注于提高外观特征和motion
+cues，来确保关联的可靠性，SparseTrack场景中的所有目标通过pseudo-depth方法和DCM划分为多个稀疏的target
+subsets，来有效地关联遮挡。将detection set划分为高分和低分的detection
+subsets based on confidence scores。然后，用DCM算法在高分detection
+subset上进行数据关联。对于出现在之前帧中的轨迹但是不匹配的，通过DCM将它们和低分的detection
+subset关联。对于未匹配的高分detections，将它们和之前帧中出现的轨迹关联。最后，没有匹配的高分detections初始化为新的轨迹，丢失的轨迹超过了一定的帧数就会被删除。
+因为置信度分数和目标的遮挡相关联，基于置信度分数，继承了decomposition方法，因为高分的检测通常意味着很低的遮挡，在关联高分目标的时候，将pseudo-depth
+level设为1或2，相反，在关联低分detection的时候，将pseudo-depth
+level设为4或8.帮助密集遮挡的细粒度关联</li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/8c82653331bf3b944d335e05042418c83e65bd96/1-Figure1-1.png"
+alt="密集场景中关联低分检测" /> <span
+class="math inline">\(Fig.2{[1]}\)</span>
+在bytetrack中，低分检测将和track set用IoU
+进行匹配，因为低分检测的位置的高度相似，容易出错。这篇文章尝试从低分检测分解的角度来解决这个问题，而不是将它们进行匹配。</p>
+<p><img
+src="https://figures.semanticscholar.org/8c82653331bf3b944d335e05042418c83e65bd96/2-Figure2-1.png"
+alt="local occlusions" /> <span
+class="math inline">\(Fig.2{[1]}\)</span>
+在局部区域的occlusions。随着depth
+values的增加，被遮挡目标的排序逐渐向背景偏移</p>
+<p><img
+src="https://figures.semanticscholar.org/8c82653331bf3b944d335e05042418c83e65bd96/2-Figure3-1.png"
+alt="DCM" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+DCM的层次化关联的例子，白色方形区域表示在水平和竖直方向上都没有对应的detection和轨迹subsets之间的数据关联。方形中的深色区域反应了轨迹和detections之间的相似度，更深的颜色表示更高的相似度。DCM根据depth
+order 从近到远，将同一个depth level的target
+set分解为多个subsets。对于每个depth
+level中的没有匹配的轨迹和检测，tracker会在下一个depth
+level中处理它们。</p>
+<p><img
+src="https://figures.semanticscholar.org/8c82653331bf3b944d335e05042418c83e65bd96/4-Figure4-1.png"
+alt="framework of SparseTrack" /> <span
+class="math inline">\(Fig.2{[1]}\)</span>
+SparseTrack的框架，图例信息位于右下角的框中，<span
+class="math inline">\(\tau\)</span>
+用来划分高分和低分，SparseTrack执行target set
+decomposition，通过DCM和pseudo-depth来精确地关联低分occlusions。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Object-Tracking/" rel="tag"># Object Tracking</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/12/05/Multi-Object-Tracking-Survey/" rel="prev" title="Multi-Object Tracking Survey">
+                  <i class="fa fa-angle-left"></i> Multi-Object Tracking Survey
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/12/17/SORT/" rel="next" title="SORT">
+                  SORT <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">146k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">8:49</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
