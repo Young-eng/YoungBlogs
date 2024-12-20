@@ -19,14 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="Scaling Up Visual and Vision-Language Representation Learning With Noisy Text Supervision[1]  作者是来自Google的Chao Jia, Yinfei Yang等人，论文引用[1]:Jia, Chao et al. “Scaling Up Visual and Vision-Language R">
+<meta property="og:type" content="article">
 <meta property="og:title" content="ALIGN">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/12/01/ALIGN/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Scaling Up Visual and Vision-Language Representation Learning With Noisy Text Supervision[1]  作者是来自Google的Chao Jia, Yinfei Yang等人，论文引用[1]:Jia, Chao et al. “Scaling Up Visual and Vision-Language R">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-01T06:27:30.000Z">
-<meta property="article:modified_time" content="2024-12-01T06:27:30.347Z">
+<meta property="article:modified_time" content="2024-12-20T06:19:07.578Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="multi-modal">
 <meta name="twitter:card" content="summary">
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#scaling-up-visual-and-vision-language-representation-learning-with-noisy-text-supervision1"><span class="nav-number">1.</span> <span class="nav-text">Scaling
+Up Visual and Vision-Language Representation Learning With Noisy Text
+Supervision[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -135,7 +141,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -201,6 +207,22 @@
 
       <time title="创建时间：2024-12-01 14:27:30" itemprop="dateCreated datePublished" datetime="2024-12-01T14:27:30+08:00">2024-12-01</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-20 14:19:07" itemprop="dateModified" datetime="2024-12-20T14:19:07+08:00">2024-12-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
@@ -216,14 +238,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>2.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>9 分钟</span>
     </span>
 </div>
 
@@ -233,7 +255,85 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3
+id="scaling-up-visual-and-vision-language-representation-learning-with-noisy-text-supervision1">Scaling
+Up Visual and Vision-Language Representation Learning With Noisy Text
+Supervision<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Google的Chao Jia, Yinfei Yang等人，论文引用[1]:Jia, Chao et
+al. “Scaling Up Visual and Vision-Language Representation Learning With
+Noisy Text Supervision.” International Conference on Machine Learning
+(2021).</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2021.Jun</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>预训练表征对于很多NLP和感知任务很重要，当NLP中的表征学习不需要人类标注的时候，迁移到raw
+text上训练的时候，视觉和视觉语言表征仍然依然严重依赖于精心准备的训练集，这成本很高而且需要专家知识。对于视觉应用，通过很多有显示label的数据集例如ImageNet或者OpenImages来学习表征。<strong>对于视觉语言，流行的数据集例如Conceptual
+Captions, MSCOCO或者CLIP，都涉及non-trivial
+数据收集的过程。这个费劲的精心挑选的过程限制了数据集的规模，阻碍了训练模型的scaling</strong>。在这篇文章中，<strong>作者利用一个超过十亿的图像文本对的有噪声的数据集，不需要费劲地过滤或者后处理步骤。一个简单地双编码器结构用对比损失，学习对齐图像文本对的视觉语言表征</strong>。
+展示了语料库的规模可以弥补其噪声，即使一个简单的学习策略，就能实现SOTA的表征。作者的视觉表征当迁移到例如ImageNet这样的分类任务时，实现了强大的性能。对齐的视觉语言表征enable
+zero-shot的图像分类和在数据集Flickr30K上达到SOTA，即使和更复杂的交叉注意力的模型相比，这些表征使能用复杂的文本和图像文本queries实现跨模态的搜索。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>在现有文献中，视觉和视觉语言表征学习用不同的数据源研究了很多。在视觉域，在大规模监督数据上例如ImageNet进行预训练，证明了通过迁移学习在下游任务上提高性能是重要的。这类预训练数据集的构建需要大量的数据收集、采样和人类标注工作，很难scale。
+预训练在视觉语言模型中已经是事实上的路径。然而，视觉语言预训练数据集例如Conceptual
+Captions等需要很多的人类标准、语义解析、清洗和平衡的工作。因此，这些数据集的规模只有10M左右。这至少比视觉领域中对应的数据集小一个数量级。在视觉域中，并且比来自互联网的用于NLP预训练的大型文本语料库要小得多。</p>
+<p>在这个工作中，作者利用超过十亿的、有噪声的图像文本对来扩充视觉和视觉语言表征学习。<strong>跟着Conceptual
+Captions
+数据集描述的步骤来构建一个有噪声的数据集，不是用复杂的过滤和后处理步骤来清洗数据集，只用了简单的基于频率的清洗。最后的数据集是有噪声的，但是比Conceptual
+Captions
+数据集大两个量级。作者展示了在百万兆级的数据集上预训练的视觉和视觉语言表征在多个任务上实现了很强的性能</strong>。</p>
+<p>为了训练模型，用一个简单的dual-encoder架构，在一个共享的隐嵌入空间，用一个目标函数对齐视觉和语言表征。类似的目标函数已经用在了学习视觉-语义嵌入(visual-semantic
+embeddings,
+VSE)中，作者称自己的模型为<strong>ALIGN</strong>：<strong>A</strong>
+<strong>L</strong>arge-scale <strong>I</strong>ma<strong>G</strong>e and
+<strong>N</strong>oisy-text
+embedding。<strong>图像和文本编码器通过对比损失（以归一化的 softmax
+形式表示）进行学习，该损失函数将匹配的图像-文本对的嵌入推近，同时将不匹配的图像-文本对的嵌入推远。这是自监督和监督表征学习中最有效的损失函数之一。考虑到成对的texts作为图像的fine-grained
+labels，作者的图像文本对比损失类似于传统的基于label的分类目标函数，主要的不同在于test
+encoder产生label的权重</strong>。</p>
+<p>对齐的图像和文本表征适用于跨模态的匹配任务，在对应的benchmarks上实现了SOTA。这样的跨模态匹配当把classnames输入到text
+encoder中的时候，自然地使得zero-shot图像分类可行。</p></li>
+<li><p>高质量的用于分类或者检索的视觉表征通常在大规模的标签的数据集上进行预训练，最近，自监督和半监督学习作为另外的范式被研究了很多，然而，通过这些方法训练的模型目前限制了迁移到下游任务上的能力。利用图像和自然语言captions是另一个学习视觉表征的方向。通过从图像中预测captions，Joulin等人的工作展示了很好的视觉表征。这些工作然而受限于小的数据集，导致模型不能产生能够用于像跨模态检索这样的视觉语言表征。
+在视觉语言表征学习域中，视觉语义嵌入和改进版本(利用目标检测器，密集特征图或者多层注意力)被提出了。最近更多的、有跨模态的注意力层的模型出现了，在图像文本匹配任务上展示了很好的性能。然而，它们的速度要慢几个数量级，因此对于现实世界中的图像-文本检索系统来说是不切实际的，相比之下，作者的模型继承了简单地VSE形式，仍然在图像文本匹配benchmarks上超过了之前所有的交叉注意力的模型。</p>
+<p>和作者的工作相近的是CLIP，用一个类似的对比学习，通过自然语言监督提出了视觉表征学习。除了用不同的视觉和语言编码器架构，主要的不同在于训练数据：<strong>ALIGN
+遵循原始 alt-text 数据中图像-文本对的自然分布，而 CLIP
+则通过首先从英语维基百科构建一个高频视觉概念的允许列表来收集数据集。作者展示了视觉和视觉语言表征可以通过不需要专家知识来组织的数据集进行学习</strong>。</p></li>
+<li><p>大规模的有噪声的图像-文本数据集：作者工作的焦点是扩展视觉和视觉语言表征学习。对于这个目的，作者使用比现有数据集大得多的数据集。特别地，遵循构建conceptual
+captions 数据集的方法，得到原始英语alt-text数据的版本。Conceptual
+Captions数据集通过大量的过滤和后处理进行清洗。这里，出于scaling的目的，通过放宽原始工作中大部分的清洗的步骤，以质量换规模。只应用最小的基于频率的滤波。结果是一个更大的但是更有噪声的数据集。</p></li>
+<li><p><strong>基于图像的过滤</strong>：跟着Sharma等人的工作，去掉了porngraphic图像，只保留shorter
+dimension大于200像素的、aspect
+ratio小于3的图像。和超过1000个alt-text关联的图像被丢弃。为了确保没有在测试图像上进行训练，作者还删除了所有下游评估数据集中重复或接近重复的测试图像。</p></li>
+<li><p><strong>基于文本的过滤</strong>：排除了超过10张图像共享的alt-texts，这些alt-texts通常和图像的内容不相关。也丢弃了包含任何稀有token的alt-texts，还有那些太短或者太长的。这个去掉了有噪声的文本或者太一般很难有用的文本。</p></li>
+<li><p><strong>预训练和任务迁移</strong>：在有噪声的图像文本对上进行预训练。用一个dual-encoder架构预训练ALIGN。这个模型包含一对图像和文本编码器，带有余弦相似度的结合的函数。用带有global
+pooling的EfficientNet作为image encoder和带有CLS token嵌入的BERT作为text
+embedding encoder。一个带有线性激活的全连接层加在了BERT
+encoder的顶部，来匹配来自image
+tower的维度。图像和文本编码器都是从零开始训练。
+图像和文本编码器通过normalized softmax
+loss进行优化。在训练阶段，将匹配的图像文本对作为positive，所有其它的在训练batch中形成的随机图像文本对视为negative。
+我们最小化两个loss：一个用于image-to-text分类：</p>
+<p>另一个用于text-to-image分类：</p>
+<p>这里，<span class="math inline">\(x_i\)</span> 和 <span
+class="math inline">\(y_i\)</span>
+是第i个pair的图像和第j个pair文本的normalized embedding。N是batch
+size，<span class="math inline">\(\theta\)</span> 是temperature来scale
+logits。为了让in-batch negatives更有效，从所有计算的分数中concat
+embeddings，来形成更大的batch。这个温度变量对于很重要，因为图像和文本嵌入都是L2正则化。不同于手动地扫描最优温度值，和其它参数一起学习更有效。</p></li>
+<li><p>作者提出了一个简单地方法，利用大规模的、有噪声的图像文本对数据，来扩展视觉和视觉语言表征学习。作者的方法避免了在数据组织和标注上的大量工作，只需要小部分的基于频率的学习。在这个数据集上，用对比损失训练一个简单地dual-encoder的模型。这个模型称之为ALIGN，能够实现跨模态检索。在只有视觉的下游任务上，ALIGN也是comparable或者超过了用大规模标签数据训练的SOTA模型。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/141a5033d9994242b18bb3b217e79582f1ee9306/2-Figure1-1.png"
+alt="方法总结" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+ALIGN，视觉和语言表征，通过有噪声的image
+alt-text数据进行学习。这个表征可以用于只有视觉或者视觉语言任务迁移。没有任何微调，ALIGN赋能zero-shot的视觉分类和跨模态的搜索，包括image-to-text搜索。</p>
 
     </div>
 
@@ -242,6 +342,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/multi-modal/" rel="tag"># multi-modal</a>
+          </div>
 
         
 
@@ -285,13 +388,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">150k</span>
+    <span title="站点总字数">157k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">9:04</span>
+    <span title="站点阅读时长">9:30</span>
   </span>
 </div>
 <div class="busuanzi-count">
