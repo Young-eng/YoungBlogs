@@ -19,14 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="Multiple Object Tracking as ID Prediction[1]  作者是来自南大、上海AI Lab和中国移动的Ruopeng Gao、Yijun Zhang和Limin Wang。论文引用[1]:  Time  2024.Mar  Key Words  end-to-end in-context ID prediction  总结  在多目">
+<meta property="og:type" content="article">
 <meta property="og:title" content="MOTIP">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/12/17/MOTIP/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Multiple Object Tracking as ID Prediction[1]  作者是来自南大、上海AI Lab和中国移动的Ruopeng Gao、Yijun Zhang和Limin Wang。论文引用[1]:  Time  2024.Mar  Key Words  end-to-end in-context ID prediction  总结  在多目">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-17T06:52:58.000Z">
-<meta property="article:modified_time" content="2024-12-17T06:52:58.195Z">
+<meta property="article:modified_time" content="2024-12-20T01:55:31.889Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="Object Tracking">
 <meta name="twitter:card" content="summary">
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#multiple-object-tracking-as-id-prediction1"><span class="nav-number">1.</span> <span class="nav-text">Multiple Object
+Tracking as ID Prediction[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -124,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">112</span>
+          <span class="site-state-item-count">113</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -201,6 +206,22 @@
 
       <time title="创建时间：2024-12-17 14:52:58" itemprop="dateCreated datePublished" datetime="2024-12-17T14:52:58+08:00">2024-12-17</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-20 09:55:31" itemprop="dateModified" datetime="2024-12-20T09:55:31+08:00">2024-12-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
@@ -216,14 +237,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>15 分钟</span>
     </span>
 </div>
 
@@ -233,7 +254,190 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3 id="multiple-object-tracking-as-id-prediction1">Multiple Object
+Tracking as ID Prediction<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自南大、上海AI Lab和中国移动的Ruopeng Gao、Yijun Zhang和Limin
+Wang。论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Mar</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>end-to-end in-context ID prediction</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>在多目标跟踪中，tracking-by-detection方法经历了很多测试，将这个过程分为检测和关联阶段，利用鲁棒的单帧检测器，通过人工设计的启发式算法和代理任务，将目标关联视为一个后处理步骤。然而，启发式方法的本质是阻止了对端到端训练数据的利用，导致当面临复杂或者新的场景的时候，增加的人为的修改。在本文中，将目标关联任务视为一个端到端的in-context
+ID预测问题，提出了一个baseline称之为MOTIP。特别地，当考虑将对应的IDs作为in-context
+prompts时，将target
+embeddings嵌入到历史轨迹信息中，然后直接预测当前帧的目标的ID
+labels。MOTIP能够直接从训练数据中学习tracking
+capabilities，将其从繁重的人工算法中解放出来。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>MOT旨在定位每一帧中感兴趣目标的位置，然后再整个视频序列中分配它们对应的id。作为一个基础的视觉任务，用在了很多下游任务上。<strong>再MOT的发展历史上，tracking-by-detection范式成为了一个shining
+star，基于这个问题定义，它们自然地将这个过程分成两个子任务：目标检测和关联，用单帧的检测器来检测当前帧中的所有目标，然后用后处理算法将历史轨迹和这些detections进行关联，实现在线tracking</strong>。启发式的方法被用来作为ID分配的最优解。它们主要依赖于运动信息，利用卡尔曼滤波器用于线性运动估计和计算IoU
+cost
+matrix，一些方法也引入了Re-ID特征，用余弦相似度用于相似度计算，尽管这些方法实现了很好的结果，<strong>它们过分第依赖于手工设计和人工的先验假设仍然是一个让人担忧的问题</strong>。例如，卡尔曼滤波器依赖于线性运动假设，它努力在复杂的运动模式中准确地适应目标轨迹。类似地，基于linearly
+separable
+features的假设，当面对不可区分的外观的时候，余弦相似度也不可靠。因此，在面对复杂或者新的场景的时候，<strong>tracking-by-detection方法总是需要通过人工分析，更新启发式的方法，这个做法可能导致日益膨胀和复杂的代码库</strong>。</p></li>
+<li><p>现在，很多研究将DETR扩展到MOT中，tracked
+objects表示为queries，逐帧地进行propagate，用来回归目标的位置。通过端到端的过程，<strong>这些方法能够直接从训练数据中学习必要的tracking策略</strong>，使得它们能够在复杂场景中获得优势，尽管实现了很好的性能，它们仍然在一些方面不是很完美。<strong>例如tracking-by-query范式使得在训练阶段进行逐帧的处理，类似于神经网络运作的方式，这个本质阻止了长期的训练，导致训练和推理之间的差异，最终限制了模型的性能</strong>。另外，同时处理检测和跟踪queries可能导致冲突和相互抑制，导致综合性能下降。</p></li>
+<li><p>这篇文章引入了一个全新的视角，<strong>通过将MOT视为一个端到端的ID预测任务。特别地，给定所有跟踪目标的历史轨迹，模型需要检测当前帧中所有目标，直接预测它们的ID
+labels。实际上，作者倾向于利用DETR作为检测器，因为它直接提供了每个目标的embeddings，使得不需要考虑特征提取方法例如RoI，pooling等，就能够构建历史轨迹。为了表示不同tracked
+targets的ID，构建了一个可学习的ID
+词典。基于此，将目标的embeddings和它对应的ID
+embeddings进行concate，得到历史的轨迹信息。用一个直接的transformer
+decoder架构用作ID
+预测器，将当前帧的物体作为输入，基于历史信息直接预测它们的ID
+labels</strong>。</p></li>
+<li><p>一方面，相比于tracking-by-detection方法，作者的方法绕过了代理任务和启发式算法，简化了跟踪管道，并使得能够从特定场景中端到端地利用跟踪能力。另一方面，检测器和ID预测器是高度并行的，消除了tracking-by-query方法中的串行处理。另外，没有在单个module中同时处理检测和关联也避免了冲突。</p></li>
+<li><p><strong>Tracking-By-Detection</strong>：是MOT中用的最广的范式，很多方法采用了启发式算法，将当前帧的检测结果和历史轨迹关联起来，然后逐帧地实现在线MOT，因为传统MOT主要关注于行人跟踪，行人展示出了相对简单地运动模式，一个自然的方式是估计它们的运动用于目标关联。例如SORT和ByteTrack通过利用卡尔曼滤波用于线性运动估计，实现了很好的效果。然而，这个线性运动假设无法捕捉无序的轨迹，OC-SORT进一步更新了这个算法，使得它能够适应突然的终止和而非线性的运动，提高了性能。一些方法尝试引入目标外观相似度用于测量。Deep-SORT和DeepOCSORT引入了额外的Re-ID模块，来得到Re-ID特征，相比之下，像FairMOT，JDE，用同一个框架用于检测和特征提取。另外，BoT-SORT通过估计相机位移，纠正了运动估计的结果；TrackFlow通过深度信息增强了模型。<strong>由于线性运动假设不完美的本质，Hybrid-SORT最近引入了基于目标高度和检测置信度的状态估计，增强了跟踪的能力，特别是在DanceTrack中，尽管修补启发式算法仍然能取得比较好的结果，它还是会将代码库弄的臃肿，然而，手动制作代理任务和依赖于先验假设在特定场景中学不到优化的策略，导致当面对没有考虑过的场景的时候，需要很大的努力调整参数和算法</strong>。</p></li>
+<li><p><strong>Tracking-by-Query</strong>：受最近DETR的启发的一个跟踪算法，将detect
+queries扩展到MOT任务，用track queries来表示tracked
+target，通过视频序列进行传播。TransTrack构建了一个Siamese Transformer
+decoder用于检测和跟踪。TrackFormer和MOTR利用相同的Transformer
+decoder通过同时处理detect和track
+queries来同时处理检测和跟踪。MQT采用了多个queries来表示一个tracked
+object，更多地关注未知类别的跟踪。MeMOT构建了一个巨大的记忆库来存储目标历史信息。MeMOTR用了一个长期的记忆注入机制，一个简单有效的方式来提高跟踪性能，然而，<strong>最近的研究突出了新的方法和tracked
+object之间的冲突对于tracking-by-query范式仍然是一个严重的问题。CO-MOT和MOTRv3尝试平衡两者in
+supervision，能够缓解这个矛盾</strong>。</p></li>
+<li><p>这篇文章中，作者将MOT视为一个ID
+Prediction的问题，称之为MOTIP。<strong>MOT作为一个ID预测问题</strong>。MOT旨在产生通过每个identity
+k，逐帧产生有顺序的bboxes。这个暗示了，对于每帧的在线处理，它努力将检测到的物体和之前的轨迹相匹配。将这些历史轨迹表示为一个轨迹集合。<span
+class="math inline">\(\mathcal{T} =
+{\mathcal{T}^1,\mathcal{T}^2,...,\mathcal{T}^K}\)</span>。每个 <span
+class="math inline">\(\mathcal{T}^k =
+(\tau^k_1,\tau^k_2,...,\tau^k_T)\)</span>表示第k个识别到的目标的完整的轨迹。<span
+class="math inline">\(\tau^k_t\)</span> 表示在时刻t的tracklet context
+信息。实际中， <span class="math inline">\(\tau^k_t\)</span>
+的组成依赖于每个不同的方法。例如有的方法总是利用位置、速度和加速度来描述每个tracklet，也有一些ReID的方法引入了目标特征用于外观匹配。
+之前，给定历史轨迹 <span
+class="math inline">\({\mathcal{T}_{1&quot;t-1}}\)</span>，tracking-by-detection的方法通过代理任务计算cost
+matrix。然而tracking-by-query的方法通过传播track
+queries，继承ID信息。本文中，引入了新的角度，将MOT视为ID预测问题。特别地，给定当前帧
+<span class="math inline">\(I_t\)</span> 的检测结果 <span
+class="math inline">\(\mathcal{D}_t\)</span>，基于历史轨迹，直接预测它们的ID，表示如下：
+<span
+class="math display">\[\mathrm{ID}(O_t)=\theta(\mathcal{T}_{1:t-1},\mathcal{D}_t),\]</span></p>
+<p><span class="math inline">\(\mathcal{T}_{1:t-1}\)</span>
+表示第t帧之前的轨迹。<span class="math inline">\(\theta\)</span>
+是一个端到端的
+可学习的module，有一个简单的分类头。不需要任何人工的代理任务，通过分类任务直接预测ID。</p></li>
+<li><p>MOTIP架构：整个的MOTIP架构很简单，包含3个主要部分：<strong>一个DETR检测器检测目标和提取它们的嵌入；一个可学习的ID词典，将不同的identities表示为C维的embeddings；一个ID
+decoder预测新检测的目标的ID</strong>。</p></li>
+<li><p><strong>DETR检测器</strong>：用DETR作为图像检测器；输入原始图像
+<span class="math inline">\(I_t\)</span>，CNN backbone和Transformer
+encoder提取和增强图像特征。接下来，decoder从N个可学习的detect
+queries中产生输出的embeddings。它们通过bbox和cls
+head被编码成bboxes和分类的置信度。用一个置信度阈值 <span
+class="math inline">\(\tau_{det}\)</span> 来过滤掉negative
+detections，保留 <span class="math inline">\(M_t\)</span> 个active
+targets。用DETR进一步简化了方法，使得能够利用解码的embeddings <span
+class="math inline">\(O_{t}=\{o_{t}^{1},o_{t}^{2},\cdots,o_{t}^{M_{t}}\}\)</span>
+来表示对应的目标，不许哟啊考虑层次化或者RoI
+技巧，用于特征提取和融合。</p></li>
+<li><p><strong>可学习的ID 词典</strong>：一个直白的方式是用one-hot
+label表示
+ID，然而，一方面，离散的值不利于神经网络的学习；另一方面，one-hot形式不太实际，当将模型扩展到有大量目标的场景的时候，导致维度很大。因此，创建一个ID词典
+<span class="math inline">\(\mathcal{I}\)</span>，包含 <span
+class="math inline">\(K+1\)</span>
+个可学习的words来表示这些identities，如下： <span
+class="math display">\[\mathcal{I}=\{i^1,i^2,\cdots,i^K,i^{spec}\}.\]</span>
+每个word i 是一个可学习的C维embedding。具体地，前K个words <span
+class="math inline">\({i^1,i^2,...,i^K}\)</span> 是
+常规的tokens，表示对应的identities。最后一个word <span
+class="math inline">\(i^{spec}\)</span>
+是一个特殊的token，用于表示当前帧中检测到的、没有任何ID的新的目标。实际中，K的值比单帧中目标的平均数量大得多，依赖于不同的数据集。</p></li>
+<li><p><strong>层次化的轨迹</strong>：MOT方法通常基于它们的要求，用了多种contexts来表示层次化的轨迹，例如位置、运动、Re-ID特征；像很多基于Transformer的方法，直接利用从decoding
+detect queries得到的输出embeddings表示tracked targets。实际上，target
+embedding e 是通过一个简单的FFN结构从输出embedding o
+推导出来的。因为embedding e 不包含identity信息，引入对应的ID
+embedding，来完成tracklet context： <span
+class="math display">\[{\tau}^{k_t} = concat(e^{k}_t,i^k)\]</span> <span
+class="math inline">\({\tau}^{k}_t\)</span> 是时刻t的、identity
+为k的tracklet object的tracklet context。<span
+class="math inline">\(e^k_t\)</span>
+是它的目标embedding。因此，每个tracklet context
+是一个2D维的vector，可以被拼接成历史轨迹 $ =
+(,_{t-1}<sup>{k},<em>{t}^{k},</em>{t+1}</sup>{k},)
+$。在实验中，只保留最近T帧的轨迹。</p></li>
+<li><p><strong>ID
+Decoder</strong>：为了处理不同长度的输入，利用一个带有相对时序位置编码的6层transformer
+decoder作为ID 预测器，将轨迹和detections作为输入，将identity
+field引入到detection中，形成2C维的token： <span
+class="math display">\[d^m_t = concat(o^m_t,i^{spec})\]</span></p>
+<p><span class="math inline">\(o^m_t\)</span> 是 当前帧中第m个active
+DETR 输出embedding，<span class="math inline">\(i^{spec}\)</span>
+是ID词典中特殊的token，表示ID是未知的，然后，将这些detection tokens
+<span
+class="math inline">\(\mathcal{D}=\{d_{t}^{1},d_{t}^{2},\cdots,d_{t}^{M_{t}}\}\)</span>
+输入到ID decoder中作为Q，轨迹tokens <span
+class="math inline">\(\mathcal{T}_{t-T:t-1}\)</span>
+视为K和V。基于此，历史轨迹中的ID tokens作为一种in-context
+prompt，将特定的身份信息传播到对应的检测。之后，解码的 <span
+class="math inline">\(\widehat{d_{t}^{m}}\)</span>
+通过一个线性projection 网络，变换为ID概率。因此，将ID
+分配的步骤转换成一个
+K+1的分类任务，可以通过交叉熵损失，端到端的监督。</p></li>
+<li><p><strong>训练</strong>：对每个训练iteration，采样一个video
+clip，包含 <span class="math inline">\(T+1\)</span>
+帧。这个模型在每个时刻t预测IDs，除了第一帧。为了遵循在线跟踪协议，在训练期间用一个因果注意力掩码，来确保只有之前帧是可见的。对于提出的ID
+预测器，采用直接的交叉熵。因为每一帧种的目标的数量不一样，通过取所有目标的平均来计算最后的
+id loss。 <span
+class="math display">\[\mathcal{L}_{id}=\frac{-\sum_{t=2}^{T+1}\sum_{m=1}^{M_t}\sum_{k=1}^{K+1}y_m^k\log(p_m^k)}{\sum_{t=2}^{T+1}M_t},
+\\
+y_{m}^{k}=\left\{\begin{array}
+{ll}1 &amp; \mathrm{gt} \ id \ \mathrm{of} \ m^{th} \ \mathrm{object~is}
+\ k, \\
+0 &amp; \mathrm{else},
+\end{array}\right.\]</span></p>
+<p><span class="math inline">\(T+1\)</span> 表示一个training
+clip中的帧数，在第t帧中有 <span class="math inline">\(M_t\)</span>
+ground-truth 目标。根据每个目标的identity ground truth, <span
+class="math inline">\(y^k_m\)</span> 是一个indicator
+函数。在实际中，同时端到端的训练目标检测器和ID预测器，因此，利用整个的loss函数
+<span class="math inline">\(\mathcal{L}\)</span> 来监督两部分：</p>
+<p><span
+class="math display">\[\mathcal{L}=\lambda_{cls}\mathcal{L}_{cls}+\lambda_{L1}\mathcal{L}_{L1}+\lambda_{giou}\mathcal{L}_{giou}+\lambda_{id}\mathcal{L}_{id},\]</span></p>
+<p><span class="math inline">\(\mathcal{L}_{cls}\)</span> 是focal
+loss，<span class="math inline">\(\mathcal{L}_{1}\)</span> 和 <span
+class="math inline">\(\mathcal{L}_{giou}\)</span> 表示 L1 loss和
+generalized IoU loss。<span class="math inline">\(\lambda\)</span>
+是对应的权重。</p></li>
+<li><p><strong>推理</strong>：在视频序列的第一帧，检测到的目标的置信度大于
+<span class="math inline">\(\tau_{new}\)</span>
+为记为新的目标，然后分配唯一的身份。在每个时刻t，首先用阈值 <span
+class="math inline">\(\tau_{det}\)</span>
+过滤掉来自DETR的结果，之后，这些active detections 和来自最近
+T帧的历史轨迹 <span class="math inline">\(\mathcal{T}_{t-T:t-1}\)</span>
+送到ID decoder中，预测对应的ID。在这些ID预测中，只有超过特定阈值的 <span
+class="math inline">\(\tau_{id}\)</span> 会被采用，任何检测置信度大于
+<span class="math inline">\(\tau_{new}\)</span>
+的目标，但没有分配任何跟踪ID的会被考虑为一个新的目标，给一个新的id。另外，一旦长视频中的id的数量超过了K，ID词典中的tokens
+<span class="math inline">\(\mathcal{I}\)</span>
+将会被重复利用。</p></li>
+<li><p><strong>训练中的轨迹增强</strong>：多个目标轨迹重视面临挑战性的情况，例如遮挡、模糊等。这些挑战导致推理期间的ID分配错误，损害历史轨迹的可靠性。然而，在训练期间这些情况不会出现因为所有的ID是来自ground
+truth用bipartite
+matching得到的，类似于DETR，因此，在训练和推理之间有差异，可能降低跟踪性能。为了缓解这个问题，在训练期间引入了两个轨迹增强的技巧。首先，在同一帧中交换两个历史目标的ID；第二，以
+<span class="math inline">\(\lambda_{drop}\)</span>
+的概率随机扔掉给定轨迹中的 l个连续的tokens，l
+是一个从均匀分布中采样得到的随机长度。这两个方法能够模拟训练期间的目标遮挡和ID
+failures，因此增强了模型的robustness。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/188f2b8234c7acb473ae305f832bfbb968b1d8f1/5-Figure2-1.png"
+alt="Overview of MOTIP" /> <span
+class="math inline">\(Fig.1^{[1]}\)</span>
+这里有三个主要的组件：一个可学习的ID
+词典，表示不同的identities，一个DETR detector检测感兴趣的目标和一个ID
+decoder预测当前帧中目标的ID，将object embeddings和它们对应的ID
+embeddins结合起来，形成历史轨迹，因此，ID field被视为一个in-context
+prompt，ID decoder预测每个新检测的ID。</p>
 
     </div>
 
@@ -242,6 +446,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Object-Tracking/" rel="tag"># Object Tracking</a>
+          </div>
 
         
 
@@ -285,13 +492,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">146k</span>
+    <span title="站点总字数">150k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">8:49</span>
+    <span title="站点阅读时长">9:04</span>
   </span>
 </div>
 <div class="busuanzi-count">

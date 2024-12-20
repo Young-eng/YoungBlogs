@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-12-17T06:53:09.150Z</updated>
+  <updated>2024-12-17T13:31:22.747Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>StrongSORT</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/12/17/StrongSORT/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/12/17/StrongSORT/</id>
+    <published>2024-12-17T13:31:22.000Z</published>
+    <updated>2024-12-17T13:31:22.747Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>SAMURAI</title>
@@ -42,19 +63,41 @@
     <link href="https://young-eng.github.io/YoungBlogs/2024/12/17/MOTIP/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/12/17/MOTIP/</id>
     <published>2024-12-17T06:52:58.000Z</published>
-    <updated>2024-12-17T06:52:58.195Z</updated>
+    <updated>2024-12-20T01:55:31.889Z</updated>
     
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
+    <content type="html"><![CDATA[<h3 id="multiple-object-tracking-as-id-prediction1">Multiple ObjectTracking as ID Prediction<sup>[1]</sup></h3><blockquote><p>作者是来自南大、上海AI Lab和中国移动的Ruopeng Gao、Yijun Zhang和LiminWang。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>end-to-end in-context ID prediction</li></ul><h3 id="总结">总结</h3><ol type="1"><li>在多目标跟踪中，tracking-by-detection方法经历了很多测试，将这个过程分为检测和关联阶段，利用鲁棒的单帧检测器，通过人工设计的启发式算法和代理任务，将目标关联视为一个后处理步骤。然而，启发式方法的本质是阻止了对端到端训练数据的利用，导致当面临复杂或者新的场景的时候，增加的人为的修改。在本文中，将目标关联任务视为一个端到端的in-contextID预测问题，提出了一个baseline称之为MOTIP。特别地，当考虑将对应的IDs作为in-contextprompts时，将targetembeddings嵌入到历史轨迹信息中，然后直接预测当前帧的目标的IDlabels。MOTIP能够直接从训练数据中学习trackingcapabilities，将其从繁重的人工算法中解放出来。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MOT旨在定位每一帧中感兴趣目标的位置，然后再整个视频序列中分配它们对应的id。作为一个基础的视觉任务，用在了很多下游任务上。<strong>再MOT的发展历史上，tracking-by-detection范式成为了一个shiningstar，基于这个问题定义，它们自然地将这个过程分成两个子任务：目标检测和关联，用单帧的检测器来检测当前帧中的所有目标，然后用后处理算法将历史轨迹和这些detections进行关联，实现在线tracking</strong>。启发式的方法被用来作为ID分配的最优解。它们主要依赖于运动信息，利用卡尔曼滤波器用于线性运动估计和计算IoUcostmatrix，一些方法也引入了Re-ID特征，用余弦相似度用于相似度计算，尽管这些方法实现了很好的结果，<strong>它们过分第依赖于手工设计和人工的先验假设仍然是一个让人担忧的问题</strong>。例如，卡尔曼滤波器依赖于线性运动假设，它努力在复杂的运动模式中准确地适应目标轨迹。类似地，基于linearlyseparablefeatures的假设，当面对不可区分的外观的时候，余弦相似度也不可靠。因此，在面对复杂或者新的场景的时候，<strong>tracking-by-detection方法总是需要通过人工分析，更新启发式的方法，这个做法可能导致日益膨胀和复杂的代码库</strong>。</p></li><li><p>现在，很多研究将DETR扩展到MOT中，trackedobjects表示为queries，逐帧地进行propagate，用来回归目标的位置。通过端到端的过程，<strong>这些方法能够直接从训练数据中学习必要的tracking策略</strong>，使得它们能够在复杂场景中获得优势，尽管实现了很好的性能，它们仍然在一些方面不是很完美。<strong>例如tracking-by-query范式使得在训练阶段进行逐帧的处理，类似于神经网络运作的方式，这个本质阻止了长期的训练，导致训练和推理之间的差异，最终限制了模型的性能</strong>。另外，同时处理检测和跟踪queries可能导致冲突和相互抑制，导致综合性能下降。</p></li><li><p>这篇文章引入了一个全新的视角，<strong>通过将MOT视为一个端到端的ID预测任务。特别地，给定所有跟踪目标的历史轨迹，模型需要检测当前帧中所有目标，直接预测它们的IDlabels。实际上，作者倾向于利用DETR作为检测器，因为它直接提供了每个目标的embeddings，使得不需要考虑特征提取方法例如RoI，pooling等，就能够构建历史轨迹。为了表示不同trackedtargets的ID，构建了一个可学习的ID词典。基于此，将目标的embeddings和它对应的IDembeddings进行concate，得到历史的轨迹信息。用一个直接的transformerdecoder架构用作ID预测器，将当前帧的物体作为输入，基于历史信息直接预测它们的IDlabels</strong>。</p></li><li><p>一方面，相比于tracking-by-detection方法，作者的方法绕过了代理任务和启发式算法，简化了跟踪管道，并使得能够从特定场景中端到端地利用跟踪能力。另一方面，检测器和ID预测器是高度并行的，消除了tracking-by-query方法中的串行处理。另外，没有在单个module中同时处理检测和关联也避免了冲突。</p></li><li><p><strong>Tracking-By-Detection</strong>：是MOT中用的最广的范式，很多方法采用了启发式算法，将当前帧的检测结果和历史轨迹关联起来，然后逐帧地实现在线MOT，因为传统MOT主要关注于行人跟踪，行人展示出了相对简单地运动模式，一个自然的方式是估计它们的运动用于目标关联。例如SORT和ByteTrack通过利用卡尔曼滤波用于线性运动估计，实现了很好的效果。然而，这个线性运动假设无法捕捉无序的轨迹，OC-SORT进一步更新了这个算法，使得它能够适应突然的终止和而非线性的运动，提高了性能。一些方法尝试引入目标外观相似度用于测量。Deep-SORT和DeepOCSORT引入了额外的Re-ID模块，来得到Re-ID特征，相比之下，像FairMOT，JDE，用同一个框架用于检测和特征提取。另外，BoT-SORT通过估计相机位移，纠正了运动估计的结果；TrackFlow通过深度信息增强了模型。<strong>由于线性运动假设不完美的本质，Hybrid-SORT最近引入了基于目标高度和检测置信度的状态估计，增强了跟踪的能力，特别是在DanceTrack中，尽管修补启发式算法仍然能取得比较好的结果，它还是会将代码库弄的臃肿，然而，手动制作代理任务和依赖于先验假设在特定场景中学不到优化的策略，导致当面对没有考虑过的场景的时候，需要很大的努力调整参数和算法</strong>。</p></li><li><p><strong>Tracking-by-Query</strong>：受最近DETR的启发的一个跟踪算法，将detectqueries扩展到MOT任务，用track queries来表示trackedtarget，通过视频序列进行传播。TransTrack构建了一个Siamese Transformerdecoder用于检测和跟踪。TrackFormer和MOTR利用相同的Transformerdecoder通过同时处理detect和trackqueries来同时处理检测和跟踪。MQT采用了多个queries来表示一个trackedobject，更多地关注未知类别的跟踪。MeMOT构建了一个巨大的记忆库来存储目标历史信息。MeMOTR用了一个长期的记忆注入机制，一个简单有效的方式来提高跟踪性能，然而，<strong>最近的研究突出了新的方法和trackedobject之间的冲突对于tracking-by-query范式仍然是一个严重的问题。CO-MOT和MOTRv3尝试平衡两者insupervision，能够缓解这个矛盾</strong>。</p></li><li><p>这篇文章中，作者将MOT视为一个IDPrediction的问题，称之为MOTIP。<strong>MOT作为一个ID预测问题</strong>。MOT旨在产生通过每个identityk，逐帧产生有顺序的bboxes。这个暗示了，对于每帧的在线处理，它努力将检测到的物体和之前的轨迹相匹配。将这些历史轨迹表示为一个轨迹集合。<spanclass="math inline">\(\mathcal{T} ={\mathcal{T}^1,\mathcal{T}^2,...,\mathcal{T}^K}\)</span>。每个 <spanclass="math inline">\(\mathcal{T}^k =(\tau^k_1,\tau^k_2,...,\tau^k_T)\)</span>表示第k个识别到的目标的完整的轨迹。<spanclass="math inline">\(\tau^k_t\)</span> 表示在时刻t的tracklet context信息。实际中， <span class="math inline">\(\tau^k_t\)</span>的组成依赖于每个不同的方法。例如有的方法总是利用位置、速度和加速度来描述每个tracklet，也有一些ReID的方法引入了目标特征用于外观匹配。之前，给定历史轨迹 <spanclass="math inline">\({\mathcal{T}_{1&quot;t-1}}\)</span>，tracking-by-detection的方法通过代理任务计算costmatrix。然而tracking-by-query的方法通过传播trackqueries，继承ID信息。本文中，引入了新的角度，将MOT视为ID预测问题。特别地，给定当前帧<span class="math inline">\(I_t\)</span> 的检测结果 <spanclass="math inline">\(\mathcal{D}_t\)</span>，基于历史轨迹，直接预测它们的ID，表示如下：<spanclass="math display">\[\mathrm{ID}(O_t)=\theta(\mathcal{T}_{1:t-1},\mathcal{D}_t),\]</span></p><p><span class="math inline">\(\mathcal{T}_{1:t-1}\)</span>表示第t帧之前的轨迹。<span class="math inline">\(\theta\)</span>是一个端到端的可学习的module，有一个简单的分类头。不需要任何人工的代理任务，通过分类任务直接预测ID。</p></li><li><p>MOTIP架构：整个的MOTIP架构很简单，包含3个主要部分：<strong>一个DETR检测器检测目标和提取它们的嵌入；一个可学习的ID词典，将不同的identities表示为C维的embeddings；一个IDdecoder预测新检测的目标的ID</strong>。</p></li><li><p><strong>DETR检测器</strong>：用DETR作为图像检测器；输入原始图像<span class="math inline">\(I_t\)</span>，CNN backbone和Transformerencoder提取和增强图像特征。接下来，decoder从N个可学习的detectqueries中产生输出的embeddings。它们通过bbox和clshead被编码成bboxes和分类的置信度。用一个置信度阈值 <spanclass="math inline">\(\tau_{det}\)</span> 来过滤掉negativedetections，保留 <span class="math inline">\(M_t\)</span> 个activetargets。用DETR进一步简化了方法，使得能够利用解码的embeddings <spanclass="math inline">\(O_{t}=\{o_{t}^{1},o_{t}^{2},\cdots,o_{t}^{M_{t}}\}\)</span>来表示对应的目标，不许哟啊考虑层次化或者RoI技巧，用于特征提取和融合。</p></li><li><p><strong>可学习的ID 词典</strong>：一个直白的方式是用one-hotlabel表示ID，然而，一方面，离散的值不利于神经网络的学习；另一方面，one-hot形式不太实际，当将模型扩展到有大量目标的场景的时候，导致维度很大。因此，创建一个ID词典<span class="math inline">\(\mathcal{I}\)</span>，包含 <spanclass="math inline">\(K+1\)</span>个可学习的words来表示这些identities，如下： <spanclass="math display">\[\mathcal{I}=\{i^1,i^2,\cdots,i^K,i^{spec}\}.\]</span>每个word i 是一个可学习的C维embedding。具体地，前K个words <spanclass="math inline">\({i^1,i^2,...,i^K}\)</span> 是常规的tokens，表示对应的identities。最后一个word <spanclass="math inline">\(i^{spec}\)</span>是一个特殊的token，用于表示当前帧中检测到的、没有任何ID的新的目标。实际中，K的值比单帧中目标的平均数量大得多，依赖于不同的数据集。</p></li><li><p><strong>层次化的轨迹</strong>：MOT方法通常基于它们的要求，用了多种contexts来表示层次化的轨迹，例如位置、运动、Re-ID特征；像很多基于Transformer的方法，直接利用从decodingdetect queries得到的输出embeddings表示tracked targets。实际上，targetembedding e 是通过一个简单的FFN结构从输出embedding o推导出来的。因为embedding e 不包含identity信息，引入对应的IDembedding，来完成tracklet context： <spanclass="math display">\[{\tau}^{k_t} = concat(e^{k}_t,i^k)\]</span> <spanclass="math inline">\({\tau}^{k}_t\)</span> 是时刻t的、identity为k的tracklet object的tracklet context。<spanclass="math inline">\(e^k_t\)</span>是它的目标embedding。因此，每个tracklet context是一个2D维的vector，可以被拼接成历史轨迹 $ =(,_{t-1}<sup>{k},<em>{t}^{k},</em>{t+1}</sup>{k},)$。在实验中，只保留最近T帧的轨迹。</p></li><li><p><strong>IDDecoder</strong>：为了处理不同长度的输入，利用一个带有相对时序位置编码的6层transformerdecoder作为ID 预测器，将轨迹和detections作为输入，将identityfield引入到detection中，形成2C维的token： <spanclass="math display">\[d^m_t = concat(o^m_t,i^{spec})\]</span></p><p><span class="math inline">\(o^m_t\)</span> 是 当前帧中第m个activeDETR 输出embedding，<span class="math inline">\(i^{spec}\)</span>是ID词典中特殊的token，表示ID是未知的，然后，将这些detection tokens<spanclass="math inline">\(\mathcal{D}=\{d_{t}^{1},d_{t}^{2},\cdots,d_{t}^{M_{t}}\}\)</span>输入到ID decoder中作为Q，轨迹tokens <spanclass="math inline">\(\mathcal{T}_{t-T:t-1}\)</span>视为K和V。基于此，历史轨迹中的ID tokens作为一种in-contextprompt，将特定的身份信息传播到对应的检测。之后，解码的 <spanclass="math inline">\(\widehat{d_{t}^{m}}\)</span>通过一个线性projection 网络，变换为ID概率。因此，将ID分配的步骤转换成一个K+1的分类任务，可以通过交叉熵损失，端到端的监督。</p></li><li><p><strong>训练</strong>：对每个训练iteration，采样一个videoclip，包含 <span class="math inline">\(T+1\)</span>帧。这个模型在每个时刻t预测IDs，除了第一帧。为了遵循在线跟踪协议，在训练期间用一个因果注意力掩码，来确保只有之前帧是可见的。对于提出的ID预测器，采用直接的交叉熵。因为每一帧种的目标的数量不一样，通过取所有目标的平均来计算最后的id loss。 <spanclass="math display">\[\mathcal{L}_{id}=\frac{-\sum_{t=2}^{T+1}\sum_{m=1}^{M_t}\sum_{k=1}^{K+1}y_m^k\log(p_m^k)}{\sum_{t=2}^{T+1}M_t},\\y_{m}^{k}=\left\{\begin{array}{ll}1 &amp; \mathrm{gt} \ id \ \mathrm{of} \ m^{th} \ \mathrm{object~is}\ k, \\0 &amp; \mathrm{else},\end{array}\right.\]</span></p><p><span class="math inline">\(T+1\)</span> 表示一个trainingclip中的帧数，在第t帧中有 <span class="math inline">\(M_t\)</span>ground-truth 目标。根据每个目标的identity ground truth, <spanclass="math inline">\(y^k_m\)</span> 是一个indicator函数。在实际中，同时端到端的训练目标检测器和ID预测器，因此，利用整个的loss函数<span class="math inline">\(\mathcal{L}\)</span> 来监督两部分：</p><p><spanclass="math display">\[\mathcal{L}=\lambda_{cls}\mathcal{L}_{cls}+\lambda_{L1}\mathcal{L}_{L1}+\lambda_{giou}\mathcal{L}_{giou}+\lambda_{id}\mathcal{L}_{id},\]</span></p><p><span class="math inline">\(\mathcal{L}_{cls}\)</span> 是focalloss，<span class="math inline">\(\mathcal{L}_{1}\)</span> 和 <spanclass="math inline">\(\mathcal{L}_{giou}\)</span> 表示 L1 loss和generalized IoU loss。<span class="math inline">\(\lambda\)</span>是对应的权重。</p></li><li><p><strong>推理</strong>：在视频序列的第一帧，检测到的目标的置信度大于<span class="math inline">\(\tau_{new}\)</span>为记为新的目标，然后分配唯一的身份。在每个时刻t，首先用阈值 <spanclass="math inline">\(\tau_{det}\)</span>过滤掉来自DETR的结果，之后，这些active detections 和来自最近T帧的历史轨迹 <span class="math inline">\(\mathcal{T}_{t-T:t-1}\)</span>送到ID decoder中，预测对应的ID。在这些ID预测中，只有超过特定阈值的 <spanclass="math inline">\(\tau_{id}\)</span> 会被采用，任何检测置信度大于<span class="math inline">\(\tau_{new}\)</span>的目标，但没有分配任何跟踪ID的会被考虑为一个新的目标，给一个新的id。另外，一旦长视频中的id的数量超过了K，ID词典中的tokens<span class="math inline">\(\mathcal{I}\)</span>将会被重复利用。</p></li><li><p><strong>训练中的轨迹增强</strong>：多个目标轨迹重视面临挑战性的情况，例如遮挡、模糊等。这些挑战导致推理期间的ID分配错误，损害历史轨迹的可靠性。然而，在训练期间这些情况不会出现因为所有的ID是来自groundtruth用bipartitematching得到的，类似于DETR，因此，在训练和推理之间有差异，可能降低跟踪性能。为了缓解这个问题，在训练期间引入了两个轨迹增强的技巧。首先，在同一帧中交换两个历史目标的ID；第二，以<span class="math inline">\(\lambda_{drop}\)</span>的概率随机扔掉给定轨迹中的 l个连续的tokens，l是一个从均匀分布中采样得到的随机长度。这两个方法能够模拟训练期间的目标遮挡和IDfailures，因此增强了模型的robustness。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/188f2b8234c7acb473ae305f832bfbb968b1d8f1/5-Figure2-1.png"alt="Overview of MOTIP" /> <spanclass="math inline">\(Fig.1^{[1]}\)</span>这里有三个主要的组件：一个可学习的ID词典，表示不同的identities，一个DETR detector检测感兴趣的目标和一个IDdecoder预测当前帧中目标的ID，将object embeddings和它们对应的IDembeddins结合起来，形成历史轨迹，因此，ID field被视为一个in-contextprompt，ID decoder预测每个新检测的ID。</p>]]></content>
     
     
+    <summary type="html">&lt;h3 id=&quot;multiple-object-tracking-as-id-prediction1&quot;&gt;Multiple Object
+Tracking as ID Prediction&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自南大、上海AI Lab和中国移动的Ruopeng Gao、Yijun Zhang和Limin
+Wang。论文引用[1]:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2024.Mar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;end-to-end in-context ID prediction&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;在多目标跟踪中，tracking-by-detection方法经历了很多测试，将这个过程分为检测和关联阶段，利用鲁棒的单帧检测器，通过人工设计的启发式算法和代理任务，将目标关联视为一个后处理步骤。然而，启发式方法的本质是阻止了对端到端训练数据的利用，导致当面临复杂或者新的场景的时候，增加的人为的修改。在本文中，将目标关联任务视为一个端到端的in-context
+ID预测问题，提出了一个baseline称之为MOTIP。特别地，当考虑将对应的IDs作为in-context
+prompts时，将target
+embeddings嵌入到历史轨迹信息中，然后直接预测当前帧的目标的ID
+labels。MOTIP能够直接从训练数据中学习tracking
+capabilities，将其从繁重的人工算法中解放出来。&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
     
   </entry>
   
@@ -646,52 +689,6 @@ annotations&lt;/strong&gt;。在这两种情况下，预测连贯的tubelet作�
     
     
     <category term="Action Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Action-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RT-DETR</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/10/23/RT-DETR/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/10/23/RT-DETR/</id>
-    <published>2024-10-23T14:11:04.000Z</published>
-    <updated>2024-10-24T08:03:15.326Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="detrs-beat-yolos-on-real-time-object-detection1">DETRs BeatYOLOs on Real-time Object Detection<sup>[1]</sup></h3><blockquote><p>作者是来自北大和百度的Yian Zhao, Wenyu Lv等人。论文引用[1]:Lv, Wenyuet al. “DETRs Beat YOLOs on Real-time Object Detection.” 2024 IEEE/CVFConference on Computer Vision and Pattern Recognition (CVPR) (2023):16965-16974.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Apr</li></ul><h3 id="key-words">Key Words</h3><ul><li>hybrid encoder to process multi-scale features</li><li>uncertainty-minimal query selection to provide high-quality initialqueries to the decoder</li><li>intra-scale interaction and cross-scale feature interaction</li></ul><h3 id="动机">动机</h3><p>YOLO系列受到了NMS的影响，会降低推理速度。在不同的scenarios下，需要仔细地选择NMS的阈值。DETR不需要手工设计的components，没有NMS，但是计算成本高。因此，探索DETR能够做到实时是一个重要的方向。</p><h3 id="总结">总结</h3><ol type="1"><li>YOLO系列变成了最流行的实施目标检测的框架因为trade-off betweenspeed和accuracy。然而，观察到，YOLO的速度和精度收到了NMS的负面影响。端到端的DETR不需要NMS。然而，它的计算成本还是很高。这个不仅降低了推理的速度，也引入了超参数，造成速度和精度的不稳定。DETR去掉了手工设计的component，然而它的计算成本很高，很难做到实时。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>multi-scalefeatures的interaction造成了计算成本，实时的DETR需要重新设计encoder；objectqueries很难优化，阻碍了DETRs的性能。提出了query selectionschemes来代替vanilla learnable embeddings with encoderfeatures。然而，观察到，<strong>当前的query selection直接采用分类的scoreforselection,忽略了detector需要同时对目标的category和location同时进行model，这俩都决定了features的质量</strong>。这个不可避免地造成了lowlocalization confidence的encoder features被选为了initialqueries。因此导致了大量的不确定性。将<strong>queryinitialization视为一个breakthrough，来进一步提高performance</strong>。</p></li><li><p>在本文中，提出了RT-DETR，为了加速处理multi-scalefeatures，设计了一个高效的hybrid encoder来代替vanilla Transformerencoder, <strong>通过解耦intra-scale interaction和 cross-scale fusion offeatures with differentscales，来提高速度</strong>。为了避免有低localizationconfidence的encoder features被选为initialqueries，提出了<strong>uncertainty-minimal queryselection</strong>，通过优化不确定性，提供高质量的initialqueries给decoder，来提高精度。另外，RT-DETR支持flexible speedtuning，不需要训练来适应不同的实时的场合，多亏了multi-layer decoderarchitecture of DETR。</p></li><li><p>DETR有很多的问题：(1)收敛比较慢; (2)计算成本高;(3)queries很难优化; Deformable-DETR通过增强attention机制的效率，withmulti-scalefeatures来加速训练的收敛。DAB-DETR和DN-DETR通过引入迭代的refinementscheme和去噪训练，来提高性能。Group-DETR引入了group-wise one-to-manyassignment; Efficient DETR和Sparse DETR通过减小encoder和decoderlayer的数量或者updated queries的数量来减小计算成本；LiteDETR通过减小low-level feature的更新频率来提高encoder的效率。ConditionalDETR和Anchor DETR减小了queries的优化困难；有人也提出了query selection用于两阶段的DETR; DINO用mixed queryselection来帮助更好地初始化queries。</p></li><li><p>NMS广泛地用于目标检测的后处理，来消除overlapping outputboxes。NMS中有两个阈值：confidence threshold和IoUthreshold。特别地，box的score低于阈值的会被过滤掉；任意两个boxes的IoU超过IoU阈值的，lowerscore的box会被丢弃；这个过程一直迭代的进行，直到所有的boxes被处理；因此，NMS的执行时间依赖于box的数量和两个阈值；为了验证这个observation，利用YOLOv5和YOLOv8for analysis。</p></li><li><p>首先，在过滤掉boxes with different confidence thresholds on thesame input之后，数出boxes的数量，sample values from 0.001 to 0.25 asconfidencethresholds，来计算出两个检测器的剩余的boxes的数量；结果显示：当confidencethreshold增加的时候，更多的predictionboxes被过滤掉了，剩余需要来计算IoU的boxes的数量减小了，因此减小了NMS的执行时间。实验结果表明：anchor-free的检测器有着相同精度的情况下，比anchor-based检测器好，因为anchor-free检测器需要很少的NMStime。</p></li><li><p>Model：RT-DETR包含了一个backbone，一个高效的hybridencoder，一个Transformer Decoder with auxiliary predictionheads。将最后3个stage的features给到encoder，混合encoder将多尺度的features通过intra-scalefeature interaction和cross-scale feature fusion转换成imagefeatures的序列。用uncertainty-minimal queryselection来选择固定数量的encoder features作为initial queries fordecoder。最后，有着auxiliary prediction heads的decoder能够迭代优化objectqueries，来产生类别和boxes。</p></li><li><p>multi-scalefeatures的引入，加速了训练收敛，提高了性能。然而，尽管deformableattention降低了计算成本，增加了序列的长度，导致encoder变成了计算瓶颈。为了克服这个瓶颈，首先分析多尺度encoder中的计算冗余，直觉上来说，high-level的features包含了从low-levelfeatures提取出来的物体的丰富的语义信息，使得它在concated multi-scalefeatures上进行featureinteraction的时候是冗余的。因此，设计了不同类型的encoder，证明了intra-scale和cross-scale feature interaction是不高效的。作者用了DINO-Deformable-R50with the smalller size data reader 和ligher decoder used in RT-DETR forexperiments，首先remove了multi-scale Transformer encoder inDINO-Deformable-R50作为变体A；然后不同类型的encoder基于A产生了不同的变体。</p></li><li><p>基于以上的分析，提出了混合的encoder，包含两个module：一个是Attention-basedIntra-scale Feature Interaction(AIFI)，CNN-based Cross-scale FeatureFusion(CCFF)。特别的，AIFI基于D，通过执行intra-scale interaction only on<span class="math inline">\(S_5\)</span>进一步降低了计算成本。<strong>原因是将自注意力操作用在high-levelfeatures with richer semantic concepts，能够得到conceptualentities之间的联系，方便了后续模块的目标的定位和识别。然而，lower-levelfeature的intra-scale interaction是不必要的，因为缺乏semanticconcepts，还有重复以及和high-levelfeature混淆的风险</strong>。为了验证这个观点，执行了intra-scaleinteraction only on $S_5 in variant D。相比于D, <spanclass="math inline">\(D_{s5}\)</span>不仅显著降低了延迟，也提高了精度。CCFF基于cross-scalefusion module进行优化，插入了几个包含卷积层的fusion blocks into fusionpath。这个fusion block的角色是融合两个相邻的scale features into a newfeature。fusion block包含了两个 <span class="math inline">\(1 \times1\)</span> 的卷积来调整通道。<span class="math inline">\(NRepBlocks\)</span>: <span class="math display">\[\mathcal{Q}=\mathcal{K}=\mathcal{V}=\mathtt{F l a t t e n} (\mathcal{S}_{5} ), \\\mathcal{F}_{5}=\operatorname{R e s h a p e} ( \mathtt{A I F I} (\mathcal{Q}, \mathcal{K}, \mathcal{V} ) ), \\\mathcal{O}=\operatorname{C C F F} ( \{\mathcal{S}_{3}, \mathcal{S}_{4},\mathcal{F}_{5} \} ),\]</span></p><p>Reshape表示恢复flattened feature的shape，使其和 <spanclass="math inline">\(S_5\)</span>一样。</p></li><li><p><strong>Uncertainty-minimal QuerySelection</strong>：为了减小优化object queries的困难，有人提出了queryselection的方案。相同之处在于用confidence score来选择top K features fromencoder，来初始化object queries(or just position queries)。confidencescore表示包含前景目标的可能性。因为detector需要同时model thecategory和location ofobjects，这俩都决定了features的质量。因此feature的score是与分类和定位都相关的。当前的queryselection会导致大量的不确定性，导致sub-optimal initialization fordecoder，阻碍了detector的性能。为了解决这个问题，提出了不确定性最小的query选择方案，显示地构建和优化<strong>epistermic uncertainty</strong>。具体地，feature uncertainty<span class="math inline">\(U\)</span> 定义为预测的定位 <spanclass="math inline">\(P\)</span> 和分类 <spanclass="math inline">\(C\)</span>的分布之间的差异。为了最小化queries的不确定性，将uncertainty集成到lossfunction中, for gradient-based optimization。</p><p><spanclass="math display">\[\mathcal{U}(\hat{\mathcal{X}})=\|\mathcal{P}(\hat{\mathcal{X}})-\mathcal{C}(\hat{\mathcal{X}})\|,\hat{\mathcal{X}}\in\mathbb{R}^{D}\\\mathcal{L}(\hat{\mathcal{X}},\hat{\mathcal{Y}},\mathcal{Y})=\mathcal{L}_{box}(\hat{\mathbf{b}},\mathbf{b})+\mathcal{L}_{cls}(\mathcal{U}(\hat{\mathcal{X}}),\hat{\mathbf{c}},\mathbf{c})\]</span></p><p><span class="math inline">\(\hat{y}\)</span> 和 <spanclass="math inline">\(y\)</span> 表示预测和真值，<spanclass="math inline">\(\hat{\boldsymbol{y}}=\{\hat{\mathbf{c}},\hat{\mathbf{b}}\}\)</span>,<span class="math inline">\(\hat{c}\)</span> 和 <spanclass="math inline">\(\hat{b}\)</span> 分别表示类别和bounding box。<spanclass="math inline">\(\hat{x}\)</span>表示encoder feature.</p></li><li><p><strong>ScaledRT-DETR</strong>：实时的检测器提供了不同scale的模型来适应不同的情景，RT-DETR支持灵活的scaling。特别地，对于混合encoder，通过调整嵌入的维度和channel的数量控制width，通过调整Transformerlayers和RepBlocks来控制depth。decoder的width和depth可以通过调整objectqueries和decoder layers的数量来控制。更多的，通过调整decoderlayers的数量，RT-DETR的速度支持灵活的调整。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/3a6c423cc0f687fc43a671e55dce06f681df7476/4-Figure3-1.png"alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span> Theencoder structure for each variant. SSE represents the single-scaleTransformer encoder, MSE represents the multi-scale Transformer encoder,and CSF represents cross-scale fusion. AIFI and CCFF are the two modulesdesigned into our hybrid encoder.Variant B inserts a single-scaleTransformer en coder into A, which uses one layer of Transformer block.The multi-scale features share the encoder for intra-scale featureinteraction and then concatenate as output. Variant C introducescross-scale feature fusion based on B and feeds the concatenatedfeatures into the multi-scale Transformer encoder to performsimultaneous intra-scale and cross-scale feature interaction. Variant Ddecouples intra-scale interaction and cross-scale fusion by utilizingthe single-scale Transformer encoder for the former and a PANet-stylestructure for the latter. Variant E enhances the intra-scale interactionand cross-scale fusion based on D, adopting an efficient hybrid encoderdesigned by us.</p><p><imgsrc="https://figures.semanticscholar.org/3a6c423cc0f687fc43a671e55dce06f681df7476/4-Figure4-1.png"alt="CCFM" /> <span class="math inline">\(Fig.2^{[1]}\)</span> Overviewof RT-DETR. We feed the features from the last three stages of thebackbone into the encoder. The efficient hybrid encoder transformsmulti-scale features into a sequence of image features through theAttention-based Intra-scale Feature Interaction (AIFI) and the CNN-basedCross-scale Feature Fusion (CCFF). Then, the uncertainty-minimal queryselection selects a fixed number of encoder features to serve as initialobject queries for the decoder. Finally, the decoder with auxiliaryprediction heads iteratively optimizes object queries to generatecategories and boxes.</p><p><imgsrc="https://figures.semanticscholar.org/3a6c423cc0f687fc43a671e55dce06f681df7476/5-Figure5-1.png"alt="Different types of encoders" /> <spanclass="math inline">\(Fig.3^{[1]}\)</span> The fusion block in CCFF</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;detrs-beat-yolos-on-real-time-object-detection1&quot;&gt;DETRs Beat
-YOLOs on Real-time Object Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自北大和百度的Yian Zhao, Wenyu Lv等人。论文引用[1]:Lv, Wenyu
-et al. “DETRs Beat YOLOs on Real-time Object Detection.” 2024 IEEE/CVF
-Conference on Computer Vision and Pattern Recognition (CVPR) (2023):
-16965-16974.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2024.Apr&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;hybrid encoder to process multi-scale features&lt;/li&gt;
-&lt;li&gt;uncertainty-minimal query selection to provide high-quality initial
-queries to the decoder&lt;/li&gt;
-&lt;li&gt;intra-scale interaction and cross-scale feature interaction&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;动机&quot;&gt;动机&lt;/h3&gt;
-&lt;p&gt;YOLO系列受到了NMS的影响，会降低推理速度。在不同的scenarios下，需要仔细地选择NMS的阈值。DETR不需要手工设计的components，没有NMS，但是计算成本高。因此，探索DETR能够做到实时是一个重要的方向。&lt;/p&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;YOLO系列变成了最流行的实施目标检测的框架因为trade-off between
-speed和accuracy。然而，观察到，YOLO的速度和精度收到了NMS的负面影响。端到端的DETR不需要NMS。然而，它的计算成本还是很高。这个不仅降低了推理的速度，也引入了超参数，造成速度和精度的不稳定。DETR去掉了手工设计的component，然而它的计算成本很高，很难做到实时。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
     
   </entry>
   
