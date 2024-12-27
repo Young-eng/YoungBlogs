@@ -63,19 +63,38 @@ model(AFLink)，不需要外观信息进行全局关联。实现了速度和精�
     <link href="https://young-eng.github.io/YoungBlogs/2024/12/17/SAMURAI/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/12/17/SAMURAI/</id>
     <published>2024-12-17T06:53:09.000Z</published>
-    <updated>2024-12-17T06:53:09.150Z</updated>
+    <updated>2024-12-27T09:13:17.984Z</updated>
     
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
+    <content type="html"><![CDATA[<h3id="samurai-adapting-segment-anything-model-for-zero-shot-visual-tracking-with-motion-aware-memory1">SAMURAI:Adapting Segment Anything Model for Zero-Shot Visual Tracking withMotion-Aware Memory<sup>[1]</sup></h3><blockquote><p>作者是来自华盛顿大学的Cheng-Yen Yang, Hsiang-WeiHuang等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Nov</li></ul><h3 id="key-words">Key Words</h3><ul><li>zero-shot tracking</li></ul><h3 id="总结">总结</h3><ol type="1"><li>SAM2在目标分割任务上展示了强大的能力，但是在视觉目标跟踪上面临挑战，特别是当一些快速移动或者遮挡的目标的场景的时候。另外，原始模型中的固定窗口记忆方法没有考虑选择的记忆的质量来约束下一帧的图像特征，导致视频中的误差传播。本文介绍了SAMURAI，一个SAM2的增强的版本，用于视觉目标跟踪。通过引入<strong>时序运动线索</strong>和提出的<strong>运动感知选择机制</strong>，SAMURAI能够有效的预测目标的运动和修正掩膜选择，实现鲁棒的、精确的跟踪，不需要重新训练或者微调。SAMURAI能够实时操作，展示了强大的zero-shto的性能。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>SAM2引入了流记忆架构，使得能够顺序地处理视频帧，同时在长的序列上维持上下文。SAM2展示了强大的视频目标分割能力，产生精确的像素级的掩膜，仍然面临着挑战。VOT主要的关注点是保持一致的目标id和定位，即使遮挡，外观变换或相似目标出现。然而，SAM2当预测序列帧的掩膜的时候，忽略了运动线索导致一些快速移动的场景中的不精确。这个限制在拥挤的场景中很常见。<strong>SAM2倾向于外观相似，而不是空间和时间一致性，导致跟踪误差</strong>。有两个常见的失败的模式：拥挤场景中的混淆和遮挡期间的不高效的记忆利用。</p></li><li><p>为了解决这些限制，提出将<strong>运动信息引入到SAM2的预测过程中，通过利用目标轨迹的历史信息，可以增强模型区分视觉上相似的目标，在遮挡的情况下，维持跟踪的精度</strong>。另外，优化SAM2的记忆管理是重要的，当前的方法不加选择的在memorybank中存储最近的frames，在遮挡期间引入了不相关的特征，降低了跟踪性能。解决这些挑战对于适应SAM2丰富的掩码信息以实现稳健的视频目标跟踪至关重要。</p></li><li><p>为了这个目的，提出了SAMURAI，一个基于SAM的统一的、鲁棒的、zero-shot的、带有运动感知的实例级记忆的zero-shot视觉跟踪器。提出了方法引入了两个关键的提升：(1)<strong>一个运动建模的系统，修正了掩码选择</strong>，使得在复杂场景下更精确的目标位置预测；(2)<strong>一个优化的记忆选择机制，采用混合评分系统，结合了原始掩膜相似度、物体得分和运动得分，以保留更多相关的历史信息</strong>，从而增强模型的整体跟踪可靠性。总结的贡献如下：</p><ul><li>通过运动建模，引入运动信息，来高效地处理快速移动和遮挡的物体，增强SAM2的精确度。</li><li>提出了运动感知的记忆选择机制，通过选择性的存储由运动和相似度分数决定的相关的frames，降低了拥挤场景下的误差</li></ul></li><li><p>视觉目标跟踪(visual object tracking, VOT)旨在跟踪视频序列中的目标，包括一些目标大小、遮挡、复杂背景等变换，来提升跟踪算法的鲁棒性和精确。基于Siamese和基于Transformer的跟踪器通过学习嵌入相似度。然而，由于在singleforwardpass评估策略中，这些跟踪器缺乏自纠正，很容易偏移到干扰物上。为了这个目的，最近的工作进一步引入了memorybank和注意力，来找到当前帧和历史信息之间的映射。</p></li><li><p>SAM启发了大量的后续的研究。SAM引入了一个基于prompt的分割的方式，用户可以输入points/bboxes/text来指导模型分割图像中的任意目标。SAM有很广的应用，像是视频理解。然后，很多基于SAM的工作，例如，SAM2将模型的能力扩展到视频分割，引入了记忆机制，用于在动态视频序列中跟踪目标。另外，也尝试了创造更多的SAM的变体，用于资源受限的环境，旨在降低它的计算需求。医学图像中的研究也采用SAM用于特定的任务。最近，SAM2Long用了基于Tree的记忆来增强用于长视频的目标分割。然而，它们的高fps的视频序列和更深的memorytree架构需要更多的计算资源和存储消耗。另一方面，提出的SAMURAI模型，已经在大规模的分割数据集上训练过了，确保了很好的泛化性。</p></li><li><p>运动建模是跟踪任务中一个重要的组件，能够分类为启发式的可学习的方法。启发式的方法例如广泛使用的卡尔曼滤波，依赖于固定的运动先验和预定义的超参数来预测目标轨迹。KF在很多benchmarks上有效，但是在密集或者abruptmotion中表现不好。其他的方法尝试在应用基于KF的预测之前，应用相机运动补偿。然而，这些标准和noisescaleadaptive的KF有很多的超参数，限制了它们在特定运动类型中的有效性。相反，可学习的运动模型吸引了很多的注意，因为它们是数据驱动的，Trackor是第一个用trajecorybox,就像FasterRCNN中的RoI一样，来提取特征，回归目标的位置。MotionTrack通过学习过去的轨迹表征来预测将来的运动，增强跟踪。MambaTrack进一步探索了不同的基于学习的运动模型架构例如Transformer和state-spacemodel(SSM)。作者的方法也是基于学习的、带有增强启发策略的运动建模。</p></li><li><p>SAM2包含一个图像encoder，一个mask decoder with promptencoder，一个记忆注意力层，一个记忆编码器。引入了SAM2的一些preliminaries。</p><ul><li>prompt encoder：promptencoder设计跟着SAM，有两种类型的prompts，包括稀疏的points和bboxes和密集的masks，通过promptencoder输出的prompt tokens表示为 <span class="math inline">\(x_{prompt}\in N_{tokens} \times d\)</span>。在视觉目标跟踪中，第一帧 <spanclass="math inline">\(t_0\)</span>中的目标的真值的bbox提供了，SAM2对top-left和bottom-right的points进行位置编码作为输入，然而，剩余的序列用从之前帧中预测的mask作为promptencoder的输入。</li><li>Mask Decoder：memory decoder是将memory attentionlayer产生的memory-conditioned image embeddings和prompttokens作为输入。它的多头分支能够产生一系列的预测的masks，along with对应的掩码相似度分数，和目标分数作为输出。SAM2的相似度掩码分数预测是MAEloss进行监督的，能够表示整体的mask的置信度。然而目标预测是用交叉熵loss进行监督的，来决定一个mask是否存在于frame中。在原始的执行中，最后输出的mask。基于所有的输出的mask中最高的相似度分数进行选择。然而，相似度分数不是一个非常鲁棒的indicator，特别是拥挤场景中。引入了一个额外的<strong>motionmodeling</strong>，来保持目标的运动track，提供一个额外的运动分数，来辅助的预测的选择。</li><li>Memory Attention Layer: Memory attention block首先用frameembeddins执行自注意力，然后执行image embeddings和memorybank内容之间的交叉注意力。无条件的imageembedings，和之前输出的masks、之前的输入的prompts和objectpointers置于上下文的理解中。</li><li>Memory Encoder和Memory bank：在maskdecoder产生输出的mask之后，输出的mask通过一个memory encoder来得到memoryembedding，在每个frame处理之后，创造了一个新的memory。这些memoryembeddings添加到memory bank中。在序列中给定的时刻 t，可以得到memory bank<span class="math inline">\(B_t\)</span>。将过去的<spanclass="math inline">\(N_past\)</span> frames的输出 <spanclass="math inline">\(m\)</span> 作为memorybank的组件。直接的固定窗口的memory可能导致错误编码或者低置信度的目标，当在长序列中的时候，可能导致误差传播，提出的<strong>motion-awarememory selection</strong> 将会代替原始的Memory bank，来确保更好的memoryfeatures能够被保留，在图像特征上进行限制。</li></ul></li><li><p>SAM2展示了强大的VOT和VOS能力。然而，<strong>原始的模型可能错误地编码或者低置信度的目标</strong>，导致在长的序列中的大量的误差传播。为了解决上述问题，提出了基于<strong>卡尔曼滤波的运动建模,on top of the multi-masksselection</strong>，和一个基于混合打分的，结合相似度和运动分数的系统的一个增强的记忆选择，这个增强能够增强模型的能力，在复杂视频场景中精确地跟踪目标。重要的是，这个方法不需要微调，也不需要额外的训练，能够直接集成到现有的SAM2中。通过提高预测masks的选择，提供了一个可靠的实时的onlineVOT。</p></li><li><p>运动建模很长时间以来是VOT中解决关联模糊的一个有效的方式。用线性的KF作为baseline，来展示运动建模的引入提高了跟踪精度。在视觉跟踪框架中，集成了KF来增强bboxes位置和维度预测，有助于从M个候选中选择N个，并从中挑选出最可靠的掩码。对于每个mask，对应的bbox<span class="math inline">\(d_i\)</span>是通过计算mask的非零的pixels的坐标的最大最小值得到的。KF-IoU分数通过计算预测的mask和从KF中预测的state推导出来的bbox的IoU来得到。然后选择最大化KF-IoU分数和原始相似度分数的加权求和的mask。</p></li></ol>]]></content>
     
     
+    <summary type="html">&lt;h3
+id=&quot;samurai-adapting-segment-anything-model-for-zero-shot-visual-tracking-with-motion-aware-memory1&quot;&gt;SAMURAI:
+Adapting Segment Anything Model for Zero-Shot Visual Tracking with
+Motion-Aware Memory&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自华盛顿大学的Cheng-Yen Yang, Hsiang-Wei
+Huang等人。论文引用[1]:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2024.Nov&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;zero-shot tracking&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;SAM2在目标分割任务上展示了强大的能力，但是在视觉目标跟踪上面临挑战，特别是当一些快速移动或者遮挡的目标的场景的时候。另外，原始模型中的固定窗口记忆方法没有考虑选择的记忆的质量来约束下一帧的图像特征，导致视频中的误差传播。本文介绍了SAMURAI，一个SAM2的增强的版本，用于视觉目标跟踪。通过引入&lt;strong&gt;时序运动线索&lt;/strong&gt;和提出的&lt;strong&gt;运动感知选择机制&lt;/strong&gt;，SAMURAI能够有效的预测目标的运动和修正掩膜选择，实现鲁棒的、精确的跟踪，不需要重新训练或者微调。SAMURAI能够实时操作，展示了强大的zero-shto的性能。&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="object tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/object-tracking/"/>
     
   </entry>
   
