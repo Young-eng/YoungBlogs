@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Simple Online and Real-Time Tracking with a Deep Association Metric[1]  作者是来自University of Koblenz-Landau的Nicolai Wojke, Alex Bewley等人。论文引用[1]:  Time  2017.Mar  Key Words  more informed a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DeepSORT">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/12/29/DeepSORT/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Simple Online and Real-Time Tracking with a Deep Association Metric[1]  作者是来自University of Koblenz-Landau的Nicolai Wojke, Alex Bewley等人。论文引用[1]:  Time  2017.Mar  Key Words  more informed a">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-29T07:02:44.000Z">
+<meta property="article:modified_time" content="2024-12-29T09:33:08.822Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="object tracking">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/12/29/DeepSORT/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/12/29/DeepSORT/","path":"2024/12/29/DeepSORT/","title":"DeepSORT"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DeepSORT | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#simple-online-and-real-time-tracking-with-a-deep-association-metric1"><span class="nav-number">1.</span> <span class="nav-text">Simple
+Online and Real-Time Tracking with a Deep Association
+Metric[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen201718@163.com" title="Email → mailto:yuen201718@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/12/29/DeepSORT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DeepSORT | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DeepSORT
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-12-29 15:02:44 / 修改时间：17:33:08" itemprop="dateCreated datePublished" datetime="2024-12-29T15:02:44+08:00">2024-12-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="simple-online-and-real-time-tracking-with-a-deep-association-metric1">Simple
+Online and Real-Time Tracking with a Deep Association
+Metric<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自University of Koblenz-Landau的Nicolai Wojke, Alex
+Bewley等人。论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2017.Mar</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>more informed association metric that combines motion and appearance
+information</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>SORT是一个多目标跟踪的实用的方法，简单高效。本文中，将外观信息集成，来提高SORT的性能。因为这个扩展，能够跟踪更长时间的遮挡的目标，有效地降低了ID切换。原始的框架中，将很多的计算复杂度放在了预训练阶段，在一个大规模的person
+re-id数据集上学习一个<strong>deep association
+metric</strong>。在在线应用的时候，<strong>用视觉外观空间中的最近的queries</strong>，建立一个measurement-to-track
+association。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>由于最近目标检测的进步，tracking-by-detection已经成为了多目标跟踪的学习范式。在这个范式中，目标轨迹通常是一个全局优化问题，一次处理整个的video
+batches。然而，由于batch processing，这些方法不能实时应用，targe
+id必须在每个时刻是available的。更多传统的方法MHT和JPDAF。这些方法是在逐帧的基础上进行数据关联。在JPDAF中，通过将每个测量值按其关联似然加权，生成单一状态假设。在MHT中，所有可能的假设被跟踪了，为了计算可追溯性，必须采用修建策略。SORT是一个更简单的框架，在图像空间执卡尔曼滤波，它使用匈牙利算法进行关联，并通过衡量边界框重叠度的关联度量来完成匹配。这个简单的方法在高帧率的时候效果很好。</p></li>
+<li><p>在跟踪精度上实现了好的表现，SORT有很好的id切换。这是因为当状态估计的不确定性很低的时候，采用的association
+metric才是准确的。因此SORT在有遮挡的时候，跟踪是有缺陷的。<strong>通过将运动和外观信息结合的更可靠的metric，来代替原来的metric，来克服这个问题</strong>。特别的，用一个在大规模person
+re-id数据集上训练过的CNN网络来判别行人。通过集成这个网络，增加了遮挡期间的鲁棒性。</p></li>
+<li><p>采用传统的single hypothesis tracking方法，采用kalman
+filtering和逐帧的数据关联。</p></li>
+<li><p>用一个标准的卡尔曼滤波器，带有恒速的运动和线性观测模型，将bbox的坐标
+<span class="math inline">\((u,v,r,h)\)</span> 作为object
+state的直接的观测。对于每个track k，在最后一个成功的measurement
+association <span class="math inline">\(a_k\)</span>
+之后，计数frames的数量。这个coutner在KF预测期间是增加的，当track和一个measurement已经和一个measurement关联了就置为0。超过了预定义的最大的age
+<span class="math inline">\(A_{max}\)</span> 的tracks
+被认为是离开了场景，并从track
+set中删除。不能和现有的track进行关联的detection将被初始化为新的track
+hypotheses。这些新的tracks在它们的前3帧被分类为暂定的。在这期间，期望一个成功的measurement
+association at each time
+step。没有成功和前3帧中的measurement进行关联的tracks被删除。</p></li>
+<li><p><strong>一个传统的解决预测的kalman
+states和新的measurements之间的关联的方式是建立一个assignment
+problem，能够通过匈牙利算法解决。在这个问题的描述中，通过结合两个合适的metrics，集成运动和外观信息</strong>。为了引入运动信息，在预测的kalman
+states和新的measurements之间用(squared)Mahalanobis distance。</p>
+<p><span
+class="math display">\[d^{(1)}(i,j)=(\boldsymbol{d}_j-\boldsymbol{y}_i)^\mathrm{T}\boldsymbol{S}_i^{-1}(\boldsymbol{d}_j-\boldsymbol{y}_i),\]</span></p>
+<p>将第i个track distribution在measurement space中的projection表示为
+<span class="math inline">\((y_i, S_i)\)</span>，第j个bbox
+detection表示为 <span
+class="math inline">\(d_j\)</span>。<strong>Mahalanobis
+distance通过测量detection离mean track
+location的标准偏离有多少，将状态估计的不确定性考虑在内。另外，用这个Metric，通过设定Mahalanobis
+distance从逆卡方分布计算的95%置信区间处进行阈值化，将不太可能的associations排除掉</strong>。</p>
+<p>如果第i个track和第j个detection之间的association是可接受的，则为1。对于四维测量空间，对应的mahalanobis阈值是
+<span class="math inline">\(t^(1) =
+9.4877\)</span>。当运动的不确定性很低的时候，Mahalanobis
+distance是一个合适的association metric，在image-space problem
+formulation，从卡尔曼滤波中得到的预测state
+distribution提供了一个粗略的object
+location的估计。具体地，相机运动会在image
+plane引入快速的位移。使得Mahalanobis distance是一个更见uniformed metric
+for trcking through occlusions。因此，将第二个metric集成到assignment
+问题中。对于每个bbox detection <span
+class="math inline">\(d_j\)</span>，计算一个外观descriptor <span
+class="math inline">\(r_j\)</span>，<span
+class="math inline">\(||r_j||=1\)</span>，另外，对于每个track
+k，保留最后100个关联的外观descriptors的gallery <span
+class="math inline">\(R_k\)</span>，然后，第二个metric在外观空间测量第i个track和第j个detection之间的最小余弦距离。</p>
+<p><span
+class="math display">\[d^{(2)}(i,j)=\operatorname*{min}\{1-{r_{j}}^{\mathrm{T}}{r_{k}^{(i)}}\mid{r_{k}^{(i)}}\in{\mathcal{R}}_{i}\}.\]</span></p>
+<p><span
+class="math display">\[b_{i,j}^{(2)}=\mathbb{1}[d^{(2)}(i,j)\leq
+t^{(2)}]\]</span></p>
+<p>这里，引入了一个binary
+variable，根据这个metric，表示这个关联是否是可接受的。然后发现一个合适的阈值for
+this indicator on a separate training
+dataset。实际中，用一个预训练的CNN来计算bbox的appearance
+descriptors。</p>
+<p>在combination中，两个Metrics通过在assignment
+problem上的不同的作用，互补。另一方面，Mahalanobis
+distance基于对短期预测有用的motion，提供了关于目标位置的信息。另一方面，在长时间的遮挡之后，余弦距离对恢复id有用的appearance
+信息。为了构建关联问题，用一个加权的和来结合这两个metrics。</p>
+<p><span class="math display">\[c_{i,j}=\lambda
+d^{(1)}(i,j)+(1-\lambda)d^{(2)}(i,j)\]</span></p>
+<p>如果它在两种metrics的门控区域内，则称一个association是可接受的。每个metric的影响可以通过超参数
+<span class="math inline">\(\lambda\)</span>
+控制。在实验期间，当有大量的相机运动的时候，发现 <span
+class="math inline">\(\lambda = 0\)</span>
+是一个合理的选择。在这个设定中，只有外观信息在association cost
+term中用到了。然而，基于KF推理的可能的目标位置，Mahalanobis
+gate仍然用来忽视不可行的assignments。</p></li>
+<li><p>而不是在一个全局分配问题中求解measurement-to-track的关联。引入了一个cascade解决一系列的子问题。为了motivate这个方法，考虑以下的场景：当一个目标被遮挡了很长时间，后续的KF预测增加了和目标位置有关的不确定性。因此，概率质量在状态空间中扩散，观测似然变得不那么集中。直觉上，association
+metric应该通过增加measurement-to-track来解释这个spread of probability
+mass。反直觉的是，当两个tracks竞争同一个detction的时候，Mahalanobis
+distance倾向于更大的不确定性，因为它实际上会减少任何检测到投影轨迹均值之间的标准差距离。这是一种不希望出现的行为，因为它可能导致轨迹碎片化增加和轨迹不稳定。因此，我们引入了一种匹配级联机制，优先考虑更频繁出现的对象，以在关联似然中编码我们对概率扩散的理解。</p></li>
+<li><p>对于输入，提供轨迹 T和detection D indices，最大的age <span
+class="math inline">\(A_{max}\)</span>的集合，先计算了association cost
+matrix和可接受的associations的matrix，然后迭代n次，来解决一个线性分配问题for
+tracks of increasing age。然后选择tracks <span
+class="math inline">\(T_n\)</span>的、还没有和最近的n个frames中的detection进行关联的一个子集，然后在<span
+class="math inline">\(T_n\)</span>中的tracks和没有匹配的detections <span
+class="math inline">\(u\)</span>之间解决一个线性分配问题。之后，更新matches和没有匹配的detections的集合。</p>
+<p>在最后的匹配阶段，做一个IoU association on the set of unconfirmed and
+unmatched tracks of age n=1。这能够帮助应对突然的外观变化</p></li>
+<li><p>Deep Appearance Descriptor：不需要额外的Metric
+learning，通过用简单的最近邻queries，成功的应用需要well-discriminating
+feature embedding，before actual online tracking
+application。为了这个目的，用一个在大规模person
+re-id数据集上的训练的CNN，使其能够适合deep metric learning in a people
+tracking context。这个CNN用了一个残差网络。最后的batch和 <span
+class="math inline">\(l_2\)</span> 归一化将features投射到unit
+超平面，来和余弦外观metric相兼容。</p></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/object-tracking/" rel="tag"># object tracking</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/12/17/StrongSORT/" rel="prev" title="StrongSORT">
+                  <i class="fa fa-angle-left"></i> StrongSORT
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">162k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:48</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
