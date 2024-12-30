@@ -19,14 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="Simple Online and Realtime Tracking[1]  作者是来自Queensland Unversity of Technology和悉尼大学的Alex Bewley, Zongyuan Ge等人。论文引用[1]:  Time  2017.Jul  Key Words  associate objects  总结  这篇文章探索了一个多目标">
+<meta property="og:type" content="article">
 <meta property="og:title" content="SORT">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/12/17/SORT/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Simple Online and Realtime Tracking[1]  作者是来自Queensland Unversity of Technology和悉尼大学的Alex Bewley, Zongyuan Ge等人。论文引用[1]:  Time  2017.Jul  Key Words  associate objects  总结  这篇文章探索了一个多目标">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-17T06:52:22.000Z">
-<meta property="article:modified_time" content="2024-12-17T06:52:22.841Z">
+<meta property="article:modified_time" content="2024-12-30T15:30:08.201Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="object tracking">
 <meta name="twitter:card" content="summary">
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#simple-online-and-realtime-tracking1"><span class="nav-number">1.</span> <span class="nav-text">Simple Online and Realtime
+Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -201,6 +206,22 @@
 
       <time title="创建时间：2024-12-17 14:52:22" itemprop="dateCreated datePublished" datetime="2024-12-17T14:52:22+08:00">2024-12-17</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-30 23:30:08" itemprop="dateModified" datetime="2024-12-30T23:30:08+08:00">2024-12-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
@@ -216,14 +237,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>7 分钟</span>
     </span>
 </div>
 
@@ -233,7 +254,92 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3 id="simple-online-and-realtime-tracking1">Simple Online and Realtime
+Tracking<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Queensland Unversity of Technology和悉尼大学的Alex Bewley,
+Zongyuan Ge等人。论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2017.Jul</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>associate objects</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>这篇文章探索了一个多目标跟踪的实用的方法，主要的焦点是<strong>有效地关联目标</strong>，用于实时的应用。为了这个目的，检测的质量是一个影响跟踪性能的重要因素。<strong>尽管只用基本的熟悉的组件的组合例如卡尔曼滤波和匈牙利算法用于跟踪</strong>，这个方法方法实现了类似于SOTA的精度。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>这篇文章展示了一个高效率的tracking-by-detection框架，用于解决MOT问题，相比于之前的batch
+based方法，这个工作主要面向实时的跟踪，只有过去和当前帧能提供给trackor。</p></li>
+<li><p>MOT问题可以被视为<strong>data
+association</strong>问题，旨在在一个视频序列中关联detections。为了帮助数据关联，跟踪器用了多个方法对场景中的目标的外观和运动进行建模。本文的方法也是受最近的MOT的benchmark的观察的启发。首先，mature
+data association方法包括MHT和JPDA的回归，占据了MOT benchmark的top
+position。其次，<strong>唯一没有用ACF
+detector的trackor也是排名靠前的tracker，表明detection的质量可能限制了其它跟踪器的表现</strong>。另外，精度和速度之间的trade-off相当明显，大多数的精确的tracker用于实时的应用很慢。鉴于传统数据关联技术在top
+online 和batch
+tracker中的突出地位，以及排名最高的跟踪器所采用的不同检测方法，本文旨在探索多目标跟踪（MOT）能够简化到何种程度，以及其性能可以达到怎样的高度。</p></li>
+<li><p>和奥卡姆剃刀原理一致，除了检测组件之外的外观特征被忽略了，只有bbox
+position和size用于motion estimation和data
+association。此外，关于短期和长期的遮挡的问题也被忽略了，因为它们很少发生，它们的显式处理为跟踪框架引入了不理想的复杂性。作者argue：以目标re-id的形式引入的复杂性增加了计算成本。
+这个设计的思想和现有的很多tracker不一样，引入了很多的components来处理多种边缘的情况和检测的误差。本文的工作，相反，关注在高效和可靠地处理常见的frame-to-frame的关联。不是旨在对detection
+errors鲁棒，相反，用最近的目标检测的进展来直接解决detection问题。通过将常用的ACF
+行为检测器和最近的基于CNN的检测器相比证明了这一点。<strong>另外，两个经典高效的方法：卡尔曼滤波和匈牙利算法，用来处理motion
+prediction和data association</strong>。主要的贡献如下：</p>
+<ul>
+<li>在MOT中利用基于CNN的检测</li>
+<li>基于卡尔曼滤波和匈牙利算法的跟踪方法</li>
+</ul></li>
+<li><p>传统的MOT用Multiple Hypothesis Tracking(MHT)或者Joint
+Probabilistic Data
+Association(JPDA)滤波器，目标分配的时候有很高的不确定性，延迟使得决策困难。这些方法的组合的复杂度在跟踪对象的数量上是指数增长的，使得在高度动态的环境中实时应用不现实。最近，有人重新审视了JPDA
+formulation in
+MOT，用高效的JPDA的近似，解决组合复杂问题。也有人用每个目标的外观模型来修建MHT
+graph，实现SOTA性能。然而，这些方法仍然会延迟决策，使得它们不适合实时的应用。
+很多实时的跟踪方法旨在建立每个目标的外观模型或者通过在线学习的全局模型。除了外观模型之外，motion也通常被考虑来辅助将detections和tracklets进行关联。当考虑一对一进行对应的时候，建模为bipartite
+graph
+matching，全局优化的方法例如匈牙利算法可以用。有人在两个阶段中采用了匈牙利算法。首先，通过关联相邻帧(几何和外观线索结合起来形成affinity
+matrix)的detections，形成tracklets，然后，<strong>Tracklets</strong>（轨迹片段）被相互关联起来，以修复由于遮挡而中断的轨迹，也用了<strong>几何和外观线索</strong>。这两个关联步骤限制了这个方法，作者的方法受别的tracking
+component的启发，然而，将<strong>关联阶段用基本的cues简化为单个阶段</strong>。</p></li>
+<li><p>所提出的方法通过以下几个关键组件进行描述：检测、将目标状态传播到未来帧、将当前检测结果与现有目标关联，以及管理被跟踪目标的生命周期。</p>
+<ul>
+<li><strong>Detection</strong>：为了利用基于CNN的detection，利用Faster
+RCNN作为检测器。在实验中发现，检测的质量对跟踪的性能有很大的影响。</li>
+<li><strong>Estimation Model</strong>：这里描述的object
+model，representation和motion model用来传播目标的id into next
+frame。这里近似每个目标的帧间位移是线性的，有着线性的恒定速度，独立于其它目标和相机运动，每个目标的状态建模如下：</li>
+</ul>
+<p><span class="math inline">\(u\)</span> 和 <span
+class="math inline">\(v\)</span> 表示目标中心的水平和竖直的位置，scale
+<span class="math inline">\(s\)</span> 和 <span
+class="math inline">\(r\)</span> 表示scale(area) 和 目标bbox的aspect
+ratio。注意到这个aspect
+ratio是恒定的。当一个detection和一个目标进行关联的时候，检测到的bbox用来更新target
+stae，速度是通过Kalman
+filter来解决的。如果没有detection和目标进行关联，这个state会用一个线性速度模型来预测，没有correction。</p>
+<ul>
+<li><p><strong>Association</strong>：将detections分配给现有的targets的时候，<strong>每个target的bbox几何是通过预测它在当前帧中的新的位置估计到的</strong>。然后，通过<strong>计算每个检测框与现有目标的所有预测边界框</strong>之间的交并比（IOU）距离，生成assignment
+cost
+matrix。assignment通过匈牙利算法来解决。另外，一个最小的IOU用来拒绝assignment，当detection
+to target的overlap小于 <span class="math inline">\(IOU_{min}\)</span>
+的时候。作者发现，bbox的IOU距离隐式地处理了有passing
+targets造成的遮挡。特别地，当一个target被遮挡的时候，只有occluder被检测到，，因为交并比（IOU）距离会优先选择尺度相似的检测框。这使得遮挡物目标(occluder
+target)可以通过检测结果进行修正，而被覆盖的目标由于未进行分配，因此不会受到影响。</p></li>
+<li><p><strong>Creation和Deletion of Track
+Identities</strong>：当目标进入和离开图像的时候，需要相应地创建和删除id。对于创造trackers，考虑一个overlap
+小于 <span class="math inline">\(IOU_{min}\)</span>
+的detection来表示一个untracked的目标。用bbox的几何，及速度设为0，来初始化tracker。因为速度在此刻是没有被观察到的，速度component的协方差用大的值进行初始化，反应了这个不确定性。另外，新跟踪器随后会进入一个试用期，在此期间，目标需要与检测结果进行关联，以积累足够的证据，从而避免对误检目标进行跟踪。如果
+<span class="math inline">\(T_{lost}\)</span>
+帧没有检测到，则tracks被终止。这可以防止跟踪器数量无限制增长，以及因长时间预测且没有检测器修正所导致的定位误差。在所有实验中
+<span class="math inline">\(T_{lost}\)</span>
+设为1.首先，恒速模型对于真实动态场景是一个很差的预测器。另外，主要关系frame-to-frame
+tracking，这里目标的re-id超出了本文的范畴。另外，早期跟丢的目标的删除提升了效率。如果一个目标重新出现，跟踪将会隐式地以一个新的身份恢复。</p></li>
+</ul></li>
+</ol>
 
     </div>
 
@@ -242,6 +348,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/object-tracking/" rel="tag"># object tracking</a>
+          </div>
 
         
 
@@ -285,13 +394,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">162k</span>
+    <span title="站点总字数">164k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">9:48</span>
+    <span title="站点阅读时长">9:56</span>
   </span>
 </div>
 <div class="busuanzi-count">
