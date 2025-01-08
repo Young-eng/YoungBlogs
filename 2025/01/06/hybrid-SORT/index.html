@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Hybrid-SORT: Weak Cues Matter for Online Multi-Object Tracking[1]  作者是来自大连理工和深圳TVT公司的Mingzhan Yang等人，论文引用[1]:Yang, Ming-Hsuan et al. “Hybrid-SORT: Weak Cues Matter for Online Multi-Object Trackin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hybrid-SORT">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/01/06/hybrid-SORT/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Hybrid-SORT: Weak Cues Matter for Online Multi-Object Tracking[1]  作者是来自大连理工和深圳TVT公司的Mingzhan Yang等人，论文引用[1]:Yang, Ming-Hsuan et al. “Hybrid-SORT: Weak Cues Matter for Online Multi-Object Trackin">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-06T08:39:01.000Z">
+<meta property="article:modified_time" content="2025-01-08T02:30:42.082Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Object Tracking">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/01/06/hybrid-SORT/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/01/06/hybrid-SORT/","path":"2025/01/06/hybrid-SORT/","title":"hybrid-SORT"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>hybrid-SORT | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#hybrid-sort-weak-cues-matter-for-online-multi-object-tracking1"><span class="nav-number">1.</span> <span class="nav-text">Hybrid-SORT:
+Weak Cues Matter for Online Multi-Object Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen201718@163.com" title="Email → mailto:yuen201718@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/01/06/hybrid-SORT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="hybrid-SORT | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hybrid-SORT
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-01-06 16:39:01" itemprop="dateCreated datePublished" datetime="2025-01-06T16:39:01+08:00">2025-01-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-08 10:30:42" itemprop="dateModified" datetime="2025-01-08T10:30:42+08:00">2025-01-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="hybrid-sort-weak-cues-matter-for-online-multi-object-tracking1">Hybrid-SORT:
+Weak Cues Matter for Online Multi-Object Tracking<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自大连理工和深圳TVT公司的Mingzhan Yang等人，论文引用[1]:Yang,
+Ming-Hsuan et al. “Hybrid-SORT: Weak Cues Matter for Online Multi-Object
+Tracking.” AAAI Conference on Artificial Intelligence (2023).</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Jan</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>多目标旨在检测和逐帧关联所有理想的目标。大多数的方法通过<strong>显式或隐式的利用strong
+cues，例如空间和外观信息</strong>来完成这个任务，展示出了很强的instance-level的判别能力。然而你，当目标遮挡或者聚集的时候，
+空间和外观信息可能会变得模糊，因为目标的高度重叠。在本文中，展示了可以通过利用<strong>weak
+cues</strong>来补偿<strong>strong
+cues</strong>来完成这个任务。<strong>沿着速度的方向，引入置信度和height
+state作为潜在的weak
+cues</strong>。有着卓越的性能，作者的方法仍然保持Simple, Online,
+Real-time的特性。另外，作者的方法展示了对于多个trackers和场景的泛化性，能够即插即用，training-free。将这个方法应用到5个不同的有代表性的trackers上的时候，有很大的提升。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>最近，tracking-by-detection是MOT中最流行的范式，将这个问题划分为两个子任务：检测和关联。首先检测每帧中的目标；然后在不同的帧中对它们进行关联。<strong>关联主要是通过显式地或隐式地利用strong
+cues来解决，包括空间和外观信息</strong>。这个设计是合理的，因为这些strong
+cues能够提供<strong>instance-level
+discrimination</strong>。然而，常用的strong
+cues在一些有挑战性的场景下例如遮挡或者聚集，会发生退化。特别地，当两个物体高度重叠的时候，detections和估计的tracklet
+locations之间的IoU会变得模糊，目标的外观特征会被前景的目标所主导。</p></li>
+<li><p>在图1中的weak cues，展示了weak cues例如 confidence state, heigh
+state和velocity direction，这些能够缓解当strong
+cues不可靠的时候的模糊的关联。然而，据作者所知，weak
+cues被大多数的方法忽略了，它们只在确定的目标中处理可靠的discrimination。如图1所示，confidence
+state是唯一可靠的，用于区分ID2和其它的ID</p></li>
+<li><p>在本文中，作者选择<strong>confidence state和height
+state</strong>所谓潜在的weak cues的类型，再加上OC-SORT中用的velocity
+direction。这些confidence
+state能够显式地指示遮挡/被遮挡的关系，提供一个重要的cues。height
+state是目标的一个稳定的特性，对于目标不同的姿态比较鲁棒，包含了一定程度的深度信息。</p></li>
+<li><p>为了保持Simple, Online,
+Real-time的特性，提出了简单有效的策略来利用weak
+cues。称之为<strong>Tracklet Confidence Modeling(TCM)</strong> 和
+<strong>Height Modulated
+IoU(HMIoU)</strong>。对于TCM，用卡尔曼滤波器和线性预测来估计tracklets的confidence
+state，之后作为一个metric来关联tracklets。对于HMIoU，height
+state也是通过卡尔曼滤波器进行建模。用于关联的height cost
+matrix首先定义为沿着hegith axis的IoU for estimated tracklet
+box和detection box，然后和标准的、基于area metric的IoU
+matrix进行融合。</p></li>
+<li><p>为了评估设计的泛化能力，将这个设计用到5个不同的代表性的tracker上，包括SORT,DeepSORT，MOTDT和OC-SORT。进一步，为了增强SORT方法的性能，将OC-SORT作为baseline，首先修改了OC-SORT中的velocity
+direction modeling,(OCM)，通过扩展box center到四个box
+corners，将固定的temporal interval扩展到multiple
+intervals。其次，跟着ByteTrack，包含了一个额外的关联阶段用于低置信度的detection。连同TCM和HMIoU,
+Hybrid-SORT实现了很好的性能。主要的贡献如下：</p>
+<ul>
+<li>通过引入weak cues例如confidence state, height state，velocity
+direction，作为strong cues的补助。</li>
+<li>引入了Tracklet Confidence Modeling(TCM)和height Modulated
+IoU(HMIoU)来建模和利用confidence state和height
+state。有了delicate的建模，weak cues能够有效地和高效地缓解strong
+cues造成的模糊匹配。</li>
+<li>即插即用和training-free的设计在多个场景下泛化性很好。</li>
+</ul></li>
+<li><p><strong>Heuristic Matcher</strong>：</p>
+<ul>
+<li>基于空间的启发式匹配器：空间信息是最广泛使用的strong
+cue。当帧之间的time
+intervals比较短的时候，目标的移动也是较小，可以被视为线性。<strong>这使得空间信息在短期的关联中是一个精确的metric</strong>。先前的工作SORT用卡尔曼滤波来预测tracklets的空间位置，然后基于IoU
+metric进行关联。后续的工作，例如CenterTrack， ByteTrack,
+MotionTrack和OC-SORT，都是启发式的匹配，只用了空间信息用于关联。然而即使是最先进的方法，OC-SORT，仍然会受到严重遮挡和聚集的影响。</li>
+<li>基于外观的启发式匹配器：不同于空间信息，外观信息在整个视频中具有相对稳定的一致性，有利于长期关联。<strong>跟着SORT,DeepSORT,
+GHOST利用了一个独立的ReID模型来提取外观特征用于关联</strong>。然后跟着JDE,
+FairMOT, CSTrack, QDTrack,
+FineTrack和UTM将detection和ReID集成起来联合训练。然而，在聚集的目标中，空间和外观cues会经历严重的判别退化，即使设计了精巧的网络和关联策略。</li>
+</ul></li>
+<li><p><strong>Learnable Matcher</strong>:</p>
+<ul>
+<li>基于图的可学习的匹配器：基于图的可学习的匹配器将关联任务表述为一个<strong>edge
+classification</strong>任务。<strong>tracklet
+nodes和有着相同ID的detection node的edge
+label是1。MOTSolv和GMTracker都是基于图神经网络的</strong>，使得数据关联<strong>step
+differentiable</strong>。最近，SUSHI利用图模型，以离线的方式，层次化地将short
+tracklets连接成longer
+tracklets。然而，基于图的匹配器的主要局限是训练和推理的pipeline通常比较复杂，限制了在线跟踪的实际应用。</li>
+<li>基于Transformer的可学习的匹配器：自从Transformer在视觉任务上变得流行，很多工作都利用它的强大的注意力机制，来建模关联任务，<strong>TrackFormer和MOTR利用track
+queries和标准的detection queries联合执行trajectory
+propagation和initialization</strong>。最近，MOTRv2在MOTR的基础上引入了一个单独的检测器，尝试去解决detection和association之间的冲突。然而，基于Transformer的matchers会有大量的自注意力和交叉注意力的操作，限制了它们的实时性。</li>
+</ul></li>
+<li><p>Hybrid-SORT和Hybrid-SORT-ReID跟踪SORT的范式，<strong>利用卡尔曼滤波器用于tracklets的运动估计，用或者不用
+ReID进行外观建模。关联任务通过匈牙利算法作为二分图匹配来解决。用于匈牙利算法的成本矩阵是通过测量tracklets和detections之间的representation
+similarity来计算的</strong>。</p></li>
+<li><p><strong>Weak Cues Modeling</strong>:</p>
+<ul>
+<li>Tracklet Confidence Modeling：confidence
+state能够帮助关联的理由是很直接的。特别地，有多个目标高度重叠的时候，常用的strong
+cues会失效，<strong>目标的confidence能够提供显式的前景和背景关系，这是strong
+cues所不具备的</strong>。基于这个观察，引入了两个用于tracklet
+confidence的建模方法，来关联高置信度和低置信度的detections。当目标是阻塞或者轻微地遮挡时，卡尔曼滤波器是一个理想的用于建模和估计连续状态的方法。因此，用两个额外的state加到了常用的Kalman
+filter中：tracklet confidence <span class="math inline">\(c\)</span>
+和它的速度component <span
+class="math inline">\(\dot{c}\)</span>。SORT中标准的卡尔曼滤波state的公式如下：</li>
+</ul>
+<p><span
+class="math display">\[x=[u,v,s,r,\dot{u},\dot{v},\dot{s}]\]</span></p>
+<p>引入了两个新的状态变量<span class="math inline">\(c\)</span>和<span
+class="math inline">\(\dot{c}\)</span>之后，TCM中完整的卡尔曼滤波state的公式如下：</p>
+<p><span
+class="math display">\[x=[u,v,s,c,r,\dot{u},\dot{v},\dot{s},\dot{c}]\]</span></p>
+<p>对于第二个关联阶段中的低置信度的detections。利用线性预测来估计tracklet的confidence，目标的confidence在遮挡开始或结束的时候会急剧增加或降低。不幸的是，当尝试估计confidence
+state中的突然变化时，卡尔曼滤波器会有延迟。然而，作者观察到，在短时间内，confidence
+changes的趋势有明显的方向性。因此，用一个基于trajectory
+history的线性预测来解决这个问题。</p>
+<p>当利用卡尔曼滤波或者线性预测，confidence cost是estimated tracklet
+confidence和detection confidence之间的差的绝对值。</p>
+<p><span
+class="math display">\[C_{Conf}=|\hat{c}_{trk}-c_{det}|\]</span></p>
+<ul>
+<li>Height Modulated IoU:
+识别物体在时间上的稳定属性是多目标跟踪（MOT）中最关键的方面之一。heigt
+state能够提供informative cues，用于补充strong
+cues的discrimination。特别地，height
+state在两个方面增强了关联。首先，目标的高度一定程度上反应了深度信息，对于像DanceTrack这样的数据集，detection
+boxes的高度主要依赖于objects和camera之间的距离，使得height
+state是一个有效的cues用于区分高度重叠的目标。其次，height
+state对于多种的姿态是鲁棒的，使得它是一个精确地estimated
+state和高质量的目标表征。特别地，定义了两个boxes，<span
+class="math inline">\(b^1 = (x^1_1,y^1_1,x^1_2,y^1_2)\)</span>, <span
+class="math inline">\(b^2 = (x^2_1,y^2_1,x^2_2,y^2_2)\)</span>，<span
+class="math inline">\(x_1\)</span>和<span
+class="math inline">\(y_1\)</span> 表示top-left corner，<span
+class="math inline">\(x_2\)</span>和<span
+class="math inline">\(y_2\)</span> 表示bottom-right
+corner。两个boxes的面积是A和B。传统IoU的计算如下，是基于area
+metric。另外，Height IoU通过计算基于height metric的IoU得到：</li>
+</ul>
+<p><span class="math display">\[IoU=\frac{|A\cap B|}{|A\cup B|} \\
+HIoU=\frac{\min(y_2^1,y_2^2)-\max(y_1^1,y_1^2)}{\max(y_2^1,y_2^2)-\min(y_1^1,y_1^2)}\]</span></p>
+<p>为了更好地利用Height state，引入了Height modulated
+IoU，通过结合Height IoU和传统的IoU。考虑到HIoU表示的height
+state是一个weak cues。IoU表示的空间信息是一个strong
+cues，用HIoU通过element-wise multiplication来modualte
+IoU，实现了对于聚集目标的discrimination。</p>
+<p><span class="math display">\[HMIoU=HIoU\cdot IoU\]</span></p></li>
+<li><p><strong>Hybrid-SORT</strong>:</p>
+<ul>
+<li>Robust Observation-Centric Momentum： 在OC-SORT中,
+OCM在关联中考虑了目标中心的速度方向，OCM中用的cost metric是tracklet
+velocity direction和tracklet-to-detection velocity
+direction的差的绝对值。表示为 <span class="math inline">\(\delta \theta
+= |\theta_t - \theta_d|\)</span>。tracklet的速度方向是在时间间隔 <span
+class="math inline">\(\delta t\)</span> 内的tracklet中的两个box
+center得到的。tracklet-to-detection的速度方向是从tracklet的historical
+box和新的detection box的中心得到的。给定两个points <span
+class="math inline">\((u_1, v_1)\)</span> 和 <span
+class="math inline">\((u_2,v_2)\)</span>。速度方向的计算如下。然而，原始OCM的建模易受固定时间间隔和稀疏点造成的噪声的影响。</li>
+</ul>
+<p>通过引入更加速度方向的、更加鲁棒的模型，来改善OCM，称之为Robust
+Observation-Centric
+Momentum(ROCM)。这个修改包括两个方面。首先，<strong>将固定的3帧的时间间隔扩展为从1到3帧的多个间隔的堆叠；其次，用目标的四个corners而不是中心点，来计算速度方向</strong>。有了更多的时间间隔和points。计算ROCM的公式如下：</p>
+<p><span class="math display">\[C_{Vel}=\sum_{\Delta
+t=1}^{3}\frac{(C_{\Delta t}^{lt}+C_{\Delta t}^{rt}+C_{\Delta
+t}^{lb}+C_{\Delta t}^{rb})}{4}\]</span></p>
+<p>图展示了有着复杂运动的目标，corners的速度方向有很高的相似度，中心的方向几乎是相反的：</p>
+<ul>
+<li><p>外观建模：<strong>用独立的ReID模型引入外观信息。跟着BoT-SORT，这个pipeline首先检测目标，然后将resulting
+cropped patches给到ReID模型。用Exponential Moving
+Average(EMA)来建模tracklet外观信息，用余弦距离作为metric来计算tracklet和detection外观特征之间的cost
+<span class="math inline">\(C_{appr}\)</span></strong>。</p></li>
+<li><p>算法框架：关联阶段主要包含3个阶段：首次关联high-confidence目标；其次关联low-confidence目标，最后的关联阶段，利用last
+detection恢复丢失的tracklets。将所有的strong cues和weak
+cues考虑在内，最后的cost matrix计算如下：</p></li>
+</ul>
+<p><span
+class="math display">\[C=C_{HMIoU}+\lambda_1C_{Vel}+\lambda_2C_{Conf}+\lambda_3C_{Appr}\]</span></p></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Object-Tracking/" rel="tag"># Object Tracking</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2024/12/31/MOTR/" rel="prev" title="MOTR">
+                  <i class="fa fa-angle-left"></i> MOTR
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/01/08/BoT-SORT/" rel="next" title="BoT-SORT">
+                  BoT-SORT <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">167k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">10:08</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

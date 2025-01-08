@@ -27,7 +27,7 @@
 <meta property="og:description" content="Simple Online and Realtime Tracking[1]  作者是来自Queensland Unversity of Technology和悉尼大学的Alex Bewley, Zongyuan Ge等人。论文引用[1]:  Time  2017.Jul  Key Words  associate objects  总结  这篇文章探索了一个多目标">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-17T06:52:22.000Z">
-<meta property="article:modified_time" content="2024-12-30T15:30:08.201Z">
+<meta property="article:modified_time" content="2024-12-31T01:32:49.928Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="object tracking">
 <meta name="twitter:card" content="summary">
@@ -129,7 +129,7 @@ Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-count">117</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -211,7 +211,7 @@ Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-12-30 23:30:08" itemprop="dateModified" datetime="2024-12-30T23:30:08+08:00">2024-12-30</time>
+      <time title="修改时间：2024-12-31 09:32:49" itemprop="dateModified" datetime="2024-12-31T09:32:49+08:00">2024-12-31</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -237,14 +237,14 @@ Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2k</span>
+      <span>2.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>7 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -313,6 +313,8 @@ RCNN作为检测器。在实验中发现，检测的质量对跟踪的性能有�
 model，representation和motion model用来传播目标的id into next
 frame。这里近似每个目标的帧间位移是线性的，有着线性的恒定速度，独立于其它目标和相机运动，每个目标的状态建模如下：</li>
 </ul>
+<p><span
+class="math display">\[\mathbf{x}=[u,v,s,r,\dot{u},\dot{v},\dot{s}]^T,\]</span></p>
 <p><span class="math inline">\(u\)</span> 和 <span
 class="math inline">\(v\)</span> 表示目标中心的水平和竖直的位置，scale
 <span class="math inline">\(s\)</span> 和 <span
@@ -339,6 +341,8 @@ Identities</strong>：当目标进入和离开图像的时候，需要相应地�
 设为1.首先，恒速模型对于真实动态场景是一个很差的预测器。另外，主要关系frame-to-frame
 tracking，这里目标的re-id超出了本文的范畴。另外，早期跟丢的目标的删除提升了效率。如果一个目标重新出现，跟踪将会隐式地以一个新的身份恢复。</p></li>
 </ul></li>
+<li><p>结论：本文提出了一个在线跟踪框架，聚焦于frame-to-frame的预测和关联。表明了跟踪质量高度依赖于检测性能，通过充分利用最近的
+detection 方法，可以用经典的跟踪方法实现SOTA的跟踪质量。</p></li>
 </ol>
 
     </div>
@@ -383,7 +387,7 @@ tracking，这里目标的re-id超出了本文的范畴。另外，早期跟丢�
 
   <div class="copyright">
     &copy; 2023 – 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="fa fa-user"></i>
     </span>
@@ -394,13 +398,13 @@ tracking，这里目标的re-id超出了本文的范畴。另外，早期跟丢�
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">164k</span>
+    <span title="站点总字数">167k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">9:56</span>
+    <span title="站点阅读时长">10:08</span>
   </span>
 </div>
 <div class="busuanzi-count">

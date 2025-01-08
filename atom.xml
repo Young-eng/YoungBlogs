@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2024-12-29T09:33:08.822Z</updated>
+  <updated>2025-01-08T02:14:41.016Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,103 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>BoT-SORT</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/01/08/BoT-SORT/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/01/08/BoT-SORT/</id>
+    <published>2025-01-08T01:59:04.000Z</published>
+    <updated>2025-01-08T02:14:41.016Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="bot-sort-robust-association-multi-pedestrian-tracking1">BoT-SORT:Robust Association Multi-Pedestrian Tracking<sup>[1]</sup></h3><blockquote><p>作者是来自Tel-Aviv大学的Nir Aharon等人。论文引用[1]:</p></blockquote><h2 id="time">### Time</h2><h3 id="key-words">Key Words</h3><h3 id="总结">总结</h3><p><imgsrc="https://figures.semanticscholar.org/f2dd399edb1cc35340266bd27d8ece57d4759372/3-Figure1-1.png"alt="strong and weak cues" /> <spanclass="math inline">\(Fig.1^{[1]}\)</span> strong and weakcues的判别能力。绿色的solid箭头表示pairwise目标的可靠的判别。红色的dashed箭头表示不可靠的discrimination。这个箭头的值越高，这个discrimination就越可靠。</p><p><imgsrc="https://figures.semanticscholar.org/f2dd399edb1cc35340266bd27d8ece57d4759372/4-Figure2-1.png"alt="Pipeline of Hybrid-SORT and Hybrid-SORT-ReID" /> <spanclass="math inline">\(Fig.2^{[1]}\)</span> 对于strongcues，利用IoU作为空间信息的metricc。用余弦距离作为外观信息的metric。对于weakcues，引入confidence state, height state和velocity direction。</p><p><imgsrc="https://figures.semanticscholar.org/f2dd399edb1cc35340266bd27d8ece57d4759372/6-Figure6-1.png"alt="velocity direction of the center and corners" /> <spanclass="math inline">\(Fig.3^{[1]}\)</span>当一些corners的速度方向保持很高的相似度的时候，中心的方向是完全相反的。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3
+id=&quot;bot-sort-robust-association-multi-pedestrian-tracking1&quot;&gt;BoT-SORT:
+Robust Association Multi-Pedestrian Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;</summary>
+      
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hybrid-SORT</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/01/06/hybrid-SORT/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/01/06/hybrid-SORT/</id>
+    <published>2025-01-06T08:39:01.000Z</published>
+    <updated>2025-01-08T02:30:42.082Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="hybrid-sort-weak-cues-matter-for-online-multi-object-tracking1">Hybrid-SORT:Weak Cues Matter for Online Multi-Object Tracking<sup>[1]</sup></h3><blockquote><p>作者是来自大连理工和深圳TVT公司的Mingzhan Yang等人，论文引用[1]:Yang,Ming-Hsuan et al. “Hybrid-SORT: Weak Cues Matter for Online Multi-ObjectTracking.” AAAI Conference on Artificial Intelligence (2023).</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Jan</li></ul><h3 id="key-words">Key Words</h3><h3 id="总结">总结</h3><ol type="1"><li>多目标旨在检测和逐帧关联所有理想的目标。大多数的方法通过<strong>显式或隐式的利用strongcues，例如空间和外观信息</strong>来完成这个任务，展示出了很强的instance-level的判别能力。然而你，当目标遮挡或者聚集的时候，空间和外观信息可能会变得模糊，因为目标的高度重叠。在本文中，展示了可以通过利用<strong>weakcues</strong>来补偿<strong>strongcues</strong>来完成这个任务。<strong>沿着速度的方向，引入置信度和heightstate作为潜在的weakcues</strong>。有着卓越的性能，作者的方法仍然保持Simple, Online,Real-time的特性。另外，作者的方法展示了对于多个trackers和场景的泛化性，能够即插即用，training-free。将这个方法应用到5个不同的有代表性的trackers上的时候，有很大的提升。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>最近，tracking-by-detection是MOT中最流行的范式，将这个问题划分为两个子任务：检测和关联。首先检测每帧中的目标；然后在不同的帧中对它们进行关联。<strong>关联主要是通过显式地或隐式地利用strongcues来解决，包括空间和外观信息</strong>。这个设计是合理的，因为这些strongcues能够提供<strong>instance-leveldiscrimination</strong>。然而，常用的strongcues在一些有挑战性的场景下例如遮挡或者聚集，会发生退化。特别地，当两个物体高度重叠的时候，detections和估计的trackletlocations之间的IoU会变得模糊，目标的外观特征会被前景的目标所主导。</p></li><li><p>在图1中的weak cues，展示了weak cues例如 confidence state, heighstate和velocity direction，这些能够缓解当strongcues不可靠的时候的模糊的关联。然而，据作者所知，weakcues被大多数的方法忽略了，它们只在确定的目标中处理可靠的discrimination。如图1所示，confidencestate是唯一可靠的，用于区分ID2和其它的ID</p></li><li><p>在本文中，作者选择<strong>confidence state和heightstate</strong>所谓潜在的weak cues的类型，再加上OC-SORT中用的velocitydirection。这些confidencestate能够显式地指示遮挡/被遮挡的关系，提供一个重要的cues。heightstate是目标的一个稳定的特性，对于目标不同的姿态比较鲁棒，包含了一定程度的深度信息。</p></li><li><p>为了保持Simple, Online,Real-time的特性，提出了简单有效的策略来利用weakcues。称之为<strong>Tracklet Confidence Modeling(TCM)</strong> 和<strong>Height ModulatedIoU(HMIoU)</strong>。对于TCM，用卡尔曼滤波器和线性预测来估计tracklets的confidencestate，之后作为一个metric来关联tracklets。对于HMIoU，heightstate也是通过卡尔曼滤波器进行建模。用于关联的height costmatrix首先定义为沿着hegith axis的IoU for estimated trackletbox和detection box，然后和标准的、基于area metric的IoUmatrix进行融合。</p></li><li><p>为了评估设计的泛化能力，将这个设计用到5个不同的代表性的tracker上，包括SORT,DeepSORT，MOTDT和OC-SORT。进一步，为了增强SORT方法的性能，将OC-SORT作为baseline，首先修改了OC-SORT中的velocitydirection modeling,(OCM)，通过扩展box center到四个boxcorners，将固定的temporal interval扩展到multipleintervals。其次，跟着ByteTrack，包含了一个额外的关联阶段用于低置信度的detection。连同TCM和HMIoU,Hybrid-SORT实现了很好的性能。主要的贡献如下：</p><ul><li>通过引入weak cues例如confidence state, height state，velocitydirection，作为strong cues的补助。</li><li>引入了Tracklet Confidence Modeling(TCM)和height ModulatedIoU(HMIoU)来建模和利用confidence state和heightstate。有了delicate的建模，weak cues能够有效地和高效地缓解strongcues造成的模糊匹配。</li><li>即插即用和training-free的设计在多个场景下泛化性很好。</li></ul></li><li><p><strong>Heuristic Matcher</strong>：</p><ul><li>基于空间的启发式匹配器：空间信息是最广泛使用的strongcue。当帧之间的timeintervals比较短的时候，目标的移动也是较小，可以被视为线性。<strong>这使得空间信息在短期的关联中是一个精确的metric</strong>。先前的工作SORT用卡尔曼滤波来预测tracklets的空间位置，然后基于IoUmetric进行关联。后续的工作，例如CenterTrack， ByteTrack,MotionTrack和OC-SORT，都是启发式的匹配，只用了空间信息用于关联。然而即使是最先进的方法，OC-SORT，仍然会受到严重遮挡和聚集的影响。</li><li>基于外观的启发式匹配器：不同于空间信息，外观信息在整个视频中具有相对稳定的一致性，有利于长期关联。<strong>跟着SORT,DeepSORT,GHOST利用了一个独立的ReID模型来提取外观特征用于关联</strong>。然后跟着JDE,FairMOT, CSTrack, QDTrack,FineTrack和UTM将detection和ReID集成起来联合训练。然而，在聚集的目标中，空间和外观cues会经历严重的判别退化，即使设计了精巧的网络和关联策略。</li></ul></li><li><p><strong>Learnable Matcher</strong>:</p><ul><li>基于图的可学习的匹配器：基于图的可学习的匹配器将关联任务表述为一个<strong>edgeclassification</strong>任务。<strong>trackletnodes和有着相同ID的detection node的edgelabel是1。MOTSolv和GMTracker都是基于图神经网络的</strong>，使得数据关联<strong>stepdifferentiable</strong>。最近，SUSHI利用图模型，以离线的方式，层次化地将shorttracklets连接成longertracklets。然而，基于图的匹配器的主要局限是训练和推理的pipeline通常比较复杂，限制了在线跟踪的实际应用。</li><li>基于Transformer的可学习的匹配器：自从Transformer在视觉任务上变得流行，很多工作都利用它的强大的注意力机制，来建模关联任务，<strong>TrackFormer和MOTR利用trackqueries和标准的detection queries联合执行trajectorypropagation和initialization</strong>。最近，MOTRv2在MOTR的基础上引入了一个单独的检测器，尝试去解决detection和association之间的冲突。然而，基于Transformer的matchers会有大量的自注意力和交叉注意力的操作，限制了它们的实时性。</li></ul></li><li><p>Hybrid-SORT和Hybrid-SORT-ReID跟踪SORT的范式，<strong>利用卡尔曼滤波器用于tracklets的运动估计，用或者不用ReID进行外观建模。关联任务通过匈牙利算法作为二分图匹配来解决。用于匈牙利算法的成本矩阵是通过测量tracklets和detections之间的representationsimilarity来计算的</strong>。</p></li><li><p><strong>Weak Cues Modeling</strong>:</p><ul><li>Tracklet Confidence Modeling：confidencestate能够帮助关联的理由是很直接的。特别地，有多个目标高度重叠的时候，常用的strongcues会失效，<strong>目标的confidence能够提供显式的前景和背景关系，这是strongcues所不具备的</strong>。基于这个观察，引入了两个用于trackletconfidence的建模方法，来关联高置信度和低置信度的detections。当目标是阻塞或者轻微地遮挡时，卡尔曼滤波器是一个理想的用于建模和估计连续状态的方法。因此，用两个额外的state加到了常用的Kalmanfilter中：tracklet confidence <span class="math inline">\(c\)</span>和它的速度component <spanclass="math inline">\(\dot{c}\)</span>。SORT中标准的卡尔曼滤波state的公式如下：</li></ul><p><spanclass="math display">\[x=[u,v,s,r,\dot{u},\dot{v},\dot{s}]\]</span></p><p>引入了两个新的状态变量<span class="math inline">\(c\)</span>和<spanclass="math inline">\(\dot{c}\)</span>之后，TCM中完整的卡尔曼滤波state的公式如下：</p><p><spanclass="math display">\[x=[u,v,s,c,r,\dot{u},\dot{v},\dot{s},\dot{c}]\]</span></p><p>对于第二个关联阶段中的低置信度的detections。利用线性预测来估计tracklet的confidence，目标的confidence在遮挡开始或结束的时候会急剧增加或降低。不幸的是，当尝试估计confidencestate中的突然变化时，卡尔曼滤波器会有延迟。然而，作者观察到，在短时间内，confidencechanges的趋势有明显的方向性。因此，用一个基于trajectoryhistory的线性预测来解决这个问题。</p><p>当利用卡尔曼滤波或者线性预测，confidence cost是estimated trackletconfidence和detection confidence之间的差的绝对值。</p><p><spanclass="math display">\[C_{Conf}=|\hat{c}_{trk}-c_{det}|\]</span></p><ul><li>Height Modulated IoU:识别物体在时间上的稳定属性是多目标跟踪（MOT）中最关键的方面之一。heigtstate能够提供informative cues，用于补充strongcues的discrimination。特别地，heightstate在两个方面增强了关联。首先，目标的高度一定程度上反应了深度信息，对于像DanceTrack这样的数据集，detectionboxes的高度主要依赖于objects和camera之间的距离，使得heightstate是一个有效的cues用于区分高度重叠的目标。其次，heightstate对于多种的姿态是鲁棒的，使得它是一个精确地estimatedstate和高质量的目标表征。特别地，定义了两个boxes，<spanclass="math inline">\(b^1 = (x^1_1,y^1_1,x^1_2,y^1_2)\)</span>, <spanclass="math inline">\(b^2 = (x^2_1,y^2_1,x^2_2,y^2_2)\)</span>，<spanclass="math inline">\(x_1\)</span>和<spanclass="math inline">\(y_1\)</span> 表示top-left corner，<spanclass="math inline">\(x_2\)</span>和<spanclass="math inline">\(y_2\)</span> 表示bottom-rightcorner。两个boxes的面积是A和B。传统IoU的计算如下，是基于areametric。另外，Height IoU通过计算基于height metric的IoU得到：</li></ul><p><span class="math display">\[IoU=\frac{|A\cap B|}{|A\cup B|} \\HIoU=\frac{\min(y_2^1,y_2^2)-\max(y_1^1,y_1^2)}{\max(y_2^1,y_2^2)-\min(y_1^1,y_1^2)}\]</span></p><p>为了更好地利用Height state，引入了Height modulatedIoU，通过结合Height IoU和传统的IoU。考虑到HIoU表示的heightstate是一个weak cues。IoU表示的空间信息是一个strongcues，用HIoU通过element-wise multiplication来modualteIoU，实现了对于聚集目标的discrimination。</p><p><span class="math display">\[HMIoU=HIoU\cdot IoU\]</span></p></li><li><p><strong>Hybrid-SORT</strong>:</p><ul><li>Robust Observation-Centric Momentum： 在OC-SORT中,OCM在关联中考虑了目标中心的速度方向，OCM中用的cost metric是trackletvelocity direction和tracklet-to-detection velocitydirection的差的绝对值。表示为 <span class="math inline">\(\delta \theta= |\theta_t - \theta_d|\)</span>。tracklet的速度方向是在时间间隔 <spanclass="math inline">\(\delta t\)</span> 内的tracklet中的两个boxcenter得到的。tracklet-to-detection的速度方向是从tracklet的historicalbox和新的detection box的中心得到的。给定两个points <spanclass="math inline">\((u_1, v_1)\)</span> 和 <spanclass="math inline">\((u_2,v_2)\)</span>。速度方向的计算如下。然而，原始OCM的建模易受固定时间间隔和稀疏点造成的噪声的影响。</li></ul><p>通过引入更加速度方向的、更加鲁棒的模型，来改善OCM，称之为RobustObservation-CentricMomentum(ROCM)。这个修改包括两个方面。首先，<strong>将固定的3帧的时间间隔扩展为从1到3帧的多个间隔的堆叠；其次，用目标的四个corners而不是中心点，来计算速度方向</strong>。有了更多的时间间隔和points。计算ROCM的公式如下：</p><p><span class="math display">\[C_{Vel}=\sum_{\Deltat=1}^{3}\frac{(C_{\Delta t}^{lt}+C_{\Delta t}^{rt}+C_{\Deltat}^{lb}+C_{\Delta t}^{rb})}{4}\]</span></p><p>图展示了有着复杂运动的目标，corners的速度方向有很高的相似度，中心的方向几乎是相反的：</p><ul><li><p>外观建模：<strong>用独立的ReID模型引入外观信息。跟着BoT-SORT，这个pipeline首先检测目标，然后将resultingcropped patches给到ReID模型。用Exponential MovingAverage(EMA)来建模tracklet外观信息，用余弦距离作为metric来计算tracklet和detection外观特征之间的cost<span class="math inline">\(C_{appr}\)</span></strong>。</p></li><li><p>算法框架：关联阶段主要包含3个阶段：首次关联high-confidence目标；其次关联low-confidence目标，最后的关联阶段，利用lastdetection恢复丢失的tracklets。将所有的strong cues和weakcues考虑在内，最后的cost matrix计算如下：</p></li></ul><p><spanclass="math display">\[C=C_{HMIoU}+\lambda_1C_{Vel}+\lambda_2C_{Conf}+\lambda_3C_{Appr}\]</span></p></li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;hybrid-sort-weak-cues-matter-for-online-multi-object-tracking1&quot;&gt;Hybrid-SORT:
+Weak Cues Matter for Online Multi-Object Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自大连理工和深圳TVT公司的Mingzhan Yang等人，论文引用[1]:Yang,
+Ming-Hsuan et al. “Hybrid-SORT: Weak Cues Matter for Online Multi-Object
+Tracking.” AAAI Conference on Artificial Intelligence (2023).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2024.Jan&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;多目标旨在检测和逐帧关联所有理想的目标。大多数的方法通过&lt;strong&gt;显式或隐式的利用strong
+cues，例如空间和外观信息&lt;/strong&gt;来完成这个任务，展示出了很强的instance-level的判别能力。然而你，当目标遮挡或者聚集的时候，
+空间和外观信息可能会变得模糊，因为目标的高度重叠。在本文中，展示了可以通过利用&lt;strong&gt;weak
+cues&lt;/strong&gt;来补偿&lt;strong&gt;strong
+cues&lt;/strong&gt;来完成这个任务。&lt;strong&gt;沿着速度的方向，引入置信度和height
+state作为潜在的weak
+cues&lt;/strong&gt;。有着卓越的性能，作者的方法仍然保持Simple, Online,
+Real-time的特性。另外，作者的方法展示了对于多个trackers和场景的泛化性，能够即插即用，training-free。将这个方法应用到5个不同的有代表性的trackers上的时候，有很大的提升。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MOTR</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2024/12/31/MOTR/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2024/12/31/MOTR/</id>
+    <published>2024-12-31T01:44:20.000Z</published>
+    <updated>2024-12-31T03:03:38.415Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="motr-end-to-end-multiple-object-tracking1">MOTR: End-to-EndMultiple-Object Tracking<sup>[1]</sup></h3><blockquote><p>作者是来自旷视和上交的Fangao Zeng等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Jul</li></ul><h3 id="key-words">Key Words</h3><h3 id="总结">总结</h3><ol type="1"><li></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;motr-end-to-end-multiple-object-tracking1&quot;&gt;MOTR: End-to-End
+Multiple-Object Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自旷视和上</summary>
+      
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
+    
+  </entry>
   
   <entry>
     <title>DeepSORT</title>
@@ -193,9 +290,9 @@ capabilities，将其从繁重的人工算法中解放出来。&lt;/li&gt;
     <link href="https://young-eng.github.io/YoungBlogs/2024/12/17/SORT/"/>
     <id>https://young-eng.github.io/YoungBlogs/2024/12/17/SORT/</id>
     <published>2024-12-17T06:52:22.000Z</published>
-    <updated>2024-12-30T15:30:08.201Z</updated>
+    <updated>2024-12-31T01:32:49.928Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="simple-online-and-realtime-tracking1">Simple Online and RealtimeTracking<sup>[1]</sup></h3><blockquote><p>作者是来自Queensland Unversity of Technology和悉尼大学的Alex Bewley,Zongyuan Ge等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2017.Jul</li></ul><h3 id="key-words">Key Words</h3><ul><li>associate objects</li></ul><h3 id="总结">总结</h3><ol type="1"><li>这篇文章探索了一个多目标跟踪的实用的方法，主要的焦点是<strong>有效地关联目标</strong>，用于实时的应用。为了这个目的，检测的质量是一个影响跟踪性能的重要因素。<strong>尽管只用基本的熟悉的组件的组合例如卡尔曼滤波和匈牙利算法用于跟踪</strong>，这个方法方法实现了类似于SOTA的精度。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>这篇文章展示了一个高效率的tracking-by-detection框架，用于解决MOT问题，相比于之前的batchbased方法，这个工作主要面向实时的跟踪，只有过去和当前帧能提供给trackor。</p></li><li><p>MOT问题可以被视为<strong>dataassociation</strong>问题，旨在在一个视频序列中关联detections。为了帮助数据关联，跟踪器用了多个方法对场景中的目标的外观和运动进行建模。本文的方法也是受最近的MOT的benchmark的观察的启发。首先，maturedata association方法包括MHT和JPDA的回归，占据了MOT benchmark的topposition。其次，<strong>唯一没有用ACFdetector的trackor也是排名靠前的tracker，表明detection的质量可能限制了其它跟踪器的表现</strong>。另外，精度和速度之间的trade-off相当明显，大多数的精确的tracker用于实时的应用很慢。鉴于传统数据关联技术在toponline 和batchtracker中的突出地位，以及排名最高的跟踪器所采用的不同检测方法，本文旨在探索多目标跟踪（MOT）能够简化到何种程度，以及其性能可以达到怎样的高度。</p></li><li><p>和奥卡姆剃刀原理一致，除了检测组件之外的外观特征被忽略了，只有bboxposition和size用于motion estimation和dataassociation。此外，关于短期和长期的遮挡的问题也被忽略了，因为它们很少发生，它们的显式处理为跟踪框架引入了不理想的复杂性。作者argue：以目标re-id的形式引入的复杂性增加了计算成本。这个设计的思想和现有的很多tracker不一样，引入了很多的components来处理多种边缘的情况和检测的误差。本文的工作，相反，关注在高效和可靠地处理常见的frame-to-frame的关联。不是旨在对detectionerrors鲁棒，相反，用最近的目标检测的进展来直接解决detection问题。通过将常用的ACF行为检测器和最近的基于CNN的检测器相比证明了这一点。<strong>另外，两个经典高效的方法：卡尔曼滤波和匈牙利算法，用来处理motionprediction和data association</strong>。主要的贡献如下：</p><ul><li>在MOT中利用基于CNN的检测</li><li>基于卡尔曼滤波和匈牙利算法的跟踪方法</li></ul></li><li><p>传统的MOT用Multiple Hypothesis Tracking(MHT)或者JointProbabilistic DataAssociation(JPDA)滤波器，目标分配的时候有很高的不确定性，延迟使得决策困难。这些方法的组合的复杂度在跟踪对象的数量上是指数增长的，使得在高度动态的环境中实时应用不现实。最近，有人重新审视了JPDAformulation inMOT，用高效的JPDA的近似，解决组合复杂问题。也有人用每个目标的外观模型来修建MHTgraph，实现SOTA性能。然而，这些方法仍然会延迟决策，使得它们不适合实时的应用。很多实时的跟踪方法旨在建立每个目标的外观模型或者通过在线学习的全局模型。除了外观模型之外，motion也通常被考虑来辅助将detections和tracklets进行关联。当考虑一对一进行对应的时候，建模为bipartitegraphmatching，全局优化的方法例如匈牙利算法可以用。有人在两个阶段中采用了匈牙利算法。首先，通过关联相邻帧(几何和外观线索结合起来形成affinitymatrix)的detections，形成tracklets，然后，<strong>Tracklets</strong>（轨迹片段）被相互关联起来，以修复由于遮挡而中断的轨迹，也用了<strong>几何和外观线索</strong>。这两个关联步骤限制了这个方法，作者的方法受别的trackingcomponent的启发，然而，将<strong>关联阶段用基本的cues简化为单个阶段</strong>。</p></li><li><p>所提出的方法通过以下几个关键组件进行描述：检测、将目标状态传播到未来帧、将当前检测结果与现有目标关联，以及管理被跟踪目标的生命周期。</p><ul><li><strong>Detection</strong>：为了利用基于CNN的detection，利用FasterRCNN作为检测器。在实验中发现，检测的质量对跟踪的性能有很大的影响。</li><li><strong>Estimation Model</strong>：这里描述的objectmodel，representation和motion model用来传播目标的id into nextframe。这里近似每个目标的帧间位移是线性的，有着线性的恒定速度，独立于其它目标和相机运动，每个目标的状态建模如下：</li></ul><p><span class="math inline">\(u\)</span> 和 <spanclass="math inline">\(v\)</span> 表示目标中心的水平和竖直的位置，scale<span class="math inline">\(s\)</span> 和 <spanclass="math inline">\(r\)</span> 表示scale(area) 和 目标bbox的aspectratio。注意到这个aspectratio是恒定的。当一个detection和一个目标进行关联的时候，检测到的bbox用来更新targetstae，速度是通过Kalmanfilter来解决的。如果没有detection和目标进行关联，这个state会用一个线性速度模型来预测，没有correction。</p><ul><li><p><strong>Association</strong>：将detections分配给现有的targets的时候，<strong>每个target的bbox几何是通过预测它在当前帧中的新的位置估计到的</strong>。然后，通过<strong>计算每个检测框与现有目标的所有预测边界框</strong>之间的交并比（IOU）距离，生成assignmentcostmatrix。assignment通过匈牙利算法来解决。另外，一个最小的IOU用来拒绝assignment，当detectionto target的overlap小于 <span class="math inline">\(IOU_{min}\)</span>的时候。作者发现，bbox的IOU距离隐式地处理了有passingtargets造成的遮挡。特别地，当一个target被遮挡的时候，只有occluder被检测到，，因为交并比（IOU）距离会优先选择尺度相似的检测框。这使得遮挡物目标(occludertarget)可以通过检测结果进行修正，而被覆盖的目标由于未进行分配，因此不会受到影响。</p></li><li><p><strong>Creation和Deletion of TrackIdentities</strong>：当目标进入和离开图像的时候，需要相应地创建和删除id。对于创造trackers，考虑一个overlap小于 <span class="math inline">\(IOU_{min}\)</span>的detection来表示一个untracked的目标。用bbox的几何，及速度设为0，来初始化tracker。因为速度在此刻是没有被观察到的，速度component的协方差用大的值进行初始化，反应了这个不确定性。另外，新跟踪器随后会进入一个试用期，在此期间，目标需要与检测结果进行关联，以积累足够的证据，从而避免对误检目标进行跟踪。如果<span class="math inline">\(T_{lost}\)</span>帧没有检测到，则tracks被终止。这可以防止跟踪器数量无限制增长，以及因长时间预测且没有检测器修正所导致的定位误差。在所有实验中<span class="math inline">\(T_{lost}\)</span>设为1.首先，恒速模型对于真实动态场景是一个很差的预测器。另外，主要关系frame-to-frametracking，这里目标的re-id超出了本文的范畴。另外，早期跟丢的目标的删除提升了效率。如果一个目标重新出现，跟踪将会隐式地以一个新的身份恢复。</p></li></ul></li></ol>]]></content>
+    <content type="html"><![CDATA[<h3 id="simple-online-and-realtime-tracking1">Simple Online and RealtimeTracking<sup>[1]</sup></h3><blockquote><p>作者是来自Queensland Unversity of Technology和悉尼大学的Alex Bewley,Zongyuan Ge等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2017.Jul</li></ul><h3 id="key-words">Key Words</h3><ul><li>associate objects</li></ul><h3 id="总结">总结</h3><ol type="1"><li>这篇文章探索了一个多目标跟踪的实用的方法，主要的焦点是<strong>有效地关联目标</strong>，用于实时的应用。为了这个目的，检测的质量是一个影响跟踪性能的重要因素。<strong>尽管只用基本的熟悉的组件的组合例如卡尔曼滤波和匈牙利算法用于跟踪</strong>，这个方法方法实现了类似于SOTA的精度。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>这篇文章展示了一个高效率的tracking-by-detection框架，用于解决MOT问题，相比于之前的batchbased方法，这个工作主要面向实时的跟踪，只有过去和当前帧能提供给trackor。</p></li><li><p>MOT问题可以被视为<strong>dataassociation</strong>问题，旨在在一个视频序列中关联detections。为了帮助数据关联，跟踪器用了多个方法对场景中的目标的外观和运动进行建模。本文的方法也是受最近的MOT的benchmark的观察的启发。首先，maturedata association方法包括MHT和JPDA的回归，占据了MOT benchmark的topposition。其次，<strong>唯一没有用ACFdetector的trackor也是排名靠前的tracker，表明detection的质量可能限制了其它跟踪器的表现</strong>。另外，精度和速度之间的trade-off相当明显，大多数的精确的tracker用于实时的应用很慢。鉴于传统数据关联技术在toponline 和batchtracker中的突出地位，以及排名最高的跟踪器所采用的不同检测方法，本文旨在探索多目标跟踪（MOT）能够简化到何种程度，以及其性能可以达到怎样的高度。</p></li><li><p>和奥卡姆剃刀原理一致，除了检测组件之外的外观特征被忽略了，只有bboxposition和size用于motion estimation和dataassociation。此外，关于短期和长期的遮挡的问题也被忽略了，因为它们很少发生，它们的显式处理为跟踪框架引入了不理想的复杂性。作者argue：以目标re-id的形式引入的复杂性增加了计算成本。这个设计的思想和现有的很多tracker不一样，引入了很多的components来处理多种边缘的情况和检测的误差。本文的工作，相反，关注在高效和可靠地处理常见的frame-to-frame的关联。不是旨在对detectionerrors鲁棒，相反，用最近的目标检测的进展来直接解决detection问题。通过将常用的ACF行为检测器和最近的基于CNN的检测器相比证明了这一点。<strong>另外，两个经典高效的方法：卡尔曼滤波和匈牙利算法，用来处理motionprediction和data association</strong>。主要的贡献如下：</p><ul><li>在MOT中利用基于CNN的检测</li><li>基于卡尔曼滤波和匈牙利算法的跟踪方法</li></ul></li><li><p>传统的MOT用Multiple Hypothesis Tracking(MHT)或者JointProbabilistic DataAssociation(JPDA)滤波器，目标分配的时候有很高的不确定性，延迟使得决策困难。这些方法的组合的复杂度在跟踪对象的数量上是指数增长的，使得在高度动态的环境中实时应用不现实。最近，有人重新审视了JPDAformulation inMOT，用高效的JPDA的近似，解决组合复杂问题。也有人用每个目标的外观模型来修建MHTgraph，实现SOTA性能。然而，这些方法仍然会延迟决策，使得它们不适合实时的应用。很多实时的跟踪方法旨在建立每个目标的外观模型或者通过在线学习的全局模型。除了外观模型之外，motion也通常被考虑来辅助将detections和tracklets进行关联。当考虑一对一进行对应的时候，建模为bipartitegraphmatching，全局优化的方法例如匈牙利算法可以用。有人在两个阶段中采用了匈牙利算法。首先，通过关联相邻帧(几何和外观线索结合起来形成affinitymatrix)的detections，形成tracklets，然后，<strong>Tracklets</strong>（轨迹片段）被相互关联起来，以修复由于遮挡而中断的轨迹，也用了<strong>几何和外观线索</strong>。这两个关联步骤限制了这个方法，作者的方法受别的trackingcomponent的启发，然而，将<strong>关联阶段用基本的cues简化为单个阶段</strong>。</p></li><li><p>所提出的方法通过以下几个关键组件进行描述：检测、将目标状态传播到未来帧、将当前检测结果与现有目标关联，以及管理被跟踪目标的生命周期。</p><ul><li><strong>Detection</strong>：为了利用基于CNN的detection，利用FasterRCNN作为检测器。在实验中发现，检测的质量对跟踪的性能有很大的影响。</li><li><strong>Estimation Model</strong>：这里描述的objectmodel，representation和motion model用来传播目标的id into nextframe。这里近似每个目标的帧间位移是线性的，有着线性的恒定速度，独立于其它目标和相机运动，每个目标的状态建模如下：</li></ul><p><spanclass="math display">\[\mathbf{x}=[u,v,s,r,\dot{u},\dot{v},\dot{s}]^T,\]</span></p><p><span class="math inline">\(u\)</span> 和 <spanclass="math inline">\(v\)</span> 表示目标中心的水平和竖直的位置，scale<span class="math inline">\(s\)</span> 和 <spanclass="math inline">\(r\)</span> 表示scale(area) 和 目标bbox的aspectratio。注意到这个aspectratio是恒定的。当一个detection和一个目标进行关联的时候，检测到的bbox用来更新targetstae，速度是通过Kalmanfilter来解决的。如果没有detection和目标进行关联，这个state会用一个线性速度模型来预测，没有correction。</p><ul><li><p><strong>Association</strong>：将detections分配给现有的targets的时候，<strong>每个target的bbox几何是通过预测它在当前帧中的新的位置估计到的</strong>。然后，通过<strong>计算每个检测框与现有目标的所有预测边界框</strong>之间的交并比（IOU）距离，生成assignmentcostmatrix。assignment通过匈牙利算法来解决。另外，一个最小的IOU用来拒绝assignment，当detectionto target的overlap小于 <span class="math inline">\(IOU_{min}\)</span>的时候。作者发现，bbox的IOU距离隐式地处理了有passingtargets造成的遮挡。特别地，当一个target被遮挡的时候，只有occluder被检测到，，因为交并比（IOU）距离会优先选择尺度相似的检测框。这使得遮挡物目标(occludertarget)可以通过检测结果进行修正，而被覆盖的目标由于未进行分配，因此不会受到影响。</p></li><li><p><strong>Creation和Deletion of TrackIdentities</strong>：当目标进入和离开图像的时候，需要相应地创建和删除id。对于创造trackers，考虑一个overlap小于 <span class="math inline">\(IOU_{min}\)</span>的detection来表示一个untracked的目标。用bbox的几何，及速度设为0，来初始化tracker。因为速度在此刻是没有被观察到的，速度component的协方差用大的值进行初始化，反应了这个不确定性。另外，新跟踪器随后会进入一个试用期，在此期间，目标需要与检测结果进行关联，以积累足够的证据，从而避免对误检目标进行跟踪。如果<span class="math inline">\(T_{lost}\)</span>帧没有检测到，则tracks被终止。这可以防止跟踪器数量无限制增长，以及因长时间预测且没有检测器修正所导致的定位误差。在所有实验中<span class="math inline">\(T_{lost}\)</span>设为1.首先，恒速模型对于真实动态场景是一个很差的预测器。另外，主要关系frame-to-frametracking，这里目标的re-id超出了本文的范畴。另外，早期跟丢的目标的删除提升了效率。如果一个目标重新出现，跟踪将会隐式地以一个新的身份恢复。</p></li></ul></li><li><p>结论：本文提出了一个在线跟踪框架，聚焦于frame-to-frame的预测和关联。表明了跟踪质量高度依赖于检测性能，通过充分利用最近的detection 方法，可以用经典的跟踪方法实现SOTA的跟踪质量。</p></li></ol>]]></content>
     
     
     <summary type="html">&lt;h3 id=&quot;simple-online-and-realtime-tracking1&quot;&gt;Simple Online and Realtime
@@ -631,142 +728,6 @@ fine-tunign。作者分析这个设置的scaling特性，展示了增加image-le
     
     
     <category term="Open-Set Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Open-Set-Object-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Co-DETR</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/11/23/Co-DETR/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/11/23/Co-DETR/</id>
-    <published>2024-11-23T09:05:55.000Z</published>
-    <updated>2024-11-26T06:23:18.492Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="detrs-with-collaborative-hybrid-assignments-training1">DETRswith Collaborative Hybrid Assignments Training<sup>[1]</sup></h3><blockquote><p>作者是来自商汤的Zhuofan Zong，Guanglu Song和Yu Liu，论文引用[1]:Zong,Zhuofan et al. “DETRs with Collaborative Hybrid Assignments Training.”2023 IEEE/CVF International Conference on Computer Vision (ICCV) (2022):6725-6735.</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Aug</li></ul><h3 id="key-words">Key Words</h3><ul><li>one-to-many label assignment</li></ul><h3 id="总结">总结</h3><ol type="1"><li>在本文中，作者观察到，太少的queries作为positive samples in DETR withone-to-one set matching 会导致sparse supervision on the encoder'soutput, 回影响encoer的discriminative featurelearning。为了缓解这个问题，提出了一个新的<strong>collaborative hybridassignments training scheme, 称之为Co-DETR</strong>，从versatile labelassignmentmanners学习更有效的基于DETR的检测器。这个新的训练策略能够通过训练multipleparallel auxiliary heads supervised by one-to-many label assigments suchas ATSS andFasterRCNN，简单地增强encdoer的学习能力。另外，通过其它auxiliaryheads中的positive coordinates，执行extra customized positivequeries，来提高decoder中的positivesamples的训练效率。推理的时候，这些auxiliaryheads被丢弃了，因此这个方法没有引入额外的参数和计算开销，不需要NMS。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>在先前的目标检测工作中，一对多的labelassignment是它们的核心方法，每个groundtruthbox分配给检测器的输出的多个coordinates，和proposals，anchors，windowcenters共同作为监督目标。尽管它们的效果比较好，这些检测器严重依赖于很多手工设计的组件，例如NMS或者anchorgeneration。为了conduct一个更灵活的端到端的detector。有人提出了DETR，将目标检测视为一个集合预测问题，引入了一对一的setmatching。以这种方式，每个ground-truthbox将被分配给一个特定的query，不再需要很多手工设计的组件。这个方法引入了更加灵活的pipeline，使得很多DETR的变体能够进一步地提高。然而，普通的端到端的目标检测器仍然不如传统的一对多的labelassignments。</p></li><li><p>在本文中，<strong>作者尝试使DETR类型的检测器超过传统的检测器，同时保持它们端到端的特点。为了解决这个挑战，作者聚焦于一对一setmatching的intuitive drawback that it explores less positivequeries</strong>。这会导致严重的训练问题。<strong>作者从两个方面进行分析，一个是encoder的产生的latentrepresentation，然后就是decoder中的attentionlearning。首先比较Deformable DETR和one-to-many label assignment方法(where we simply replace the decoder with the ATSS head)之间的latentfeatures的discriminability score</strong>。每个spatial coordiante中的<span class="math inline">\(l^2\)</span> norm特征用来代表discriminability score。给定encoder的输出，<spanclass="math inline">\(\mathcal{F} \in \mathbb{R}^{C \times H \timesW}\)</span>，我们能够得到discriminability score map <spanclass="math inline">\(\mathcal{S} \in \mathbb{R}^{1 \times H \timesW}\)</span>。当对应区域的分数更高的时候，目标能更好的检测到。如图所示，在一些重要的位置的特征arefully activated in the 一对多的label assignment，然而less explored in一对一的set matching。对于decoder training的exploration，对于decodertraining的exploration，我们也展示了decoder中的交叉注意力分数的IoF-IoB曲线，基于DeformableDETR和Group-DETR的，这个讲more positivequeries引入到了decoder中。图2中显示，太少的positivequeries会影响attention learning，增加decoder中的positivequeries能够缓解这个。这个重要的观察驱使我们提出了一个简单高效的方法，一种协作混合的分配的训练方式，<strong>collaborativehybrid assignment training scheme,Co-DETR</strong>，co-DETR的keyinsight使用多样的一对多的labelassignments来提高encoder和decoder的训练的效率和有效性。更具体地，作者讲transformerencoder的输出和auxiliary heads进行了集成。这些heads能够通过versatile一对多的label assignments 例如ATSS，FCOS，FasterRCNN进行监督，不同的label assignments丰富了encoderoutputs的监督，使其能够be discriminativeenough来支持这些heads的训练收敛。为了进一步提高decoder的训练效率。作者对auxiliaryheads中的正样本的坐标进行编码，包括positive anchors和positiveproposals。然后送入到原始的decoder中作为多组的positivequeries，来预测pre-assigned 类别和bboxes。每个auxiliary head中的positivecoordinates作为independent group，和其它的group隔离开。versatile一对多的label assignments能够引入大量的(positive query, ground-truth)pairs，来提高decoder的训练效率。<strong>注意到，原始的decoder尽在推理的时候用到了，提出的trainingscheme尽在training的时候引入额外的overheads</strong>。</p></li><li><p><strong>一对多的labelassignment</strong>：对于目标检测中的一对多的label assignment，多个boxcandidates能够分配给相同的groundtruth box作为positive samples in thetraining。在经典的anchor-based detectors 例如Faster RCNN，RetinaNet中，sampleselection是通过预先定义的IoU的阈值和anchors与annotatedboxes之间的匹配的IoU决定。anchor-free的FCOS利用了centerpriors，将每个bbox附近的中心位置作为positives。另外，自适应的机制引入到了一对多的labelassignment，来克服固定labelassignments的局限。ATSS通过统计动态的top-k最近的anchors的IoU的值，来自适应的anchor选择。PAA以概率的方式自适应的将anchors分为positive和negativesamples。本文中，提出的collaborative hybrid assignmentscheme，能够通过auxiliary heads with 一对多的labelassignments来提高encoder representations。</p></li><li><p><strong>一对一 set matching</strong>：DETR将一对一的setmatching引入object detection，进行端到端的目标检测。这个一对一的setmatching首先通过匈牙利匹配计算global matching cost，然后为每个groundtruth box分配有着最小matching cost的正样本。DN-DETR展示了由于一对一setmatching的不稳定性，收敛慢，引入了denoisingtraining来缓解这个问题。DINO集成了DAB-DETR的queryformulation，引入了改进的contrastivedenoising来达到很好的效果。Group-DETR构建了group-wise 一对多的labelassignment来exploit 多个positive object queries，类似于hybrid matchignscheme in H-DETR。</p></li><li><p>跟着标准的DETR的路子，输入的图像送到backbone中，encoder产生latentfeatures。多个预定义的object queries在decoder中和它们进行interact viacross-attention。引入co-DETR在encoder中提高featurelearning，在decoder中通过collaborative hybrid assignmenttraining和customized positive queries generation来提高attentionlearning。</p></li><li><p><strong>Collaborative Hybrid AssignmentsTraining</strong>：为了缓解decoder中fewer positive queries造成的encoderoutput的sparse supervision，作者引入了versatile auxiliary headswith不同的一对多的label assignment，例如 ATSS, FasterRCNN。**不同的label assignments丰富了encoder outputs上的监督，能够使其bediscriminativeenough来支持这些heads的训练收敛，特别地，给定encoder的latent feature<span class="math inline">\(\mathcal{F}\)</span>，首先转换到特征金字塔via multi-scale adapter。定义 K个collaborative heads with 对应的labelassignment manners <span class="math inline">\(A_{k}\)</span>，对于第i个collaborative head, <span class="math inline">\({F_1, ...,F_j}\)</span>给到它，来得到预测 $_i，在第 i个head， <spanclass="math inline">\(A_i\)</span>用来计算supervised targets for thepositive and negative samples in <spanclass="math inline">\(P_i\)</span>，将G记为 groundtruthset，这个过程formulated as: <spanclass="math display">\[\mathbf{P}_{i}^{\{pos\}},\mathbf{B}_{i}^{\{pos\}},\mathbf{P}_{i}^{\{neg\}}=\mathcal{A}_{i}(\mathbf{\hat{P}}_{i},\mathbf{G}),\]</span>{pos}和{neg}表示pair set of (j, positive coordinates or negativecoordinates in <span class="math inline">\(\mathcal{F}_j\)</span>)determined by <span class="math inline">\(A_i\)</span>。j表示featureindex in <span class="math inline">\({F_1, ..., F_j}\)</span>. <spanclass="math inline">\(B^{pos}_i\)</span> 是spatial positivecoordinates的集合。<span class="math inline">\(P^{pos}_i\)</span>和<spanclass="math inline">\(P^{neg}_i\)</span> 是对应坐标的supervisedtargets，包括类别和regressed offsets。损失函数定义如下：</p><p><spanclass="math display">\[\mathcal{L}_{i}^{enc}=\mathcal{L}_{i}(\mathbf{\hat{P}}_{i}^{\{pos\}},\mathbf{P}_{i}^{\{pos\}})+\mathcal{L}_{i}(\mathbf{\hat{P}}_{i}^{\{neg\}},\mathbf{P}_{i}^{\{neg\}}),\]</span></p><p>注意到，对于负样本，回归损失没有用上，对于K个auxiliaryheads，优化的训练目标是： <spanclass="math display">\[\mathcal{L}^{enc}=\sum_{i=1}^K\mathcal{L}_i^{enc}\]</span></p></li><li><p><strong>Customized Positive QueriesGeneration</strong>：在一对一的set matching范式中，每个groundtruthbox会被唯一分配给一个特定的query作为supervised target。太少的positivequeries导致decoder中的交叉注意力学习不够。为了减缓这个，根据每个auxiliaryhead中的label assignment，产生足够的customized positivequeries。特别低，给定positive coordinates set，<spanclass="math inline">\(\mathbf{B}_{i}^{\{pos\}}\in\mathbb{R}^{M_{i}\times4}\)</span>在第i个auxiliary head，<spanclass="math inline">\(M_i\)</span>是positivesamples的数量，额外的positive queries <spanclass="math inline">\(\mathbf{Q}_{i} \in \mathbb{R}^{M_{i}\timesC}\)</span> 可以通过以下公式生成：</p><p><spanclass="math display">\[\mathbf{Q}_{i}=\mathrm{Linear}(\mathrm{PE}(\mathbf{B}_{i}^{\{pos\}}))+\mathrm{Linear}(\mathrm{E}(\{\mathcal{F}_{*}\},\{pos\})).\]</span></p><p>PE表示positional encodings，根据index pair从E选择对应的features</p><p>因此，这里有K+1组 queries，constribute to a single 一对一的setmatching branch，在训练中的K个branches with 一对多的 labelassignments。auxiliary 一对多的label assignment branches和L decoderslayers共享 相同的参数，auxiliary branch中的queries视为positivequeries，然后matching process被丢弃。具体地，第 <spanclass="math inline">\(l\)</span>层的decoder layer的loss in the <spanclass="math inline">\(i\)</span> auxiliary branch，可以被formulate为：<spanclass="math display">\[\mathcal{L}_{i,l}^{dec}=\widetilde{\mathcal{L}}(\widetilde{\mathbf{P}}_{i,l},\mathbf{P}_{i}^{\{pos\}}).\]</span><span class="math inline">\(\mathbf{P}_{i,l}\)</span>指第 <spanclass="math inline">\(i\)</span>个auxiliary branch的第 <spanclass="math inline">\(l\)</span>个decoderlayer的输出的预测。对于Co-DETR，训练目标为：</p><p><spanclass="math display">\[\mathcal{L}^{global}=\sum_{l=1}^{L}(\widetilde{\mathcal{L}}_{l}^{dec}+\lambda_{1}\sum_{i=1}^{K}\mathcal{L}_{i,l}^{dec}+\lambda_{2}\mathcal{L}^{enc}),\]</span><spanclass="math inline">\(\mathcal{L}_{l}^{dec}\)</span>表示原始一对一matchingbranch中的Loss，<span class="math inline">\(\lambda_1\)</span> 和 <spanclass="math inline">\(\lambda_2\)</span> 是平衡loss的参数。</p></li><li><p><strong>为什么Co-DETR有效</strong>：Co-DETR在DETR基础的检测器上有很大的提升。接下来，作者尝试调研它的有效性。</p><ul><li><strong>Enrich the encoder'ssupervisions</strong>：直觉上，太少的positive queries会导致sparsesupervisions，因为仅有一个query is supervised by regression loss foreach ground-truth。一对多的label assignment中的正样本receive morelocalization supervisions，来帮助增强latent featurelearning。为了进一步探索稀疏的监督如何阻碍了模型的训练。作者引入了IoF-IoB曲线，来量化encoderoutput的discriminability score，特别低，给定encoder的latent feature<spanclass="math inline">\(\mathcal{F}\)</span>，受特征可视化的启发，计算IoF和IoB。</li><li><strong>通过降低匈牙利匹配的不稳定性，提高交叉注意力学习</strong>：匈牙利匹配时一对一setmatching的核心，交叉注意力是用来帮助positive queries encoder abundantobjectinformation的一个重要操作。它需要大量的训练来实现。作者观察到匈牙利匹配引入了不可控的不稳定性，因为在训练过程中，同一张图像里的groundtruth分配给一个特定的positivequery是挑战的。作者发现他们的方式，能够导致一个更加稳定的matching过程。另外，为了量化交叉注意力是如何被优化的，计算了IoF-IoB曲线for attention score。类似于feature discriminability scorecomputation，对于attentionscore，设置不同的阈值，来得到多个IoF-IoB对。</li></ul></li><li><p>和其它方法的对比：Group-DETR，H-DETR,SQR通过重复的groups和groundtruthboxes的一对一的matchign来实现一对多的分配。Co-DETR显示地为groundtruth分配多个spatial coordintes aspositives。相应的，这些密集的supervision signals会直接递应用在latentfeaturemap上，使其更加的discriminative。相比之下，Group-DETR，H-DETR，SQR缺乏这个机制。虽然这些方法引入了positivequeries，通过匈牙利匹配的一对多的分配仍然会有一对一匹配的不稳定的问题。作者的方法受益于<strong>off-the-shelf一对多的分配的稳定性</strong>，集成了它们的specificmatching manner between positive queries and ground-truthboxes。Group-DETR,H-DETR没有reveal一对一的分配和传统一对多的分配的complementarities。作者给出了定量和定性的分析，为了帮助更好地理解它们之间的不同和互补，因此能够通过利用off-the-shelf一对多的分配设计，不需要额外特别的一对多的设计，提高DETR的学习能力。作者的方法只处理decoder中的positive coordinates。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/3d3a76a2fedccea741f34303b06358440dc2a212/3-Figure4-1.png"alt="Framework" /> <span class="math inline">\(Fig.1^{[1]}\)</span>Framework of Collaborative Hybrid Assignment Training. The auxiliarybranches are discarded during evaluation.</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;detrs-with-collaborative-hybrid-assignments-training1&quot;&gt;DETRs
-with Collaborative Hybrid Assignments Training&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自商汤的Zhuofan Zong，Guanglu Song和Yu Liu，论文引用[1]:Zong,
-Zhuofan et al. “DETRs with Collaborative Hybrid Assignments Training.”
-2023 IEEE/CVF International Conference on Computer Vision (ICCV) (2022):
-6725-6735.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2023.Aug&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;one-to-many label assignment&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;在本文中，作者观察到，太少的queries作为positive samples in DETR with
-one-to-one set matching 会导致sparse supervision on the encoder&#39;s
-output, 回影响encoer的discriminative feature
-learning。为了缓解这个问题，提出了一个新的&lt;strong&gt;collaborative hybrid
-assignments training scheme, 称之为Co-DETR&lt;/strong&gt;，从versatile label
-assignment
-manners学习更有效的基于DETR的检测器。这个新的训练策略能够通过训练multiple
-parallel auxiliary heads supervised by one-to-many label assigments such
-as ATSS and
-FasterRCNN，简单地增强encdoer的学习能力。另外，通过其它auxiliary
-heads中的positive coordinates，执行extra customized positive
-queries，来提高decoder中的positive
-samples的训练效率。推理的时候，这些auxiliary
-heads被丢弃了，因此这个方法没有引入额外的参数和计算开销，不需要NMS。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="object detection" scheme="https://young-eng.github.io/YoungBlogs/tags/object-detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BMViT</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/10/28/BMViT/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/10/28/BMViT/</id>
-    <published>2024-10-28T09:27:50.000Z</published>
-    <updated>2024-11-06T13:50:33.937Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="multiscale-vision-transformers-meet-bipartite-matching-for-efficient-single-stage-action-localization1">MultiscaleVision Transformers meet Bipartite Matching for efficient single-stageAction Localization<sup>[1]</sup></h3><blockquote><p>作者是来自英国玛丽女王大学、三星剑桥AI center等机构的Ioanna Ntinou,Enrique Sanchez, Georgios Tzimiropoulos。论文引用[1]:Ntinou, Ioanna,Enrique Sanchez, and Georgios Tzimiropoulos. "Multiscale visiontransformers meet bipartite matching for efficient single-stage actionlocalization." Proceedings of the IEEE/CVF Conference on Computer Visionand Pattern Recognition. 2024.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.May</li></ul><h3 id="key-words">Key Words</h3><ul><li>bipartite matching loss</li><li>Video Transformer with bipartite matching loss without learnablequeries and decoder</li></ul><h3 id="总结">总结</h3><ol type="1"><li>Actionlocalization是一个挑战行的问题，结合了检测和识别，通常是分开处理的，SOTA方法都是依赖off-the-shelfbboxes detection，然后用transformer model来聚焦于classification task。这样的两阶段的方法不利于实时的部署。另外，单节段的方法通过共享大部分的负载来实现这两个任务，牺牲性能换取速度。类似DETR的架构训练起来有挑战。本文观察到：一个直接的bipartitematching loss可以用在ViT的output tokens上，导致一个 backbone + MLP架构能够需要要额外的encoder-decoder head和learnablequeries来同时处理这两个任务。用单一的MViTv2-S架构 with bipartitematching 来执行两个tasks，超过了MViTv2-S trained with RoI align onpre-computed bboxes。用设计的tokenpooling和提出的训练的pipeline，<strong>B</strong>ipartite-<strong>M</strong>atchingVision Transformer, <strong>BMViT</strong>。实现了很好的结果。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>STAD任务和目标检测类似，但是特殊之处在于，检测的目标通常是人，有很多个不同的类别有时同时发生。提出了额外的挑战：actions需要时序reasoning；如果人物没有执行目标的行为，persondetector可能导致假阳性。目前的SOTA方法有很高的mAP，是将detectiontask给到了预训练的FasterRCNN；然后只聚焦于网络模型和大的训练数据。本文提出的模型能够同时执行两个任务。因为和目标检测类似，最近的针对单节段的模型都是建立在strongbackbone上，能够为DETR提供强大的时序特征。基于DETR的方法展示了用于end-to-end的actionlocalization的高效性。它们的设计用了videobackbone和一个encoder-decoder的transformer。在网络设计上，是否还有提升？从最近的 <strong>Open-World Object Detection usingViT(OWL-ViT)</strong>得到了灵感。贡献如下：</p><ul><li>bipartite matching loss between saptio-temporal output embeddings ofa single transformer backbone and the GT instances in a video clip.</li></ul><p>在这个设定中，videoembeddings是独立的tokens，可以类似于DETR那样matched topredictions。也就意味着：learnable tokens是不需要的；transformerdecoder也是不需要的；video backbone和encoder可以merge into一个strongvideo transformer，这样一个简单的approach with a careful tokenselection使得能够训练MViTv2-S with a simple MLP head，来直接预测boundingboxes和actionclasses。不需要额外的elements或者数据，<strong>单节段的MViTv2-S超过了两阶段的MViTv2-Strained using RoI align and pre-computed boundingboxes</strong>。</p></li><li><p><strong>Two-stage</strong>:</p><ul><li><p>目前大多数现有的action detection的工作都是依赖于额外的persondetector for actorlocalization。典型的就是FasterRCNN-R101-FPN，在COCO上训练，然后在AVA进行微调，用在STAD任务中，通过引入off-the-shelfdetection,STAD的任务简化了成了一个actionclassification的问题。之前的方法SlowFast、MViT、VideoMAE、Hiera，这里的RoIfeatures都是直接用于actionclassification。然而，这样的features将信息限制在boundingbox之类。忽略的contextualinformation。为了解决这个问题，AIA和ACARN用了一个额外的module来捕捉actor和context/otheractor之间的interactin。另外，为了建模时序信息，MeMViT基于MViT引入了<strong>mermorymechanism</strong>。实现了很高的精度。这些方法对于部署不高效。</p></li><li><p><strong>Single-stage</strong>：受之前的工作的启发，一些工作开始尝试同时处理detection和classificationin a unified framework。一些工作借鉴了目标检测的思路，然后引入actiondetection。其它的通过joint actor prposal和action classificationnetworks来简化训练，或者将其吸引到TAL任务上；SE-STAD是基于FasterRCNN，将其引入actionclassification。Video action transformer是一个transformer风格的actiondetector，用来汇聚spatial-temporal context around targetactors。最近的工作利用DETR，用learnablequeries来建模action和bboxes。TubeR提出了一个基于DETR的架构，一些列的queries，coinedTubelet Queries，同时编码temporal dynamics of a specific actor'sbounding box as well as 对应的actions。TubeR用单一的DETRhead来建模TubeletQueries。类似地，STMixer，提出了一个自适应地，从multi-scalespatio-temporal feature space来采样discriminativefeatures，然后用自适应的策略under the guidance ofqueries来对它们进行编码。EVAD用了两个video action detectiondesigns：token dropout focusing on keyframe-centric spatiotemporalpreservation; Scene context refinement using RoI align operation and adecoder；和之前的工作相比，用一个decoder或者一个heavymodule，引入了interaction features of context or other actors。</p></li></ul></li><li><p>Action localization的目标是检测和分类videoclip中间帧的一些actions。因为video clip中，不是每个person都在执行actionof interest。将一个person和actor区分开，<spanclass="math inline">\(t\)</span>时刻的actor 定义为一个bbox：$<spanclass="math inline">\(b = [x_b, y_c, h, w]\)</span>。</p></li><li><p>DETR的在训练的过程中，<strong>用Hungarian 算法来将 <spanclass="math inline">\(N &lt; L\)</span> 的(L为图像中的objects)映射到最近的predictions，使得assignments能够最小化bbox和class cost；<span class="math inline">\(L - N\)</span>剩下的predictions分配给emptyclass。通过反向传播bbox和class error for those outputs matched to a GTobject and only the class error for assigned to the emptyclass</strong>。DETR有很好的特性 for actionlocalization。因为<strong>learnable object queries能够convey objectlocalization和action classification</strong>。</p></li><li><p>作者followOWL-ViT的工作，OWL-ViT引入了CLIP的encoder，最后的poolinglayer去掉了。每个output embeddings 被forward to一个小的head，包含了一个box MLP和class linear projection。因此，<spanclass="math inline">\(\hat{L} = h \times w\)</span> output tokens fromvision encoder，作为独立的output pairs <spanclass="math inline">\(&lt;\hat{b},p(\hat{a})&gt;\)</span>。这些pairs用DETR的Bipartite matchingloss和GT进行match。为了改进OWL-ViT，注意到MViT是一个natural pool ofspatio-temporal output embeddings that can be one-to-one matched totriplets。一个简单的用了bipartitematching进行训练的MViTv2-S架构比相同给的MViTv2-S精度要更高。称这个方法为<strong>Bipartite-MatchingVisionTransformer,BMViT</strong>。给定简单的MLPs的heads。不需要给backbone增加额外的复杂度。</p></li><li><p>对于一个 <span class="math inline">\(16 \times 256 \times256\)</span> 的视频输入，输出为 <span class="math inline">\(8 \times 8\times 8\)</span>的tokens，超过了基于DETR的架构，这个输出的tokens不回影响网络的复杂度，因为被3个MLPs独立地处理。FollowingOWL-ViT，增加了一个bias to predicted boundingboxes，使得每个默认是在image patch的中心，与2D grid的一致。"there is nostrict correspondence between image patches and tokens representations";然而，<strong>bias boxprediction能够加速训练和提高最后的性能</strong>。在3D时空设定中，沿着时间轴增加了相同的 2D bias to all tokens on the same 2Dgrid。</p></li><li><p>因为每个head会独立地处理output tokens来产生 <spanclass="math inline">\(\hat{b}, p(\alpha),p(\hat{a})\)</span>。可以选择哪些是能够更好地用于检测和识别的子任务。唯一的技术限制是每个head的输出需要和其它head的输出一对一的对应，来形成<strong>triplets(will be matched to the ground-truthinstances)</strong>。这是一个很重要的考虑，因为actor detection和actionclassification在定义上是opposed。当检测actors的时候，只需要<strong>中间帧</strong>的信息，actionrecognition的任务从使用时序支持上收益。因为我们没有局限于使用相同的输出tokensfor each task，考虑 <span class="math inline">\(w \times h\)</span>tokens和 <span class="math inline">\(t = \lfloor\frac{T}{2}\)</span>，来产生 <span class="math inline">\(\hat{L} = w\times h\)</span> bounding boxes <spanclass="math inline">\(\hat{b}\)</span>和 actor/no actor的概率 <spanclass="math inline">\(p(\alpha)\)</span>, 然后应用temporalpooling来产生一个 <strong>equivalent set of</strong> <spanclass="math inline">\(\hat{L}\)</span> tokens，能够用来计算action 的概率<span class="math inline">\(p(\hat{a})\)</span>。</p></li><li><p>首先，为了避免当使用MViTv2-S的时候的poordetection，去掉最后的pooling layer来增加output resolution，来产生outputtokens，然后用central tokens用于detection task。应用<strong>temporalpooling</strong>来形成equivalent spatio-temporaltokens用于分类任务。也要研究了alternative strategy，考虑boundingboxes和actor prediction, 对应于 <span class="math inline">\(t= \lfloor\frac{T}{2}\)</span> 和 <span class="math inline">\(t = \lceil\frac{T}{2}\)</span>。将其结果进行concatenate得到512个tokens，来进行actor detection task。在past和futuretokens上应用 temporal pooling w.r.t中间帧。就是说，将两者进行concatenate形成最后的512tokens。注意到actor和action tokens需要一对一的对应。是产生 <spanclass="math inline">\(\hat{L}\)</span> triplets的必要条件。</p></li><li><p>结论：Vision Transformer的输出的tokens能够独立地forwarded to对应的MLP heads，来产生固定序列的predictions类似于DETR，用Bipartitematchingloss来直接训练backbone，不需要牺牲性能来执行两个tasks是可能的。结果表明简单的模型能够实现和两阶段的方法类似的精度。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/60462808feec1aaecc49127b11eb794c3d8de7fd/2-Figure1-1.png"alt="Comparison" /> <span class="math inline">\(Fig.1^{[1]}\)</span>Comparison between existing works and our proposed approach. (a)Traditional two-stage methods work on developing strong visiontransformers that are applied in the domain of Action Localization byoutsourcing the bounding box detections to an external detector. ROIAlign is applied to the output of the transformer using the detectedbounding boxes, and the pooled features are forwarded to an MLP thatreturns the class predictions. (b) Recent approaches in one-stage ActionLocalization leverage on the DETR capacity to model both the boundingboxes and the action classes. A video backbone produces strongspatio-temporal features that are handled by a DETR transformer encoder.A set of learnable queries are then used by a DETR transformer decoderto produce the final outputs. (c) Our method builds a vision transformeronly that is trained against a bipartite matching loss between theindividual predictions given by the output spatio-temporal tokens andthe ground-truth bounding boxes and classes. Our method does not needlearnable queries, as well as a DETR decoder, and can combine thebackbone and the DETR encoder into a single architecture.</p><p><imgsrc="https://figures.semanticscholar.org/60462808feec1aaecc49127b11eb794c3d8de7fd/5-Figure2-1.png"alt="tokens" /> <span class="math inline">\(Fig.2^{[1]}\)</span> Theoutput spatio-temporal tokens are fed to 3 parallel heads. We use thecentral tokens to predict the bounding box and the actor likelihoodwhile averaging the output tokens over the temporal axis to generate theaction tokens. Each head comprises a small MLP that generates the outputtriplets. We depict the flow diagram for each head, following thestandard OWL-ViT head</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;multiscale-vision-transformers-meet-bipartite-matching-for-efficient-single-stage-action-localization1&quot;&gt;Multiscale
-Vision Transformers meet Bipartite Matching for efficient single-stage
-Action Localization&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自英国玛丽女王大学、三星剑桥AI center等机构的Ioanna Ntinou,
-Enrique Sanchez, Georgios Tzimiropoulos。论文引用[1]:Ntinou, Ioanna,
-Enrique Sanchez, and Georgios Tzimiropoulos. &quot;Multiscale vision
-transformers meet bipartite matching for efficient single-stage action
-localization.&quot; Proceedings of the IEEE/CVF Conference on Computer Vision
-and Pattern Recognition. 2024.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2024.May&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;bipartite matching loss&lt;/li&gt;
-&lt;li&gt;Video Transformer with bipartite matching loss without learnable
-queries and decoder&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;Action
-localization是一个挑战行的问题，结合了检测和识别，通常是分开处理的，SOTA方法都是依赖off-the-shelf
-bboxes detection，然后用transformer model来聚焦于classification task。
-这样的两阶段的方法不利于实时的部署。另外，单节段的方法通过共享大部分的负载来实现这两个任务，牺牲性能换取速度。类似DETR的架构训练起来有挑战。本文观察到：一个直接的bipartite
-matching loss可以用在ViT的output tokens上，导致一个 backbone + MLP
-架构能够需要要额外的encoder-decoder head和learnable
-queries来同时处理这两个任务。用单一的MViTv2-S架构 with bipartite
-matching 来执行两个tasks，超过了MViTv2-S trained with RoI align on
-pre-computed bboxes。用设计的token
-pooling和提出的训练的pipeline，&lt;strong&gt;B&lt;/strong&gt;ipartite-&lt;strong&gt;M&lt;/strong&gt;atching
-Vision Transformer, &lt;strong&gt;BMViT&lt;/strong&gt;。实现了很好的结果。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Action Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Action-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MRSN</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/10/24/MSRN/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/10/24/MSRN/</id>
-    <published>2024-10-24T14:00:47.000Z</published>
-    <updated>2024-10-24T14:02:40.715Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="mrsn-multi-relation-support-network-for-video-action-detection1">MRSN:Multi-Relation Support Network for Video ActionDetection<sup>[1]</sup></h3><blockquote><p>作者是来自南大的YinDong Zheng, Guo Chen, MingleiYuan等。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Apr</li></ul><h3 id="key-words">Key Words</h3><h3 id="总结">总结</h3><ol type="1"><li></li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3
-id=&quot;mrsn-multi-relation-support-network-for-video-action-detection1&quot;&gt;MRSN:
-Multi-Relation Support Network for Video Action
-Detection&lt;</summary>
-      
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Action Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Action-Detection/"/>
     
   </entry>
   
