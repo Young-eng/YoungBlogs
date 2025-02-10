@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="MeMOTR: Long-Term Memory-Augmented Transformer for Multi-Object Tracking[1]  作者是来自南京大学的Ruopeng Gao和Limin Wang。论文引用[1]:Gao, Ruopeng and Limin Wang. “MeMOTR: Long-Term Memory-Augmented Transformer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MeMOTR">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/02/10/MeMOTR/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="MeMOTR: Long-Term Memory-Augmented Transformer for Multi-Object Tracking[1]  作者是来自南京大学的Ruopeng Gao和Limin Wang。论文引用[1]:Gao, Ruopeng and Limin Wang. “MeMOTR: Long-Term Memory-Augmented Transformer">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-02-10T03:03:27.000Z">
+<meta property="article:modified_time" content="2025-02-10T09:09:23.879Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Object Tracking">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/02/10/MeMOTR/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/02/10/MeMOTR/","path":"2025/02/10/MeMOTR/","title":"MeMOTR"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MeMOTR | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#memotr-long-term-memory-augmented-transformer-for-multi-object-tracking1"><span class="nav-number">1.</span> <span class="nav-text">MeMOTR:
+Long-Term Memory-Augmented Transformer for Multi-Object
+Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/02/10/MeMOTR/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MeMOTR | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MeMOTR
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-02-10 11:03:27 / 修改时间：17:09:23" itemprop="dateCreated datePublished" datetime="2025-02-10T11:03:27+08:00">2025-02-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="memotr-long-term-memory-augmented-transformer-for-multi-object-tracking1">MeMOTR:
+Long-Term Memory-Augmented Transformer for Multi-Object
+Tracking<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自南京大学的Ruopeng Gao和Limin Wang。论文引用[1]:Gao, Ruopeng
+and Limin Wang. “MeMOTR: Long-Term Memory-Augmented Transformer for
+Multi-Object Tracking.” 2023 IEEE/CVF International Conference on
+Computer Vision (ICCV) (2023): 9867-9876.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Feb</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>long-term temporal information</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>MOT是希望能够有效地得到目标的时序信息。不幸地是，现有的方法只显式地利用了相邻帧的目标特征，然而缺乏建模长程信息的能力。在本文中，提出了MeMOTR，一个长程的记忆增强的Transformer，用于多目标跟踪。作者的方法是，通过利用带有customized
+memory-attention layer的长期的记忆，能够使相同目标的track
+embedding更加stable和distinguishable。这显著提高了模型的目标关联能力。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>多目标跟踪旨在检测多个目标，并且维持他们的id。MOT能够应用在多个下游任务上，例如动作识别和行为分析。也是一个重要的technique。根据MOT的定义，这个任务可以被分为两个部分：目标检测和关联。很长一段时间，行人的跟踪数据集占据主流。然而，这些数据集在目标关联上挑战性不够，因为它们几乎是线性运动，因此，tracking-by-detection方法实现了MOT的SOTA性能。首先，利用一个robust的目标检测器，来独立地定位每帧中的目标，用ReID特征或者IoU进行关联，然而，在复杂场景中关联这些目标是有挑战的，像group
+dancers和sports
+players。这些相似的外观和不稳定的运动可能造成现有的方法失效。最近，基于Transformer的跟踪方法引入了端到端的MOT范式，通过这个交互和Transformer中的progressive
+decoding of detect and track
+queries，同时完成检测和跟踪。这个范式有望具有更大的潜力用于目标关联，因为Transformer的灵活性，特别是在上述复杂的场景中。虽然这些基于Transformer的方法实现了很好的性能，它们尝试去解决一些复杂的问题，例如相似的外观。<strong>作者假设更好地利用时序信息能够提供tracker更有效和robust的每个tracked的目标的表征，从而缓解了上述问题，提高跟踪性能</strong>。不幸地是，之前的方法利用图像或者两个相邻帧的目标特征，缺乏利用长程的时序信息。</p></li>
+<li><p>基于上述的分析，本文中，作者提出了一个长程的Memory-augmented
+Multi-Object Tracking method with
+Transformer，简写为MeMOTR。作者探索了detect 和tarck
+embeddings来定位newborn和tracked objects via Transformer Decoder
+respectively。作者的模型用<font color=red> exponential recursion update
+algorithm</font> 来保持长程的记忆。之后，将这个记忆inject到track
+embedding之中，降低它的abrupt
+changes，提高模型的关联能力。当很多目标出现在视频中的时候，用一个<strong>memory-aatention
+layer来产生更多的distinguishable
+表征</strong>。另外，作者提出了一个<strong>adaptive aggregation</strong>
+来融合相邻帧的目标特征，提高跟踪的鲁棒性。</p></li>
+<li><p>另外，作者argue， <strong>DETR中可学习的detection
+query没有特定目标的语义信息。然而，基于Transformer的MOT方法中的track
+query带有tracked
+object的信息</strong>。这个不同能够造成语义信息gap，降低最终跟踪的性能。<strong>因此，为了克服这个问题，作者用了一个轻量的decoder来执行preliminary
+object detection，输出带有特定语义的detect
+embedding</strong>。<strong>然后，将detect 和track
+embeddings联合输入到subsequent
+decoder，使得MeMOTR跟踪结果更加准确</strong>。</p></li>
+<li><p><strong>Tracking-by-Detection</strong>：这是一个广泛采用地MOT的范式，这些方法通过关联给定的detections来得到轨迹。经典行人tracking场景中的objects总是有不同的外观和常规的运动模式。因此，外观匹配和线性运动估计广泛用来在连续帧中匹配目标。SORT用IoU来匹配kalman
+filter的predictions和detected
+boxes，DeepSORT用了额外的网络来提取目标特征，然后利用<strong>余弦距离</strong>用于匹配。JDE、FairMOT和Unicorn进一步探索了appearance
+embedding的架构和匹配。ByteTrack基于YOLOX采用了一个robust
+detector，然后重新利用低置信度的detections来增强关联能力。进一步，OC-SORT通过恢复lost
+targets，提高了SORT。最近，视觉任务中的一个趋势是，<strong>一些研究将Transformers用于匹配detection
+bboxes</strong>。另外，Dendorfer等人尝试利用更复杂的运动估计方法来建模行人轨迹。这些上述方法有很强的detection能力，因为它们robust的detectors。然而，尽管这些方法在行人跟踪数据集上实现了很好的性能，它们在处理更复杂的场景中，有更复杂的运动的时候，表现一般，这些没有预见的运动模式会造成轨迹估计和预测模块失败。</p></li>
+<li><p><strong>Tracking-by-Query</strong>：<strong>通常不要求额外的后处理来关联detection
+results</strong>。不像tracking-by-detection范式，tracking-by-query的方法将track
+query用于逐步解码tracked
+objects的位置。受DETR启发，<strong>大多数的方法利用可学习的object
+query来执行newborn object detection，然而，track query来定位tracked
+objects的位置。TransTrack构建了一个siamese
+网络用于detection和Tracking，然后用一个IoU matching来产生newborn
+targets。TrackFormer利用通常的Transformer
+Decoder用于detection和tracking</strong>。然后利用一个NMS with a high IoU
+阈值来去掉重叠的bboxes。MOTR构建了一个优雅的、端到端的Transformer用于MOT。这个范式在处理非常规运动的时候表现很好，由于基于query的设计。另外，MQT用不同的queries来表征one
+tracked object，然后更关注class-agnostic tracking。</p></li>
+<li><p>然而，当前的基于query的方法一般都是利用相邻帧的信息。尽管track
+query
+能够逐步更新，大多数的方法不能显式地利用更长的时序信息。Cai等人探索了large
+memory
+bank，从与时间相关的知识中收益，但却付出了巨大的存储成本。为了利用long-term
+信息，作者提出了<strong>long-term memory来stabilize tracked object
+feature over time，和一个memory-attention layer用于more distinguishable
+representation</strong>。实验进一步证明了这个方法能够有效地提高MOT中关联的性能。</p></li>
+<li><p>作者提出了MeMOTR，<strong>一个long-term的memory-augmented
+Transformer用于MOT。不同于现有的方法进利用相邻帧的tracked
+objects的states</strong>，作者的核心贡献是构建一个long-term
+memory，维持long-term temporal feature for each tracked
+target，和一个temporal interaction module一起将temporal
+information注入到subsequent tracking
+processes中。像大多数的DETR的方法，作者用一个resnet50
+backbone和Transformer Encoder来产生输入frame <span
+class="math inline">\(I^t\)</span>的 image
+feature。如图1所示，可学习的detect query <span
+class="math inline">\(Q_{det}\)</span> 给到Detection decoder <span
+class="math inline">\(D_{det}\)</span> 来产生当前帧的embedding <span
+class="math inline">\(E^t_{det}\)</span>。之后，通过querying encoderd
+image feature with <span
+class="math inline">\([E^t_{det},E^t_{det}]\)</span>，Transformer Joint
+Decoder <span class="math inline">\(D_{joint}\)</span> 产生对应的输出
+<span
+class="math inline">\([\hat{O}_{det}^{t},\hat{O}_{tck}^{t}]\)</span>。为了简单起见，将
+<span class="math inline">\(O^t_{det}\)</span> 中的newborn objects
+和tracked objects output <span class="math inline">\(O^t_{tck}\)</span>
+进行结合。之后预测分类的置信度 <span
+class="math inline">\(c^t_i\)</span> 和bbox <span
+class="math inline">\(b^t_i\)</span>
+对应于输出embeddings中的第i个target。最后，将相邻帧 <span
+class="math inline">\([O^t_{det}, O^{t-1}_{tck}]\)</span>
+的输出和long-term memory <span class="math inline">\(M^t_{tck}\)</span>
+给到Temporal Interaction Module，更新之后的track embedding <span
+class="math inline">\(E^{t+1}_{tck}\)</span> 和long-term memory <span
+class="math inline">\(M^{t+1}_{tck}\)</span>。</p></li>
+<li><p>Detection
+Decoder：在之前的基于Transformer的方法中，可学习的detect
+query和之前的track query一起输入到Transformer Decoder from
+scratch。这个简单的idea将端到端的Detection
+Transformer扩展到MOT。然而，<strong>作者argue，这个设计可能造成detect和track
+queries之间的misalignment</strong>。在很多工作中讨论的那样，可学习的object
+query in DETR-family扮演着类似于带有少许语义信息的learnable
+anchor。另外一方面，track
+queries有特定的语义知识来解析它们的类别和边界框，因为它们是从前一帧中的输出产生的。如图所示，将原始的Transformer
+Decoder分为2个部分，第一个decoder layer用于detections，剩余的five
+layers用于joint
+detection和tracking。<strong>这两个decoders有相同的结构但是不同的输入</strong>。<strong>这个Detection
+Decoder <span class="math inline">\(D_{det}\)</span>
+将原始可学习的detect query <span class="math inline">\(Q_det\)</span>
+作为输入，产生对应的detection embeddings <span
+class="math inline">\(E^t_{det}\)</span>，带有足够的语义信息来定位和分类目标。之后，将detect和track
+embedding进行concat， 作为输入给到Transformer Decoder <span
+class="math inline">\(D_{joint}\)</span></strong>。</p></li>
+<li><p>Long-Term
+Memory：不像之前的方法仅利用相邻帧的信息，作者显式地引入了long-term
+memory <span class="math inline">\(M^t_{tck}\)</span> 来维持tracked
+targets的更长的时序信息。当一个newborn目标检测到了的时候，用当前的输出初始化long-term
+memory。应该注意到，在一个video
+stream中，在连续帧中，目标有少许的形变和运动。因此，作者假设，tracked
+objects的语义特征在短时间内变化不大。相同的方法，作者的long-term
+memory应该update smoothly。用一个简单但有效的running average with
+expoentailly decaying weights 来更新long-term memory <span
+class="math inline">\(M^t_{tck}\)</span>。 <span
+class="math display">\[\widetilde{M}_{tck}^{t+1}=(1-\lambda)M_{tck}^{t}+\lambda\cdot
+O_{tck}^{t},\]</span> <span
+class="math inline">\(\widetilde{M}_{tck}^{t+1}\)</span>
+是下一帧的新的long-term memory。这个memory更新速率 <span
+class="math inline">\(\lambda\)</span> 设置为0.01，<strong>following the
+assumption that memory changes smoothly and consistently in consecutive
+frames</strong>。</p></li>
+<li><p><strong>Temporal Interaction Module</strong>：adaptive
+aggregation for temporal
+enhancement。模糊或者遮挡等这些问题经常出现在video
+stream。一个解决这个问题的intuitive
+idea是用多帧的特征来增强单帧的表征，因此，作者用一个自适应的aggregation算法来融合相邻帧的输出。由于遮挡和模糊，这个当前帧的output
+embedding <span class="math inline">\(O^t_{tck}\)</span>
+可能不可靠。因此，如图2所示，产生一个channel-wise weight <span
+class="math inline">\(W^t_{tck}\)</span> for each tracked
+instance来避免这个问题： <span
+class="math display">\[W_{tck}^t=\mathrm{Sigmoid}(\mathrm{MLP}(O_{tck}^t)).\]</span>
+将这个weight <span class="math inline">\(W^t_{tck}\)</span> 和当前的输出
+<span class="math inline">\(O^t_{tck}\)</span>
+进行相乘，然后将结果和之前帧的 <span
+class="math inline">\(O^{t-1}_{tck}\)</span>
+进行concate。另外，用一个两层的MLP来产生融合后的outcome <span
+class="math inline">\(\hat{O}^t_{tck}\)</span>。这个自适应aggregation，用短期的temporal
+modeling增强的目标表征。然而，作者没有用上述的channel-wise weight for
+previous output <span class="math inline">\(O^{t-1}_{tck}\)</span>。
+<span class="math inline">\(O^t_{tck}\)</span> 和 <span
+class="math inline">\(O^{t-1}_{tck}\)</span>
+之间有不同。在推理期间，用一个score阈值 <span
+class="math inline">\(\Tau_{tck}\)</span> 来保证 $O^{t-1}_{tck}
+是相对可靠的。因此，完整地输入它subsequent fusion step without the
+adaptive weight。</p></li>
+<li><p><strong>Generate Track Embedding</strong>：作者利用track
+embedding <span class="math inline">\(E^t_{tck}\)</span>
+来产生每个tracked
+target的位置和类别。因此，产生更可靠和distinguishable的track
+embedding是提高跟踪性能的关键。因为同一帧可能有多个相似的目标，作者相信，学习更多的discriminative
+representations对于一个tracker是重要的。因此，采用Multi-Head
+Attention结构，称之为 memory-attention
+layer来实现不同轨迹之间的交互，由于long-term memory的可靠性，we use it
+as K，aggregation <span class="math inline">\(\hat{O}^t_{tck}\)</span>
+和输出embedding <span class="math inline">\(O^t_{tck}\)</span> 分别用作
+Q和V。之后，将long-term memory <span
+class="math inline">\(M^t_{tck}\)</span> 和memory attention
+layer的结果通过相加进行结合，然后，输入给FFN网络，来预测subsequent track
+embedding <span
+class="math inline">\(\hat{E}^{t+1}_{tck}\)</span>。long-term
+memory是随时间变化的。因此，通过引入long-term memory的信息，track
+embedding <span class="math inline">\(\hat{E}^{t+1}_{tck}\)</span>
+避免了可能造成关联错误的突然的变化。这个设计显著地提高了目标关联的表现。</p></li>
+<li><p>推理细节：<strong>在时刻t，将learnable detect query和 track
+embedding 一起输入到模型中，产生detection和tracking
+results。置信度分数超过阈值的detection result将会转化为一个newborn
+object</strong>。目标遮挡是一个常见的问题，如何tracked
+object丢失了，作者不直接去掉它的track
+embedding，而是将其记为<em>inactive</em> 轨迹。之后，inactive target在
+<span class="math inline">\(T_{miss}\)</span>
+帧之后被去掉。值得注意的是，作者没有在每个时刻为每个object更新track
+embedding和long-term memory。相反，作者选择更新高置信度的track
+embedding。这个update threshold <span
+class="math inline">\(T_{next}\)</span> 产生下面的formulation for
+updating： <span class="math display">\[[E_i^{t+1},M_i^{t+1}]=
+\begin{cases}
+[\widetilde{E}_i^{t+1},\widetilde{M}_i^{t+1}], &amp;
+c_i^t&gt;\tau_{next} \\
+[E_i^t,M_i^t], &amp; c_i^t\leq\tau_{next}
+\end{cases},\]</span> i是target index，t是frame index， <span
+class="math inline">\(c^t_i\)</span>
+是时刻t的第i个目标的预测的分类置信度。<span
+class="math inline">\(\widetilde{E}_i^{t+1},\widetilde{M}_i^{t+1}\)</span>
+分别是track embedding和long-term memory的预测，由Temporal Interaction
+Module产生。为了简单起见，将 $T_{det} = T_{tck} = T_{next} = 0.5 $。
+<span class="math inline">\(T_{miss}\)</span> 设置为30，15，10 on
+DanceTrack, MOT17和BDD100K。</p></li>
+</ol>
+<figure>
+<img
+src="https://figures.semanticscholar.org/a94e3930e0f13e835624f9021ed7d91408d994ff/3-Figure1-1.png"
+alt="Overview of MeMOTR" />
+<figcaption aria-hidden="true">Overview of MeMOTR</figcaption>
+</figure>
+<p><span class="math inline">\(Fig.1^{[1]}\)</span>
+像大多数的基于DETR的方法，作者利用ResNet50作为backbone，和一个Transformer
+Encoder来学习输入图像的2D表征，用不同的颜色来表示不同的tracked
+targets，可学习的detect query <span
+class="math inline">\(Q_{det}\)</span> 是灰色。然后，这个Detection
+Decoder <span class="math inline">\(D_{det}\)</span> 处理detect query
+，来产生detect embedding <span class="math inline">\(E^t_{det}\)</span>
+，这个将tracking embedding <span
+class="math inline">\(E^t_{tck}\)</span> 和之前的frames对齐。long-term
+memory 表示为 <span
+class="math inline">\(M^t_{tck}\)</span>。蓝色虚线箭头所示的初始化过程将会用在newborn
+objects上。</p>
+<figure>
+<img
+src="https://figures.semanticscholar.org/a94e3930e0f13e835624f9021ed7d91408d994ff/4-Figure2-1.png"
+alt="Temporal Interaction Module" />
+<figcaption aria-hidden="true">Temporal Interaction Module</figcaption>
+</figure>
+<p><span class="math inline">\(Fig.2^{[1]}\)</span> <span
+class="math inline">\(\widetilde{E}^{t+1}_{tck}\)</span> 和 <span
+class="math inline">\(\widetilde{M}^{t+1}_{tck}\)</span> 是 <span
+class="math inline">\(E^t_{tck}\)</span> 和 <span
+class="math inline">\(M^t_{tck}\)</span> for the next frame。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Object-Tracking/" rel="tag"># Object Tracking</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/02/05/%E7%BD%AE%E8%BA%AB%E4%BA%8B%E5%86%85/" rel="prev" title="置身事内">
+                  <i class="fa fa-angle-left"></i> 置身事内
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">175k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">10:36</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
