@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="MOTR: End-to-End Multiple-Object Tracking[1]  作者是来自旷视和上交的Fangao Zeng等人。论文引用[1]:  Time  2022.Jul  Key Words 总结">
+    <meta name="description" content="MOTR: End-to-End Multiple-Object Tracking[1]  作者是来自旷视和上交的Fangao Zeng等人。论文引用[1]:Zeng, Fangao et al. “MOTR: End-to-End Multiple-Object Tracking with TRansformer.” ArXiv abs&#x2F;2105.03247 (2021): n. pa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MOTR">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/12/31/MOTR/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="MOTR: End-to-End Multiple-Object Tracking[1]  作者是来自旷视和上交的Fangao Zeng等人。论文引用[1]:  Time  2022.Jul  Key Words 总结">
+<meta property="og:description" content="MOTR: End-to-End Multiple-Object Tracking[1]  作者是来自旷视和上交的Fangao Zeng等人。论文引用[1]:Zeng, Fangao et al. “MOTR: End-to-End Multiple-Object Tracking with TRansformer.” ArXiv abs&#x2F;2105.03247 (2021): n. pa">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-31T01:44:20.000Z">
-<meta property="article:modified_time" content="2024-12-31T03:03:38.415Z">
+<meta property="article:modified_time" content="2025-02-14T02:44:41.231Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object Tracking">
 <meta name="twitter:card" content="summary">
@@ -203,9 +203,15 @@ Multiple-Object Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a c
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-12-31 09:44:20 / 修改时间：11:03:38" itemprop="dateCreated datePublished" datetime="2024-12-31T09:44:20+08:00">2024-12-31</time>
+      <time title="创建时间：2024-12-31 09:44:20" itemprop="dateCreated datePublished" datetime="2024-12-31T09:44:20+08:00">2024-12-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-02-14 10:44:41" itemprop="dateModified" datetime="2025-02-14T10:44:41+08:00">2025-02-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -231,14 +237,14 @@ Multiple-Object Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a c
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>38</span>
+      <span>3.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>13 分钟</span>
     </span>
 </div>
 
@@ -251,16 +257,257 @@ Multiple-Object Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a c
     <div class="post-body" itemprop="articleBody"><h3 id="motr-end-to-end-multiple-object-tracking1">MOTR: End-to-End
 Multiple-Object Tracking<sup>[1]</sup></h3>
 <blockquote>
-<p>作者是来自旷视和上交的Fangao Zeng等人。论文引用[1]:</p>
+<p>作者是来自旷视和上交的Fangao Zeng等人。论文引用[1]:Zeng, Fangao et
+al. “MOTR: End-to-End Multiple-Object Tracking with TRansformer.” ArXiv
+abs/2105.03247 (2021): n. pag.</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
 <li>2022.Jul</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
+<ul>
+<li>track query and detect query</li>
+</ul>
 <h3 id="总结">总结</h3>
 <ol type="1">
-<li></li>
+<li><strong>目标的时序建模时MOT中的一个关键挑战。现有的方法时通过基于运动和外观相似度的方式来关联detections。这个关联的后处理的本质阻止了对视频序列中时序变化的端到端的利用</strong>。本文中，提出了MMOTR，扩展了DETR，并且引入<strong>track
+query</strong>来建模视频中的tracked instances。Track
+query会被transferred，然后逐帧地更新，来实现iterative
+prediction。作者提出了<strong>tracklet-aware label
+assignment</strong>来训练track queries和newborn object
+queries。作者进一步提出了<strong>Temporal aggregation
+network和collective average loss</strong>来增强temporal relation
+modeling。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>MOT预测连续图像序列中的实例的轨迹。现有的大多数的方法将MOT的时序关联分为<strong>appearance和motion</strong>。<strong>appearance
+variance通常是有pair-wise ReID相似度得到的，motion是通过IoU或者Kalman
+filtering来建模的</strong>。这些方法要求基于<strong>相似度的匹配</strong>用于后处理，这个变成了时序信息流的瓶颈。本文中，作者旨在引入一个端到端的MOT的框架，具有motion和外观建模的特点。</p></li>
+<li><p>最近DETR被提出来用于端到端的目标检测，<strong>它将目标检测表述为一个集合预测问题。object
+queries作为目标的解耦的表征，送到Transformer Decoder中，然后和image
+feature 进行交互，更新它们的表征。采用Bipartite matching来实现object
+queries和ground
+truth的一对一的assignment，消除了像NMS这样的后处理</strong>。不同于目标检测，MOT可以被视为一个序列预测问题。在DETR中进行序列预测是一个开放的问题。</p></li>
+<li><p>迭代式的预测是机器翻译中的一个流行的问题。输出的context通过hidden
+state进行表征，sentence features在decoder中iteratively和hidden
+state进行交互，来预测翻译的words。受机器翻译的进展的启发，将MOT视为<strong>a
+problem of set of sequence
+prediction</strong>，<strong>因为MOT要求一系列的object
+sequences。每个sequence对应一个object
+trajectory</strong>。<strong>将DETR中的object query扩展为track
+query用于预测object sequences。Track queries作为object tracks的hidden
+state。track queries的表征在Transformer
+decoder中进行更新，用于iteratively预测object
+trajectories。如图1所示。特别地，track queries通过frame
+features的自注意力和交叉注意力进行更新。更新后的track
+queries进一步用于预测bboxes。一个object的track可以通过在不同frames中的one
+track query的所有预测得到</strong>。</p></li>
+<li><p>为了实现以上的目标，需要解决两个问题：</p>
+<ul>
+<li>通过一个track query来track一个object</li>
+<li>处理newborn和终止的objects
+为了解决第一个问题，引入了<strong>tracklet-aware label
+assignment</strong>。****意味着one track
+query的预测受有相同identity的bbox的sequences的监督**。为了解决第二个问题，维持一个可变长度的track
+query set。newborn objects的queries将会merge到这个set中，terminated
+objects的queries将会被移除。将这个过程称为entrance和exit
+mechanism。以这种方式，MOTR在推理的时候不要求显式地track
+associations。更多的是，track queries的iterative
+update能够进行motion和appearance的建模。</li>
+</ul></li>
+<li><p>为了增强时序建模能力，进一步提出了<strong>collective average
+oss</strong>和temporal aggregation
+network(TAN)。有了CAL，MOTR在训练的时候将video
+clips作为输入，MOTR的参数更新是基于整个video clip计算得到的overall
+loss。TAN为track
+query引入了一个shortcut，通过key-query机制来聚合之前状态的历史信息。</p></li>
+<li><p>MOTR是一个简单的在线的Tracker，在label
+assignemt上进行一点修改，很容易在DETR上进行开发。它是一个端到端的
+MOT的框架，不需要NMS，IoU匹配这样的后处理。贡献如下：</p>
+<ul>
+<li>提出了MOTR，能够隐式地学习外观和位置变化。</li>
+<li>将MOT视为<strong>a problem of set of sequence
+prediction</strong>。从之前的hidden states中产生track
+query，用于iterative update和prediction。</li>
+<li>提出了tracklet-aware label assignment，用于track
+queries和objects之间的一对一的assignment。引入了一个entrance和exit机制来处理newborn和terminated
+objects。</li>
+<li>进一步提出了CAL和TAN来增强temporal modeling。</li>
+</ul></li>
+<li><p><strong>基于Transformer的工作</strong>：Transformer首次提出来适用于聚合整个输入sequence的信息，用于机器翻译。它设计自注意力和交叉注意力机制。自此之后，它被引入了很多的领域，例如speed
+processing，computer vision。最近，DETR结合了CNN，Transformer和bipartite
+matching，来进行端到端的目标检测。为了实现快速的收敛，Deformable
+DETR引入了可变形的注意力模块，ViT构建了一个纯Transformer架构，用于图像分类，之后，Swin
+Transformer提出了shifted
+windowing策略，来在局部窗口中进行自注意力，提高了效率，VisTR采用了一个直接的端到端的parallel
+sequence prediction框架，来执行video instance segmentation。</p></li>
+<li><p><strong>MOT</strong>：主流的MOT方法遵循tracking-by-detection的范式，这些方法通常首先用一个目标检测器来定位每帧中的目标，然后执行相邻帧之间的track
+association来得到tracking results。SORT结合了kalman
+filter和匈牙利算法进行track
+association，DeepSORT和Tracktor引入了一个额外的余弦距离来计算外观相似度，用于track
+association。Track-RCNN,
+JDE和FairMOT进一步在目标检测器上增加了一个ReID分支，引入了目标检测和ReID特征学习。TransMOT构建了一个时空graph
+Transformer用于关联。TransTrack和TrackFormer也开发了基于Transformer的框架用于MOT。</p></li>
+<li><p><strong>Iterative Sequence
+Prediction</strong>：用encoder-decoder架构通过sequence-to-sequence的方式预测sequence在机器翻译和text
+recognition中是流行的。在seq2seq框架中，encoder网络将input进行编码，得到中间表征。然后，引入了带有task-specific
+context information的hidden
+state，iteratively和中间表征进行交互，通过decoder产生target
+sequence。这个iterative
+decode过程包含了一些iterations，在每个iteration中，hidden state 解码one
+element of target sequence。</p></li>
+<li><p>Query in Object Detection：DETR引入了一个固定长度的object
+queries的集合来检测objects。object
+queries送到decoder中，和从encoder中出来的image
+features进行交互，来更新它们的表征。进一步采用bipartite
+matching来实现updated object
+queries和gt之间的一对一的assignment。这里，简单地将object写为detect
+query，来明确这个query是用于object detections的。</p></li>
+<li><p><strong>Detect query和Track query</strong>：当将DETR从object
+detection适应到MOT中的时候，产生了两个问题：<strong>如何通过one track
+query来track one object</strong>，<strong>如何处理newborn和terminated
+objects</strong>。作者这里将detect queries扩展为track queries，Track
+query set动态更新，length是可变的。<strong>如图2所示，track
+query初始化为空。detect queries in DETR用于检测newborn objects。Hidden
+states of detected objects产生下一帧的track queries, 分配给terminated
+objects的track queries从track query set中移除</strong>。</p></li>
+<li><p><strong>Tracklet-Aware Label Assignment</strong>：DETR中，one
+detect query 可能被分配给图像中的任意一个object，因为label
+assignment是通过所有detect
+queries和gt之间的双边匹配决定的。然而在MOTR中，<strong>detect
+queries仅用于检测newborn objects，track queries预测所有tracked
+objects。这里，引入了一个tracklet-aware label
+assignment(TALA)来解决这个问题</strong>。通常，TALA包含两个策略：对于detect
+queries，修正DETR中的assignment策略，改为newborn only，然后，bipartite
+matching是在detect queries和newborn objects的gt之间进行。对于Track
+queries，设计了一个<strong>target-consistent
+assignment策略</strong>。Track queries
+follow之前的frames的相同的assignment，排除在之前提到的bipartite
+matching之外。将track queries的predictions表示为 <span
+class="math inline">\(\hat{Y}_{tr}\)</span>，detect
+queries的predictions表示为 <span
+class="math inline">\(\hat{Y}_{de}\)</span>，<span
+class="math inline">\(Y_{new}\)</span> 是newborn objects的gt。对于track
+queries的label assignment results和detect queries可以写为 <span
+class="math inline">\(w_{tr}\)</span> 和 <span
+class="math inline">\(w_{det}\)</span>。对于frame i，label assignment
+for detect queries 是从detect queries和newborn objects之间的bipartite
+matching得到的。 <span
+class="math display">\[\omega_{det}^{i}=\arg\min_{\omega_{det}^{i}\in\Omega_{i}}\mathcal{L}(\widehat{Y}_{det}^{i}|_{\omega_{det}^{i}},Y_{new}^{i}),\]</span>
+<span class="math inline">\(\mathcal{L}\)</span> 是DETR中定义的pair-wise
+matching cost。<span class="math inline">\(\Omega_{i}\)</span> 是detect
+queries和newborn objects之间所有的bipartite matches的space。对于track
+queries的assignment。将newborn objects和最后一帧tracked
+objects的assignment进行merge。 <span
+class="math display">\[\omega_{tr}^i=\omega_{tr}^{i-1}\cup\omega_{det}^{i-1}.\]</span>
+对于第一帧，track query assignment <span
+class="math inline">\(w^1_{tr}\)</span> 是一个空集，因为这没有tracked
+objects，对于后续帧，track query assignment <span
+class="math inline">\(w^i_{tr}\)</span> 是之前的track query assigment
+<span class="math inline">\(w^{i-1}_{tr}\)</span> 和newborn object
+assignment <span class="math inline">\(w^{i-1}_{det}\)</span> 的
+concatenation。</p>
+<p>实际中，TALA策略是简单有效地，得益于Transformer中的attention机制，对于每帧，detect
+queries和track
+queries是concatenated的，然后送到Transformer的decoder中来更新represnetation。Detect
+queries仅detect newborn objects，因为通过self-attention的query
+interaction会抑制检测tracked objects的detect
+queries。这个机制类似于DETR中的duplicate
+removal，分数低的boxes会被抑制。</p></li>
+<li><p>整体的MOTR的结构如图所示，<strong>video
+sequences送到CNN和Deformable DETR的encoder中来提取frame
+features。对于第一帧，没有track query，仅将固定长度的learnable detect
+queries送到Deformable DETR的decoder中。对于后续的frames，将之前帧的track
+queries和learnable detect
+queries的concat一起送到decoder中。这些queries和decoder中的image
+feature进行interact，来产生hidden state 用于bbox prediction，这个hidden
+state也送到query interaction module(QIM)中，来产生下一帧的track
+queries</strong>。</p></li>
+<li><p>Query interaction module(QIM)，QIM包括object entrance和exit
+mechanism，和temporal aggregation network(TAN)。</p>
+<ul>
+<li><strong>Object Entrance and
+Exit</strong>：视频中的一些objects可能在中间帧中出现或者消失。这里，引入了处理newborn
+和terminated objects的方法。<strong>对于任意帧，track queries是和detect
+queries进行concat，然后输入给decoder，产生hidden
+state。在训练期间,在训练过程中，如果匹配的对象在真实标注（ground-truth）中消失，或者预测的边界框与目标之间的交并比（Intersection-over-Union,
+IoU）低于阈值
+0.5，那么已终止对象的隐藏状态将被移除。它意味着如果这些objects在当前帧中消失，剩余的hidden
+states是保留的，对应的hidden states将被过滤。对于newborn
+objects。对应的hidden states基于newborn object <span
+class="math inline">\(w^i_{det}\)</span>
+被保留。在推理中，用预测的分类分数来决定newborn objects的出现和tracked
+objects的消失，对于object queries，分类分数高于entrance threshold <span
+class="math inline">\(\tau_{en}\)</span>
+的predictions被保留，然而其它hidden states被去掉。对于track
+queries，分类分数连续M帧低于exit threshold <span
+class="math inline">\(\tau_{ex}\)</span>
+的predictions被去掉，然而其它的hidden states被保留</strong>。</li>
+<li><strong>Temporal Aggregation Network</strong>：这里，引入了temporal
+aggregation network in QIM来增强temporal modeling，为tracked
+objects提供contextual priors。如图所示，TAN的输入是filtered hidden state
+for tracked objects，也从last frame得到track query <span
+class="math inline">\(q^i_{tr}\)</span> for temporal
+aggregation，TAN是修正过的Transformere decoder layer。上一帧的track
+query和filtered hidden state 进行相加，作为MHA的key 和query。hidden
+state alone作为MHA的value，MHA之后，用一个FFN，results和hidden state for
+newborn objects进行concate，得到track query set <span
+class="math inline">\(q^{i+1}_{tr}\)</span> for next frame。</li>
+</ul></li>
+<li><p><strong>Collective Average Loss</strong>：training samples
+对于track的temporal modeling是重要的，因为MOTR从数据中学到temporal
+variances，而不是像kalman
+filtering这样的启发式方法。常见的训练策略，像training within two
+frames，不能产生training samples of long-range object
+motion，不同于它们，MOTR将整个视频作为输入，这种方式，training samples
+of long-range object motion可以产生temporal
+learning。不同于逐帧计算loss，作者的collective average
+loss(CAL)搜集了多个predictions <span
+class="math inline">\(\widehat{Y}=\{\widehat{Y}_{i}\}_{i=1}^{N}\)</span>。然后整个视频的loss通过gts
+<span class="math inline">\(Y=\{Y_{i}\}_{i=1}^{N}\)</span> 和matching
+results <span
+class="math inline">\(\omega=\{\omega_{i}\}_{i=1}^{N}\)</span>,
+CAL是整个视频的overall loss，通过objects的数量进行归一化。 <span
+class="math display">\[\mathcal{L}_o(\widehat{Y}|_\omega,Y)=\frac{\sum_{n=1}^N(\mathcal{L}(\widehat{Y}_{tr}^i|_{\omega_{tr}^i},Y_{tr}^i)+\mathcal{L}(\widehat{Y}_{det}^i|_{\omega_{det}^i},Y_{det}^i))}{\sum_{n=1}^N(V_i)}\]</span></p>
+<p><span class="math inline">\(V_{i}=V_{tr}^{i}+V_{det}^{i}\)</span>
+表示第i帧的gts objects的总的数量，<span
+class="math inline">\(V_{tr}^{i}\)</span> 表示第i帧的tracked
+objects的数量，<span class="math inline">\(V_{det}^{i}\)</span>
+表示第i帧的newborn objects的数量。<span
+class="math inline">\(\mathcal{L}\)</span> 是single
+frame的loss，类似于DETR中的detection loss。single-frame loss <span
+class="math inline">\(\mathcal{L}\)</span> formulated如下：</p>
+<p><span class="math inline">\(\mathcal{L}_{cls}\)</span> 是focal
+loss，<span class="math inline">\(\mathcal{L}_{1}\)</span> 是L1
+loss，<span class="math inline">\(\mathcal{L}_{giou}\)</span>
+是generalized IoU loss，<span class="math inline">\(\lambda_{cls},
+\lambda_{1}, \lambda_{giou}\)</span> 是对应的权重系数。</p></li>
+<li><p>基于DETR，现有的工作，
+TransTrack和TrackFormer也开发了基于Transformer的框架，然后，作者的方法和它们有很大的不同：</p>
+<ul>
+<li>TransTrack将整个track建模为几个独立的short
+tracklets的结合，类似于track-by-detection范式，TransTrack将MOT解耦为两个子任务：detect
+object pairs是short tracklets within two adjacent
+frames，通过IoU-matching关联short tracklets。对于MOTR，通过track
+query的iterative
+update，端到端的建模整个track，不需要IoU-matching。</li>
+<li>TrackFormer和作者有相同的idea，然而，TrackFormer仍然学习的是两个相邻帧，学习short-range会导致相对弱的temporal
+learning。因此,
+TrackFormer采用了启发式的方法，例如TrackNMS和ReID特征，来过滤掉duplicate
+tracks，不同于TrackFormer，MOTR通过CAL和TAN来学习更强的temporal
+motino，不需要启发式方法。</li>
+</ul></li>
+<li><p>Limitations：MOTR一个在线的tracker，实现了端到端的MOT
+tracking。它隐式地学习外观和位置变化in a joint manner thanks to
+DETR的架构还有tracklet-aware label
+assignment，然而，它也有一些缺点。首先，检测newborn
+objects的不够令人满意，正如上面所分析的，检测查询（detect
+queries）在检测已跟踪对象时会被抑制，这可能违背了对象查询的本质，并限制了对newborn
+objects的检测性能。其次，MOTR
+中的查询传递是逐帧进行的，这限制了训练期间模型学习的效率。在我们的实践中，VisTR
+中的并行解码无法处理多目标跟踪（MOT）中的复杂场景。</p></li>
 </ol>
 
     </div>
@@ -316,13 +563,13 @@ Multiple-Object Tracking<sup>[1]</sup></h3>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">175k</span>
+    <span title="站点总字数">178k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10:36</span>
+    <span title="站点阅读时长">10:49</span>
   </span>
 </div>
 <div class="busuanzi-count">

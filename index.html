@@ -785,9 +785,15 @@ Real-time的特性。另外，作者的方法展示了对于多个trackers和场
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-12-31 09:44:20 / 修改时间：11:03:38" itemprop="dateCreated datePublished" datetime="2024-12-31T09:44:20+08:00">2024-12-31</time>
+      <time title="创建时间：2024-12-31 09:44:20" itemprop="dateCreated datePublished" datetime="2024-12-31T09:44:20+08:00">2024-12-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-02-14 10:44:41" itemprop="dateModified" datetime="2025-02-14T10:44:41+08:00">2025-02-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -806,14 +812,14 @@ Real-time的特性。另外，作者的方法展示了对于多个trackers和场
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>38</span>
+      <span>3.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>13 分钟</span>
     </span>
 </div>
 
@@ -827,18 +833,37 @@ Real-time的特性。另外，作者的方法展示了对于多个trackers和场
           <h3 id="motr-end-to-end-multiple-object-tracking1">MOTR: End-to-End
 Multiple-Object Tracking<sup>[1]</sup></h3>
 <blockquote>
-<p>作者是来自旷视和上交的Fangao Zeng等人。论文引用[1]:</p>
+<p>作者是来自旷视和上交的Fangao Zeng等人。论文引用[1]:Zeng, Fangao et
+al. “MOTR: End-to-End Multiple-Object Tracking with TRansformer.” ArXiv
+abs/2105.03247 (2021): n. pag.</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
 <li>2022.Jul</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
+<ul>
+<li>track query and detect query</li>
+</ul>
 <h3 id="总结">总结</h3>
 <ol type="1">
-<li></li>
+<li><strong>目标的时序建模时MOT中的一个关键挑战。现有的方法时通过基于运动和外观相似度的方式来关联detections。这个关联的后处理的本质阻止了对视频序列中时序变化的端到端的利用</strong>。本文中，提出了MMOTR，扩展了DETR，并且引入<strong>track
+query</strong>来建模视频中的tracked instances。Track
+query会被transferred，然后逐帧地更新，来实现iterative
+prediction。作者提出了<strong>tracklet-aware label
+assignment</strong>来训练track queries和newborn object
+queries。作者进一步提出了<strong>Temporal aggregation
+network和collective average loss</strong>来增强temporal relation
+modeling。</li>
 </ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/12/31/MOTR/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1389,13 +1414,13 @@ capabilities，将其从繁重的人工算法中解放出来。</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">175k</span>
+    <span title="站点总字数">178k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10:36</span>
+    <span title="站点阅读时长">10:49</span>
   </span>
 </div>
 <div class="busuanzi-count">
