@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="TOPIC: A Parallel Association Paradigm for Multi-Object Tracking Under Complex Motions and Diverse Scenes[1]  作者是来自北大等机构的Xiaoyan Cao, Yiyao Zheng等人。论文引用[1]:  Time  2025.1  Key Words  appea">
+    <meta name="description" content="TOPIC: A Parallel Association Paradigm for Multi-Object Tracking Under Complex Motions and Diverse Scenes[1]  作者是来自北大等机构的Xiaoyan Cao, Yiyao Zheng等人。论文引用[1]:  Time  2025.Jan  Key Words  app">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TOPIC">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/02/14/TOPIC/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="TOPIC: A Parallel Association Paradigm for Multi-Object Tracking Under Complex Motions and Diverse Scenes[1]  作者是来自北大等机构的Xiaoyan Cao, Yiyao Zheng等人。论文引用[1]:  Time  2025.1  Key Words  appea">
+<meta property="og:description" content="TOPIC: A Parallel Association Paradigm for Multi-Object Tracking Under Complex Motions and Diverse Scenes[1]  作者是来自北大等机构的Xiaoyan Cao, Yiyao Zheng等人。论文引用[1]:  Time  2025.Jan  Key Words  app">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-02-14T06:38:38.000Z">
-<meta property="article:modified_time" content="2025-02-14T16:30:14.041Z">
+<meta property="article:modified_time" content="2025-02-15T03:28:38.265Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object Tracking">
 <meta name="twitter:card" content="summary">
@@ -212,7 +212,7 @@ Motions and Diverse Scenes[1]</span></a></li><li class="nav-item nav-level-3"><a
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-02-15 00:30:14" itemprop="dateModified" datetime="2025-02-15T00:30:14+08:00">2025-02-15</time>
+      <time title="修改时间：2025-02-15 11:28:38" itemprop="dateModified" datetime="2025-02-15T11:28:38+08:00">2025-02-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,14 +238,14 @@ Motions and Diverse Scenes[1]</span></a></li><li class="nav-item nav-level-3"><a
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>3.1k</span>
+      <span>4.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>11 分钟</span>
+      <span>15 分钟</span>
     </span>
 </div>
 
@@ -264,7 +264,7 @@ Motions and Diverse Scenes<sup>[1]</sup></h3>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
-<li>2025.1</li>
+<li>2025.Jan</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
 <ul>
@@ -296,7 +296,8 @@ serial
 association范式例如FairMOT，然而，这样的对比可能不公平。<strong>作者的关注是有效地结合features来最大化strengths</strong>。<strong>总结一下：低速场景像MOT17和DanceTrack，遮挡和外观高度相似的对appearance
 feature有挑战，因此motion features作为assignment
 metric更有效，因为更简单的运动。在高速场景中像BEE24，复杂的非线性motions对基于线性运动假设的运动建模提出了挑战。然而，生物体在高速的时候通过保持距离来避免碰撞。这使得appearance更加的visible，提高了区分度，因此appearance
-feature在这里表现出色</strong>。 基于之前的讨论，得出一下的结论：a.
+feature在这里表现出色</strong>。
+基于之前的讨论，得出以下的结论：<strong>a.
 每个特征在特定的场景中有优势;b. motion speed和motion and appearance
 features的有效性强相关。受此启发，提出了一个parallel association
 paradigm来联合使用这两个features。TOPIC同时用motion和appearance
@@ -308,7 +309,7 @@ matches。除了association，detection和representation也影响tracking。作�
 来自FastReID。另外，提出了一个Attention-based Appearance Reconstruction
 Module(AARM)，来增强appearance
 representations。特别地，AARM能够提高不同object
-representations之间的distinction，增强跨帧的相同目标的representation的相似度。
+representations之间的distinction，增强跨帧的相同目标的representation的相似度</strong>。
 在本文中，通过两个关键方面来应对复杂运动和多样化场景所带来的挑战，为MOT领域做出贡献:
 data construction和算法优化。贡献如下：</p>
 <ul>
@@ -319,9 +320,41 @@ features作为association metrics in parallel，根据motion
 level来解决conflicting
 matches，自适应地选择其中一个。另外，提出了AARM来增强trackers的能力来区分objects。</li>
 </ul></li>
-<li><p><strong>MOT数据集的特点</strong>：</p></li>
-<li><p><strong>appearance feature-based association</strong>：</p></li>
-<li><p><strong>Motion Feature-based Association</strong>：</p></li>
+<li><p><strong>MOT数据集的特点</strong>：
+当前MOT数据集设计多样的目标类别和场景，包括行人的，车辆的，群体舞蹈的。观察了这些数据集之后，遮挡和外观相似是主要的特征。遮挡，是一个常见的特点，在表征object
+appearance
+features的时候引入了相当大的挑战，在极端情况下可能导致外观功能失效。另一方面，高度相似的外观可能降低不同目标殴之间的视觉区分，对于基于外观的Trackers提出了挑战。另外，通过定量分析，得出结论：现有的数据集缺乏对复杂运动模式的关注，objects都是简单的运动。特别地，不同目标的运动模式是相似的，个体目标的motion
+intensity is
+low，展示出了连续帧的很小的变化。然而，更为复杂的运动模式在生活和自然界中是常见的，例如蜂群在蜂巢周围活动的现象。为了解决MOT数据的局限，探索trackers处理更复杂的场景的适应性，作者提供了一个数据集关注蜂群的活动，称之为BEE24。这个数据集突出了复杂运动模式的特点，也包括遮挡和高度相似的外观。</p></li>
+<li><p><strong>appearance feature-based association</strong>：
+受益于ReID的发展，大多数的跟踪算法主要依赖于appearance
+features用于数据关联，不管是tracking-by-detection，还是joint detection
+and
+tracking(JDT)范式，尽管ReID模型依赖于大量的跟踪标注，在长时间的遮挡之后解决目标ReID的的任务在MOT中是重要的。TBD范式将detection和tracking视为两个独立的任务，例如DeepSORT用一个检测器来得到目标的位置和大小，然后构建一个网络来提取外观embeddings，JDT范式在最近几年很流行，旨在结合detection和appearance
+feature
+extractions，例如MOTs和JDE。它们用一个共享的backbone用于detection和appearance
+feature
+extraction，然而，这个范式的性能和TBD范式相比退化了，这被认为是由于训练重新识别（re-ID）模型非常复杂。FairMOT、CTracker和TraDeS探索了reID和detection
+models的兼容的方式，实现了超过TBD范式的跟踪结果。最近，一些工作尝试引入注意力机制来学习外观特征。一些工作探索了scene
+information来提高appearance
+models的鲁棒性。在数据关联阶段，之前提到的trackers产生当前detections和历史轨迹的appearance
+embeddings，这些embeddings然后用来计算用于匹配id的相似度。</p>
+<p>尽管深度学习在增强appearances的表征上有很大的进展，appearance
+features在有遮挡和高度相似目标的场景中的可靠性降低了。为了达到这个目的，作者引入了一个attention-based
+appearance reconstruction module来增强appearance representation
+能力。</p></li>
+<li><p><strong>Motion Feature-based Association</strong>：
+<strong>motion features是用于数据关联的有效的cue。经典的用于motion
+features的model
+techniques方法包括：粒子滤波和卡尔曼滤波。这些techniques是基于线性运动的假设</strong>，利用过去的motion
+states来估计现在的。由于高效的计算，<strong>大多数的trackers倾向于利用KF来提取运动特征</strong>。例如SORT,
+DeepSORT，在过去，motion
+features通常作为一个附加的cue，以DeepSORT为例，利用KF来过滤掉突然shifts的objects。最近的研究通过改进KF，得到了显著的跟踪结果，展示了motion
+features的重要性，包括ByteTrack，FastTrack，
+Decoder-MOT，BPMTrack和OC-SORT。</p>
+<p>然而，这些算法对于运动模式的线性假设使得跟踪复杂运动场景更具有挑战。例如蜂群的活动，<strong>这个突出了现有Trackers通过结合多种features来增强它们性能的必要性。因此，作者argue，分析不同features的使用的条件，然后设计association
+paradigm，来利用它们的优势，为面向复杂和多样场景的MOT算法提供了一个promising
+way</strong>。</p></li>
 <li><p><strong>TWo-Round Parallel Matching
 Mechanism</strong>：现有的id关联的方法主要分为2种范式：<strong>包括single-feature
 范式和serial 范式，single-feature范式用appearance features或者motion
@@ -360,8 +393,8 @@ class="math inline">\(p(\pi_j|\tau_i, appearance)\)</span>
 class="math inline">\(p(\pi_j|\tau_i, motion)\)</span>
 通过IoU距离测量，将后验概率变成association costs： <span
 class="math display">\[A_{\mathrm{cost}}(i,j)=1-p_{\mathrm{a}}(\tau_{i}|\pi_{j}),M_{\mathrm{cost}}(i,j)=1-p_{\mathrm{m}}(\tau_{i}|\pi_{j}).\]</span></p>
-<p><span class="math inline">\(A_cost(i,j)\)</span> 和 <span
-class="math inline">\(M_cost(i,j)\)</span> 表示appearance和motion
+<p><span class="math inline">\(A_{cost(i,j)}\)</span> 和 <span
+class="math inline">\(M_{cost(i,j)}\)</span> 表示appearance和motion
 features的cost matrices。基于外观和运动特征的track <span
 class="math inline">\(\tau_i\)</span> 和 detection <span
 class="math inline">\(\pi_j\)</span> 之间的匹配概率通过 <span
@@ -395,7 +428,7 @@ t的最近的observation box，适用于非缺失检测和缺失检测。考虑�
 motion的不确定性，采用了一个默认的假设，当目标初始时被跟踪，它的motion
 level是1。</p>
 <p>另外，引入了motion level <span class="math inline">\(\alpha\)</span>
-的阈值，<span class="math inline">\(\alpah \in [0,1]\)</span>，如果
+的阈值，<span class="math inline">\(\alpha \in [0,1]\)</span>，如果
 <span class="math inline">\({motionlevel}^t_i &gt;= \alpha\)</span>，we
 trust 基于外观matching的结果，否则选择motion-based
 matching。注意到，TOPIC会退化到appearance-based 和motion-based
@@ -455,7 +488,8 @@ appearance features增强了区分object identity的能力。</p></li>
 </ol>
 <p><img
 src="https://figures.semanticscholar.org/3da5ae8635f793238bbfc70763dbeee4ff71dab7/2-Figure2-1.png"
-alt="association paradigms" /> $Fig.1^{[1]}.
+alt="association paradigms" /> <span
+class="math inline">\(Fig.1^{[1]}\)</span>.
 现有的关联范式和作者提出的parallel 范式的对比。a 是single-feature
 关联范式，用了motion或者appearance feature作为assignment metric，b 是
 serial 关联范式，人为地指定一个feature来过滤association
@@ -531,13 +565,13 @@ embeddings的相似度分数增加了，对于不同的蜜蜂，反之亦然。<
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">182k</span>
+    <span title="站点总字数">183k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:04</span>
   </span>
 </div>
 <div class="busuanzi-count">
