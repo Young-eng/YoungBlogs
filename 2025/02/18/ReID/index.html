@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Deep Learning for Person Re-identification(ReID): A Survey and Outlook[1]  作者是来自武大等机构的Mang Ye等人。论文引用[1]:Ye, Mang et al. “Deep Learning for Person Re-Identification: A Survey and Outlook.” IEEE T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ReID">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/02/18/ReID/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Deep Learning for Person Re-identification(ReID): A Survey and Outlook[1]  作者是来自武大等机构的Mang Ye等人。论文引用[1]:Ye, Mang et al. “Deep Learning for Person Re-Identification: A Survey and Outlook.” IEEE T">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-02-18T01:10:11.000Z">
+<meta property="article:modified_time" content="2025-02-19T08:43:39.966Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="ReID">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/02/18/ReID/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/02/18/ReID/","path":"2025/02/18/ReID/","title":"ReID"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ReID | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#deep-learning-for-person-re-identificationreid-a-survey-and-outlook1"><span class="nav-number">1.</span> <span class="nav-text">Deep
+Learning for Person Re-identification(ReID): A Survey and
+Outlook[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transformer-for-object-re-identification-a-survey1"><span class="nav-number">4.</span> <span class="nav-text">Transformer
+for Object Re-identification: A survey[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time-1"><span class="nav-number">5.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/02/18/ReID/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ReID | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ReID
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-02-18 09:10:11" itemprop="dateCreated datePublished" datetime="2025-02-18T09:10:11+08:00">2025-02-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-02-19 16:43:39" itemprop="dateModified" datetime="2025-02-19T16:43:39+08:00">2025-02-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Paper/" itemprop="url" rel="index"><span itemprop="name">Paper</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>19 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="deep-learning-for-person-re-identificationreid-a-survey-and-outlook1">Deep
+Learning for Person Re-identification(ReID): A Survey and
+Outlook<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自武大等机构的Mang Ye等人。论文引用[1]:Ye, Mang et al. “Deep
+Learning for Person Re-Identification: A Survey and Outlook.” IEEE
+Transactions on Pattern Analysis and Machine Intelligence 44 (2020):
+2872-2893.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2022.June</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>人物的reid被广泛地作为一个<strong>特定人物在不同摄像头之间的的检索问题，给定一个感兴趣的人物的query，ReID的目标是决定这个人物是否出现在一个不同的摄像头、不同的时间和地点中，或者是同一个摄像头在不同的时间</strong>。这个query
+person <strong>可以由一张图像、一个video sequence进行表示，甚至是text
+description</strong>，由于公共安全的需要和监控摄像头数量的增加，person
+ReID在智能监控领域急需的。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>ReID是一个挑战性的人物，因为不同的角度的presence，伴随着low-image
+resolutions，光照变化和没有限制的poses、遮挡，各种各样的模态，复杂的相机环境、背景杂乱。不可靠的bbox
+generations。另外，对于实际模型的部署，动态更新的相机网络、对大规模的gallery的高效检索，group
+uncertainty，significant domain shift，没有见过的testing
+scenarios，incremental model updating，changing
+cloths也极大地增加了困难，这些挑战导致ReID是一个unsolved
+问题。早期的研究主要关注hand-crafted features with body
+structures构建，或者距离度量学习。随着深度学习的发展，person
+ReID在多个benchmark上实现了很好的性能。然而，在以研究为导向的场景和实际应用之间，有很大的gap。这激励我们去做一个全面的survey，开发一个powerful
+baseline for different ReID tasks，讨论不同的future
+directions。</p></li>
+<li><p>虽然这些survey已经总结了深度学习的方法，作者的survey有三点不同：1.通过讨论它们的优点和局限，提供了深度和全面的分析；2.
+设计了一个新的powerful baseline(AGW)和一个新的evaluation
+metric(mINP:mean Iverse Negative Penalty) for future
+developments。AGW在四个不同的ReID任务、十二个数据集上实现了SOTA。mINP提供了一个补充的metric对于现有的CMC/mAP，表示<strong>找到所有正确matches的代价</strong>；3.
+尝试讨论一些重要的、没有研究过的问题，来缩小closed-world和open-world
+application的gap，向现实世界的ReID系统设计迈出了一步。</p></li>
+<li><p>除非另有说明，**这篇文章中的person
+ReID是指：在不同的摄像头之间的行人检索问题，从计算机视觉的角度。通常，针对一个特别地场景，构建一个Person
+ReID 系统需要5个主要步骤：</p>
+<ul>
+<li><strong>raw data collection</strong>：从摄像头中获取raw video
+data，这些通常在不同的位置和环境下。大多数，raw
+data包含大量的复杂和有噪声的background clutter</li>
+<li><strong>bbox generation</strong>：从视频数据中提取包含person
+images的bbox。通常不可能去手动地crop all person
+images，bboxes通常是通过person detection或者跟踪算法来弄。</li>
+<li><strong>Training Data Annotation</strong>：标注cross-camera
+labels，训练数据标注对于判别性重识别模型学习通常是不可或缺的，因为跨摄像头的差异较大。在现有的large
+domain shoft中，通常在每个新的场景中需要标注训练数据。</li>
+<li><strong>model training</strong>：用之前的标注的person
+images/videos，训练一个判别式的robust的ReID模型。这个步骤是开发ReID的核心，也是被研究地最广的范式。开发了大量的model来处理不同的挑战，集中在feature
+representation learning、距离度量学习和其它的结合上。</li>
+<li><strong>行人检索</strong>: testing
+阶段进行行人检索。给定一个感兴趣的person的 query和gallery
+set，用之前学到的ReID模型来提取representations，通过对计算得到的query-to-gallery
+相似度排序，得到一个检索到的ranking lsit。一些方法也用了ranking
+optimization来提高检索性能。</li>
+</ul></li>
+<li><p>根据上述5个步骤，将现有的ReID方法分为两个主流的趋势：<font color=red>closed-world
+和 open-world</font>。有以下五个方面的对比：</p>
+<ul>
+<li>单模态vs 多样的数据：对于step1中的data
+collection，在封闭世界的设定中，所有个体均由单模态可见光摄像头捕捉的图像或视频所代表。然而，实际的开放世界中，可能需要处理多样的数据，包括红外的、sketches、depth
+images甚至text description。</li>
+<li>bbox generation vs raw images/videos: 对于第二步中的bbox
+generation，封闭世界中的person ReID通常基于generated
+bbox进行训练和测试，这个bboxes主要包含人物的外观信息。相比之下，一些实际的开放世界应用许哟啊端到端的person
+search，这就导致了另一个开放世界的话题：端到端的person search</li>
+<li>大量标注数据vs有限的labels：对于step3中的训练数据，closed-world
+person ReID通常假设有足够的训练数据用于监督ReID模型训练，然而，label
+annotation对于每个camera
+pair是耗时费力的。在open-world中，可能就没有那么多的标注的数据。这个启发了无监督和半监督的ReID。</li>
+<li>正确地标注vs有噪声的标注：对于step4，现有的closed-world person
+ReID假设所有的标注是正确地，有clean
+labels，然而，标注噪声是不可避免的</li>
+<li>query exists in gallery vs
+Open-set：在行人检索阶段，现有的closed-world person ReID假设query
+存在于gallery set。然而，在很多场景中，query person可能不出现在gallery
+set中，或者许哟啊执行verification而不是检索。</li>
+</ul></li>
+<li><p><strong>Closed-world person
+ReID</strong>：这个部分提供了一个overview for closed-world person
+ReID。这个设定有以下的假设：</p>
+<ul>
+<li>所有的person的外观都由单模态的图像或视频所代表。</li>
+<li>person通过bbox代表</li>
+<li>训练有足够的标注数据</li>
+<li>标注通常是正确地</li>
+<li>query person必须出现在gallery set中
+通常一个标注的ReID包含三个主要部分：<strong>feature representation
+learning、deep metric learning和 ranking optimization</strong>。</li>
+<li><strong>feature representation
+learning</strong>：有三类：全局feature repsentation vector for each
+person image、局部feature，辅助的feature、Video feature。全局feature
+represetation learning提出每个Person
+image的全局特征向量。为了学到细粒度的cues in global feature
+learning，一个联合的学习框架包含一个single-image
+representation(SIR)和cross-image
+Representation(CIR)。用特定的sub-networks和triplet
+loss进行训练。广泛使用地ID-discriminative Embedding(IDE)
+model通过将每个id视为一个distinct
+class，将训练过程作为一个多类别分类问题。Attention机制用的比较广泛，包括attention
+within the person image和attention across multiple person
+images。局部特征表征学习，学习part/region aggregated features。</li>
+<li><strong>Auxiliary Feature Representation
+Learning</strong>：辅助特征表征学习通常要求额外的标注信息或者增强的训练样本来强化特征标注。Semantic
+Attrubutes。有人通过结合预测的语义属性信息，提出了深度学习框架，增强泛化性和特征表征的鲁棒性。引入的语义属性和attention
+scheme来提高part feature learning。Viewpoint
+Information。viewpoint信息也被利用来增强特征表征学习。Multi-level
+Factorisation Net也尝试学习id-discriminative 和view-invariant feature
+representations at multiple semantic levels。Domain
+information。一个domain Gruided
+Dropout算法用来自适应地挖掘domain-sharable和domain-specific
+neurons用于multi-domain
+深度特征表征学习。将每个camera视为一个domain。GAN
+generation。这个部分讨论用GAN生成的images作为辅助的信息，有人尝试应用GAN用于person
+ReID。它用产生的person images，提高了监督特征表征。Pose
+constraints也被引入了，来提高产生的person
+images的质量。用GAN生成的images在无监督的domain adaptation
+ReID中，也是一个广泛使用的路径。Data
+Augmentation。对于ReID，习惯的操作是random resize, cropping和horizontal
+flip。对抗性遮挡样本被生成以增加训练数据的变化性。</li>
+<li><strong>Video Feature Representation
+Learning</strong>：基于视频的ReID是另外一个topic，每个person是由一个video
+sequence所表示。由于丰富的appearance和时序信息。主要的挑战是精确地得到时序信息。有人设计了RNN用于基于视频的person
+ReID，共同优化时间信息传播的最终循环层和时间池化层。联合规矩frame-level
+feature和时空appearance
+information对于视频表征学习是重要的。另外一个主要的挑战是不可避免的outlier
+tracking frames within the
+videos。另一个主要挑战是视频中不可避免的异常追踪帧。采用仿射壳来处理视频序列中的异常帧。另一个有趣的工作是利用多个视频帧来自动补全遮挡的区域，这个工作展示了处理有噪声的frames能够极大地提高视频表征学习。有人将长的视频学列换分成多个短的视频片段，汇聚topranked
+snippets来学习一个紧凑的embedding。一个clip-level学习策略利用时间和空间维度的注意力来产生鲁棒的clip-level
+representations。</li>
+<li><strong>架构设计</strong>：person
+reid是一个行人的检索问题，现有的工作采用用于图像分类的backbone。一些工作也尝试修改backbone，来实现更好的ReID特征。对于广泛采用的ResNet50
+backbone，重要的修改包括最后的conv strip/size to 1，采用adaptive average
+pooling，增加的bottleneck layer。</li>
+</ul></li>
+<li><p><strong>深度度量学习</strong>：度量学习在深度学习时代之前，通过学习一个Mahalanobis距离函数，被广泛研究。这个metric
+learning的角色被loss function代替了，用来指导feature representation
+learning。</p>
+<ul>
+<li>损失函数设计：这个survey仅关注用于deep
+learning的损失函数设计。在person ReID中，有三个广泛研究的loss
+functions，包括identity loss，verification loss和triplet loss。Identity
+loss，将person
+ReID的训练过程视为一个图像分类问题。每个identity是一个distinct
+class。在测试阶段，pooling layer或者embedding layer的输出被用作feature
+extractor。给定一个输入Image <span class="math inline">\(x_i\)</span>
+with label <span class="math inline">\(y_i\)</span>，<span
+class="math inline">\(x_i\)</span>的被预测为 <span
+class="math inline">\(y_i\)</span> 的概率 用一个softmax
+函数进行编码，表示为 <span
+class="math inline">\(p(y_i|x_i)\)</span>。identity
+loss通过交叉熵进行计算：</li>
+</ul>
+<p><span
+class="math display">\[\mathcal{L}_{id}=-\frac{1}{n}\sum_{i=1}^{n}\log{(p(y_{i}|x_{i}))},\]</span></p>
+<p>n表示每个batch中训练样本的数量。identity
+loss被现有的方法广泛使用。它很容易训练和自动挖掘hard samples during
+training。 verification Loss。优化pairwise
+relationship。要么是用contrastive loss，要么是binary verification
+loss。contrastive loss提高了relative pairwise distance comparision：
+<span
+class="math display">\[\mathcal{L}_{con}=(1-\delta_{ij})\{\max(0,\rho-d_{ij})\}^2+\delta_{ij}d_{ij}^2,\]</span></p>
+<p><span class="math inline">\(d_{ij}\)</span> 表示 两个输入样本的 <span
+class="math inline">\(x_i\)</span> 和 <span
+class="math inline">\(x_j\)</span> 的embedding features的欧氏距离。
+<span class="math inline">\(\delta_{ij}\)</span> 是一个binary label
+indicator(当 <span class="math inline">\(x_i\)</span> 和 <span
+class="math inline">\(x_j\)</span> 是同一个identity的时候， <span
+class="math inline">\(\delta_{ij}\)</span> = 1，否则就是0)。Binary
+verification区分输入image pair 的positive 和negative
+pairs。通常，differential feature <span
+class="math inline">\(f_{ij}\)</span> 通过 <span
+class="math inline">\(f_{ij}=(f_i-f_j)^2\)</span>。 <span
+class="math inline">\(f_i\)</span> 和 <span
+class="math inline">\(f_j\)</span> 是两个样本 <span
+class="math inline">\(x_i\)</span> 和 <span
+class="math inline">\(x_j\)</span> 的embedding features。verification
+network将 差分的feautre分类成positive 或者negative。用 <span
+class="math inline">\(p(\delta_{ij}|f_{ij})\)</span> 表示输入对被识别为
+<span class="math inline">\(\delta_{ij}\)</span> 的概率。verification
+loss 用交叉熵进行计算：</p>
+<p><span
+class="math display">\[\mathcal{L}_{veri}(i,j)=-\delta_{ij}\mathrm{log}\left(p(\delta_{ij}|f_{ij})\right)-(1-\delta_{ij})\mathrm{log}\left(1-p(\delta_{ij}|f_{ij})\right).\]</span></p>
+<p>verification 和 identity loss结合来提高性能。</p>
+<p>Triplet Loss：它将ReID model 训练 视为一个检索ranking
+problem。<strong>基本的idea是positive pair 之间的distance 应该 比
+negative pair之间的距离更小。一般，一个triplet包含一个anchor smaple
+<span class="math inline">\(x_i\)</span>，一个有着相同id的positive
+sample <span class="math inline">\(x_j\)</span>，和一个不同id的negative
+sample <span class="math inline">\(x_k\)</span></strong>。这个triplet
+loss with a margin parameter表示如下：</p>
+<p><span
+class="math display">\[\mathcal{L}_{tri}(i,j,k)=\max(\rho+d_{ij}-d_{ik},0),\]</span></p>
+<p><span class="math inline">\(d(.)\)</span> 表示
+两个样本之间的euclidean
+distance。如果直接优化上述损失函数，占比较多的easy
+triplets辉主导训练过程，造成有限的区分。为了缓解这一个问题，various
+informative triplet mining方法被设计出来了。基本的idea是选择informative
+triplets。为了进一步丰富triplet supervision，一个quadruplet deep
+network被开发出来了，每个quadruplet包含一个anchor samples，一个positive
+sample和两个mined negative samples。这个quadruplets are formulated with
+a margin-based online hard negative mining。优化quadruplet
+relationship导致一个更小的类内variation和更大的类间variation。</p>
+<p>Triplet loss和identity loss的结合是最受欢迎的solutions for Deep ReID
+model learning。这两个components是相互受益 for discriminative feature
+representation learning。</p>
+<p>OIM Loss：在以上的三种损失函数之外的，在线实例匹配(Online Instance
+Matching(OIM)) loss是用一个memory bank的方式来设计的。一个memory bank
+<span class="math inline">\({v_k,k=1,2,...,c}\)</span>
+包含了存储的instances features，<span class="math inline">\(c\)</span>
+表示类别数量，OIM loss的公式如下：</p>
+<p><span
+class="math display">\[\mathcal{L}_{oim}=-\frac{1}{n}\sum_{i=1}^{n}\log\frac{\exp(v_i^Tf_i/\tau)}{\sum_{k=1}^{c}\exp(v_k^Tf_i/\tau)},\]</span></p>
+<p><span class="math inline">\(v_i\)</span> 表示类别 <span
+class="math inline">\(y_i\)</span> 的对应的stored memory feature。<span
+class="math inline">\(\tau\)</span> 是温度参数，控制相似空间。<span
+class="math inline">\(v^T_i f_i\)</span> 测量online instance matching
+score。为了计算denominator，进一步包含了与未标记身份的记忆特征集的比较，以处理大量非目标身份的实例。这一记忆方案也被应用于无监督领域自适应重识别中。</p></li>
+<li><p><strong>训练策略</strong>：batch sampling
+策略在ReID判别模型学习中扮演了重要角色。因为对于每个identity，标注的图像数量差异大。同时，一些不平衡的positive和negative
+sample
+pairs，为训练策略设计，增加了额外的困难。处理不平衡问题，用的最多的策略是identity
+sampling。对于每个training
+batch，一定数量的identities是随机挑选的。为了自适应结合多种loss
+functions，a multi-loss dynamic training 策略自适应地对identity
+loss和triplet
+loss进行reweight，提取它们之间共享的合适的component。</p></li>
+</ol>
+<h3 id="transformer-for-object-re-identification-a-survey1">Transformer
+for Object Re-identification: A survey<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自武大等机构的Mang Ye等人。论文引用[2]:Ye, Mang et al.
+“Transformer for Object Re-Identification: A Survey.” ArXiv
+abs/2401.06960 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time-1">Time</h3>
+<ul>
+<li>2024.Oct</li>
+</ul>
+<h3 id="总结-1">总结</h3>
+<ol type="1">
+<li><p>Object
+ReID旨在识别不同时间和场景中的特定的目标，在很长的一段时间里，这个领域是由基于CNN的deep
+learning来驱动的，视觉Transformer的出现激发了越来越多深入研究基于Transformer的重识别（Re-ID）的研究。Transformers以无与伦比的效能适应了广泛的重识别（Re-ID）任务。本文将现有的工作分为基于Image/video的ReID，有限数据/标注的ReID，跨模态的ReID和特殊ReID的场景。近些年，ReID经历了深刻的发展。另外，ReID包含多种对象类别，包括动物，建筑等。为了更好地解决真实世界中的应用需求，现有的ReID逐步将焦点转换到开放世界中。这就面临诸多挑战，例如大规模的有限标注的数据，数据模态的多样性，未知场景的泛化性。</p></li>
+<li><p>ReID before Transformers：Definition, 给定一个query q, object
+reid的目标是从N个descriptors的gallery set
+中检索特定的目标。重识别（Re-ID）的一个重要特征是在具有非重叠视野的不同摄像头中识别对象。这个query
+q
+可以是一张图像，一个视频序列，一个文本描述，一个sketch，不同forms的结合等。query
+q的identity可以表述为：</p></li>
+</ol>
+<p>dis(.,.) 是一个任意的distance metric。</p>
+<ol start="3" type="1">
+<li><p>ReID系统的流如图所示。广泛研究地目标主要包括行人和车辆。Person
+ReID涉及个体频繁地换衣、外观等挑战。这个变化导致在视觉外观上的不同，使得ReID模型持续地识别同一个个体比较困难，因此，模型会漠视衣服的变化，更多地关注于不变地特征，例如身体外形或者步态步伐。另外，人类的身体姿态由于运动或者相机角度可以变化很大。在这些情况下，诸如面部等具有区分性的区域往往难以捕捉。在车辆重识别（Re-ID）中，主要的挑战在于同类车辆间的高度相似性。同一品牌、型号和颜色的车辆往往看起来几乎一模一样。即便是细微的差别，比如轻微的划痕或贴纸，也可能是区分不同车辆的关键所在。但这些不同很难检测到。早期的ReID人物主要关注于从原始图像或者视频中得到的预先定义好的目标bboxes。由于image
+acquisition的复杂条件，ReID的困难涉及遮挡，光照变化等。ReID的指标包括mAP，CMC(Cumulative
+Matching Characteristic)和mINP(mean Inverse Negative Penalty)。</p></li>
+<li><p>基于CNN的ReID方法：有人将ReID分为两个subsets，closed-world和open-world。closed-world是指基于已经标注好的images的监督学习的方法。<strong>有了标注，很多方法将ReID建模为一个分类、验证或者一个度量学习的问题，用CNNs从训练数据中来学习具有区分性的特征表征。学习局部特征例如image
+slices、semantic parsing、pose estimation、region of interest和key
+points等，来进一步挖掘细粒度信息，这些事ReID中典型的idea。在CNN backbone
+level上，一些人尝试直接提高conv
+layer或者残差块，一些研究在CNNs中引入注意力来捕捉不同channels、feature
+maps和local
+regions之间的relationship。另一方面，对于视频序列，CNNs的局限是只能处理空间信息，一些video
+ReID工作引入了RNN或者LSTM来进行序列建模</strong>。Open-world通常面向更复杂和困难的场景，包括跨模态的ReID，无监督学习，域泛化。许多研究尝试利用辅助信息，如人体解析、步态、形状等，来指导卷积神经网络（CNN）模型关注和identity相关的features上。</p></li>
+<li><p>ViT的优势：不同于标准的CNN，其受限于局部的感受野，很难建立长距离的relationships。由于高质量的标注数据的获取难度大，无监督学习能够在不依赖标注的情况下开发出更具泛化能力的特征表示。Transformer的巨大成功得益于自监督学习。</p></li>
+<li><p><strong>Transformer in Object
+ReID</strong>：考虑不同类型的挑战和多样的ReID任务，将现有的研究分为4个场景：常规的带有标注的图像或者视频，有限的数据/标注，多模态数据。</p>
+<ul>
+<li>Transformer in Image/Video based
+ReID：很多现有的ReID方法致力于设计特殊的Transformer架构来构建更强的backbone，ReID中第一个引入ViT的是TransReID，相比于CNN,MSA能够捕获长程的因此，不同的object/body
+parts能够更好地被关注。另外，Transformer保留了更多的细节。TransReID设计了shift和patch
+shuffling操作来学习local
+features，有利于增强揉动不变性和鲁棒性。Auto-Aligned
+Transformer(AAformer) 自适应地定位human
+parts。通过引入可学习的tokens，学习局部表征。</li>
+<li>Transformer or Post-Processing：Video
+ReID旨在利用帧序列的时间和空间的交互，来提取更多具有区别性的表征。有人设计了一个两阶段的时空transformer
+module for patch tokens，spatial transformer主要关注于object regions
+with different backgrounds，temporal transformer关注于video
+sequences来排除有噪声的frames。有人设计了一个多阶段的
+Transformer，通过利用ViT的class
+token来促进多种信息和聚合。在不同的阶段，属性关联的信息、identity关联的信息和属性-identity关联的信息是各自被指导。<strong>Liao
+和Shao 的工作展示了，直接应用vanilla
+ViT，通过一个分类训练的pipeline，会导致在不同的数据集上很差的泛化性。受交叉注意力的启发，尝试用实际的image
+queries，而不是learnable query
+embeddings作为decoder的输入，来得到query-key
+pairs之间的信息，显著地提高了性能</strong>。另外，TransMatcher被设计为一个简单的decoder，更适合image
+matching，抛弃了所有的带有softmax
+weighting的attention操作，仅保留query-key相似度计算，这个研究展示了Transformer可以被有效地用于image
+matching和metric learning。</li>
+</ul></li>
+<li><p><strong>Animal Re-identification</strong>：包括Global Image-based
+methods，有人引入了两个特征descriptors包含color和texture来reid斑马鱼。也有人设计了一个loss
+function来不同角度的相同个体之间的距离，指导学习姿态不变的特征。Local
+area based methods：一些关于动物的reid，研究关注在动物的specific
+parts。它们提取原始图像的最优区分性的区域，例如head of a cow，elephant
+ears等。Auxiliary Information Based Methods：Zhang等人利用牦牛的right or
+left head的姿态作为辅助的监督信息来增强feature learning。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/536d1582424a51f91c53b442b0b55a65959f98ad/3-Figure2-1.png"
+alt="General object ReID process" /> <span
+class="math inline">\(Fig.2^{[2]}\)</span>
+ReID的目标是从不同的相机中搜集到的gallery
+data中找到特定的目标，query可以是任意类型的image、text、video等。
+<!-- 8. **Summary**：Transformer在ReID领域最近有了快速的发展，在很多有挑战性的领域展示了很强的优势。 --></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/ReID/" rel="tag"># ReID</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/02/14/TOPIC/" rel="prev" title="TOPIC">
+                  <i class="fa fa-angle-left"></i> TOPIC
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">190k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="强化学习  基本概念  智能体(agent) 环境(environment)">
+    <meta name="description" content="强化学习  基本概念  智能体(agent)和环境(environment)：强化学习研究的问题是智能体与环境交互的问题，智能体把它的动作输出给环境，环境取得这个动作后会进行下一步，把下一步的观测与这个动作带来的奖励返回给智能体，这样的交互会产生很多观测，智能体的目的就是从这些观测之后学到能最大化奖励的策略。 序列决策： 智能体的目的就是选取一系列的动作带来最大化奖励，所以这些选取的动">
 <meta property="og:type" content="article">
 <meta property="og:title" content="强化学习">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/08/14/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="强化学习  基本概念  智能体(agent) 环境(environment)">
+<meta property="og:description" content="强化学习  基本概念  智能体(agent)和环境(environment)：强化学习研究的问题是智能体与环境交互的问题，智能体把它的动作输出给环境，环境取得这个动作后会进行下一步，把下一步的观测与这个动作带来的奖励返回给智能体，这样的交互会产生很多观测，智能体的目的就是从这些观测之后学到能最大化奖励的策略。 序列决策： 智能体的目的就是选取一系列的动作带来最大化奖励，所以这些选取的动">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-14T09:51:44.000Z">
-<meta property="article:modified_time" content="2024-09-04T13:49:43.177Z">
+<meta property="article:modified_time" content="2025-02-23T08:39:24.786Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Reinforcement Learning">
 <meta name="twitter:card" content="summary">
@@ -134,12 +134,12 @@
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/YoungBlogs/categories/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-count">44</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -210,7 +210,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-09-04 21:49:43" itemprop="dateModified" datetime="2024-09-04T21:49:43+08:00">2024-09-04</time>
+      <time title="修改时间：2025-02-23 16:39:24" itemprop="dateModified" datetime="2025-02-23T16:39:24+08:00">2025-02-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -236,14 +236,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>3.2k</span>
+      <span>5.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>12 分钟</span>
+      <span>20 分钟</span>
     </span>
 </div>
 
@@ -257,12 +257,63 @@
 <ol type="1">
 <li>基本概念
 <ul>
-<li>智能体(agent)</li>
-<li>环境(environment)</li>
+<li>智能体(agent)和环境(environment)：强化学习研究的问题是智能体与环境交互的问题，智能体把它的动作输出给环境，环境取得这个动作后会进行下一步，把下一步的观测与这个动作带来的奖励返回给智能体，这样的交互会产生很多观测，智能体的目的就是从这些观测之后学到能最大化奖励的策略。</li>
+<li>序列决策：
+智能体的目的就是选取一系列的动作带来最大化奖励，所以这些选取的动作必须有长期的影响。与环境交互的过程中，智能体会获得很多观测，针对每一个观测，智能体会采取一个动作，也会得到一个奖励，所以历史是观测、动作、奖励的序列。</li>
+<li>奖励：奖励是由环境给的一种标量的反馈信号，这种信号可显示智能体在某一部采取某个策略的表现如何。强化学习的目的就是最大化智能体可以活得的奖励，智能体在环境里面存在的目的就是最大化它的期望的累积奖励。</li>
+<li>状态是对世界的完整描述，不会隐藏世界的信息，观测是对状态的部分描述。</li>
 </ul></li>
 </ol>
 <span id="more"></span>
 <ol start="2" type="1">
+<li><p>对于一个强化学习智能体，它可能有一个或多个如下的组成成分：</p>
+<ul>
+<li><strong>策略</strong>。智能体会用策略来选取下一步的动作，是一个函数，用于把输入的状态变成动作。分为随机性策略和确定性策略。<strong>随机性策略就是
+<span class="math inline">\(\pi\)</span>
+函数，输入一个状态，输出一个概率，这个概率是智能体所有动作的概率，然后对这个概率分布进行采样，可得到智能体将采取的动作，确定性策略就是智能体直接采取最有可能的动作</strong>。通常情况下，强化学习一般使用随机性策略，随机性策略有很多优点。</li>
+<li><strong>价值函数</strong>。用价值函数对当前状态进行评估。价值函数用于评估智能体进入某个状态后，价值函数用于评估稚嫩git进入某个状态后，可以对后面的奖励带来多大的影响。价值函数越大，说明智能体进入这个状态越有利。价值函数的值是对未来奖励的预测，我们用它评估状态的好坏。价值函数的定义为：</li>
+</ul>
+<p><span
+class="math display">\[V_\pi(s)\doteq\mathbb{E}_\pi\left[G_t\mid
+s_t=s\right]=\mathbb{E}_\pi\left[\sum_{k=0}^\infty\gamma^kr_{t+k+1}\mid
+s_t=s\right],\text{对于所有的}s\in S\]</span></p>
+<p>还有一种价值函数，Q函数，Q函数里面包含两个变量：<strong>动作和状态</strong>，定义为：</p>
+<p><span
+class="math display">\[Q_\pi(s,a)\doteq\mathbb{E}_\pi\left[G_t\mid
+s_t=s,a_t=a\right]=\mathbb{E}_\pi\left[\sum_{k=0}^\infty\gamma^kr_{t+k+1}\mid
+s_t=s,a_t=a\right]\]</span></p>
+<ul>
+<li><strong>模型</strong>。模型表示智能体对环境的状态进行理解，它决定了环境中世界的运行方式。模型决定了下一步的状态，下一步的状态取决于当前的状态以及当前采取的动作。它由状态转移概率和奖励函数两个部分组成。状态转移概率即：</li>
+</ul>
+<p><span
+class="math display">\[p_{ss^{\prime}}^a=p\left(s_{t+1}=s^{\prime}\mid
+s_t=s,a_t=a\right)\]</span></p>
+<p>奖励函数是指在当前状态采取了某个动作，可以得到多大的奖励，</p>
+<p><span class="math display">\[R(s,a)=\mathbb{E}\left[r_{t+1}\mid
+s_t=s,a_t=a\right]\]</span></p>
+<p>当有了策略、价值函数和模型3个组成部分后，就形成了一个<strong>马尔可夫决策过程</strong>。</p></li>
+<li><p>根据智能体学习的事物不同，可以把智能体进行归类。<strong>基于价值的智能体显式地学习价值函数，隐式地学习它的策略,策略是其从学到的价值函数里面推算出来的，基于策略的智能体直接学习策略，给它一个状态，它就会输出对应动作的概率</strong>。基于策略的智能体并没有学习价值函数。<strong>把基于价值的智能体和基于策略的智能体结合起来就有了演员-评论员智能体(actor-critic
+agent)。这一类智能体把策略和价值函数都学习了，然后通过两者的交互得到最佳的动作</strong>。</p></li>
+<li><p>强化学习可以划分为基于策略的方法和基于价值的方法。决策方式是智能体在给定状态下
+从动作集合中选择一个动作的一句，它是静态的，不随状态变化而变化。在基于策略的强化学习方法中，智能体会制定一套动作策略，并根据这个策略进行操作。强化学习算法直接对策略进行优化，是制定的策略能够获取最大的奖励。而在基于价值的强化学习方法中，智能体不需要指定显示的策略，它维护一个价值表格和价值函数，并通过这个价值表格或价值函数来选取价值最大的动作。基于价值迭代的方法只能应用在不连续的、离散的环境下，对于动作集合规模庞大、动作连续的场景，很难学到较好的结果。基于价值的强化学习算法由Q学习等，而基于策略的强化学习算法有策略梯度算法等。此外，演员-评论员算法同时使用策略和价值评估来做出决策。其中，智能体会根据策略做出动作，而价值函数会对做出的动作给出价值，这样可以取得更好的效果。</p></li>
+<li><p>我们可以通过智能体到底有没有学习环境模型来对智能体进行分类：<strong>有模型(model-based)强化学习智能体通过学习状态的转移来采取动作，免模型(model-free)强化学习智能体没有去直接估计状态的转移，也没有得到环境的具体转移变量，通过学习价值函数和策略函数进行决策</strong>。针对是否需要对真实环境建模，强化学习可以分为有模型强化学习和免模型强化学习。有模型强化学习是指根据环境中的经验，构建一个虚拟世界，同时在真实环境中和虚拟世界中学习，免模型强化学习是指不对环境进行建模，直接与真实环境进行交互来学习到最优策略。</p></li>
+<li><p>单步强化学习任务对应于一个理论模型，即"K"
+臂赌博机，也成为多臂赌博机，有K个摇臂，赌徒在投入下一个硬币后可选择按下其中一个摇臂，每个摇臂以一定的概率突出硬币，探索和利用两者是牟敦的，因为尝试次数有限，这是强化学习面临的探索利用窘境。</p></li>
+<li><p><strong>马尔可夫性质</strong>：指一个随机过程在给定现在状态及所有过去状态情况下，其未来状态的条件概率分布仅依赖于当前状态。将来的状态和过去状态是独立的，只取决于现在。<strong>马尔可夫过程是一组具有马尔可夫性质的随机变量序列</strong>。离散时间的马尔可夫过程也成为马尔科夫链。<strong>马尔可夫奖励过程是马尔科夫链加上奖励函数</strong>。</p></li>
+<li><p><strong>贝尔曼方程</strong>:
+定义了当前状态与未来状态之间的关系，未来奖励的折扣总和加上即时奖励，就组成了贝尔曼方程：
+<span
+class="math display">\[V(s)=\underbrace{R(s)}_{\text{即时奖励}}+\underbrace{\gamma\sum_{s^{\prime}\in
+S}p\left(s^{\prime}\mid
+s\right)V\left(s^{\prime}\right)}_{\text{未来奖励的折扣总和}}\]</span>。贝尔曼方程就是当前状态与未来状态的迭代关系。表示当前状态的价值函数可以通过下个状态的价值函数来计算。</p>
+<p><span class="math display">\[\begin{aligned}
+\mathrm{V} &amp; =R+\gamma PV \\
+\mathrm{IV} &amp; =R+\gamma PV \\
+(I-\gamma P)V &amp; =R \\
+\mathrm{V} &amp; =(I-\gamma\boldsymbol{P})^{-1}\boldsymbol{R}
+\end{aligned}\]</span></p>
+<p><span class="math display">\[V=(I-\gamma P)^{-1}R\]</span></p></li>
+<li><p>可以将迭代的方法应用于状态非常多的马尔可夫奖励过程，例如动态规划、蒙特卡洛、时序差分(动态规划和蒙特卡洛结合)。动态规划的方法是基于后继状态价值估计来更新现在状态价值的估计，一直迭代贝尔曼方程，指导价值函数收敛。</p></li>
 <li><p>马尔可夫决策过程：智能体与环境交互进行学习最终实现目标的过程就是马尔可夫决策过程(Markov
 Decision
 Process,MDP)：智能体与环境交互的过程：在t时刻，智能体在当前状态<span
@@ -291,6 +342,10 @@ class="math inline">\((S,A,P,R,\gamma)\)</span>，如果该过程中的状态转
 class="math inline">\(P\)</span>和奖励 <span
 class="math inline">\(R(s,a)\)</span>对智能体都是可见的，称这样的Agent为Model-based
 Agent，否则称为Model-free Agent</strong>。</p></li>
+<li><p>备份图定义了未来下一时刻的状态价值函数与上一时刻的状态价值函数之间的关联。策略评估：已知马尔可夫决策过程以及要采取的策略<span
+class="math inline">\(\pi\)</span>，计算价值函数 <span
+class="math inline">\(V_\pi(s)\)</span>的过程就是策略评估。预测和控制是马尔可夫决策过程里面的核心问题。预测的输入是马尔可夫决策过程和策略
+<span class="math inline">\(\pi\)</span>。输出是价值函数。</p></li>
 <li><p>策略梯度定理：策略函数的参数化可表示为 <span
 class="math inline">\(\pi_{\theta}(s,a)\)</span>，其中<span
 class="math inline">\(\theta\)</span>为一组参数，函数取值表示在状态
@@ -528,13 +583,13 @@ alt="Reinforcement Learning" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">183k</span>
+    <span title="站点总字数">190k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">11:04</span>
+    <span title="站点阅读时长">11:31</span>
   </span>
 </div>
 <div class="busuanzi-count">
