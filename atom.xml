@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-02-24T07:23:23.496Z</updated>
+  <updated>2025-03-08T00:55:51.294Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,181 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>featureSORT</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/03/07/featureSORT/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/03/07/featureSORT/</id>
+    <published>2025-03-07T08:02:47.000Z</published>
+    <updated>2025-03-08T00:55:51.294Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="featuresort-essential-features-for-effective-tracking1">FeatureSORT:Essential Features for Effective Tracking<sup>[1]</sup></h3><blockquote><p>作者是来自韩国的Hamidreza Hashempoor等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2024.July</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3
+id=&quot;featuresort-essential-features-for-effective-tracking1&quot;&gt;FeatureSORT:
+Essential Features for Effective Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;</summary>
+      
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SMILEtrack</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/03/07/SMILEtrack/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/03/07/SMILEtrack/</id>
+    <published>2025-03-07T07:54:21.000Z</published>
+    <updated>2025-03-09T06:58:09.763Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="smiletrack-a-simple-and-effective-multi-object-tracking-method1">SMILEtrack:A Simple and Effective Multi-Object Tracking Method<sup>[1]</sup></h3><blockquote><p>作者是来自台湾的Yu-Hsiang Wang、Jun-Wei Hsieh等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Jan</li></ul><h3 id="key-words">Key Words</h3><ul><li>Siamese network-based Similarity Learning Module</li><li>Similarity Matching Cascade with a novel GATE function</li></ul><h3 id="总结">总结</h3><ol type="1"><li>尽管MOT领域最近取得了一些进展，还是有一些难点例如遮挡和相似目标、以及复杂场景。同时，对于流行的tracking-by-detection范式的cost-performancetradeoff的系统性的研究仍然是缺乏的。本文介绍了SMILEtrack，一个新的objecttracker，通过将一个高效地object detector结合Siamese network-basedSimilarity LearningModule(SLM)，有效地解决这些挑战。SMILEtrack的主要贡献有两个方面：首先，提出了SLM，计算两个objects之间的相似度，克服了SeparateDetection和embedding models之间的featuredescriptors的局限。SLM受ViT的启发，引入了Patch Self-Attentionblock，能够为精确地相似度匹配产生可靠的features。其次，开发了一个SimilarityMatching Cascade(SMC) module with a novel GATE function，用于robustobjectmatching，进一步增强MOT的性能。SMILEtrack实现了cost和performance的平衡。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MOT任务是估计每个target的轨迹，并关联它们。尽管MOT中有很多的努力，这个任务由于模糊的objects、遮挡和复杂场景，仍然是一个挑战性的任务。在TbD范式中，有主要的两个策略：<strong>1.Joint Detection and Embedding; 2. Separate Detection and Embedding(SDE),JDE方法将detector和embedding model结合为单一的network,输出detectionresults和对应的appearance embedding features in one inference,SDE方法需要一个detector和一个reid model。detector通过bboxes在单帧中定位所有的objects，reidmodel从它的bboxes中提取embeddingfeatures，这些features用于将每个bbox和现有的轨迹进行关联。尽管它们有灵活性，由于两个separatemodel, SDE方法的效率落后于JDE</strong>，(Tracking-by-Attention)TbA范式用attention来做dataassociation，通过Transformer实现tracking和detection。这个工作的动机是两方面的：一个是MOT中长期存在的问题是遮挡，尽管TbA方法在featureattention上有很好的结果，但是复杂度导致推理速度慢。另外，遮挡会造成trackedobjects to pay lessattention，导致MOT的失败。同时，TbD方法例如ByteTrack效率高，但是精确不是最优的。本文提出的一个新的objecttracker，Similarity Learning for Multiple ObjectTracking(SMILEtrack)，结合了object detector和similarity learningmodule(SLM)，来解决MOT中的多个挑战，特别是遮挡。图中展示了SMILEtrack的架构，为实现SOTA做了两个贡献：1.高效和轻量的self-attentionmechanism,能够学习两个bboxes之间的相似度；尽管SDE模型能够实现objecttracking的高的进度，大多数的featuredescriptors不能区分相似外观的objects。为了解决这个问题，**提出了一个Siamesenetwork-based Similarity LearningModule(SLM)，能够计算两个objects之间的appearancesimilarity。受ViT的启发，在SLM中引入了一个Patch Self-AttentionBlock来得到reliable features用于similarity matching. 2. 一个带有novelGATE function的robust tracker能够关联candidatebbox，提高MOT的性能。为了恒好滴处理遮挡，构造了一个Similarity MatchingCascade(SMC) module，来匹配多个objects。总结一下，本工作的贡献如下：</p><ul><li>提出了SMILETrack，一个separate detection和trackingmodel，来跟踪frames中的多个目标</li><li>引入了Simaese network-based Similarity LearningModule(SLM)，来学习objects之间的appearance similarity</li><li>一个Patch Self-Attention(PSA) block，用self-attention机制来为similarity matching提供reliable features</li><li>设计了一个Similarity Matching Cascade(SMC)module来匹配objects，提高了遮挡的性能</li></ul></li><li><p>TbD 方法是MOT中最流行的方法，主要可以分为两个部分：objectdetection和object association。</p><ul><li><strong>Object Detection</strong>：主流的objectdetection模型分为two-stage和one-stage，YOLO的方法广泛用于MOT，然而，anchor-baseddetectors引入了很多超参数，造成训练期间的时间和memory的消耗。为了缓解这些问题，anchor-free的detectors例如CenterNet,YOLOX出现了，尽管有提升，这些tracking方法仍然难以准确地探测不同尺寸大小的Objects。PRB-Net是一个高效的objectdetector，解决了anchor-based和anchor-free detectors的限制。</li><li><strong>ObjectAssociation</strong>：SORT是一个简单有效地tracking算法，用Kalmanfiltering和Hungarian 算法用于objectassociation，该方法在应对遮挡和快速移动物体等挑战时存在困难。DeepSORT通过引入基于CNN的appearancefeatures缓解了遮挡问题，然而，牺牲了速度。为了解决这个效率问题，FairMOT用一个基于CenterNet的anchor-free方法，显著地提高了MOT的性能。为了提高trackingefficiency，很多MOT的方法忽视了object appearancefeatures，而是利用高性能检测器和motioncues。尽管实现了很好的结果，作者假设它们的性能很大程度上依赖于dataset的运动模式的简单性。忽视的appearancefeatures可能在密集的场景中牺牲tracking accuracy和robustness。</li></ul></li><li><p>Tracking-by-Attention：Trackformer通过将MOT变成一个frame-to-frame的setprediction问题，frames之间的dataassociation通过attentino计算，跨帧的轨迹预测集通过Transformer的编码器-解码器架构生成。类似地，TransTrack用基于attention的query-key机制，来执行object detection和association in a single shot based onDeformableDETR。TransCenter是另外一个基于Transformer的架构，用image-related densedetection queries和sparse trackingqueries用于MOT，然而，所有的基于Transformer的方法都需要大量的计算，不适合实时应用。</p></li><li><p>作者的SMILEtrack是一个新的MOT架构的detector和一个SimilarityLearning Module(SLM)，SMILEtrack包含两个modules：objectdetection和object association，前者主要是定位large and smallpedestrians，实现了精度和效率的平衡，超过了YOLOX，主要的贡献在于后者：包含了similaritycalculation，一个similarity learning module(SLM)，学习appropriatefeatures和用一个Siamese network计算外观相似度；2. object association，Similarity Matching Cascade(SMC) module用匈牙利算法解决MOT中的线性分配问题。</p><ul><li><p>Similarity Learning Module(SLM): <strong>Object Appearanceinformation对于实现robusttracking很重要，尽管SORT是一个简单的associationframework，能够实现高速的推理，它的相似度分数不考虑目标的外观信息，不能处理长期的遮挡或者快速运动的objects。DeepSORT通过用一个预训练的CNN计算bboxappearancedescriptors，来解决这个问题。然而，这个descriptor只考虑了相同objects的similarity，没有考虑不同frames的不同objects的dissimilarity</strong>，这里，作者提出了SimilarityLearning Module，利用Siamese Network架构，学习discriminative appeanracefeatures，实现逐帧地准确地跟踪。下图展示了SLM的架构，它将target和queryobjects作为输入，都分为several patches，通过Patch Self-AttentionBlock。注意到，所有patches的height-widthratios不是固定的。因为MOT17/20数据集中的目标都假定为型二年，作者发现，configurationE实现了最好的性能，这个可以通过观察，layout E利用了pedestrian的先验和translation invariance来解释。</p></li><li><p>Patch Self-Attention(PSA) Block: 为了产生一个可靠的appearancefeature，一个superior featurerepresentation是重要的，受ViT的启发，每个SLM的输入划分为separatepatches，然后，所有的patches和它们的positions嵌入到一起，给到backbone来提取richfeature vectors，然后，三个全连接网络将所有的patches的visualfeatures转换成three sets of compact features, i.e query, key and value.基于query 和key sets的features，不同的combinations之间的variousattentions可以计算，用于对value set of eachpatch的features进行加权，得到featurevector来更精确地表征object。</p></li><li><p>Q-K-VAttention：因为输入的objects是不同的sizes，将它们resize到一个固定的<span class="math inline">\(W \timesH\)</span>。因为A中的patches之间的有几何关系，它们的表征需要被修正，来保持position-dependentproperties。对于patch <span class="math inline">\(P_i\)</span>,它的position embedding vector <span class="math inline">\(E_i\)</span>是由标准的Transformer得到，an object <spanclass="math inline">\(A\)</span> 的嵌入表示为: <spanclass="math inline">\(A = (A_1,..., A_i,..., A_{Np})\)</span>， <spanclass="math inline">\(A_i = P_i + E_i\)</span>。 <spanclass="math inline">\(A \in R^{D_p \times N_p\)</span>，对于每个<spanclass="math inline">\(A_i\)</span>，采用CSP-Net作为backbone，将其转换为feature matrix <span class="math inline">\(F_i\)</span>，<spanclass="math inline">\(F_i\)</span> 包含<spanclass="math inline">\(d_f\)</span> 个row vectors 和 C个 columnvectors。C 是channel的数量。 <span class="math inline">\(d_f\)</span>是feature pyramid的最后一层的大小。</p></li><li><p>Similarity Matching Cascade(SMC) forTracking：在相似度计算之后就是objectassociation。一个设计好的association策略对跟踪结果有很重要的影响。ByteTrack是一个简单有效的关联方法。仅依赖于IOUdistance用于dataassociation会导致频繁的ID切换。为了解决这个问题，设计了一个SMCassociation方法，结合了ByteTrack的优点，实现了速度和精度的平衡。</p></li><li><p>SMC GATEfuction：为了计算相似度分数，多达数的MOT方法用一个weightedsum来结合IOU和appearance information 来提高数据关联的精度。然而，当IOUscore比appearance similarityscore更高的时候，这个方法会有问题。两个不同的pedestrian，可能overlap，但是不相同，本文引入了一个GATEfunction in SMC module，当target的appearance similarityscore低的时候，即使IOU分数很高，，GATEfunction会拒绝这个target。由于遮挡或者光线变化。<spanclass="math inline">\(O^H_{remain}\)</span>中有高分的objects可能在当前帧中没有匹配上，但是在后续的帧中可能匹配上。如果一个targetin <span class="math inline">\(O^H_{remain}\)</span> 通过了GATE functioncheck，SMC module会产生一个新的tracklet，将其添加到 T中用于furthermatching。GATE function用一个阈值 <spanclass="math inline">\(\tau\)</span> 从 <spanclass="math inline">\(O^H_{remain}\)</span> 中选择objects，低于 <spanclass="math inline">\(\tau\)</span> 的objects和 <spanclass="math inline">\(O^L_{remain}\)</span>中的objects会被认为是背景，被过滤掉。GATE是一个新的addition，bytetrack中没有。</p></li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/5106d6e330ddb6f409b6bd04e46488e1860ca223/2-Figure2-1.png"alt="architecture of SMILEtracker" /> <spanclass="math inline">\(Fig.1^{[1]}\)</span> SMILEtracker是一个Siamesenetwork架构，学习两个objects之间的appearance similarityfeatures，计算similarity scores，SMILEtracker包含objectdetection和object association。</p><p><imgsrc="https://figures.semanticscholar.org/5106d6e330ddb6f409b6bd04e46488e1860ca223/3-Figure3-1.png"alt="Appearance similarity between low-score detection at the current frame and tracks at the previous frame" /><span class="math inline">\(Fig.2^{[1]}\)</span></p><p><imgsrc="https://figures.semanticscholar.org/5106d6e330ddb6f409b6bd04e46488e1860ca223/4-Figure5-1.png"alt="Patch Self-Attention" /> <spanclass="math inline">\(Fig.3^{[1]}\)</span></p><p><imgsrc="https://figures.semanticscholar.org/5106d6e330ddb6f409b6bd04e46488e1860ca223/4-Figure6-1.png"alt="Similarity Matching Cascade pipeline" /> <spanclass="math inline">\(Fig.4^{[1]}\)</span></p><p><imgsrc="https://figures.semanticscholar.org/5106d6e330ddb6f409b6bd04e46488e1860ca223/5-Figure7-1.png"alt="Appearance similarity between low-score detection at the current frame and tracks at the previous frame" /><span class="math inline">\(Fig.5^{[1]}\)</span></p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;smiletrack-a-simple-and-effective-multi-object-tracking-method1&quot;&gt;SMILEtrack:
+A Simple and Effective Multi-Object Tracking Method&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自台湾的Yu-Hsiang Wang、Jun-Wei Hsieh等人。论文引用[1]:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2024.Jan&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Siamese network-based Similarity Learning Module&lt;/li&gt;
+&lt;li&gt;Similarity Matching Cascade with a novel GATE function&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;尽管MOT领域最近取得了一些进展，还是有一些难点例如遮挡和相似目标、以及复杂场景。同时，对于流行的tracking-by-detection范式的cost-performance
+tradeoff的系统性的研究仍然是缺乏的。本文介绍了SMILEtrack，一个新的object
+tracker，通过将一个高效地object detector结合Siamese network-based
+Similarity Learning
+Module(SLM)，有效地解决这些挑战。SMILEtrack的主要贡献有两个方面：首先，提出了SLM，计算两个objects之间的相似度，克服了Separate
+Detection和embedding models之间的feature
+descriptors的局限。SLM受ViT的启发，引入了Patch Self-Attention
+block，能够为精确地相似度匹配产生可靠的features。其次，开发了一个Similarity
+Matching Cascade(SMC) module with a novel GATE function，用于robust
+object
+matching，进一步增强MOT的性能。SMILEtrack实现了cost和performance的平衡。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MotionTrack</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/03/06/MotionTrack/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/03/06/MotionTrack/</id>
+    <published>2025-03-06T11:54:52.000Z</published>
+    <updated>2025-03-07T07:38:31.605Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="motiontrack-learning-motion-predictor-for-multiple-object-tracking1">MotionTrack:Learning Motion Predictor for Multiple ObjectTracking<sup>[1]</sup></h3><blockquote><p>作者是来自国防科大、京东、美团等机构的Changcheng Xiao、QiongCao等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>long trajectory</li><li>motion predictor</li></ul><h3 id="总结">总结</h3><ol type="1"><li>通过detection的进步和reid方法，MOT领域有了很大的进步。尽管有了这些成就，精确地跟踪有着一致的外观和不同的运动的场景仍然是一个挑战，这个挑战来自于两个因素：<strong>ReID特征的不够充分的区分度和MOT中线性运动的模型的利用</strong>。<strong>在这个背景下，引入了一个新的基于Motion的tracker,MotionTrack。以一个可学习的motion predictor为中心，仅依赖于objecttrajectory information</strong>。这个predictor 全面地集成了motionfeatures中的两个level的粒度，来增强时序动态建模能力，为每个objects提升准确的motionprediction。具体地说，提出的方式采用了自注意力机制，来得到<font color=red>token-level</font>的information和一个动态MLP layer来建模channel-levelfeatures。MotionTrack是一个简单、在线的tracking方法。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MOT 近些年由于它在很领域的应用，得到了很多的关注。受益于objectdetection和ReID的快速发展，<strong>tracking-by-detection方法占了主流。这个范式包含两个主要的步骤：1.用一个off-the-shelf object detector来得到每一帧的detection results; 2.用visual 和motion cues 关联 detectionresults，形成轨迹</strong>。在关联阶段，受现有的MOT的内在的特性的影响，大多数最近的MOT的成功使基于appearancefeature 或者 detection 和simple tracking mechanism 的结合，motioninformation 没有被explore。这个趋势使得现有的tracker在一些场景中失败，objects of interest 在groupdancing之中有着相似的外观，players在sports scenes中快速运动。这些观察激励作者仅用motion cues来进行modelling，证明了它为准确和高效地关联objects的重要性。</p></li><li><p>在本文的工作中，<strong>作者聚焦于学习一个motionpredictor来提升关联的准确性和tracking的性能。它具有挑战性，因为复杂的motionvariations。现有trackers 用的motionmodels可以划分为基于贝叶斯估计的经典算法和数据驱动的算法。对于前者，代表性的是Kalmanfilter，它假设恒速，因此在线性运动中表现很好，但是在处理非线性运动的时候不佳。对于后者，基于光流的跟踪方法需要一个复杂的heavy的光流模型来计算帧间像素偏移，仅考虑局部运动信息，被耗时的opticalflow model所限制。另外，基于LSTM的网络也被用来存储objects的motioninformation。然而，LSTMs面临的问题是它们的memorymechanism和它们建模long-term temporalinteractions的能力。这些step-by-step的prediction方法导致错误累积，可能导致预测空间位置的时候的不准确</strong>。为了解决上述的挑战和高效地利用object trajecotryinformation，<strong>作者提出了一个新的onlinetracker，MotionTrack，基于motion predictor，能够将Longertracjectories作为输入，预测objects的futurelocation，如图所示，作者提出的方法能够在遮挡和非线性运动场景中trackobjects，然而基于Kalmanfilter的trackers失败了</strong>，作者的贡献如下：</p><ul><li><p>为了解决现有工作的据小型，在预测objects的bbox之前依次处理observations。作者利用Transformer的powerfullong-range dependencymodeling的能力。为了保持算法的简单和计算高效，作者基于Transformer的encoder设计了一个motionpredictor来建模每个objects的long-term trajectories，用于motionprediction，特别地，提出的motionpredictor同时考虑多个observations，基于token-level的pair-wisesimilarities对trajectory embeddings进行加权。</p></li><li><p>第二，为了进一步增强trajectory embeddingsequences的利用，作者引入了一个类似MLP的架构，称之为DynamicMLP。众所周知，在featurespace中的不同的语义信息倾向于分布在不同的channels中，channelmixing为cross-channelinteraction提供了更大的灵活性。受此启发，作者旨在这几一个更强的attentionmodule来增强complex motionmodeling，捕捉分布在不同channels的information，例如relative positionchanges和object motion的directions。提出的DynamicMLP能够通过content-adaptivetoken-mixing，精确地利用分布在不同channels的motioninformation，有了Dynamic MLP，能够将它和self-attentionmodel结合，来增强信息在两个不同粒度(token level和channellevel)的传递，为了汇聚不同的语义信息。</p></li></ul><p>另外，通过数据增强得到了更复杂的运动模式，来更好地理解motiondynamics，提升性能。具体而言，本方法通过引入随机丢弃（randomdrop）、<strong>随机空间抖动（random spatial jitter）和随机长度（randomlength）</strong>三种策略，生成包含快速移动目标、不同长度轨迹片段等多样化运动模式的训练数据。作者提出的方法，尽管很直接，在大规模的数据集上展示除了很好的性能。</p></li><li><p>MOT：早期的MOT研究主要依赖于优化算法，来解决数据关联问题，然而，随着深度学习的到来，tracking-by-detection用了更强的detectors占据了MOT的主流范式，近些年，一些方法将detection和tracking融合到singlenetowrk中，受益于神经网络的多任务学习。例如，Tracktor通过FasterRCNN的回归头，预测object's下一帧的位置，但是但是在低帧率的时候可能失效。JDE用一个ReID分支扩展了YOLOv3，来得到object的embedding用于dataassociation。为了解决detection和reID任务，FairMOT基于anchro-free的objectdetector(centerNet)，实现了更好的跟踪结果。另外，ByteTrack展示了MOT的trackers的瓶颈在于detection而不是association。因此，一个更强的detector结合简单分层关联策略，能够实现很好地跟踪性能。</p><ul><li>Motion Model：Motion Estimation对于Objecttrackers来说很重要，在早期的时候，很多经典的MOT算法，例如SORT、DeepSORT等，利用Kalmanfilter来预测每个object的帧间position offset，然而，KF模型受限于它的恒速假设，在复杂和非线性场景中表现很差。为了处理这些挑战，研究人员提出了很多datadriven models，例如Zhang等人利用optical flow来得到objects的pixel-levelmotion information，CenterTrack在object detector上增加了一个offsetbranch来预测object center的motioninformation。Milan等人基于RNNs提出了一个在线的tracker，后续的研究将RNNs用于融合visual和motion information或者计算随后的数据关联的affinityscores。ArTIST和DEFT将Tracktor扩展了，用一个线性模型来预测losttracks的位置，代替了trajectory tracking的visualcues。近期的研究将KF进行了提升，来更好地处理非线性运动。例如MAT提出了一个IMLmodule，，同时考虑了camera和行人运动信息，实现了更好的性能。Cao等人认识到了原始KF在处理遮挡和非线性运动的局限性。</li></ul><p>尽管有了以上的提升，大多数的研究仍然基于经典的KF和它的恒速模型假设。QuoVadis基于鸟瞰图（BEV）场景表征中的轨迹预测框架，通过多个复杂子模块，有效增强了现有先进目标跟踪算法对长期遮挡场景的鲁棒性，成功克服了传统方法在持续性遮挡处理方面的固有缺陷。</p><ul><li>Transformer-based methods：最近transformermodels的成功，特别是objectdetection领域，导致很多基于transformer的方法出现，包括TransTrack,TrackFormer,TransCenter和MOTR，是同一时期的基于DETR的trackers，TrackFormers采用Trackqueries来保持object identities，利用启发式方法来抑制duplicatetracks。TransTrack直接利用之前的object features作为trackqueries来得到tracking boxes，将detection boxes基于IoU匹配进行关联。TransCenter通过transformer得到了object centerrepresentation，通过CenterTracks的目标关联实现跟踪。另外，MOTR通过迭代更新trackquery，实现端到端地跟踪，不需要后处理。另外，GTR是一个基于transformer的离线的tracker，采用queries将detectedboxes划分为tracjectories，而不是生成trackingboxes。值得注意的时候，所有这些模型的训练使得大量的训练样本、高昂的计算资源和训练时间变得必要。相比之下，我们的方法仅利用Transformer来充分利用物体轨迹信息。</li></ul></li><li><p>MOT tracking task涉及识别objects的spaital和temporallocations，给定一个video sequence，Transformer model因其long-termdependencies而出名，证明了处理sequencedata的高效。基于这个成功，作者展示了一个motionpredictor，利用object的过去的轨迹信息来预测它在下一帧中的position。<strong>作者的数据关联方法仅依赖于当前帧和预测bbox的spatialsimilarity</strong>。为了实现这个，作者用一个简单的basemodel基于Transformer的encoder来得到每个objects的temporaldynamics。接下来，作者引入了DynamicMLP，这是一种类似多层感知机（MLP）的架构，旨在探索通道间的相互作用，作者将其和self-attention模块结合，，以学习跨token和通道层面的粒度信息。最后，，利用增强里构建更复杂的motionpatterns，来提高motiondynamics的理解。总的来说，作者的方法利用Transformer的strengths，基于它构建一个简单有效地motionpredictor。</p></li><li><p>Notations：object的轨迹包含一系列有序的bboxes，<spanclass="math inline">\(T = {b_{t1},..}\)</span>，bbox定义为 <spanclass="math inline">\(b_t = {x,y,w,h}\)</span>，<spanclass="math inline">\(t\)</span>是时间戳。在一些moments，observations可能由于遮挡或者detectorfailure丢失，因此轨迹是不连续的。<spanclass="math inline">\(D_t\)</span> 是 detector得到的 第 <spanclass="math inline">\(t\)</span>帧的detections的集合。object的过去的轨迹repsentation可以表示为一个序列，<span class="math inline">\(X = (...,x_{t-2},x_{t-1})\)</span>，object在时刻 <spanclass="math inline">\(t-1\)</span> 的representation 表示如下： <spanclass="math display">\[\mathbf{x}_{t-1}=(c_x,c_y,w,h,a,\delta_{c_x},\delta_{c_y},\delta_w,\delta_h),\]</span></p><p><span class="math inline">\(c_x, c_y\)</span> 表示image plane中的object的中心坐标。 <span class="math inline">\(w, h, a\)</span>分别表示 width, height和 bbox的aspect ratio.<strong>对于每个object，motion predictor 表示为 <spanclass="math inline">\(MP\)</span>， 利用最后 <spanclass="math inline">\(n_{past}\)</span> 个 历史observations，表示为<span class="math inline">\(X_{t-n_{past}:t-1}\)</span>,来预测positional offset，表示为 <spanclass="math inline">\(\hat{O}_t\)</span>，object motion prediction的目标是基于目标的历史轨迹信息预测object bbox的relative spatialdisplacement</strong>。</p><p><span class="math display">\[\begin{aligned}\mathbf{X}_{t-n_{past}:t-1} &amp;=\mathrm{Concat}(\mathbf{x}_{t-n_{past}},\ldots,\mathbf{x}_{t-1}), \\\hat{\boldsymbol{O}}_{t} &amp;=\mathcal{MP}(\mathbf{X}_{t-n_{past}:t-1}),\end{aligned}\]</span></p><p>在输入给encoder layer for further processing之前，<spanclass="math inline">\(X\)</span> 通过一个linearprojection嵌入到更高维度的space，为了使输入的token sequence <spanclass="math inline">\(E\)</span> 包含相对位置信息，作者将sinusoidalposition encoding information注入到input embeddings之中。</p></li><li><p>Transformer-based Motion Predictor：object的futuremotion被它的过去的dynamicinformation严重影响。一个直觉的思路是利用vanillaTransformer来得到individualobjects的历史上下文信息。这个encoder能够建模long-termdependencies，主要的组件是MHSA机制，通过利用MHSA，编码器能够高效关注轨迹序列中的不同元素，并识别出对预测物体未来运动最具贡献的信息特征。为每个singleobject分开计算attention，输入的tokens <spanclass="math inline">\(E\)</span> 序列线性地转换成 Q, K,V，对于多头自注意力，一些single-headattention联合关注不同的representation subspaces的信息。MOT因为objects之间的interaction而变得challenging，一个object的行为在其它objects上的影响是一个复杂的过程。像很多之前的工作，作者尝试建模objects之间的interactions，作者遵循AgentFormer，用一个agent-awareattention mechanism来建模multi-object motion in both temporal 和socialdimensions using sequential representations。</p></li><li><p>Dual-granularity InformationFusion：仅依靠跨所有通道的token-level消息传递机制，缺乏充分传达不同语义信息的能力。这个局限限制了optimalexploitation，导致次优的性能。因此，需要用一个fine-grained messagepassing机制，以自适应的方式满足不同的语义，这种方法通过在跨通道信息传递中实现更细粒度的交互，能够构建更充分的运动建模。</p></li><li><p>Dynamic MLP：作者探索了一个新的module称之为：DynamicMLP，和encoder中的self-attention并行，来进一步捕捉objects的复杂的motionpatterns，它汇聚了分布在不同temporalchannels的positions。如图所示，DyMLP的核心是channel fusionlayer，包含一个动态的全连接层(fully-connected layer) 和一个identitylayer。给定输入的token sequence <spanclass="math inline">\(E\)</span>，对于每个token，首先用一个FClayer来预测 <span class="math inline">\(d_m\)</span>offsets。因为在generation of offsets上没有限制，DyFC能够汇聚temporalglobal channel information。基本的DyFC操作表述如下：</p><p><spanclass="math display">\[\hat{e}_{i}^{T}=\mathrm{DyFC}(e_{i})=\tilde{e}_{i}\cdot\mathbf{W}+\mathbf{b},\\\tilde{e}_{i}=[\mathbf{E}_{[i+\delta_{1},1]},\mathbf{E}_{[i+\delta_{2},2]},\cdots,\mathbf{E}_{[i+\delta_{d_{m}},d_{m}]}],\]</span></p><p><span class="math inline">\(W\)</span> 和 <spanclass="math inline">\(b\)</span> 是可学习的参数，此外，我们通过identitylayer保留原始标记信息。CFL将融合结果输出为eT和eL的加权和，其公式可表示为：<spanclass="math display">\[\hat{e}=\omega^T\odot\hat{e}^T+\omega^I\odot\hat{e}^I,\]</span></p><p>每个encoder layer包含两个sub-layers，用residual connections in bothsub-layers然后执行layer normalization。encoderlayer中的整个过程可以描述为如下：</p><p><span class="math display">\[\begin{gathered}\mathrm{DIF}(E^{l-1})=\mathrm{MHSA}(E^{l-1})+\mathrm{DyMLP}(E^{l-1}) \\\hat{E}^{l}=\mathrm{LN}(\mathrm{DIF}(E^{l-1}))+E^{l-1} \\E^{l}=\mathrm{LN}(\mathrm{FFN}(\hat{E}^l))+\hat{E}^l,\end{gathered}\]</span></p></li><li><p>Dual-granularity Information Fusion Layer：随着DynamicMLP的引入，将其和self-attention进行集成。这个集成利用了来自token-level的granularity和channel-levelgranularity。将这个新的module称之为 Dual-granularity Information FusionLayer(DualIF)。motion predictor 的backbone <spanclass="math inline">\(MP\)</span> 包含 L个顺序连接的encodinglayers。每个encodinglayer包含两个sub-module：<strong>一个多头self-attentionmodule和一个dynamic MLPmodule</strong>。前者基于计算出的成对注意力权重，将其他token的token-level的信息整合到query中；而后者则自适应地对分布在channellevel的上下文进行特征融合。</p></li><li><p>Training and Inference：像其它深度学习任务，例如CenterNet,CenterTrack和YOLOX，结合数据增强在提升模型性能上至关重要。有限的训练样本，结合motion的u都阳性，使得novelaugmentationstrategies的exploration至关重要。在这个研究中，作者检验了三种不同的增强策略来丰富训练样本。这些策略对应于motionmodel必须处理的cases，也就是object position jitter和motion mutations,detection noise和新的初始化的shorter trajectories。</p><ul><li>Random drop：在产生target trajectory representation <spanclass="math inline">\(X\)</span>，作者以概率 <spanclass="math inline">\(p_i\)</span> 忽略 observation <spanclass="math inline">\(b\)</span>，该策略能够有效模拟快速运动及低帧率场景。</li><li>Spatial jitter：为了增强系统对抗detectionnoise的鲁棒性，在边界框中融入空间抖动是一种广泛采用的实践方法。这个方法涉及在训练期间在bboxes的position和bboxes引入小的variations。通过这样做，model能够对variations更加resilient。此外，在时序意义上，该方法还能通过引入更广泛的运动模式来扩充训练数据集。</li><li>Random length。由于short new birthtrajectory，有很少的时序信息，通过随机改变训练序列的长度，模型能够接触到多样化的运动模式，从而使其学会泛化到不同的时间上下文。为此，我们采用可变长度（范围为[2,npast]）的观测序列对运动模型进行训练，其中每个对象对应的观测序列长度是独立保留的。通过随机改变训练序列的长度，模型能够接触到多样化的运动模式，从而使其学会泛化到不同的时间上下文。为此，我们采用可变长度（范围为[2,npast]）的观测序列对运动模型进行训练，其中每个对象对应的观测序列长度是独立保留的。</li><li>Training loss： 采用smooth loss L1来监督训练过程，给定一个预测的offset 和对应的gt, loss 如下：</li></ul><p><span class="math display">\[\begin{gathered}\mathrm{DIF}(E^{l-1})=\mathrm{MHSA}(E^{l-1})+\mathrm{DyMLP}(E^{l-1}) \\\hat{E}^{l}=\mathrm{LN}(\mathrm{DIF}(E^{l-1}))+E^{l-1} \\E^{l}=\mathrm{LN}(\mathrm{FFN}(\hat{E}^l))+\hat{E}^l,\end{gathered}\]</span></p><ul><li>Inference：首先，解码预测的offset <spanclass="math inline">\(\hat{O}_t\)</span> 为当前帧的轨迹的bboxes,和一些经典的online trackers一样，作者利用了一个简单的association算法，基于 <span class="math inline">\(\hat{D}_t\)</span> 和 <spanclass="math inline">\(D_t\)</span>之间的IoU相似度，用匈牙利算法分配给tracklets。没有分配的detections初始化为newtrajectories。如果没有detection分配给trajectory，这个trajectory标记为lost，如果timelost 超过了一定的阈值，这个target被视为out ofview，然后从轨迹中remove，lost trajectories可能在assignmentstep中重新track。给定一个objectdetector的detections，作者的tracker以在线的方式关联identities，仅利用motioncues。</li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/89e57b398b23553d91fe36dae183e7605ec86ae1/4-Figure2-1.png"alt="Overview of proposed method" /> <spanclass="math inline">\(Figure.1^{[1]}\)</span> 提出的motion predictor<span class="math inline">\(MP\)</span> 当预测objectposition的时候，考虑轨迹的 <span class="math inline">\(n_{past}\)</span>个历史观测。有了预测的bboxes <spanclass="math inline">\(\hat{D}_t\)</span>，数据关联可以通过匈牙利算法实现。Blankboxes表示丢失的observations, dashed boxes表示预测的bboxes，不同的颜色表示不同的objects。</p><p><imgsrc="https://figures.semanticscholar.org/89e57b398b23553d91fe36dae183e7605ec86ae1/5-Figure3-1.png"alt="Dynamic MLP" /> <span class="math inline">\(Figure.2^{[1]}\)</span>Dynamic MLP的网络结构如图所示，dynamic FC操作过程如图b所示</p><p><imgsrc="https://figures.semanticscholar.org/89e57b398b23553d91fe36dae183e7605ec86ae1/5-Figure4-1.png"alt="Architecture of motion predictor" /> <spanclass="math inline">\(Figure.3^{[1]}\)</span> motion predictor的架构</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;motiontrack-learning-motion-predictor-for-multiple-object-tracking1&quot;&gt;MotionTrack:
+Learning Motion Predictor for Multiple Object
+Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自国防科大、京东、美团等机构的Changcheng Xiao、Qiong
+Cao等人。论文引用[1]:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2024.Mar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;long trajectory&lt;/li&gt;
+&lt;li&gt;motion predictor&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;通过detection的进步和reid方法，MOT领域有了很大的进步。尽管有了这些成就，精确地跟踪有着一致的外观和不同的运动的场景仍然是一个挑战，这个挑战来自于两个因素：&lt;strong&gt;ReID特征的不够充分的区分度和MOT中线性运动的模型的利用&lt;/strong&gt;。&lt;strong&gt;在这个背景下，引入了一个新的基于Motion的tracker,
+MotionTrack。以一个可学习的motion predictor为中心，仅依赖于object
+trajectory information&lt;/strong&gt;。这个predictor 全面地集成了motion
+features中的两个level的粒度，来增强时序动态建模能力，为每个objects提升准确的motion
+prediction。具体地说，提出的方式采用了自注意力机制，来得到&lt;font color=red&gt;token-level&lt;/font&gt;的information
+和一个动态MLP layer来建模channel-level
+features。MotionTrack是一个简单、在线的tracking方法。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PolaFormer</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/03/06/PolaFormer/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/03/06/PolaFormer/</id>
+    <published>2025-03-06T02:35:16.000Z</published>
+    <updated>2025-03-06T03:21:26.802Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="polaformer-polarity-aware-linear-attention-for-vision-transformers1">PoLaFormer:Polarity-Aware Linear Attention for VisionTransformers<sup>[1]</sup></h3><blockquote><p>作者是来自HITshenzhen、PCL和UQ的Weikang Meng, YadanLuo等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Mar</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li>线性注意力是一个有前景的替代softmax-based 的attention方法，利用kernelized feature maps将复杂度从quadratic降低到linear insequence length。然后，<strong>non-negative constraint on featuremaps和在approximation中用到的 relaxed exponential function导致重要的信息丢失(相比于原始的query-key dot products)，导致 lessdiscriminative attention maps with higherentropy</strong>。为了解决negative values in query-key pairs的丢失的interactions，作者提出了<strong>polar-aware linear attentionmechnism，显式地建模 same-signed 和opposite-signed query-keyinteractions，确保relationalinformation的全面的收敛</strong>。另外，为了恢复attention maps的spikyproperties，作者提供了一个理论分析，证明了<strong>existence of a classof element-wise functions(with positive first and second derivatives)that can reduce entropy in the attentiondistribution</strong>。为了简单起见和识别每个维度的distinctcontributions，作者采用了可学习的power function forrescaling，允许strong和weak attention signals 能够有效地分开。</li></ol><span id="more"></span>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;polaformer-polarity-aware-linear-attention-for-vision-transformers1&quot;&gt;PoLaFormer:
+Polarity-Aware Linear Attention for Vision
+Transformers&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自HITshenzhen、PCL和UQ的Weikang Meng, Yadan
+Luo等人。论文引用[1]:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2025.Mar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;线性注意力是一个有前景的替代softmax-based 的attention
+方法，利用kernelized feature maps将复杂度从quadratic降低到linear in
+sequence length。然后，&lt;strong&gt;non-negative constraint on feature
+maps和在approximation中用到的 relaxed exponential function
+导致重要的信息丢失(相比于原始的query-key dot products)，导致 less
+discriminative attention maps with higher
+entropy&lt;/strong&gt;。为了解决negative values in query-key pairs的
+丢失的interactions，作者提出了&lt;strong&gt;polar-aware linear attention
+mechnism，显式地建模 same-signed 和opposite-signed query-key
+interactions，确保relational
+information的全面的收敛&lt;/strong&gt;。另外，为了恢复attention maps的spiky
+properties，作者提供了一个理论分析，证明了&lt;strong&gt;existence of a class
+of element-wise functions(with positive first and second derivatives)
+that can reduce entropy in the attention
+distribution&lt;/strong&gt;。为了简单起见和识别每个维度的distinct
+contributions，作者采用了可学习的power function for
+rescaling，允许strong和weak attention signals 能够有效地分开。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Attention" scheme="https://young-eng.github.io/YoungBlogs/tags/Attention/"/>
+    
+  </entry>
   
   <entry>
     <title>FairMOT</title>
@@ -200,9 +375,9 @@ embedding更加stable和distinguishable。这显著提高了模型的目标关�
     <link href="https://young-eng.github.io/YoungBlogs/2025/01/08/GHOST/"/>
     <id>https://young-eng.github.io/YoungBlogs/2025/01/08/GHOST/</id>
     <published>2025-01-08T02:53:48.000Z</published>
-    <updated>2025-01-09T07:33:16.510Z</updated>
+    <updated>2025-03-06T11:44:36.261Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="simple-cues-lead-to-a-strong-multi-object-tracker1">Simple CuesLead to a Strong Multi-Object Tracker<sup>[1]</sup></h3><blockquote><p>作者是来自慕尼黑工业大学和慕尼黑机器学习中心的JennySeidenschwarz等人，论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Apr</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li>很长时间以来，MOT中的大多数的范式是Tracking-by-detection(TBD)。目标先进行检测，然后关联。对于关联，大多数的模型利用motion和外观cues，例如reid。最近基于attention的方法提出用数据驱动的方式来学习cues。有很好的效果。这篇文章中，作者提出了疑问：简单的TBD的方法能够也实现端到端的性能。作者提出了两个关键的要素，使得标准的reid网络在基于外观的跟踪方面表现出色。作者分析了它的失败的情况，将appearancefeatures和简单的运动模型结合会有一个很好的跟踪结果。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MOT的主要范式是tracking-by-detection。有逐帧的目标检测和数据关联两个步骤。最简单的用于在线tracker的关联方法是用匈牙利算法进行逐帧的匹配。匹配通常是通过一些例如appearance, reid特征,motion cues来实现的。即使最近的trackers提出了data-driven 的motion先验或者 appearance cues，包含了额外的reID模型。更多最近的基于Transformer的trackers通过frames和trackedobjects之间的自注意力或者交叉注意力来学习必要的cues。虽然这隐式地消除了通常嵌入在手工设计的外观和运动线索中的任何启发式方法，是一个通往更通用的trackers的道路，训练策略比较复杂，训练这样的模型，数据量需要足够大，以至于MOT数据集不满足需求，方法依赖于在例如CrowdHuman这样检测的数据集上进行预训练。</p></li><li><p>是否要遵循learning everything inMOT这个路径是questionable，当这里有很多的指导如何定义和利用的prior的时候，例如appearance和motioncues。如本文所示，为了利用这些cues，需要做很多的observatiosn，这些可能是被大家忽略的。作者的第一个观察是：简单地用ReID网络用于外观匹配时对于MOT场景不够的，将一些SOTA的reid方法进行可视化。展示了reid的性能不一定转化为MOT性能。找到了造成reid模型性能较弱的两个问题：重识别（reID）模型需要考虑在不同时间范围内预期的不同挑战，即在附近帧中，物体的外观变化会非常小，而在较长的时间间隔中，可能会出现更显著的变化，例如由（部分）遮挡引起的变化；此外，重识别性能在多目标跟踪（MOT）序列之间往往不一致，因为它们的图像统计数据各不相同，而这与相应的重识别训练数据集的相对稳定条件有所不同。作者提出了两个简单但是关键的设计来克服上述的问题。例如<strong>on-the-flydomain adaptation</strong>和 <strong>不同的策略 for active and inactivetracks</strong>。另外，在不同的visibility条件下做了大量的分析，遮挡时间，相机运动，来决定哪种情况下reID是不够的和需要一个运动模型。将reID和一个简单的线性运动模型用加权求和结合起来，因此cues能够提供更多的weightwhen needed for different datasets。作者的findings最后导致了提出的<strong>G</strong>ood <strong>O</strong>ld<strong>H</strong>ungarian <strong>S</strong>imple<strong>T</strong>racker or <strong>GHOST</strong>。贡献如下：</p><ul><li>提供了关键的key design choices，能够提升reID模型的性能。</li><li>广泛地分析了哪种情况下appearance 是不够的，需要motion来backup。</li><li></li></ul></li></ol>]]></content>
+    <content type="html"><![CDATA[<h3 id="simple-cues-lead-to-a-strong-multi-object-tracker1">Simple CuesLead to a Strong Multi-Object Tracker<sup>[1]</sup></h3><blockquote><p>作者是来自慕尼黑工业大学和慕尼黑机器学习中心的JennySeidenschwarz等人，论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Apr</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li>很长时间以来，MOT中的大多数的范式是Tracking-by-detection(TBD)。目标先进行检测，然后关联。对于关联，大多数的模型利用motion和外观cues，例如reid。最近基于attention的方法提出用数据驱动的方式来学习cues。有很好的效果。这篇文章中，作者提出了疑问：简单的TBD的方法能够也实现端到端的性能。作者提出了两个关键的要素，使得标准的reid网络在基于外观的跟踪方面表现出色。作者分析了它的失败的情况，将appearancefeatures和简单的运动模型结合会有一个很好的跟踪结果。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MOT的主要范式是tracking-by-detection。有逐帧的目标检测和数据关联两个步骤。最简单的用于在线tracker的关联方法是用匈牙利算法进行逐帧的匹配。匹配通常是通过一些例如appearance, reid特征,motion cues来实现的。即使最近的trackers提出了data-driven 的motion先验或者 appearance cues，包含了额外的reID模型。更多最近的基于Transformer的trackers通过frames和trackedobjects之间的自注意力或者交叉注意力来学习必要的cues。虽然这隐式地消除了通常嵌入在手工设计的外观和运动线索中的任何启发式方法，是一个通往更通用的trackers的道路，训练策略比较复杂，训练这样的模型，数据量需要足够大，以至于MOT数据集不满足需求，方法依赖于在例如CrowdHuman这样检测的数据集上进行预训练。</p></li><li><p>是否要遵循learning everything inMOT这个路径是questionable，当这里有很多的指导如何定义和利用的prior的时候，例如appearance和motioncues。如本文所示，为了利用这些cues，需要做很多的observatiosn，这些可能是被大家忽略的。作者的第一个观察是：简单地用ReID网络用于外观匹配时对于MOT场景不够的，将一些SOTA的reid方法进行可视化。展示了reid的性能不一定转化为MOT性能。找到了造成reid模型性能较弱的两个问题：重识别（reID）模型需要考虑在不同时间范围内预期的不同挑战，即在附近帧中，物体的外观变化会非常小，而在较长的时间间隔中，可能会出现更显著的变化，例如由（部分）遮挡引起的变化；此外，重识别性能在多目标跟踪（MOT）序列之间往往不一致，因为它们的图像统计数据各不相同，而这与相应的重识别训练数据集的相对稳定条件有所不同。作者提出了两个简单但是关键的设计来克服上述的问题。例如<strong>on-the-flydomain adaptation</strong>和 <strong>不同的策略 for active and inactivetracks</strong>。另外，在不同的visibility条件下做了大量的分析，遮挡时间，相机运动，来决定哪种情况下reID是不够的和需要一个运动模型。将reID和一个简单的线性运动模型用加权求和结合起来，因此cues能够提供更多的weightwhen needed for different datasets。作者的findings最后导致了提出的<strong>G</strong>ood <strong>O</strong>ld<strong>H</strong>ungarian <strong>S</strong>imple<strong>T</strong>racker or <strong>GHOST</strong>。贡献如下：</p><ul><li>提供了关键的key design choices，能够提升reID模型的性能。</li><li>广泛地分析了哪种情况下appearance 是不够的，需要motion来back up。在本文中，作者希望展示 <strong>domain-specificknowledge</strong>的重要性以及它带来的影响，即使是在一些简单的老的模型上。我们的观察结果——即领域适应的重要性、短期与长期关联的不同处理方式，以及运动与外观之间的相互作用——是直观的，几乎深植于跟踪领域研究者的潜意识中。它们被最近的方法忽略了。引入简单但是更强的tracker，作者希望它们的观察能够启发futurework，将这些observations集成到复杂的模型之中，进一步提高SOTA</li></ul></li><li><p>近些年，TbD是MOT中最常见的范式，行人首先通过目标检测器检测出来，然后，detections通过逐帧关联，利用motion、location、appearance等cues来形成对应的identity的轨迹。这个association可以是逐帧的foronline applications或者是离线的 in a track-wise manner over thesequence。</p><ul><li><strong>Graph-baseApproaches</strong>：一个常见的进行数据关联的形式是将每个detection视为<strong>graph中的一个node，edges在时间域上连接一些nodes，形成轨迹</strong>。可以用<strong>最大流或者最小成本路径</strong>来决定哪些nodes进行连接。最近的进展是将<strong>track-wisegraph-based models</strong> 和 神经网络进行结合。</li><li><strong>Motion-basedAssociation</strong>：不同于介于graph的方法，很多TbD的方法通过直接利用detections和existingtrajectories的motion和locationcues来进行逐帧的关联。对于短期的preservation，这些trackers利用两个邻近帧的位移，这些使得它们能够利用空间位置相邻用于匹配。考虑这个idea，tracking-by-regression的方法利用目标检测器来回归bboxpositions，最近的进展引入了基于transformer的方法来进行tracking followingtracking-by-attentionparadigm。这些方法在短期的associations上表现很好，但是，这些方法需要复杂的训练策略。相比于其它的方法，作者展示了一个简单的linearmotionmodel足以满足大多数场景中的短期关联的建模问题。在移动相机或者需要长期的关联场景中，有遮挡的场景，纯粹基于motion的trackers需要结合appearance-basedcues。</li><li><strong>Appearance-basedassociation</strong>：为了实现在长期关联的场景中的更好的性能，大量的方法利用额外的基于appearance的reid网络(将appearancecues编码，来充识别persons afterocclusions)，为了进一步利用这个方向，最近一个工作提出了，在训练过程中，利用嵌入信息来训练检测网络的方法。一些工作提出了联合detection和embeddingsin a multi-tasksetting。有一些引入了更加平衡的训练策略，来更好地利用cues的协同作用。在motioncues之外，额外利用appearance会要求更复杂的关联策略。复杂和高度不同的训练计划，或不同的推理策略使得它很难得出真正推动该领域进步的结论。相比之下，GHOST不依赖于复杂的步骤，结合了<strong>lightweight和spcied-up appearance cues in a simple yet strong TbDtracker</strong>，只需要很少的训练数据。</li><li><strong>Person ReID and Domain Adaptation</strong>：相比于trackingdomain，person reID的目标是从一个大的gallery中检索personbboxes，该gallery根据外观线索显示与给定的queryimage相同的人。然而，SOTA的reID在out-of-domainsamples上评估的时候，会有性能下降。在应用的时候，personreID模型应用在不同的摄像头。出现了几种跨数据集评估方法，将知识从给定源(givensource, i.e. training to a give target)转移到给定目标(test domainutilizing domain adaptation,DA)。 DA依赖于adapting Batch Normalizationstatistics 来解决不同domains之间的distribution shifts。weight matrix和BNstatistics 存储label和domain-related knowledge。为了更新后者，BNlayers的statistics可以通过对所有的target domain images取mean和variance，通过<strong>用伪标签或者结合train和testdataset来重新训练</strong>。除了统计数据，学习到的参数 <spanclass="math inline">\(\beta\)</span> 和 <spanclass="math inline">\(\gamma\)</span>也能更新。受最近的进展的启发，作者增强它们的appearancemodel，用一个简单的 on-the-fly domainadaptation方法，来更好地适应MOT，这直接使模型学习的训练数据集统计数据(source)适应于序列(sequences)</li></ul></li><li><p>方法：基于匈牙利的TbD的范式，GHOST结合了被忽略的designchoices：</p><ul><li>一个简单的tracking-by-detection tracker：作者的tracker输入的时候aset of detections，每个有 <span class="math inline">\(o_i = (f_i,p_i)\)</span>，<span class="math inline">\(f_i\)</span> 是从rawdetection pixels中用CNN得到的appearance feature vectors, <spanclass="math inline">\(p_i\)</span> 是imagecoordinates中的bbox，一个trajectory 或者 track定义为 time-ordereddetections <span class="math inline">\(T_j ={o_{j1},...,o_{jNj}}\)</span>。 <span class="math inline">\(N_j\)</span>是 轨迹 j中的detections的数量。每个轨迹有一个对应的预测的position <spanclass="math inline">\(\hat{p_j}\)</span> at time stept，由线性运动模型产生。在tracking期间，detections分配给了trajectories。如果没有newdetection添加到trajectory中，将它的状态设为inactive，否则就是active。用一个Memorybank，保持inactive trajectories最多50帧。目标是找到轨迹 <spanclass="math inline">\(T = {T_1,...,T_M}\)</span>，能够最好地将detections匹配到潜在的gt trajectories。</li></ul><p>为了这个目标，用bipartitematching，通过匈牙利算法进行逐帧的关联existingdetections。这个assignment is driven by a cost matrix that compares newdetections with the tracks already obtained in previousframes。为了构成这个cost matrix，用appearance features, motioncues。最后的tracker利用它们的简单的加权和。将detection-trajectory pairs在Matching之后进行过滤。</p><ul><li><p>Strong appearance model for MOT：作者的appearancemodel是基于resnet50，有一个额外的全连接层用于downsampling，还有一个在commonpersonreID数据集上进行训练。值得注意的是，作者没有在任何MOT数据集上训练reIDmodel的任何一个Part。像作者是实验中展示的那样，这个基本的reID模型在MOT数据集上表现不是很好，因此，作者提出两个设计，使得appearancemodel stronger：1. 对active 和inactive tracks分别处理;2. 增加on-the-flydomain adaption。作者分析了detections和tracks之间的distances in givenMOT sequences。</p></li><li><p>Appearance distance histograms。作者分析了new detections和activeor inactive tracks之间的histograms of distances。</p></li><li><p>Different handling of active and inactivetracks：当一个identity的appearanceembeddings在两个连续帧之间几乎没有变化的时候，同一个identity的embedding在遮挡之前和之后显示了很大的distances。从图中可以看出，两个深色的histograms差异很大，表明不同的active或者inactive tracks 之间的treatment是必要的；另外，可以看到对于inactivetracks的negative 和positivematches之间的overlap，表明遮挡之后的内在的matching的困难。因此，对于active tracks，利用检测到的detection的appearancefeature用于distance 计算；对于inactive tracks，计算所有inactive track<span class="math inline">\(k\)</span> 中的所有 <spanclass="math inline">\(N_k\)</span> 个detections 和new detectioni，利用这些distances的mean作为proxy distance。</p></li></ul><p>这个proxy distance 导致更加鲁棒的estimate of the true underlyingdistance between a detection 和一个inactive track。因此，和使用inactivetrack的single feature vector相比，利用proxy distance可以得到更好的分离直方图。</p><p>另外，active 和 inactive 不同的histograms 在bipartitematching期间，需要不同的处理。我们通过不同的阈值将活动轨迹和非活动轨迹到相同身份（深色）及不同身份（浅色）检测结果的距离直方图进行划分。针对活动轨迹和非活动轨迹分别采用不同的匹配阈值（act和inactive），使我们能够保持单一的匹配过程。与级联匹配相比，我们的分配方法更为简洁，避免了在每一帧中多次执行二分图匹配。</p><ul><li>on-the-fly domainadaptation：近年来，行人重识别领域的发展提出应用领域适应（DA）技术，因为源数据集的统计特性可能与目标数据集不匹配。对于MOT，这可能更严重，因为每个sequence是不同的statistics，代表一个新的targetdomain。因此，作者提出了<strong>on-the-flyDA</strong>，为了防止应用到多个MOT序列的时候reID模型的退化。这使得能够在所有sequences上利用 reID。 最近，一些personreID上的工作，通过将normalization layers适应 instance batch, meta batch或者 camera batch normalizationlayers，利用DA的思路，实现跨数据集的泛化。相比于上述提到的approaches，利用当前batch的features的mean和variance。</li></ul><ol start="6" type="1"><li>在本文中，作者展示了old TbD trackers能够泛化到高度不同的数据集。对于作者的简单的匈牙利trackerGHOST，作者引入了 <strong>spiced-up appearance model，对active和inactive trajectories 分开处理</strong>。另外，通过应用<strong>on-the-fly DA</strong> 能够适应到testsequences。我们分析了外观模型与简单线性运动模型在可见性、遮挡时间及相机移动方面的不足之处。基于以上的分析，作者决定用一个加权求和，在需要的，给任一个cue更多的权重。</li></ol></li></ol>]]></content>
     
     
     <summary type="html">&lt;h3 id=&quot;simple-cues-lead-to-a-strong-multi-object-tracker1&quot;&gt;Simple Cues
@@ -697,128 +872,6 @@ zero-shot的图像分类和在数据集Flickr30K上达到SOTA，即使和更复�
     
     
     <category term="Multi-Modal" scheme="https://young-eng.github.io/YoungBlogs/tags/Multi-Modal/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DetCLIPv3</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/11/28/DetCLIPv3/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/11/28/DetCLIPv3/</id>
-    <published>2024-11-28T14:31:57.000Z</published>
-    <updated>2025-03-02T03:25:14.488Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Open-set Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Open-set-Object-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DetCLIP</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/11/28/DetCLIP/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/11/28/DetCLIP/</id>
-    <published>2024-11-28T14:31:53.000Z</published>
-    <updated>2025-03-02T03:25:20.657Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Open-set Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Open-set-Object-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>F-VLM</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/11/28/F-VLM/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/11/28/F-VLM/</id>
-    <published>2024-11-28T14:31:28.000Z</published>
-    <updated>2025-03-02T03:25:27.179Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Open-set Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Open-set-Object-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>openMixer</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2024/11/28/openMixer/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2024/11/28/openMixer/</id>
-    <published>2024-11-28T14:25:59.000Z</published>
-    <updated>2024-11-30T02:02:01.895Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="exploiting-vlm-localizability-and-semantics-for-open-vocabulary-action-detection1">ExploitingVLM Localizability and Semantics for Open Vocabulary ActionDetection<sup>[1]</sup></h3><blockquote><p>作者是来自密西根州立大学，NEC和罗格斯大学的Wentao Bao, Kai Li, YuxiaoChen等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Nov</li></ul><h3 id="key-words">Key Words</h3><ul><li>vision-language models within the family of query-based DETR</li><li>spatial and temporal OpenMixer Blocks</li></ul><h3 id="总结">总结</h3><ol type="1"><li>ActionDetection旨在检测视频里的空间和时间上的动作，现有的方式聚焦于闭集检测，actiondetector是训练和测试都是在一个固定的行为类比的集合上。然而，这个限制的设定在一个开放的世界中不可行，测试的视频超过了训练的行为类别，本文中，解决这个挑战性的开集行为检测问题。旨在检测测试视频中的任意行为，然而在一个固定的行为类别上训练模型。为了实现这样一个开集的能力，提出了<strong>OpenMixer</strong>的方法，利用内在的语义和大的视觉语言模型的定位能力within the family of query-based detectionmodels(DETR)。特别地，OpenMixer是通过时空上的OpenMixer Blocks(S-OMB andT-OMB)，一个动态的融合模块。这三个模块一起用来预训练VLMs的强大的表征能力和来自DETR设计的端到端的学习。更多的，在多个设定下，建立了OVADbenchmarks，实验结果表明，OpenMixer在检测见过和没见过的行为上，都超过了基线方法。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>行为检测旨在在时空上定位视频里的actors。在视频监控等应用上很重要，引起了很多的关注。现有的AD方法主要是在闭集上，模型训练和测试视频都是在同一个固定的行为类别上。然而，最近取得了很大的进步，从同一个行为类别中进行训练和测试的假设限制了它们应用到实际真实世界中的能力,where测试视频包含了预定义训练类别之外的行为。例如，视频监控可能能够检测大家，但是其它的危险行为例如射击和追逐不能检测到，如果这个系统没有用标注的视频进行训练，另外，在开放世界中检测行为促进了整个的视频理解，开启了高阶视频理解的大门，像是reasoning，forecasting等，这通常要求检测视频中的多个行为。这个促使我们研究开集行为检测，针对检测视频中的任意行为，包括训练集中见过的行为和训练集中没有见过的行为，然而，OVAD时挑战的，因为它要求逐帧的理解行为动态，然而，运动动态建模已经被传统的闭集行为检测研究的很多了，利用训练的全监督，在开集设定中仍然是有挑战的，因为对于没有见过的类别，这里没有监督信息。</p><p>最近，预训练VLMs有很强大的泛化能力，很多的开集方法用于图像识别，目标检测和图像分割，然而，这些方法用于图像，没有考虑视频帧的时序动态，另外，图像VLMs例如CLIPare struggling 来捕捉文本中的actionverbs和视频中的人类行为，这不可避免地要求学习时序动态或者进行微调，来识别下游任务中的行为，冒着对于没有见过类别的很差的泛化能力。</p><p>有很少的重要的工作利用VLMs来做开集视频理解，包括行为识别和时序动作定位，然而，对于region-level的行为检测byVLM，在video-level 预训练 和region-level adaptation之间有representationgap，类似于基于图像的开集检测的representationgap问题。对于OVAD任务，这个representationgap来自于整体的预训练中的video-action 对齐和下游region-level子任务，例如region-action alignment和action-relevant personlocalization。representationgap造成的原因来自预训练视频VLM内在的不同的adaptiongoals，例如将VLMs的语义和定位从视频迁移到region，用于两个子任务。</p><p>重新考虑VLM的Transformer的设计，发现，用VLM的语义特征和低估了的定位能力对于OVAD是重要的，首先，将video-level语义迁移到eachregion，提出了<strong>学习a set of region-wisequeries来编码视频的时序动态，通过用预训练的视频级的特征，作为自适应的语义条件</strong>。更新的queries和视频级的特征进一步动态的进行融合，和用于识别的文本语义进行对齐；第二，为了利用视频VLMs的定位能力，用于region-wise定位，学习一系列的queries，从VLM视觉attentionreveal的先前的位置，解码person boxes。</p><p>特别地，开发了一个query-based开集行为检测器，OpemMixer，来检测开集中的任意行为，它适合DETR，基本的思路是通过学习两组queries和对应的解码modules，来解耦行为识别和定位。OpenMixer包含一个空间的OpenMixerBlock(S-OMB)用于定位，一个时间上的OpenMixerBlock(T-OMB)用于捕捉region-level时序动作，和一个动态的融合对齐(DFA)，用于开集行为识别。这个S-OMB通过text-patch交叉注意力，继承了VLMs的定位，T-OMB利用了VLMs的视觉语义特征，来捕捉时序动态，DFA动态地融合预训练的语义，将其融合成可学习的region-levelqueries，用于泛化的识别，最后，模型能够利用VLMs的语义和定位能力，从DETR的pipeline，实现端到端的检测。</p><p>主要的贡献如下：</p><ul><li>构建了开集行为检测的任务，是有价值的</li><li>开发了OpenMixer模型，能够利用预训练视频语言模型的语义和定位能力，面向OVAD任务。</li><li>在多个视频行为检测数据集上，验证了提出的模块的有效性</li></ul></li><li><p>时空行为检测最近的工作都是采用两个backbone的设计，分别提取关键帧和整个视频的特征，用于actor定位和actor-context关系建模。虽然它们通过利用图像和视频backbone，实现了很好的性能，模型的参数比较大，很难优化，最近的DETR的进步，通过单个的backbone就能够是西安端到端的actiondetection，展示了很好的性能。基本的想法是用单个videotransformer来得到所有的视频frames的特征，然后引入可学习的queries，和videofeatures进行mix，用于特别地，WOO用SparseRCNN用于定位，TubeR用经典的DETR来学习actiontubes，STMixer用AdaMixer的设计，实现SOTA的性能。在对actors和actorcontext的interaction进行建模的时候，query-base的设计有益的，同时将整个架构简化为了单阶段的设计。然而，这些方法，没有一个能处理开放世界的没有见过的行为，因此，引入了一个开集行为检测的方法，基于query-based的设计，来检测任意的行为。</p><p>开集视觉理解。<strong>由于VLM强大的对齐能力，没有见过的类别的视觉数据能够通过视觉特征和类别名的文本特征进行对齐，来识别</strong>，这促使了一系列的开集的目标检测、行为识别和时序动作定位的工作。对于定位，最近的基于图像的开集目标检测器OV-DETR和CORA和作者的方法有相同之处，都是讲VLMs的语义注入到可学习的queries。然而，OV-DETR的queryconditions是特定类别的，以至于它们不能适应测试时的样本，CORA两阶段的训练限制了在视频领域的灵活性。对于视频理解，最近的工作和STAN，都是建立在基于图像的CLIP模型，然而，相比于OVTAL任务，提出的OVAD任务更具挑战性，因为它需要在时间和空间上进行识别，iCLIP旨在zero-shot行为检测，没有考虑测试时候的行为。另外，它跳过了利用现有的检测器来定位行为，只学习识别没有见过得到行为，缺乏定位action-relevantpersons的能力，注意到一个同期的工作forOVAD，但这是一个两阶段的设计，依赖于额外的大规模的region-text预训练数据，不许哟啊利用基于视频的VLMs的内在的检测知识。据作者所知，OpenMixer是第一个query-base的OVAD模型，能够和任意的视频VLMs进行结合，不需要region-level预训练。</p></li><li><p>相比于闭集的视频行为检测，开集行为检测旨在识别和在时空上定位视频中的人物的行为，包括训练阶段中见过的和没有见过的行为类别。具体地，一个OVAD模型从<span class="math inline">\(N_train\)</span> 个训练样本 <spanclass="math inline">\({(X,Y)_i | i = 1,...,N_{train}}\)</span>中学习，X表示训练视频，Y表示关键帧的bbox标注，包含bbox coordinatesb和行为类别y，在训练的时候，行为y来自固定的行为类别 <spanclass="math inline">\(C_b\)</span>，在测试的时候，学习的行为检测器能够从开集$C_B $ 检测给定视频中的任意行为类别, <spanclass="math inline">\(C_N\)</span>包含任意的新的行为类别。</p></li><li><p>OpenMixer是在query-base的actionDETR系列中开发的，<strong>DETR类型的模型讲行为检测任务识别一个集合预测问题，从视频中学习一组稀疏的queryfeatures，讲ground truth boxes和actionclasses进行匹配。对于OVAD任务，从开集中预测的行为类别包含基本的和新的行为</strong>。OpenMixer如图所示，给定一个videoX和text prompted action class list作为输入，利用预训练videoVLM的视觉和文本编码器，来得到所有的视频和行为text。<spanclass="math inline">\(\mathbf{V},\mathbf{f}_{v},\mathbf{S}=\Psi_{\mathrm{VE}}(\mathbf{X})\)</span>和 <span class="math inline">\(\mathbf{f}_{t} =\Psi_{\mathrm{TE}}(\mathbf{y})\)</span>，这里V, <spanclass="math inline">\(f_v\)</span>和S是4D的patch-level的视频特征，video-levelfeature和video attention。<spanclass="math inline">\(f_t\)</span>是类别y的textfeature，构建级联的M个openMixer Blocks(OMBJ)，来学习一组N个空间queries<span class="math inline">\(Q_s\)</span>，和N个时序的queries <spanclass="math inline">\(Q_t\)</span> from <span class="math inline">\(V,S, f_v, f_t\)</span> for person detection和行为类别。OMB将来自VLM的所有features作为输入，<spanclass="math inline">\(Q_s\)</span> 和 <spanclass="math inline">\(Q_t\)</span> 来预测person boxes, personscores和action scores.</p><p>对于第M个OMB，如图中所示，它包含了一个时序opemMixerblock(T-OMB)，一个S-OMB和一个动态的融合对齐(DFA)，S-OMB包含先验的位置采样，query-query(Q-Q)mixing by self-attention和 query-video(Q-V) mixing byAdaMixer，T-OMB包含Q-Q mixing，query conditioning和Q-Vmixing。DFA模块更新 <span class="math inline">\(Q_s\)</span>, <spanclass="math inline">\(Q_t\)</span>，第(m-1)个OMB的personboxes，预测的person scores和action scores。这三个模块用于OVAD任务 withconsideration of VLM semantics和localizability。</p></li><li><p><strong>Spatial OMB的LocalizabilityPrior</strong>：一个主要的挑战用于one-stage query-based detectors的是lowconvergence oflocalization，造成的主要原因是缺乏目标位置的先验知识，对于行为检测，近期的两阶段行为检测通过离线的persondetector和RoIAlign cropping解决定位问题，但是featurecropping缺乏时空上下文，当引入VLM的时候，会有representationgap，对于最近的query-based action detectors，personlocation的先验知识是缺失的，因此，当谈到VLMs的OVAD任务时，一个自然的问题是：能够从预训练的VLMs中以一个低的代价，得到actors的先验位置，受这些考虑的启发，依赖于预训练的VLM的视觉attention。</p><ul><li><p><strong>来自VLMattention的位置先验</strong>：视觉注意力maps是通过class activation map表征的，用来解释recognitionmodels，在ViT和VLM的时代，最近的工作提出用ViT最后一层的多头自注意力或者gradient-weighted accumulative product overmulti-layer self-attention，然而，MHSA不是visually faithful，因为videotokens的高度冗余，在video VLM上，gradient-based方法的缺点是在videoVLM上有很大的计算成本，对于不同的VLMs有不同的执行。另外，由于缺乏token-level的video-text关联，它们的attentionmap和action不是紧密相关。因此，一个高效的、结构未知的CAM对于大的videoVLM更合适，使得我们用patch-text关联作为VLMattention来编码未知先验，特别地，4D video feature。features都是L2归一化，首先通过最大相似度得到pre-matched textfeature，因为在测试的时候没法得到类别标签，因此，<spanclass="math inline">\(f_t\)</span>和V的内积决定了patch-text 关联。<spanclass="math inline">\(\mathbf{S}=\mathbf{V}\otimes\mathbf{f}_{t}\)</span>。自注意力层中的q-vattention展示了一个相反的heatmap，前景region和low attentionvalue相关联。CAM是由reversed patch-text 相似度决定。<spanclass="math inline">\(\hat{S} = 1 -S\)</span>，通过reshaping和spatialinterpolation over <spanclass="math inline">\(\hat{S}\)</span>，得到attentionmap用于先验未知采样。将 <span class="math inline">\(\hat{S}\)</span>作为VLM indicated的person location的先验分布，因此，top-N个位置被采样作为初始的box center， <spanclass="math inline">\(\{(u,v)_{i}|i=1,\ldots,N\}{\sim}\hat{\mathbf{S}}(u,v,k)\)</span>，(u,v)是关键帧k的2D 坐标，N是queries的数量。</p></li><li><p><strong>SpatialOMB</strong>：有了采样的先验位置，S-OMB包含Q-Q和Q-V mixingmodule，将video patch features V和第(m-1)阶段的box prediction <spanclass="math inline">\(\hat{b}_{m-1}\)</span>，来更新spatial queries<span class="math inline">\(\hat{Q}_s\)</span>，更新的spatial queries<span class="math inline">\(\hat{Q}_s\)</span> 用来预测person scores<span class="math inline">\(\hat{o}_m\)</span> 和person box offsets<span class="math inline">\(\Delta \hat{b}_m\)</span> by MLP。stagem的预测的boxes通过 <span class="math inline">\(\hat{b}_m = \hat{b}_{m-1}+ \Delta \hat{b}_m\)</span>，初始的box queries <spanclass="math inline">\(\hat{b}_0\)</span> 包含采样的先验位置和videospatial range。</p></li><li><p>后面的设计的technical intuition是鼓励proposed spatialOMB，来学习box 偏置 <span class="math inline">\(\Deltab\)</span>，从继承自预训练的VLM的先验位置开始，相比于之前的方法，用固定的non-informativeframecenters作为先验位置，作者的VLM基于attention的先验位置能够自适应的test-timevideo content和vocabulary，不仅提高了seen action的定位，而且泛化到unseen。</p></li><li><p><strong>Adaptive Semantics for TemporalOMB</strong>：对于query-based OVAD模型，temporal queries 期望用来bediscriminative 对于base和novel的行为。这个对于query-video(Q-V) mixingmodule，需要很强的content 解码的能力。pioneering workDETR用交叉注意力，同时采样MLP-Mixer，然而，没有VLM语义，这些方法不可避免地在seenclassdata上过拟合，不能检测到unseen。最近的工作能够解决VLM语义的重要性forquery features，但是它们缺乏对测试视觉内容的适应性，因为class-wisesemantic condition和region prompting。这个趋势我们提出了TemporalOMB，利用预训练的VLMs适应的semantics。</p></li><li><p><strong>Temporal OMB</strong>：时序queries <spanclass="math inline">\(Q_t\)</span> 和 当前阶段m的预测的boxes <spanclass="math inline">\(\hat{b}_m\)</span>，通过和video features V 和<spanclass="math inline">\(f_v\)</span>的interacting，来更新queries。为了实现用适应的语义的动机，提出了queryupdate： <span class="math display">\[\hat{\mathbf{Q}}_t =\Psi_{\text{qv}} \big( \Psi_{\text{qq}}(\mathbf{Q}_t, \mathbf{b}) \oplus\mathbf{f}_v, \mathbf{V}, \mathbf{b} \big),\]</span></p></li></ul><p>Q-Q mixing和Q-V mixing modules byself-attention和AdaMixer，这里，<span class="math inline">\(f_v\)</span>是预训练VLM video feature的适应的semantic condtition，broadcastly addedto the output of Q-Q mixing。</p><p>注意到语义条件的自适应性来自于测试时的video feature <spanclass="math inline">\(f_v\)</span>。Alternatively，当语义条件 <spanclass="math inline">\(f_v\)</span> 变到了 <spanclass="math inline">\(f_t\)</span> over Cclasses的时候，等同于way，然而，empirically展示了，这导致inferiorperformance，特别是对于seen动作检测。这个inferiority归因于对于测试时的视频内容缺少adaptability。Besides，作为另一个替代，后条件是将condition<span class="math inline">\(f_v\)</span> 放在 Q-V mixing之后，模块学习residual of <spanclass="math inline">\(f_v\)</span>，empirically发现，pre-condition优于post-condition，因为更好的queryfeatures用来学习重要的Q-V mixing module。</p><ul><li><p><strong>动态融合对齐</strong>：为了识别seen和unseenactions，模型需要学习有区别的region-wise 视觉特征，来对齐seenactions，同时保持预训练VLMs的泛化的知识，来对齐unseenactions。处理两个目标是有挑战的。最近的方法是通过prompttuning，adapters和gradient preserving来用modeladaptation。然而，这些方法要么难以泛化到新的类别，要么通过大的VLM反向传播时产生很大的成本，特别是对于长视频。因此，对于开集行为识别用了动态融合对齐，设计的时候是轻量的，对于seen和unseen的行为都效果很好。DFA为了学习每个阶段的行为分类而制定，</p></li><li><p><strong>动态特征融合</strong>：这个步骤旨在融合video-levelfeature <span class="math inline">\(f_v\)</span> into each of thequeries <span class="math inline">\(\hat{Q}_t\)</span>。特别地，首先重复<span class="math inline">\(f_v\)</span> N次，然后，<spanclass="math inline">\(F_v\)</span> 和 <spanclass="math inline">\(\hat{Q}_t\)</span> 之间的融合是 通过这个 <spanclass="math inline">\(\tilde{\mathbf{F}}_v = \lambda \odot \mathbf{F}_v+ (1 - \lambda) \odot \hat{\mathbf{Q}}\)</span>,实现，query-specificlearnable <span class="math inline">\(\lambda\)</span>背后的intuition是它允许 dynamic contributions of the video-levelknowledge from <span class="math inline">\(f_v\)</span> to the differentlearnable queries in the set-matching training。</p></li><li><p><strong>Query-TextAlignment</strong>：为了做分类和开集行为，对于行为类别，用GPT-4来产生多个视觉描述的行为promptsfor each category，用VLM text encoder，汇聚的 C个类别的文本特征用 <spanclass="math inline">\(F_t\)</span> 表示，最后，用visual-text cosine相似度的softmax来表示多类别的分类概率。<spanclass="math inline">\(P(\hat{y}|\mathbf{\hat{Q}}) = \text{softmax}\left( \frac{\tilde{\mathbf{F}}_v \otimes \mathbf{F}_t^\top}{\tau}\right)\)</span>, <span class="math inline">\(\tau\)</span>是VLM的temperature。 在测试的时候，开集行为识别for all queries是通过找到最大的visual-text 余弦相似度。<spanclass="math inline">\(\hat{y} = \arg\max_{y \in \mathcal{C}} \left(\tilde{\mathbf{F}}_v \otimes \mathbf{F}_t^\top \right)\)</span></p></li></ul><p>注意到，不用spatialqueries作为DFA的输入，这使得T-OMB和S-OMB在训练的时候解耦，以至于personlocalization是类别未知的，这对于开集任务是重要的。</p><ul><li><strong>训练和推理</strong>：在训练的时候，对于行为定位，跟着DETR采用regularset matching loss。<span class="math inline">\(\mathcal{L}_{\text{set}}= \mathcal{L}_{\text{bce}} + \mathcal{L}_{L_1} +\mathcal{L}_{\text{giou}}\)</span>，$<spanclass="math inline">\(\mathcal{L}_{\text{bce}}\)</span> 是binary交叉熵损失 for person score prediction，<spanclass="math inline">\(\mathcal{L}_{\text{L1}}\)</span> 和 <spanclass="math inline">\(\mathcal{L}_{\text{giou}}\)</span>是预测值和真值之间的coordinate distance和GIoUdistance。然后，用匈牙利匹配来找到预测和ground truthboxes之间的最优bipartite matching。对于行为识别，用多类别的交叉熵损失<spanclass="math inline">\(\mathcal{L}_{\text{act}}\)</span>，因此训练的总损失是$<em>{} = w_1 $</em>{} + w_2 <spanclass="math inline">\(\mathcal{L}_{\text{act}}\)</span>，超参数 <spanclass="math inline">\(w_1\)</span> 和 <spanclass="math inline">\(w_2\)</span>是平衡损失项的权重。在推理的时候，有阈值的personscores决定了保留的person boxes，行为的分数给boxes分配行为类别。</li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/7cd4f79243c11ea79e52a2488c9202a342967447/3-Figure1-1.png"alt="Framework" /> <span class="math inline">\(Fig.1^{[1]}\)</span>Framework 和opemMixer Block，给定一个vieo和开集行为，用promptedclasses和预训练的video VLM来得到所有的VLM features，有了openMixerblocks的级联和时空queries，模型预测action scores，persionboxes和相关联的person scores。</p><p><imgsrc="https://figures.semanticscholar.org/7cd4f79243c11ea79e52a2488c9202a342967447/4-Figure2-1.png"alt="S-OMB和T-OMB" /> <span class="math inline">\(Fig.2^{[1]}\)</span>Spatial 和Temporal OMB, DFA，Q-Q和Q-V mixingmodules旨在融合queries和across query-visual 特征。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;exploiting-vlm-localizability-and-semantics-for-open-vocabulary-action-detection1&quot;&gt;Exploiting
-VLM Localizability and Semantics for Open Vocabulary Action
-Detection&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自密西根州立大学，NEC和罗格斯大学的Wentao Bao, Kai Li, Yuxiao
-Chen等人。论文引用[1]:&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2024.Nov&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;vision-language models within the family of query-based DETR&lt;/li&gt;
-&lt;li&gt;spatial and temporal OpenMixer Blocks&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;Action
-Detection旨在检测视频里的空间和时间上的动作，现有的方式聚焦于闭集检测，action
-detector是训练和测试都是在一个固定的行为类比的集合上。然而，这个限制的设定在一个开放的世界中不可行，测试的视频超过了训练的行为类别，本文中，解决这个挑战性的开集行为检测问题。旨在检测测试视频中的任意行为，然而在一个固定的行为类别上训练模型。为了实现这样一个开集的能力，提出了&lt;strong&gt;OpenMixer&lt;/strong&gt;的方法，利用内在的语义和大的视觉语言模型的定位能力
-within the family of query-based detection
-models(DETR)。特别地，OpenMixer是通过时空上的OpenMixer Blocks(S-OMB and
-T-OMB)，一个动态的融合模块。这三个模块一起用来预训练VLMs的强大的表征能力和来自DETR设计的端到端的学习。更多的，在多个设定下，建立了OVAD
-benchmarks，实验结果表明，OpenMixer在检测见过和没见过的行为上，都超过了基线方法。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Open-set Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Open-set-Object-Detection/"/>
     
   </entry>
   

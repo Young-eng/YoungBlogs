@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="SMILEtrack: A Simple and Effective Multi-Object Tracking Method[1]  作者是来自台湾的Yu-Hsiang Wang、Jun-Wei Hsieh等人。论文引用[1]:  Time  2024.Jan  Key Words  Siamese network-based Similarity Learning Mod">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SMILEtrack">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/03/07/SMILEtrack/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="SMILEtrack: A Simple and Effective Multi-Object Tracking Method[1]  作者是来自台湾的Yu-Hsiang Wang、Jun-Wei Hsieh等人。论文引用[1]:  Time  2024.Jan  Key Words  Siamese network-based Similarity Learning Mod">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-07T07:54:21.000Z">
+<meta property="article:modified_time" content="2025-03-09T06:58:09.763Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Object Tracking">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/03/07/SMILEtrack/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/03/07/SMILEtrack/","path":"2025/03/07/SMILEtrack/","title":"SMILEtrack"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SMILEtrack | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#smiletrack-a-simple-and-effective-multi-object-tracking-method1"><span class="nav-number">1.</span> <span class="nav-text">SMILEtrack:
+A Simple and Effective Multi-Object Tracking Method[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/03/07/SMILEtrack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SMILEtrack | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SMILEtrack
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-03-07 15:54:21" itemprop="dateCreated datePublished" datetime="2025-03-07T15:54:21+08:00">2025-03-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-09 14:58:09" itemprop="dateModified" datetime="2025-03-09T14:58:09+08:00">2025-03-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="smiletrack-a-simple-and-effective-multi-object-tracking-method1">SMILEtrack:
+A Simple and Effective Multi-Object Tracking Method<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自台湾的Yu-Hsiang Wang、Jun-Wei Hsieh等人。论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Jan</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Siamese network-based Similarity Learning Module</li>
+<li>Similarity Matching Cascade with a novel GATE function</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>尽管MOT领域最近取得了一些进展，还是有一些难点例如遮挡和相似目标、以及复杂场景。同时，对于流行的tracking-by-detection范式的cost-performance
+tradeoff的系统性的研究仍然是缺乏的。本文介绍了SMILEtrack，一个新的object
+tracker，通过将一个高效地object detector结合Siamese network-based
+Similarity Learning
+Module(SLM)，有效地解决这些挑战。SMILEtrack的主要贡献有两个方面：首先，提出了SLM，计算两个objects之间的相似度，克服了Separate
+Detection和embedding models之间的feature
+descriptors的局限。SLM受ViT的启发，引入了Patch Self-Attention
+block，能够为精确地相似度匹配产生可靠的features。其次，开发了一个Similarity
+Matching Cascade(SMC) module with a novel GATE function，用于robust
+object
+matching，进一步增强MOT的性能。SMILEtrack实现了cost和performance的平衡。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>MOT任务是估计每个target的轨迹，并关联它们。尽管MOT中有很多的努力，这个任务由于模糊的objects、遮挡和复杂场景，仍然是一个挑战性的任务。在TbD范式中，有主要的两个策略：<strong>1.
+Joint Detection and Embedding; 2. Separate Detection and Embedding(SDE),
+JDE方法将detector和embedding model结合为单一的network,输出detection
+results和对应的appearance embedding features in one inference,
+SDE方法需要一个detector和一个reid model。detector
+通过bboxes在单帧中定位所有的objects，reid
+model从它的bboxes中提取embedding
+features，这些features用于将每个bbox和现有的轨迹进行关联。尽管它们有灵活性，由于两个separate
+model, SDE方法的效率落后于JDE</strong>，
+(Tracking-by-Attention)TbA范式用attention来做data
+association，通过Transformer实现tracking和detection。这个工作的动机是两方面的：一个是MOT中长期存在的问题是遮挡，尽管TbA方法在feature
+attention上有很好的结果，但是复杂度导致推理速度慢。另外，遮挡会造成tracked
+objects to pay less
+attention，导致MOT的失败。同时，TbD方法例如ByteTrack效率高，但是精确不是最优的。本文提出的一个新的object
+tracker，Similarity Learning for Multiple Object
+Tracking(SMILEtrack)，结合了object detector和similarity learning
+module(SLM)，来解决MOT中的多个挑战，特别是遮挡。图中展示了SMILEtrack的架构，为实现SOTA做了两个贡献：1.
+高效和轻量的self-attention
+mechanism,能够学习两个bboxes之间的相似度；尽管SDE模型能够实现object
+tracking的高的进度，大多数的feature
+descriptors不能区分相似外观的objects。为了解决这个问题，**提出了一个Siamese
+network-based Similarity Learning
+Module(SLM)，能够计算两个objects之间的appearance
+similarity。受ViT的启发，在SLM中引入了一个Patch Self-Attention
+Block来得到reliable features用于similarity matching. 2. 一个带有novel
+GATE function的robust tracker能够关联candidate
+bbox，提高MOT的性能。为了恒好滴处理遮挡，构造了一个Similarity Matching
+Cascade(SMC) module，来匹配多个objects。总结一下，本工作的贡献如下：</p>
+<ul>
+<li>提出了SMILETrack，一个separate detection和tracking
+model，来跟踪frames中的多个目标</li>
+<li>引入了Simaese network-based Similarity Learning
+Module(SLM)，来学习objects之间的appearance similarity</li>
+<li>一个Patch Self-Attention(PSA) block，用self-attention
+机制来为similarity matching提供reliable features</li>
+<li>设计了一个Similarity Matching Cascade(SMC)
+module来匹配objects，提高了遮挡的性能</li>
+</ul></li>
+<li><p>TbD 方法是MOT中最流行的方法，主要可以分为两个部分：object
+detection和object association。</p>
+<ul>
+<li><strong>Object Detection</strong>：主流的object
+detection模型分为two-stage和one-stage，YOLO的方法广泛用于MOT，然而，anchor-based
+detectors引入了很多超参数，造成训练期间的时间和memory的消耗。为了缓解这些问题，anchor-free的detectors例如CenterNet,
+YOLOX出现了，尽管有提升，这些tracking方法仍然难以准确地探测不同尺寸大小的Objects。PRB-Net是一个高效的object
+detector，解决了anchor-based和anchor-free detectors的限制。</li>
+<li><strong>Object
+Association</strong>：SORT是一个简单有效地tracking算法，用Kalman
+filtering和Hungarian 算法用于object
+association，该方法在应对遮挡和快速移动物体等挑战时存在困难。DeepSORT通过引入基于CNN的appearance
+features缓解了遮挡问题，然而，牺牲了速度。为了解决这个效率问题，FairMOT用一个基于CenterNet的anchor-free方法，显著地提高了MOT的性能。为了提高tracking
+efficiency，很多MOT的方法忽视了object appearance
+features，而是利用高性能检测器和motion
+cues。尽管实现了很好的结果，作者假设它们的性能很大程度上依赖于dataset的运动模式的简单性。忽视的appearance
+features可能在密集的场景中牺牲tracking accuracy和robustness。</li>
+</ul></li>
+<li><p>Tracking-by-Attention：Trackformer通过将MOT变成一个frame-to-frame的set
+prediction问题，frames之间的data
+association通过attentino计算，跨帧的轨迹预测集通过Transformer的编码器-解码器架构生成。类似地，TransTrack用基于attention的query-key
+机制，来执行object detection和association in a single shot based on
+Deformable
+DETR。TransCenter是另外一个基于Transformer的架构，用image-related dense
+detection queries和sparse tracking
+queries用于MOT，然而，所有的基于Transformer的方法都需要大量的计算，不适合实时应用。</p></li>
+<li><p>作者的SMILEtrack是一个新的MOT架构的detector和一个Similarity
+Learning Module(SLM)，SMILEtrack包含两个modules：object
+detection和object association，前者主要是定位large and small
+pedestrians，实现了精度和效率的平衡，超过了YOLOX，主要的贡献在于后者：包含了similarity
+calculation，一个similarity learning module(SLM)，学习appropriate
+features和用一个Siamese network计算外观相似度；2. object association，
+Similarity Matching Cascade(SMC) module
+用匈牙利算法解决MOT中的线性分配问题。</p>
+<ul>
+<li><p>Similarity Learning Module(SLM): <strong>Object Appearance
+information对于实现robust
+tracking很重要，尽管SORT是一个简单的association
+framework，能够实现高速的推理，它的相似度分数不考虑目标的外观信息，不能处理长期的遮挡或者快速运动的objects。DeepSORT通过用一个预训练的CNN计算bbox
+appearance
+descriptors，来解决这个问题。然而，这个descriptor只考虑了相同objects的similarity，没有考虑不同frames的不同objects的dissimilarity</strong>，这里，作者提出了Similarity
+Learning Module，利用Siamese Network架构，学习discriminative appeanrace
+features，实现逐帧地准确地跟踪。下图展示了SLM的架构，它将target和query
+objects作为输入，都分为several patches，通过Patch Self-Attention
+Block。注意到，所有patches的height-width
+ratios不是固定的。因为MOT17/20数据集中的目标都假定为型二年，作者发现，configuration
+E实现了最好的性能，这个可以通过观察，layout E
+利用了pedestrian的先验和translation invariance来解释。</p></li>
+<li><p>Patch Self-Attention(PSA) Block: 为了产生一个可靠的appearance
+feature，一个superior feature
+representation是重要的，受ViT的启发，每个SLM的输入划分为separate
+patches，然后，所有的patches和它们的positions嵌入到一起，给到backbone来提取rich
+feature vectors，然后，三个全连接网络将所有的patches的visual
+features转换成three sets of compact features, i.e query, key and value.
+基于query 和key sets的features，不同的combinations之间的various
+attentions可以计算，用于对value set of each
+patch的features进行加权，得到feature
+vector来更精确地表征object。</p></li>
+<li><p>Q-K-V
+Attention：因为输入的objects是不同的sizes，将它们resize到一个固定的
+<span class="math inline">\(W \times
+H\)</span>。因为A中的patches之间的有几何关系，它们的表征需要被修正，来保持position-dependent
+properties。对于patch <span class="math inline">\(P_i\)</span>,
+它的position embedding vector <span class="math inline">\(E_i\)</span>
+是由标准的Transformer得到，an object <span
+class="math inline">\(A\)</span> 的嵌入表示为: <span
+class="math inline">\(A = (A_1,..., A_i,..., A_{Np})\)</span>， <span
+class="math inline">\(A_i = P_i + E_i\)</span>。 <span
+class="math inline">\(A \in R^{D_p \times N_p\)</span>，对于每个<span
+class="math inline">\(A_i\)</span>，采用CSP-Net作为backbone，将其转换为
+feature matrix <span class="math inline">\(F_i\)</span>，<span
+class="math inline">\(F_i\)</span> 包含<span
+class="math inline">\(d_f\)</span> 个row vectors 和 C个 column
+vectors。C 是channel的数量。 <span class="math inline">\(d_f\)</span>
+是feature pyramid的最后一层的大小。</p></li>
+<li><p>Similarity Matching Cascade(SMC) for
+Tracking：在相似度计算之后就是object
+association。一个设计好的association
+策略对跟踪结果有很重要的影响。ByteTrack是一个简单有效的关联方法。仅依赖于IOU
+distance用于data
+association会导致频繁的ID切换。为了解决这个问题，设计了一个SMC
+association
+方法，结合了ByteTrack的优点，实现了速度和精度的平衡。</p></li>
+<li><p>SMC GATE
+fuction：为了计算相似度分数，多达数的MOT方法用一个weighted
+sum来结合IOU和appearance information 来提高数据关联的精度。然而，当IOU
+score比appearance similarity
+score更高的时候，这个方法会有问题。两个不同的pedestrian，可能overlap，但是不相同，本文引入了一个GATE
+function in SMC module，当target的appearance similarity
+score低的时候，即使IOU分数很高，，GATE
+function会拒绝这个target。由于遮挡或者光线变化。<span
+class="math inline">\(O^H_{remain}\)</span>
+中有高分的objects可能在当前帧中没有匹配上，但是在后续的帧中可能匹配上。如果一个target
+in <span class="math inline">\(O^H_{remain}\)</span> 通过了GATE function
+check，SMC module会产生一个新的tracklet，将其添加到 T中用于further
+matching。GATE function用一个阈值 <span
+class="math inline">\(\tau\)</span> 从 <span
+class="math inline">\(O^H_{remain}\)</span> 中选择objects，低于 <span
+class="math inline">\(\tau\)</span> 的objects和 <span
+class="math inline">\(O^L_{remain}\)</span>
+中的objects会被认为是背景，被过滤掉。GATE
+是一个新的addition，bytetrack中没有。</p></li>
+</ul></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/5106d6e330ddb6f409b6bd04e46488e1860ca223/2-Figure2-1.png"
+alt="architecture of SMILEtracker" /> <span
+class="math inline">\(Fig.1^{[1]}\)</span> SMILEtracker是一个Siamese
+network架构，学习两个objects之间的appearance similarity
+features，计算similarity scores，SMILEtracker包含object
+detection和object association。</p>
+<p><img
+src="https://figures.semanticscholar.org/5106d6e330ddb6f409b6bd04e46488e1860ca223/3-Figure3-1.png"
+alt="Appearance similarity between low-score detection at the current frame and tracks at the previous frame" />
+<span class="math inline">\(Fig.2^{[1]}\)</span></p>
+<p><img
+src="https://figures.semanticscholar.org/5106d6e330ddb6f409b6bd04e46488e1860ca223/4-Figure5-1.png"
+alt="Patch Self-Attention" /> <span
+class="math inline">\(Fig.3^{[1]}\)</span></p>
+<p><img
+src="https://figures.semanticscholar.org/5106d6e330ddb6f409b6bd04e46488e1860ca223/4-Figure6-1.png"
+alt="Similarity Matching Cascade pipeline" /> <span
+class="math inline">\(Fig.4^{[1]}\)</span></p>
+<p><img
+src="https://figures.semanticscholar.org/5106d6e330ddb6f409b6bd04e46488e1860ca223/5-Figure7-1.png"
+alt="Appearance similarity between low-score detection at the current frame and tracks at the previous frame" />
+<span class="math inline">\(Fig.5^{[1]}\)</span></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Object-Tracking/" rel="tag"># Object Tracking</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/03/06/MotionTrack/" rel="prev" title="MotionTrack">
+                  <i class="fa fa-angle-left"></i> MotionTrack
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/03/07/featureSORT/" rel="next" title="featureSORT">
+                  featureSORT <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">204k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">12:23</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
