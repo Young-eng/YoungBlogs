@@ -27,7 +27,7 @@
 <meta property="og:description" content="DN-DETR: Accelerate DETR Training by Introducing Query DeNoising[1]  作者是来自hkust等机构的Feng Li、Hao Zhang等人。论文引用[1]:Li, F., Zhang, H., Liu, S., Guo, J., Ni, L.M., &amp; Zhang, L. (2022). DN-DETR: Acc">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-17T03:13:17.000Z">
-<meta property="article:modified_time" content="2025-03-17T08:58:22.280Z">
+<meta property="article:modified_time" content="2025-03-17T09:07:26.774Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object Detection">
 <meta name="twitter:card" content="summary">
@@ -206,7 +206,7 @@ DeNoising[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-03-17 11:13:17 / 修改时间：16:58:22" itemprop="dateCreated datePublished" datetime="2025-03-17T11:13:17+08:00">2025-03-17</time>
+      <time title="创建时间：2025-03-17 11:13:17 / 修改时间：17:07:26" itemprop="dateCreated datePublished" datetime="2025-03-17T11:13:17+08:00">2025-03-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -390,7 +390,13 @@ objects的数量。gt objects as <span class="math inline">\(T = {T_0, T_1,
 ..., T_{M-1}}\)</span>, M是gt objects的数量。在bipartite
 matching之后，计算一个index vector <span class="math inline">\(V^i =
 {V^i_0, V^i_1,..., V^i_{N-1}}\)</span> 来存储epoch i的matching
-result。</p></li>
+result。</p>
+<p><span class="math display">\[V_n^i=\left\{\begin{array}{ll}m, &amp;
+\mathrm{if} \ O_n^i \ \mathrm{matches} \ T_m \\
+-1, &amp; \mathrm{if} \ O_n^i \ \mathrm{matches}\ \mathrm{nothing}
+\end{array}\right.\]</span></p>
+<p><span class="math display">\[IS^i=\sum_{j=0}^N\mathbb{1}(V_n^i\neq
+V_n^{i-1})\]</span></p></li>
 <li><p>作者也展示了通过降低anchors和对应targets之间的distance，能够帮助detection，DETR
 展示了它的positional queries有多个operating modes，使得一个query search
 from a wide region for a predicted
