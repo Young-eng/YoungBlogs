@@ -27,7 +27,7 @@
 <meta property="og:description" content="FeatureSORT: Essential Features for Effective Tracking[1]  作者是来自韩国的Hamidreza Hashempoor等人。论文引用[1]:Hashempoor, Hamidreza et al. “FeatureSORT: Essential Features for Effective Tracking.” ArXiv abs&#x2F;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-07T08:02:47.000Z">
-<meta property="article:modified_time" content="2025-03-10T08:55:50.880Z">
+<meta property="article:modified_time" content="2025-03-12T07:13:22.692Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object Tracking">
 <meta name="twitter:card" content="summary">
@@ -129,7 +129,7 @@ Essential Features for Effective Tracking[1]</span></a></li><li class="nav-item 
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">130</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -211,7 +211,7 @@ Essential Features for Effective Tracking[1]</span></a></li><li class="nav-item 
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-10 16:55:50" itemprop="dateModified" datetime="2025-03-10T16:55:50+08:00">2025-03-10</time>
+      <time title="修改时间：2025-03-12 15:13:22" itemprop="dateModified" datetime="2025-03-12T15:13:22+08:00">2025-03-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -237,14 +237,14 @@ Essential Features for Effective Tracking[1]</span></a></li><li class="nav-item 
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>5.8k</span>
+      <span>6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>21 分钟</span>
+      <span>22 分钟</span>
     </span>
 </div>
 
@@ -272,6 +272,9 @@ Tracking.” ArXiv abs/2407.04249 (2024): n. pag.</p>
 <li>measurement-to-track associated distance function</li>
 <li>Global linking for missing association</li>
 <li>Gaussian Smoothing Process for missing detection</li>
+<li>一句话来说：<strong>在DeepSORT的基础上，结合了多种信息，Style、Direction、BoT(ReID)、motion
+state等，在后处理上，增加了Global
+Linking和GSP，增强了tracker的性能。</strong></li>
 </ul>
 <h3 id="总结">总结</h3>
 <ol type="1">
@@ -631,6 +634,14 @@ class="math inline">\(\mathcal{B}^{(j)}\)</span>
 </ul>
 <p><span
 class="math display">\[C(i,j)=min\{1-\langle\mathbf{b}^{(i)},\mathbf{b}^{(j)}\rangle|\forall\mathbf{b}^{(i)}\in\mathcal{B}^{(i)},\forall\mathbf{b}^{(j)}\in\mathcal{B}^{(j)}\}.\]</span></p></li>
+<li><p><strong>由于ReID的features的需求，关于DeepSORT-like范式的主要的关注是它们的执行速度。这个限制源于在detector
+module上单独使用一个ReID网络，导致处理速度的下降</strong>。虽然作者的结果是基于一个单独的ReID网络用于edge
+embedidng extraction，FeatureSORT不需要利用ReID网络来实现很好的tracking
+performance。<strong>这由于detector结构的修改，使得可以直接利用从detector得到features用于tracking。这样的approach使得FeatureSORT类似于joint
+detection-tracking算法</strong>，值得注意的是，从修改的YOLOX
+detector得到的features in our study可能相比于从separate networks
+designed for tasks such as color
+classification没有那样explicit。然而，这个策略在计算复杂度、处理速度和跟踪性能上取得了trade-off。</p></li>
 </ol>
 <p><img
 src="https://figures.semanticscholar.org/e304381906e5d1a109a1453bfcb408b5b7136988/4-Figure2-1.png"
@@ -661,6 +672,9 @@ class="math inline">\(Fig.2^{[1]}\)</span></p>
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/03/12/MambaMOT/" rel="next" title="MambaMOT">
+                  MambaMOT <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -691,13 +705,13 @@ class="math inline">\(Fig.2^{[1]}\)</span></p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">210k</span>
+    <span title="站点总字数">215k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">12:44</span>
+    <span title="站点阅读时长">13:03</span>
   </span>
 </div>
 <div class="busuanzi-count">

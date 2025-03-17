@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="DN-DETR: Accelerate DETR Training by Introducing Query DeNoising[1]  作者是来自hkust等机构的Feng Li、Hao Zhang等人。论文引用[1]:Li, F., Zhang, H., Liu, S., Guo, J., Ni, L.M., &amp; Zhang, L. (2022). DN-DETR: Acc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DN-DETR">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/03/17/DN-DETR/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="DN-DETR: Accelerate DETR Training by Introducing Query DeNoising[1]  作者是来自hkust等机构的Feng Li、Hao Zhang等人。论文引用[1]:Li, F., Zhang, H., Liu, S., Guo, J., Ni, L.M., &amp; Zhang, L. (2022). DN-DETR: Acc">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-17T03:13:17.000Z">
+<meta property="article:modified_time" content="2025-03-17T08:58:22.280Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Object Detection">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/03/17/DN-DETR/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/03/17/DN-DETR/","path":"2025/03/17/DN-DETR/","title":"DN-DETR"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DN-DETR | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#dn-detr-accelerate-detr-training-by-introducing-query-denoising1"><span class="nav-number">1.</span> <span class="nav-text">DN-DETR:
+Accelerate DETR Training by Introducing Query
+DeNoising[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/03/17/DN-DETR/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DN-DETR | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DN-DETR
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-03-17 11:13:17 / 修改时间：16:58:22" itemprop="dateCreated datePublished" datetime="2025-03-17T11:13:17+08:00">2025-03-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="dn-detr-accelerate-detr-training-by-introducing-query-denoising1">DN-DETR:
+Accelerate DETR Training by Introducing Query
+DeNoising<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自hkust等机构的Feng Li、Hao Zhang等人。论文引用[1]:Li, F.,
+Zhang, H., Liu, S., Guo, J., Ni, L.M., &amp; Zhang, L. (2022). DN-DETR:
+Accelerate DETR Training by Introducing Query DeNoising. 2022 IEEE/CVF
+Conference on Computer Vision and Pattern Recognition (CVPR),
+13609-13617.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2022.Dec</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Denosing Training</li>
+<li>一句话来说：<strong>作者发现DETRs方法收敛慢的一个主要原因在于bipartite
+matching，这个matching训练的时候不稳定。于是增加了denoising training for
+boxes和labels，能够加速收敛，提高了性能</strong>。</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者展示了denosing
+training的方法，能够加速DETR的训练，提供了对于DETR-like方法的收敛慢的深刻的理解。作者展示了收敛慢<strong>是由于bipartite
+matching的不稳定造成早期阶段的不一致优化目标</strong>。为了解决这个问题，除了匈牙利loss，作者的方法额外的将<strong>带有噪声的GT
+bboxes给到Transformer decoder中，训练模型来重建original
+boxes，能够有效地降低bipartite graph
+matching的困难，导致更快的收敛</strong>。作者的方法是通用的，能够很容易地插入到任何DETR-like的模型中，实现很好的提升。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>Object
+Detection是一个基础任务，旨在预测bboxes和objects的classes。相比于之前的detectors，DETR用可学习的queries来probe
+image features from the output of Transformer encoders，然后用bipartite
+matching来执行set-based box
+prediction。这样的设计有效地解决了hand-designed anchors和NMS，使得object
+detection端到端的优化。然而，DETR收敛速度非常慢，为了得到一个好的效果，通常许哟啊500个epochs，相比于原始的Faster
+RCNN的12个epochs。很多工作尝试去识别这个问题的根源，缓解收敛慢的问题。一些人尝试通过改进模型的架构来解决这个问题，例如，Sun等人将收敛慢归因于cross-attention的低效率，提出只有encoder-only
+DETR。有人设计了一个RoI-base dynamic
+decoder来帮助decoder关注RoI。很多最近的工作提出将每个DETR
+query和一个specific spatial
+position关联，而不是多个positions。例如，Conditional
+DETR将每个query解耦成content part和一个positional
+part，迫使query和一个spatial position对应。Deformable DETR和anchor
+DETR直接将2D reference
+points作为queries，来执行cross-attention，DAB-DETR将queries弄成一个4-D
+anchor boxes，逐层地学习提高。</p></li>
+<li><p>尽管这些progress，很少工作注意到bipartite
+graph。在这个工作中，作者发现，收敛慢也来自于discrete bipartite graph
+matching，由于<strong>随机优化，其在早期训练是不稳定的</strong>。因此，对于同一张图像，a
+query通常对应于不同epochs里的不同的objects，因此，使得优化模糊和不一致。为了解决这个问题，通过引入query
+denoising task来帮助stabilize bipartite graph
+matching。先前的工作将queries作为reference points or anchor
+boxes展示除了effectiveness，包含了positional
+information，作者跟着它们的思路，用4D anchor
+boxes作为queries，作者的方法是将带有噪声的GT bboxes作为noised
+queries，和learnable anchor queries一起输入到Transformer
+decoder中，两种queries都用相同的输入格式(x,y,w,h)，能够同时给到Transformer
+decoders中。对于noised queries，执行denoising task来重建对应的GT
+boxes。对于其它的可学习的anchor queries，用同样的训练损失和bipartite
+matching和普通的DETR一样，因为noised bboxes不需要通过bipartite
+matching，denosing task能够被视为一个auxiliary
+task，帮助DETR缓解不稳定的离散双向匹配，更快地学习box
+prediction。同时，denoising
+task也帮助降低了优化困难，因为<strong>增加的随机噪声是很小的</strong>。为了最大化这个auxiliary
+task的潜力，将每个deocder 的query作为一个 bbox + class label
+embedding，因为能够构建box denoising和label denoising。</p></li>
+<li><p>总结，作者的方法是一个denoising
+training的过程。作者的loss函数包含了两个components，一个是reconstruction
+loss，一个是匈牙利损失，和其它的DETR-like方法一样。作者的方法能够简单地插入到现有的DETR中，为了方便，用DAB-DETR来评估作者的方法，因为它们的decoder
+queries是显式地建模为4D anchor boxes。对于仅支持2D anchor
+points的DETR-like方法，例如anchor DETR，可以在anchor
+points上进行denosing。对于这些不支持anchor的方法例如普通的DETR，作者可以做线性变换，将4D
+anchor boxes映射到相同的latent space，用于learnable queries。</p></li>
+<li><p>剧作者所知，这是第一个将denoising引入detection的工作。作者的贡献如下：</p>
+<ul>
+<li>作者设计了一个novel
+training方法来加速DETR的训练，实验结果表明，作者的方法不仅加速了训练，也是了更好的训练结果。</li>
+<li>作者分析了DETR收敛慢的原因，提供了一个对DETR训练的更深的理解。作者设计了一个metric来评估bipartite
+matching的不稳定，验证了作者的方法能够有效地降低不稳定。</li>
+</ul></li>
+<li><p>基于DETR的方法也做了很多改进，Zhu等人设计了一个attention
+module，仅对sampling points around a reference
+point进行attend，Meng等人将每个decoder query解耦为一个content
+part和一个position
+part，仅利用content-to-content和position-to-position的terms in the
+cross-attention formulation。Yao等人利用一个Region Proposal
+Network来propose top-K个anchor points。DAB-DETR用一个4D- box
+coordiantes作为queries，以级联的方式逐层更新boxes。尽管有以上的进步，没有任何一个关注到用在匈牙利损失中的bipartite
+matcihng
+是收敛慢的主要原因。Sun等人通过一个预训练的DETR作为teach来为student
+model提供GT label assignment，来训练student
+model，分析匈牙利损失的影响。作者发现，label
+assignment尽在早期的训练帮助了收敛，没有影响最后的效果。因此，它们得出结论：匈牙利损失不易收敛慢的主要原因。在这个工作中，作者有了一个有效的方式，提供了一个不同的分析，导致不同的结论。</p></li>
+<li><p><strong>作者采样DAB-DETR作为基础的detection
+架构，来评估作者的训练方法，where label embedding appended with an
+indicator用来代替decoder embedding part，来支持label
+denoising。作者的方法和其它方法的主要是training
+method，除了匈牙利损失之外，作者还增加了一个denoising
+loss作为一个早期的auxiliary
+task，能够加速训练和提高性能</strong>。也有人用合成的noise
+objects增加sequence，但是不同于作者的方法。它们将targets of noise
+objects 设置为noise class，因此他们能够推迟End-of-Sentence
+token，提高recall。不同于它们的方法，作者将noised
+boxes的target设为original boxes，动机是绕过bipartite
+matching，直接学习近似gt boxes。</p></li>
+<li><p>作者很高兴看到近期detection领域有很多models采用denoising
+training的方法，来加速detection的收敛，例如DINO、Mask DINO、Group
+DETR和SAM-DETR++。DINO进一步发展了作者的Denoising training，通过feeding
+hard-negative samples，训练model来reject them。因此，提出的Contrastive
+Denoising(CDN)进一步提高了性能。Mask DINO将denoising扩展到image
+segmentation，通过reconstructing masks from noised boxes。Group
+DETR和SAM-DETR++也采用denoising training in their
+model来实现更好地性能。这些models展示了有效性和方法的泛化性。</p></li>
+<li><p>匈牙利算法是一个流行的算法，给定一个cost
+matrix，算法输出最优的匹配结果。DETR是第一个采用匈牙利匹配的，通过predicted
+objects和gt objects之间的匹配，来解决detection。DETR将GT
+assignment变成一个动态的过程，由于离散的bipartite
+matching，带来了不稳定的问题。这个工作展示了匈牙利损失因为blocking
+pairs的存在，不会造成stable matching。cost
+matrix中的一个小的change会造成matching
+result的巨大的变换，进一步导致不一致的优化目标。作者将DETR-like方法的训练过程视为两阶段，learning
+good anchors和learning relative offsets。Decoder queries负责learning
+anchors，anchors的不一致的更新使得学习relative
+offsets比较困难。因此，在作者的方法中，利用一个denoising
+task，作为一个training shortcut来使得relative offset
+learning变得简单。因为denoising task绕过了bipartite
+matching，因为将每个decoder query视为一个4D anchor box，一个noised
+query可以被视为一个good anchor，有对应的gt box。denoising
+training有一个清洗的优化目标 -- 预测original
+bbox，避免了匈牙利matching的模糊。</p></li>
+<li><p>为了量化评估bipartite
+matching的不稳定，作者设计il一个metric。对于训练阶段，作者将predicted
+objects from Transformer decoders as <span class="math inline">\(O^i =
+{O^i_0, O^i_1,..., O^i_{N-1}}\)</span> in the i-th epoch，N是predicted
+objects的数量。gt objects as <span class="math inline">\(T = {T_0, T_1,
+..., T_{M-1}}\)</span>, M是gt objects的数量。在bipartite
+matching之后，计算一个index vector <span class="math inline">\(V^i =
+{V^i_0, V^i_1,..., V^i_{N-1}}\)</span> 来存储epoch i的matching
+result。</p></li>
+<li><p>作者也展示了通过降低anchors和对应targets之间的distance，能够帮助detection，DETR
+展示了它的positional queries有多个operating modes，使得一个query search
+from a wide region for a predicted
+box。然而，DN-DETR在初始的anchors和targets之间的有更小的mean
+distances。作者计算了mean <span class="math inline">\(l1\)</span>
+distance between initial anchors and matched gt boxes。去噪训练
+训练模型来重建boxes from noised ones，模型会serach more locally for
+prediction，使得每个query 关注regions
+nearby，阻止了queries之间的潜在的conflicts。</p></li>
+<li><p>作者基于DAB-DETR，来执行training，类似于DAB-DETR，作者显式地将decoder
+queries建模为box coordinates。作者的架构和它们的不同之处在于decoder
+embedding，被指定为class label embedding，来支持label
+denoising。类似于DETR，作者的架构包含一个Transformer
+encoder和一个Transformer decoder，在encoder side上，用CNN提取的image
+features送到encoder，来attain refined image
+features。在decoder上，queries送到decoder，来搜索objects through
+cross-attention。 decoder queries有两部分，一个是matching
+part，这个part的输入是可学习的anchors，这个parts的输入是可学习的anchors，和DETR中一样。另一个是denoising
+part，这个part的输入是noised gt box-label pairs，称之为GT
+objects。这个denoising part的输出的目标是重建GT
+objects。接下来，为了增加denoising的效率，作者提出用多个noised GT
+objects的版本 in denoising part。另外，作者用了一个attention
+mask来阻止denosing part的信息泄漏到matching part，</p></li>
+<li><p>很多最近的工作将DETR queries和不同的positional
+information联系起来，DAB-DETR跟着这个分析，显式地将每个query
+formulate为4D anchor coordiantes。另外anchor
+coordiantes逐层地动态更新。每个decoder
+layer的输出包含一个tuple。</p></li>
+<li><p>对于每个image，搜集所有的GT objects，在它们的bboxes和class
+labels上增加随机噪声，为了最大化denoising learning的utility，对于每个GT
+object用了多个noised versions。考虑在boxes上以两种方式增加noise：center
+shifting和box scaling。<strong>center shifting是给中心点增加噪声，使得
+<span class="math inline">\(\delta{x}, \delta{y}\)</span>
+仍然在原始的bbox中，box
+scaling，设置一个超参数，box的width和height是随机sampled。对于label
+noising，采用label flipping，意味着随机flip 一些GT labels to other
+labels。Label flipping会force model来预测GT labels according to noised
+boxes，来更好地capture the label-box
+relationship</strong>。作者有一个超参数控制label
+flip的ratio。<strong>重建loss是 l1 loss和 GIOU loss for boxes, focal
+loss for class labels</strong>。denoising
+只在训练的时候用，推理的时候不需要。</p></li>
+<li><p>Attention mask是一个重要的组件，没有了attention mask，denoising
+training会牺牲性能，为了引入attention mask，首先需要将noised GT
+objects划分成groups，每个group是a noised version of all GT
+objects。attention mask 的是确保<strong>matching part不能看到denoising
+part，denoising groups不能看到each other</strong>。</p></li>
+<li><p>decoder embedding 指定为label embedding，来support box
+denoising和label denoising。除了COCO2017中的80
+classes，作者也考虑用在matching part中的未知的class
+embedding，来和denoising part保持语义一致。在label
+embedding上append一个indicator，如果query输入denoising
+part，则indicator为1，否则是0。</p></li>
+<li><p>DN-Deformable-DETR：为了展示denoising training在其它attention
+design上的有效性，将denoising
+training集成到Deformable-DETR中，其它的设置和deformable
+DETR相同，但是将query指定为 4D boxes as in
+DAB-DETR，为了更好地用denoising training。</p></li>
+<li><p>结论：在文章中，作者分析了DETR训练收敛慢的原因，其在与不稳定的bipartite
+matching和，提出了一个新的denoising
+training方法来解决这个问题，基于这个分析，通过结合denoising training
+into DAB-DETR，提出了DN-DETR，DN-DETR将decoder embedding指定为 label
+embedding,为 boxes和labels都引入了denoising training，通过也给Deformable
+DETR增加了denoising training，展示了它的泛化性。这个结果表明，denoising
+training明显地加速了收敛，提高了性能。这个研究表明denoising
+training能够被容易地集成到DETR-like models，作为一个general
+training方法。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/78d02f2909a582c624eca2d0f67c91ee91974180/5-Figure5-1.png"
+alt="Comparison of the cross-attention part DAB-DETR and DN-DETR" />
+<span class="math inline">\(Fig.1^{[1]}\)</span> a. DAB-DETR
+直接用dynamically updated anchor boxes to provide both a reference query
+point (x,y) and a reference anchor size (w,h), 来提高cross-attention
+computation。b. DN-DETR将decoder embeddings指定为 label
+embeddings，增加了一个indicator来区分denoising task 和matching
+task。</p>
+<p><img
+src="https://figures.semanticscholar.org/78d02f2909a582c624eca2d0f67c91ee91974180/5-Figure6-1.png"
+alt="Overview of training method" /> <span
+class="math inline">\(Fig.2^{[1]}\)</span> there are two parts of
+queries，namely denoising part和matching part, denoising part contains
+&gt;= 1 denoising groups, attention masks from the matching part to the
+denoising part and among denoising groups are set to 1(block) to block
+information leakage. In the figure, the yellow, brown adn green grids in
+the attention mask represent 0 and grey grids represent 1.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Object-Detection/" rel="tag"># Object Detection</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/03/13/TWiX/" rel="prev" title="TWiX">
+                  <i class="fa fa-angle-left"></i> TWiX
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">13:03</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

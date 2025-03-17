@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="PoLaFormer: Polarity-Aware Linear Attention for Vision Transformers[1]  作者是来自HITshenzhen、PCL和UQ的Weikang Meng, Yadan Luo等人。论文引用[1]:  Time  2025.Mar  ### Key Words 总结  线性注意力是一个有前景的替代softma">
+    <meta name="description" content="PoLaFormer: Polarity-Aware Linear Attention for Vision Transformers[1]  作者是来自HITshenzhen、PCL和UQ的Weikang Meng, Yadan Luo等人。论文引用[1]:Meng, Weikang et al. “PolaFormer: Polarity-aware Linear Attentio">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PolaFormer">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/03/06/PolaFormer/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="PoLaFormer: Polarity-Aware Linear Attention for Vision Transformers[1]  作者是来自HITshenzhen、PCL和UQ的Weikang Meng, Yadan Luo等人。论文引用[1]:  Time  2025.Mar  ### Key Words 总结  线性注意力是一个有前景的替代softma">
+<meta property="og:description" content="PoLaFormer: Polarity-Aware Linear Attention for Vision Transformers[1]  作者是来自HITshenzhen、PCL和UQ的Weikang Meng, Yadan Luo等人。论文引用[1]:Meng, Weikang et al. “PolaFormer: Polarity-aware Linear Attentio">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-06T02:35:16.000Z">
-<meta property="article:modified_time" content="2025-03-06T03:21:26.802Z">
+<meta property="article:modified_time" content="2025-03-11T08:50:11.133Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Attention">
 <meta name="twitter:card" content="summary">
@@ -130,7 +130,7 @@ Transformers[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-li
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">130</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -204,9 +204,15 @@ Transformers[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-li
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-03-06 10:35:16 / 修改时间：11:21:26" itemprop="dateCreated datePublished" datetime="2025-03-06T10:35:16+08:00">2025-03-06</time>
+      <time title="创建时间：2025-03-06 10:35:16" itemprop="dateCreated datePublished" datetime="2025-03-06T10:35:16+08:00">2025-03-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-11 16:50:11" itemprop="dateModified" datetime="2025-03-11T16:50:11+08:00">2025-03-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -232,7 +238,7 @@ Transformers[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-li
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>263</span>
+      <span>281</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -255,7 +261,9 @@ Polarity-Aware Linear Attention for Vision
 Transformers<sup>[1]</sup></h3>
 <blockquote>
 <p>作者是来自HITshenzhen、PCL和UQ的Weikang Meng, Yadan
-Luo等人。论文引用[1]:</p>
+Luo等人。论文引用[1]:Meng, Weikang et al. “PolaFormer: Polarity-aware
+Linear Attention for Vision Transformers.” ArXiv abs/2501.15061 (2025):
+n. pag.</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
@@ -337,13 +345,13 @@ rescaling，允许strong和weak attention signals 能够有效地分开。</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">210k</span>
+    <span title="站点总字数">215k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">12:44</span>
+    <span title="站点阅读时长">13:03</span>
   </span>
 </div>
 <div class="busuanzi-count">
