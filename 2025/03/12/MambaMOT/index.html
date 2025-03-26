@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="MambaMOT: State-Space Model as Motion Predictor for Multi-Object Tracking[1]  作者是来自华盛顿大学的Hsiang-Wei Huang等人，论文引用[1]:  Time  2025.Jan">
+    <meta name="description" content="MambaMOT: State-Space Model as Motion Predictor for Multi-Object Tracking[1]  作者是来自华盛顿大学的Hsiang-Wei Huang等人，论文引用[1]:Huang, Hsiang-Wei et al. “MambaMOT: State-Space Model as Motion Predictor for">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MambaMOT">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/03/12/MambaMOT/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="MambaMOT: State-Space Model as Motion Predictor for Multi-Object Tracking[1]  作者是来自华盛顿大学的Hsiang-Wei Huang等人，论文引用[1]:  Time  2025.Jan">
+<meta property="og:description" content="MambaMOT: State-Space Model as Motion Predictor for Multi-Object Tracking[1]  作者是来自华盛顿大学的Hsiang-Wei Huang等人，论文引用[1]:Huang, Hsiang-Wei et al. “MambaMOT: State-Space Model as Motion Predictor for">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-12T03:00:29.000Z">
-<meta property="article:modified_time" content="2025-03-13T09:40:31.936Z">
+<meta property="article:modified_time" content="2025-03-26T15:15:49.532Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object Tracking">
 <meta name="twitter:card" content="summary">
@@ -115,7 +115,7 @@
         <div class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#mambamot-state-space-model-as-motion-predictor-for-multi-object-tracking1"><span class="nav-number">1.</span> <span class="nav-text">MambaMOT:
 State-Space Model as Motion Predictor for Multi-Object
-Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li></ol></div>
+Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -141,7 +141,7 @@ Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@ Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-13 17:40:31" itemprop="dateModified" datetime="2025-03-13T17:40:31+08:00">2025-03-13</time>
+      <time title="修改时间：2025-03-26 23:15:49" itemprop="dateModified" datetime="2025-03-26T23:15:49+08:00">2025-03-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,14 +238,14 @@ Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>38</span>
+      <span>2.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -260,12 +260,199 @@ id="mambamot-state-space-model-as-motion-predictor-for-multi-object-tracking1">M
 State-Space Model as Motion Predictor for Multi-Object
 Tracking<sup>[1]</sup></h3>
 <blockquote>
-<p>作者是来自华盛顿大学的Hsiang-Wei Huang等人，论文引用[1]:</p>
+<p>作者是来自华盛顿大学的Hsiang-Wei Huang等人，论文引用[1]:Huang,
+Hsiang-Wei et al. “MambaMOT: State-Space Model as Motion Predictor for
+Multi-Object Tracking.” ICASSP 2025 - 2025 IEEE International Conference
+on Acoustics, Speech and Signal Processing (ICASSP) (2024): n. pag.</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
 <li>2025.Jan</li>
 </ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Mamba</li>
+<li>一句话总结：利用Mamba结构，代替传统的基于卡尔曼滤波器的motion
+model方法，实现基于深度学习的motion prediction</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>在MOT中，传统的方法依赖于KF for motion
+prediction，利用它在线性运动中的优势，然而，这些方法内在的局限变得明显，当遇到复杂、非线性motions和occlusions的时候，这个文章探索了，利用earning-based
+motion model，能够有效地增强tracking accuracy和adaptability beyond
+constraints of KF-based
+tracker的可能性。在文章中，作者提出了MambaMOT。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>在所有不同的trackers中，motion-based
+trackers通常是popular的，能够容易地用在很多真实世界中的场景，由于它们的简洁和low
+computational costs。<strong>motion-based
+trackers通常严重依赖于KF的prediction，当tracked
+objects是常规的、且线性运动的时候是有效的。然而，这些trackers在Objects有多种和不规律的motions的数据集上的表现不行。研究表明KF线性运动估计在tracking
+objects in dancing or sports
+scenarios的时候表现不佳。出于这个原因，作者旨在探索更强的motion
+models，能够提供更robust和adaptive motion predictions，来提高Kf-based
+trackers的性能</strong>。</p></li>
+<li><p>在这个工作中，尝试将learning-based motion
+models作为KF的替代，不同于KF，which 用一个线性运动假设来预测object
+location，learning-based motion model自适应地预测tracklet's location in
+the next timestamp, 通过利用tracklet information from previous
+frames。这使得motion model对于每个datasets motion
+pattern更加adaptive。因此即使target
+motion是irregular，也能够做出relaible
+predictions。在这个工作中，作者提出了MambaMOT，利用了state-space model
+mamba的exceptional context reasoning capabilities，来进行tracklet motion
+predictions。MambaMOT显著地提高了tracking
+outcomes，相比于现有的motion-based tracker，进一步，作者提出了MambaMOT
+Plus， 利用state-space model的能力，提出trajectory features，进一步boost
+tracking performance，提出的MambaMOT plus 和MambaMOT实现了advanced
+performance。</p></li>
+<li><p>TbD:很多TbD方法用KF作为motion
+model来预测下一帧中的tracklets的location, predicted boxes和detection
+boxes之间的IoU用作association的similarity
+metric，然而，之前的工作发现了KF的局限性，包括对state noise和temporal
+error 的敏感和temporal error 的magnification，在diverse和large
+motion场景中，KF对state noise的敏感会造成严重的shift in final position
+estimation after jsut a few frames of being
+untracked。对于这个问题的基础的解决方法是 <strong>引入learning-based
+motion model，能够自适应地，基于target historical tracklet
+information，预测object的location</strong>。</p></li>
+<li><p><strong>Motion Model for MOT</strong>：大多数的TbD方法用motion
+model for
+association，然而，一些挑战包括相似外观的objects和有着不同运动的ojbects，仍然没有被解决。现有的大多数方法仍然采用KF
+作为motion model。出于这个原因， 作者旨在探索不同的learning-based motion
+models，提供更robust的alternatives to TbD 范式。</p></li>
+<li><p><strong>Mamba</strong>：基于State-Space Model(SSM), Mamba
+是一个新的、input-dependent，和hardware-efficient sequence
+model，在性能和精度上超过了transformer，Mamba的设计，启发了很多applications。MambaTrack用了一个双向架构for
+motion modeling，相比之下，作者的MambaMOT利用Mamba的高效的motion
+modeling。</p></li>
+<li><p>Method</p>
+<ul>
+<li><p>Task Definition：给定一个tracklet's of past n frames，motion
+model旨在在下一帧中预测tracklets的位置，基于过去 n 个
+frames的bboxes的信息，预测的bbox将用于association with detections <span
+class="math inline">\(X_t\)</span> from the next timestamp t。</p></li>
+<li><p>Motion models：作者提出了用original Mamba block来执行motion
+model，用一个额外的linear projection layer，将bbox变换为higher
+dimension，一个local MLP 用于预测tracklet的next location.</p></li>
+</ul>
+<p><span class="math display">\[\begin{aligned}
+y(t) &amp;= C \cdot h(t) \\
+h(t) &amp;= A \cdot h(t-1) + B \cdot x(t).
+\end{aligned}\]</span></p>
+<p>Selective SSM(state-space model) 是continus system A,
+B，通过ZOH(zero-order hold) discretization formulation with a timescale
+parameter 的discrete representation <span
+class="math inline">\(\tlide{A}, \tlide{B}\)</span>。</p>
+<p><span class="math display">\[\bar{A}_t = \exp(\Delta A) = 1 -
+\sigma(\text{Linear}(x_t)) \\
+\bar{B}_t = (\bar{A})^{-1} (\exp(\Delta A) - I) \cdot \Delta B =
+\sigma(\text{Linear}(x_t)),\]</span></p>
+<p>离散的输出 <span class="math inline">\(y_t\)</span> 和 hidden state
+<span class="math inline">\(h_t\)</span> 是这样的： <span
+class="math inline">\(y_t = C \cdot h_t \quad \text{and} \quad h_t =
+\bar{A}_t \cdot h_{t-1} + \bar{B}_t \cdot x_t,\)</span>。</p>
+<p>然后，通过引入selective State Space Models(SSMs) 到steamlined
+end-to-end neural network 架构，放弃之前的attention
+机制，作者可以在显著提高推理速度的同时，提供与序列长度成线性关系的可扩展性。类似于大多数的recurrent
+model的implementation，作者计算和传播hidden states，最后通过，将output
+给到prediction head，得到tracklets next location in the final output</p>
+<ul>
+<li>Motion Prediction：prediction head旨在预测tracklets
+在下一帧中的location，作者计算和传播hidden
+states，最后得到tracklet的next location <span
+class="math inline">\(Y_t\)</span> as final output by feeding the
+discrete output <span class="math inline">\(y_t\)</span> to the
+prediction head <span class="math inline">\(MLP_{pred}\)</span>：</li>
+</ul>
+<p><span class="math inline">\(Y_t =
+\text{MLP}_{\text{pred}}(y_t).\)</span></p>
+<p>为了得到精确的bbox prediction，用GIoU和MSE loss between predicted
+bbox和gt bbox，通过最小化这些losses，model能够产生bbox predictions
+closed to gt，对于 <span
+class="math inline">\(MLP_{pred}\)</span>的final loss是：</p>
+<p><span class="math inline">\(\mathcal{L}_{\text{pred}} =
+\mathcal{L}_{\text{giou}} + \mathcal{L}_{\text{mse}}.\)</span></p>
+<p>为了展示learning-based motion model在motion
+model方面比KF更好，MamabaMOT引入了Bytetrack中的data-association
+方法BYTE，不同于MamabaMOT，Bytetrack用KF作为motion
+model来预测tracklet的location。这个association是在predicted
+location和detection之间进行，用匈牙利算法，</p>
+<ul>
+<li>MambaMOT Plus：释放Mamba的潜力:</li>
+</ul>
+<ol type="1">
+<li>motion pattern in hidden state: <strong>structured state-space
+model的很强的特性是对于long-context
+reasoning的能力</strong>，在long-range 数据集上展示出了超过transformer
+model的性能。为了进一步利用Mamba的能力，来利用tracklet在hidden
+state的motion pattern，作者进一步提出了MambaMOT
+Plus，旨在通过提取trajectory's motion as trajectory
+feature，来释放Mamba的power，进一步将tracklets和similar trajectory
+features连接起来，提升tracking performance。</li>
+<li>Trajectory Representation：MambaMOT Plus 引入了额外的trajectory
+embedding head，将mamba block <span class="math inline">\(y_t\)</span>
+的结果作为另一个可训练的MLP的输入，来得到trajectory feature <span
+class="math inline">\(f_t\)</span>。trajectory head从hidden
+states中得到tracklet的trajectory information的global
+representations，因此包含丰富的motion patterns和position
+information，能够进一步用来连接fragment tracklets。</li>
+</ol>
+<p>trajectory representations的training objective是最小化same
+tracklet的embedding features cosine distance，最大化different
+ones。将cosine embedding loss <span
+class="math inline">\(L_{loss}\)</span> 来实现这个objective。在each loss
+backward中，来自tracklet i 和tracklet
+j的一对trajectories将会被采样，cosine embedding loss <span
+class="math inline">\(L_{loss}\)</span> 通过如下计算：</p>
+<p><span class="math display">\[\mathcal{L}_{\text{cos}}(i, j) =
+\begin{cases}
+1 - \cos(\mathbf{f}_i, \mathbf{f}_j), &amp; \text{if } i = j \\
+\max(0, \cos(\mathbf{f}_i, \mathbf{f}_j)), &amp; \text{if } i \neq j
+\end{cases}\]</span></p>
+<p><span class="math inline">\(f_i\)</span> 表示通过从tracklet
+i中sampled的trajectory前向传播mamba blocks的global head's predicted
+features。作者将bbox prediction head和global
+features通过将loss加在一起，联合训练bbox。端到端的loss定义为: <span
+class="math inline">\(\mathcal{L}_{\text{total}} =
+\mathcal{L}_{\text{pred}} + \mathcal{L}_{\text{cos}}.\)</span></p>
+<ol start="3" type="1">
+<li>Tracklet
+Merging：很多之前的工作用一个基于深度学习的model，基于appearance
+或者motion pattern similarity of tracklet pair，来进行tracklet
+merging。这些工作中流行的方法是采用Siamese
+networks来做这个工作。然而这些tracklet merging network，通过连接same
+identity的fragment trajectories，提升了tracking performance。stand-alone
+Siamese network需要计算每个tracklet
+pair之间的similarity，进一步引入了extra <span
+class="math inline">\(O(N^2)\)</span> computational cost，<span
+class="math inline">\(N\)</span> 表示
+tracklets的数量。不同于这些工作，作者提出的MambaMOT Plus，在tracking
+过程中，用相同的模型来做motion prediction，提出tracklet的trajectory
+feature，不需要训练另外一个单独的tracklet mergin network。MambaMOT Plus
+在每个轨迹片段（tracklet）上进行前向传播，而不是在轨迹片段对（tracklet
+pair）之间进行操作，这使得与基于 Siamese 网络的方法相比，计算成本从
+O(N²) 降低到 O(N)。完成tracking之后，每个tracklet的trajectory
+feature将会用cosine similarity 进行比较，进一步用hierarchical
+clustering，来融合具有similar trajectory
+features，提升tracking的性能。</li>
+</ol></li>
+<li><p>结论：作者提出了MambaMOT，通过使用learning-based motion
+models，解决传统KF filter-based
+MOT的局限，展示了性能的提升。提出的方法利用state-space
+models来得到complex motion patterns，实现了较好的性能。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/f45790512eaadfb6bc0bd637f306fc99573fca52/3-Figure2-1.png"
+alt="MambaMOT Plus architecture" /> <span
+class="math inline">\(Fig.1^{[1]}\)</span>. MambaMOT通过一个linear
+projection layer，处理来自same track的bbox的序列，用于motion
+modeling，model产生predictions和embeddings，在每个time frame更新hidden
+state <span
+class="math inline">\(h_T\)</span>。这些predictions用于detecting和matching
+tracks，trajectory embeddings辅助merging tracklets</p>
 
     </div>
 
@@ -320,13 +507,13 @@ Tracking<sup>[1]</sup></h3>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">215k</span>
+    <span title="站点总字数">222k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:03</span>
+    <span title="站点阅读时长">13:29</span>
   </span>
 </div>
 <div class="busuanzi-count">

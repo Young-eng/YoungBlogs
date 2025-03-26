@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="Engineering an Efficient Object Tracker for Non-Linear Motion[1]  作者是来自贝尔格莱德大学的Momir Adzemovic等人，论文引用[1]:  Time  2024.Jun  ### Key Words 总结">
+    <meta name="description" content="Engineering an Efficient Object Tracker for Non-Linear Motion[1]  作者是来自贝尔格莱德大学的Momir Adzemovic等人，论文引用[1]:Adzemovic, Momir et al. “Engineering an Efficient Object Tracker for Non-Linear Motion.” A">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DeepMoveSORT">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/03/12/DeepMoveSORT/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="Engineering an Efficient Object Tracker for Non-Linear Motion[1]  作者是来自贝尔格莱德大学的Momir Adzemovic等人，论文引用[1]:  Time  2024.Jun  ### Key Words 总结">
+<meta property="og:description" content="Engineering an Efficient Object Tracker for Non-Linear Motion[1]  作者是来自贝尔格莱德大学的Momir Adzemovic等人，论文引用[1]:Adzemovic, Momir et al. “Engineering an Efficient Object Tracker for Non-Linear Motion.” A">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-12T03:02:20.000Z">
-<meta property="article:modified_time" content="2025-03-13T09:37:48.529Z">
+<meta property="article:modified_time" content="2025-03-26T08:16:45.972Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object Tracking">
 <meta name="twitter:card" content="summary">
@@ -140,7 +140,7 @@ an Efficient Object Tracker for Non-Linear Motion[1]</span></a></li><li class="n
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -211,7 +211,7 @@ an Efficient Object Tracker for Non-Linear Motion[1]</span></a></li><li class="n
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-13 17:37:48" itemprop="dateModified" datetime="2025-03-13T17:37:48+08:00">2025-03-13</time>
+      <time title="修改时间：2025-03-26 16:16:45" itemprop="dateModified" datetime="2025-03-26T16:16:45+08:00">2025-03-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -237,14 +237,14 @@ an Efficient Object Tracker for Non-Linear Motion[1]</span></a></li><li class="n
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>42</span>
+      <span>5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>18 分钟</span>
     </span>
 </div>
 
@@ -258,7 +258,9 @@ an Efficient Object Tracker for Non-Linear Motion[1]</span></a></li><li class="n
 id="engineering-an-efficient-object-tracker-for-non-linear-motion1">Engineering
 an Efficient Object Tracker for Non-Linear Motion<sup>[1]</sup></h3>
 <blockquote>
-<p>作者是来自贝尔格莱德大学的Momir Adzemovic等人，论文引用[1]:</p>
+<p>作者是来自贝尔格莱德大学的Momir Adzemovic等人，论文引用[1]:Adzemovic,
+Momir et al. “Engineering an Efficient Object Tracker for Non-Linear
+Motion.” ArXiv abs/2407.00738 (2024): n. pag.</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
@@ -267,8 +269,351 @@ an Efficient Object Tracker for Non-Linear Motion<sup>[1]</sup></h3>
 <h2 id="key-words">### Key Words</h2>
 <h3 id="总结">总结</h3>
 <ol type="1">
-<li></li>
+<li><p>MOT的目标是检测和跟踪场景里的所有目标，通过逐帧关联它们的bboxes，为每个目标维护一个唯一的ID，这个关联依赖于matching
+motion和检测目标的appearance
+patterns。这个任务在涉及动态和非线性运动模式的场景中比较困难，在本文中，作者提出了DeepMoveSORT，一个新的、engineered
+多目标跟踪器。出了标准的基于appearance的关联之外，作者通过采用deep
+learnable filters和一些新的先验，提高了motion-based
+association。作者在motion-based
+association上的提高有几个方面。首先，作者提出了<strong>一个新的transformer-based
+filter architecture，TransFilter，用object的motion history 用于motion
+prediction和noise filtering。作者进一步通过仔细地处理motion
+history和补偿相机运动。第二，作者提出了一些先验，利用position、shape和检测到的bboxes，来提高association
+的性能</strong>。作者的实验表明，DeepMoveSORT在非线性场景中超过了现有的跟踪器
+<span id="more"></span></p></li>
+<li><p>多目标跟踪的关联方法可以大致地分为两个主要的groups：motion-based和appearance-based。motion-based方法依赖于Motion
+model，基于motion history来预测object的bbox，然后和detected
+bbox进行match。相比之下，appearance-based 方法依赖于object image
+features，为了在不同的domains下，实现鲁棒地accuracy，跟踪算法必须采用多种的关联方法。motion-based和核心是motion
+model，识别一个有效的、能够在多个domains下表现恒定的model，是一个重要的挑战。当前，SOTA的方法采用Kalman
+filter，尽管它是线性motion model，KF的缺点通常被丰富的先验和strong
+appearance-based association所补偿。另一方面，引入deep learning-based
+motion models在tracking
+accuracy上是落后的，主要是由于缺乏很强的先验和appearance-based
+association。</p></li>
+<li><p>为了解决现有方法的局限，作者在之前的端到端的learnable
+filters上建立新的方法，涉及了一个tracker，将丰富的先验、appearance-based
+association和这些filters结合。首先，作者提出了一个新的基于transformer的filter,
+Transfilter。在训练和推理期间比较快和精确。<strong>然后，作者通过refine
+measurement buffering算法(这个维护了object的motion
+history，基于此model来做预测)，在速度和精度上提高了filter的性能</strong>。作者也提出了一些先验，能够利用position、shape和detected
+bbox的confidence的cues，来提高association
+performance。<strong>作者通过改进标准的交并比（IoU）关联方法，补偿了遮挡期间目标位置确定性降低的问题，从而进一步提升了关联效果</strong>。通过结合端到端的filter和appearance
+similarity，还有提出的先验，作者构建了DeepMoveSORT，一个SOTA的tracker。</p></li>
+<li><p>作者的贡献如下：</p>
+<ul>
+<li>为了提高基于motion的association的方法，作者提出了一个新的基于transformer的端到端的filter
+architecture，称之为TransFilter，作为现有的recursive
+filters--RNNFilter和NODEFilter的替代。相比于它们，TransFilter在训练和推理的时候更高效。</li>
+<li>作者引入了一个新的measurement buffering
+算法，和现有的所有端到端的filters兼容</li>
+<li>作者提出了一个方法，引入了CMC
+transformation，当相机运动发生的时候，更新measurement buffer。</li>
+<li>作者提出了DT-IoU(decay-Threshold IoU)，motion-based
+association方法，作为标准的IoU
+association的替代。不像标准的IoU方法，与传统的标准IoU方法不同，DT-IoU采用了一种随目标遮挡时间递减的最小重叠阈值，以补偿遮挡过程中目标位置确定性逐渐降低的问题。</li>
+<li>作者提出了HPC(Horizontal Perspective Cues) motion-based
+association先验，考虑object bbox的height和vertical
+position，在遮挡场景中降低identity switches的数量。</li>
+<li>作者引入了ATCM(Adaptive Track Confidence Modeling)先验，用detection
+confidence作为一个metric in the association
+process。跟踪Hybrid-SORT，采用一个KF来model track
+confidence，然而，作者用一个先验提高KF model，用于更精确地measurement
+noise approximation。ATCM关联方法导致了拥挤场景中的identity
+switches的减少。</li>
+<li>作者在ByteTrack跟踪框架中，将改进的端到端滤波器、提出的启发式规则与目标外观相似性相结合，构建了DeepMoveSORT跟踪器。</li>
+</ul></li>
+<li><p>MoveSORT tracker是基于SORT的TbD框架，相应地，它用了一个object
+detection model来capture当前帧中的bboxes，在每个video
+frame执行association，这个association过程涉及预测object的future
+bboxes和将下一帧的detections进行配对。为了增强association
+accuracy，MoveSORT引入了deep learning-based
+filters，MoveSORT提出了基于深度学习的滤波器，能够实现运动预测和去噪功能。这些filters作为一个直接的KF的替代，有从数据中直接学习非线性运动patterns的优势，不需要依赖于domain
+knowledge。另外，MoveSORT提出了一个hybrid
+association方法，通过结合negative IoU和predicted and detected
+bbox之间的L1 distance，来计算cost，匈牙利算法然后用来计算minimum-cost
+pairing。</p></li>
+<li><p>端到端filters：在SORT方法中，在每一帧，用KF得到object
+position的先验分布。<strong>这个先验和object detector的measurement
+likelihood结合，通过贝叶斯推理，实现更精确地后验估计。这个过程称之为filtering</strong>。然而,
+measurement likelihood不是commonly available，需要用domain-specific
+knowledge来近似，<strong>相比之下，端到端的filters，通过基于深度学习的motion，来结合object
+detector和motion model
+prediction的信息，作为贝叶斯推理的替代。这个filtering
+process是数据驱动的，没有必要基于domain knowledge来近似measurement
+likelihood</strong>。</p>
+<p>端到端的filter将i-th 帧之前的object motion
+history作为输入，以高斯分布的形式，输出第i-th frame的motion
+prediction。一旦object的新的位置在frame
+i中观测到了，filtering通过考虑object的历史运动和新的measurement来执行。filtering
+process的结果通过分布表示。为了训练模型，用于更精确地motion
+prediciton和filtering，下列的loss function需要被最小化：</p>
+<p><span
+class="math display">\[L_{e2e}(\mu_i,\hat{\mu}_i,\hat{\Sigma}_i,\tilde{\mu}_i,\tilde{\Sigma}_i)=L_{nll}(\mu_i,\hat{\mu}_i,\hat{\Sigma}_i)+L_{nll}(\mu_i,\tilde{\mu}_i,\tilde{\Sigma}_i)\]</span></p>
+<p><span class="math inline">\(\miu\)</span> 是frame i 的object的gt
+position， <span class="math inline">\(L_{nll}\)</span> 是negative
+高斯log-likelihood loss，在推理期间，通过measurement
+trajectory来定义的object's motion
+history被buffer，仅有最新的measurement用作model的输入。两个端到端的filter
+架构，RNNFilter和NODEFilter，RNNFilter model采用GRU，用于motion
+prediction和noise filtering，然而，NODEFilter用NODE用于motion
+prediction，GRU用于noise filtering。</p></li>
+<li><p><strong>Measurement Buffering Algorithm</strong>：object
+measurements的history，表示了它随时间的movement，包含了用于motion
+prediction的features，这个measurement buffer 通过联系第增加new
+measurement，排除old ones，平衡了historical
+context，这个balance是重要的，太短的history context会损害motion model
+performance，然而，过长的history可能导致low accuracy和slow
+inference。</p>
+<p>如果只有age
+criterion被observed，长时间的occlusion会导致nearly或者完全地empty
+buffer，可能会损害motion model的性能，因此，一个minimal buffer
+length通过超参数 <span class="math inline">\(L_{min}\)</span>
+确定，合适地调整 <span class="math inline">\(L_{min}\)</span>
+对于实现good motion model性能是重要的。</p></li>
+<li><p><strong>High-performance
+Tracker的重要的组件</strong>：在这个部分中，作者简单地解释了modern
+high-performance trackers的主要的组件，这个包括Bytetrack算法，CMC,
+Appearance-based association,还有Hybrid-SORT track confidence
+modeling。</p>
+<ul>
+<li>SORT
+tracker用超过阈值的detections，将这个阈值设为一个比较高的values，降低了detection
+false
+positives的数量，相应地，不正确地tarcks的数量会降低，但是增加了detection
+false negatives的数量。False negatives通常在遮挡的时候会发生，导致object
+detection model的不确定性。这个detection阈值需要被optimally
+chosen，来增加tracker的性能。ByteTrack通过考虑低置信度的detections，增强了SORT方法。它执行two-step
+关联，在第一阶段，主要是关联高置信度的bboxes和tracks，第二阶段，剩下的unmatched
+tracks和低置信度的detections进行关联。高置信度的、没有匹配的detections用于初始化新的tracks。因此，bytetrack优先考虑可见对象的关联(它们有着高的detection
+confidence)，但是也进行部分occluded
+objects的关联，通常是低置信度的。使得tracker的性能不那么依赖于confidence阈值，在多个数据集上提高了tracker的性能。</li>
+</ul></li>
+<li><p><strong>Camera Motion
+Compensation(CMC)</strong>：基于深度学习的motion
+models，当motion有着可预测的patterns的时候，能够学习适应camera
+motion。这个adaptation对于sports games期间的camera
+movements是特别有用的，通常从左到右的移动。然而，camera
+motion不总是可以预测的，例如，一个人拿着相机loosely，或者在突然风吹了，相机移动。在这些场景中，从video
+image features中估计相机运动更有效。 <strong>基于image features的CMC
+techniques通常用在tBD范式中，来抵消tracking期间的相机运动的负面作用。这个techniques通常涉及当前帧中提取出来的image
+features和之前帧中的image features对比，来近似camera
+motion。结果是一个transformation matrix from coodinate system of
+previous frame to the coordinate system of the current
+frame</strong>。这个transformation
+matrix使得能够对预测的bboxes的coordinates进行纠正。</p></li>
+<li><p><strong>Appearance-based
+Association</strong>：基于appearance的association通过利用深度学习提取object
+appearance features，用于object identification across
+frames，来增强tracking。它展示了现代TbD 范式的一个key
+component。DeepSORT，引入了appearance-based association into SORT
+framework，通过简单地和motion-based
+association的加权cost，提高re-id的精度。</p></li>
+<li><p><strong>Hybrid-SORT's Track Confidence
+Modeling</strong>：在拥挤场景中，很多objects的严重的overlap，基于detection
+confidence的differentiation变得有用。前景中的objects，遮挡的较少，通常得到更高的confidence
+scores，然而背景中的objects分数比较低。受此观察的启发，Hybrid-SORT将object
+detection confidence 引入了association process，用了一个Track Confidence
+Modeling，采用KF来预测object detection
+confidence，预测的confidence和object
+detector的confidence的差用作另一个cue，用于assciating tracks with
+detected bboxes。这个方法能通过简单的加权和其它的association
+criteria结合。</p></li>
+<li><p>首先，作者定义了optimization objective 用于object trajectory
+prediction和filtering tasks，之后，引入了一个新的end-to-end
+架构TransFilter，另外，作者解释了measurement buffering
+算法的提升。另外，作者介绍了一些新的先验，来提高tracking association in
+crowded scenarios。最后，<strong>作者通过结合deep learning-based
+filters，appearance features和proposed
+heuristics构建了高性能的tracker</strong>。</p></li>
+<li><p><strong>Object trajectory prediction and
+filtering</strong>：作者定义了trajectory
+prediction和filtering的任务，类似于是如何定义端到端的filters的。输入的trajectory在time
+points <span class="math inline">\(T_o\)</span>
+观测到，对应的observation vecotr values <span
+class="math inline">\(X_o\)</span>，这个time
+points不需要等距离。这个prediction task涉及预测target trajecotry <span
+class="math inline">\(X_T\)</span> at target time points <span
+class="math inline">\(T_t\)</span>。这个filtering task指引入的new
+measurement，observed at times <span
+class="math inline">\(T_t\)</span>，因此，这些observation的noise被抑制了，预测的轨迹
+<span class="math inline">\(X_T\)</span> 改善了。端到端的filter
+model用于同时优化两个任务。
+强大的跟踪器性能并不需要对运动预测进行不确定性估计，因为预测不确定性在轨迹关联过程中通常未被使用。另外，端到端filters不需要uncertainty
+estimation for noise
+filtering。因为这些原因，将这个任务简化为tracjectory的prediction和filtering，作者没有估计trajectory的每个time
+point的高斯分布的参数，相比于之前提到的方法，这个方法不仅简化了优化问题，也在许纳泽loss
+functions的时候提供了更好的flexibility。</p>
+<p>作者进一步重新定义了loss function <span
+class="math inline">\(L_{e2e}\)</span> for non-probalistic end-to-end
+models如下：</p>
+<p><span class="math inline">\(\mu_{i}\)</span> 表示gt value， <span
+class="math inline">\(\hat{\mu_{i}}\)</span> 是model-predicted value，
+<span class="math inline">\(\tlide{\mu_{i}}\)</span> 是updated value
+after i-th measurement。对于 <span
+class="math inline">\(L_{predict}\)</span> 和 <span
+class="math inline">\(L_{update}\)</span>，作者采用Huber loss with
+hyper-parameter <span
+class="math inline">\(\delta\)</span>，因为它提供了相比于MSE
+loss，对outliers更强的robustness&gt;</p></li>
+<li><p><strong>Feature extraction</strong>：feature
+extraction在input和target trajectories之间进行，来得到richer
+features。提取的features包括absolute coordinates，相对于Last
+observation的coordinates和连续points的coordinate
+differences，用这些features，而不是absolute bbox coordinates，对于strong
+motion model性能是重要的。这些transformed trajectories with rich
+features然后作为inputs to the model。Transformations 独立于model
+architecture。</p></li>
+<li><p><strong>TransFilter</strong>：RNNFilter和NODEFilter是端到端的learning-based
+filter，提供了strong motion prediction accuracy
+boost。另外，它们不许哟按超参数tuning。然而，它们的recursive方法来编码trajectory
+features和motion prediction导致slower inference和Longer training
+times，另外它们在motion prediction期间容易有error
+accumulation，由于它们的recursive state
+updates。作为之前的架构的替代，作者提出了TransFilter，一个基于Transformer的端到端的filter，它能够执行feature
+encoding和并行地执行motion
+prediction，使得它在训练和推理的时候高效。作者将标准的Transformer架构扩展为一个端到端的filter。作者的架构包含两个部分：<strong>encoder
+for motion prediction和decoder for noise filtering</strong></p>
+<ul>
+<li>Token embedding：作者采用MLP来得到token embedding for each
+measurement within the input trajectory。这些tokens，和positional
+encoding相加，作为transformer encoder的输入。作为传统的positional
+encoding的替代，作者采用<strong>RPE(reversed positional
+encoding)</strong>。RPE formulation一开始为right-to-left
+text提出来的，例如Arabic
+dialects，然而，当它用于time-series的时候不是语义相等的。相比于NLP,first
+word通常得到same recognizable positional
+encoding，在作者的这种case下，last observation是central
+importance，因为它最接近step being predicted。因此，last
+observation应该得到<strong>same positional
+encoding</strong>，因此，作者的方法用于positional encoding
+<strong>starting from the
+end</strong>。这个process等价于下面的三个steps: reversing sequence,
+applying standard positional encoding, reversing sequence
+again。因此，不同于indicating the position of the measurement in the
+trajectory relative to the beginning，作者的positional encoding
+indicates这个measurement是多么的recent。</li>
+<li>Motion Prediction：在得到token
+embeddings之后，作者用它们作为transformer
+encoder的输入。<strong>作者在最后的encoder outputs上应用average pooling
+over the temporal dimension。从decoder出来的aggregated output
+然后用于single-shot multi-step prediction，来产生所有的required
+predictions</strong>，采用single-shot
+prediction的主要的有时是，和之前提到的recursive
+apporach相反，消除了error accumulation。在这种情况下，所有的target time
+points的prediction是同时做的。然而，这个策略可能导致less natural和less
+smooth trajectories prediction。</li>
+<li>Noise filtering：在训练期间，decoder将对于target
+tracjectory的observations的token
+embeddings作为输入。作者将decoder出来的outputs是带有suppressed
+noise的corrected
+measurement。在推理阶段，我们采用逐个处理观测值的方式进行过滤（即每次仅处理一个对象的测量数据）。这种机制使得解码器中的多头自注意力模块在推理时变得冗余，因此我们将其从模型架构中移除。相比于RNNFilter和NODEFilter,在训练期间交错prediction和filtering。TransFilter架构完整地解耦了components
+for these tasks。这就多了一个忽略decoder的选项，仅采用encoder for motion
+model，在object detector足够可靠的情况下，一旦correct
+observation和track关联起来的，filtering是不必要的。</li>
+</ul></li>
+<li><p>提高filter measurement
+filter：这个部分引入两个modifications，增强了filter's measurement
+buffer，一个core component shared across all deep learning-based filter
+架构，Consequently，这些improvements对这些架构都有好处。
+首先，作者修改了old measurement buffering
+算法，然后作者定义了将buffer和camera motion对齐的过程。</p>
+<ul>
+<li>Improved measurement
+buffering：作者在两个方面进行了修改。首先，**保留所有的measurements in
+the buffer，直到新的measurement is detected，这和之前的去掉every
+frame的oldest measurement的方法不同。因此，作者的buffer保持了adequate
+和一致的measurements number。因此，criteria 和超参数for history
+preservation是不必要的。第二，在object 遮挡之后，基于detection of a new
+measurement，outdated measurements从buffer中移除。这个策略利好shorter,
+more recent measurement history。这个modification导致更高效地measurement
+buffering 算法when tracking dynamic objects。另一个significant
+benefit是提高了occlusion期间的推理速度。因为在occlusion期间，inputs没有改变，没有必要rerun
+the encoder at each step。相反，encoder outputs能够用于occluded
+objects，为了减小computational cost。</li>
+<li>Aligning buffered measurements to camera
+motion：作者假设CMC方法用于得到一个affine transformation matrix from
+coordiante system of frame <span class="math inline">\(i-1\)</span> to
+the coordiante system of frame i。得到的affine transformation
+matrix用于map buffered trajectory measurements between the frame
+coordinate systems。作者recursively 顶一个affine transformation from
+frame i-1 to frame i of the measurement <span
+class="math inline">\(x_k\)</span> observerd at frame k。这等价于对each
+frame的buffer中的所有的measurements应用transformation。</li>
+</ul></li>
+<li><p><strong>Association
+method</strong>：在这个部分，作者采用了新的association
+方法，作为标准的IoU association cost和gating
+mechanism的替代。subsequently，作者引入了现有先验的改进的变体，来进一步增强tracking
+performance。最后，作者定义了得到和用object appearance features in
+conjunction with these heuristics的过程。</p>
+<ul>
+<li>Decay Threshold IoU：SORT跟踪方法，通过采用IoU
+gating，阻止了将detected objects和距离很远的tracks的匹配。这个minimum
+IoU对所有的tracks是一样的，不管它们是active
+还是遮挡的。然而，这种方法并未考虑物体被遮挡时间越长，其位置的确定性会逐渐降低的问题。<strong>理想情况下，活跃轨迹应设置更高的阈值，而被遮挡物体则应降低阈值，以适应这种不确定性</strong>。这种调整与以下观察结果一致：在遮挡期间，运动模型的预测精度会随着每次时间步长的推进而下降。作者引入了<strong>Decay
+Threshold IoU</strong>。采用不同的minimum
+IoU基于Object被遮挡的时间这个先验，提出的association threshold <span
+class="math inline">\(IoU_{min}\)</span> 定义为object occluded time
+<span class="math inline">\(t_{occluded}\)</span> 的函数：</li>
+</ul>
+<p><span class="math display">\[\text{IoU}_{\min}(t_{\text{occluded}}) =
+\max(\text{IoU}_{\text{upper\_bound}} - \text{IoU}_{\text{decay}} \cdot
+t_{\text{occluded}}, \text{IoU}_{\text{lower\_bound}}) \]</span></p>
+<p><span class="math inline">\(IoU_{upper_bound}\)</span> 用于active
+tracks的starting threshold，<span
+class="math inline">\(IoU_{decay}\)</span> 是decay rate，<span
+class="math inline">\(T_{lower_bound}\)</span> 是lowest possible value
+for the
+threshold。当跟踪的objects在一个fast和动态的环境中的时候，predicted和detected
+bboxes之间的overlap会很小或者non-exitent。一个直接的方法是expansion of
+bboxes before calculating IoU。</p>
+<ul>
+<li><p>Horizontal perspective cues：hybrid association
+method在MoveSORT中被引入， 结合了IoU和L1 costs between extrapolated
+tracks和detected tracks，提高了association accuracy in crowded scenes
+with frontal-view cameras，不像IoU，L1 distance考虑object
+的scale，这随着Object的距离增加而减弱。作者定义了<strong>Horizontal
+Perspective Cues(HPC) cost</strong> <span
+class="math inline">\(C_{HPC}\)</span> between predicted track bbox
+<span class="math inline">\(\hat{x}\)</span> 和 detection D ：</p></li>
+<li><p>Adaptive Track Confidence
+Modeling(ATCM)：在hybrid-SORT的TCM的先验中，对KF建模的detection
+confidence做了一个修改，不同于用一个constant measurement noise
+variance，定义一个独立于detected object confidence的。<span
+class="math inline">\(\sigma{conf}\)</span> 是constant standard
+deviation multiplier，<span class="math inline">\(D_{conf}\)</span>
+是detection confidence。high confidence
+detections更少的noisy，不容易发生动态变换，可以将这个用于KF</p></li>
+<li><p>Appearance modeling：对于appearance features，采用ReID模型from
+FastReID framework，和之前的方法一样。在检测到frame中的objects之后，crop
+object patches，pre-process，然后将它们给到ReID model来得到appearance
+features，对于关联tracks和objects 的appearance features，采用cosine
+distance，计算每个(track, detection) pair。object tracks的appearance
+features用一个EMA来计算，appearance association仅用于bytetrack的first
+association。</p></li>
+<li><p>Association：结合DT-IOU association method with
+HPC，ATCM先验和appearance embeddings之间的的cosine distance into a
+单个asosciation cost matrix，用于匈牙利算法，定义的matrix如下：</p></li>
+</ul>
+<p><span class="math display">\[C = \lambda_{DT-IoU} \cdot C_{DT-IoU} +
+\lambda_{HPC} \cdot C_{HPC} + \lambda_{ATCM} \cdot C_{ATCM} +
+\lambda_{Appr} \cdot C_{Appr}\]</span></p>
+<p><strong>weighted cost
+matrix用于匈牙利算法的输入，得到tracks和当前帧中的detected
+objects的optimal matches。weights应该基于motion vs
+appearance的相对重要性进行平衡</strong>。</p></li>
 </ol>
+<p><img
+src="https://figures.semanticscholar.org/bca22458bfa6ec692d43c09d73b4c8f425c76a8e/8-Figure1-1.png"
+alt="TransFilter" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+TransFilter architecture for motion prediction(encoder) and noise
+filtering(decoder)，输入的trajectory首先被转换成token
+embeddings，结合RPE positional encoding，这些token
+embeddings作为encoder的输入。motion prediction基于average-pooled encoder
+outputs with one-shot multi-step prediction。encoder outputs
+也用于decoder的输入，和observed measurements
+结合，decoder对每个measurement inputs进行correction。</p>
 
     </div>
 
@@ -323,13 +668,13 @@ an Efficient Object Tracker for Non-Linear Motion<sup>[1]</sup></h3>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">215k</span>
+    <span title="站点总字数">222k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:03</span>
+    <span title="站点阅读时长">13:29</span>
   </span>
 </div>
 <div class="busuanzi-count">

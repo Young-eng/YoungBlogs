@@ -135,7 +135,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -556,7 +556,7 @@ Tracking<sup>[1]</sup></h3>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-13 17:37:48" itemprop="dateModified" datetime="2025-03-13T17:37:48+08:00">2025-03-13</time>
+      <time title="修改时间：2025-03-26 16:16:45" itemprop="dateModified" datetime="2025-03-26T16:16:45+08:00">2025-03-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -575,14 +575,14 @@ Tracking<sup>[1]</sup></h3>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>42</span>
+      <span>5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>18 分钟</span>
     </span>
 </div>
 
@@ -597,7 +597,9 @@ Tracking<sup>[1]</sup></h3>
 id="engineering-an-efficient-object-tracker-for-non-linear-motion1">Engineering
 an Efficient Object Tracker for Non-Linear Motion<sup>[1]</sup></h3>
 <blockquote>
-<p>作者是来自贝尔格莱德大学的Momir Adzemovic等人，论文引用[1]:</p>
+<p>作者是来自贝尔格莱德大学的Momir Adzemovic等人，论文引用[1]:Adzemovic,
+Momir et al. “Engineering an Efficient Object Tracker for Non-Linear
+Motion.” ArXiv abs/2407.00738 (2024): n. pag.</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
@@ -606,9 +608,25 @@ an Efficient Object Tracker for Non-Linear Motion<sup>[1]</sup></h3>
 <h2 id="key-words">### Key Words</h2>
 <h3 id="总结">总结</h3>
 <ol type="1">
-<li></li>
-</ol>
-
+<li><p>MOT的目标是检测和跟踪场景里的所有目标，通过逐帧关联它们的bboxes，为每个目标维护一个唯一的ID，这个关联依赖于matching
+motion和检测目标的appearance
+patterns。这个任务在涉及动态和非线性运动模式的场景中比较困难，在本文中，作者提出了DeepMoveSORT，一个新的、engineered
+多目标跟踪器。出了标准的基于appearance的关联之外，作者通过采用deep
+learnable filters和一些新的先验，提高了motion-based
+association。作者在motion-based
+association上的提高有几个方面。首先，作者提出了<strong>一个新的transformer-based
+filter architecture，TransFilter，用object的motion history 用于motion
+prediction和noise filtering。作者进一步通过仔细地处理motion
+history和补偿相机运动。第二，作者提出了一些先验，利用position、shape和检测到的bboxes，来提高association
+的性能</strong>。作者的实验表明，DeepMoveSORT在非线性场景中超过了现有的跟踪器
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/03/12/DeepMoveSORT/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -670,7 +688,7 @@ an Efficient Object Tracker for Non-Linear Motion<sup>[1]</sup></h3>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-13 17:40:31" itemprop="dateModified" datetime="2025-03-13T17:40:31+08:00">2025-03-13</time>
+      <time title="修改时间：2025-03-26 23:15:49" itemprop="dateModified" datetime="2025-03-26T23:15:49+08:00">2025-03-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -689,14 +707,14 @@ an Efficient Object Tracker for Non-Linear Motion<sup>[1]</sup></h3>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>38</span>
+      <span>2.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -712,13 +730,37 @@ id="mambamot-state-space-model-as-motion-predictor-for-multi-object-tracking1">M
 State-Space Model as Motion Predictor for Multi-Object
 Tracking<sup>[1]</sup></h3>
 <blockquote>
-<p>作者是来自华盛顿大学的Hsiang-Wei Huang等人，论文引用[1]:</p>
+<p>作者是来自华盛顿大学的Hsiang-Wei Huang等人，论文引用[1]:Huang,
+Hsiang-Wei et al. “MambaMOT: State-Space Model as Motion Predictor for
+Multi-Object Tracking.” ICASSP 2025 - 2025 IEEE International Conference
+on Acoustics, Speech and Signal Processing (ICASSP) (2024): n. pag.</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
 <li>2025.Jan</li>
 </ul>
-
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Mamba</li>
+<li>一句话总结：利用Mamba结构，代替传统的基于卡尔曼滤波器的motion
+model方法，实现基于深度学习的motion prediction</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>在MOT中，传统的方法依赖于KF for motion
+prediction，利用它在线性运动中的优势，然而，这些方法内在的局限变得明显，当遇到复杂、非线性motions和occlusions的时候，这个文章探索了，利用earning-based
+motion model，能够有效地增强tracking accuracy和adaptability beyond
+constraints of KF-based
+tracker的可能性。在文章中，作者提出了MambaMOT。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/03/12/MambaMOT/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1460,13 +1502,13 @@ FairMOT，基于CenterNet，注意到，这不是简单的centerNet和Re-id的�
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">215k</span>
+    <span title="站点总字数">222k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:03</span>
+    <span title="站点阅读时长">13:29</span>
   </span>
 </div>
 <div class="busuanzi-count">
