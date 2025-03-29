@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models[1]  作者是来自Salesforce Research的Junnan Li等人，论文引用[1]:Li, Junnan et al. “BLIP-2: Bootstrapping La">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BLIP2">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/03/28/BLIP2/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models[1]  作者是来自Salesforce Research的Junnan Li等人，论文引用[1]:Li, Junnan et al. “BLIP-2: Bootstrapping La">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-28T15:15:19.000Z">
+<meta property="article:modified_time" content="2025-03-29T13:53:06.345Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Multi-Modal">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/03/28/BLIP2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/03/28/BLIP2/","path":"2025/03/28/BLIP2/","title":"BLIP2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>BLIP2 | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#blip-2-bootstrapping-language-image-pre-training-with-frozen-image-encoders-and-large-language-models1"><span class="nav-number">1.</span> <span class="nav-text">BLIP-2:
+Bootstrapping Language-Image Pre-training with Frozen Image Encoders and
+Large Language Models[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/03/28/BLIP2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="BLIP2 | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BLIP2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-03-28 23:15:19" itemprop="dateCreated datePublished" datetime="2025-03-28T23:15:19+08:00">2025-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-29 21:53:06" itemprop="dateModified" datetime="2025-03-29T21:53:06+08:00">2025-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="blip-2-bootstrapping-language-image-pre-training-with-frozen-image-encoders-and-large-language-models1">BLIP-2:
+Bootstrapping Language-Image Pre-training with Frozen Image Encoders and
+Large Language Models<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Salesforce Research的Junnan Li等人，论文引用[1]:Li, Junnan
+et al. “BLIP-2: Bootstrapping Language-Image Pre-training with Frozen
+Image Encoders and Large Language Models.” International Conference on
+Machine Learning (2023).</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.Jun</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>一句话总结：<strong>BLIP-2是一个vision-language
+pretraining方法，bootstraps from frozen pretrained unimodal
+models，为了弥补modality gap，提出了Querying
+Transformer，用两个阶段进行预训练：第一阶段用一个frozen image
+encoder的vision-language representation learning；第二阶段是用一个frozen
+LLM的vision-to-language geneative learning stage</strong>.</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>vision-and-language pre-training的成本由于端到端的large-scale
+models的训练，逐渐变得难以承受。本文提出的BLIP-2，通过现成的冻结预训练图像编码器和冻结的大型语言模型来引导视觉-语言预训练。BLIP-2
+使用轻量级的查询变换器（Querying
+Transformer）来弥合模态间的差距，该Transformer分两个阶段进行预训练。第一阶段bootstraps
+vision-language representation learning from a frozen image
+encoder。第二个阶段是bootstraps vision-to-language generative learning
+from a frozen language model. BLIP-2
+在多个视觉语言任务上去得到了SOTA的性能。尽管有更少的需要训练的参数，实现了更好的性能。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>Vision-language pre-training(VLP)
+最近这些年有了快速的发展，大规模的pretrained
+models使得下游任务持续取得SOTA。然而，大多数的SOTA的vision-language
+models在预训练期间有很高的计算成本。vision-language research
+是vision和language的intersection。因此，很自然地期望，vision-language
+models能够利用现有的unimodal models from vision and natural language
+communities。在本文中，作者提出了一个generic、compute-efficient VLP
+方法，通过bootstrapping from off-the-shelf pretrained vision models and
+language models。Pre-trained vision models提供了高质量的visual
+representation, Pre-trained language models特别是LLMs，提供了strong
+language generation 和zero-shot transfer
+abilities。为了降低计算成本，抵消灾难性遗忘的问题，在预训练期间，单模态的pre-trained
+models被frozen。</p>
+<p>为了利用pre-trained unimodal models for
+VP，关键是促使cross-modal对齐。然而，因为LLMs在unimodal
+pretraining的时候没有见过images，将它们freezing使得vision-language
+alignment具有挑战。在这个方面，下游的方法借助于image-to-text generation
+loss，作者展示了，这对于弥补modality gap是不够的。</p>
+<p><strong>为了实现frozen unimodal
+models的vision-language对齐，作者提出了Querying
+Transformer，用一个新的两阶段的pre-training策略进行预训练</strong>。Q-Former是一个轻量的transformer，用一些可学习的query
+vectors来提取visual features from the frozen image
+encoder，<strong>它作为一个information bottleneck between frozen image
+encoder和frozen LLM，将最有用的visual
+feature给到LLM，输出理想的text</strong>。在第一个pre-training阶段，执行vision-language
+representation learning，使Q-Former学习和text最相关的visual
+representation，在第二阶段，执行vision-to-language generative
+learning，通过将Q-Former的输出连接到一个frozen
+LLM，训练Q-Former，使得它输出visual representationn能够被LLM理解。</p>
+<p>作者称该VLP框架为BLIP-2：Bootstrapping Language-Image Pre-training
+with Frozen unimodal models，BLIP-2的主要的优势如下：</p>
+<ul>
+<li><p>有效地利用了frozen pre-trained image models和language
+models，用在两阶段预训练的Q-Former来弥补modality
+gap，两阶段的训练是这样的：representation learning stage和generative
+learning stage。BLIP-2在多个vision-language
+task实现了SOTA性能，包括visual question answering, captioning, and
+image-text retrieval</p></li>
+<li><p>借助LLMs， BLIP-2能够通过提示词，来执行zero-shot image-to-text
+generation，遵循自然语言的指令，展现处理visual knowledge
+reasoning，visual conversation的能力。</p></li>
+<li><p>由于frozen unimodal
+models和一个轻量的Q-Former的使用，BLIP-2是一个计算高效的方法。</p></li>
+</ul></li>
+<li><p>视觉-语言预训练旨在学习多模态基础模型，从而在各种视觉和语言任务中提升性能。依赖于下游任务，提出了不同的模型架构，包括dual-encoder
+architecture, fusion-encoder architecture，encoder-decoder
+architecture等等。<strong>最近这些年提出了很多pre-training
+的目标，逐步收敛到经过时间检验的:image-text contrastive
+learning、(masked) language
+modeling</strong>。大多数的VLP方法用large-scale image-text
+pair数据进行端到端的Pre-training。当model
+size增加的时候，pre-training会导致很高的计算成本。另外，对于端到端的预训练模型，利用现有的unimodal
+pretrained models是不灵活的</p></li>
+<li><p>一些方法冻结了image encoder，早期的工作采用frozen object
+detector来提取visual features，最近的LiT用一个frozen pretrained image
+encoder for CLIP pretraining。一些方法冻结了language model，用LLMs的知识
+for vision-to-language generation tasks。<strong>用frozen
+LLM的挑战是将visual features对齐到text
+space</strong>。为了实现这个目标，Frozen 微调一个image
+encoder，它的输出直接用作soft prompts for LLMs,
+Flamingo将一些新的cross-attention layers插入到LLMs中，来inject visual
+features，在billions of image-text paris上pretrains这些new
+layers。这些方法都采用language modeling loss，language
+model在image的条件下产生texts。</p>
+<p>不同于现有的方法，BLIP-2能够高效的利用frozen image encoders和frozen
+LLMs 用于多个vision-language tasks，实现更好的性能。</p></li>
+<li><p>作者提出了BLIP-2，是一个新的VLP方法，bootstraps from pre-trained
+unimodal models。为了弥补modality gap，作者提出了Q-Former pretrained in
+two stages：vision-language representation learning with a frozen image
+encoder和vision-to-language generative learning stage with a frozen
+LLM。</p></li>
+<li><p>模型架构：<strong>作者提出了Q-Former作为trainable
+module，来弥补frozen image encoder和frozen LLM之间的gap。它从image
+encoder中提出固定数量的features，独立于input image
+resolution，如图所示，Q-Former包含两个transformer
+submodules，共享self-attention layers，一个image transformer，和frozen
+image encoder进行interacts，用于visual feature extraction，一个text
+transformer能偶作为text encoder和text decoder，作者create
+一些可学习的query embeddings输入到image
+transformer中。queries之间通过self-attention
+layer进行interact，然后通过cross-attention layers和frozen image
+features进行interact，queries能够通过相同的self-attention
+layers和text进行interact。依赖于pretraining task，作者用different
+self-attention masks来控制query-text interaction。作者初始化Q-Former
+with the pre-trained weights of BERT，然而，cross-attention
+layers进行随机初始化</strong>。 在实验中，作者用了32
+queries，每个query有768 dimension，用 <span
+class="math inline">\(Z\)</span> 表示output query representation，<span
+class="math inline">\(Z\)</span> 的size比frozen image
+features的size小很多。这个bottleneck architecture 和pre-training
+objectives一起work，<strong>使得queries提取和text最相关的visual
+information</strong>。</p></li>
+<li><p><strong>在represetation learning阶段，将Q-Former和一个frozen
+image encoder连接起来，用image-text
+pairs进行pre-training。旨在训练Q-Former，使得queries能够学习提取和最有informative
+text的visual representation，受BLIP的启发，将pre-training
+objectives进行联合优化，共享相同的input format和model
+parameters，每个objective用不同的attention masking strategy between
+queries和text，来控制它们的interaction</strong></p></li>
+<li><p><strong>Image-Text Contrastive Learning学习对齐image
+representation和text representation，使得mutual
+information最大化，通过对比positive pair和negative
+pairs的image-text相似度来实现。作者将image transformer输出的output query
+representation <span class="math inline">\(Z\)</span> 和 来自text
+transformer的 text represetation <span class="math inline">\(t\)</span>
+进行对齐，<span class="math inline">\(t\)</span> 是 <span
+class="math inline">\([CLS]\)</span> token的输出的embedding。因为 <span
+class="math inline">\(Z\)</span> 包含多个output
+embeddings，首先计算每个query output 和t之间的pairwise
+similarity，然后选择最高的作为 image-text
+similarity。为了避免information leak，采用unimodal self-attention
+mask，queries和text不能看到彼此。由于frozen image
+encoder的使用，相比于o2o方法，能够fit more samples。因此，用in-batch
+negatives而不是momentum queue in BLIP</strong>。</p></li>
+<li><p><strong>Image-grounded Text Generation</strong> loss
+训练Q-Former来产生texts，给定输入的images作为condition，因为Q-Former的架构不允许frozen
+image encoder和text tokens之间的直接的Interaction，generate
+text所需要的information必须首先被queries提取出来，然后通过self-attention
+layers给到text tokens。因此，queries被forced用来提取visual
+features，能够capture text的所有的信息。作者采用multimodal causal
+self-attention mask来控制query-text
+interaction，类似于UniLM中用的。queries能够相互attend，但是不能对text
+tokens进行操作。每个text tokens可以和所有的queries和它之前的所有的text
+tokens。作者用一个新的 <span class="math inline">\([DEC]\)</span>
+token代替 <span class="math inline">\([CLS]\)</span>
+作为第一个token，来表示decoding task。</p></li>
+<li><p><strong>Image-Text Matching</strong>：旨在学习image 和text
+representation之间的fine-grained 对齐。**它是一个binary classification
+task，model用来预测一个image-text pair是positive(matched) or
+negative(unmatched)。作者用一个bi-directional self-attention
+mask，所有的queries和texts能够互相attend，输出的query embeddings <span
+class="math inline">\(Z\)</span> 因此capture multimodal
+information。作者将每个output query embedding给到一个two-class linear
+classifier来得到一个logit，在所有的queries上将logits进行平均，作为output
+matching score。作者采用hard negative mining strategy来create
+informative negative pairs。</p></li>
+<li><p>在generative pre-training阶段，将Q-Former(with the frozen image
+encoder attached) 连接到一个frozen LLM，来利用LLM的generative language
+capability。如图所示，用一个FC layer将output query embeddings <span
+class="math inline">\(Z\)</span> project 到LLM的text
+embedding的同一个维度。projected query embeddings添加到input text
+embedding的前面。它们充当soft visual
+prompts，使大语言模型能够基于Q-Former提取的visual
+representation进行条件化处理。因为Q-Former经过了pretrained，来提取language-informative
+visual representation，作为一个information
+bottleneck，将最有用的information给到LLM，同时去掉不相关的visual
+information。这降低了LLM的负担来学习vision-language
+alignment，缓解了灾难性遗忘的问题。</p>
+<p><strong>作者尝试了两种类型的LLMs：基于decoder的LLMs，用language
+modeling loss进行预训练；frozen LLM用来产生text，在来自Q-Former的visual
+representation的条件下。对于encoder-decoder-based LLMs，用prefix
+language modeling loss进行预训练，将text分为两个parts，prefix
+text和visual representation进行concat，作为LLM的encoder的输入。suffix
+text用作generation target，用于LLM的decoder</strong>。</p></li>
+<li><p><strong>Pretraining
+data</strong>：用和BLIP一样的pretraining数据集，总共129M
+images，包括COCO，Visual Genome等。采用CapFilt 方法来为web
+images构造synthetic captions。用 <span
+class="math inline">\(BLIP_{large}\)</span> captioning model来产生10
+个captions，根据CLIP ViT-L/14 model产生的image-text
+similarity，对合成的captions和original web
+caption进行排序，每个image保留top-two captions作为training
+data，在每个pre-training step随机采样一个。</p></li>
+<li><p><strong>Pre-trained image encoder and LLM</strong>：对于frozen
+image encoder，探索了两种SOTA pre-trained vision transformer
+models：ViT-L/14 from CLIP; ViT-g/14 from
+EVA-CLIP。去掉ViT的最后一个layer，用倒数第二个layers作为output
+features，导致更好的performance，对于frozen language
+model，探索利用无监督训练的OPT model family for decoder-based
+LLMs，instruction-trained FlanT5 model family for encoder-decoder-based
+LLMs</p></li>
+<li><p><strong>Pre-training setting</strong>：在第一阶段预训练250k
+steps，第二阶段80k steps。用batch size 2320/1520 for OPT/FlanT5 in the
+second stage。在预训练期间，将frozen ViT's
+和LLMs的参数转换成FP16，出了FlanT5用BFloat16。相比于32-bit
+models，作者没有发现性能退化。由于frozen
+models，pretraining相比于现有的VLP 方法在计算上更加友好。例如，用单个的
+16-A100机器，作者的最大的model with ViT-g
+和FlanT5-XXL第一阶段的训练少于6天，第二阶段的训练少于3天。预训练的超参数对所有的models是相同的。用AdamW优化器。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/3f5b31c4f7350dc88002c121aecbdc82f86eb5bb/1-Figure1-1.png"
+alt="overview of BLIP-2" /> <span
+class="math inline">\(Fig.1^{[1]}\)</span> 预训练一个轻量的Querying
+Transformer following 两阶段的策略，来弥补modality
+gap。第一个阶段从一个frozen image encoder来bootstraps vision-language
+representation learning。第二阶段从一个frozen LLM, bootstraps
+vision-to-language generative learninggg，使得能够zero-shot instructed
+image-to-text generation</p>
+<p><img
+src="https://figures.semanticscholar.org/3f5b31c4f7350dc88002c121aecbdc82f86eb5bb/3-Figure2-1.png"
+alt="Model Architecture" /> <span
+class="math inline">\(Fig.2^{[1]}\)</span>
+联合优化3个objectives，使得queries能够提取和text最相关的visual
+representation。self-attention mask strategy for each
+objective来控制query-text interaction</p>
+<p><img
+src="https://figures.semanticscholar.org/3f5b31c4f7350dc88002c121aecbdc82f86eb5bb/4-Figure3-1.png"
+alt="BLIP-2 second stage generative pretraining" /> <span
+class="math inline">\(Fig.3^{[1]}\)</span> bootstraps from frozen large
+LLMs. (top) Bootstrapping a decoder-based LLM， (bottom) Bootstrapping
+an encoder-decoder-based LLm. FC
+layer将Q-former输出的dimension调整到chosen LLM的输入的dimension。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Multi-Modal/" rel="tag"># Multi-Modal</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/03/28/D-FINE/" rel="prev" title="D-FINE">
+                  <i class="fa fa-angle-left"></i> D-FINE
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">230k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">13:55</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

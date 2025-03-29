@@ -27,7 +27,7 @@
 <meta property="og:description" content="Denoising Diffusion Probabilistic Models[1]  作者是来自Berkeley的Jonathan Ho, Ajay Jain和Pieter Abbeel。论文引用[1]:Ho, Jonathan et al. “Denoising Diffusion Probabilistic Models.” ArXiv abs&#x2F;2006.11239 (2020)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-01T07:43:13.000Z">
-<meta property="article:modified_time" content="2025-03-27T13:51:00.617Z">
+<meta property="article:modified_time" content="2025-03-29T08:06:31.163Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Diffusion Model">
 <meta name="twitter:card" content="summary">
@@ -129,7 +129,7 @@ Probabilistic Models[1]</span></a></li><li class="nav-item nav-level-3"><a class
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-count">135</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -211,7 +211,7 @@ Probabilistic Models[1]</span></a></li><li class="nav-item nav-level-3"><a class
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-27 21:51:00" itemprop="dateModified" datetime="2025-03-27T21:51:00+08:00">2025-03-27</time>
+      <time title="修改时间：2025-03-29 16:06:31" itemprop="dateModified" datetime="2025-03-29T16:06:31+08:00">2025-03-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -237,14 +237,14 @@ Probabilistic Models[1]</span></a></li><li class="nav-item nav-level-3"><a class
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>50</span>
+      <span>801</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>3 分钟</span>
     </span>
 </div>
 
@@ -271,7 +271,35 @@ Probabilistic Models.” ArXiv abs/2006.11239 (2020): n. pag.</p>
 </ul>
 <h3 id="总结">总结</h3>
 <ol type="1">
-<li></li>
+<li>作者展示了使用扩散概率模型（一种受非平衡热力学启发的潜在变量模型）生成高质量图像的结果。我们通过在加权变分界上进行训练获得了最佳结果，该界限是根据扩散概率模型与Langgevin动力学的去噪得分匹配之间的新联系设计的。此外，我们的模型自然地允许一种渐进的有损解压缩方案，该方案可以被解释为自回归解码的推广。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>最近所有的深度生成模型在多种数据模态中展示处理高质量的样本。GANs，自回归模型，flows和VAEs合成了显著地image和audio
+samples，基于能量的建模和得分匹配取得了显著的进展，生成的图像质量已可与
+GAN 相媲美。本文展示了diffusion probability models的进步。一个diffusion
+probabilistic model(diffusion
+model)是一个参数化的马尔科夫链，<strong>用variational
+inference进行训练，得到和data
+匹配的samples。这个chain的transitions通过reverse a diffusion
+process进行学习，是一个markov
+chain，逐步地以sampling相反的方向，在数据中增加噪声，直到signal被destroyed</strong>。当
+diffusion 包含一些高斯噪声的时候，将sampling chain
+transition设置为条件高斯分布也已足够，这使得神经网络参数化变得尤为简单。</p>
+<p>diffusion
+models可以很直接的进行定义和高效地训练，但是剧作者所知，这里没有任何它们能够产生高质量的samples的demostration。作者展示了diffusion
+models能够产生高质量的samples，有些时候比其它类型的生成模型更好。另外，我们展示了扩散模型的某种参数化揭示了在训练过程中与multiple
+noise levels的去噪得分匹配的等价性，以及在采样过程中与annealed
+Langevin动力学的等价性。作者得到了最好的sample quality results using
+this parameterization，所以作者考虑这个equivalence作为主要的贡献。</p>
+<p>尽管sample quality，作者的models没有competitive log
+likelihoods，相比于其它的likelihood-based
+models。作者发现，他们模型的无损编码长度大部分被用于描述难以察觉的图像细节。作者用有损压缩的语言对这一现象进行了更细致的分析，并且证明了扩散模型的采样过程是一种渐进解码的方式，类似于沿比特顺序的自回归解码，但其极大地扩展了通常自回归模型所能实现的可能性。</p></li>
+<li><p>扩散模型可能看似是一类受限的潜在变量模型，但是它们在执行的时候，允许大量的自由度。作者在diffusion
+models和denoising score
+matching上建立了一个新的显式的连接，产生了一个简单的、weighted
+variational bound objective for diffusion models。最终，作者的model
+design通过simplicity和empirical results进行justify。</p></li>
 </ol>
 
     </div>
@@ -327,13 +355,13 @@ Probabilistic Models.” ArXiv abs/2006.11239 (2020): n. pag.</p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">223k</span>
+    <span title="站点总字数">230k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:29</span>
+    <span title="站点阅读时长">13:55</span>
   </span>
 </div>
 <div class="busuanzi-count">
