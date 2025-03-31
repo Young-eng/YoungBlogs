@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="SimpleTrack: Rethinking and Improving the JDE Approach for Multi-Object Tracking[1]  作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:  Time  2022.Mar">
+    <meta name="description" content="SimpleTrack: Rethinking and Improving the JDE Approach for Multi-Object Tracking[1]  作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:Li, Jiaxin et al. “SimpleTrack: Rethinking and Improving the JDE Approach for">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SimpleTrack">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/03/12/SimpleTrack/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="SimpleTrack: Rethinking and Improving the JDE Approach for Multi-Object Tracking[1]  作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:  Time  2022.Mar">
+<meta property="og:description" content="SimpleTrack: Rethinking and Improving the JDE Approach for Multi-Object Tracking[1]  作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:Li, Jiaxin et al. “SimpleTrack: Rethinking and Improving the JDE Approach for">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-12T03:02:29.000Z">
-<meta property="article:modified_time" content="2025-03-13T09:39:21.175Z">
+<meta property="article:modified_time" content="2025-03-31T09:29:22.618Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Object Tracking">
 <meta name="twitter:card" content="summary">
@@ -115,7 +115,7 @@
         <div class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#simpletrack-rethinking-and-improving-the-jde-approach-for-multi-object-tracking1"><span class="nav-number">1.</span> <span class="nav-text">SimpleTrack:
 Rethinking and Improving the JDE Approach for Multi-Object
-Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li></ol></div>
+Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -212,7 +212,7 @@ Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-13 17:39:21" itemprop="dateModified" datetime="2025-03-13T17:39:21+08:00">2025-03-13</time>
+      <time title="修改时间：2025-03-31 17:29:22" itemprop="dateModified" datetime="2025-03-31T17:29:22+08:00">2025-03-31</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,14 +238,14 @@ Tracking[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" 
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>43</span>
+      <span>1.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -260,16 +260,103 @@ id="simpletrack-rethinking-and-improving-the-jde-approach-for-multi-object-track
 Rethinking and Improving the JDE Approach for Multi-Object
 Tracking<sup>[1]</sup></h3>
 <blockquote>
-<p>作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:</p>
+<p>作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:Li, Jiaxin et al.
+“SimpleTrack: Rethinking and Improving the JDE Approach for Multi-Object
+Tracking.” Sensors (Basel, Switzerland) 22 (2022): n. pag.</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
 <li>2022.Mar</li>
 </ul>
-<!-- ### Key Words
--
-### 总结
-1. -->
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>EG matrix</li>
+<li>一句话总结：<strong>用了embedding 和Giou 作为similarity
+matrix，也是JDE-based方法，借鉴了bytetrack、FairMOT等工作的思路</strong>。
+### 总结</li>
+</ul>
+<ol type="1">
+<li>Joint Detection和embedding(JDE)
+的方法通常用于估计bboxes和objects的embedding features，用single
+network，在tracking的时候，JDE-based方法融合target motion
+information和appearance information by applying the same
+rule，当target丢失或者blocked的时候，就不太行了。为了克服这个问题，作者提出了一个新的association
+matrix，<strong>Embedding and GiOU matrix，结合了embedding cosine
+distance和Giou distance。为了进一步提高data
+association的performance，作者开发了一个简单高效的tracker named
+SimpleTrack</strong>。设计了一个bottom-up fusion method for
+reid，提出了一个新的tracking strategy based on EG matrix。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>MOT旨在估计视频序列中的多个目标的位置和identity。是CV中的一个挑战性的任务。最近，IoU和匈牙利方法通常在TbD方法中，用在tracking
+phase，然而，当target被遮挡的时候或者丢失的时候，很难仅用IoU来retrieve正确的identity。因此，targets的id切换会经常发生。为了缓解这个问题，很多方法开始引入了ReID，JDE-based方法因为它们的simplicity和efficienty变得流行。</p></li>
+<li><p>在data association中，similarity measurement的精度决定了tracking
+performance。大多数的detection-based方法用IoU distance作为similarity
+matrix，然而，JDE-based方法融合motion information和appearance
+information，作为similarity matrix for linear assignment in the first
+matching，用IoU distance in the next
+matching，然而，没有一个是similarity matrix的最好的expression.</p></li>
+<li><p>当目标由于interlacing被遮挡的时候，会产生confusing
+sets，很难正确allocate，当分配这些confusing
+sets的时候，不正确的similarity distance 会导致tracking
+failture。主要造成matching failure的原因是<strong>inaccurate prediction
+from KF，随着target丢失时间变长。这会导致IoU distance和motion
+information distance不精确。导致linear allocation
+errors</strong>。为了解决这个问题，作者提出了<strong>EG
+matrix，利用embedding cosine distance用于long-range tracking of
+targets，Giou distance for limiting matching range of
+embedding</strong>。为了进一步探索EG matrix的property，作者提出了simple
+tracking framework，named
+SimpleTrack，这个框架中，作者设计了一个bottom-up branch来表示ReID
+features，不同于fusion method of detection features，它更关注high-level
+semantic layers，对于SimpleTrack的tracking
+part，作者提出了一个新的tracking retrieval 机制，基于EG
+matrix，设计了一个新的tracking strategy。</p></li>
+<li><p>基于JDE的方法直接用single network来预测detection和appearance
+features，然而，detection和identification之间的<strong>竞争关系，在detection和appearance
+feature
+extraction的多任务学习中，损害优化过程</strong>。为了解决这个问题，CSTrack首先设计了一个decoupling
+module，为detection和appearance identification增强learnedd
+representation。RelationTrack用一个channel
+attention机制来解耦detection和ReID，不同于CSTrack和RelationTrack，SimpleTrack采用的解耦的方法聚焦于appearence
+feature的本质。从feature layer fusion开始decoupling，相比于detection
+feature fusion，采用bottom-up fusion方法。</p></li>
+<li><p>location、motion、appearance
+是MOT中最常用的cues。通常结合在一起用于linear
+assignment。基于Detection的方法用IoU distance作为similarity
+matrix，tracking的精度依赖于similarity
+matrix，SORT融合了position和motion cues作为similarity
+matrix，在short-range
+matching上实现了很好的结果。DeepSORT通过融合appearance cues和motion
+cues，提高了long-range tracking的能力。然而，作者设计了一个similarity
+matrix，结合了appearance 和location information，用Giou distance
+matrix作为location cue，而不是通常的IoU matrix。</p></li>
+<li><p>tracking和detection的分配问题是通过匈牙利算法基于不同的similarity
+matrices解决的。SORT将detection objects和tracking
+objects通过一次matching进行关联。DeepSORT用了cascade
+matching。MOTDT首次使用了appearence similarity matrix和IoU distance
+matrix作为similarity matrix，用于cascade matching。</p></li>
+<li><p>对于feature decoupling，对detection和ReID
+representation采用了不同的feature fusion，feature
+fusion方法仍然才有用FairMOT的结构。基于low-level feature
+maps和持续融合higher-level feature maps，称之为up-to-bottom fusion
+method. 然而，<strong>ReID features倾向于学习hight-level semantic
+features，来区分相同objects的different
+features</strong>，因此，作者采用一个bottom-up的方法来融合feature
+maps。Similarity matrix是这样的:</p>
+<p><span class="math display">\[
+EG = \lambda_1 E + \lambda_2 G
+\]</span></p>
+<p><span class="math inline">\(\lambda_1\)</span>和<span
+class="math inline">\(\lambda_2\)</span>分别为1和0.5</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/b1ab1c032aee352d5616eeb751d970bb4015921c/5-Figure3-1.png"
+alt="pipeline" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+SimpleTrack的pipeline，输入的image通过backbone提取high-resolution
+feature maps，然后对Detection和reid分别采取不同的fusion
+方法，结合embedding 和Giou distance matrix作为similarity matrix</p>
 
     </div>
 
@@ -324,13 +411,13 @@ Tracking<sup>[1]</sup></h3>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">230k</span>
+    <span title="站点总字数">231k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:55</span>
+    <span title="站点阅读时长">13:59</span>
   </span>
 </div>
 <div class="busuanzi-count">

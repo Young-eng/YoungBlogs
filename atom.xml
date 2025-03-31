@@ -269,17 +269,43 @@ Data Association for Multi-Object Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
     <link href="https://young-eng.github.io/YoungBlogs/2025/03/12/SimpleTrack/"/>
     <id>https://young-eng.github.io/YoungBlogs/2025/03/12/SimpleTrack/</id>
     <published>2025-03-12T03:02:29.000Z</published>
-    <updated>2025-03-13T09:39:21.175Z</updated>
+    <updated>2025-03-31T09:29:22.618Z</updated>
     
-    <content type="html"><![CDATA[<h3id="simpletrack-rethinking-and-improving-the-jde-approach-for-multi-object-tracking1">SimpleTrack:Rethinking and Improving the JDE Approach for Multi-ObjectTracking<sup>[1]</sup></h3><blockquote><p>作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Mar</li></ul><!-- ### Key Words-### 总结1. -->]]></content>
+    <content type="html"><![CDATA[<h3id="simpletrack-rethinking-and-improving-the-jde-approach-for-multi-object-tracking1">SimpleTrack:Rethinking and Improving the JDE Approach for Multi-ObjectTracking<sup>[1]</sup></h3><blockquote><p>作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:Li, Jiaxin et al.“SimpleTrack: Rethinking and Improving the JDE Approach for Multi-ObjectTracking.” Sensors (Basel, Switzerland) 22 (2022): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>EG matrix</li><li>一句话总结：<strong>用了embedding 和Giou 作为similaritymatrix，也是JDE-based方法，借鉴了bytetrack、FairMOT等工作的思路</strong>。### 总结</li></ul><ol type="1"><li>Joint Detection和embedding(JDE)的方法通常用于估计bboxes和objects的embedding features，用singlenetwork，在tracking的时候，JDE-based方法融合target motioninformation和appearance information by applying the samerule，当target丢失或者blocked的时候，就不太行了。为了克服这个问题，作者提出了一个新的associationmatrix，<strong>Embedding and GiOU matrix，结合了embedding cosinedistance和Giou distance。为了进一步提高dataassociation的performance，作者开发了一个简单高效的tracker namedSimpleTrack</strong>。设计了一个bottom-up fusion method forreid，提出了一个新的tracking strategy based on EG matrix。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MOT旨在估计视频序列中的多个目标的位置和identity。是CV中的一个挑战性的任务。最近，IoU和匈牙利方法通常在TbD方法中，用在trackingphase，然而，当target被遮挡的时候或者丢失的时候，很难仅用IoU来retrieve正确的identity。因此，targets的id切换会经常发生。为了缓解这个问题，很多方法开始引入了ReID，JDE-based方法因为它们的simplicity和efficienty变得流行。</p></li><li><p>在data association中，similarity measurement的精度决定了trackingperformance。大多数的detection-based方法用IoU distance作为similaritymatrix，然而，JDE-based方法融合motion information和appearanceinformation，作为similarity matrix for linear assignment in the firstmatching，用IoU distance in the nextmatching，然而，没有一个是similarity matrix的最好的expression.</p></li><li><p>当目标由于interlacing被遮挡的时候，会产生confusingsets，很难正确allocate，当分配这些confusingsets的时候，不正确的similarity distance 会导致trackingfailture。主要造成matching failure的原因是<strong>inaccurate predictionfrom KF，随着target丢失时间变长。这会导致IoU distance和motioninformation distance不精确。导致linear allocationerrors</strong>。为了解决这个问题，作者提出了<strong>EGmatrix，利用embedding cosine distance用于long-range tracking oftargets，Giou distance for limiting matching range ofembedding</strong>。为了进一步探索EG matrix的property，作者提出了simpletracking framework，namedSimpleTrack，这个框架中，作者设计了一个bottom-up branch来表示ReIDfeatures，不同于fusion method of detection features，它更关注high-levelsemantic layers，对于SimpleTrack的trackingpart，作者提出了一个新的tracking retrieval 机制，基于EGmatrix，设计了一个新的tracking strategy。</p></li><li><p>基于JDE的方法直接用single network来预测detection和appearancefeatures，然而，detection和identification之间的<strong>竞争关系，在detection和appearancefeatureextraction的多任务学习中，损害优化过程</strong>。为了解决这个问题，CSTrack首先设计了一个decouplingmodule，为detection和appearance identification增强learneddrepresentation。RelationTrack用一个channelattention机制来解耦detection和ReID，不同于CSTrack和RelationTrack，SimpleTrack采用的解耦的方法聚焦于appearencefeature的本质。从feature layer fusion开始decoupling，相比于detectionfeature fusion，采用bottom-up fusion方法。</p></li><li><p>location、motion、appearance是MOT中最常用的cues。通常结合在一起用于linearassignment。基于Detection的方法用IoU distance作为similaritymatrix，tracking的精度依赖于similaritymatrix，SORT融合了position和motion cues作为similaritymatrix，在short-rangematching上实现了很好的结果。DeepSORT通过融合appearance cues和motioncues，提高了long-range tracking的能力。然而，作者设计了一个similaritymatrix，结合了appearance 和location information，用Giou distancematrix作为location cue，而不是通常的IoU matrix。</p></li><li><p>tracking和detection的分配问题是通过匈牙利算法基于不同的similaritymatrices解决的。SORT将detection objects和trackingobjects通过一次matching进行关联。DeepSORT用了cascadematching。MOTDT首次使用了appearence similarity matrix和IoU distancematrix作为similarity matrix，用于cascade matching。</p></li><li><p>对于feature decoupling，对detection和ReIDrepresentation采用了不同的feature fusion，featurefusion方法仍然才有用FairMOT的结构。基于low-level featuremaps和持续融合higher-level feature maps，称之为up-to-bottom fusionmethod. 然而，<strong>ReID features倾向于学习hight-level semanticfeatures，来区分相同objects的differentfeatures</strong>，因此，作者采用一个bottom-up的方法来融合featuremaps。Similarity matrix是这样的:</p><p><span class="math display">\[EG = \lambda_1 E + \lambda_2 G\]</span></p><p><span class="math inline">\(\lambda_1\)</span>和<spanclass="math inline">\(\lambda_2\)</span>分别为1和0.5</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/b1ab1c032aee352d5616eeb751d970bb4015921c/5-Figure3-1.png"alt="pipeline" /> <span class="math inline">\(Fig.1^{[1]}\)</span>SimpleTrack的pipeline，输入的image通过backbone提取high-resolutionfeature maps，然后对Detection和reid分别采取不同的fusion方法，结合embedding 和Giou distance matrix作为similarity matrix</p>]]></content>
     
     
-      
-      
     <summary type="html">&lt;h3
 id=&quot;simpletrack-rethinking-and-improving-the-jde-approach-for-multi-object-tracking1&quot;&gt;SimpleTrack:
-Rethinking and Improving the JDE Ap</summary>
-      
+Rethinking and Improving the JDE Approach for Multi-Object
+Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:Li, Jiaxin et al.
+“SimpleTrack: Rethinking and Improving the JDE Approach for Multi-Object
+Tracking.” Sensors (Basel, Switzerland) 22 (2022): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2022.Mar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;EG matrix&lt;/li&gt;
+&lt;li&gt;一句话总结：&lt;strong&gt;用了embedding 和Giou 作为similarity
+matrix，也是JDE-based方法，借鉴了bytetrack、FairMOT等工作的思路&lt;/strong&gt;。
+### 总结&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;Joint Detection和embedding(JDE)
+的方法通常用于估计bboxes和objects的embedding features，用single
+network，在tracking的时候，JDE-based方法融合target motion
+information和appearance information by applying the same
+rule，当target丢失或者blocked的时候，就不太行了。为了克服这个问题，作者提出了一个新的association
+matrix，&lt;strong&gt;Embedding and GiOU matrix，结合了embedding cosine
+distance和Giou distance。为了进一步提高data
+association的performance，作者开发了一个简单高效的tracker named
+SimpleTrack&lt;/strong&gt;。设计了一个bottom-up fusion method for
+reid，提出了一个新的tracking strategy based on EG matrix。&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
     
     

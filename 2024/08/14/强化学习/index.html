@@ -27,7 +27,7 @@
 <meta property="og:description" content="强化学习  基本概念  智能体(agent)和环境(environment)：强化学习研究的问题是智能体与环境交互的问题，智能体把它的动作输出给环境，环境取得这个动作后会进行下一步，把下一步的观测与这个动作带来的奖励返回给智能体，这样的交互会产生很多观测，智能体的目的就是从这些观测之后学到能最大化奖励的策略。 序列决策： 智能体的目的就是选取一系列的动作带来最大化奖励，所以这些选取的动">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-14T09:51:44.000Z">
-<meta property="article:modified_time" content="2025-03-16T13:26:47.889Z">
+<meta property="article:modified_time" content="2025-03-30T08:08:05.701Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Reinforcement Learning">
 <meta name="twitter:card" content="summary">
@@ -210,7 +210,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-16 21:26:47" itemprop="dateModified" datetime="2025-03-16T21:26:47+08:00">2025-03-16</time>
+      <time title="修改时间：2025-03-30 16:08:05" itemprop="dateModified" datetime="2025-03-30T16:08:05+08:00">2025-03-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -236,7 +236,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>6k</span>
+      <span>6.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -377,6 +377,7 @@ class="math inline">\(\pi\)</span>，让智能体和环境进行交互，可以�
 <li>差别：</li>
 </ul></li>
 <li><p>自举是指更新时使用了估计，蒙特卡洛没有使用自举，因为它根据实际的回报进行更新。动态规划方法和时序差分方法使用了自举。采样是指更新时通过采样得到一个期望，蒙特卡洛是纯采样的方法。动态规划没有使用采样，是直接用贝尔曼方程来更新状态价值。时序差分使用了采样。时序差分目标由两部分组成：一部分是采样，一部分是自举。</p></li>
+<li><p>REINFORCE算法：<strong>根据一个确定好的策略模型来输出每一个可能动作的概率，对于所有动作的概率，使用采样方法(或者随机的方法)选择一个动作与环境进行交互，同时环境会给我们反馈整个回合的数据，将此数据输入学习函数中，并根据回合数据进行损失函数的构造，通过Adam等优化器的优化，再更新策略模型</strong>。</p></li>
 <li><p>蒙特卡洛策略梯度定理：更具策略梯度定理表达式计算策略梯度并不是一个简单的问题，其中对<span
 class="math inline">\(\mu_{\pi_\theta}\)</span>和 <span
 class="math inline">\(q{\pi_\theta}\)</span>的准确比较难。用蒙特卡洛法能用来估计这类问题的取值。</p></li>
@@ -592,13 +593,13 @@ alt="Reinforcement Learning" />
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">230k</span>
+    <span title="站点总字数">231k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:55</span>
+    <span title="站点阅读时长">13:59</span>
   </span>
 </div>
 <div class="busuanzi-count">
