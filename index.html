@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -135,7 +135,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -160,6 +160,387 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/05/MOTRv3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/04/05/MOTRv3/" class="post-title-link" itemprop="url">MOTRv3</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-04-05 20:16:15" itemprop="dateCreated datePublished" datetime="2025-04-05T20:16:15+08:00">2025-04-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-04-06 22:43:40" itemprop="dateModified" datetime="2025-04-06T22:43:40+08:00">2025-04-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>719</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="motrv3-release-fetch-supervision-for-end-to-end-multi-object-tracking1">MOTRv3:
+Release-Fetch Supervision for End-to-End Multi-Object
+Tracking<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自旷视等机构的En Yu等人, 论文引用[1]:Yu, En et al. “MOTRv3:
+Release-Fetch Supervision for End-to-End Multi-Object Tracking.” ArXiv
+abs/2305.14298 (2023): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.May</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li><font color=red>conflict between detection and
+association</font></li>
+<li><font color=red>detect query only for newly appearing
+targets</font></li>
+<li><font color=red>track queries for localizing previous detected
+targets(association part in a implicit manner)</font></li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>简单来说，MOTR的问题是在于detection和association之间的冲突，MOTRv2用额外的detection
+network部分解决了这个问题，作者将这个conflict的归因于<strong>detect
+queries和track queries在训练的时候的unfair label
+assignment</strong>，detect queries 识别targets然后track queries
+associate them。基于这个观察，作者提出了MOTRv3，用<strong>release-fetch
+supervision 策略来平衡label assignment
+process。在这个策略中，labels首先released for detection，然后逐渐fetched
+back for association。另外两个strategy叫做pseudo label
+distillation和track group
+denoising，用来进一步提高detection和association的supervision，同时不需要额外的detection
+network</strong>。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/04/05/MOTRv3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/02/GLIP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/04/02/GLIP/" class="post-title-link" itemprop="url">GLIP</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-04-02 16:53:39 / 修改时间：16:55:12" itemprop="dateCreated datePublished" datetime="2025-04-02T16:53:39+08:00">2025-04-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>41</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="grouded-language-image-pre-training1">Grouded Language-Image
+Pre-training<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自UCLA、Microsoft Reserach、UW等机构的Liunian Harold Li,
+Pengchuan Zhang等人。论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2022.Jun</li>
+</ul>
+<h2 id="key-words">### Key words</h2>
+<h3 id="总结">总结：</h3>
+<ol type="1">
+<li></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/01/3DGS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/04/01/3DGS/" class="post-title-link" itemprop="url">3DGS</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-04-01 14:34:57 / 修改时间：15:56:14" itemprop="dateCreated datePublished" datetime="2025-04-01T14:34:57+08:00">2025-04-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="d-gaussian-splatting-for-real-time-radiance-field-rendering1">3D
+Gaussian Splatting for Real-Time Radiance Field
+Rendering<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自法国Inria的Bernhard Kerbl等人。论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.Aug</li>
+</ul>
+<h2 id="key-words">### Key Words</h2>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>Radiance Field方法最近用多个photos或者videos，revolutionized
+novel-viwe synthesis of
+scenes。然而，实现高质量仍然需要神经网络，这很费时间来训练和熏染，最近，faster
+methods trade off seepd for
+quality。对于无边界和完整的scenes(而不是孤立的objects)和1080p分辨率的渲染，没有当前的方法能够实现实时的display
+rate。作者引入了3个key elements，使得能够是实现SOTA的visual
+quality，同时保持高竞争力的training
+times，还能够在1080p下，高质量地实时地novel-view
+synthesis。<strong>首先，从camera calibration期间产生的sparse
+points开始，用3D Gaussian表针scene，能够保留理想的properties of
+continuous volumetric radiance fields for scene
+optimization，同时在empty space中，避免不必要的计算，其次，执行3D
+Gaussian的interleaved optimization/density
+control，显著地优化anisotropic
+covariance，来实现场景的精确的表征；第三，开发了一种fast
+visibility-aware rendering 算法，能够支持anisotropic
+splatting，加速训练，能够实时渲染</strong>。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/04/01/3DGS/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -931,415 +1312,6 @@ Data Association for Multi-Object Tracking<sup>[1]</sup></h3>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/03/12/SimpleTrack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/03/12/SimpleTrack/" class="post-title-link" itemprop="url">SimpleTrack</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-03-12 11:02:29" itemprop="dateCreated datePublished" datetime="2025-03-12T11:02:29+08:00">2025-03-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-31 17:29:22" itemprop="dateModified" datetime="2025-03-31T17:29:22+08:00">2025-03-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.1k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="simpletrack-rethinking-and-improving-the-jde-approach-for-multi-object-tracking1">SimpleTrack:
-Rethinking and Improving the JDE Approach for Multi-Object
-Tracking<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:Li, Jiaxin et al.
-“SimpleTrack: Rethinking and Improving the JDE Approach for Multi-Object
-Tracking.” Sensors (Basel, Switzerland) 22 (2022): n. pag.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2022.Mar</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>EG matrix</li>
-<li>一句话总结：<strong>用了embedding 和Giou 作为similarity
-matrix，也是JDE-based方法，借鉴了bytetrack、FairMOT等工作的思路</strong>。
-### 总结</li>
-</ul>
-<ol type="1">
-<li>Joint Detection和embedding(JDE)
-的方法通常用于估计bboxes和objects的embedding features，用single
-network，在tracking的时候，JDE-based方法融合target motion
-information和appearance information by applying the same
-rule，当target丢失或者blocked的时候，就不太行了。为了克服这个问题，作者提出了一个新的association
-matrix，<strong>Embedding and GiOU matrix，结合了embedding cosine
-distance和Giou distance。为了进一步提高data
-association的performance，作者开发了一个简单高效的tracker named
-SimpleTrack</strong>。设计了一个bottom-up fusion method for
-reid，提出了一个新的tracking strategy based on EG matrix。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/03/12/SimpleTrack/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/03/12/DeepMoveSORT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/03/12/DeepMoveSORT/" class="post-title-link" itemprop="url">DeepMoveSORT</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-03-12 11:02:20" itemprop="dateCreated datePublished" datetime="2025-03-12T11:02:20+08:00">2025-03-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-27 21:44:24" itemprop="dateModified" datetime="2025-03-27T21:44:24+08:00">2025-03-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>5k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>18 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="engineering-an-efficient-object-tracker-for-non-linear-motion1">Engineering
-an Efficient Object Tracker for Non-Linear Motion<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自贝尔格莱德大学的Momir Adzemovic等人，论文引用[1]:Adzemovic,
-Momir et al. “Engineering an Efficient Object Tracker for Non-Linear
-Motion.” ArXiv abs/2407.00738 (2024): n. pag.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2024.Jun</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>一句话总结：<strong>作者用TransFilter代替了传统的KF
-filter，然后，，用上了CMC，加了很多的先验，改进了association方法，例如DT-IoU，HPC和ATCM等</strong>。</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li><p>MOT的目标是检测和跟踪场景里的所有目标，通过逐帧关联它们的bboxes，为每个目标维护一个唯一的ID，这个关联依赖于matching
-motion和检测目标的appearance
-patterns。这个任务在涉及动态和非线性运动模式的场景中比较困难，在本文中，作者提出了DeepMoveSORT，一个新的、engineered
-多目标跟踪器。出了标准的基于appearance的关联之外，作者通过采用deep
-learnable filters和一些新的先验，提高了motion-based
-association。作者在motion-based
-association上的提高有几个方面。首先，作者提出了<strong>一个新的transformer-based
-filter architecture，TransFilter，用object的motion history 用于motion
-prediction和noise filtering。作者进一步通过仔细地处理motion
-history和补偿相机运动。第二，作者提出了一些先验，利用position、shape和检测到的bboxes，来提高association
-的性能</strong>。作者的实验表明，DeepMoveSORT在非线性场景中超过了现有的跟踪器
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/03/12/DeepMoveSORT/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/03/12/MambaMOT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/03/12/MambaMOT/" class="post-title-link" itemprop="url">MambaMOT</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-03-12 11:00:29" itemprop="dateCreated datePublished" datetime="2025-03-12T11:00:29+08:00">2025-03-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-27 17:36:25" itemprop="dateModified" datetime="2025-03-27T17:36:25+08:00">2025-03-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2.1k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="mambamot-state-space-model-as-motion-predictor-for-multi-object-tracking1">MambaMOT:
-State-Space Model as Motion Predictor for Multi-Object
-Tracking<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自华盛顿大学的Hsiang-Wei Huang等人，论文引用[1]:Huang,
-Hsiang-Wei et al. “MambaMOT: State-Space Model as Motion Predictor for
-Multi-Object Tracking.” ICASSP 2025 - 2025 IEEE International Conference
-on Acoustics, Speech and Signal Processing (ICASSP) (2024): n. pag.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2025.Jan</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>Mamba motion prediction</li>
-<li>一句话总结：利用Mamba结构，代替传统的基于卡尔曼滤波器的motion
-model方法，输入是N帧的tracklets，输出是下一帧的tracklet的location的预测，实现基于深度学习的motion
-prediction</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>在MOT中，传统的方法依赖于KF for motion
-prediction，利用它在线性运动中的优势，然而，这些方法内在的局限变得明显，当遇到复杂、非线性motions和occlusions的时候，这个文章探索了，利用earning-based
-motion model，能够有效地增强tracking accuracy和adaptability beyond
-constraints of KF-based
-tracker的可能性。在文章中，作者提出了MambaMOT。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/03/12/MambaMOT/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/YoungBlogs/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/14/">14</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1363,13 +1335,13 @@ tracker的可能性。在文章中，作者提出了MambaMOT。</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">231k</span>
+    <span title="站点总字数">233k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:59</span>
+    <span title="站点阅读时长">14:09</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="3D Gaussian Splatting for Real-Time Radiance Field Rendering[1]  作者是来自法国Inria的Bernhard Kerbl等人。论文引用[1]:  Time  2023.Aug  ### Key Words 总结  Radiance Field方法最近用多个photos或者videos，revolutioniz">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3DGS">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/04/01/3DGS/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="3D Gaussian Splatting for Real-Time Radiance Field Rendering[1]  作者是来自法国Inria的Bernhard Kerbl等人。论文引用[1]:  Time  2023.Aug  ### Key Words 总结  Radiance Field方法最近用多个photos或者videos，revolutioniz">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-04-01T06:34:57.000Z">
+<meta property="article:modified_time" content="2025-04-01T07:56:14.507Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="3D Reconstruction">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/04/01/3DGS/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/04/01/3DGS/","path":"2025/04/01/3DGS/","title":"3DGS"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>3DGS | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#d-gaussian-splatting-for-real-time-radiance-field-rendering1"><span class="nav-number">1.</span> <span class="nav-text">3D
+Gaussian Splatting for Real-Time Radiance Field
+Rendering[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key-words"><span class="nav-number"></span> <span class="nav-text">### Key Words</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/01/3DGS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="3DGS | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          3DGS
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-04-01 14:34:57 / 修改时间：15:56:14" itemprop="dateCreated datePublished" datetime="2025-04-01T14:34:57+08:00">2025-04-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="d-gaussian-splatting-for-real-time-radiance-field-rendering1">3D
+Gaussian Splatting for Real-Time Radiance Field
+Rendering<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自法国Inria的Bernhard Kerbl等人。论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.Aug</li>
+</ul>
+<h2 id="key-words">### Key Words</h2>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>Radiance Field方法最近用多个photos或者videos，revolutionized
+novel-viwe synthesis of
+scenes。然而，实现高质量仍然需要神经网络，这很费时间来训练和熏染，最近，faster
+methods trade off seepd for
+quality。对于无边界和完整的scenes(而不是孤立的objects)和1080p分辨率的渲染，没有当前的方法能够实现实时的display
+rate。作者引入了3个key elements，使得能够是实现SOTA的visual
+quality，同时保持高竞争力的training
+times，还能够在1080p下，高质量地实时地novel-view
+synthesis。<strong>首先，从camera calibration期间产生的sparse
+points开始，用3D Gaussian表针scene，能够保留理想的properties of
+continuous volumetric radiance fields for scene
+optimization，同时在empty space中，避免不必要的计算，其次，执行3D
+Gaussian的interleaved optimization/density
+control，显著地优化anisotropic
+covariance，来实现场景的精确的表征；第三，开发了一种fast
+visibility-aware rendering 算法，能够支持anisotropic
+splatting，加速训练，能够实时渲染</strong>。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>Meshes和points是最常见的3D scene
+representation，因为它们是显式的，同时适合fast GPU/CUDA-based
+raterization。相比之下，最近的(NeRF) 方法建立在连续的scene
+representations上，用volumetric ray-marching for novel-view synthesis of
+captured scenes来优化MLP。类似地，最搞笑的radiance field
+方法，通过插值，建立在continuous representations上，例如voxel, hash
+grids or
+points。然而，这些方法的连续性有助于优化，渲染所需的随机采样成本高，会导致噪声。作者引入了一个新的方法，结合了它们的优点:
+3D Gaussian representation能够有SOTA的视觉质量和competitive training
+times，实现优化，tile-based splatting 方法确保了实时的渲染 at SOTA
+quality for 1080P。作者的目标是用multiple
+photos，实现实时的渲染，对于典型的scenes，和最高效的方法一样快速地create
+represetation with optimization times。最近的方法实现了fast
+training，但是很难实现高质量的，Mip-NeRF360需要48h的训练。快-但是低质量的radiance
+field方法能够实现interactive rendering
+times，但是不能做到实时地高质量的渲染。</p></li>
+<li><p>作者的方法建立在3个主要的components。<strong>首先引入了3D
+Gaussian，作为一个flexible and expressive scene
+represetation</strong>，和之前的NeRF-like方法一样，用相同的input，cameras
+calibrated with Structure-from-Motion(SfM)，使用作为SfM（Structure from
+Motion，运动恢复结构）过程副产品生成的稀疏点云来初始化三维高斯分布集合。相比于大多数的point-based方法，需要Multi-View
+Stereo(MVS) data。作者的方法仅用SfM
+points作为输入，就能够实现高质量的results。注意到，对于NeRF-synthetic
+dataset，作者的方法，用随机初始化实现了高质量。作者展示了3D
+Gaussian是一个excellent choice，因为它们是一个<strong>differentiable
+volumetric representation</strong>，也通过projecting to 2D
+是栅格化，用standard <span
+class="math inline">\(\alpha\)</span>-blending，用一个等价的image
+formation model as NeRF。第二个component是 <strong>3D
+Gaussian的properties的optimization- 3D position, opacity <span
+class="math inline">\(\alpha\)</span>，anisotropic covariance和spherical
+harmonic(SH) coefficients，和adaptive density control
+steps交错在一起，优化的步骤产生一个reasonably
+compact，unstructured和precise representation of the
+scene</strong>。第三个element是：**用fast GPU sorting算法的实时rendering
+算法，受tile-based raterization的启发。然而，多亏了3D
+GS，能够执行anistropic splatting，respects visbility
+ordering，多亏了sorting和 <span
+class="math inline">\(\alpha\)</span>-blending，使得一个夸斯和精确的backward
+pass，通过tracking the traversal of as many sort：</p>
+<p>作者的贡献如下：</p>
+<ul>
+<li>引入了anisotropic 3D Gaussian作为一个high-quality, unstructured
+representation of radiance fields，</li>
+<li>一种3D Gaussian properties的优化方法，和产生high-quality
+representations for captured scenes的adaptive density control交错。</li>
+<li>一种快速的，differentiable rendering 方法 for
+GPU，是visibility-aware，能够anisotropic
+splatting，快速地反向传播，实现高质量novel view synthesis。
+作者的结果表明，能够从multi-view captures优化3D
+Gaussian，实现比之前的隐式的radiance field
+方法，相等或者更好的quality。</li>
+</ul></li>
+<li><p>作者首先简单回顾一下传统的recontruction方法，讨论point-based
+rendering和radiance field work，讨论它们的similarity；radiance
+fields是一个vast area，因此，作者聚焦于directly related work。</p></li>
+<li><p><strong>传统的scene
+reconstruction和rendering</strong>：第一个Novel-view
+synthesis方法是建立在light fields上的，first densely
+sampled，<strong>然后是allowing unstructured
+capture。Structure-from-Motion(SfM)的到来使得一个entire new
+domain，photos的集合能够用于synthesize novel views。在camera
+calibration期间估计sparse point cloud，然后用于3D space的初始化，随后的
+multi-view stereo(MVS)产生了full 3D reconstruction 算法，促进了several
+view synthesis的发展。所有的这些方法re-project和blend input images into
+novel view
+camera，然后用geometry来指导这个re-projection</strong>。这些方法在很多cases下产生了excellent
+results，但是不能完全的从unreconstructed
+regions或者over-reconstruction中恢复，MVS产生了inexistent
+geometry，最近的neural rendering
+算法，快速地降低了这些artifacts，避免了在GPU上存储所有的input
+images造成的不能承受的cost。</p></li>
+<li><p>深度学习的工具很早用于novel-view synthesis，CNNs用于估计blending
+weights，或者for texture-space
+solutions，基于MVS-based的geometry是这些方法的一个主要的缺点。另外，用CNNs
+for final rendering ，会导致temporal flickering。Volumetric
+representations for novel-view
+synthesis是通过Soft3D进行初始化，深度学习和volumetric
+ray-marching进行耦合被提出来了，基于continuous differentiable density
+field，来表征geometry，用volumetric
+ray-marching来进行渲染，会有很高的成本，因为大量的samples需要query the
+volume。NeRFs引入了一个重要的sampling和positional
+encoding来提高quality，但是，用一个large
+MLP会影响速度，NeRF的成功导致接下来的很多工作的出现，解决了quality和speed，通过引入regularization
+strategies，当前的image quality的 for novel-view
+synthesis的SOTA方法是Mip-NeRF360，当rendering
+quality是很好的时候，training和rendering的时间会很长。
+大多数最近的方法聚焦于faster training/rendering，通过利用三个design
+choices：use of spatial data structures，来存储features，在volumetric
+ray-marching中被interpolated，differnet encodings和MLP
+capacity。这些方法包括不同的space
+discretization的不同的变体，codebooks和encodings such as hash
+tables使得用更小的MLP或者完全放弃neural networks。</p>
+<p>最有名的方法是InstantNGP，用一个hash grid和一个occupancy
+grid来加速计算，一个smaller MLP来表征density和appearance,
+Plenoxels用一个sparse voxel grid来interploate一个continuous density
+field，能够放弃neural networks。都依赖于Spherical
+Harmonics：前者来表征directional effects，后者来编码inputs to color
+network。另外，图像质量很大程度上受限于用于加速的structured的选择，rendering
+speed被query many samples for a given ray-marching
+step所阻碍。非结构化的、显式地GPU友好的3D Gaussian实现了更快的rendering
+speed和更好的quality，不需要neural components。</p></li>
+<li><p><strong>Point-based Rendering and Radiance
+Fields</strong>：point-based方法高效地render disconnected和unstructured
+geometry samples，它的最简单的形式，point sample
+rendering将非结构化的一组points以fixed size进行栅格化，</p></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/3D-Reconstruction/" rel="tag"># 3D Reconstruction</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/03/28/BLIP2/" rel="prev" title="BLIP2">
+                  <i class="fa fa-angle-left"></i> BLIP2
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/04/02/GLIP/" rel="next" title="GLIP">
+                  GLIP <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">233k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">14:09</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

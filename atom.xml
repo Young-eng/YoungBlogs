@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-03-29T13:53:06.345Z</updated>
+  <updated>2025-04-06T14:43:40.659Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,140 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MOTRv3</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/04/05/MOTRv3/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/04/05/MOTRv3/</id>
+    <published>2025-04-05T12:16:15.000Z</published>
+    <updated>2025-04-06T14:43:40.659Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="motrv3-release-fetch-supervision-for-end-to-end-multi-object-tracking1">MOTRv3:Release-Fetch Supervision for End-to-End Multi-ObjectTracking<sup>[1]</sup></h3><blockquote><p>作者是来自旷视等机构的En Yu等人, 论文引用[1]:Yu, En et al. “MOTRv3:Release-Fetch Supervision for End-to-End Multi-Object Tracking.” ArXivabs/2305.14298 (2023): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2023.May</li></ul><h3 id="key-words">Key Words</h3><ul><li><font color=red>conflict between detection andassociation</font></li><li><font color=red>detect query only for newly appearingtargets</font></li><li><font color=red>track queries for localizing previous detectedtargets(association part in a implicit manner)</font></li></ul><h3 id="总结">总结</h3><ol type="1"><li>简单来说，MOTR的问题是在于detection和association之间的冲突，MOTRv2用额外的detectionnetwork部分解决了这个问题，作者将这个conflict的归因于<strong>detectqueries和track queries在训练的时候的unfair labelassignment</strong>，detect queries 识别targets然后track queriesassociate them。基于这个观察，作者提出了MOTRv3，用<strong>release-fetchsupervision 策略来平衡label assignmentprocess。在这个策略中，labels首先released for detection，然后逐渐fetchedback for association。另外两个strategy叫做pseudo labeldistillation和track groupdenoising，用来进一步提高detection和association的supervision，同时不需要额外的detectionnetwork</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>detect query用来定位target，基于这个detect query产生trackquery。产生的track query用于在following frames中连续detecting thistarget。也就是说, <strong>detect queries用来detect新出现的targets，trackqueries以一种implicit的方式进行association</strong>。尽管MOTR的架构是elegant的，<strong>它存在detection和association之间优化冲突的问题，导致poordetectionprecision</strong>。MOTRv2用一个独立的detector例如YOLOX来detecttargets，提供detection results to tracking network。然后，trackingnetwork聚焦于association，缓解了conflict。但是MOTRv2需要一个well-traineddetector，使得训练过程不是端到端的。</p></li><li><p>在训练中，如果一个target出现在多个frames中，只有第一个box会被用来训练detection part,剩下会有来训练trackqueries，这个问题导致MOTR的detection的部分是没有充分训练的。为了解决这个问题，作者提出了<strong>Release-FetchSupervision</strong>，首先releases box labels用来训练MOTR detectionpart，然后，自动地fetches 这些labels来训练associationpart。特别地，在这个strategy中，MOTR中的oen-to-one matching的detectionpart是在all box labels和all queries之间进行的in the first 5decoder，只有matching strategy of the lastdecoder是没有变的。这种方式下，MOTR的detectionpart不需要更改e2e的机制，就能够得到充足的supervision。<strong>另外两个策略称之为pseudo label distillation(PLD)和track groupdenoising(TGD)。PLD用之前训练好的YOLOX 或者Sparse RCNN来产生pseudolabels，对MOTR增加了额外的supervision。pre-trained detector提供的pseudolabels的分布是diverse的，因此，MOTR的detectionpart得到了充足的训练。TGD将trackqueries增加到了多个groups，然后每个group包含了相同数量的trackqueries，和originals是一样的。对每个track group的referencepoints在训练期间增加了随机的噪声，TGD稳定了MOTR的associationpart的训练，提高了整体的tracking performance</strong>。</p></li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;motrv3-release-fetch-supervision-for-end-to-end-multi-object-tracking1&quot;&gt;MOTRv3:
+Release-Fetch Supervision for End-to-End Multi-Object
+Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自旷视等机构的En Yu等人, 论文引用[1]:Yu, En et al. “MOTRv3:
+Release-Fetch Supervision for End-to-End Multi-Object Tracking.” ArXiv
+abs/2305.14298 (2023): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2023.May&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;font color=red&gt;conflict between detection and
+association&lt;/font&gt;&lt;/li&gt;
+&lt;li&gt;&lt;font color=red&gt;detect query only for newly appearing
+targets&lt;/font&gt;&lt;/li&gt;
+&lt;li&gt;&lt;font color=red&gt;track queries for localizing previous detected
+targets(association part in a implicit manner)&lt;/font&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;简单来说，MOTR的问题是在于detection和association之间的冲突，MOTRv2用额外的detection
+network部分解决了这个问题，作者将这个conflict的归因于&lt;strong&gt;detect
+queries和track queries在训练的时候的unfair label
+assignment&lt;/strong&gt;，detect queries 识别targets然后track queries
+associate them。基于这个观察，作者提出了MOTRv3，用&lt;strong&gt;release-fetch
+supervision 策略来平衡label assignment
+process。在这个策略中，labels首先released for detection，然后逐渐fetched
+back for association。另外两个strategy叫做pseudo label
+distillation和track group
+denoising，用来进一步提高detection和association的supervision，同时不需要额外的detection
+network&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GLIP</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/04/02/GLIP/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/04/02/GLIP/</id>
+    <published>2025-04-02T08:53:39.000Z</published>
+    <updated>2025-04-02T08:55:12.706Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="grouded-language-image-pre-training1">Grouded Language-ImagePre-training<sup>[1]</sup></h3><blockquote><p>作者是来自UCLA、Microsoft Reserach、UW等机构的Liunian Harold Li,Pengchuan Zhang等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Jun</li></ul><h2 id="key-words">### Key words</h2><h3 id="总结">总结：</h3><ol type="1"><li></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;grouded-language-image-pre-training1&quot;&gt;Grouded Language-Image
+Pre-training&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自UCLA、Microsoft </summary>
+      
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Multi-Moddal" scheme="https://young-eng.github.io/YoungBlogs/tags/Multi-Moddal/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>3DGS</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/04/01/3DGS/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/04/01/3DGS/</id>
+    <published>2025-04-01T06:34:57.000Z</published>
+    <updated>2025-04-01T07:56:14.507Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="d-gaussian-splatting-for-real-time-radiance-field-rendering1">3DGaussian Splatting for Real-Time Radiance FieldRendering<sup>[1]</sup></h3><blockquote><p>作者是来自法国Inria的Bernhard Kerbl等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Aug</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li>Radiance Field方法最近用多个photos或者videos，revolutionizednovel-viwe synthesis ofscenes。然而，实现高质量仍然需要神经网络，这很费时间来训练和熏染，最近，fastermethods trade off seepd forquality。对于无边界和完整的scenes(而不是孤立的objects)和1080p分辨率的渲染，没有当前的方法能够实现实时的displayrate。作者引入了3个key elements，使得能够是实现SOTA的visualquality，同时保持高竞争力的trainingtimes，还能够在1080p下，高质量地实时地novel-viewsynthesis。<strong>首先，从camera calibration期间产生的sparsepoints开始，用3D Gaussian表针scene，能够保留理想的properties ofcontinuous volumetric radiance fields for sceneoptimization，同时在empty space中，避免不必要的计算，其次，执行3DGaussian的interleaved optimization/densitycontrol，显著地优化anisotropiccovariance，来实现场景的精确的表征；第三，开发了一种fastvisibility-aware rendering 算法，能够支持anisotropicsplatting，加速训练，能够实时渲染</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>Meshes和points是最常见的3D scenerepresentation，因为它们是显式的，同时适合fast GPU/CUDA-basedraterization。相比之下，最近的(NeRF) 方法建立在连续的scenerepresentations上，用volumetric ray-marching for novel-view synthesis ofcaptured scenes来优化MLP。类似地，最搞笑的radiance field方法，通过插值，建立在continuous representations上，例如voxel, hashgrids orpoints。然而，这些方法的连续性有助于优化，渲染所需的随机采样成本高，会导致噪声。作者引入了一个新的方法，结合了它们的优点:3D Gaussian representation能够有SOTA的视觉质量和competitive trainingtimes，实现优化，tile-based splatting 方法确保了实时的渲染 at SOTAquality for 1080P。作者的目标是用multiplephotos，实现实时的渲染，对于典型的scenes，和最高效的方法一样快速地createrepresetation with optimization times。最近的方法实现了fasttraining，但是很难实现高质量的，Mip-NeRF360需要48h的训练。快-但是低质量的radiancefield方法能够实现interactive renderingtimes，但是不能做到实时地高质量的渲染。</p></li><li><p>作者的方法建立在3个主要的components。<strong>首先引入了3DGaussian，作为一个flexible and expressive scenerepresetation</strong>，和之前的NeRF-like方法一样，用相同的input，camerascalibrated with Structure-from-Motion(SfM)，使用作为SfM（Structure fromMotion，运动恢复结构）过程副产品生成的稀疏点云来初始化三维高斯分布集合。相比于大多数的point-based方法，需要Multi-ViewStereo(MVS) data。作者的方法仅用SfMpoints作为输入，就能够实现高质量的results。注意到，对于NeRF-syntheticdataset，作者的方法，用随机初始化实现了高质量。作者展示了3DGaussian是一个excellent choice，因为它们是一个<strong>differentiablevolumetric representation</strong>，也通过projecting to 2D是栅格化，用standard <spanclass="math inline">\(\alpha\)</span>-blending，用一个等价的imageformation model as NeRF。第二个component是 <strong>3DGaussian的properties的optimization- 3D position, opacity <spanclass="math inline">\(\alpha\)</span>，anisotropic covariance和sphericalharmonic(SH) coefficients，和adaptive density controlsteps交错在一起，优化的步骤产生一个reasonablycompact，unstructured和precise representation of thescene</strong>。第三个element是：**用fast GPU sorting算法的实时rendering算法，受tile-based raterization的启发。然而，多亏了3DGS，能够执行anistropic splatting，respects visbilityordering，多亏了sorting和 <spanclass="math inline">\(\alpha\)</span>-blending，使得一个夸斯和精确的backwardpass，通过tracking the traversal of as many sort：</p><p>作者的贡献如下：</p><ul><li>引入了anisotropic 3D Gaussian作为一个high-quality, unstructuredrepresentation of radiance fields，</li><li>一种3D Gaussian properties的优化方法，和产生high-qualityrepresentations for captured scenes的adaptive density control交错。</li><li>一种快速的，differentiable rendering 方法 forGPU，是visibility-aware，能够anisotropicsplatting，快速地反向传播，实现高质量novel view synthesis。作者的结果表明，能够从multi-view captures优化3DGaussian，实现比之前的隐式的radiance field方法，相等或者更好的quality。</li></ul></li><li><p>作者首先简单回顾一下传统的recontruction方法，讨论point-basedrendering和radiance field work，讨论它们的similarity；radiancefields是一个vast area，因此，作者聚焦于directly related work。</p></li><li><p><strong>传统的scenereconstruction和rendering</strong>：第一个Novel-viewsynthesis方法是建立在light fields上的，first denselysampled，<strong>然后是allowing unstructuredcapture。Structure-from-Motion(SfM)的到来使得一个entire newdomain，photos的集合能够用于synthesize novel views。在cameracalibration期间估计sparse point cloud，然后用于3D space的初始化，随后的multi-view stereo(MVS)产生了full 3D reconstruction 算法，促进了severalview synthesis的发展。所有的这些方法re-project和blend input images intonovel viewcamera，然后用geometry来指导这个re-projection</strong>。这些方法在很多cases下产生了excellentresults，但是不能完全的从unreconstructedregions或者over-reconstruction中恢复，MVS产生了inexistentgeometry，最近的neural rendering算法，快速地降低了这些artifacts，避免了在GPU上存储所有的inputimages造成的不能承受的cost。</p></li><li><p>深度学习的工具很早用于novel-view synthesis，CNNs用于估计blendingweights，或者for texture-spacesolutions，基于MVS-based的geometry是这些方法的一个主要的缺点。另外，用CNNsfor final rendering ，会导致temporal flickering。Volumetricrepresentations for novel-viewsynthesis是通过Soft3D进行初始化，深度学习和volumetricray-marching进行耦合被提出来了，基于continuous differentiable densityfield，来表征geometry，用volumetricray-marching来进行渲染，会有很高的成本，因为大量的samples需要query thevolume。NeRFs引入了一个重要的sampling和positionalencoding来提高quality，但是，用一个largeMLP会影响速度，NeRF的成功导致接下来的很多工作的出现，解决了quality和speed，通过引入regularizationstrategies，当前的image quality的 for novel-viewsynthesis的SOTA方法是Mip-NeRF360，当renderingquality是很好的时候，training和rendering的时间会很长。大多数最近的方法聚焦于faster training/rendering，通过利用三个designchoices：use of spatial data structures，来存储features，在volumetricray-marching中被interpolated，differnet encodings和MLPcapacity。这些方法包括不同的spacediscretization的不同的变体，codebooks和encodings such as hashtables使得用更小的MLP或者完全放弃neural networks。</p><p>最有名的方法是InstantNGP，用一个hash grid和一个occupancygrid来加速计算，一个smaller MLP来表征density和appearance,Plenoxels用一个sparse voxel grid来interploate一个continuous densityfield，能够放弃neural networks。都依赖于SphericalHarmonics：前者来表征directional effects，后者来编码inputs to colornetwork。另外，图像质量很大程度上受限于用于加速的structured的选择，renderingspeed被query many samples for a given ray-marchingstep所阻碍。非结构化的、显式地GPU友好的3D Gaussian实现了更快的renderingspeed和更好的quality，不需要neural components。</p></li><li><p><strong>Point-based Rendering and RadianceFields</strong>：point-based方法高效地render disconnected和unstructuredgeometry samples，它的最简单的形式，point samplerendering将非结构化的一组points以fixed size进行栅格化，</p></li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;d-gaussian-splatting-for-real-time-radiance-field-rendering1&quot;&gt;3D
+Gaussian Splatting for Real-Time Radiance Field
+Rendering&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自法国Inria的Bernhard Kerbl等人。论文引用[1]:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2023.Aug&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;Radiance Field方法最近用多个photos或者videos，revolutionized
+novel-viwe synthesis of
+scenes。然而，实现高质量仍然需要神经网络，这很费时间来训练和熏染，最近，faster
+methods trade off seepd for
+quality。对于无边界和完整的scenes(而不是孤立的objects)和1080p分辨率的渲染，没有当前的方法能够实现实时的display
+rate。作者引入了3个key elements，使得能够是实现SOTA的visual
+quality，同时保持高竞争力的training
+times，还能够在1080p下，高质量地实时地novel-view
+synthesis。&lt;strong&gt;首先，从camera calibration期间产生的sparse
+points开始，用3D Gaussian表针scene，能够保留理想的properties of
+continuous volumetric radiance fields for scene
+optimization，同时在empty space中，避免不必要的计算，其次，执行3D
+Gaussian的interleaved optimization/density
+control，显著地优化anisotropic
+covariance，来实现场景的精确的表征；第三，开发了一种fast
+visibility-aware rendering 算法，能够支持anisotropic
+splatting，加速训练，能够实时渲染&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="3D Reconstruction" scheme="https://young-eng.github.io/YoungBlogs/tags/3D-Reconstruction/"/>
+    
+  </entry>
   
   <entry>
     <title>BLIP2</title>
@@ -269,9 +403,9 @@ Data Association for Multi-Object Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
     <link href="https://young-eng.github.io/YoungBlogs/2025/03/12/SimpleTrack/"/>
     <id>https://young-eng.github.io/YoungBlogs/2025/03/12/SimpleTrack/</id>
     <published>2025-03-12T03:02:29.000Z</published>
-    <updated>2025-03-31T09:29:22.618Z</updated>
+    <updated>2025-04-02T08:19:00.570Z</updated>
     
-    <content type="html"><![CDATA[<h3id="simpletrack-rethinking-and-improving-the-jde-approach-for-multi-object-tracking1">SimpleTrack:Rethinking and Improving the JDE Approach for Multi-ObjectTracking<sup>[1]</sup></h3><blockquote><p>作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:Li, Jiaxin et al.“SimpleTrack: Rethinking and Improving the JDE Approach for Multi-ObjectTracking.” Sensors (Basel, Switzerland) 22 (2022): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>EG matrix</li><li>一句话总结：<strong>用了embedding 和Giou 作为similaritymatrix，也是JDE-based方法，借鉴了bytetrack、FairMOT等工作的思路</strong>。### 总结</li></ul><ol type="1"><li>Joint Detection和embedding(JDE)的方法通常用于估计bboxes和objects的embedding features，用singlenetwork，在tracking的时候，JDE-based方法融合target motioninformation和appearance information by applying the samerule，当target丢失或者blocked的时候，就不太行了。为了克服这个问题，作者提出了一个新的associationmatrix，<strong>Embedding and GiOU matrix，结合了embedding cosinedistance和Giou distance。为了进一步提高dataassociation的performance，作者开发了一个简单高效的tracker namedSimpleTrack</strong>。设计了一个bottom-up fusion method forreid，提出了一个新的tracking strategy based on EG matrix。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MOT旨在估计视频序列中的多个目标的位置和identity。是CV中的一个挑战性的任务。最近，IoU和匈牙利方法通常在TbD方法中，用在trackingphase，然而，当target被遮挡的时候或者丢失的时候，很难仅用IoU来retrieve正确的identity。因此，targets的id切换会经常发生。为了缓解这个问题，很多方法开始引入了ReID，JDE-based方法因为它们的simplicity和efficienty变得流行。</p></li><li><p>在data association中，similarity measurement的精度决定了trackingperformance。大多数的detection-based方法用IoU distance作为similaritymatrix，然而，JDE-based方法融合motion information和appearanceinformation，作为similarity matrix for linear assignment in the firstmatching，用IoU distance in the nextmatching，然而，没有一个是similarity matrix的最好的expression.</p></li><li><p>当目标由于interlacing被遮挡的时候，会产生confusingsets，很难正确allocate，当分配这些confusingsets的时候，不正确的similarity distance 会导致trackingfailture。主要造成matching failure的原因是<strong>inaccurate predictionfrom KF，随着target丢失时间变长。这会导致IoU distance和motioninformation distance不精确。导致linear allocationerrors</strong>。为了解决这个问题，作者提出了<strong>EGmatrix，利用embedding cosine distance用于long-range tracking oftargets，Giou distance for limiting matching range ofembedding</strong>。为了进一步探索EG matrix的property，作者提出了simpletracking framework，namedSimpleTrack，这个框架中，作者设计了一个bottom-up branch来表示ReIDfeatures，不同于fusion method of detection features，它更关注high-levelsemantic layers，对于SimpleTrack的trackingpart，作者提出了一个新的tracking retrieval 机制，基于EGmatrix，设计了一个新的tracking strategy。</p></li><li><p>基于JDE的方法直接用single network来预测detection和appearancefeatures，然而，detection和identification之间的<strong>竞争关系，在detection和appearancefeatureextraction的多任务学习中，损害优化过程</strong>。为了解决这个问题，CSTrack首先设计了一个decouplingmodule，为detection和appearance identification增强learneddrepresentation。RelationTrack用一个channelattention机制来解耦detection和ReID，不同于CSTrack和RelationTrack，SimpleTrack采用的解耦的方法聚焦于appearencefeature的本质。从feature layer fusion开始decoupling，相比于detectionfeature fusion，采用bottom-up fusion方法。</p></li><li><p>location、motion、appearance是MOT中最常用的cues。通常结合在一起用于linearassignment。基于Detection的方法用IoU distance作为similaritymatrix，tracking的精度依赖于similaritymatrix，SORT融合了position和motion cues作为similaritymatrix，在short-rangematching上实现了很好的结果。DeepSORT通过融合appearance cues和motioncues，提高了long-range tracking的能力。然而，作者设计了一个similaritymatrix，结合了appearance 和location information，用Giou distancematrix作为location cue，而不是通常的IoU matrix。</p></li><li><p>tracking和detection的分配问题是通过匈牙利算法基于不同的similaritymatrices解决的。SORT将detection objects和trackingobjects通过一次matching进行关联。DeepSORT用了cascadematching。MOTDT首次使用了appearence similarity matrix和IoU distancematrix作为similarity matrix，用于cascade matching。</p></li><li><p>对于feature decoupling，对detection和ReIDrepresentation采用了不同的feature fusion，featurefusion方法仍然才有用FairMOT的结构。基于low-level featuremaps和持续融合higher-level feature maps，称之为up-to-bottom fusionmethod. 然而，<strong>ReID features倾向于学习hight-level semanticfeatures，来区分相同objects的differentfeatures</strong>，因此，作者采用一个bottom-up的方法来融合featuremaps。Similarity matrix是这样的:</p><p><span class="math display">\[EG = \lambda_1 E + \lambda_2 G\]</span></p><p><span class="math inline">\(\lambda_1\)</span>和<spanclass="math inline">\(\lambda_2\)</span>分别为1和0.5</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/b1ab1c032aee352d5616eeb751d970bb4015921c/5-Figure3-1.png"alt="pipeline" /> <span class="math inline">\(Fig.1^{[1]}\)</span>SimpleTrack的pipeline，输入的image通过backbone提取high-resolutionfeature maps，然后对Detection和reid分别采取不同的fusion方法，结合embedding 和Giou distance matrix作为similarity matrix</p>]]></content>
+    <content type="html"><![CDATA[<h3id="simpletrack-rethinking-and-improving-the-jde-approach-for-multi-object-tracking1">SimpleTrack:Rethinking and Improving the JDE Approach for Multi-ObjectTracking<sup>[1]</sup></h3><blockquote><p>作者是来自谢菲尔德大学的Jiaxin Li等人，论文引用[1]:Li, Jiaxin et al.“SimpleTrack: Rethinking and Improving the JDE Approach for Multi-ObjectTracking.” Sensors (Basel, Switzerland) 22 (2022): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>EG matrix</li><li>一句话总结：<strong>用了embedding 和Giou 作为similaritymatrix，也是JDE-based方法，借鉴了bytetrack、FairMOT等工作的思路</strong>。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>Joint Detection和embedding(JDE)的方法通常用于估计bboxes和objects的embedding features，用singlenetwork，在tracking的时候，JDE-based方法融合target motioninformation和appearance information by applying the samerule，当target丢失或者blocked的时候，就不太行了。为了克服这个问题，作者提出了一个新的associationmatrix，<strong>Embedding and GiOU matrix，结合了embedding cosinedistance和Giou distance。为了进一步提高dataassociation的performance，作者开发了一个简单高效的tracker namedSimpleTrack</strong>。设计了一个bottom-up fusion method forreid，提出了一个新的tracking strategy based on EG matrix。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MOT旨在估计视频序列中的多个目标的位置和identity。是CV中的一个挑战性的任务。最近，IoU和匈牙利方法通常在TbD方法中，用在trackingphase，然而，当target被遮挡的时候或者丢失的时候，很难仅用IoU来retrieve正确的identity。因此，targets的id切换会经常发生。为了缓解这个问题，很多方法开始引入了ReID，JDE-based方法因为它们的simplicity和efficienty变得流行。</p></li><li><p>在data association中，similarity measurement的精度决定了trackingperformance。大多数的detection-based方法用IoU distance作为similaritymatrix，然而，JDE-based方法融合motion information和appearanceinformation，作为similarity matrix for linear assignment in the firstmatching，用IoU distance in the nextmatching，然而，没有一个是similarity matrix的最好的expression.</p></li><li><p>当目标由于interlacing被遮挡的时候，会产生confusingsets，很难正确allocate，当分配这些confusingsets的时候，不正确的similarity distance 会导致trackingfailture。主要造成matching failure的原因是<strong>inaccurate predictionfrom KF，随着target丢失时间变长。这会导致IoU distance和motioninformation distance不精确。导致linear allocationerrors</strong>。为了解决这个问题，作者提出了<strong>EGmatrix，利用embedding cosine distance用于long-range tracking oftargets，Giou distance for limiting matching range ofembedding</strong>。为了进一步探索EG matrix的property，作者提出了simpletracking framework，namedSimpleTrack，这个框架中，作者设计了一个bottom-up branch来表示ReIDfeatures，不同于fusion method of detection features，它更关注high-levelsemantic layers，对于SimpleTrack的trackingpart，作者提出了一个新的tracking retrieval 机制，基于EGmatrix，设计了一个新的tracking strategy。</p></li><li><p>基于JDE的方法直接用single network来预测detection和appearancefeatures，然而，detection和identification之间的<strong>竞争关系，在detection和appearancefeatureextraction的多任务学习中，损害优化过程</strong>。为了解决这个问题，CSTrack首先设计了一个decouplingmodule，为detection和appearance identification增强learneddrepresentation。RelationTrack用一个channelattention机制来解耦detection和ReID，不同于CSTrack和RelationTrack，SimpleTrack采用的解耦的方法聚焦于appearencefeature的本质。从feature layer fusion开始decoupling，相比于detectionfeature fusion，采用bottom-up fusion方法。</p></li><li><p>location、motion、appearance是MOT中最常用的cues。通常结合在一起用于linearassignment。基于Detection的方法用IoU distance作为similaritymatrix，tracking的精度依赖于similaritymatrix，SORT融合了position和motion cues作为similaritymatrix，在short-rangematching上实现了很好的结果。DeepSORT通过融合appearance cues和motioncues，提高了long-range tracking的能力。然而，作者设计了一个similaritymatrix，结合了appearance 和location information，用Giou distancematrix作为location cue，而不是通常的IoU matrix。</p></li><li><p>tracking和detection的分配问题是通过匈牙利算法基于不同的similaritymatrices解决的。SORT将detection objects和trackingobjects通过一次matching进行关联。DeepSORT用了cascadematching。MOTDT首次使用了appearence similarity matrix和IoU distancematrix作为similarity matrix，用于cascade matching。</p></li><li><p>对于feature decoupling，对detection和ReIDrepresentation采用了不同的feature fusion，featurefusion方法仍然才有用FairMOT的结构。基于low-level featuremaps和持续融合higher-level feature maps，称之为up-to-bottom fusionmethod. 然而，<strong>ReID features倾向于学习hight-level semanticfeatures，来区分相同objects的differentfeatures</strong>，因此，作者采用一个bottom-up的方法来融合featuremaps。Similarity matrix是这样的:</p><p><span class="math display">\[EG = \lambda_1 E + \lambda_2 G\]</span></p><p><span class="math inline">\(\lambda_1\)</span>和<spanclass="math inline">\(\lambda_2\)</span>分别为1和0.5</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/b1ab1c032aee352d5616eeb751d970bb4015921c/5-Figure3-1.png"alt="pipeline" /> <span class="math inline">\(Fig.1^{[1]}\)</span>SimpleTrack的pipeline，输入的image通过backbone提取high-resolutionfeature maps，然后对Detection和reid分别采取不同的fusion方法，结合embedding 和Giou distance matrix作为similarity matrix</p>]]></content>
     
     
     <summary type="html">&lt;h3
@@ -291,9 +425,9 @@ Tracking.” Sensors (Basel, Switzerland) 22 (2022): n. pag.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;EG matrix&lt;/li&gt;
 &lt;li&gt;一句话总结：&lt;strong&gt;用了embedding 和Giou 作为similarity
-matrix，也是JDE-based方法，借鉴了bytetrack、FairMOT等工作的思路&lt;/strong&gt;。
-### 总结&lt;/li&gt;
+matrix，也是JDE-based方法，借鉴了bytetrack、FairMOT等工作的思路&lt;/strong&gt;。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
 &lt;ol type=&quot;1&quot;&gt;
 &lt;li&gt;Joint Detection和embedding(JDE)
 的方法通常用于估计bboxes和objects的embedding features，用single
@@ -767,142 +901,6 @@ features，能够自适应地基于motion level选择更有利的一个作为ass
 metric。另外，作者提出了attention-based appearance reconstruction
 module，来重建appearance feature embeddings，增强appearance
 features的表征。</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MeMOTR</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/02/10/MeMOTR/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/02/10/MeMOTR/</id>
-    <published>2025-02-10T03:03:27.000Z</published>
-    <updated>2025-02-10T09:09:23.879Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="memotr-long-term-memory-augmented-transformer-for-multi-object-tracking1">MeMOTR:Long-Term Memory-Augmented Transformer for Multi-ObjectTracking<sup>[1]</sup></h3><blockquote><p>作者是来自南京大学的Ruopeng Gao和Limin Wang。论文引用[1]:Gao, Ruopengand Limin Wang. “MeMOTR: Long-Term Memory-Augmented Transformer forMulti-Object Tracking.” 2023 IEEE/CVF International Conference onComputer Vision (ICCV) (2023): 9867-9876.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Feb</li></ul><h3 id="key-words">Key Words</h3><ul><li>long-term temporal information</li></ul><h3 id="总结">总结</h3><ol type="1"><li>MOT是希望能够有效地得到目标的时序信息。不幸地是，现有的方法只显式地利用了相邻帧的目标特征，然而缺乏建模长程信息的能力。在本文中，提出了MeMOTR，一个长程的记忆增强的Transformer，用于多目标跟踪。作者的方法是，通过利用带有customizedmemory-attention layer的长期的记忆，能够使相同目标的trackembedding更加stable和distinguishable。这显著提高了模型的目标关联能力。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>多目标跟踪旨在检测多个目标，并且维持他们的id。MOT能够应用在多个下游任务上，例如动作识别和行为分析。也是一个重要的technique。根据MOT的定义，这个任务可以被分为两个部分：目标检测和关联。很长一段时间，行人的跟踪数据集占据主流。然而，这些数据集在目标关联上挑战性不够，因为它们几乎是线性运动，因此，tracking-by-detection方法实现了MOT的SOTA性能。首先，利用一个robust的目标检测器，来独立地定位每帧中的目标，用ReID特征或者IoU进行关联，然而，在复杂场景中关联这些目标是有挑战的，像groupdancers和sportsplayers。这些相似的外观和不稳定的运动可能造成现有的方法失效。最近，基于Transformer的跟踪方法引入了端到端的MOT范式，通过这个交互和Transformer中的progressivedecoding of detect and trackqueries，同时完成检测和跟踪。这个范式有望具有更大的潜力用于目标关联，因为Transformer的灵活性，特别是在上述复杂的场景中。虽然这些基于Transformer的方法实现了很好的性能，它们尝试去解决一些复杂的问题，例如相似的外观。<strong>作者假设更好地利用时序信息能够提供tracker更有效和robust的每个tracked的目标的表征，从而缓解了上述问题，提高跟踪性能</strong>。不幸地是，之前的方法利用图像或者两个相邻帧的目标特征，缺乏利用长程的时序信息。</p></li><li><p>基于上述的分析，本文中，作者提出了一个长程的Memory-augmentedMulti-Object Tracking method withTransformer，简写为MeMOTR。作者探索了detect 和tarckembeddings来定位newborn和tracked objects via Transformer Decoderrespectively。作者的模型用<font color=red> exponential recursion updatealgorithm</font> 来保持长程的记忆。之后，将这个记忆inject到trackembedding之中，降低它的abruptchanges，提高模型的关联能力。当很多目标出现在视频中的时候，用一个<strong>memory-aatentionlayer来产生更多的distinguishable表征</strong>。另外，作者提出了一个<strong>adaptive aggregation</strong>来融合相邻帧的目标特征，提高跟踪的鲁棒性。</p></li><li><p>另外，作者argue， <strong>DETR中可学习的detectionquery没有特定目标的语义信息。然而，基于Transformer的MOT方法中的trackquery带有trackedobject的信息</strong>。这个不同能够造成语义信息gap，降低最终跟踪的性能。<strong>因此，为了克服这个问题，作者用了一个轻量的decoder来执行preliminaryobject detection，输出带有特定语义的detectembedding</strong>。<strong>然后，将detect 和trackembeddings联合输入到subsequentdecoder，使得MeMOTR跟踪结果更加准确</strong>。</p></li><li><p><strong>Tracking-by-Detection</strong>：这是一个广泛采用地MOT的范式，这些方法通过关联给定的detections来得到轨迹。经典行人tracking场景中的objects总是有不同的外观和常规的运动模式。因此，外观匹配和线性运动估计广泛用来在连续帧中匹配目标。SORT用IoU来匹配kalmanfilter的predictions和detectedboxes，DeepSORT用了额外的网络来提取目标特征，然后利用<strong>余弦距离</strong>用于匹配。JDE、FairMOT和Unicorn进一步探索了appearanceembedding的架构和匹配。ByteTrack基于YOLOX采用了一个robustdetector，然后重新利用低置信度的detections来增强关联能力。进一步，OC-SORT通过恢复losttargets，提高了SORT。最近，视觉任务中的一个趋势是，<strong>一些研究将Transformers用于匹配detectionbboxes</strong>。另外，Dendorfer等人尝试利用更复杂的运动估计方法来建模行人轨迹。这些上述方法有很强的detection能力，因为它们robust的detectors。然而，尽管这些方法在行人跟踪数据集上实现了很好的性能，它们在处理更复杂的场景中，有更复杂的运动的时候，表现一般，这些没有预见的运动模式会造成轨迹估计和预测模块失败。</p></li><li><p><strong>Tracking-by-Query</strong>：<strong>通常不要求额外的后处理来关联detectionresults</strong>。不像tracking-by-detection范式，tracking-by-query的方法将trackquery用于逐步解码trackedobjects的位置。受DETR启发，<strong>大多数的方法利用可学习的objectquery来执行newborn object detection，然而，track query来定位trackedobjects的位置。TransTrack构建了一个siamese网络用于detection和Tracking，然后用一个IoU matching来产生newborntargets。TrackFormer利用通常的TransformerDecoder用于detection和tracking</strong>。然后利用一个NMS with a high IoU阈值来去掉重叠的bboxes。MOTR构建了一个优雅的、端到端的Transformer用于MOT。这个范式在处理非常规运动的时候表现很好，由于基于query的设计。另外，MQT用不同的queries来表征onetracked object，然后更关注class-agnostic tracking。</p></li><li><p>然而，当前的基于query的方法一般都是利用相邻帧的信息。尽管trackquery能够逐步更新，大多数的方法不能显式地利用更长的时序信息。Cai等人探索了largememorybank，从与时间相关的知识中收益，但却付出了巨大的存储成本。为了利用long-term信息，作者提出了<strong>long-term memory来stabilize tracked objectfeature over time，和一个memory-attention layer用于more distinguishablerepresentation</strong>。实验进一步证明了这个方法能够有效地提高MOT中关联的性能。</p></li><li><p>作者提出了MeMOTR，<strong>一个long-term的memory-augmentedTransformer用于MOT。不同于现有的方法进利用相邻帧的trackedobjects的states</strong>，作者的核心贡献是构建一个long-termmemory，维持long-term temporal feature for each trackedtarget，和一个temporal interaction module一起将temporalinformation注入到subsequent trackingprocesses中。像大多数的DETR的方法，作者用一个resnet50backbone和Transformer Encoder来产生输入frame <spanclass="math inline">\(I^t\)</span>的 imagefeature。如图1所示，可学习的detect query <spanclass="math inline">\(Q_{det}\)</span> 给到Detection decoder <spanclass="math inline">\(D_{det}\)</span> 来产生当前帧的embedding <spanclass="math inline">\(E^t_{det}\)</span>。之后，通过querying encoderdimage feature with <spanclass="math inline">\([E^t_{det},E^t_{det}]\)</span>，Transformer JointDecoder <span class="math inline">\(D_{joint}\)</span> 产生对应的输出<spanclass="math inline">\([\hat{O}_{det}^{t},\hat{O}_{tck}^{t}]\)</span>。为了简单起见，将<span class="math inline">\(O^t_{det}\)</span> 中的newborn objects和tracked objects output <span class="math inline">\(O^t_{tck}\)</span>进行结合。之后预测分类的置信度 <spanclass="math inline">\(c^t_i\)</span> 和bbox <spanclass="math inline">\(b^t_i\)</span>对应于输出embeddings中的第i个target。最后，将相邻帧 <spanclass="math inline">\([O^t_{det}, O^{t-1}_{tck}]\)</span>的输出和long-term memory <span class="math inline">\(M^t_{tck}\)</span>给到Temporal Interaction Module，更新之后的track embedding <spanclass="math inline">\(E^{t+1}_{tck}\)</span> 和long-term memory <spanclass="math inline">\(M^{t+1}_{tck}\)</span>。</p></li><li><p>DetectionDecoder：在之前的基于Transformer的方法中，可学习的detectquery和之前的track query一起输入到Transformer Decoder fromscratch。这个简单的idea将端到端的DetectionTransformer扩展到MOT。然而，<strong>作者argue，这个设计可能造成detect和trackqueries之间的misalignment</strong>。在很多工作中讨论的那样，可学习的objectquery in DETR-family扮演着类似于带有少许语义信息的learnableanchor。另外一方面，trackqueries有特定的语义知识来解析它们的类别和边界框，因为它们是从前一帧中的输出产生的。如图所示，将原始的TransformerDecoder分为2个部分，第一个decoder layer用于detections，剩余的fivelayers用于jointdetection和tracking。<strong>这两个decoders有相同的结构但是不同的输入</strong>。<strong>这个DetectionDecoder <span class="math inline">\(D_{det}\)</span>将原始可学习的detect query <span class="math inline">\(Q_det\)</span>作为输入，产生对应的detection embeddings <spanclass="math inline">\(E^t_{det}\)</span>，带有足够的语义信息来定位和分类目标。之后，将detect和trackembedding进行concat， 作为输入给到Transformer Decoder <spanclass="math inline">\(D_{joint}\)</span></strong>。</p></li><li><p>Long-TermMemory：不像之前的方法仅利用相邻帧的信息，作者显式地引入了long-termmemory <span class="math inline">\(M^t_{tck}\)</span> 来维持trackedtargets的更长的时序信息。当一个newborn目标检测到了的时候，用当前的输出初始化long-termmemory。应该注意到，在一个videostream中，在连续帧中，目标有少许的形变和运动。因此，作者假设，trackedobjects的语义特征在短时间内变化不大。相同的方法，作者的long-termmemory应该update smoothly。用一个简单但有效的running average withexpoentailly decaying weights 来更新long-term memory <spanclass="math inline">\(M^t_{tck}\)</span>。 <spanclass="math display">\[\widetilde{M}_{tck}^{t+1}=(1-\lambda)M_{tck}^{t}+\lambda\cdotO_{tck}^{t},\]</span> <spanclass="math inline">\(\widetilde{M}_{tck}^{t+1}\)</span>是下一帧的新的long-term memory。这个memory更新速率 <spanclass="math inline">\(\lambda\)</span> 设置为0.01，<strong>following theassumption that memory changes smoothly and consistently in consecutiveframes</strong>。</p></li><li><p><strong>Temporal Interaction Module</strong>：adaptiveaggregation for temporalenhancement。模糊或者遮挡等这些问题经常出现在videostream。一个解决这个问题的intuitiveidea是用多帧的特征来增强单帧的表征，因此，作者用一个自适应的aggregation算法来融合相邻帧的输出。由于遮挡和模糊，这个当前帧的outputembedding <span class="math inline">\(O^t_{tck}\)</span>可能不可靠。因此，如图2所示，产生一个channel-wise weight <spanclass="math inline">\(W^t_{tck}\)</span> for each trackedinstance来避免这个问题： <spanclass="math display">\[W_{tck}^t=\mathrm{Sigmoid}(\mathrm{MLP}(O_{tck}^t)).\]</span>将这个weight <span class="math inline">\(W^t_{tck}\)</span> 和当前的输出<span class="math inline">\(O^t_{tck}\)</span>进行相乘，然后将结果和之前帧的 <spanclass="math inline">\(O^{t-1}_{tck}\)</span>进行concate。另外，用一个两层的MLP来产生融合后的outcome <spanclass="math inline">\(\hat{O}^t_{tck}\)</span>。这个自适应aggregation，用短期的temporalmodeling增强的目标表征。然而，作者没有用上述的channel-wise weight forprevious output <span class="math inline">\(O^{t-1}_{tck}\)</span>。<span class="math inline">\(O^t_{tck}\)</span> 和 <spanclass="math inline">\(O^{t-1}_{tck}\)</span>之间有不同。在推理期间，用一个score阈值 <spanclass="math inline">\(\Tau_{tck}\)</span> 来保证 $O^{t-1}_{tck}是相对可靠的。因此，完整地输入它subsequent fusion step without theadaptive weight。</p></li><li><p><strong>Generate Track Embedding</strong>：作者利用trackembedding <span class="math inline">\(E^t_{tck}\)</span>来产生每个trackedtarget的位置和类别。因此，产生更可靠和distinguishable的trackembedding是提高跟踪性能的关键。因为同一帧可能有多个相似的目标，作者相信，学习更多的discriminativerepresentations对于一个tracker是重要的。因此，采用Multi-HeadAttention结构，称之为 memory-attentionlayer来实现不同轨迹之间的交互，由于long-term memory的可靠性，we use itas K，aggregation <span class="math inline">\(\hat{O}^t_{tck}\)</span>和输出embedding <span class="math inline">\(O^t_{tck}\)</span> 分别用作Q和V。之后，将long-term memory <spanclass="math inline">\(M^t_{tck}\)</span> 和memory attentionlayer的结果通过相加进行结合，然后，输入给FFN网络，来预测subsequent trackembedding <spanclass="math inline">\(\hat{E}^{t+1}_{tck}\)</span>。long-termmemory是随时间变化的。因此，通过引入long-term memory的信息，trackembedding <span class="math inline">\(\hat{E}^{t+1}_{tck}\)</span>避免了可能造成关联错误的突然的变化。这个设计显著地提高了目标关联的表现。</p></li><li><p>推理细节：<strong>在时刻t，将learnable detect query和 trackembedding 一起输入到模型中，产生detection和trackingresults。置信度分数超过阈值的detection result将会转化为一个newbornobject</strong>。目标遮挡是一个常见的问题，如何trackedobject丢失了，作者不直接去掉它的trackembedding，而是将其记为<em>inactive</em> 轨迹。之后，inactive target在<span class="math inline">\(T_{miss}\)</span>帧之后被去掉。值得注意的是，作者没有在每个时刻为每个object更新trackembedding和long-term memory。相反，作者选择更新高置信度的trackembedding。这个update threshold <spanclass="math inline">\(T_{next}\)</span> 产生下面的formulation forupdating： <span class="math display">\[[E_i^{t+1},M_i^{t+1}]=\begin{cases}[\widetilde{E}_i^{t+1},\widetilde{M}_i^{t+1}], &amp;c_i^t&gt;\tau_{next} \\[E_i^t,M_i^t], &amp; c_i^t\leq\tau_{next}\end{cases},\]</span> i是target index，t是frame index， <spanclass="math inline">\(c^t_i\)</span>是时刻t的第i个目标的预测的分类置信度。<spanclass="math inline">\(\widetilde{E}_i^{t+1},\widetilde{M}_i^{t+1}\)</span>分别是track embedding和long-term memory的预测，由Temporal InteractionModule产生。为了简单起见，将 $T_{det} = T_{tck} = T_{next} = 0.5 $。<span class="math inline">\(T_{miss}\)</span> 设置为30，15，10 onDanceTrack, MOT17和BDD100K。</p></li></ol><figure><imgsrc="https://figures.semanticscholar.org/a94e3930e0f13e835624f9021ed7d91408d994ff/3-Figure1-1.png"alt="Overview of MeMOTR" /><figcaption aria-hidden="true">Overview of MeMOTR</figcaption></figure><p><span class="math inline">\(Fig.1^{[1]}\)</span>像大多数的基于DETR的方法，作者利用ResNet50作为backbone，和一个TransformerEncoder来学习输入图像的2D表征，用不同的颜色来表示不同的trackedtargets，可学习的detect query <spanclass="math inline">\(Q_{det}\)</span> 是灰色。然后，这个DetectionDecoder <span class="math inline">\(D_{det}\)</span> 处理detect query，来产生detect embedding <span class="math inline">\(E^t_{det}\)</span>，这个将tracking embedding <spanclass="math inline">\(E^t_{tck}\)</span> 和之前的frames对齐。long-termmemory 表示为 <spanclass="math inline">\(M^t_{tck}\)</span>。蓝色虚线箭头所示的初始化过程将会用在newbornobjects上。</p><figure><imgsrc="https://figures.semanticscholar.org/a94e3930e0f13e835624f9021ed7d91408d994ff/4-Figure2-1.png"alt="Temporal Interaction Module" /><figcaption aria-hidden="true">Temporal Interaction Module</figcaption></figure><p><span class="math inline">\(Fig.2^{[1]}\)</span> <spanclass="math inline">\(\widetilde{E}^{t+1}_{tck}\)</span> 和 <spanclass="math inline">\(\widetilde{M}^{t+1}_{tck}\)</span> 是 <spanclass="math inline">\(E^t_{tck}\)</span> 和 <spanclass="math inline">\(M^t_{tck}\)</span> for the next frame。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;memotr-long-term-memory-augmented-transformer-for-multi-object-tracking1&quot;&gt;MeMOTR:
-Long-Term Memory-Augmented Transformer for Multi-Object
-Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自南京大学的Ruopeng Gao和Limin Wang。论文引用[1]:Gao, Ruopeng
-and Limin Wang. “MeMOTR: Long-Term Memory-Augmented Transformer for
-Multi-Object Tracking.” 2023 IEEE/CVF International Conference on
-Computer Vision (ICCV) (2023): 9867-9876.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2024.Feb&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;long-term temporal information&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;MOT是希望能够有效地得到目标的时序信息。不幸地是，现有的方法只显式地利用了相邻帧的目标特征，然而缺乏建模长程信息的能力。在本文中，提出了MeMOTR，一个长程的记忆增强的Transformer，用于多目标跟踪。作者的方法是，通过利用带有customized
-memory-attention layer的长期的记忆，能够使相同目标的track
-embedding更加stable和distinguishable。这显著提高了模型的目标关联能力。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GHOST</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/01/08/GHOST/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/01/08/GHOST/</id>
-    <published>2025-01-08T02:53:48.000Z</published>
-    <updated>2025-03-13T07:43:12.102Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="simple-cues-lead-to-a-strong-multi-object-tracker1">Simple CuesLead to a Strong Multi-Object Tracker<sup>[1]</sup></h3><blockquote><p>作者是来自慕尼黑工业大学和慕尼黑机器学习中心的JennySeidenschwarz等人，论文引用[1]:Seidenschwarz, Jenny et al. “Simple CuesLead to a Strong Multi-Object Tracker.” 2023 IEEE/CVF Conference onComputer Vision and Pattern Recognition (CVPR) (2022): 13813-13823.</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Apr</li></ul><h3 id="key-words">Key Words</h3><ul><li>domain-specific knowledge</li><li>一句话来说：<strong>在之前的TbD的范式基础上，提出了两个方案：一个是实时域适应：对于reID,源数据集的statistics可能和targetones不匹配，对于MOT任务，每个sequence的statistics可能都不一样，代表着一个新的domain，所以用one-the-flyDA来防止reIDmodels应用在不同的sequences上的时候的性能退化。这里作者用了currentbatch的均值和方差来更新BN layer；另外，在计算distancecomputation的时候，对active tracks和inactive tracks分开处理，用不同matchthreshold 来处理active tracks和inactive tracks</strong>。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>很长时间以来，MOT中的大多数的范式是Tracking-by-detection(TBD)。目标先进行检测，然后关联。对于关联，大多数的模型利用motion和外观cues，例如reid。最近基于attention的方法提出用数据驱动的方式来学习cues。有很好的效果。这篇文章中，作者提出了疑问：简单的TBD的方法能够也实现端到端的性能。作者提出了两个关键的要素，使得标准的reid网络在基于外观的跟踪方面表现出色。作者分析了它的失败的情况，将appearancefeatures和简单的运动模型结合会有一个很好的跟踪结果。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MOT的主要范式是tracking-by-detection。有逐帧的目标检测和数据关联两个步骤。最简单的用于在线tracker的关联方法是用匈牙利算法进行逐帧的匹配。匹配通常是通过一些例如appearance, reid特征,motion cues来实现的。即使最近的trackers提出了data-driven 的motion先验或者 appearance cues，包含了额外的reID模型。更多最近的基于Transformer的trackers通过frames和trackedobjects之间的自注意力或者交叉注意力来学习必要的cues。虽然这隐式地消除了通常嵌入在手工设计的外观和运动线索中的任何启发式方法，是一个通往更通用的trackers的道路，训练策略比较复杂，训练这样的模型，数据量需要足够大，以至于MOT数据集不满足需求，方法依赖于在例如CrowdHuman这样检测的数据集上进行预训练。</p></li><li><p>是否要遵循learning everything inMOT这个路径是questionable，当这里有很多的指导如何定义和利用的prior的时候，例如appearance和motioncues。如本文所示，为了利用这些cues，需要做很多的observatiosn，这些可能是被大家忽略的。作者的第一个观察是：简单地用ReID网络用于外观匹配时对于MOT场景不够的，将一些SOTA的reid方法进行可视化。展示了reid的性能不一定转化为MOT性能。找到了造成reid模型性能较弱的两个问题：重识别（reID）模型需要考虑在不同时间范围内预期的不同挑战，即在附近帧中，物体的外观变化会非常小，而在较长的时间间隔中，可能会出现更显著的变化，例如由（部分）遮挡引起的变化；此外，重识别性能在多目标跟踪（MOT）序列之间往往不一致，因为它们的图像统计数据各不相同，而这与相应的重识别训练数据集的相对稳定条件有所不同。作者提出了两个简单但是关键的设计来克服上述的问题。例如<strong>on-the-flydomain adaptation</strong>和 <strong>不同的策略 for active and inactivetracks</strong>。另外，在不同的visibility条件下做了大量的分析，遮挡时间，相机运动，来决定哪种情况下reID是不够的和需要一个运动模型。将reID和一个简单的线性运动模型用加权求和结合起来，因此cues能够提供更多的weightwhen needed for different datasets。作者的findings最后导致了提出的<strong>G</strong>ood <strong>O</strong>ld<strong>H</strong>ungarian <strong>S</strong>imple<strong>T</strong>racker or <strong>GHOST</strong>。贡献如下：</p><ul><li>提供了关键的key design choices，能够提升reID模型的性能。</li><li>广泛地分析了哪种情况下appearance 是不够的，需要motion来back up。在本文中，作者希望展示 <strong>domain-specificknowledge</strong>的重要性以及它带来的影响，即使是在一些简单的老的模型上。我们的观察结果——即领域适应的重要性、短期与长期关联的不同处理方式，以及运动与外观之间的相互作用——是直观的，几乎深植于跟踪领域研究者的潜意识中。它们被最近的方法忽略了。引入简单但是更强的tracker，作者希望它们的观察能够启发futurework，将这些observations集成到复杂的模型之中，进一步提高SOTA</li></ul></li><li><p>近些年，TbD是MOT中最常见的范式，行人首先通过目标检测器检测出来，然后，detections通过逐帧关联，利用motion、location、appearance等cues来形成对应的identity的轨迹。这个association可以是逐帧的foronline applications或者是离线的 in a track-wise manner over thesequence。</p><ul><li><strong>Graph-baseApproaches</strong>：一个常见的进行数据关联的形式是将每个detection视为<strong>graph中的一个node，edges在时间域上连接一些nodes，形成轨迹</strong>。可以用<strong>最大流或者最小成本路径</strong>来决定哪些nodes进行连接。最近的进展是将<strong>track-wisegraph-based models</strong> 和 神经网络进行结合。</li><li><strong>Motion-basedAssociation</strong>：不同于介于graph的方法，很多TbD的方法通过直接利用detections和existingtrajectories的motion和locationcues来进行逐帧的关联。对于短期的preservation，这些trackers利用两个邻近帧的位移，这些使得它们能够利用空间位置相邻用于匹配。考虑这个idea，tracking-by-regression的方法利用目标检测器来回归bboxpositions，最近的进展引入了基于transformer的方法来进行tracking followingtracking-by-attentionparadigm。这些方法在短期的associations上表现很好，但是，这些方法需要复杂的训练策略。相比于其它的方法，作者展示了一个简单的linearmotionmodel足以满足大多数场景中的短期关联的建模问题。在移动相机或者需要长期的关联场景中，有遮挡的场景，纯粹基于motion的trackers需要结合appearance-basedcues。</li><li><strong>Appearance-basedassociation</strong>：为了实现在长期关联的场景中的更好的性能，大量的方法利用额外的基于appearance的reid网络(将appearancecues编码，来充识别persons afterocclusions)，为了进一步利用这个方向，最近一个工作提出了，在训练过程中，利用嵌入信息来训练检测网络的方法。一些工作提出了联合detection和embeddingsin a multi-tasksetting。有一些引入了更加平衡的训练策略，来更好地利用cues的协同作用。在motioncues之外，额外利用appearance会要求更复杂的关联策略。复杂和高度不同的训练计划，或不同的推理策略使得它很难得出真正推动该领域进步的结论。相比之下，GHOST不依赖于复杂的步骤，结合了<strong>lightweight和spcied-up appearance cues in a simple yet strong TbDtracker</strong>，只需要很少的训练数据。</li><li><strong>Person ReID and Domain Adaptation</strong>：相比于trackingdomain，person reID的目标是从一个大的gallery中检索personbboxes，该gallery根据外观线索显示与给定的queryimage相同的人。然而，SOTA的reID在out-of-domainsamples上评估的时候，会有性能下降。在应用的时候，personreID模型应用在不同的摄像头。出现了几种跨数据集评估方法，将知识从给定源(givensource, i.e. training to a give target)转移到给定目标(test domainutilizing domain adaptation,DA)。 DA依赖于adapting Batch Normalizationstatistics 来解决不同domains之间的distribution shifts。weight matrix和BNstatistics 存储label和domain-related knowledge。为了更新后者，BNlayers的statistics可以通过对所有的target domain images取mean和variance，通过<strong>用伪标签或者结合train和testdataset来重新训练</strong>。除了统计数据，学习到的参数 <spanclass="math inline">\(\beta\)</span> 和 <spanclass="math inline">\(\gamma\)</span>也能更新。受最近的进展的启发，作者增强它们的appearancemodel，用一个简单的 on-the-fly domainadaptation方法，来更好地适应MOT，这直接使模型学习的训练数据集统计数据(source)适应于序列(sequences)</li></ul></li><li><p>方法：基于匈牙利的TbD的范式，GHOST结合了被忽略的designchoices：</p><ul><li>一个简单的tracking-by-detection tracker：作者的tracker输入的时候aset of detections，每个有 <span class="math inline">\(o_i = (f_i,p_i)\)</span>，<span class="math inline">\(f_i\)</span> 是从rawdetection pixels中用CNN得到的appearance feature vectors, <spanclass="math inline">\(p_i\)</span> 是imagecoordinates中的bbox，一个trajectory 或者 track定义为 time-ordereddetections <span class="math inline">\(T_j ={o_{j1},...,o_{jNj}}\)</span>。 <span class="math inline">\(N_j\)</span>是 轨迹 j中的detections的数量。每个轨迹有一个对应的预测的position <spanclass="math inline">\(\hat{p_j}\)</span> at time stept，由线性运动模型产生。在tracking期间，detections分配给了trajectories。如果没有newdetection添加到trajectory中，将它的状态设为inactive，否则就是active。用一个Memorybank，保持inactive trajectories最多50帧。目标是找到轨迹 <spanclass="math inline">\(T = {T_1,...,T_M}\)</span>，能够最好地将detections匹配到潜在的gt trajectories。</li></ul><p>为了这个目标，用bipartitematching，通过匈牙利算法进行逐帧的关联existingdetections。这个assignment is driven by a cost matrix that compares newdetections with the tracks already obtained in previousframes。为了构成这个cost matrix，用appearance features, motioncues。最后的tracker利用它们的简单的加权和。将detection-trajectory pairs在Matching之后进行过滤。</p><ul><li><p>Strong appearance model for MOT：作者的appearancemodel是基于resnet50，有一个额外的全连接层用于downsampling，还有一个在commonpersonreID数据集上进行训练。值得注意的是，作者没有在任何MOT数据集上训练reIDmodel的任何一个Part。像作者是实验中展示的那样，这个基本的reID模型在MOT数据集上表现不是很好，因此，作者提出两个设计，使得appearancemodel stronger：1. 对active 和inactive tracks分别处理;2. 增加on-the-flydomain adaption。作者分析了detections和tracks之间的distances in givenMOT sequences。</p></li><li><p>Appearance distance histograms。作者分析了new detections和activeor inactive tracks之间的histograms of distances。</p></li><li><p>Different handling of active and inactivetracks：当一个identity的appearanceembeddings在两个连续帧之间几乎没有变化的时候，同一个identity的embedding在遮挡之前和之后显示了很大的distances。从图中可以看出，两个深色的histograms差异很大，表明不同的active或者inactive tracks 之间的treatment是必要的；另外，可以看到对于inactivetracks的negative 和positivematches之间的overlap，表明遮挡之后的内在的matching的困难。因此，对于active tracks，利用检测到的detection的appearancefeature用于distance 计算；对于inactive tracks，计算所有inactive track<span class="math inline">\(k\)</span> 中的所有 <spanclass="math inline">\(N_k\)</span> 个detections 和new detectioni，利用这些distances的mean作为proxy distance。</p></li></ul><p>这个proxy distance 导致更加鲁棒的estimate of the true underlyingdistance between a detection 和一个inactive track。因此，和使用inactivetrack的single feature vector相比，利用proxy distance可以得到更好的分离直方图。</p><p>另外，active 和 inactive 不同的histograms 在bipartitematching期间，需要不同的处理。我们通过不同的阈值将活动轨迹和非活动轨迹到相同身份（深色）及不同身份（浅色）检测结果的距离直方图进行划分。针对活动轨迹和非活动轨迹分别采用不同的匹配阈值（act和inactive），使我们能够保持单一的匹配过程。与级联匹配相比，我们的分配方法更为简洁，避免了在每一帧中多次执行二分图匹配。</p><ul><li>on-the-fly domainadaptation：近年来，行人重识别领域的发展提出应用领域适应（DA）技术，因为源数据集的统计特性可能与目标数据集不匹配。对于MOT，这可能更严重，因为每个sequence是不同的statistics，代表一个新的targetdomain。因此，作者提出了<strong>on-the-flyDA</strong>，为了防止应用到多个MOT序列的时候reID模型的退化。这使得能够在所有sequences上利用 reID。 最近，一些personreID上的工作，通过将normalization layers适应 instance batch, meta batch或者 camera batch normalizationlayers，利用DA的思路，实现跨数据集的泛化。相比于上述提到的approaches，利用当前batch的features的mean和variance。</li></ul><ol start="6" type="1"><li>在本文中，作者展示了old TbD trackers能够泛化到高度不同的数据集。对于作者的简单的匈牙利trackerGHOST，作者引入了 <strong>spiced-up appearance model，对active和inactive trajectories 分开处理</strong>。另外，通过应用<strong>on-the-fly DA</strong> 能够适应到testsequences。我们分析了外观模型与简单线性运动模型在可见性、遮挡时间及相机移动方面的不足之处。基于以上的分析，作者决定用一个加权求和，在需要的，给任一个cue更多的权重。</li></ol></li></ol>]]></content>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;simple-cues-lead-to-a-strong-multi-object-tracker1&quot;&gt;Simple Cues
-Lead to a Strong Multi-Object Tracker&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自慕尼黑工业大学和慕尼黑机器学习中心的Jenny
-Seidenschwarz等人，论文引用[1]:Seidenschwarz, Jenny et al. “Simple Cues
-Lead to a Strong Multi-Object Tracker.” 2023 IEEE/CVF Conference on
-Computer Vision and Pattern Recognition (CVPR) (2022): 13813-13823.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2023.Apr&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;domain-specific knowledge&lt;/li&gt;
-&lt;li&gt;一句话来说：&lt;strong&gt;在之前的TbD的范式基础上，提出了两个方案：一个是实时域适应：对于reID,源数据集的statistics可能和target
-ones不匹配，对于MOT任务，每个sequence的statistics可能都不一样，代表着一个新的domain，所以用one-the-fly
-DA来防止reID
-models应用在不同的sequences上的时候的性能退化。这里作者用了current
-batch的均值和方差来更新BN layer；另外，在计算distance
-computation的时候，对active tracks和inactive tracks分开处理，用不同match
-threshold 来处理active tracks和inactive tracks&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;很长时间以来，MOT中的大多数的范式是Tracking-by-detection(TBD)。目标先进行检测，然后关联。对于关联，大多数的模型利用motion和外观cues，例如reid。最近基于attention的方法提出用数据驱动的方式来学习cues。有很好的效果。这篇文章中，作者提出了疑问：简单的TBD的方法能够也实现端到端的性能。作者提出了两个关键的要素，使得标准的reid网络在基于外观的跟踪方面表现出色。作者分析了它的失败的情况，将appearance
-features和简单的运动模型结合会有一个很好的跟踪结果。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BoT-SORT</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/01/08/BoT-SORT/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/01/08/BoT-SORT/</id>
-    <published>2025-01-08T01:59:04.000Z</published>
-    <updated>2025-03-13T08:11:07.385Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="bot-sort-robust-association-multi-pedestrian-tracking1">BoT-SORT:Robust Association Multi-Pedestrian Tracking<sup>[1]</sup></h3><blockquote><p>作者是来自Tel-Aviv大学的Nir Aharon等人。论文引用[1]: Aharon, Nir etal. “BoT-SORT: Robust Associations Multi-Pedestrian Tracking.” ArXivabs/2206.14651 (2022): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Jul</li></ul><h3 id="key-words">Key Words</h3><ul><li>IoU-ReID cosine-distance fusion</li><li>一句话来说：<strong>用了CMC和IoU-ReIDfusion来更近association</strong>.</li></ul><h3 id="总结">总结</h3><ol type="1"><li>多目标跟踪的目标是检测和跟踪场景中的所有目标，同时每个目标保持一个唯一的id。本文中，作者提出了一个新的SOTA的tracker，能够结合motion和appearanceinformation，还有camera-motion compensation和一个更精确的kalman filterstate vector。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>多目标跟踪旨在检测估计视频流中的多个目标的时空轨迹。MOT是一个多个应用的基础问题。当前，tracking-by-detection是最有效的MOT的范式。tracking-by-detection包含了一个目标检测的阶段，然后是跟踪阶段。跟踪阶段通常有两个主要部分：motionmodel和state estimation，用于预测后续帧中的tracklets的bboxes。kalmanfilter是这个任务的常用的选择；将新的framedetections和当前的tracks进行关联。有两个先进的方法用于处理关联任务：一个是目标的定位；主要是预测的trackletbbox和detectionbox之间的IoU。另一个是目标外观模型和reid任务。两个方法都量化成distances，将关联任务作为全局分配问题进行解决。</p></li><li><p>很多最近的工作是基于SORT, DeepSORT,JDE的思路，大多数的SORT-like的算法，采用卡尔曼滤波器，有一个恒速模型假设作为运动模型。KF用于预测下一帧中的trackletbbox，用于和detection bbox进行关联和遮挡或漏检情况下预测trackletstate。</p></li><li><p>KF 状态估计作为tracker的输出，导致次优的bboxshape。相比于目标检测器驱动的detections。大多数的最近的方法用KF的状态特性，尝试估计box的apsectratio而不是width，导致不精确的尺寸估计。SORT类型的IoU方法主要依赖于tracklet的预测框的质量。因此，在大多数的复杂场景中，预测正确的bbox的位置可能会失败，因为相机的运动，导致两个相关的bboxes之间的lowoverlap，最后导致tracker的低性能。通过采用<strong>传统的图像注册来估计相机运动和纠正KF来克服这个问题</strong>。将这个表示为<strong>Camera Motion Compensation(CMC)</strong>。本文的工作贡献如下：</p><ul><li>展示了通过增加改进，例如相机运动补偿特征tracker和一个合适的KF statevector用于更好的box 定位。tracking-by-detectiontrackers得到了显著地提高。</li><li>展示了一个简单有效的方式用于IoU和ReID余弦距离融合，用于更好地detections和tracklets之间的关联。</li></ul></li><li><p>随着目标检测进步，很多检测器有更高的性能。<strong>tracking-by-detectiontrackers主要关注于提高数据关联</strong>。</p></li><li><p>Motion Models：最近的tracking-by-detection的算法是基于motionmodels的。最近，有恒速模型假设的KF是用于建模目标运动的流行的选择。很多研究用KF的更先进的变体，例如NSA-Kalmanfilter，将detectionscores融合到KF中。很多复杂的场景包括相机运动，可能导致目标的非线性运动，造成不准确的KF预测。因此，很多研究人员采用CameraMotion Compensation(CMC) by aligning frames via image registration usingthe Enhanced Correlation Coefficient(ECC) maximazation or matchingfeatures such as ORB.</p></li><li><p>外观模型和ReID:通过深度外观cues对目标进行判别和reid也是流行的，但是在很多情况下是不行的，特别是场景拥挤。最近，一些jointtrackers被提出了，用于联合训练detection和一些其它的components，例如motion,embedding和 associationmodel。这些Tracker的主要的好处是它们的很低的计算成本和类似的性能。</p></li><li><p>近期，一些研究抛弃了外观信息，只依赖于高性能的检测器和运动信息，能够实现highrunning speed和SOTA的性能。在ByteTrack中，利用了low score detectionboxes。</p></li><li><p>BoT-SORT-ReID是 BoT-SORT的扩展，包括一个reid的模块</p><ul><li>Kalman filter:为了在图像平面建模目标的运动，广泛采用一个有恒速模型的离散卡尔曼滤波器。在SORT中，statevector是seven-tuple，<spanclass="math inline">\(\boldsymbol{x}=[x_{c},y_{c},s,a,\dot{x_{c}},\dot{y_{c}},\dot{s}]^{\top}\)</span>，<spanclass="math inline">\((x_c,y_c)\)</span>是图像平面中目标中心的2D坐标。<span class="math inline">\(s\)</span>是bbox 的面积，<span class="math inline">\(a\)</span> 是bbox的aspectratio。在最近的tracker中，state vector变成了一个eight-tuple，<spanclass="math inline">\(\boldsymbol{x}=[x_{c},y_{c},a,h,\dot{x_{c}},\dot{y_{c}},\dot{a},\dot{h}]^{\top}\)</span>。$$，然而，作者通过实验发现，直接估计bbox的width和height会效果更好。因此，将KF的statevector定义为：</li></ul><p><span class="math display">\[\begin{aligned}\boldsymbol{x}_{k} &amp; =[x_{c}(k),y_{c}(k),w(k),h(k), \\&amp; \dot{x_{c}}(k),\dot{y_{c}}(k),\dot{w}(k),\dot{h}(k)]^{\top}\end{aligned}\]</span></p><p>measure vector定义为：</p><p><span class="math display">\[\boldsymbol{z}_k=\begin{bmatrix}z_{x_c}(k),z_{y_c}(k),z_w(k),z_h(k)\end{bmatrix}^\top\]</span></p><p>matrices Q,R 在SORT中是时间独立的，过程噪声协方差 <spanclass="math inline">\(Q_k\)</span> 和 测量噪声协方差 <spanclass="math inline">\(R_k\)</span> 被修改了：</p><p><span class="math display">\[\begin{aligned}\boldsymbol{Q}_{k}=diag\big((\sigma_{p}\hat{w}_{k-1|k-1})^{2},(\sigma_{p}\hat{h}_{k-1|k-1})^{2},\\(\sigma_{p}\hat{w}_{k-1|k-1})^{2},(\sigma_{p}\hat{h}_{k-1|k-1})^{2}, \\(\sigma_{v}\hat{w}_{k-1|k-1})^{2},(\sigma_{v}\hat{h}_{k-1|k-1})^{2}, \\(\sigma_{v}\hat{w}_{k-1|k-1})^{2},(\sigma_{v}\hat{h}_{k-1|k-1})^{2}) \\R_{k}=diag\big((\sigma_{m}\hat{w}_{k|k-1})^{2},(\sigma_{m}\hat{h}_{k|k-1})^{2},\\(\sigma_{m}\hat{w}_{k|k-1})^{2},(\sigma_{m}\hat{h}_{k|k-1})^{2})\end{aligned}\]</span></p><ul><li>Camera Motion Compensation(CMC)：tracking-by-detectiontrackers严重依赖于预测的tracklets bbox和detectedones的重叠。在动态相机场景中，图像平面的bbox location会剧烈变化，导致IDswitches或者漏检。在静态相机场景中，Trackers会受到震动或者漂移的影响。在MOT20中，视频中的运动模式可以总结为刚体运动和目标的非刚体运动。当缺乏相机运动的额外的数据的时候，两个相邻帧之间的图像配准是相机在图像平面上的刚性运动投影的一个很好的近似。我们采用了OpenCV实现的视频稳定化模块中的全局运动补偿技术，该技术使用了仿射变换。图像配准适用于显示背景运动。首先图像keypoints的提取，随后使用稀疏光流进行特征跟踪，并结合基于平移的局部异常值剔除。affinematrix是通过RANSAC解决的。使用稀疏配准技术可以根据检测结果忽略场景中的动态物体，从而有可能更准确地估计背景运动。将k-1帧的预测的bbox的coordinatesystem转换到下一帧k的coordinatesystem中。变换矩阵的平移部分只影响bbox的中心位置，然而，其它部分影响所有的statevector和噪声矩阵。相机运动纠正的步骤通过下列方程进行：</li></ul><p><span class="math display">\[A_{k-1}^k=\begin{bmatrix}M_{2x2}|T_{2x1}\end{bmatrix}=\begin{bmatrix}a_{11}a_{12}a_{13} \\a_{21}a_{22}a_{23}\end{bmatrix}\]</span></p><p><span class="math display">\[\tilde{M}_{k-1}^{k}=\begin{bmatrix}M &amp; 0 &amp; 0 &amp; 0 \\0 &amp; M &amp; 0 &amp; 0 \\0 &amp; 0 &amp; M &amp; 0 \\0 &amp; 0 &amp; 0 &amp; M\end{bmatrix},\tilde{\boldsymbol{T}}_{k-1}^{k}=\begin{bmatrix}a_{13} \\a_{23} \\0 \\0 \\\vdots \\0\end{bmatrix}\]</span></p><p><spanclass="math display">\[\hat{\boldsymbol{x}}_{k|k-1}^{\prime}=\tilde{M}_{k-1}^{k}\hat{\boldsymbol{x}}_{k|k-1}+\tilde{\boldsymbol{T}}_{k-1}^{k}\\P_{k|k-1}^{\prime}=\tilde{M}_{k-1}^{k}P_{k|k-1}\tilde{M}_{k-1}^{k^{\top}}\]</span></p><p><span class="math inline">\(M \in \mathbf{R^{2 \times 2}}\)</span>是仿射矩阵A的一部分，包含尺度和旋转。 <spanclass="math inline">\(T\)</span> 包含translation部分。</p><p>在速度较快的场景中，state vector的correction包括速度，是重要的。当相机相对于帧率变化较慢的时候。通过应用这个方法，tracker对相机运动更加鲁棒。</p><ul><li>IoU-ReIDFusion：将外观特征集成到tracker中，为了提取ReID特征，采用更强的baseline。采用EMA机制用于更新匹配的tracklets外观状态 <span class="math inline">\(e^k_i\)</span> for第k帧的第i个tracklet。</li></ul><p><span class="math display">\[e_i^k=\alphae_i^{k-1}+(1-\alpha)f_i^k\]</span></p><p><span class="math inline">\(f^k_i\)</span>是当前匹配的detection的外观embedding。 <spanclass="math inline">\(\alpha\)</span> = 0.9是动量。<strong>因为外观特征容易受拥挤、遮挡和模糊目标的影响，为了保持正确的特征向量，仅考虑高置信度的detection。对于averagedtracklet appearance state <span class="math inline">\(e^k_i\)</span> 和新的detection embedding vector <spanclass="math inline">\(f^k_j\)</span>之间的匹配，用余弦相似度进行测量</strong>。作者决定抛弃常见的外观cost<span class="math inline">\(A_{\alpha}\)</span> 和运动cost <spanclass="math inline">\(A_m\)</span> 之间的加权求和用于计算cost matrix<span class="math inline">\(C\)</span>。 <spanclass="math inline">\(\lambda\)</span> 通常设为 0.8。</p><p>作者开发了一个新的方法，用于结合motion和外观信息，例如IoU distancematrix和 cosine distancematrix。首先，低余弦相似度或距离较远的候选者会在IoU（交并比）得分方面被拒绝。然后，用matrices中的每个元素的最小值作为costmatrix C的最后的value。IoU-ReID 融合的pipeline表述如下：</p><p><span class="math display">\[\hat{d}_{i,j}^{cos}=\begin{cases}0.5\cdotd_{i,j}^{cos},(d_{i,j}^{cos}&lt;\theta_{emb})\wedge(d_{i,j}^{iou}&lt;\theta_{iou})\\1,\mathrm{otherwise} &amp;\end{cases} \\C_{i,j}=min\{d_{i,j}^{iou},\hat{d}_{i,j}^{cos}\}\]</span></p><p><span class="math inline">\(C_{i,j}\)</span> 是cost matrix C的 <spanclass="math inline">\((i,j)\)</span> 的元素。 <spanclass="math inline">\(d^{iou}_{i,j}\)</span>是第i个预测的bbox和第j个detection bbox之间的IoU，表示motion cost。<spanclass="math inline">\(d^{cos}_{i,j}\)</span> 是average trackletappearance descriptor i 和新的 detection descriptor j 之间的余弦距离。<span class="math inline">\(\theta_{iou}\)</span> 是proximity阈值，设为0.5。用于拒绝不相似的tracklets和detections。 <spanclass="math inline">\(\theta_{emb}\)</span> 是appearance阈值，用于分离positive association of tracklet appearance states和detections embedding vectors from the negative ones。将 <spanclass="math inline">\(\theta_{emb}\)</span>设为0.25。高置信度的detections的线性分配问题，例如第一个关联步骤，是用匈牙利算法基于costmatrix C进行解决的。</p></li><li><p>结论：本文中，提出了一个用了MOTbag-of-tricks用于鲁棒关联的、增强的多目标跟踪器，称之为BoT-SORT，这个方法和它的组件能够很好地集成到其它的tracking-by-detection的tracker中，另外，一个新的MOTinvestigation tool,-cMOTA引入了，希望这个工作能够帮助推动MOT的研究。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/fbe974fc4dc9ca669c394b880a3969bf3d7955ca/3-Figure2-1.png"alt="BoT SORT pipeline" /> <spanclass="math inline">\(Fig.1^{[1]}\)</span> BoT-SORT-ReID trackerpipeline的overview。online trackingregion是tracker的主要部分，后处理region是可选的。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;bot-sort-robust-association-multi-pedestrian-tracking1&quot;&gt;BoT-SORT:
-Robust Association Multi-Pedestrian Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自Tel-Aviv大学的Nir Aharon等人。论文引用[1]: Aharon, Nir et
-al. “BoT-SORT: Robust Associations Multi-Pedestrian Tracking.” ArXiv
-abs/2206.14651 (2022): n. pag.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2022.Jul&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;IoU-ReID cosine-distance fusion&lt;/li&gt;
-&lt;li&gt;一句话来说：&lt;strong&gt;用了CMC和IoU-ReID
-fusion来更近association&lt;/strong&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;多目标跟踪的目标是检测和跟踪场景中的所有目标，同时每个目标保持一个唯一的id。本文中，作者提出了一个新的SOTA的tracker，能够结合motion和appearance
-information，还有camera-motion compensation和一个更精确的kalman filter
-state vector。&lt;/li&gt;
-&lt;/ol&gt;</summary>
     
     
     
