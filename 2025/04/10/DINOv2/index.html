@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="DINOv2: Learning Robust Visual Features without Supervision[1]  作者是来自Meta的Maxime Oquab等人。论文引用[1]:Oquab, Maxime et al. “DINOv2: Learning Robust Visual Features without Supervision.” ArXiv abs&#x2F;2304">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DINOv2">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/04/10/DINOv2/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="DINOv2: Learning Robust Visual Features without Supervision[1]  作者是来自Meta的Maxime Oquab等人。论文引用[1]:Oquab, Maxime et al. “DINOv2: Learning Robust Visual Features without Supervision.” ArXiv abs&#x2F;2304">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-04-10T03:27:52.000Z">
+<meta property="article:modified_time" content="2025-04-10T14:42:21.550Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Self-Supervised">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/04/10/DINOv2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/04/10/DINOv2/","path":"2025/04/10/DINOv2/","title":"DINOv2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DINOv2 | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#dinov2-learning-robust-visual-features-without-supervision1"><span class="nav-number">1.</span> <span class="nav-text">DINOv2:
+Learning Robust Visual Features without Supervision[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/10/DINOv2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DINOv2 | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DINOv2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-04-10 11:27:52 / 修改时间：22:42:21" itemprop="dateCreated datePublished" datetime="2025-04-10T11:27:52+08:00">2025-04-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>13 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="dinov2-learning-robust-visual-features-without-supervision1">DINOv2:
+Learning Robust Visual Features without Supervision<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Meta的Maxime Oquab等人。论文引用[1]:Oquab, Maxime et al.
+“DINOv2: Learning Robust Visual Features without Supervision.” ArXiv
+abs/2304.07193 (2023): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Feb</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>curated dataset</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>最近在大规模数据上预训练的NLP的模型的突破，为CV领域的类似的foundation
+models的提供了路子。这些模型通过产生<strong>general purpose visual
+features，能够放大uses of images in any
+system</strong>。这个工作展示了，在现有的预训练的方法中，特别是自监督的方法，如果能够在足够的、多样化的curated
+data上进行训练，能够得到这种features。作者revisit现有的方法，结合了不同的techniques，在data和model
+size上进行scale pretraining。大多数的technical
+contributions旨在加速和stabilizing training at
+scale。在数据方面，作者提出了一个自动化的pipeline，来构建一个dedicated,
+diverse和curated image dataset，而不是uncurated
+data，就像self-supervised中常做的那样。在model方面，作者训练了一个1B的ViT
+model，然后蒸馏到一些更小的models，超过了best available general-purpose
+features, OpenCLIP。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>学习task-agnostic pretrained
+representations在NLP中成为了一个标准，one can use these features "as
+they are",
+不需要微调，就能够在下游任务上实现良好性能，显著地超过了task-specific
+models产生的features。这个成功是由于用pretext objectives，在大量的raw
+text上预训练实现的，例如language modeling, word
+vectors，不需要supervision。 跟踪NLP中的paradigm
+shift，作者期望在CV中也出现这样的foundation
+models。这些models能够在任何task上，work out of box，both at image
+level, image classification, pixel level, segmentation等，产生visual
+features。最有前景的efforts是聚焦于text-guided
+pretraining，用一种形式的textual
+supervision来指导features的training。这种基于文本引导的预训练方式会限制图像信息的保留，因为图像描述只能近似地捕捉到图像中丰富的信息，复杂的pixel-level的信息可能在这种监督下不会出现。另外，这些image
+encoders需要对齐的text-image
+corpora，因此不具备其文本对应模型那样的灵活性，即仅从原始数据中学习的能力。</p>
+<p>text-guided pretraining的替代是self-supervised
+learning，features仅从images中学习。这些方式概念上更接近language
+modeling这种pretext tasks，能够在image 和pixel level capture
+information。另外，self-supervised
+models输出的features展示出了多种有用的properties，有广泛的应用。然而，尽管它们有潜力学习general
+purpose features，<strong>大多数的self-supervised
+learning的进展是在small curated
+datasets上的预训练，有一些用超过ImageNet-1K的进行scaling，但是聚焦于uncurated
+datasets，导致features
+质量上的严重下降。数据质量和多样性缺乏控制导致的，这对产生good
+features很重要</strong>。</p>
+<p>在这个工作中，作者探索了，如果在大规模的curated
+data上进行预训练，self-supervised learning是否有潜力学习general-purpose
+visual features。作者revisit 下游的discriminative self-supervised
+方法，能够在image和patch
+level学习features。作者reconsider了一些设计的选择。大多数的贡献是朝着稳定和加速判别式的self-supervised
+learning，同时在model和data上进行scaling。这些improvements使得方法能够加速，同时需要更少的memory，使得能够用更大的batch
+sizes进行更长时间的训练。</p>
+<p>关于预训练的data，作者构建了一个自动化的pipeline来过滤和平衡dataset
+from an extensive collection of uncurated
+images。这个pipeline是受NLP中的启发，用了data similarities而不是external
+metadata，不需要人工的annotation。当处理这些images的主要的困难是rebalance
+concepts，避免在few dominant modes上过拟合。在这个工作中，naive
+clustering的方法效果较好，能够解决这个问题，作者搜集了a small but
+diverse corpus of 142M images来验证了它们的方法。</p></li>
+<li><p>最后，作者提供一些pretrained visual
+models，称之为DINOv2，用不同的ViT架构。作者releases所有的models和code来retrain
+DINOv2 on any
+data，<strong>作者在多个benchmarks上验证了DINOv2，得出结论：self-supervised
+pretraining alone 对于学习transferable frozen features是一个good
+candidate，和那些best openly available weakly-supervised
+models有竞争力</strong>。</p></li>
+<li><p><strong>有很多的自监督的方法聚焦于pretext tasks built from the
+images，例如从image中提取signal，来预测rest of the
+image。这个idea自Doersch的工作之后就流行了。通过预测context of a given
+patch，很多其它的pretext tasks是基于，例如re-colorizing
+images，predicting transformations, inpainting or patch
+re-ordering。</strong>最近，patch-based
+architectures，例如ViTs，导致了revisit of inpainting for
+pretraining，potentially in feature
+space。特别地，MAE学习的features在下游任务上提供了substantial
+improvements。<strong>MAEs的这个property进一步在video、audio还有其它模态上得到了验证。然而，它们的features需要supervised
+finetuning</strong>，而作者的<strong>features perform well out of the
+box</strong>。</p></li>
+<li><p><strong>Discriminative self-supervised
+learning</strong>：第二个研究方向，类似于作者的方法，是用<strong>discriminative
+signals between images or groups of images to learn
+features</strong>。这个方法是roots in early deep learning
+work，但是随着<strong>instance
+classification方法的出现而流行起来</strong>。<strong>一些改进要么是基于instance-level
+objectives，要么基于clustering。这些方法提供了performant frozen features
+on standard benchmarks like ImageNet</strong>，但是它们<strong>很难scale
+to larger model sizes</strong>。在这个工作中，作者revisit the training
+of these approaches in the context of large pretraining datasets and
+models，特别地，作者建立在Zhou等人的工作之上，找到了特别适合scaling的approach。</p></li>
+<li><p><strong>Scaling self-supervised
+pretraining</strong>：越来越多的研究聚焦于自监督学习在数据规模和模型规模上的scaling能力。大多数的工作用大量的<strong>uncurated
+data来训练模型without supervision</strong>。它们展示，discriminative
+方法scale with
+data，但是由于预训练数据的质量问题，大多数微调的features不怎么好，特别地，Goyal等人展示了这些方法，在给定足够的pretrained
+data，能够从scaling in model
+size中获益。这一研究方向对自监督方法在任意数据上的普适性提出质疑，而我们则致力于构建最优的预训练编码器。</p></li>
+<li><p><strong>automatic data
+curation</strong>：作者的数据集构建的方法从image
+retrieval中借鉴了，特别地，用retrieval来增强training
+set，在semi-supervised
+learning中研究了很多，类似地，其它的用hashtags或者其它metadata、或者pretrained
+vision encoders来filter uncurated
+datasets，不同于这些工作，<strong>作者用no pretrained
+encoders，metadata或者supervision来过滤images，利用images之间的visual
+similarities。作者的方法是受text curation
+pipeline的启发，在Wikipedia上训练的language model来给从一个uncurated
+source中提取出来的texts打分</strong>。</p></li>
+<li><p>作者通过retrieving from 一个大的uncurated data，构建了一个curated
+LVD-142M dataset， images和一些curated
+datasets中相近。<strong>作者描述了data
+pipeline的主要的components，包括curated/uncurated data
+sources，image去重和retrieval system。作者的pipeline不要求任何metadata
+or text，直接works with images</strong>。</p></li>
+<li><p>在构建数据中的一个self-supervised image
+retrieval：作者通过从uncurated data source中检索和curated
+sources中相近的images，来构建curated pretraining
+dataset。为了做这个，首先用一个self-supervised ViT-H pretrained on
+ImageNet-22k来计算image
+embedding，用cosine-similarity作为images之间的distance
+measure，然后，对uncurated data做k-means聚类。给定一个query dataset for
+retrieval，如果太大了，每个query
+image就检索N个最近的neighbors，如果太小了，从对应于每个query
+image的cluster中采样M
+images。尽管直观检查显示，当N远大于4时检索质量良好，但这会导致更多碰撞（即同一图像成为多个查询的最近邻检索结果）。因此我们选择N=4，因为它在这方面提供了良好的折中(tradeoff)。</p></li>
+<li><p><strong>Implement Details</strong>：
+<strong>我们流程中的去重和检索阶段依赖于Faiss库（Johnson等，2019）来高效地对最近嵌入进行索引和批量搜索</strong>。特别是，我们充分利用了该库对GPU加速索引的支持，采用了基于乘积量化编码的倒排文件索引技术。</p></li>
+<li><p><strong>Discriminative Self-supervised
+Pre-training</strong>：用判别式的self-supervised
+method来学习features，可以被视为DINO和iBOT losses with the centering of
+SwAV的结合。作者也加了一个regularizer来spread features和一个short
+high-resolution training phase:</p>
+<ul>
+<li><strong>image-level objective</strong>：考虑从student和teacher
+网络中提取出来的features进行cross-entropy
+loss，这些features来自ViT的class token，obtained from different crops of
+the same image。作者通过DINO head来pass student class
+token。这个head是一个MLP model，输出a vector of scores，称之为prototype
+scores，然后用一个softmax得到 <span
+class="math inline">\(p_s\)</span>。类似地，对teacher class token
+用一个teacher DINO head，来得到teacher prototype
+scores。随后，我们应用softmax函数，并通过移动平均进行中心化处理。DINO
+loss是这样的：</li>
+</ul>
+<p><span class="math inline">\(\mathcal{L}_{\text{DINO}} = - \sum p_t
+\log p_s\)</span></p>
+<p>学习student的参数，用一个exponential moving average of past
+iterates来构建teacher head。</p>
+<ul>
+<li><strong>Patch-level
+objective</strong>：我们随机遮蔽输入的部分图像块（仅对学生网络遮蔽，教师网络不遮蔽）。随后，将学生网络的iBOT头应用于student
+mask tokens，并将教师网络的iBOT头应用于与学生遮蔽区域对应的visible
+teacher patch
+tokens。接着执行与前述相同的softmax和中心化步骤，最终得到iBOT损失项。</li>
+</ul>
+<p><span class="math display">\[\mathcal{L}_{\text{iBOT}} = - \sum_{i}
+p_{ti} \log p_{si}\]</span></p>
+<p>i是masked tokens的patch
+indices，和上述类似，学习student的参数，通过指数移动平均来构建teacher
+head.</p>
+<ul>
+<li><p><strong>Untying head weights between both
+objectives</strong>：DION 和iBOT loss用一个了可学习的MLP prediction
+head， 用在了output
+tokens上，然后计算loss，<strong>Zhou等人的研究表明，共享的parameters
+between DINO和iBOT
+heads导致更好的performance，在规模扩大的时候，作者观察到，opposite is
+true，因此，在实验中了用了两个分开的heads</strong>。</p></li>
+<li><p><strong>Sinkhorn-Knopp
+centering</strong>：Ruan等人推荐用Sinkhorn-Knopp batch norm of
+SwAV来替代teacher softmax-centering step of DINO and iBOT，运行3
+iterations SK，对于student，用softmax norm。</p></li>
+<li><p><strong>Koleo regularizer</strong>：Koleo
+regularizer是从Kozachenko-Leonenko differential entropy
+estimator中推导出来的，它促进了批次内特征的均匀覆盖。给定n个vectors，定义如下:</p></li>
+</ul>
+<p><span class="math display">\[d_{n,i} = min_{j \neq i} ||x_i -
+x_j||\]</span> 是<span class="math inline">\(x_i\)</span>
+和batch中的任何其它的point的最小的distance，在计算这个regularizer之前，用
+<span class="math inline">\(l_2\)</span>norm。</p>
+<ul>
+<li><strong>Adapting the resolution</strong>：增加image
+resolution对于pixel-level的下游任务是关键的，low resolution中small
+projects会消失。然而你，训练high
+resolution费时间，需要memory，相反，在pretraining结束的short
+period，增加image的resolution。这类似于UniViT和FlexiViT。</li>
+</ul></li>
+<li><p>在大规模上，考虑一些improvements:</p>
+<ul>
+<li><p>快速和memory-efficient attention：<strong>用了Flash
+Attention来提高memory
+usage和self-attention上的速度。由于GPU的特点，当每个head的embedding
+dimension是64的倍数的时候效率是最好的，full embedding
+dimension是256的倍数的时候，matrix operations更好。</strong></p></li>
+<li><p>sequence packing：DINO算法要求forwarding 包括large
+crops(224)和small
+crops(98)。<strong>当分成patches的时候，这两个groups被不同长度的token
+sequences所represent，不能一起forward，为了加速训练，用一个叫做sequence
+packing的trick，源自于NLP，idea是简单的: 将必须forward的sequence
+concat为一个single long sequence，将这个sequence 通过transformer
+blocks，然而，block-diagonal mask用于self-attention matrix in attention
+layers，阻止了不同sequence之间的attention，这个方式，forward相当于每个sequence分别地forwarding</strong>。这一技巧相比先前实现中单独执行前向与反向传播的做法，显著提升了计算效率。作者的架构的底层组件已在
+xFormers 库中开源提供。</p></li>
+<li><p><strong>Eifficent stochastic depth</strong>：执行stochastic
+depth的改进版本，跳过了dropped residuals的计算，而没有masking
+result。由于特定的融合核，这节省了内存和计算，比例大约等于drop
+rate。drop rate越高，能够再计算高效和memory
+usage上有巨大的提升。这个执行包含再batch上对B
+个samples进行随机的shuffling，将 <span class="math inline">\((1-d)
+\times B\)</span> samples 切片用于block中的计算。</p></li>
+<li><p><strong>Fully-Sharded Data
+Parallel(FSDP)</strong>：使用AdamW优化器最小化我们的目标函数需要4个float32精度的模型副本——学生模型、教师模型、优化器一阶矩（动量）和优化器二阶矩（方差）。这个需要16G
+memory for 1B
+参数的model，例如ViT-g，为了降低这个GPU的占用空间，我们通过PyTorch的FSDP（全分片数据并行）实现，将模型副本跨GPU进行分片，即将16GB分片分布到各个GPU上。因此，model
+size不会被单个GPU的memory所局限，但是受限于整个计算节点的总的GPU
+memory。FSDP的pytorch的implementation带来了第二个好处，能够节省跨GPU的通讯成本。weight
+shards是以float32 precision进行存储。，但是会broadcasting
+weights和reducing gradients in float16 precision for the backbone(MLP
+heads
+gradients降低到float32来避免训练的instabilities)。这导致近似50%的通讯成本的降低，相比于float32
+gradient all-reduce operation used in DDP, 用在了其它的self-supervised
+pretraining方法中。因此，与使用float16自动混合精度的DDP（分布式数据并行）相比，当扩展GPU节点数量时，作者的训练流程具有更高的扩展效率。总体而言，在遇到的几乎所有场景中，PyTorch-FSDP的混合精度方案均优于DDP结合自动混合精度的方案。</p></li>
+<li><p><strong>Model distillation</strong>：大多数的training
+loop的technical improvements旨在在大量的数据上提高large
+models的训练。对于更小的models，从最大的models中进行蒸馏，ViT-g，而不是从零开始训练。知识蒸馏旨在通过最小化large
+model和smaller model之间给定输入得到输出的distance，来reproduce large
+model的outputs。因为作者的objective function是从teacher network到student
+network的蒸馏。利用相同的training
+loop，但是有以下的区别：<strong>用一个更大的model作为frozen
+teacher，保持一个sparse EMA of student，能够用作最后的final
+model，去掉masking 和stochastic depth，用iBoT loss在两个global
+crops上。在作者的ablations，观察到这个方法相比于from
+scratch，实现了更好的效果，即使对于ViT-L，作者的蒸馏方法最终与Duval等（2023）提出的方案接近，但存在两点差异：我们未对蒸馏的损失项进行修改，且在评估时采用了学生的指数移动平均（EMA）而非直接使用模型权重</strong>。</p></li>
+</ul>
+<p><img
+src="https://figures.semanticscholar.org/5a9cb1b3dc4655218b3deeaf4a2417a9a8cd0891/4-Figure3-1.png"
+alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+从curated和uncurated data source中得到的image首先map to
+embeddings，uncurated images在being matched之前先去重，来得到curated
+image，最后的combination 通过自监督的retrieval system增强了initial
+dataset.</p></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Self-Supervised/" rel="tag"># Self-Supervised</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/04/09/OpenVLA/" rel="prev" title="OpenVLA">
+                  <i class="fa fa-angle-left"></i> OpenVLA
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">239k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">14:29</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

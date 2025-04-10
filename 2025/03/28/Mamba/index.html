@@ -19,14 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="Notes  SSM是用于描述这些状态表示，并根据某些输入预测其下一个状态可能是什么的模型，一般的输入是连续序列。SSM的核心方程： \[ \begin{align*} \text{State equation} &amp; \quad h&#39;(t) &#x3D; A h(t) + B x(t) \\ \text{Output equation} &amp; \quad y(t) &#x3D; C h">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Mamba">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/03/28/Mamba/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Notes  SSM是用于描述这些状态表示，并根据某些输入预测其下一个状态可能是什么的模型，一般的输入是连续序列。SSM的核心方程： \[ \begin{align*} \text{State equation} &amp; \quad h&#39;(t) &#x3D; A h(t) + B x(t) \\ \text{Output equation} &amp; \quad y(t) &#x3D; C h">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-28T08:55:50.000Z">
-<meta property="article:modified_time" content="2025-03-28T08:55:51.025Z">
+<meta property="article:modified_time" content="2025-04-07T06:22:28.644Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="State-Space Model">
 <meta name="twitter:card" content="summary">
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#notes"><span class="nav-number">1.</span> <span class="nav-text">Notes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#references"><span class="nav-number">2.</span> <span class="nav-text">References</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -124,7 +128,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-count">141</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -135,7 +139,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -198,9 +202,24 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-03-28 16:55:50 / 修改时间：16:55:51" itemprop="dateCreated datePublished" datetime="2025-03-28T16:55:50+08:00">2025-03-28</time>
+      <time title="创建时间：2025-03-28 16:55:50" itemprop="dateCreated datePublished" datetime="2025-03-28T16:55:50+08:00">2025-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-04-07 14:22:28" itemprop="dateModified" datetime="2025-04-07T14:22:28+08:00">2025-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
     </span>
 
   
@@ -217,7 +236,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>156</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -234,7 +253,20 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3 id="notes">Notes</h3>
+<ol type="1">
+<li>SSM是用于描述这些状态表示，并根据某些输入预测其下一个状态可能是什么的模型，一般的输入是连续序列。SSM的核心方程：
+<span class="math display">\[ \begin{align*}
+\text{State equation} &amp; \quad h&#39;(t) = A h(t) + B x(t) \\
+\text{Output equation} &amp; \quad y(t) = C h(t) + D x(t)
+\end{align*}\]</span>
+为了能够处理离散数据，对离散数据进行<strong>连续化，使用零阶保持技术,zero-order
+hold(ZOH)</strong>。有了连续的信号，就可以根据输入的时间对值进行采样。通过<strong>HiPPO初始化，处理长距离依赖</strong>。</li>
+</ol>
+<h3 id="references">References</h3>
+<ul>
+<li>https://blog.csdn.net/v_JULY_v/article/details/134923301</li>
+</ul>
 
     </div>
 
@@ -243,6 +275,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/State-Space-Model/" rel="tag"># State-Space Model</a>
+          </div>
 
         
 
@@ -286,13 +321,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">233k</span>
+    <span title="站点总字数">239k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">14:09</span>
+    <span title="站点阅读时长">14:29</span>
   </span>
 </div>
 <div class="busuanzi-count">

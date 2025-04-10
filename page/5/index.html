@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-count">141</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -135,7 +135,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -160,6 +160,346 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/11/28/OV-STAD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/11/28/OV-STAD/" class="post-title-link" itemprop="url">OV-STAD</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-28 22:25:19" itemprop="dateCreated datePublished" datetime="2024-11-28T22:25:19+08:00">2024-11-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-02 11:24:56" itemprop="dateModified" datetime="2025-03-02T11:24:56+08:00">2025-03-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>14 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="open-vocabulary-saptio-temporal-action-detection1">Open-Vocabulary
+Saptio-Temporal Action Detection<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自南大，南航和上海AI Lab的Tao Wu, Shuqiu
+Ge等人，论文引用[1]:Wu, Tao et al. “Open-Vocabulary Spatio-Temporal
+Action Detection.” ArXiv abs/2405.10832 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.May</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>video-language model</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>时空行为检测是一个fine-grained
+视频理解任务，当前的方法需要所有box和label的监督信息。然而，在真实世界中，很可能出现在训练集中没有出现过的行为类别，因为行为类别空间是大的，很难枚举。对于新的类别，模型训练和数据标注的成本很高，需要仔细的box标注，和从头训练网络。<strong>在本文中，通过进行开集STAD，提出了一个新的挑战性的设定，来更好的模拟开放世界中的行为检测。开集时空行为检测需要在有限行为类别和box
+监督中训练模型</strong>，期望在新的类别上产生良好的泛化表现。对于开集时空行为检测，基于已有的STAD数据集，建立了两个benchmarks，提出了一个基于VLM的简单有效的方法，为了更好的将VLM适配fine-grained
+行为检测任务，将其仔细地在localized video region-text
+pairs上进行微调。这定制化的fine-tuning使得VLM有更好的模型理解，导致video
+regions和texts有更精确地的对齐。在对齐之前的局部特征和全局视频特征融合is
+adopted ，通过提供全局上下文，来进一步提高行为检测能力。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/11/28/OV-STAD/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/11/28/openmax/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/11/28/openmax/" class="post-title-link" itemprop="url">openmax</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-28 17:17:02" itemprop="dateCreated datePublished" datetime="2024-11-28T17:17:02+08:00">2024-11-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-02 11:25:36" itemprop="dateModified" datetime="2025-03-02T11:25:36+08:00">2025-03-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>0</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/11/25/WSL-installation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/11/25/WSL-installation/" class="post-title-link" itemprop="url">WSL-installation</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-25 18:07:56" itemprop="dateCreated datePublished" datetime="2024-11-25T18:07:56+08:00">2024-11-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-26 12:42:18" itemprop="dateModified" datetime="2024-11-26T12:42:18+08:00">2024-11-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/methods/" itemprop="url" rel="index"><span itemprop="name">methods</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>247</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="wsl-安装">WSL 安装</h3>
+<p>一些命令： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wsl --shutdown ##关闭所有正在运行的WSL</span><br><span class="line">wsl --terminate &lt;DistributionName&gt; ##关闭指定的WSL</span><br><span class="line">wsl --list --all ##查看所有WSL的详细信息</span><br><span class="line">wsl -d &lt;DistriubutionName&gt; ##启动迁移后的发行版，确认它能正常运行</span><br><span class="line">wsl --unregister &lt;DistributionName&gt; ##注销指定的WSL</span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/11/25/WSL-installation/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1081,420 +1421,8 @@ speed和accuracy。然而，观察到，YOLO的速度和精度收到了NMS的负
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/10/16/YOWOv3-lightweight/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/10/16/YOWOv3-lightweight/" class="post-title-link" itemprop="url">YOWOv3_lightweight</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-10-16 09:33:17 / 修改时间：16:20:51" itemprop="dateCreated datePublished" datetime="2024-10-16T09:33:17+08:00">2024-10-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.7k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>6 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="yowov3-a-lightweight-spatio-temporal-joint-network-for-video-action-detection1">YOWOv3:
-A Lightweight Spatio-Temporal Joint Network for Video Action
-Detection<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自江南大学的Anlei Zhu, Yinghui Wang等人。论文引用[1]:Zhu,
-Anlei et al. “YOWOv3: A Lightweight Spatio-Temporal Joint Network for
-Video Action Detection.” IEEE Transactions on Circuits and Systems for
-Video Technology 34 (2024): 8148-8160.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2024.Sept</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>Channel Fusion and Attention Convolution Mix(CFACM) module</li>
-<li>spatio-temporal shift module</li>
-<li>一句话总结：借鉴了前人的 <strong>ACmix(Attention Channel
-mix)</strong> 和 <strong>TSM(Temporal shift module)</strong>
-模块，将它们拿过来缝合一下，完了。。。</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>时空行为检测网络，需要同时提取和融合时间和空间特征，经常导致目前的模型变得膨胀和很难实时和部署在边缘设备上，文章引入了一个高效实时的时空检测网路模型，YOWOv3，这个模型用了3D
-和2D backbone
-来本别提取时间和时空特征，通过继承卷积和自注意力，来设计一个轻量的时空特征融合模块，进一步增强了时空特征的抽取。将这个模块称之为CFACM,这个方法不仅在lightness上超过了最新的高效的STAD模型，减小了24%的模型的大小，同时提高了mAP，保持了很好的速度。现有的模型用3D
-卷积来提取时序信息，会受限于特定的设备上，为了减小3D卷积操作的潜在的不被支持在边缘部署的问题，用了一个时空shift
-module by 2D 卷积，使得模型能够获取时序信息，将得到的特征插入multi-level
-spatio-temporal feature extraction models.这样不仅将模型从3D
-卷积操作中释放出来，同时也很好地balance了速度和精度。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/10/16/YOWOv3-lightweight/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/10/08/Deformable-DETR/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/10/08/Deformable-DETR/" class="post-title-link" itemprop="url">Deformable-DETR</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-10-08 09:57:19" itemprop="dateCreated datePublished" datetime="2024-10-08T09:57:19+08:00">2024-10-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-19 14:34:09" itemprop="dateModified" datetime="2025-03-19T14:34:09+08:00">2025-03-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.4k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>12 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="deformable-detr-deformable-transformers-for-end-to-end-object-detection1">Deformable
-DETR: Deformable Transformers for End-to-End Object
-Detection<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自商汤、中科大和CUHK的Xizhou Zhou, Weijie Su, Lewei Lu
-等人，论文引用[1]:Zhu, Xizhou et al. “Deformable DETR: Deformable
-Transformers for End-to-End Object Detection.” ArXiv abs/2010.04159
-(2020): n. pag.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2021.Mar</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>deformable attention module aggregates multi-scale feature maps via
-attention mechanism</li>
-<li>一句话来说：Deformable DETR的核心是Deformable
-attention，<strong>用query + pos 生成 offset，sample locations
-等于reference points + offset，然后对query做Linear得到Attention
-weight，对feature map做Linear得到value，然后用sample
-locations去取对应位置的value，将attention weight 乘以sampling
-value，然后将各个head的输出进行拼接，再经过Linear，得到最终的输出</strong>。</li>
-</ul>
-<h3 id="动机">动机</h3>
-<ul>
-<li>DETR收敛慢</li>
-<li>DETR检测小目标的性能比较低</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>DETR在目标检测中，用来去掉很多人工设计的components，同时也有很好的性能。然而，它收敛比较慢，由于Attention在处理图像特征中的限制，特征的spatial
-resolution有限。为了缓解这些问题，提出了<strong>Deformable
-DETR</strong>，这个attention<strong>只对一个referrence附近的ke sampling
-points进行attend</strong>，Deformable
-DETR能够实现很好的性能，超越了DETR(特别是小目标)。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/10/08/Deformable-DETR/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/10/08/non-local/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/10/08/non-local/" class="post-title-link" itemprop="url">non-local</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-10-08 09:57:08" itemprop="dateCreated datePublished" datetime="2024-10-08T09:57:08+08:00">2024-10-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-10-09 17:02:03" itemprop="dateModified" datetime="2024-10-09T17:02:03+08:00">2024-10-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2.8k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>10 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="non-local-neural-networks1">Non-local Neural
-Networks<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自CMU和FAIR的Xiaolong Wang, Ross Girshick, Abhinav Gupta,
-Kaiming He.论文引用[1]:Wang, X. et al. “Non-local Neural Networks.” 2018
-IEEE/CVF Conference on Computer Vision and Pattern Recognition (2017):
-7794-7803.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2017.Nov</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>non-local 和 3D 卷积可以被视为将C2D扩展到时间维度的两种方式。</li>
-<li>long-range dependencies</li>
-<li>computes the response at a position as a weighted sum of the
-features at all positions</li>
-<li>consider all positions</li>
-</ul>
-<h3 id="动机">动机</h3>
-<ol start="2" type="1">
-<li>计算长程依赖在神经网络中很重要，对于系列数据(speech,
-language)，循环操作是主流，对于图像数据，通过构建卷积的deep
-stacks，能够得到大的感受野，建模长程依赖。卷积和循环操作都处理局部相邻信息，either
-in space or
-time。因此，长程依赖只有当这些操作重复应用的时候才能捕捉到，通过数据逐步地propagating信号。重复Local
-operation有一些限制：首先，计算是不高效的；其次，造成了优化困难；最后，这些挑战造成了<em>multihop
-dependency modeling</em>。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/10/08/non-local/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/YoungBlogs/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/14/">14</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/YoungBlogs/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/15/">15</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -1516,13 +1444,13 @@ dependency modeling</em>。</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">233k</span>
+    <span title="站点总字数">239k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">14:09</span>
+    <span title="站点阅读时长">14:29</span>
   </span>
 </div>
 <div class="busuanzi-count">

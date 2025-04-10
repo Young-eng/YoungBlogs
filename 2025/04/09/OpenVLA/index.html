@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="OpenVLA: An Open-Source Vision-Language-Action Model[1]  作者是来自Stanford、UCB等机构的Moo Jin Kim等人。论文引用[1]:Kim, Moo Jin et al. “OpenVLA: An Open-Source Vision-Language-Action Model.” ArXiv abs&#x2F;2406.0924">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenVLA">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/04/09/OpenVLA/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="OpenVLA: An Open-Source Vision-Language-Action Model[1]  作者是来自Stanford、UCB等机构的Moo Jin Kim等人。论文引用[1]:Kim, Moo Jin et al. “OpenVLA: An Open-Source Vision-Language-Action Model.” ArXiv abs&#x2F;2406.0924">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-04-09T06:18:21.000Z">
+<meta property="article:modified_time" content="2025-04-09T07:02:55.083Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Embodied AI">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/04/09/OpenVLA/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/04/09/OpenVLA/","path":"2025/04/09/OpenVLA/","title":"OpenVLA"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>OpenVLA | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#openvla-an-open-source-vision-language-action-model1"><span class="nav-number">1.</span> <span class="nav-text">OpenVLA:
+An Open-Source Vision-Language-Action Model[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">141</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/09/OpenVLA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="OpenVLA | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OpenVLA
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-04-09 14:18:21 / 修改时间：15:02:55" itemprop="dateCreated datePublished" datetime="2025-04-09T14:18:21+08:00">2025-04-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="openvla-an-open-source-vision-language-action-model1">OpenVLA:
+An Open-Source Vision-Language-Action Model<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Stanford、UCB等机构的Moo Jin Kim等人。论文引用[1]:Kim, Moo
+Jin et al. “OpenVLA: An Open-Source Vision-Language-Action Model.” ArXiv
+abs/2406.09246 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Sep</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Open model, pretrained on internet-scale vision-language datasets,
+and a visual encoder that fuses DINOv2 and SigLIP features.</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>在internet-scale 上的vision-language 数据和diverse robot
+demo的结合上进行预训练的policies有潜力改变如何教robots学习new
+skills：而不是training new behaviors from scratch，可以对VLA
+models进行微调，来得到robust, generalizable policies for visuomotor
+control。当前的robotics的VLA挑战性在于：现有的VLAs大部分是闭源的，public无法接触；之前的工作没能探索高效微调VLAs
+for new
+tasks的方法。作者提出了OpenVLA，解决了上述的挑战，它是一个7B的open-source
+VLA，在970k real-world robot demo上的diverse
+的collections上训练的。OpenVLA建立在Llama 2 上，结合了一个visual
+encoder，能够融合来自DINOv2和SigLIP的features。作为一个added data
+diversity和new model components的product，OpenVLA展示出了strong results
+for generalist manipulation, 超过了closed
+model例如RT-2-X，少了7x的参数。作者进一步展示出了，能够对new
+settings进行有效地微调，在涉及多个objects和strong language grounding
+abilities上的多任务环境中，展示出了很强的泛化性，
+超过了从零训练的imitation learning的方法，例如Diffusion Policy。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>robotics manipulation的learned
+policies的一个缺点是：他们的能力不能够泛化到训练数据之外，用于individual
+skills 或者language instructions训练的existing
+policies，有能力外推behaviors 到一个新的initial conditions，例如object
+positions或者lighting，它们缺乏robustness to scene distractors或者novel
+objects，能够执行没有见过的task
+instructions。现有的视觉和语言的基础模型，例如CLIP，SigLIP，Llama
+2，有这些泛化性，这来自于internet-scale pretraining
+datasets得到的先验。然而，在robotics上复现这种规模的预训练是一个open
+challenge，即使最大的robot manipulation datasets也只有 100k to 1M
+examples。这个不平衡suggest an oppotunity：<strong>用现有的vision
+和language的foundation models作为core building block，用于training
+robotics
+policies，能够泛化到训练数据之外的objects、scenes和tasks</strong>。</p></li>
+<li><p>朝着这个目标，现有的工作探索了集成预训练的language和VLM for
+robotic representation learning，作为一个component in modular systems
+for task planning和execution。另外，它们也用于直接学习VLA models for
+contrl。VLAs提供了一个直接初始化，用预训练的Vision-language foundation
+models for robotics，直接微调visually-conditioned language
+models(VLMs)，例如PaLI，来产生robot control
+actions，通过在internet-scale data上训练，建立的strong foundation
+models，VLAs例如RT-2展示出了很好的结果，能够泛化到novel
+objects和tasks，为通用的robot policies设置了一个新的标准。这有两个key
+reasons阻止了existing current
+models的广泛传播：<strong>当前的模型是closed，很难知道model
+的脚骨、训练步骤和data mixture；现有的工作没有提供部署和将VLAs适应到new
+robots，environments，
+tasks的最好实践，特别是在消费级的硬件上</strong>。</p></li>
+<li><p>OpenVLA包含一个预训练的visually-conditioned language model
+backbone，能够在多个粒度上得到visual
+features，在大的数据集上进行微调。作者是第一个展示了利用LoRA(低秩适应)的高效微调的方法</p></li>
+<li><p>Octo训练一个generalist policy，能够控制多个robots
+out-of-the-box，对于new robot setups能够进行flexible
+fine-tuning。这些方法和OpenVLA之间的不同是模型架构。</p></li>
+<li><p>VLA models：很多工作探索利用VLMs for robotics，for visual state
+representaiton， object detection, high-level planning, for providing a
+feedback signal,其它的将VLMs集成到e2d的visuomotor manipulation
+policies中，但是引入了significant structure into policy architecture or
+require calibreated
+cameras，限制了它们的applicability。大量最近的工作探索了类似的方法，<strong>直接在预训练的VLMs上进行微调，来预测robot
+actions，这样的models称之为VLA models，因为它们将robot control
+actions直接融合到VLMs backbones中</strong>。这样有三个好处：1) 在large
+internet-scale vision-language datasets上预训练的vision 和language
+components能够对齐; 2)通用的架构，而不是custom-made for robot
+control，使得能够利用scalable infra underlying modern VLM training;
+3)提供了直接受益于快速发展的VLMs的pathway。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/8f9ceb5ffad8e7a066dfc9d9aaa5153b714740ee/4-Figure2-1.png"
+alt="OpenVLA architecture" /> <span
+class="math inline">\(Fig.1^{[1]}\)</span> 给一个image
+observation和一个language instruction，模型预测7-dimensional robot
+control actions，架构包含三个key components：vison encoder concat
+DinoV2和SigLIP features， 一个projector将visual features map到language
+embedding space; LLM backbone，一个Llama 2 7B的model.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Embodied-AI/" rel="tag"># Embodied AI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/04/09/MTA/" rel="prev" title="MTA">
+                  <i class="fa fa-angle-left"></i> MTA
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/04/10/DINOv2/" rel="next" title="DINOv2">
+                  DINOv2 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">239k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">14:29</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
