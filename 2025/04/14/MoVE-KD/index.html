@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="MoVE-KD: Knowledge Distillation for VLMs with Mixture of Viusal Encoders[1]  作者是来自北大等机构的Jiajun Cao等人，论文引用[1]: Cao, Jiajun et al. “MoVE-KD: Knowledge Distillation for VLMs with Mixture of Visual">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MoVE-KD">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/04/14/MoVE-KD/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="MoVE-KD: Knowledge Distillation for VLMs with Mixture of Viusal Encoders[1]  作者是来自北大等机构的Jiajun Cao等人，论文引用[1]: Cao, Jiajun et al. “MoVE-KD: Knowledge Distillation for VLMs with Mixture of Visual">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-04-14T07:51:16.000Z">
+<meta property="article:modified_time" content="2025-04-14T12:42:23.963Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Knowledge Distillation">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/04/14/MoVE-KD/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/04/14/MoVE-KD/","path":"2025/04/14/MoVE-KD/","title":"MoVE-KD"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MoVE-KD | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#move-kd-knowledge-distillation-for-vlms-with-mixture-of-viusal-encoders1"><span class="nav-number">1.</span> <span class="nav-text">MoVE-KD:
+Knowledge Distillation for VLMs with Mixture of Viusal
+Encoders[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key-words"><span class="nav-number"></span> <span class="nav-text">### Key Words</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/14/MoVE-KD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MoVE-KD | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MoVE-KD
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-04-14 15:51:16 / 修改时间：20:42:23" itemprop="dateCreated datePublished" datetime="2025-04-14T15:51:16+08:00">2025-04-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="move-kd-knowledge-distillation-for-vlms-with-mixture-of-viusal-encoders1">MoVE-KD:
+Knowledge Distillation for VLMs with Mixture of Viusal
+Encoders<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自北大等机构的Jiajun Cao等人，论文引用[1]: Cao, Jiajun et al.
+“MoVE-KD: Knowledge Distillation for VLMs with Mixture of Visual
+Encoders.” ArXiv abs/2501.01709 (2025): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2025.Mar</li>
+</ul>
+<h2 id="key-words">### Key Words</h2>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>visual encoders是VLMs中的重要组件，每个都是从pretrained visual
+foundation models中得到的，展示出了unique
+strengths。为了利用这些encoders的various
+capabilities，最近的研究在<strong>单个VLMs中引入了多个encoders，导致在计算成本上的增加了很多</strong>，
+作者提出了<strong>Mixture of Visual Encoder Knowledge
+Distillation(MoVE-KD)，一个新的framework，将多个vision encoders的unique
+proficiencies蒸馏到a single, efficient encoder
+model中，特别地，为了缓解conflicts和保持每个teach encoder的unique
+characteristics，作者采用了LoRA和MoEs，来选择性地激活specialized
+knowledge based on input
+features，增强了adaptability和efficiency，为了正则化KD
+process和增强performance，作者提出了一个attention-based distillation
+strategy，自适应地weights the different encoders，强调了valuable visual
+tokens，缓解了replicating comprehensive but distinct features from
+multiple teachers的负担</strong>。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>VLMs的快速发展推动了AI的研究，特别是在一些需要结合visual
+和linguistic understanding的任务中，vision
+encoder是这些Model的核心，对于visual
+perception很重要，构成了interpreting visual inputs和使得vision-language
+tasks有效执行的基础。最近的研究强调了多个vision
+encoders的独特的优点，例如CLIP、EVA还有ConvNeXt，每个都在特定的vision-language
+applications中有很好的表现，这个diversity使得这些模型的优化和集成成为了一个key
+area of research。 <strong>为了利用多个vision
+encoders的proficiency，当前的方法通常采用多个encoders in a
+vision-language model，通过feature concatenation 或者attention
+机制</strong>，然而，相比于单个vision
+encoder的VLMs，用多个encoders不可避免地增加了计算成本和模型复杂度，降低了效率和可扩展性，为了解决这个问题，作者探索了一个问题:
+<strong>是否能够将多个encoders的unique proficiency蒸馏到一个single
+efficient encoder model中，得到collective
+advantages，同时提高效率</strong>。</p>
+<p>为了unify multiple encoders into one，Knowledge
+distillation提出了一个promising的方法，它有效地将teacher
+model的knowledge transfer到一个student
+model，然而，经典的KD方法聚焦于one-to-one
+distillation，同时从多个models中进行蒸馏，每个都有distinct pretraining
+datasets和objectives，是一个相对under-explored。<strong>尽管AM-RADIO提出了，用single
+model的多个heads，来代替多个vision foundation
+models的predictions，它的性能受限于learning diverse 和
+共享backbone的competing characteristics的冲突</strong>。</p>
+<p>作者的方法通过<strong>knowledge distillation from multiple pretrained
+visual foundation models，对base
+model进行微调，用一个mixture-of-LoRA-experts(MoLE)的框架，在这个框架中，base
+model通过多个low-rank adapation experts进行调整，
+缓解了灾难性的以往问题，基于输入的characteristics，能够选择性地被激活</strong>。这种设计使模型能够动态地利用每个teacher
+encoder的优势和专业化见解，从而实现一种连贯且高效的单编码器结构。</p>
+<p><strong>除了student-side selective adaptation，从teacher
+model中identify 和refine valuable
+features也是重要的，作者提出用attention机制，来指导knowledge
+distillation from teachers。特别地，作者用[CLS] token来得到每个visual
+token的重要性，用了一个加权的distillation
+loss，优先考虑来自teachers的valuable tokens。另外，作者用了visual
+tokens的平均重要性，作为weighting factor，来平衡multiple
+teacher的contributions，换句话说，average importance高的teachers for a
+given sample，在accuracy中会着重考虑。这个selective
+distillation确保了只有valuable information from
+teachers被student吸收，有效地增强了从多个teachers中压缩knowledge到单个model的能力</strong>。</p>
+<p>作者的方法，<font color=red>Mixture-of-Visual-Encoder KD,
+MoVE-KD</font>，有效地集成了多个encoders的长处，同时保持单个models的效率。</p>
+<p>Contributions如下：</p>
+<ul>
+<li>提出了一个MoVE-KD的框架，用于multi-vision encoder
+fusion，是首个从知识蒸馏的角度，集成different encoders，用于large
+vision-language models</li>
+<li>作者引入了attention-guided KD 正则化，增强了critical visual
+tokens的distillation，给每个teacher分配adaptive
+weight，另外，作者引入了Mixture-of-LoRA-experts(MoLE)，阻止knonledge
+confusion</li>
+</ul></li>
+<li><p>最近的VLMs的通过利用LLMs的泛化性，来提高多模态的理解和泛化能力。基于CLIP的image
+encoder，一定程度上和language
+modality有对齐，当前的VLMs通常利用大量的image-text pairs来来接vision
+encoder和LLM，使得LLM能够接收和理解visual content。例如， Flamingo
+通过gated attention， 将visual features集成到LLM中，LLaVA直接将vision
+encoder和LLM与MLPs连接，展示出了多模态对话的能力。另外，最近的工作提高了vision
+encoder的representation，进一步增强了VLMs的perception，例如,
+Mini-Gemini采用了一个额外的vision encoder用于high-resolution
+refinement，<span class="math inline">\(S^2\)</span> 通过scaling up
+image scale，引入了多个visual
+branches。然而，以上的方法通常用higher-resolution image
+inputs进行输入，或者用设计的额外的modules，这需要更多的computational
+resources。在这个工作中，作者提出了，通过adaptive supervision of a
+mixture of visual experts，提高了VLMs的vision
+modality，这里，higher-quality training data是optional</p></li>
+<li><p>Knowledge distillation是将teacher model中的knowledge
+transfer到一个student
+model，来提高student，不需要额外的parameters。因为vision-language
+models变得流行，如何通过KD来增强VLMs是一个notable research
+direction。</p>
+<ul>
+<li><p>KD on vision encoder：在vision-language models中，vision
+encoder对于从visual signals中提取high-level features至关重要，在这之前,
+DINOv2采用self-distillation，从larger teacher中训练smaller
+variants，也有人从CLIP teacher中蒸馏model。由于single
+teacher的有限的ability，这个不能inspire the potential of
+students。相比之下，AM-RADIO开始利用multiple vision experts来蒸馏vision
+encoder，代替VLMs中原始的，然而，这些方法没有集成到VLMs的框架中，是独立的，作者的工作是首个通过knowledge
+distillation，以统一的方式，结合distinct encoders for VLMs，这对vision
+modality的对齐是有好处的。</p></li>
+<li><p>KD with multiple teachers：传统的deep
+learning，在多个teacher的supervision下，用triplet loss蒸馏student
+model。最近，OneS是首个将multiple teachers引入LLMs knowledge
+distillation，从多个不同的预训练的experts中gather key
+knowledge，直到现在，据作者所知，作者是首个用multiple vision
+teachers，通过知识蒸馏来增强VLMs的。</p></li>
+</ul></li>
+<li><p>作者提出了MoVE-KD，是一个新的knowlege distillation
+方法，用了多个visual encoders for visual-languag
+models。首先，**作者采用了encoder adapters，将多个teacher
+encoders的输出project到一个unified representation
+space。基于来自pretrained CLIP model的[CLS]
+attention，weights动态地分配给teacher encoders和visual tokens，然后，KD
+loss基于teacher weights 和token
+weights的加权和来计算的。为了缓解learning multiple sources of
+knowlege的潜在的冲突，作者引入了一个mixture-of-LoRA-experts结构，目标函数是最小化text
+loss和KD loss。</p></li>
+<li><p>Encoder adapter：给定一个visual input，通过不同的visual encoder
+teachers进行处理，得到visual tokens，由于不同sources的visual
+encoders的不一致的representation space，visual tokens不能直接和student
+visual
+token进行对齐。同时，在知识蒸馏（KD）方法中，常用的线性插值技术难以将来自不同编码器的差异显著的token映射到一个统一且对学生模型友好的token空间中。因此，为了匹配dimensions和对齐token
+spaces，作者为每个teacher encoder引入了encoder
+adapters。每个adapter，是一个对respective teacher的输出定制的two-layer
+MLP，是独立地utilized and optimized using the knowledge distillation
+loss.</p></li>
+<li><p>Mixture-of-LoRA-expers：在token对齐之后，student
+encoder，从预训练的CLIP visual
+encoder中进行初始化，被微调，来学习teacher
+tokens。然而，作者发现，直接微调student encoder有一个挑战：直接在target
+dataset上微调，导致过拟合和灾难性遗忘的问题，会影响模型的accuracy和泛化性。另外，很难用一个shared
+weights来实现unified representation，保持所有的优点，同时解决teacher
+tokens之间的conflicts。
+为了解决这个问题，作者引入了mixture-of-LoRA-experts，这个架构包含两个components：mixture-of-experts(MoE)和LoRA
+expert，首先，按照典型的MoE的设计，基于inputs来选择激活特定的experts，通常，对于每个layers的FFN
+in the student encoder和input features，MoED 输出是这样的：</p>
+<p><span class="math display">\[F^*(x) = F(x) + E_i(x) \\
+\text{with } \quad i = \argmax(\text{Softmax}(f(x)))\]</span></p>
+<p>router <span class="math inline">\(f\)</span> 是一个linear
+layer，学习每个experts的weights，<span
+class="math inline">\(E_i\)</span> 是选择的i-th expert，<span
+class="math inline">\(F(x)\)</span>是原始FFN的输出，这个方法通过激活相关的experts，对于KD
+in multi-visual tasks特别有效，增强了model对于多种domain的visual
+knowledge的适应能力。</p>
+<p>然而，之前的MoE将复制FFN，来作为独立的experts，导致参数量的极大增加，因此，作者的方法用了parameter-efficient
+LoRA作为expert，通过two low-rank matrices，代替一个large maramter
+matrix，LoRA显著地减小了训练的参数，同时保持了模型性能。另外，LoRA展示出了更好的泛化性和迁移能力，在encoder用有限数据微调的情况下，很有用。</p>
+<p>MoLE加速了distillation
+过程，使得model能够更好地capture每个teacher的长处，避免了knowledge之间的冲突，只有很少的parameter
+overhead.</p>
+<ul>
+<li><strong>Attention-guided KD
+regularization</strong>：将来自多个teachers的knowledge蒸馏到一个model中的关键是<strong>guidde
+the student in which features should be focused
+on</strong>因为不同的visual encoders对于one
+image有不同的理解，一些representations是没有用的，或者冗余的，关注这些representations会弱化real
+important和unique
+features的学习，因此，一个合适的方式是找到一个合适的constraint来正则化distillation。</li>
+</ul>
+<p>这样的constraint，student应该被distillation
+loss所guided，这在fine-grained token level和coarse-grained teacher
+level上，对teacher
+tokens里的有价值和冗余的regions进行判别。因此，一个理想的distillation
+loss on visual tokens是这样的：</p>
+<p><span class="math display">\[\mathcal{L}_{kd} = \sum_{i=1}^{m}
+W_i^{(\text{tea})} \sum_{j=1}^{n} \left( W_j^{(\text{tok})} +
+\frac{1}{n} \right) \text{MSE}(V_{i,j}^{(t)}, V_j^{(s)}),\]</span></p>
+<p><span class="math inline">\(m\)</span> 表示teacher
+encoders的数量，<span class="math inline">\(n\)</span> 是visual
+tokens的sequence length的长度，<span
+class="math inline">\(V^{t}\)</span> 和 <span
+class="math inline">\(V^{s}\)</span> 分别表示teacher和student的visual
+tokens，<span class="math inline">\(W^{tok}\)</span> 和 <span
+class="math inline">\(W^{tea}\)</span>
+表示token-level和teacher-level的weight vectors。</p>
+<p>给定上述的motivation，一个好的visual
+encoder应该有一个强的perception和focusing ability for key information in
+the image，本文中，相反用常用的learnable tokens来capture
+weights，作者采用了一个更高效和泛化的方式，通过采用 <span
+class="math inline">\([CLS]\)</span> token in CLIP。<span
+class="math inline">\([CLS]\)</span> token和其它的visual
+tokens之间的cross-attention 解释了image中的key regions，展示出了less
+interest in repeated and
+不重要的information。这个focusing的characteristic，和有影响的regions一样，对于学生来说是重要的。因此，作者用一个CLIP的<span
+class="math inline">\([CLS]\)</span> attention提供的weights，来设计KD
+regularization</p>
+<ul>
+<li>Token weight：作者希望student encoder能够focus on key visual
+tokens，就像pretrained CLIP，因此，作者计算了 <span
+class="math inline">\([CLS]\)</span> attention between <span
+class="math inline">\([CLS] token V^{cls}\)</span> and other visual
+tokens <span class="math inline">\(V^{res}\)</span> of
+CLIP，用normalization作为每个token的weight。</li>
+</ul>
+<p><span class="math inline">\(W^{tok}\)</span> 表示token weight，<span
+class="math inline">\(W^Q\)</span> 和 <span
+class="math inline">\(W^V\)</span>
+是这一层CLIP输出的queries和keys的transformation matrices。另外，<span
+class="math inline">\(d\)</span> 是一个factor，用于stabilizing the
+values。</p>
+<ul>
+<li>Teacher weight：对于coarse teacher-level regularization，采用 <span
+class="math inline">\(CLS\)</span> token <span
+class="math inline">\(V^{cls}\)</span> 和i-th teacher's tokens <span
+class="math inline">\(V^t_i\)</span> 之间的cross-attention的mean
+value的softmax作为它的weight。这些teachers的weights，表示teachers对于这些images的responses，展示出了它们的contributions
+to the recognition，formulation如下：</li>
+</ul>
+<p><span class="math inline">\(W^{tea}\)</span> 是teacher weight，m
+是teach encoder的数量，student是通过pretrained CLIP
+encoder来进行的初始化，来防止knowledge的遗忘，将CLIP作为一个teacher，设一个相对较高的fixed
+weight</p>
+<ul>
+<li>overall loss：总的loss包含两个parts，称之为 <span
+class="math inline">\(\mathcal{L}_{text}\)</span> 和 <span
+class="math inline">\(\mathcal{L}_{kd}\)</span>,
+表示传统的log-likelihood loss in VLMs，总的loss如下：</li>
+</ul>
+<p><span class="math inline">\(\mathcal{L}_{\text{total}} =
+\mathcal{L}_{\text{text}} + \lambda_{\text{kd}} \cdot
+\mathcal{L}_{\text{kd}},\)</span></p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/a5091934018e32a261f29e82907c418820327ed8/3-Figure3-1.png"
+alt="MoVE-KD pipelien" /> <span
+class="math inline">\(Fig.1^{[1]}\)</span> 用encoder adapters将teacher
+encoder's outputs进行project，基于CLIP的 <span
+class="math inline">\([CLS]\)</span> token对teacher weight和token
+weight进行分配，为了缓解knowledge conflicts的问题，在student
+encoder中引入了MoLE结构。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Knowledge-Distillation/" rel="tag"># Knowledge Distillation</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/04/12/MoCo/" rel="prev" title="MoCo">
+                  <i class="fa fa-angle-left"></i> MoCo
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">242k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">14:39</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

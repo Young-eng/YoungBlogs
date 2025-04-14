@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-04-10T14:42:21.550Z</updated>
+  <updated>2025-04-14T12:42:23.963Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,79 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MoVE-KD</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/04/14/MoVE-KD/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/04/14/MoVE-KD/</id>
+    <published>2025-04-14T07:51:16.000Z</published>
+    <updated>2025-04-14T12:42:23.963Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="move-kd-knowledge-distillation-for-vlms-with-mixture-of-viusal-encoders1">MoVE-KD:Knowledge Distillation for VLMs with Mixture of ViusalEncoders<sup>[1]</sup></h3><blockquote><p>作者是来自北大等机构的Jiajun Cao等人，论文引用[1]: Cao, Jiajun et al.“MoVE-KD: Knowledge Distillation for VLMs with Mixture of VisualEncoders.” ArXiv abs/2501.01709 (2025): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Mar</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li>visual encoders是VLMs中的重要组件，每个都是从pretrained visualfoundation models中得到的，展示出了uniquestrengths。为了利用这些encoders的variouscapabilities，最近的研究在<strong>单个VLMs中引入了多个encoders，导致在计算成本上的增加了很多</strong>，作者提出了<strong>Mixture of Visual Encoder KnowledgeDistillation(MoVE-KD)，一个新的framework，将多个vision encoders的uniqueproficiencies蒸馏到a single, efficient encodermodel中，特别地，为了缓解conflicts和保持每个teach encoder的uniquecharacteristics，作者采用了LoRA和MoEs，来选择性地激活specializedknowledge based on inputfeatures，增强了adaptability和efficiency，为了正则化KDprocess和增强performance，作者提出了一个attention-based distillationstrategy，自适应地weights the different encoders，强调了valuable visualtokens，缓解了replicating comprehensive but distinct features frommultiple teachers的负担</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>VLMs的快速发展推动了AI的研究，特别是在一些需要结合visual和linguistic understanding的任务中，visionencoder是这些Model的核心，对于visualperception很重要，构成了interpreting visual inputs和使得vision-languagetasks有效执行的基础。最近的研究强调了多个visionencoders的独特的优点，例如CLIP、EVA还有ConvNeXt，每个都在特定的vision-languageapplications中有很好的表现，这个diversity使得这些模型的优化和集成成为了一个keyarea of research。 <strong>为了利用多个visionencoders的proficiency，当前的方法通常采用多个encoders in avision-language model，通过feature concatenation 或者attention机制</strong>，然而，相比于单个visionencoder的VLMs，用多个encoders不可避免地增加了计算成本和模型复杂度，降低了效率和可扩展性，为了解决这个问题，作者探索了一个问题:<strong>是否能够将多个encoders的unique proficiency蒸馏到一个singleefficient encoder model中，得到collectiveadvantages，同时提高效率</strong>。</p><p>为了unify multiple encoders into one，Knowledgedistillation提出了一个promising的方法，它有效地将teachermodel的knowledge transfer到一个studentmodel，然而，经典的KD方法聚焦于one-to-onedistillation，同时从多个models中进行蒸馏，每个都有distinct pretrainingdatasets和objectives，是一个相对under-explored。<strong>尽管AM-RADIO提出了，用singlemodel的多个heads，来代替多个vision foundationmodels的predictions，它的性能受限于learning diverse 和共享backbone的competing characteristics的冲突</strong>。</p><p>作者的方法通过<strong>knowledge distillation from multiple pretrainedvisual foundation models，对basemodel进行微调，用一个mixture-of-LoRA-experts(MoLE)的框架，在这个框架中，basemodel通过多个low-rank adapation experts进行调整，缓解了灾难性的以往问题，基于输入的characteristics，能够选择性地被激活</strong>。这种设计使模型能够动态地利用每个teacherencoder的优势和专业化见解，从而实现一种连贯且高效的单编码器结构。</p><p><strong>除了student-side selective adaptation，从teachermodel中identify 和refine valuablefeatures也是重要的，作者提出用attention机制，来指导knowledgedistillation from teachers。特别地，作者用[CLS] token来得到每个visualtoken的重要性，用了一个加权的distillationloss，优先考虑来自teachers的valuable tokens。另外，作者用了visualtokens的平均重要性，作为weighting factor，来平衡multipleteacher的contributions，换句话说，average importance高的teachers for agiven sample，在accuracy中会着重考虑。这个selectivedistillation确保了只有valuable information fromteachers被student吸收，有效地增强了从多个teachers中压缩knowledge到单个model的能力</strong>。</p><p>作者的方法，<font color=red>Mixture-of-Visual-Encoder KD,MoVE-KD</font>，有效地集成了多个encoders的长处，同时保持单个models的效率。</p><p>Contributions如下：</p><ul><li>提出了一个MoVE-KD的框架，用于multi-vision encoderfusion，是首个从知识蒸馏的角度，集成different encoders，用于largevision-language models</li><li>作者引入了attention-guided KD 正则化，增强了critical visualtokens的distillation，给每个teacher分配adaptiveweight，另外，作者引入了Mixture-of-LoRA-experts(MoLE)，阻止knonledgeconfusion</li></ul></li><li><p>最近的VLMs的通过利用LLMs的泛化性，来提高多模态的理解和泛化能力。基于CLIP的imageencoder，一定程度上和languagemodality有对齐，当前的VLMs通常利用大量的image-text pairs来来接visionencoder和LLM，使得LLM能够接收和理解visual content。例如， Flamingo通过gated attention， 将visual features集成到LLM中，LLaVA直接将visionencoder和LLM与MLPs连接，展示出了多模态对话的能力。另外，最近的工作提高了visionencoder的representation，进一步增强了VLMs的perception，例如,Mini-Gemini采用了一个额外的vision encoder用于high-resolutionrefinement，<span class="math inline">\(S^2\)</span> 通过scaling upimage scale，引入了多个visualbranches。然而，以上的方法通常用higher-resolution imageinputs进行输入，或者用设计的额外的modules，这需要更多的computationalresources。在这个工作中，作者提出了，通过adaptive supervision of amixture of visual experts，提高了VLMs的visionmodality，这里，higher-quality training data是optional</p></li><li><p>Knowledge distillation是将teacher model中的knowledgetransfer到一个studentmodel，来提高student，不需要额外的parameters。因为vision-languagemodels变得流行，如何通过KD来增强VLMs是一个notable researchdirection。</p><ul><li><p>KD on vision encoder：在vision-language models中，visionencoder对于从visual signals中提取high-level features至关重要，在这之前,DINOv2采用self-distillation，从larger teacher中训练smallervariants，也有人从CLIP teacher中蒸馏model。由于singleteacher的有限的ability，这个不能inspire the potential ofstudents。相比之下，AM-RADIO开始利用multiple vision experts来蒸馏visionencoder，代替VLMs中原始的，然而，这些方法没有集成到VLMs的框架中，是独立的，作者的工作是首个通过knowledgedistillation，以统一的方式，结合distinct encoders for VLMs，这对visionmodality的对齐是有好处的。</p></li><li><p>KD with multiple teachers：传统的deeplearning，在多个teacher的supervision下，用triplet loss蒸馏studentmodel。最近，OneS是首个将multiple teachers引入LLMs knowledgedistillation，从多个不同的预训练的experts中gather keyknowledge，直到现在，据作者所知，作者是首个用multiple visionteachers，通过知识蒸馏来增强VLMs的。</p></li></ul></li><li><p>作者提出了MoVE-KD，是一个新的knowlege distillation方法，用了多个visual encoders for visual-languagmodels。首先，**作者采用了encoder adapters，将多个teacherencoders的输出project到一个unified representationspace。基于来自pretrained CLIP model的[CLS]attention，weights动态地分配给teacher encoders和visual tokens，然后，KDloss基于teacher weights 和tokenweights的加权和来计算的。为了缓解learning multiple sources ofknowlege的潜在的冲突，作者引入了一个mixture-of-LoRA-experts结构，目标函数是最小化textloss和KD loss。</p></li><li><p>Encoder adapter：给定一个visual input，通过不同的visual encoderteachers进行处理，得到visual tokens，由于不同sources的visualencoders的不一致的representation space，visual tokens不能直接和studentvisualtoken进行对齐。同时，在知识蒸馏（KD）方法中，常用的线性插值技术难以将来自不同编码器的差异显著的token映射到一个统一且对学生模型友好的token空间中。因此，为了匹配dimensions和对齐tokenspaces，作者为每个teacher encoder引入了encoderadapters。每个adapter，是一个对respective teacher的输出定制的two-layerMLP，是独立地utilized and optimized using the knowledge distillationloss.</p></li><li><p>Mixture-of-LoRA-expers：在token对齐之后，studentencoder，从预训练的CLIP visualencoder中进行初始化，被微调，来学习teachertokens。然而，作者发现，直接微调student encoder有一个挑战：直接在targetdataset上微调，导致过拟合和灾难性遗忘的问题，会影响模型的accuracy和泛化性。另外，很难用一个sharedweights来实现unified representation，保持所有的优点，同时解决teachertokens之间的conflicts。为了解决这个问题，作者引入了mixture-of-LoRA-experts，这个架构包含两个components：mixture-of-experts(MoE)和LoRAexpert，首先，按照典型的MoE的设计，基于inputs来选择激活特定的experts，通常，对于每个layers的FFNin the student encoder和input features，MoED 输出是这样的：</p><p><span class="math display">\[F^*(x) = F(x) + E_i(x) \\\text{with } \quad i = \argmax(\text{Softmax}(f(x)))\]</span></p><p>router <span class="math inline">\(f\)</span> 是一个linearlayer，学习每个experts的weights，<spanclass="math inline">\(E_i\)</span> 是选择的i-th expert，<spanclass="math inline">\(F(x)\)</span>是原始FFN的输出，这个方法通过激活相关的experts，对于KDin multi-visual tasks特别有效，增强了model对于多种domain的visualknowledge的适应能力。</p><p>然而，之前的MoE将复制FFN，来作为独立的experts，导致参数量的极大增加，因此，作者的方法用了parameter-efficientLoRA作为expert，通过two low-rank matrices，代替一个large maramtermatrix，LoRA显著地减小了训练的参数，同时保持了模型性能。另外，LoRA展示出了更好的泛化性和迁移能力，在encoder用有限数据微调的情况下，很有用。</p><p>MoLE加速了distillation过程，使得model能够更好地capture每个teacher的长处，避免了knowledge之间的冲突，只有很少的parameteroverhead.</p><ul><li><strong>Attention-guided KDregularization</strong>：将来自多个teachers的knowledge蒸馏到一个model中的关键是<strong>guiddethe student in which features should be focusedon</strong>因为不同的visual encoders对于oneimage有不同的理解，一些representations是没有用的，或者冗余的，关注这些representations会弱化realimportant和uniquefeatures的学习，因此，一个合适的方式是找到一个合适的constraint来正则化distillation。</li></ul><p>这样的constraint，student应该被distillationloss所guided，这在fine-grained token level和coarse-grained teacherlevel上，对teachertokens里的有价值和冗余的regions进行判别。因此，一个理想的distillationloss on visual tokens是这样的：</p><p><span class="math display">\[\mathcal{L}_{kd} = \sum_{i=1}^{m}W_i^{(\text{tea})} \sum_{j=1}^{n} \left( W_j^{(\text{tok})} +\frac{1}{n} \right) \text{MSE}(V_{i,j}^{(t)}, V_j^{(s)}),\]</span></p><p><span class="math inline">\(m\)</span> 表示teacherencoders的数量，<span class="math inline">\(n\)</span> 是visualtokens的sequence length的长度，<spanclass="math inline">\(V^{t}\)</span> 和 <spanclass="math inline">\(V^{s}\)</span> 分别表示teacher和student的visualtokens，<span class="math inline">\(W^{tok}\)</span> 和 <spanclass="math inline">\(W^{tea}\)</span>表示token-level和teacher-level的weight vectors。</p><p>给定上述的motivation，一个好的visualencoder应该有一个强的perception和focusing ability for key information inthe image，本文中，相反用常用的learnable tokens来captureweights，作者采用了一个更高效和泛化的方式，通过采用 <spanclass="math inline">\([CLS]\)</span> token in CLIP。<spanclass="math inline">\([CLS]\)</span> token和其它的visualtokens之间的cross-attention 解释了image中的key regions，展示出了lessinterest in repeated and不重要的information。这个focusing的characteristic，和有影响的regions一样，对于学生来说是重要的。因此，作者用一个CLIP的<spanclass="math inline">\([CLS]\)</span> attention提供的weights，来设计KDregularization</p><ul><li>Token weight：作者希望student encoder能够focus on key visualtokens，就像pretrained CLIP，因此，作者计算了 <spanclass="math inline">\([CLS]\)</span> attention between <spanclass="math inline">\([CLS] token V^{cls}\)</span> and other visualtokens <span class="math inline">\(V^{res}\)</span> ofCLIP，用normalization作为每个token的weight。</li></ul><p><span class="math inline">\(W^{tok}\)</span> 表示token weight，<spanclass="math inline">\(W^Q\)</span> 和 <spanclass="math inline">\(W^V\)</span>是这一层CLIP输出的queries和keys的transformation matrices。另外，<spanclass="math inline">\(d\)</span> 是一个factor，用于stabilizing thevalues。</p><ul><li>Teacher weight：对于coarse teacher-level regularization，采用 <spanclass="math inline">\(CLS\)</span> token <spanclass="math inline">\(V^{cls}\)</span> 和i-th teacher's tokens <spanclass="math inline">\(V^t_i\)</span> 之间的cross-attention的meanvalue的softmax作为它的weight。这些teachers的weights，表示teachers对于这些images的responses，展示出了它们的contributionsto the recognition，formulation如下：</li></ul><p><span class="math inline">\(W^{tea}\)</span> 是teacher weight，m是teach encoder的数量，student是通过pretrained CLIPencoder来进行的初始化，来防止knowledge的遗忘，将CLIP作为一个teacher，设一个相对较高的fixedweight</p><ul><li>overall loss：总的loss包含两个parts，称之为 <spanclass="math inline">\(\mathcal{L}_{text}\)</span> 和 <spanclass="math inline">\(\mathcal{L}_{kd}\)</span>,表示传统的log-likelihood loss in VLMs，总的loss如下：</li></ul><p><span class="math inline">\(\mathcal{L}_{\text{total}} =\mathcal{L}_{\text{text}} + \lambda_{\text{kd}} \cdot\mathcal{L}_{\text{kd}},\)</span></p></li></ol><p><imgsrc="https://figures.semanticscholar.org/a5091934018e32a261f29e82907c418820327ed8/3-Figure3-1.png"alt="MoVE-KD pipelien" /> <spanclass="math inline">\(Fig.1^{[1]}\)</span> 用encoder adapters将teacherencoder's outputs进行project，基于CLIP的 <spanclass="math inline">\([CLS]\)</span> token对teacher weight和tokenweight进行分配，为了缓解knowledge conflicts的问题，在studentencoder中引入了MoLE结构。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;move-kd-knowledge-distillation-for-vlms-with-mixture-of-viusal-encoders1&quot;&gt;MoVE-KD:
+Knowledge Distillation for VLMs with Mixture of Viusal
+Encoders&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自北大等机构的Jiajun Cao等人，论文引用[1]: Cao, Jiajun et al.
+“MoVE-KD: Knowledge Distillation for VLMs with Mixture of Visual
+Encoders.” ArXiv abs/2501.01709 (2025): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2025.Mar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;visual encoders是VLMs中的重要组件，每个都是从pretrained visual
+foundation models中得到的，展示出了unique
+strengths。为了利用这些encoders的various
+capabilities，最近的研究在&lt;strong&gt;单个VLMs中引入了多个encoders，导致在计算成本上的增加了很多&lt;/strong&gt;，
+作者提出了&lt;strong&gt;Mixture of Visual Encoder Knowledge
+Distillation(MoVE-KD)，一个新的framework，将多个vision encoders的unique
+proficiencies蒸馏到a single, efficient encoder
+model中，特别地，为了缓解conflicts和保持每个teach encoder的unique
+characteristics，作者采用了LoRA和MoEs，来选择性地激活specialized
+knowledge based on input
+features，增强了adaptability和efficiency，为了正则化KD
+process和增强performance，作者提出了一个attention-based distillation
+strategy，自适应地weights the different encoders，强调了valuable visual
+tokens，缓解了replicating comprehensive but distinct features from
+multiple teachers的负担&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Knowledge Distillation" scheme="https://young-eng.github.io/YoungBlogs/tags/Knowledge-Distillation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MoCo</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/04/12/MoCo/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/04/12/MoCo/</id>
+    <published>2025-04-12T07:58:19.000Z</published>
+    <updated>2025-04-12T07:58:19.192Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>DINOv2</title>
@@ -817,117 +890,6 @@ matching，进一步增强MOT的性能。SMILEtrack实现了cost和performance�
     
     
     <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MotionTrack</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/03/06/MotionTrack/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/03/06/MotionTrack/</id>
-    <published>2025-03-06T11:54:52.000Z</published>
-    <updated>2025-03-27T13:50:19.718Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="motiontrack-learning-motion-predictor-for-multiple-object-tracking1">MotionTrack:Learning Motion Predictor for Multiple ObjectTracking<sup>[1]</sup></h3><blockquote><p>作者是来自国防科大、京东、美团等机构的Changcheng Xiao、QiongCao等人。论文引用[1]:Qin, Zheng et al. “MotionTrack: Learning RobustShort-Term and Long-Term Motions for Multi-Object Tracking.” 2023IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)(2023): 17939-17948.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>long trajectory</li><li>motion predictor</li><li>一句话来说：<strong>之前的MOT方法使用detection、appearancefeatures来做，但是motion information 被忽略了，之气的motionmodel一般都是用kalman filter，作者利用Transformer的long-termdependencies的能力，利用历史的轨迹信息，来预测下一帧的位置。这里就用了token-level和channel-level两个granularity的信息，分别用多头自注意力和DyMLP来处理，然后进行融合，objectmotionprediction的目标是基于object的历史轨迹信息，预测其bbox的相对空间位移</strong>。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>通过detection的进步和reid方法，MOT领域有了很大的进步。尽管有了这些成就，精确地跟踪有着一致的外观和不同的运动的场景仍然是一个挑战，这个挑战来自于两个因素：<strong>ReID特征的不够充分的区分度和MOT中线性运动的模型的利用</strong>。<strong>在这个背景下，引入了一个新的基于Motion的tracker,MotionTrack。以一个可学习的motion predictor为中心，仅依赖于objecttrajectory information</strong>。这个predictor 全面地集成了motionfeatures中的两个level的粒度，来增强时序动态建模能力，为每个objects提升准确的motionprediction。具体地说，提出的方式采用了自注意力机制，来得到<font color=red>token-level</font>的information和一个动态MLP layer来建模channel-levelfeatures。MotionTrack是一个简单、在线的tracking方法。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MOT 近些年由于它在很领域的应用，得到了很多的关注。受益于objectdetection和ReID的快速发展，<strong>tracking-by-detection方法占了主流。这个范式包含两个主要的步骤：1.用一个off-the-shelf object detector来得到每一帧的detection results; 2.用visual 和motion cues 关联 detectionresults，形成轨迹</strong>。在关联阶段，受现有的MOT的内在的特性的影响，大多数最近的MOT的成功使基于appearancefeature 或者 detection 和simple tracking mechanism 的结合，motioninformation 没有被explore。这个趋势使得现有的tracker在一些场景中失败，objects of interest 在groupdancing之中有着相似的外观，players在sports scenes中快速运动。这些观察激励作者仅用motion cues来进行modelling，证明了它为准确和高效地关联objects的重要性。</p></li><li><p>在本文的工作中，<strong>作者聚焦于学习一个motionpredictor来提升关联的准确性和tracking的性能。它具有挑战性，因为复杂的motionvariations。现有trackers 用的motionmodels可以划分为基于贝叶斯估计的经典算法和数据驱动的算法。对于前者，代表性的是Kalmanfilter，它假设恒速，因此在线性运动中表现很好，但是在处理非线性运动的时候不佳。对于后者，基于光流的跟踪方法需要一个复杂的heavy的光流模型来计算帧间像素偏移，仅考虑局部运动信息，被耗时的opticalflow model所限制。另外，基于LSTM的网络也被用来存储objects的motioninformation。然而，LSTMs面临的问题是它们的memorymechanism和它们建模long-term temporalinteractions的能力。这些step-by-step的prediction方法导致错误累积，可能导致预测空间位置的时候的不准确</strong>。为了解决上述的挑战和高效地利用object trajecotryinformation，<strong>作者提出了一个新的onlinetracker，MotionTrack，基于motion predictor，能够将Longertracjectories作为输入，预测objects的futurelocation，如图所示，作者提出的方法能够在遮挡和非线性运动场景中trackobjects，然而基于Kalmanfilter的trackers失败了</strong>，作者的贡献如下：</p><ul><li><p>为了解决现有工作的据小型，在预测objects的bbox之前依次处理observations。作者利用Transformer的powerfullong-range dependencymodeling的能力。为了保持算法的简单和计算高效，作者基于Transformer的encoder设计了一个motionpredictor来建模每个objects的long-term trajectories，用于motionprediction，特别地，提出的motionpredictor同时考虑多个observations，基于token-level的pair-wisesimilarities对trajectory embeddings进行加权。</p></li><li><p>第二，为了进一步增强trajectory embeddingsequences的利用，作者引入了一个类似MLP的架构，称之为DynamicMLP。众所周知，在featurespace中的不同的语义信息倾向于分布在不同的channels中，channelmixing为cross-channelinteraction提供了更大的灵活性。受此启发，作者旨在这几一个更强的attentionmodule来增强complex motionmodeling，捕捉分布在不同channels的information，例如relative positionchanges和object motion的directions。提出的DynamicMLP能够通过content-adaptivetoken-mixing，精确地利用分布在不同channels的motioninformation，有了Dynamic MLP，能够将它和self-attentionmodel结合，来增强信息在两个不同粒度(token level和channellevel)的传递，为了汇聚不同的语义信息。</p></li></ul><p>另外，通过数据增强得到了更复杂的运动模式，来更好地理解motiondynamics，提升性能。具体而言，本方法通过引入随机丢弃（randomdrop）、<strong>随机空间抖动（random spatial jitter）和随机长度（randomlength）</strong>三种策略，生成包含快速移动目标、不同长度轨迹片段等多样化运动模式的训练数据。作者提出的方法，尽管很直接，在大规模的数据集上展示除了很好的性能。</p></li><li><p>MOT：早期的MOT研究主要依赖于优化算法，来解决数据关联问题，然而，随着深度学习的到来，tracking-by-detection用了更强的detectors占据了MOT的主流范式，近些年，一些方法将detection和tracking融合到singlenetowrk中，受益于神经网络的多任务学习。例如，Tracktor通过FasterRCNN的回归头，预测object's下一帧的位置，但是但是在低帧率的时候可能失效。JDE用一个ReID分支扩展了YOLOv3，来得到object的embedding用于dataassociation。为了解决detection和reID任务，FairMOT基于anchro-free的objectdetector(centerNet)，实现了更好的跟踪结果。另外，ByteTrack展示了MOT的trackers的瓶颈在于detection而不是association。因此，一个更强的detector结合简单分层关联策略，能够实现很好地跟踪性能。</p><ul><li>Motion Model：Motion Estimation对于Objecttrackers来说很重要，在早期的时候，很多经典的MOT算法，例如SORT、DeepSORT等，利用Kalmanfilter来预测每个object的帧间position offset，然而，KF模型受限于它的恒速假设，在复杂和非线性场景中表现很差。为了处理这些挑战，研究人员提出了很多datadriven models，例如Zhang等人利用optical flow来得到objects的pixel-levelmotion information，CenterTrack在object detector上增加了一个offsetbranch来预测object center的motioninformation。Milan等人基于RNNs提出了一个在线的tracker，后续的研究将RNNs用于融合visual和motion information或者计算随后的数据关联的affinityscores。ArTIST和DEFT将Tracktor扩展了，用一个线性模型来预测losttracks的位置，代替了trajectory tracking的visualcues。近期的研究将KF进行了提升，来更好地处理非线性运动。例如MAT提出了一个IMLmodule，，同时考虑了camera和行人运动信息，实现了更好的性能。Cao等人认识到了原始KF在处理遮挡和非线性运动的局限性。</li></ul><p>尽管有了以上的提升，大多数的研究仍然基于经典的KF和它的恒速模型假设。QuoVadis基于鸟瞰图（BEV）场景表征中的轨迹预测框架，通过多个复杂子模块，有效增强了现有先进目标跟踪算法对长期遮挡场景的鲁棒性，成功克服了传统方法在持续性遮挡处理方面的固有缺陷。</p><ul><li>Transformer-based methods：最近transformermodels的成功，特别是objectdetection领域，导致很多基于transformer的方法出现，包括TransTrack,TrackFormer,TransCenter和MOTR，是同一时期的基于DETR的trackers，TrackFormers采用Trackqueries来保持object identities，利用启发式方法来抑制duplicatetracks。TransTrack直接利用之前的object features作为trackqueries来得到tracking boxes，将detection boxes基于IoU匹配进行关联。TransCenter通过transformer得到了object centerrepresentation，通过CenterTracks的目标关联实现跟踪。另外，MOTR通过迭代更新trackquery，实现端到端地跟踪，不需要后处理。另外，GTR是一个基于transformer的离线的tracker，采用queries将detectedboxes划分为tracjectories，而不是生成trackingboxes。值得注意的时候，所有这些模型的训练使得大量的训练样本、高昂的计算资源和训练时间变得必要。相比之下，我们的方法仅利用Transformer来充分利用物体轨迹信息。</li></ul></li><li><p>MOT tracking task涉及识别objects的spaital和temporallocations，给定一个video sequence，Transformer model因其long-termdependencies而出名，证明了处理sequencedata的高效。基于这个成功，作者展示了一个motionpredictor，利用object的过去的轨迹信息来预测它在下一帧中的position。<strong>作者的数据关联方法仅依赖于当前帧和预测bbox的spatialsimilarity</strong>。为了实现这个，作者用一个简单的basemodel基于Transformer的encoder来得到每个objects的temporaldynamics。接下来，作者引入了DynamicMLP，这是一种类似多层感知机（MLP）的架构，旨在探索通道间的相互作用，作者将其和self-attention模块结合，，以学习跨token和通道层面的粒度信息。最后，，利用增强里构建更复杂的motionpatterns，来提高motiondynamics的理解。总的来说，作者的方法利用Transformer的strengths，基于它构建一个简单有效地motionpredictor。</p></li><li><p>Notations：object的轨迹包含一系列有序的bboxes，<spanclass="math inline">\(T = {b_{t1},..}\)</span>，bbox定义为 <spanclass="math inline">\(b_t = {x,y,w,h}\)</span>，<spanclass="math inline">\(t\)</span>是时间戳。在一些moments，observations可能由于遮挡或者detectorfailure丢失，因此轨迹是不连续的。<spanclass="math inline">\(D_t\)</span> 是 detector得到的 第 <spanclass="math inline">\(t\)</span>帧的detections的集合。object的过去的轨迹repsentation可以表示为一个序列，<span class="math inline">\(X = (...,x_{t-2},x_{t-1})\)</span>，object在时刻 <spanclass="math inline">\(t-1\)</span> 的representation 表示如下： <spanclass="math display">\[\mathbf{x}_{t-1}=(c_x,c_y,w,h,a,\delta_{c_x},\delta_{c_y},\delta_w,\delta_h),\]</span></p><p><span class="math inline">\(c_x, c_y\)</span> 表示image plane中的object的中心坐标。 <span class="math inline">\(w, h, a\)</span>分别表示 width, height和 bbox的aspect ratio.<strong>对于每个object，motion predictor 表示为 <spanclass="math inline">\(MP\)</span>， 利用最后 <spanclass="math inline">\(n_{past}\)</span> 个 历史observations，表示为<span class="math inline">\(X_{t-n_{past}:t-1}\)</span>,来预测positional offset，表示为 <spanclass="math inline">\(\hat{O}_t\)</span>，object motion prediction的目标是基于目标的历史轨迹信息预测object bbox的relative spatialdisplacement</strong>。</p><p><span class="math display">\[\begin{aligned}\mathbf{X}_{t-n_{past}:t-1} &amp;=\mathrm{Concat}(\mathbf{x}_{t-n_{past}},\ldots,\mathbf{x}_{t-1}), \\\hat{\boldsymbol{O}}_{t} &amp;=\mathcal{MP}(\mathbf{X}_{t-n_{past}:t-1}),\end{aligned}\]</span></p><p>在输入给encoder layer for further processing之前，<spanclass="math inline">\(X\)</span> 通过一个linearprojection嵌入到更高维度的space，为了使输入的token sequence <spanclass="math inline">\(E\)</span> 包含相对位置信息，作者将sinusoidalposition encoding information注入到input embeddings之中。</p></li><li><p>Transformer-based Motion Predictor：object的futuremotion被它的过去的dynamicinformation严重影响。一个直觉的思路是利用vanillaTransformer来得到individualobjects的历史上下文信息。这个encoder能够建模long-termdependencies，主要的组件是MHSA机制，通过利用MHSA，编码器能够高效关注轨迹序列中的不同元素，并识别出对预测物体未来运动最具贡献的信息特征。为每个singleobject分开计算attention，输入的tokens <spanclass="math inline">\(E\)</span> 序列线性地转换成 Q, K,V，对于多头自注意力，一些single-headattention联合关注不同的representation subspaces的信息。MOT因为objects之间的interaction而变得challenging，一个object的行为在其它objects上的影响是一个复杂的过程。像很多之前的工作，作者尝试建模objects之间的interactions，作者遵循AgentFormer，用一个agent-awareattention mechanism来建模multi-object motion in both temporal 和socialdimensions using sequential representations。</p></li><li><p>Dual-granularity InformationFusion：仅依靠跨所有通道的token-level消息传递机制，缺乏充分传达不同语义信息的能力。这个局限限制了optimalexploitation，导致次优的性能。因此，需要用一个fine-grained messagepassing机制，以自适应的方式满足不同的语义，这种方法通过在跨通道信息传递中实现更细粒度的交互，能够构建更充分的运动建模。</p></li><li><p>Dynamic MLP：作者探索了一个新的module称之为：DynamicMLP，和encoder中的self-attention并行，来进一步捕捉objects的复杂的motionpatterns，它汇聚了分布在不同temporalchannels的positions。如图所示，DyMLP的核心是channel fusionlayer，包含一个动态的全连接层(fully-connected layer) 和一个identitylayer。给定输入的token sequence <spanclass="math inline">\(E\)</span>，对于每个token，首先用一个FClayer来预测 <span class="math inline">\(d_m\)</span>offsets。因为在generation of offsets上没有限制，DyFC能够汇聚temporalglobal channel information。基本的DyFC操作表述如下：</p><p><spanclass="math display">\[\hat{e}_{i}^{T}=\mathrm{DyFC}(e_{i})=\tilde{e}_{i}\cdot\mathbf{W}+\mathbf{b},\\\tilde{e}_{i}=[\mathbf{E}_{[i+\delta_{1},1]},\mathbf{E}_{[i+\delta_{2},2]},\cdots,\mathbf{E}_{[i+\delta_{d_{m}},d_{m}]}],\]</span></p><p><span class="math inline">\(W\)</span> 和 <spanclass="math inline">\(b\)</span> 是可学习的参数，此外，我们通过identitylayer保留原始标记信息。CFL将融合结果输出为eT和eL的加权和，其公式可表示为：<spanclass="math display">\[\hat{e}=\omega^T\odot\hat{e}^T+\omega^I\odot\hat{e}^I,\]</span></p><p>每个encoder layer包含两个sub-layers，用residual connections in bothsub-layers然后执行layer normalization。encoderlayer中的整个过程可以描述为如下：</p><p><span class="math display">\[\begin{gathered}\mathrm{DIF}(E^{l-1})=\mathrm{MHSA}(E^{l-1})+\mathrm{DyMLP}(E^{l-1}) \\\hat{E}^{l}=\mathrm{LN}(\mathrm{DIF}(E^{l-1}))+E^{l-1} \\E^{l}=\mathrm{LN}(\mathrm{FFN}(\hat{E}^l))+\hat{E}^l,\end{gathered}\]</span></p></li><li><p>Dual-granularity Information Fusion Layer：随着DynamicMLP的引入，将其和self-attention进行集成。这个集成利用了来自token-level的granularity和channel-levelgranularity。将这个新的module称之为 Dual-granularity Information FusionLayer(DualIF)。motion predictor 的backbone <spanclass="math inline">\(MP\)</span> 包含 L个顺序连接的encodinglayers。每个encodinglayer包含两个sub-module：<strong>一个多头self-attentionmodule和一个dynamic MLPmodule</strong>。前者基于计算出的成对注意力权重，将其他token的token-level的信息整合到query中；而后者则自适应地对分布在channellevel的上下文进行特征融合。</p></li><li><p>Training and Inference：像其它深度学习任务，例如CenterNet,CenterTrack和YOLOX，结合数据增强在提升模型性能上至关重要。有限的训练样本，结合motion的u都阳性，使得novelaugmentationstrategies的exploration至关重要。在这个研究中，作者检验了三种不同的增强策略来丰富训练样本。这些策略对应于motionmodel必须处理的cases，也就是object position jitter和motion mutations,detection noise和新的初始化的shorter trajectories。</p><ul><li>Random drop：在产生target trajectory representation <spanclass="math inline">\(X\)</span>，作者以概率 <spanclass="math inline">\(p_i\)</span> 忽略 observation <spanclass="math inline">\(b\)</span>，该策略能够有效模拟快速运动及低帧率场景。</li><li>Spatial jitter：为了增强系统对抗detectionnoise的鲁棒性，在边界框中融入空间抖动是一种广泛采用的实践方法。这个方法涉及在训练期间在bboxes的position和bboxes引入小的variations。通过这样做，model能够对variations更加resilient。此外，在时序意义上，该方法还能通过引入更广泛的运动模式来扩充训练数据集。</li><li>Random length。由于short new birthtrajectory，有很少的时序信息，通过随机改变训练序列的长度，模型能够接触到多样化的运动模式，从而使其学会泛化到不同的时间上下文。为此，我们采用可变长度（范围为[2,npast]）的观测序列对运动模型进行训练，其中每个对象对应的观测序列长度是独立保留的。通过随机改变训练序列的长度，模型能够接触到多样化的运动模式，从而使其学会泛化到不同的时间上下文。为此，我们采用可变长度（范围为[2,npast]）的观测序列对运动模型进行训练，其中每个对象对应的观测序列长度是独立保留的。</li><li>Training loss： 采用smooth loss L1来监督训练过程，给定一个预测的offset 和对应的gt, loss 如下：</li></ul><p><span class="math display">\[\begin{gathered}\mathrm{DIF}(E^{l-1})=\mathrm{MHSA}(E^{l-1})+\mathrm{DyMLP}(E^{l-1}) \\\hat{E}^{l}=\mathrm{LN}(\mathrm{DIF}(E^{l-1}))+E^{l-1} \\E^{l}=\mathrm{LN}(\mathrm{FFN}(\hat{E}^l))+\hat{E}^l,\end{gathered}\]</span></p><ul><li>Inference：首先，解码预测的offset <spanclass="math inline">\(\hat{O}_t\)</span> 为当前帧的轨迹的bboxes,和一些经典的online trackers一样，作者利用了一个简单的association算法，基于 <span class="math inline">\(\hat{D}_t\)</span> 和 <spanclass="math inline">\(D_t\)</span>之间的IoU相似度，用匈牙利算法分配给tracklets。没有分配的detections初始化为newtrajectories。如果没有detection分配给trajectory，这个trajectory标记为lost，如果timelost 超过了一定的阈值，这个target被视为out ofview，然后从轨迹中remove，lost trajectories可能在assignmentstep中重新track。给定一个objectdetector的detections，作者的tracker以在线的方式关联identities，仅利用motioncues。</li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/89e57b398b23553d91fe36dae183e7605ec86ae1/4-Figure2-1.png"alt="Overview of proposed method" /> <spanclass="math inline">\(Figure.1^{[1]}\)</span> 提出的motion predictor<span class="math inline">\(MP\)</span> 当预测objectposition的时候，考虑轨迹的 <span class="math inline">\(n_{past}\)</span>个历史观测。有了预测的bboxes <spanclass="math inline">\(\hat{D}_t\)</span>，数据关联可以通过匈牙利算法实现。Blankboxes表示丢失的observations, dashed boxes表示预测的bboxes，不同的颜色表示不同的objects。</p><p><imgsrc="https://figures.semanticscholar.org/89e57b398b23553d91fe36dae183e7605ec86ae1/5-Figure3-1.png"alt="Dynamic MLP" /> <span class="math inline">\(Figure.2^{[1]}\)</span>Dynamic MLP的网络结构如图所示，dynamic FC操作过程如图b所示</p><p><imgsrc="https://figures.semanticscholar.org/89e57b398b23553d91fe36dae183e7605ec86ae1/5-Figure4-1.png"alt="Architecture of motion predictor" /> <spanclass="math inline">\(Figure.3^{[1]}\)</span> motion predictor的架构</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;motiontrack-learning-motion-predictor-for-multiple-object-tracking1&quot;&gt;MotionTrack:
-Learning Motion Predictor for Multiple Object
-Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自国防科大、京东、美团等机构的Changcheng Xiao、Qiong
-Cao等人。论文引用[1]:Qin, Zheng et al. “MotionTrack: Learning Robust
-Short-Term and Long-Term Motions for Multi-Object Tracking.” 2023
-IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
-(2023): 17939-17948.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2024.Mar&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;long trajectory&lt;/li&gt;
-&lt;li&gt;motion predictor&lt;/li&gt;
-&lt;li&gt;一句话来说：&lt;strong&gt;之前的MOT方法使用detection、appearance
-features来做，但是motion information 被忽略了，之气的motion
-model一般都是用kalman filter，作者利用Transformer的long-term
-dependencies的能力，利用历史的轨迹信息，来预测下一帧的位置。这里就用了token-level和channel-level两个granularity的信息，分别用多头自注意力和DyMLP来处理，然后进行融合，object
-motion
-prediction的目标是基于object的历史轨迹信息，预测其bbox的相对空间位移&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;通过detection的进步和reid方法，MOT领域有了很大的进步。尽管有了这些成就，精确地跟踪有着一致的外观和不同的运动的场景仍然是一个挑战，这个挑战来自于两个因素：&lt;strong&gt;ReID特征的不够充分的区分度和MOT中线性运动的模型的利用&lt;/strong&gt;。&lt;strong&gt;在这个背景下，引入了一个新的基于Motion的tracker,
-MotionTrack。以一个可学习的motion predictor为中心，仅依赖于object
-trajectory information&lt;/strong&gt;。这个predictor 全面地集成了motion
-features中的两个level的粒度，来增强时序动态建模能力，为每个objects提升准确的motion
-prediction。具体地说，提出的方式采用了自注意力机制，来得到&lt;font color=red&gt;token-level&lt;/font&gt;的information
-和一个动态MLP layer来建模channel-level
-features。MotionTrack是一个简单、在线的tracking方法。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PolaFormer</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/03/06/PolaFormer/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/03/06/PolaFormer/</id>
-    <published>2025-03-06T02:35:16.000Z</published>
-    <updated>2025-03-11T08:50:11.133Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="polaformer-polarity-aware-linear-attention-for-vision-transformers1">PoLaFormer:Polarity-Aware Linear Attention for VisionTransformers<sup>[1]</sup></h3><blockquote><p>作者是来自HITshenzhen、PCL和UQ的Weikang Meng, YadanLuo等人。论文引用[1]:Meng, Weikang et al. “PolaFormer: Polarity-awareLinear Attention for Vision Transformers.” ArXiv abs/2501.15061 (2025):n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Mar</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li>线性注意力是一个有前景的替代softmax-based 的attention方法，利用kernelized feature maps将复杂度从quadratic降低到linear insequence length。然后，<strong>non-negative constraint on featuremaps和在approximation中用到的 relaxed exponential function导致重要的信息丢失(相比于原始的query-key dot products)，导致 lessdiscriminative attention maps with higherentropy</strong>。为了解决negative values in query-key pairs的丢失的interactions，作者提出了<strong>polar-aware linear attentionmechnism，显式地建模 same-signed 和opposite-signed query-keyinteractions，确保relationalinformation的全面的收敛</strong>。另外，为了恢复attention maps的spikyproperties，作者提供了一个理论分析，证明了<strong>existence of a classof element-wise functions(with positive first and second derivatives)that can reduce entropy in the attentiondistribution</strong>。为了简单起见和识别每个维度的distinctcontributions，作者采用了可学习的power function forrescaling，允许strong和weak attention signals 能够有效地分开。</li></ol><span id="more"></span>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;polaformer-polarity-aware-linear-attention-for-vision-transformers1&quot;&gt;PoLaFormer:
-Polarity-Aware Linear Attention for Vision
-Transformers&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自HITshenzhen、PCL和UQ的Weikang Meng, Yadan
-Luo等人。论文引用[1]:Meng, Weikang et al. “PolaFormer: Polarity-aware
-Linear Attention for Vision Transformers.” ArXiv abs/2501.15061 (2025):
-n. pag.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2025.Mar&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;线性注意力是一个有前景的替代softmax-based 的attention
-方法，利用kernelized feature maps将复杂度从quadratic降低到linear in
-sequence length。然后，&lt;strong&gt;non-negative constraint on feature
-maps和在approximation中用到的 relaxed exponential function
-导致重要的信息丢失(相比于原始的query-key dot products)，导致 less
-discriminative attention maps with higher
-entropy&lt;/strong&gt;。为了解决negative values in query-key pairs的
-丢失的interactions，作者提出了&lt;strong&gt;polar-aware linear attention
-mechnism，显式地建模 same-signed 和opposite-signed query-key
-interactions，确保relational
-information的全面的收敛&lt;/strong&gt;。另外，为了恢复attention maps的spiky
-properties，作者提供了一个理论分析，证明了&lt;strong&gt;existence of a class
-of element-wise functions(with positive first and second derivatives)
-that can reduce entropy in the attention
-distribution&lt;/strong&gt;。为了简单起见和识别每个维度的distinct
-contributions，作者采用了可学习的power function for
-rescaling，允许strong和weak attention signals 能够有效地分开。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Attention" scheme="https://young-eng.github.io/YoungBlogs/tags/Attention/"/>
     
   </entry>
   
