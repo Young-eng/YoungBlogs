@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Olympus: A Universal Task Router for Computer Vision Tasks[1]  作者是来自牛津和微软的Yuanze Lin等人，论文引用[1]:Lin, Yuanze et al. “Olympus: A Universal Task Router for Computer Vision Tasks.” ArXiv abs&#x2F;2412.0961">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Olympus">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/04/18/Olympus/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Olympus: A Universal Task Router for Computer Vision Tasks[1]  作者是来自牛津和微软的Yuanze Lin等人，论文引用[1]:Lin, Yuanze et al. “Olympus: A Universal Task Router for Computer Vision Tasks.” ArXiv abs&#x2F;2412.0961">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-04-18T08:07:02.000Z">
+<meta property="article:modified_time" content="2025-04-20T13:54:55.378Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Multi-Modal">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/04/18/Olympus/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/04/18/Olympus/","path":"2025/04/18/Olympus/","title":"Olympus"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Olympus | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#olympus-a-universal-task-router-for-computer-vision-tasks1"><span class="nav-number">1.</span> <span class="nav-text">Olympus:
+A Universal Task Router for Computer Vision Tasks[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">145</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/18/Olympus/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Olympus | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Olympus
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-04-18 16:07:02" itemprop="dateCreated datePublished" datetime="2025-04-18T16:07:02+08:00">2025-04-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-04-20 21:54:55" itemprop="dateModified" datetime="2025-04-20T21:54:55+08:00">2025-04-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="olympus-a-universal-task-router-for-computer-vision-tasks1">Olympus:
+A Universal Task Router for Computer Vision Tasks<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自牛津和微软的Yuanze Lin等人，论文引用[1]:Lin, Yuanze et al.
+“Olympus: A Universal Task Router for Computer Vision Tasks.” ArXiv
+abs/2412.09612 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2025.Apr</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>universal task router</li>
+<li>一句话总结：<strong>用MLLMs内在的能力来处理vision-language
+tasks，用task-specific routing tokens将user
+instructions分配给其它的的专家models</strong></li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者介绍了Olympus，是一个将MLLMs变成一个<strong>统一的框架，能够处理广泛的CV
+tasks，利用一个controller
+MLLM，Olympus将超过20种专门针对图像、视频和3D对象的任务分配给专用模块。这个instruction-based的routing能够通过chained
+actions实现复杂的workflows，不需要训练heavy generative
+models</strong>，Olympus简单地和现有的MLLMs集成，扩展了他们的能力。实验表明，它是一个有效的**universal
+task router，能够解决多种CV tasks。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>MLLMs在多个领域的理解、生成和推理上取得了显著的进展。例如：MLLMs中的LLaVA，在VQA中表现卓越。在生成中，diffusion
+models在text-to-image、text-to-video、text-to-3D
+generation中实现了卓越的性能。基于上述的进展，最近的研究目标是开发一个<strong>统一的架构，能够执行多个domains的任务，Emu3和Omni-Gen引入了all-in-one
+models，来处理生成和理解的任务。然而，在single model中，distinct
+domains的集成提出了很大的挑战。特别地，domains中的多样性，由于task
+objectives之间的conflicts，导致在individual
+tasks中性能的妥协。例如text和image generation
+tasks。这些conflicts阻碍了model的有效性，限制了在真实世界应用中的utility</strong>。</p></li>
+<li><p><font color=red>另外一个all-in-one models的key
+limitation是：由于输入输出的格式不同，处理跨不同domains的广泛的
+vision-language
+tasks能力受限</font>。这一限制对scalability构成了显著的瓶颈，特别是随着任务范围在图像、视频以及新兴的3D领域中持续扩大。另外，扩展这些models来适应新的任务是具有挑战的，训练这样的comprehensive
+models，随着model sizes的增加，需要大量的计算资源和复杂的训练方法。例如,
+Omni-Gen需要 <span class="math inline">\(104 \times A800\)</span>
+GPUs和5个不同的训练阶段。这些问题凸显了对模块化或任务自适应框架的迫切需求，以增强在应对视觉任务日益多样化的需求时的可扩展性和效率。另外，all-in-one
+models通常难以有效地整合精心设计的任务特定组件，从而降低了其在专业化应用中的整体效率和性能。</p>
+<p>这促使我们来探索另外的alternative的方法，来无缝地在single
+framwork中统一vision
+tasks。受HuggingGPT的启发和MLLMs的先进的上下文的理解。作者提出：<strong>利用MLLMs来处理vision-language
+comprehension internally，同时delegating other tasks
+externally</strong>。尽管技术上简单，它代表了对于CV
+tasks的，迈向advancing unified frameworks的foundational
+和重要的一步。特别地，MLLM能够作为一个**task
+router，和其它的专门的external
+models进行协调，来解决多种tasks，克服individual
+model的局限。然而，它仍然面临着重要的挑战，主要是由于多种任务中的user
+prompt的多样性和对于有效训练和评估重要的综合的、task-specific
+instruction datasets的datasets。</p></li>
+<li><p>在本文中，作者引入了<em>Olympus</em>，是一个统一的framework，利用MLLMs来处理多种CV
+tasks，作者的Olympus不同于现有的方法，现有的方法聚焦于提出all-in-one
+models来解决diverse tasks。为了完成这个，作者搜集了 <span
+class="math inline">\(446.3K\)</span> 高质量的training instructions和
+<span class="math inline">\(49.6K\)</span>来自GPT-4o的 evaluation
+instructions，称之为<em>OlympusInstruct and
+OlympusBench</em>。另外，作者设计了一个专门的<strong>routing
+tokens</strong>，用于分配individual tasks。最后，利用这些routing
+tokens和<em>OlympusInstruct</em>，作者model能够在single user
+instruction下，执行a chain of tasks。</p></li>
+<li><p>作者的贡献如下：</p>
+<ul>
+<li>提出了Olympus，一个新的framework，利用MLLMs通过内在的能力，来执行contextual
+understanding task，同时通过分配external
+models，来解决其它的tasks。</li>
+<li>作者开发了一个task-specific routing
+tokens，增强了MLLMsd的chain-of-action的能力，作者model实现了comparable的性能。</li>
+<li>作者构建了curated high-quality instruction datasets。</li>
+</ul></li>
+<li><p>最近LLMs上的进展促进了MLLMs的发展，先进的MLLMs，例如MiniGPT-4，在处理和集成多模态上展示出了良好的能力。像Kosmos-2、LLaVA、LLaVA-OneVision进一步增强了MLLM的visual
+cognitive
+abilities。另外，包括LLaVA-Phi的方法，MobileVLM和Mipha，聚焦于修正训练方法和架构，来开发出高效和轻量的MLLMs，尽管这些Models在visual
+perception和多模态理解上很擅长，他们主要限制于生成text-based
+outputs，限制了他们在涉及images, videos, 3D content
+generation等广泛视觉任务上的有效性。在这个工作中，作者跟着Mipha，采用了多模态的模型结构。</p></li>
+<li><p>统一的Vision-Language Foundation
+Model：大量的研究聚焦于<strong>开发统一的多模态的、在理解和生成content上都擅长的models。有些方法将连续的embeddings和用于image
+generation的自回归框架内的textual tokens进行集成，
+Chameleon采用了一个transformer在多个模态中进行自回归建模。Show-o和TransFusion在单个transformer中，引入了自回归和diffusion
+modeling。Omni-Gen采用了一个VAE的encoder-decoder以及一个transformer来处理free-form
+prompts。最近，Emu3用next-token prediction的方法，在video、image和text
+datasets上训练了一个统一的transformer，在多模态的benchmarks和generation
+tasks上实现了卓越的性能</strong>。然而，**最近的unified 多模态foundation
+models主要support一些很小范围的generative tasks，例如image、video
+creation或者editing，对于更广泛的AI应用，面临着严重的scalability的挑战。为了克服这些局限，作者进一步通过无缝地继承用于diverse
+applications的domain-specialized models，来增强MLLMs。</p></li>
+<li><p>LLM-based tools: LLMs，在大规模数据上训练，在zero-shot和few-shot
+settings上展示出了卓越的能力，在一些复杂的任务上，例如数学问题求解和常识推理。<strong>为了拓展它们超出text
+generation的能力，最近的研究聚焦于将external
+tools和models集成到LLM架构中。Toolformer通过在textual sequences上嵌入API
+calls，成为了开拓者，使得LLMs能够有效地利用external
+tools。建立在这个foundation之上，后续的研究也引入了visual
+modalities：Visual ChatGPT将LLMs和visual models，例如BLIP集成，Visual
+Programming和ViperGPT将visual queries变成可执行的Python
+code。促进了LLMs的视觉数据的处理</strong>。另外，HuggingGPT通过将LLMs用作controllers，将user的requests给到特定的expert
+models，来增强LLMs。<strong>因此将domain-specific expertise和language
+comprehension结合到一起</strong>。 尽管HunggingGPT将specific AI
+models来执行多种任务。它主要依赖于prompt
+engineering，将<strong>ChatGPT作为一个interface，用于连接多中external
+models，而不需要训练，相比之下，作者的方法涉及从零开始训练MLLMs from the
+ground up，使得它们能够在internally 处理vision-language
+tasks,同时指定专门的models来解决广泛的AI tasks</strong>。</p></li>
+<li><p><em>Olympus</em> 利用MLLMs作为foundation，用于多种CV
+tasks。对于vision-language
+tasks，像VQA，MLLMs利用它们内在的能管理。对于其它的vision
+tasks，例如生成任务和经典的vision
+tasks，MLLMs作为<font color=red>intermediaries</font>，将user的instructions路由到专门的模型，如图所示，收到一个request，MLLM能够自动地阻止workflow，协调expert
+models来完成objective。</p>
+<ul>
+<li>为了精确地将user
+instruction分配到合适的model，作者用GPT-4o构建了一个high-quality和user
+instruciton-response pairs的多样的dataset。对于每个task，一个specialized
+prompt用于和task的特定的上下文对齐。这包括指定详细的指令，让GPT-4o生成连贯和上下文相关的user
+requests和responses。</li>
+<li>为了确保user
+instructions的diversity，作者引入了多种prefixes和phrases，引入了不同的language
+styles，tones和structures。另外，作者将instruction
+复杂度分为了3个levels：short、moderate和extended。这个分层使得GPT-4o产生长度和复杂度不同的instructions。另外，作者prompt
+GPT-4o，来产生practical和direct的responses，增强interactions的applicability和clarity。作者也做了数据清洗，通过去掉了重复的entries和利用GPT-4o去掉了上下文或者语法不合适。这个净化的过程确保了数据集的完整性和质量。覆盖的20
+tasks分为3个groups：(1)：Image domains：image
+generation/editing、deblurring、deraining、super-resolution、denoising、pose/normal/canny/depth
+estimation、controllable image generation across six conditions; (2)
+Video domains：video generation/editing、controllable video
+generation、referring video object segmentation; (3) 3D domains:
+image-to-3D和text-to-3D generation.</li>
+</ul></li>
+<li><p><strong>Task-Specific Routing Tokens</strong>：<strong>Olympus
+直接将user requests通过task-specific routing tokens给到dedicated
+moels</strong>*，为了促进MLLMs预测与用户目标一致的适当模型，作者涉及了一组针对individual
+tasks的routing tokens。例如：在image和video generation
+domain中，作者用routing tokens
+**<image_gen>...</image_gen>和<vidoe_gen>...</video_gen>。特别地，给定一个user
+instruction，例如“ Please craft an image displaying a chihuahua dog
+dressed in a vibrant, costume", 对应的response是<image_gen> a chihuahua
+dog dressed in a vibrant,
+costume</image_gen>。有效地解决了user的request，因此，user
+instructions和responses构成了input-answer pairs，用于训练。</p>
+<ul>
+<li>Chain-of-Action。通过引入domain-specific routing
+tokens，Olympus具有了chain-of-action的能力，使得在single
+instruction下处理多个tasks。例如，考虑结合了pose-based image
+generation和image editing的user prompt："in homage to the pose imagery
+and the prompt's 'a majestic castleL'，generate an image，In the
+following step, please refine the image by adding green trees".
+用routing tokens的predicted response就是: <pose_to_image>a majestic
+castle</pose_to_image><image_edit>adding green
+trees</image_edit>。因此，Olympus能够循序地将user instructions
+路由到合适的modules，用于pose-conditioned image generation和image
+editing,和task-oriented routing
+tokens对齐。另外，Olympus在**单个prompt中，最多支持5个连续的tasks，能够扩展到适应更大数量的tasks，因此展示了它的灵活性和可扩展性。</li>
+</ul></li>
+<li><p>Training: <strong>目标是在user
+instructions的条件下，生成task-specific responses和routing
+tokens。作者用cross-entropy loss，用next-token
+prediction范式来训练MLLMs</strong>。</p>
+<p><span class="math display">\[P(Y_a | \mathcal{F}_v, \mathcal{F}_t) =
+\prod_{i=1}^{L} P_\theta(y_i | \mathcal{F}_v,
+\mathcal{F}_{t,a,&lt;i})\]</span></p>
+<p>这里<span class="math inline">\(L\)</span> 表示response <span
+class="math inline">\(Y_a\)</span>的长度，<span
+class="math inline">\(F_v\)</span> 表示visual
+embedding，用于多模态的instructions，<span
+class="math inline">\(\theta\)</span> 是MLLMs的训练参数。notation <span
+class="math inline">\(Y_{a,&lt; i}\)</span> 表示当前 <span
+class="math inline">\(y_i\)</span> token之前的所有tokens，<span
+class="math inline">\(F_t\)</span> 表示input instruction
+embeddings。</p></li>
+<li><p><strong>Inference</strong>：<strong>在收一个prompt之后，Olympus生成一个带有task-customized
+routing tokens的responses, 这个tokens唤醒了合适的AI
+models，来处理多个tasks，它们的predictions汇聚到最后的response，对于MLLMs单独处理的tasks，responses直接生成，绕过了routing
+tokens。Olympus引入了一个基于training的范式，MLLMs是作为一个controllers，用internally
+capabilities和external expert
+models来处理多种任务，这个框架无缝地将MLLMs和domain-specific
+models结合起来，一起处理universal tasks</strong></p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/c7d857f2421170cbae8107717a8aef0e99d6d2df/3-Figure2-1.png" />
+<span class="math inline">\(Fig.1^{[1]}\)</span> 给定user
+prompts，一个trainable
+MLLM能够在多个专门的models上执行routing。MLLMs能够用自身内在的能力解决多模态的理解任务，将专门的models进行分配，来解决多模态生成和classic
+vision tasks。然后汇总结果，给到user一个response.</p>
+<p><img
+src="https://figures.semanticscholar.org/c7d857f2421170cbae8107717a8aef0e99d6d2df/4-Figure3-1.png"
+alt="Olympus" /> <span class="math inline">\(Fig.2^{[1]}\)</span>
+framework of
+Olympus.通过MLLM的内在的能力，能够直接处理VQA这样的任务。对于其它的tasks，例如image
+editing，Olympus能够生成response，包含task-specific routing
+tokens和refined prompts，它们用来安排专家models来处理多种user
+requests。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Multi-Modal/" rel="tag"># Multi-Modal</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/04/16/TrackFormer/" rel="prev" title="TrackFormer">
+                  <i class="fa fa-angle-left"></i> TrackFormer
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">247k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">15:01</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
