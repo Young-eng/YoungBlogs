@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Self-Distilled Masked Auto-Encoders are Efficient Video Anomaly Detectors[1]  作者是来自University of Bucharest等机构的Nicolae-Catalin Ristea等人，论文引用[1]:  Time  2024.Mar  Key Words  用motion weight">
+<meta property="og:type" content="article">
+<meta property="og:title" content="aed">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/04/20/aed/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Self-Distilled Masked Auto-Encoders are Efficient Video Anomaly Detectors[1]  作者是来自University of Bucharest等机构的Nicolae-Catalin Ristea等人，论文引用[1]:  Time  2024.Mar  Key Words  用motion weight">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-04-20T13:57:53.000Z">
+<meta property="article:modified_time" content="2025-04-21T14:23:03.468Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Autoencoders">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/04/20/aed/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/04/20/aed/","path":"2025/04/20/aed/","title":"aed"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>aed | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#self-distilled-masked-auto-encoders-are-efficient-video-anomaly-detectors1"><span class="nav-number">1.</span> <span class="nav-text">Self-Distilled
+Masked Auto-Encoders are Efficient Video Anomaly
+Detectors[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">147</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/20/aed/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="aed | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          aed
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-04-20 21:57:53" itemprop="dateCreated datePublished" datetime="2025-04-20T21:57:53+08:00">2025-04-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-04-21 22:23:03" itemprop="dateModified" datetime="2025-04-21T22:23:03+08:00">2025-04-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="self-distilled-masked-auto-encoders-are-efficient-video-anomaly-detectors1">Self-Distilled
+Masked Auto-Encoders are Efficient Video Anomaly
+Detectors<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自University of Bucharest等机构的Nicolae-Catalin
+Ristea等人，论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Mar</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>用motion
+weight进行加权，然后用了self-distillation，同时还使用了synthetic
+anomalies data，加入到training data中，来提高video anomaly的性能。</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者提出了一个高效的异常时间检测model，基于应用在video frame
+level上的轻量的AE。提出的model的创新型有三个方面：<strong>(1)基于motion
+gradients，引入了一个方式来对tokens进行加权，将focus的重心从static
+background scene转移到foreground objects;(2) 集成了一个teacher
+decoder和一个student decoder，利用两个decoder的输出的差异来提高anomaly
+detection; (3) 生成合成的abnormal events，来增强训练videos，让masked AE
+model来重建original frames和对应的pixel-level anomaly
+maps。作者的设计是一个高效且有效的model</strong>。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>视频异常检测的复杂性是由于:异常的场景是context-dependent，而且不是经常发生的。这使得以<strong>全监督的方式，搜集一些代表性的异常事件用于训练SOTA
+model是比较困难的。因为在全监督的情况下训练anomaly
+detecttors是不可能的，大多数的研究采用了不同的方式，提出了outlier
+detection methods的变种。这样的方法将abnormal event
+detection视为一个outlier detection task</strong>。一个在normal
+events上训练的normality model应用在normal和abnormal events during
+inference，将偏离于learned model的events标记为
+abnormal。不同于主流的基于outlier
+detection的方法，作者提出了一个方法，通过随机叠加合成的UBnormal数据集中的temporal
+action segments到的真实世界数据集中，从而为每个训练视频场景增强synthetic
+segments。作者在训练的时候引入了<strong>synthetic
+anomalies，使得模型能够以open-set
+监督的方式进行学习。另外，作者使model重建original training
+frames(without
+anomalies)，来限制它重建anomalies的能力，因此当anomalies出现的时候，产生higher
+errors</strong>。</p></li>
+<li><p>很多video anomaly detection的工作聚焦于采用
+autoencoders来解决任务，依赖于这些model在out-of-distribution数据上的很差的重建能力。因为训练旨在normal
+examples上进行。当anomalies出现的时候，期待AEs展示出很高的重建errors。然而，一些研究者观察到，
+AEs泛化很好，能够高精度地重建anomalies。因此，为了更好地利用AEs在anomaly
+detection上的reconstruction error，研究探索了一些alternatives。从use of
+dummy 或者pseudo-anomalies到memory
+modules的集成。有着相同的目的，作者提出，在anomaly detection中采用masked
+auto-encoders，引入了一些新的方式，来约束generalization
+capacity。作者超越了标准MAE框架，提出了三个新的changes，来增强model的anomaly
+detection performance。首先，**作者基于motion gradients，提出了weight
+tokens在reconstruction loss中提高higher motion的
+tokens的重要性。这使得model聚焦于重建high
+motion的tokens，避免重建background scene; 第二，作者添加了一个cls
+head，来判别normal和pseudo-abnormal instances in the latent encoding
+space; 第三，作者 将一个teacher decoder和一个student
+decoder集成到MAE框架中，student
+decoder从优化好的teacher中蒸馏knowledge。为了降低处理的时间，作者用了一个共享的encoder
+for teacher and student
+models，从而实现一种称为自蒸馏的过程。在自蒸馏过程中，shared
+encoder是forzen，我们利用teacher和student
+decoders输出之间的差异，结合教师模型的重建误差，来提升异常检测的性能。
+先进的anomaly detectors主要依赖于object
+detection方法来增加precision，将每个GPU的处理带宽限制为一个video
+stream。作者开发了一个轻量的model，能够以25fps处理 66 video
+streams，显著地降低了processing costs。不同于竞争的models，在object
+或者spatio-temporal cube上进行anomaly
+detection，作者提出了一个model，将整个的video
+frames作为输入，更高效。</p></li>
+<li><p>异常检测主要表述为一个one-class learning
+problems，训练的时候只有normal data，在test
+times，normal和abnormal都有，一些异常检测的方法分类，包括dictionary
+learning方法，probabilistic models，change detection
+frameworks，distance-based models，
+reconstruction-based方法。考虑到reconstruction-based方法经常在anomaly
+detection中达到SOTA，最纪念很多工作采用了reconstruction-based范式。
+根据anomaly detection的执行的level，方法也可以分为spatio-temporal
+cube-level和frame-level，还有object-level。</p>
+<ul>
+<li><strong>Frame-level and
+cube-level</strong>：在深度学习之前，之前的abnormal event detection
+model主要依赖于taking short video sequences，将它们分为spatio-temporal
+cuboids，这些cubes被认为是独立的examples，作为model的输入。也有研究将整个video
+frames作为输入，例如Liu等人提出了一个有效的算法，学习重建short video
+sequences的next frame，一个更复杂的方法是采用optical-flow
+reconstruction来预测input image的anomalous
+regions，在不同的study中，有人提出了通过GAN，在frame
+level来检测anomalies。 frame-level和cube-level有一些common
+的特点，处理速度相对加快。frame-level在时间上有更强的优势，因为cube-level的方法需要将每个cube当成一个独立的example。处理mini-batch
+of frames比一些mini-batchs of spatio-temporal
+cubes更高效。然而，cube-level的方法通常是超过frame-level的，作者提出了一个masked
+AE，将整个frames作为输入，学习video patches之间的interactions。</li>
+</ul>
+<p>为了提高frame-level或者cube-level的方法，研究人员探索了多个components的，例如memotry
+modules，masked conv
+blocks。尽管将额外的modules集成到frameworks中导致性能提升，这个过程通常面临效率问题，相比之下，作者的目标是实现一个performance和speed之间的一个trade-off，更关注于efficiency。因此，作者设计了一个lightweight
+masked AE，基于conv vision transformer(CvT)
+blocks，提出了一些升级。例如，作者采用knowledge
+distillation来利用teacher和student
+model之间的差异，然而，为了保持processing
+time来,作者采用了self-distillation，用了一个shared encoder for teacher
+and student models。</p>
+<ul>
+<li><strong>Object-level methods</strong>：为了降低false positive
+detections，一些研究提出关注anomalous objects而不是anomalous frames or
+cubes，object-centric方法，用来自object detector的先验，使得anomaly
+detector仅关注object
+detector，这种类型的framework大幅提高了accuracy，达到SOTA。然而，一个缺点是:
+整个框架的推理速度受object detector速度的影响，比一般的anomaly detection
+framework要慢。因此，处理时间是严重受限的，相比之下，作者在frame-level执行anomaly
+detection</li>
+<li><strong>Masked auto-encoders in anomaly
+detection</strong>：Kaiming提出了MAE作为预训练方法，来得到strong
+backbones for downstream
+tasks，自此之后，这个方法用在了很多领域，例如video
+processing或者多模态学习。masking framework也用于anomaly
+detection。据作者所知，作者是第一个提出masked transformer-based
+AE，用于video anomaly
+detection。另外，作者在应用标准的MAEs之外，提出了一些修改，包括用更高的motion来emphasizing
+tokens，用synthetic anomalies来增强training
+videos，采用self-distillation。</li>
+<li><strong>Knowledge Distillation in anomaly
+detection</strong>：知识蒸馏原本是用于将一个或多个large
+model(teachers)压缩到一个更轻量的model(student)，最近提出的anomaly
+detection，知识蒸馏被认为是有用的，应为利用teacher和student
+之间的representation
+的差异，在anomalies的情况下更大。不同于之前的研究，作者是第一个在anomaly
+detection中引入self-distillation的，self-distillation在多个depths上添加了cls
+heads，来提高classifier的分类性能。相比之下，作者将self-distillation集成到一个masked
+AE中，采用两个不同depths的decoders。由于shared
+encdoer，作者能够利用teacher和student之间的reconstruction
+discrepancy，同时又很小的计算开销。</li>
+</ul></li>
+<li><p>teacher-student transformer-based masked AE，采用两阶段的training
+pipeline：在第一阶段，通过reconstruction loss，采用了新的、基于motion
+gradients的weighting机制，来优化teacher masked
+AE；在第二阶段，优化student masked AE的最后的decoder
+block，和teacher共享backbone的大多数，来preserve
+efficiency，接下来，作者描述了如何用synthetic anomalies来构造training
+videos，和训练masked AEs来联合预测anomaly maps，在training
+frames中忽略anomalies。最后，作者引入了一个cls
+head，来区分带有和不带有synthetic anomalies，进一步提高了performance。
+整个的架构是visual transformer blocks，不同于原始的方法，作者将ViT
+blocks替换成了CvT blocks。为了加速，作者将dense layers中用pointwise
+conv代替，</p>
+<ul>
+<li><strong>Motion gradient
+weighting</strong>：因为iamge有foreground和background
+variations，然而，<strong>abnormal event detection
+datasets包含来自固定相机的、带有static
+background的videos，通过MAE学习static background
+是trivial且useless。因此，在video anomaly detection中，重建masked
+tokens是次优解。作者提出，当计算reconstructino loss的时候，考虑motion
+gradients</strong>。</li>
+</ul>
+<p><span class="math inline">\(x_t\)</span> 是video frame的索引t，
+n是non-overlapping visual
+tokens。跟着Ionescu的工作，通过计算两个连续帧的difference来估计frame
+<span class="math inline">\(X_t\)</span>的gradient map，在这之前通过一个
+<span class="math inline">\(3 \times 3\)</span> median
+filter。接下来，将gradient magnitude map <span
+class="math inline">\(g_t\)</span> 划分为non-overlapping
+patches，得到了gradient patches的set。在每个gradient
+patch中，逐通道计算最大gradient magnitude。然后，Maximum gradient
+magnitudes上的channel-wise mean。最后，对于reconstruction
+loss，计算token-wise weights。</p>
+<p>引入weights到传统的token-level reconstruction
+loss，使MAE去关注重建high motion magnitude的patches。尽管reconstruction
+loss关注于high motion的tokens，masked tokens仍然使随机选择的。</p>
+<ul>
+<li><p><strong>Self-distillation</strong>：知识蒸馏在异常检测中展示出了它的utility，直觉上，因为teacher
+和student models都是用normal data训练的，它们的reconstructions对于normal
+test samples是类似的。然而，在abnormal
+samples上，它们的behavior并不保证是similar。因此，teacher-student output
+gap(discrepancy，差异)，可以作为一种量化给定sample的anomaly
+level的方法。不幸地是，这个方法在推理的时候涉及teacher 和student
+model，将速度减半了。
+为了降低在推理的时候用另外一个model的额外的负担，作者提出采用共享encoder和两个decoder(teacher,
+student)的自蒸馏的一个新的变体。另外，student branches是在第一个teacher
+decoder的transformer block分出来的，另外加了一个transformer
+block。</p></li>
+<li><p>作者的training
+process是两阶段的。在第一个阶段，teacher用定义的loss进行训练。在第二阶段，作者freeze
+共享的backbone的weights，通过self-distillation来仅训练student
+decoder。则会个self-distillation
+loss类似于公式中定义的。主要的区别在于，不是重建real
+image的patches，student 学习重建the ones produced by the
+teacher。</p></li>
+<li><p><strong>MAEs往往对ood数据泛化太好了，这个behavior在异常检测中是不理想的，因为基于AEs的方法依赖于对abnormal
+examples的high reconstruction errors, low reconstruction errors for
+normal ones。为了这个目的，作者提出用abnormal events来增强training
+videos。因为从real-world中搜集abnormal training
+examples是不可能的，作者用synthetic
+anomalies</strong>，lion给最近的UBnormal data set和它的accurate
+pixel-level annotations来crop out abnormal events，将它们融合到training
+videos中，同时确保增加的events的时序一致性。synthetic
+examples在三个方面帮助model，首先: 在reconstruction
+loss中，作者考虑原始的training frames(without superimposed
+anomalies)作为ground-truth，使得model忽略anomalies。在等式中，用来自frame
+<span class="math inline">\(X_t\)</span>的normal
+version的patches，第二，作者将anomaly map作为另外一个channel，加到target
+iamge上，在anomaly map中，将normal pixels设为0，abnormal
+pixels设为1。这个changes意味着，所有的patches都有一个额外的channel。第三，用gt
+anomaly map来增强weights。这个增加的synthetic anomalies并没有产生有high
+magnitude的motion gradient。因此，对应于anomaly
+regions的patches是有可能得到low
+weights，如果想要model检测anomaly，这不是理想的。为了这个目的，在计算weights之前，作者提出了一起添加anomaly
+maps和gradients。</p></li>
+<li><p><strong>Classification head</strong>：作者进一步利用synthetic
+anomalies来训练一个cls head，用在shared encoder的最后的final [cls]
+token上。这个head被训练用来区分带有和不带有synthetic
+anomalies的frames，这个head用binary cross-entropy进行训练。</p></li>
+<li><p><strong>Inference</strong>：在推理的时候，作者将每个frame <span
+class="math inline">\(X_t\)</span> 通过teacher和student
+models来得到reconstructed frames <span
+class="math inline">\(\hat_{t}\)</span> 和 <span
+class="math inline">\(x_t\)</span>，然后计算输出的pixel-level anomaly
+map： <span class="math display">\[o_t = \alpha \|x_t - \hat{x}_t\|^2 +
+\beta \cdot \|\tilde{x}_t - \bar{x}_t\|^2 + \gamma \cdot
+\dot{y}_t,\]</span> <span class="math inline">\(\alpha, \beta,
+\gamma\)</span> 是控制individual anomaly score components
+的重要性。用spatio-temporal 3D filtering来光滑anomaly
+volumes，为了得到frame-level anomaly scores，保留每个output map <span
+class="math inline">\(o_t\)</span> 的最大的value，一次应用另外的temporal
+Gaussian filter来smooth values。</p></li>
+</ul></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/7ad25dbb5022c119144990cde0d364e2519df728/1-Figure1-1.png"
+alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+在训练的时候，video frames用synthetic anomalies进行增强。teacher
+decoder学习重建original frames(without anomalies)和预测anomaly
+maps。student decoder学习reproduce teacher's output。motion
+gradient在token level进行汇总，用作reconstruction loss的weights，
+红色虚线表示只在training的时候执行的steps。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Autoencoders/" rel="tag"># Autoencoders</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/04/18/Olympus/" rel="prev" title="Olympus">
+                  <i class="fa fa-angle-left"></i> Olympus
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/04/21/MoE/" rel="next" title="MoE">
+                  MoE <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">251k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">15:13</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
