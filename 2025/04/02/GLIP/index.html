@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="Grouded Language-Image Pre-training[1]  作者是来自UCLA、Microsoft Reserach、UW等机构的Liunian Harold Li, Pengchuan Zhang等人。论文引用[1]:  Time  2022.Jun  ### Key words 总结：">
+    <meta name="description" content="Grouded Language-Image Pre-training[1]  作者是来自UCLA、Microsoft Reserach、UW等机构的Liunian Harold Li, Pengchuan Zhang等人。论文引用[1]:Li, Liunian Harold et al. “Grounded Language-Image Pre-training.” 2022 IEEE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GLIP">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/04/02/GLIP/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="Grouded Language-Image Pre-training[1]  作者是来自UCLA、Microsoft Reserach、UW等机构的Liunian Harold Li, Pengchuan Zhang等人。论文引用[1]:  Time  2022.Jun  ### Key words 总结：">
+<meta property="og:description" content="Grouded Language-Image Pre-training[1]  作者是来自UCLA、Microsoft Reserach、UW等机构的Liunian Harold Li, Pengchuan Zhang等人。论文引用[1]:Li, Liunian Harold et al. “Grounded Language-Image Pre-training.” 2022 IEEE">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-02T08:53:39.000Z">
-<meta property="article:modified_time" content="2025-04-18T08:13:02.059Z">
+<meta property="article:modified_time" content="2025-04-22T13:40:05.497Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Multi-Modal">
 <meta name="twitter:card" content="summary">
@@ -114,7 +114,7 @@
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#grouded-language-image-pre-training1"><span class="nav-number">1.</span> <span class="nav-text">Grouded Language-Image
-Pre-training[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key-words"><span class="nav-number"></span> <span class="nav-text">### Key words</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+Pre-training[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结：</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -211,7 +211,7 @@ Pre-training[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-li
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-04-18 16:13:02" itemprop="dateModified" datetime="2025-04-18T16:13:02+08:00">2025-04-18</time>
+      <time title="修改时间：2025-04-22 21:40:05" itemprop="dateModified" datetime="2025-04-22T21:40:05+08:00">2025-04-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -237,14 +237,14 @@ Pre-training[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-li
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>41</span>
+      <span>3.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>12 分钟</span>
     </span>
 </div>
 
@@ -258,17 +258,279 @@ Pre-training[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-li
 Pre-training<sup>[1]</sup></h3>
 <blockquote>
 <p>作者是来自UCLA、Microsoft Reserach、UW等机构的Liunian Harold Li,
-Pengchuan Zhang等人。论文引用[1]:</p>
+Pengchuan Zhang等人。论文引用[1]:Li, Liunian Harold et al. “Grounded
+Language-Image Pre-training.” 2022 IEEE/CVF Conference on Computer
+Vision and Pattern Recognition (CVPR) (2021): 10955-10965.</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
 <li>2022.Jun</li>
 </ul>
-<h2 id="key-words">### Key words</h2>
+<h3 id="key-words">Key words</h3>
+<ul>
+<li>object-level represetation</li>
+<li>一句话总结：<strong>GLIP将detection转化为一个grounding
+tasks，通过将每个region/box和text
+prompt的phrases进行对齐，GLIP联合训练image和language
+encoder，来预测正确地regions/words的pairings。同时增加了两个modalities之间的fusion，来学习language-aware
+visual representation</strong>。</li>
+</ul>
 <h3 id="总结">总结：</h3>
 <ol type="1">
-<li></li>
+<li>论文提出了一个<strong>grounded language-image pretraining
+model，用于学习object-level, language-aware和semantic-rich visual
+representations</strong>。GLIP统一了object detection和phrase grounding
+for pretraining。这个统一带来了两个好处: 1.
+<strong>使得GLIP能够从detection和grounding
+data中学习，提高tasks和bootstrap a good grounding model.
+2.GLIP通过self-training的方式，产生grounding
+boxes，能够利用大量的imag-text pairs，使得学习到的representations
+semantic-rich</strong>。</li>
 </ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>visual recognition
+model通常被训练用来预测预先定义好的、固定的object
+categories，限制了它们在真实世界中的应用，应为需要额外的labeled
+data来泛化到新的visual concepts和domains。CLIP展示了，可以在大量的raw
+image-text pairs上，可以学习到有效的visual representations。因为paired
+texts包含比预先定义的concept pool更广的visual
+concepts，CLIP因此semantically rich，能够很容易地迁移到下游的image
+classification和text-image retrieval tasks in zero-shot
+settings。然而，为了得到fine-grained understanding of
+images，例如很多tasks要求的，例如object detection, segmentation， pose
+estimation等，object-level visual representations是希望得到的.
+在本文中，作者展示了phrase grounding，<strong>是一个识别phrases in a
+sentence和objects(regions) in an image之间的fine-grained
+对应关系的任务</strong>，是一个有效的、可扩展的预训练任务，能够学习object-level，
+language-aware, semantic-rich的visual representation，提出了Grounded
+Language-Image Pre-training(GLIP)。<strong>作者的方法统一了phrase
+grounding和object detection tasks，这里，object
+detection可以被描述为一个context-free phrase grounding，同时phrase
+grounding可以被视为一个contextualized object detection
+task</strong>。</p>
+<ul>
+<li><p><strong>通过将object detection reformulate为一个phrase
+grouding，统一detection和grounding</strong>，这个reformulation改变了detection
+model的输入：它的输入不仅是一个image，还有一个text
+prompt，描述了detection task中的所有candidate categories。例如，COCO
+object detection的text prompt是一个包含80 phrases的text
+string，任何一个object detection model可以通过将box classifier中的object
+classification logits替换成world-region alignment
+scores，被转换成一个grounding model。language features是通过language
+model来计算，new detection model是一个dual-encoer
+结构，不同于CLIP，其仅在最后的dot product
+layer上融合vision和language，作者展示了GLIP用的deep cross-modality
+fusion，对于学习high-quality language-aware visual
+representation是重要的。detection和grounding的统一，使得能够用两种类型的data来进行pretrain，对两种任务都有好处。在detection上，visual
+concepts由于grounding data极大地丰富了。在grounding上，detection
+data引入了更多的bbox annotation，帮助训练一个新的SOTA phrase grounding
+model.</p></li>
+<li><p><strong>Scaling up visual concepts with massive image-text
+data</strong>：给定一个grounding model，可以通过产生grounding
+boxes，增强GLIP pretraining data。<strong>在这样semantic-rich
+data上训练，得到一个semantic-rich student
+model，相比之下，先前的在scaling detection data上的工作愈能预测teacher
+model预定义的vocabulary之外的concepts</strong>。这个研究中，作者展示了这个简单的扩充grounding
+data的策略，是有效的，在很多任务上都带来了提升。</p></li>
+<li><p><strong>Transfer Learning with GLIP: One model for
+all</strong>：grounding reformulation和semantic-rich
+pretraining促进了domain
+transfer，GLIP能够transfer到多个其它的任务上，需要很少的human
+annotations。另外，当task-specific
+annotations是available的时候，<strong>不同于tuning整个model，只需要tuning
+task-specific prompt embedding，同时保持model parameters
+不变</strong>。在这样的prompt tunning setting下，一个GLIP
+model可以同时在所有的下游任务上表现很好，降低了fine-tuning和deployment的成本。</p></li>
+</ul></li>
+<li><p>标准的object detection是在crowd-labeled
+datasets上被训练，用来定位预定义的、固定set的object
+classes，这样的human-annotated data扩展起来成本很高。GLIP通过将object
+detection reformulate为一个phrase grounding问题，提出了一个affordable
+solution，这利用了grounding和massive image-text-paired
+data，尽管当前的implementation是建立在Dynamic
+Head上的，作者的统一的formulation可以被泛化到任何的object detection
+systems。 最近，也有针对visual recognition问题的vision-and-language
+方法，vision models用free-form language
+supervision进行训练，例如CLIP和ALIGN在大量的image-text
+pairs上进行cross-modal的contrastive learning，直接进行open-vocabulary
+image classification。通过将CLIP/ALIGN model蒸馏到一个two-stage
+detector, ViLD被提出来了，提高了zero-shot object
+detection，另外，MDETR在现有的multi-modal
+datasets训练了一个端到端的model，在phrases in text和objects in
+image之间有显式的对齐。作者的GLIP继承了这个研究方向的semantic-rich和language-aware的特点，实现了SOTA，提高了迁移到下游任务的能力。</p>
+<p>这个paper聚焦于domain transfer，用于object
+detection，目标是构建一个pretrained
+model，能够无缝地迁移到多个tasks和domains in a zero-shto or few-shot
+manner。作者的setting不同于zero-shot detection，作者期望GLIP在rare
+categories上表现良好，但是没有显式地exclude any categories from training
+set，因为grounding data是semantic rich，期望它们能够cover 很多rare
+categories，这像一个setting in open-vocabulary object detection，期望raw
+image-text data来cover rare
+categories。这个方向的工作将构建一个open-world object proposal
+module，能够propose novel object at test time作为key
+challenge。GLIP提供了一个新的perspective：model不需要提出possible novel
+objects from an open set，只需要propose objects mentioned in the text
+prompt，detectio branch is conditioned on the prompt.</p>
+<p>除了在rare categories上的性能之外，作者也考虑了在真实世界中的transfer
+cost，如何用少量的data、training budget和depolyment
+cost实现最好的性能。特别地，作者也展示了GLIP支持prompt tuning，和full
+fine-tuning的性能相匹配，但是只tunes一部分的model
+parameters。作者也展示了一个novel finding: 在object detection中，prompt
+tuning是对于有deep vision-language
+fusion的model是最有效的，同时对于shallow-fused
+models是没有那么有效。这个和最近的、仅对shallow-fused vision-language
+models进行prompt tuning的工作形成了对比。</p></li>
+<li><p><strong>Grounded Language Image Pre-training</strong>:
+概念上，object detection和phrase
+grounding有很大的相似之处。都是来localized objects，然后将它们和semantic
+concepts对齐。这个协同作用motivates作者，将经典的object detection
+tasks变成一个grounding 问题，提出了一个unified
+formulation，作者进一步提出来在image和text之间增加deep
+fusion，使得dtection model language-aware，变成一个strong grounding
+model，有了这个reformulation和deep fusion，可以在scalable
+和semantic-rich的grounding data上pretrain CLIP。</p></li>
+<li><p><strong>Unified Formulation</strong>：一个典型的detection
+model将一个input image给到visual encoder <span
+class="math inline">\(Enc_I\)</span>，用CNN或者Transformer作为一个backbone，提取region/box
+features <span class="math inline">\(O\)</span>，每个 region/box
+features然后给到两个prediction heads, box classifier 和box
+regressor，分别用cls loss和localization loss进行训练。
+在两阶段的detector中，一个单独的region proposal network with RPN
+loss用来区分foreground和background和refine anchors，因为 <span
+class="math inline">\(L_{rpn}\)</span> 没有用semantic information of
+object classes，将它们merge到 localization loss <span
+class="math inline">\(L_{loc}\)</span> 中，在one-stage
+detector中，localization loss <span
+class="math inline">\(L_{loc}\)</span> 也可能包含centerness loss。</p>
+<ul>
+<li><strong>Object detection as phrase
+grounding</strong>：不同于将每个region/box分为 <span
+class="math inline">\(c\)</span> classes，作者将detection
+reformulate为一个grounding task，通过将每个region grounding/aligning到
+text prompt中的 <span class="math inline">\(c\)</span>
+phrases，如何设计一个text prompt for a detection task? 给定一个object
+classes:[person, bicycle, car, ..., toothbrush]，一个简单的方式是：
+<code>Prompt = "Detect: person, bicycle, car, ..., toothbrush"</code>
+每个cls name是作为要被grounded的candidate
+phrase。通过提供更扶风的descriptions或这利用pretrained language
+model的preference，可以设计更好的prompts。例如：预训练的BERT
+model用来初始化language encoder <span
+class="math inline">\(Enc_L\)</span>， prompt "person, bicycle, car"
+比human-friendly prompt 表现更好。</li>
+</ul>
+<p>在一个grounding model中，计算image region和prompt
+words厚葬的alignment scores <span
+class="math inline">\(S_{ground}\)</span>:</p>
+<p><span class="math inline">\(O = \text{Enc}_I(\text{Img}), \quad P =
+\text{Enc}_L(\text{Prompt}), \quad S_{\text{ground}} =
+OP^\top,\)</span></p>
+<p><span class="math inline">\(P\)</span> 是来自language
+encoder的contextual word/token features，和weight matrix <span
+class="math inline">\(W\)</span> 是类似的作用。这个grounding
+model，包含image encoder <span class="math inline">\(Enc_I\)</span>
+和language encoder <span
+class="math inline">\(Enc_L\)</span>，通过最小化loss，来进行端到端的训练用region-word
+alignment scores <span class="math inline">\(S_{\text{ground}}\)</span>
+来替换cls logits <span class="math inline">\(S_{cls}\)</span></p>
+<p>然而，现在又logits <span class="math inline">\(S_{ground}\)</span>
+h和target <span class="math inline">\(T\)</span>，(sub)-word tokens
+<span class="math inline">\(M\)</span>的数量通常比 text
+prompt中的phrases <span
+class="math inline">\(c\)</span>的数量大，是由于以下四个原因：1.
+一些phrases包含多个words; 2. 一些single word phrases分成多个sub-words
+tokens,例如 toothbrush; 3. 一些是增加的tokens，例如Detect; 4.
+[NoObj]加在了tokenized sequence的末尾。当loss是一个binary sigmoid
+loss，作者将原始的target matrix <span class="math inline">\(T\)</span>
+扩为 <span class="math inline">\(T`\)</span>，通过使所有的sub-words
+positive match，如果一个phrase使positive match，所有的added
+tokens和所有的image features是negative match。有了这个chagne， <span
+class="math inline">\(loss(S_{ground};T&#39;)\)</span>
+保持相同。在推理的时候，将所有的token的概率进行平均，作为phrase
+probability。</p>
+<ul>
+<li><strong>Equivalence between detection and grounding</strong>:
+有了以上的reformulation，将任何detection model转换为一个grounding
+model和two
+views，detection和grounding，对于training和inference是理论上equivalent的。有了这个reformulation，一个pretrained
+phrase grounding model可以直接用在任何object detection
+task上，由于language encoder的输入的free-form，使得将GLIP
+model有可能以zero-shot的方式，迁移到任意的detection tasks上。</li>
+<li><strong>Related work</strong>: grounding
+formulation是受MDETR的启发，作者的grounding loss和MDETR的fine-grained
+contrastive loss有相同的思路。作者找到了一个有效的方式，将detection
+reformulate为一个grounding和简单的unified loss 用于detection和grounding
+tasks，作者的grounding model类似于zero-shot
+detection。Bansal的工作是一个detection model用pretrained Glove word
+embedding，进行zero-shot detection。最近，从pretrained deep language
+models提出来的phrase features引入到了open-vocabulary
+detection中，GLIP不同于zero-shot
+detection的地方在于，GLIP提供了一个unified view of detection and
+grounding，使得两个重要的因素， language-aware deep fusion和scaling up
+with image-text data.</li>
+</ul></li>
+<li><p><strong>Language-Aware Deep
+Fusion</strong>：image和text通过不同的encoders进行encode，只在最后进行fuse，来得到alignment
+scores，作者称这样的models为<font color=red>late-fusion</font>
+models，在vision-language literature中, visual和language feautres的deep
+fusion是必要的，来学习一个performant phrase grounding
+model，作者在image和language encoders之间引入了deep
+fusion，在最后的几个encoding layer中如何image和text
+information，具体来说，用了DyHead作为image encoder， BERT作为text
+encoder，deep-fused encoder如下：</p>
+<p><span class="math display">\[O_{2i}^j, P_{i2}^i = \text{X-MHA}(O^i,
+P^i), \quad i \in \{0, 1, \dots, L-1\}\]</span></p>
+<p><span class="math inline">\(L\)</span> 是DyHeadModules
+的数量，BERTLayer是在pretrained BERT的新加的BERT
+layers，cross-modality是通过cross-modality multi-head attention
+module来实现的。不需要context vectors，model变为了<span
+class="math inline">\(late-fusion\)</span> model。在cross-modality
+multi-head attention module中，每个head计算one modality的context
+vectors，通过attending to the other modality: <span
+class="math display">\[\begin{aligned}
+O^{(q)} &amp;= O W^{(q, I)}, \quad P^{(q)} = P W^{(q, L)}, \quad
+\text{Attn} = O^{(q)} (P^{(q)})^\top / \sqrt{d}, \\
+P^{(v)} &amp;= P W^{(v, L)}, \quad O_{t2i} = \text{SoftMax}(Attn)
+P^{(v)} W^{(out, I)}, \\
+O^{(v)} &amp;= O W^{(v, I)}, \quad P_{i2t} = \text{SoftMax}(Attn^\top)
+O^{(v)} W^{(out, L)},
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(W^{symbol,I/L}: symbol \in
+{q,v,out}\)</span> 是可训练的parameters，和MHA中的query、value和output
+linear layers的作用类似。</p>
+<p>deep-fused encoder有两个好处：1. <strong>提高了phrase grounding
+performance; 2. 使得学习到的visual features
+language-aware，因此，models的prediction是以text
+prompt为条件的，这对于实现一个model服务所有的下游detection
+tasks至关重要</strong>。</p></li>
+<li><p><strong>Pre-training with Scalable Semantic-Rich Data</strong>:
+大量的工作用来搜集语义丰富的数据，然而，human
+annotations是成本高和有限的，先前的工作以self-training的方式进行scale
+up，它们用一个teacher从raw images中预测boxes，来产生pseudo detection
+labels，来训练一个student model，大那是generated data仍然受限于concept
+pool的大小，因为teacher只能预测concept
+pool中定义的labels，相比之下，作者的model可以在detection和grounding
+data上进行训练。作者展示了grounding
+data可以提供丰富的semantics，促进localication，可以以self-training的方式进行scale
+up. grounding data比现有的deteciton data有更多的visual
+concepts。<strong>作者用gold detection和grounding
+data来预训练一个teacher GLIP，然后用这个teacher model来预测web-collected
+image-text data，用NLP parser检测到的noun phrases，最后，一个student
+model用gold data和产生的pseudo grounding data来训练一个student
+model，一个teacher能够产生accurate box for semantically rich
+entities</strong>。 <strong>为什么student model能够超越teacher
+model，在visual grounding中，作者假设teacher model利用language
+context和language generalization能力精确地ground concepts。当训练student
+model的时候，teacher model的 educated guess变成了一个supervised
+signal，使得student model能够学习一定的概念</strong>。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/5341b412383c43f4a693ad63ec4489e3ec7688c8/2-Figure2-1.png"
+alt="Framework" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+GLIP联合训练一个image encoder和一个language
+encoder，来与regions和words的正确的pairings，进一步增加了cross-modality
+deep fusion，来融合两个模态的information，来学习language-aware visual
+representation</p>
 
     </div>
 
@@ -323,13 +585,13 @@ Pengchuan Zhang等人。论文引用[1]:</p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">251k</span>
+    <span title="站点总字数">254k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:13</span>
+    <span title="站点阅读时长">15:24</span>
   </span>
 </div>
 <div class="busuanzi-count">
