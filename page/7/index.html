@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">147</span>
+          <span class="site-state-item-count">148</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -135,7 +135,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">49</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -160,6 +160,148 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/09/26/Exploring-Plain-ViT-for-Object-Detection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/09/26/Exploring-Plain-ViT-for-Object-Detection/" class="post-title-link" itemprop="url">Exploring Plain ViT for Object Detection</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-09-26 22:32:12" itemprop="dateCreated datePublished" datetime="2024-09-26T22:32:12+08:00">2024-09-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-06 20:35:43" itemprop="dateModified" datetime="2024-10-06T20:35:43+08:00">2024-10-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="exploring-plain-vision-transformer-backbones-for-object-detection1">Exploring
+Plain Vision Transformer Backbones for Object
+Detection<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自FAIR的Yanghao Li, Hanzi Mao, Ross Girshick和Kaiming He.
+论文引用[1]:Li, Yanghao, et al. "Exploring plain vision transformer
+backbones for object detection." European conference on computer vision.
+Cham: Springer Nature Switzerland, 2022.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2022.Mar</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Plain ViT for Object Detection</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者探索了<strong>plain, non-hierarchical</strong>
+ViT作为backbone，用于object
+detection，这个涉及使得原始的ViT架构能够被fine-tuned，用于object
+detection，不需要重新设计一个hierarchical backbone for
+pre-training。只需很小的adaptations for fine-tuning，这个plain-backbone
+detector能够实现很好的结果。作者观察到：
+<ul>
+<li><strong>从单个尺度的feature map构建一个simple feature
+pyramid就足够了，不需要FPN的设计</strong></li>
+<li><strong>用window attention(without shifting)，辅以很少的cross-window
+propagation blocks就足够了。</strong></li>
+</ul>
+用经过MAE预训练的plain ViT
+backbone，detector称之为(ViTDet)，能够和之前的基于hierarchical
+backbone的leading methods竞争。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/09/26/Exploring-Plain-ViT-for-Object-Detection/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1261,150 +1403,6 @@ strategy</strong>和<strong>anchor-free</strong>机制，来使得YOWOv2和先�
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/08/24/TAAD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/08/24/TAAD/" class="post-title-link" itemprop="url">TAAD</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-08-24 16:53:52" itemprop="dateCreated datePublished" datetime="2024-08-24T16:53:52+08:00">2024-08-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-30 11:11:10" itemprop="dateModified" datetime="2024-08-30T11:11:10+08:00">2024-08-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>7 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="spatio-temporal-action-detection-under-large-motion1">Spatio-Temporal
-Action Detection Under Large Motion<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自ETHZ的Gurkirt Singh, Vasileios Choutas, Suman Saha, Fisher
-Yu和Luc Van Gool。论文引用[1]:Singh, Gurkirt et al. “Spatio-Temporal
-Action Detection Under Large Motion.” 2023 IEEE/CVF Winter Conference on
-Applications of Computer Vision (WACV) (2022): 5998-6007.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2022.Oct</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>track information for feature aggregation rather than tube from
-proposals</li>
-<li>3 motion categories: large motion、medium motion、small motion</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>当前的STAD的tube
-detection的方法经常将一个给定的<strong>keyframe</strong>上的bbox
-proposal扩展成一个<strong>3D temporal
-cuboid</strong>，然后从邻近帧进行pool
-features。如果actor的位置或者shape表现出了large 2D motion和variability
-through frames，这样的pooling不能够积累有意义的spaito-temporal
-features。在这个工作中，作者旨在研究<strong>cuboid-aware feature
-aggregation in action detection under large
-action</strong>。进一步，提出了在<strong>large
-motion</strong>的情况下，通过<strong>tracking actors和进行temporal
-feature aggregation along the respective tracks</strong>增强actor
-feature representation，定义了在不同的固定的time scales下的<strong>actor
-motion的IoU</strong>。有large motion的action会随着时间导致lower
-IoU，slower actions会随着时间维持higher IoU。作者发现<strong>track-aware
-feature aggregation持续地实现了很大的提升in action
-detection</strong>。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/08/24/TAAD/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/YoungBlogs/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/15/">15</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1434,7 +1432,7 @@ detection</strong>。</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:24</span>
+    <span title="站点阅读时长">15:25</span>
   </span>
 </div>
 <div class="busuanzi-count">
