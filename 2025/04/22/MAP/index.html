@@ -27,7 +27,7 @@
 <meta property="og:description" content="MAP: Unleashing Hybrid Mamba-Transformer Vision Backbone&#39;s Potential with Masked Autoregressive Pretraining[1]  作者是来自清华叉院和上海AI Lab、QiZhi 研究院的Yunze Liu和Li Yi，论文引用[1]:Liu, Yunze and Li Yi. “MAP: Un">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-22T14:22:19.000Z">
-<meta property="article:modified_time" content="2025-04-28T14:32:58.566Z">
+<meta property="article:modified_time" content="2025-04-29T06:42:11.991Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Mamba">
 <meta property="article:tag" content="Autoregressive">
@@ -213,7 +213,7 @@ Masked Autoregressive Pretraining[1]</span></a></li><li class="nav-item nav-leve
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-04-28 22:32:58" itemprop="dateModified" datetime="2025-04-28T22:32:58+08:00">2025-04-28</time>
+      <time title="修改时间：2025-04-29 14:42:11" itemprop="dateModified" datetime="2025-04-29T14:42:11+08:00">2025-04-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -239,14 +239,14 @@ Masked Autoregressive Pretraining[1]</span></a></li><li class="nav-item nav-leve
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.6k</span>
+      <span>2.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>6 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -386,12 +386,66 @@ regions之间的internal features，同样采用masking
 feature modeling的长处，还有AR in context
 modeling的长处，继承了both，MAP提高了hybrid
 architecture的pretraining性能。</p></li>
-<li></li>
+<li><p>本文聚焦于如何预训练Mamba-Transformer
+frameworks，而不是设计hybrid frameworks。作者训练了很多Hybrid
+Mamba-Transformer Vision
+backbones，和从头开始训练进行对比。<strong>结果显示，用MMMTMMMT表型最好。和Mamba-R*
+with
+MMMMMMTT相比，作者发现，在Mamba后面增加一个Transformer，增强了它的long-context
+modeling
+capabilities，提高了性能。然而，将MMMMMMTT和TTMMMMMM相比，作者观察到，在Mamba后面简单地添加Transformers，不能完全利用网络架构的潜力，这表明：在一开始引入Transformers，对于提取sufficient
+local features是重要的。作者相信，MMMTMMMT方法，有效地平衡了local
+feature extraction和contextual modeling enhancement</strong>。 作者的MAP
+pretraining是在一个给定的image上进行random masking，然后region-wise
+autoregressively重建它的original
+image。image的每个row的tokens被同时预测，rows之间的tokens通过自回归预测。</p>
+<p>注意到，<strong>将每个row作为sub-region，是因为，Mamba的AR
+order应该和scanning order一致</strong>，大多数Mamba的scannning
+order是row-first。为了确保和现有方法的公平对比，将每个row作为prediction
+unit，在改变Mamba的scannning order之后，大多数复杂的clustering
+策略期望能产生更好的结果。</p>
+<ul>
+<li>如图所示，HybridNet首先将randomly masked image 映射到feature
+space，然后用一个Transformer Decoder来decoder original image
+row-wise。总的loss function是negative log-likelihoods of the predicted
+tokens。</li>
+</ul>
+<p><span class="math display">\[\mathcal{L} = - \sum_{i=1}^{M} \sum_{j
+\in \mathbf{M}_i} \log p(\mathbf{x}_{ij} \mid \mathbf{x}_{i,j \notin
+\mathbf{M}_i}, \mathbf{r} &lt; i)\]</span></p>
+<ul>
+<li><p>对于pure Transformer，MAP没有超过MAE的性能，但是实现了comparable
+results，这是因为local MAE将i的了receptive field，autoregressive
+modeling between local regions增强了capture local
+relationships的能力，使得MAP保持了strong performance。</p></li>
+<li><p>对于Masking，实验发现，random masking的效果比sequential、diagonal
+masking的效果都好。用一个masked transformer
+decoder来重建，因为Transformer decoder能够基于encoder's
+features重建region-wise，而Mamba decoder由于其单向的scanning
+nature，很难同时重建整个local region，作者的decoder采用了row-wise
+decoding 策略，使得同时autoregressive decoder of one row of
+tokens，增强了网络capture local features和contextual
+relationships的能力。local MAR是指将MAE的receptive
+field限制在image的每个row。</p></li>
+<li><p>重建target：和MAE一致，作者将重建normalized original
+pixels作为target，采用MSE loss，受MAR的启发，用重建的输出作为conditional
+signal，用于diffusion models，来提高generation
+quality。探索了用diffusion
+loss能够增强性能，然而，这个方法没有产生significant
+improvements，表明重建的images的quality和encoder pretraining
+success不直接相关。</p></li>
+</ul></li>
 </ol>
 <p><img
-src="https://figures.semanticscholar.org/aa830f10176dfd1bde35a554f761037e84349264/1-Figure1-1.png" /></p>
+src="https://figures.semanticscholar.org/aa830f10176dfd1bde35a554f761037e84349264/1-Figure1-1.png"
+alt="MAP" /> <span class="math inline">\(Fig.1^{[1]}\)</span> MAP</p>
 <p><img
-src="https://figures.semanticscholar.org/aa830f10176dfd1bde35a554f761037e84349264/2-Figure2-1.png" /></p>
+src="https://figures.semanticscholar.org/aa830f10176dfd1bde35a554f761037e84349264/2-Figure2-1.png" />
+<span class="math inline">\(Fig.2^{[1]}\)</span> MAP首先randomly mask
+input image，然后以row-by-row autoregressively 的方式，重建original
+image。预训练方法展示了significant advantages in modeling contextual
+features of local characteristics and correlations between local
+features.</p>
 <p><img
 src="https://figures.semanticscholar.org/aa830f10176dfd1bde35a554f761037e84349264/1-Figure1-1.png"
 alt="Framework" /> <span class="math inline">\(Fig.1^{[1]}\)</span></p>
@@ -450,13 +504,13 @@ alt="comparison" /> <span class="math inline">\(Fig.2^{[1]}\)</span></p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">256k</span>
+    <span title="站点总字数">257k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:30</span>
+    <span title="站点阅读时长">15:33</span>
   </span>
 </div>
 <div class="busuanzi-count">
