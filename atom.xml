@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-04-29T06:42:11.991Z</updated>
+  <updated>2025-04-29T06:47:40.545Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpatialVLA</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/04/29/SpatialVLA/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/04/29/SpatialVLA/</id>
+    <published>2025-04-29T06:46:47.000Z</published>
+    <updated>2025-04-29T06:47:40.545Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+    <category term="Embodied AI" scheme="https://young-eng.github.io/YoungBlogs/tags/Embodied-AI/"/>
+    
+  </entry>
   
   <entry>
     <title>MAP</title>
@@ -845,32 +868,6 @@ matching的困难，导致更快的收敛&lt;/strong&gt;。作者的方法是通
     
     
     <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TWiX</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/03/13/TWiX/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/03/13/TWiX/</id>
-    <published>2025-03-13T09:35:58.000Z</published>
-    <updated>2025-03-13T09:36:42.218Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="learning-data-association-for-multi-object-tracking1">LearningData Association for Multi-Object Tracking<sup>[1]</sup></h3><blockquote><p>作者是来自蒙特利尔理工的Mehdi Miah等人，论文引用[1]:</p></blockquote><ul><li>2024.Mar</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li></li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3 id=&quot;learning-data-association-for-multi-object-tracking1&quot;&gt;Learning
-Data Association for Multi-Object Tracking&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;bloc</summary>
-      
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
     
   </entry>
   
