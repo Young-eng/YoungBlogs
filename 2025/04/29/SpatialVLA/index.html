@@ -19,13 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="SpatialVLA: Exploring Spatial Representations for Visual-Language-Action Model[1]  作者是来自上海AI Lab、TeleAI和ShanghaiTech的Delin Qu等人。论文引用[1]:  ### Time ### Key Words 总结  作者认为，spatial understandi">
+<meta property="og:type" content="article">
 <meta property="og:title" content="SpatialVLA">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/04/29/SpatialVLA/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="SpatialVLA: Exploring Spatial Representations for Visual-Language-Action Model[1]  作者是来自上海AI Lab、TeleAI和ShanghaiTech的Delin Qu等人。论文引用[1]:  ### Time ### Key Words 总结  作者认为，spatial understandi">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-29T06:46:47.000Z">
-<meta property="article:modified_time" content="2025-04-29T06:47:40.545Z">
+<meta property="article:modified_time" content="2025-04-29T07:34:13.254Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Embodied AI">
 <meta name="twitter:card" content="summary">
@@ -98,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -111,6 +113,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#spatialvla-exploring-spatial-representations-for-visual-language-action-model1"><span class="nav-number">1.</span> <span class="nav-text">SpatialVLA:
+Exploring Spatial Representations for Visual-Language-Action
+Model[1]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time"><span class="nav-number"></span> <span class="nav-text">### Time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key-words"><span class="nav-number"></span> <span class="nav-text">### Key Words</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -201,7 +206,16 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-04-29 14:46:47 / 修改时间：14:47:40" itemprop="dateCreated datePublished" datetime="2025-04-29T14:46:47+08:00">2025-04-29</time>
+      <time title="创建时间：2025-04-29 14:46:47 / 修改时间：15:34:13" itemprop="dateCreated datePublished" datetime="2025-04-29T14:46:47+08:00">2025-04-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
     </span>
 
   
@@ -218,14 +232,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>768</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>3 分钟</span>
     </span>
 </div>
 
@@ -235,7 +249,75 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3
+id="spatialvla-exploring-spatial-representations-for-visual-language-action-model1">SpatialVLA:
+Exploring Spatial Representations for Visual-Language-Action
+Model<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自上海AI Lab、TeleAI和ShanghaiTech的Delin
+Qu等人。论文引用[1]:</p>
+</blockquote>
+<h2 id="time">### Time</h2>
+<h2 id="key-words">### Key Words</h2>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者认为，spatial understanding在robot
+manipulation中是keypoint，提出了SpatialVLA来探索有效的spatial
+representation。特别地，引入了<strong>Ego3D Position
+encoding</strong>，将3D information inject到input observations of the
+visual-language-action model，提出了<strong>adaptive action
+grids来represent spatial robot movement actions with adaptive
+discretized action grids</strong>，促进了学习
+generalizable和transferrable spatial action knowledge for cross-robot
+control。SpatialVLA是第一个pretrained on top of a vision-language model
+with 1.1 Million real-world robot
+episodes，来学习一个在多个环境中generalist manipulation
+policy，在预训练之后，SpatialVLA可以以zero-shot的方式，来执行多个tasks.</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>能够和物理世界进行交互的，适应多个embodiments，执行complext
+tasks的generalist robot policies是robotics的长期的追求。最近VLA
+models的进展展示出了通过微调pretrained VLMs，构建这样generalist
+policy的promising的范式。这个范式的成功的关键在于将VLMs的泛化能力用于多个robot
+manipulation tasks，还有一个写specific 架构的设计，来合成VLM
+backbone和robot action output head。然而，现有的VLA models主要受限于2D
+observation inputs，缺乏precise perception和3D
+物理世界的理解，humans能够instinctively 构建丰富的mental representations
+of space，effortlessly和objects与workspace进行对齐for
+manipulation。因此，这个领域的关键问题是：如何有效地让VLA
+models具备profound spatial understanding of the 3D physical world?</p>
+<p>然而，开发这样一个generalist robot policies with 3D spatial
+intelligence在robot
+observation和action方面遇到了两个主要的挑战。<strong>首先，来自不同robot
+embodiments的observations不是3D-aligned，因为不同robots的camera
+sensors是various，架设在了不同的位置，导致3D observation
+spaces是没有标定的。第二，不同的robot有不同的action movement
+characteristics来完成多样的tasks，由于不同的自由度、motion
+controllers和workspace configurations、task
+complexity，导致在学习generalizable spatial
+actions上有很大的困难，尽管在generalist policy上有一些尝试，generalist
+policy的3D spatial understanding的能力的进展很慢。主要是由于robot
+observation和action
+information的多样性。解决上述挑战，要求一个spatial-aligned robot
+observation和action representations，用于cross-embodiment control和3D
+物理世界的adaptation</strong>。</p>
+<p>通过exploring 对齐的robot observation和spatial
+representations和action signals，SpatialVLA通过<strong>Egocentric
+3D(Ego3D) 和Position Encoding来感知3D world，将3D spatial
+context和语义features进行集成。这个position encoding是来自于egocentric
+camera frame，消除了robot-camera calibration的需要，能够用于多个robot
+embodiment。至于robot actions， SpatialVLA统一了多个robots的action space
+via Adaptive Action Grids，将连续的robot actions根据statistical action
+distributions on the whole robot episodes，离散化为adaptive spatial
+grids，在这些grids上学习spatial action tokens将cross-robot
+actions和物理世界的3D
+空间结构对齐</strong>。在预训练之后，学习到的spatial action
+grids展示出了适应新的robot环境的超强的能力，提供了一个flexible和effective
+方法。作者发现，提出的moel SpatialVLA构建了observation inputs和action
+outputs桥梁，探索了powerful 3D spatial-aware representations，来增强VLA
+model。</p></li>
+</ol>
 
     </div>
 
@@ -293,7 +375,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:33</span>
+    <span title="站点阅读时长">15:36</span>
   </span>
 </div>
 <div class="busuanzi-count">
