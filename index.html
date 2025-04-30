@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">149</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -169,6 +169,142 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/30/Diff-Transformer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/04/30/Diff-Transformer/" class="post-title-link" itemprop="url">Diff_Transformer</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-04-30 13:36:14 / 修改时间：22:02:13" itemprop="dateCreated datePublished" datetime="2025-04-30T13:36:14+08:00">2025-04-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="differential-transformer1">Differential
+Transformer<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自MSRA和Tsinghua的Tianzhu Ye等人。论文引用[1]:Ye, Tianzhu et
+al. “Differential Transformer.” ArXiv abs/2410.05258 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2025.Apr</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>一句话来说：<strong>用两个softmax attention
+functions之间的差，作为attention socres，来消除attention
+noise</strong>。</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>Transformer
+倾向于将attnetion过多地分配给不相关的context，在这个工作中，作者介绍了Diff
+Transformer，放大了relevant
+context的attention，同时抵消了noise，特别地，<strong>differential
+attention机制通过计算两个独立的 softmax
+注意力图之间的差值来得到注意力分数</strong>。subtraction 操作cancel
+了noise，提升了sparse attention patterns的出现。实验结果表明：Diff
+Transformer在多个scaling up model size和training
+token的多种设置下，超过了Transformer。另外更有趣的是，它在实际应用中，提供了notable
+advantages，例如long-context modeling，key information
+retrieval和幻觉缓解，in-context learning，activation
+outliers的reduction。<strong>通过减少不相关context的distract, Diff
+Transformer在question answering和text
+summarization上缓解了幻觉。对于in-context learning，Diff
+Transformer不仅能增强精度，也对于order permutation更加robust，order
+permutation被认为是chronic robustness issue。结果表明Diff
+Transformer是一个高效和有前途的架构</strong>。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/04/30/Diff-Transformer/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/29/SpatialVLA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -199,7 +335,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-04-29 14:46:47 / 修改时间：15:54:17" itemprop="dateCreated datePublished" datetime="2025-04-29T14:46:47+08:00">2025-04-29</time>
+      <time title="创建时间：2025-04-29 14:46:47 / 修改时间：16:21:56" itemprop="dateCreated datePublished" datetime="2025-04-29T14:46:47+08:00">2025-04-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -218,14 +354,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>793</span>
+      <span>1.4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -1290,141 +1426,6 @@ features, OpenCLIP。</li>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/09/OpenVLA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/04/09/OpenVLA/" class="post-title-link" itemprop="url">OpenVLA</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2025-04-09 14:18:21 / 修改时间：15:02:55" itemprop="dateCreated datePublished" datetime="2025-04-09T14:18:21+08:00">2025-04-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.1k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="openvla-an-open-source-vision-language-action-model1">OpenVLA:
-An Open-Source Vision-Language-Action Model<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自Stanford、UCB等机构的Moo Jin Kim等人。论文引用[1]:Kim, Moo
-Jin et al. “OpenVLA: An Open-Source Vision-Language-Action Model.” ArXiv
-abs/2406.09246 (2024): n. pag.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2024.Sep</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>Open model, pretrained on internet-scale vision-language datasets,
-and a visual encoder that fuses DINOv2 and SigLIP features.</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>在internet-scale 上的vision-language 数据和diverse robot
-demo的结合上进行预训练的policies有潜力改变如何教robots学习new
-skills：而不是training new behaviors from scratch，可以对VLA
-models进行微调，来得到robust, generalizable policies for visuomotor
-control。当前的robotics的VLA挑战性在于：现有的VLAs大部分是闭源的，public无法接触；之前的工作没能探索高效微调VLAs
-for new
-tasks的方法。作者提出了OpenVLA，解决了上述的挑战，它是一个7B的open-source
-VLA，在970k real-world robot demo上的diverse
-的collections上训练的。OpenVLA建立在Llama 2 上，结合了一个visual
-encoder，能够融合来自DINOv2和SigLIP的features。作为一个added data
-diversity和new model components的product，OpenVLA展示出了strong results
-for generalist manipulation, 超过了closed
-model例如RT-2-X，少了7x的参数。作者进一步展示出了，能够对new
-settings进行有效地微调，在涉及多个objects和strong language grounding
-abilities上的多任务环境中，展示出了很强的泛化性，
-超过了从零训练的imitation learning的方法，例如Diffusion Policy。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/04/09/OpenVLA/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/YoungBlogs/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/15/">15</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1448,13 +1449,13 @@ abilities上的多任务环境中，展示出了很强的泛化性，
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">257k</span>
+    <span title="站点总字数">258k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:33</span>
+    <span title="站点阅读时长">15:40</span>
   </span>
 </div>
 <div class="busuanzi-count">

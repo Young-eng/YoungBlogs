@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Differential Transformer[1]  作者是来自MSRA和Tsinghua的Tianzhu Ye等人。论文引用[1]:Ye, Tianzhu et al. “Differential Transformer.” ArXiv abs&#x2F;2410.05258 (2024): n. pag.  Time  2025.Apr  Key Words  一句话来说：用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Diff_Transformer">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/04/30/Diff-Transformer/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Differential Transformer[1]  作者是来自MSRA和Tsinghua的Tianzhu Ye等人。论文引用[1]:Ye, Tianzhu et al. “Differential Transformer.” ArXiv abs&#x2F;2410.05258 (2024): n. pag.  Time  2025.Apr  Key Words  一句话来说：用">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-04-30T05:36:14.000Z">
+<meta property="article:modified_time" content="2025-04-30T14:02:13.357Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Transformer">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/04/30/Diff-Transformer/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/04/30/Diff-Transformer/","path":"2025/04/30/Diff-Transformer/","title":"Diff_Transformer"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Diff_Transformer | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#differential-transformer1"><span class="nav-number">1.</span> <span class="nav-text">Differential
+Transformer[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">149</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/30/Diff-Transformer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Diff_Transformer | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Diff_Transformer
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-04-30 13:36:14 / 修改时间：22:02:13" itemprop="dateCreated datePublished" datetime="2025-04-30T13:36:14+08:00">2025-04-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="differential-transformer1">Differential
+Transformer<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自MSRA和Tsinghua的Tianzhu Ye等人。论文引用[1]:Ye, Tianzhu et
+al. “Differential Transformer.” ArXiv abs/2410.05258 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2025.Apr</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>一句话来说：<strong>用两个softmax attention
+functions之间的差，作为attention socres，来消除attention
+noise</strong>。</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>Transformer
+倾向于将attnetion过多地分配给不相关的context，在这个工作中，作者介绍了Diff
+Transformer，放大了relevant
+context的attention，同时抵消了noise，特别地，<strong>differential
+attention机制通过计算两个独立的 softmax
+注意力图之间的差值来得到注意力分数</strong>。subtraction 操作cancel
+了noise，提升了sparse attention patterns的出现。实验结果表明：Diff
+Transformer在多个scaling up model size和training
+token的多种设置下，超过了Transformer。另外更有趣的是，它在实际应用中，提供了notable
+advantages，例如long-context modeling，key information
+retrieval和幻觉缓解，in-context learning，activation
+outliers的reduction。<strong>通过减少不相关context的distract, Diff
+Transformer在question answering和text
+summarization上缓解了幻觉。对于in-context learning，Diff
+Transformer不仅能增强精度，也对于order permutation更加robust，order
+permutation被认为是chronic robustness issue。结果表明Diff
+Transformer是一个高效和有前途的架构</strong>。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>decoder-only 的Transformer
+作为一个事实上的LLMs的标准。<strong>Transformer的heart是attention
+mechanism，采用Softmax
+function来对sequence中的多个tokens的importance进行加权。然而，最近的研究表明,
+LLMs面临从context中精确地检索key information的挑战</strong>。
+作者将分配给context的不同部分的normalized attention
+scores可视化。这个task是检索嵌入在一堆文档中的一个answer。<strong>这个可视化揭示了Transformer倾向于将一小部分的attention
+scores分配给正确的answer，同时，不成比例地关注不相关的context</strong>。实验进一步证明：Transformers在处理此类能力方面存在困难。这个问题源自于不可忽视的分配给不相关context的attention
+scores，压过了correct answer。作者将这些无关的scores称之为<em>attention
+noise</em>。在这个文章中，作者提出了DIFF Transformer，是一个foundation
+架构 for LLMs。提出了differential attention mechanism，用differential
+denoising来消除attention noise，特别地，将query和key
+vectors分为两个groups，计算两个separate softmax attention
+maps，讲个maps的subtracting的结果被视为attention
+scores。这个differential attention mechanism消除了attention
+noise，鼓励models聚焦于critical
+information。这个方法类似于noise-canceling headphones和differential
+amplifiers in electrical
+engineering，两个信号的difference消除了common-mode
+noise。作者提出了attention scores的normalized distribution，观察到，Diff
+Transformer将higher scores分配给correct answer，更多的lower
+scores分配给不相关的context。图展示了提出了方法实现了notable
+improvements。</p>
+<p>作者做了大量的实验 on language modeling，将DIFF
+Transformer在parameter count、training tokens和context length上进行scale
+up。这个scaling curves表明：DIFF
+Transformer仅需要Transformer的65%的model size或者training
+tokens，实现了comparable的language modeling performance。另外，DIFF
+Transformer在多个下游任务上超过了Transformer，另外，DIFF
+Transformer有很多的intriguing的优点。</p></li>
+<li><p>作者将decoder-only
+model作为一个example来描述架构，这个model堆叠了 <span
+class="math inline">\(L\)</span> 个DIFF Transformer
+layers，给定一个input sequence，将input embeddings pack到 <span
+class="math inline">\(X^0 = [x_1, ..., x_N] \in mathcal{R}^{N \times
+d_{model}}\)</span>，这个输入进一步被contextualized，得到输出 <span
+class="math inline">\(X^L\)</span>，每个layer包含两个modules：一个differential
+attention followed by a feed-forward network
+module，相比于Transformer，主要的不同在于：<strong>传统的softmax
+attention用differential attention替换了，然而macro
+layout是一样的</strong>。作者也采用pre-RMSNorm和SwiGLU。</p></li>
+<li><p>differential attention mechanism将query、key和value vectors
+映射到outputs，用query、key vectors来计算attention
+scores，然年后计算value vectors的加权和。critical design是用一对softmax
+functions来cancel noise of attention scores，特别地，给定输入 <span
+class="math inline">\(X\)</span>，首先将它们project到query、key和value，
+<span class="math inline">\(Q_1, Q_2, K_1, K_2 \in mathcal{R}^{N \times
+d}, V \in mathcal{R}^{N \times 2d}\)</span>。然后，differential
+attention operator <span class="math inline">\(DiffAttn(.)\)</span>
+计算输出如下：</p></li>
+</ol>
+<p><span class="math display">\[
+[Q_1; Q_2] = XW^Q, \quad [K_1; K_2] = XW^K, \quad V = XW^V
+\]</span></p>
+<p><span class="math display">\[
+\text{DiffAttn}(X) = (\text{softmax}(\frac{Q_1 K_1^T}{\sqrt{d}}) -
+\lambda \, \text{softmax}(\frac{Q_2 K_2^T}{\sqrt{d}})) V
+\]</span></p>
+<p><span class="math inline">\(\lambda\)</span> 是一个learnable
+scalar，为了synchronize learning dynamics，将scalar <span
+class="math inline">\(\lambda\)</span> 重新参数化为：</p>
+<p><span class="math display">\[
+\lambda = \exp(\lambda_{q_1} \cdot \lambda_{k_1}) - \exp(\lambda_{q_2}
+\cdot \lambda_{k_2}) + \lambda_{\text{init}}
+\]</span></p>
+<p><span class="math inline">\(\lambda_{q_1}, \lambda_{k_1},
+\lambda_{q_2}, \lambda_{k_2}, \lambda_{\text{init}}\)</span> 是learnable
+scalars，初始化 <span class="math inline">\(\lambda_{\text{init}} \in
+(0,1)\)</span></p>
+<p>Differential attention 将两个softmax attentin
+functions之间difference来消除attention
+noise，这个idea类似于差分放大器，两个信号的差作为输入，因为可以将输入的common-mode
+noise消除。也有人证明了differential attentino使得attention
+matrices的spectral distribution更加平衡，有效地解决了rank
+collapse。另外，降噪耳机的设计也是基于类似的idea，作者直接用了FlashAttention，提高了model
+efficiency。</p>
+<p>Headwise Normalization：用了GroupNorm来emphasize <span
+class="math inline">\(LN\)</span>独立地用于每个head, differential
+attention倾向于有一个sparse pattern，heads之间的statistical
+information更加diverse，<span class="math inline">\(LN\)</span>
+operator将每个head进行normalize before concatenation，来提高gradient
+statistics。</p>
+<ul>
+<li>Overall Architecture：整个的架构堆叠了 <span
+class="math inline">\(L\)</span> layers，每个layer包含一个Multi-head
+differential attention module和一个feed-forward network module。</li>
+</ul>
+<p><span class="math display">\[
+Y^l = \text{MultiHead}(\text{LN}(X^l)) + X^l
+\]</span></p>
+<p><span class="math display">\[
+X^{l+1} = \text{SwiGLU}(\text{LN}(Y^l)) + Y^l
+\]</span></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Transformer/" rel="tag"># Transformer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/04/29/SpatialVLA/" rel="prev" title="SpatialVLA">
+                  <i class="fa fa-angle-left"></i> SpatialVLA
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">258k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">15:40</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

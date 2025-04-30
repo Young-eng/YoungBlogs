@@ -27,7 +27,7 @@
 <meta property="og:description" content="SpatialVLA: Exploring Spatial Representations for Visual-Language-Action Model[1]  作者是来自上海AI Lab、TeleAI和ShanghaiTech的Delin Qu等人。论文引用[1]:  Time  2025.Mar ### Key Words Ego3D position Encoding">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-29T06:46:47.000Z">
-<meta property="article:modified_time" content="2025-04-29T07:54:17.229Z">
+<meta property="article:modified_time" content="2025-04-29T08:21:56.837Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Embodied AI">
 <meta name="twitter:card" content="summary">
@@ -130,7 +130,7 @@ Model[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" hre
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">149</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -206,7 +206,7 @@ Model[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" hre
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-04-29 14:46:47 / 修改时间：15:54:17" itemprop="dateCreated datePublished" datetime="2025-04-29T14:46:47+08:00">2025-04-29</time>
+      <time title="创建时间：2025-04-29 14:46:47 / 修改时间：16:21:56" itemprop="dateCreated datePublished" datetime="2025-04-29T14:46:47+08:00">2025-04-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -232,14 +232,14 @@ Model[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" hre
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>793</span>
+      <span>1.4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -322,6 +322,50 @@ grids展示出了适应新的robot环境的超强的能力，提供了一个flex
 以一种通用的、robot-agnostic的方式连接了observation与action
 outputs，该模型通过探索强大的3D spatial-aware representations来增强 VLA
 模型。</p></li>
+<li><p>最近Robotics的进展见证了一个开发multi-task generalist robot
+policies，来执行多个tasks的趋势，而不是一个特定的task。一些早期的工作在single
+embodiment，用pretrained visual/text encoder，在学习language-conditioned
+visual multi-task policy上实现了很大的成功，缺乏适应到新的robot
+environment的能力，最近的efforts探索了利用large-scale，cross-embodiment
+robot datasets用于generalist polices的pretraining，支持了new robot
+setups的有效的fine-tuning。Octo提出了基于Transformer架构，来unify Open
+X-Embodiment数据集中的不同的configurations，训练的policy能够解决in-domain
+tasks in a zero-shot
+manner。RDT预训练了一个1.2B的基于Diffusion的generalist
+model，对其进行微调，用于complex bimanual
+manipulation，另外，HPT提出了一个modular
+架构，将多个不同的embodiments上的数据对齐到一个shared representation via
+embodiment-specific stem
+module，从而在预训练阶段充分利用数据中的异构性。</p>
+<ul>
+<li><p>Vision-Language-Action Models：最近，一些研究通过扩展VLMs 到robot
+action generation，构建generalist robot policies，RT-2在large-scale
+vision-language data和robot demonstration data上，通过autoregressive
+next token prediction，对VLM
+PaLI-X进行微调。OpenVLA采用了一个类似的action
+离散化的方阿飞，在OXE数据集上微调 Prismatic VLM，包含来自22个不同的robot
+embodiments的robot data。CogACT和TraceVLA，用一个新的diffusion action
+module和visual trace prompting来微调OpenVLA。另外，<span
+class="math inline">\(\pi_0\)</span> c通过增加一个action expert
+module将PaliGemma VLM应用于robot control，这个action expert
+module通过flow
+matching产生连续的actions，这个model可以被prompted，用于zero-shot
+control，或者在高质量数据上微调，实现复杂的dexterous manipulation
+tasks，注意到，这些models受益于VLMs的能力，展示出了一些zero-shot的能力，用new
+data进行复杂微调的step是重要的，对于complex tasks也是必要的。</p></li>
+<li><p>3D foundation models for Robotics: 一些研究聚焦于，将LLMs和VLMs
+的generalists的能力扩展到3D worlds，3D-LLM将一个3D feature extractor和2D
+VLMs的backbone进行集成，在一个wide variety of
+tasks上训练3D-LLMs，包括dense captioning，3D question
+answering。LLaVA-3D 用3D patches对2D LLaVA进行扩展，将3D space中的2D
+features进行连接，用于3D spatial
+understanding。类似的，LEO训练一个embodied multi-model generalist
+agent，能够将egocentric 2D images、3D point clouds和text作为task
+input。另外，3D-VLA在3D-base LLM基础上构建了一个generative world
+model，来执行3D reasoning、localization、multimodel goal
+generation。LEO和3D-VLA的聚焦于3D world
+understanding和prediction，忽视了3D spatial 的特性。</p></li>
+</ul></li>
 </ol>
 
     </div>
@@ -344,6 +388,9 @@ outputs，该模型通过探索强大的3D spatial-aware representations来增�
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/04/30/Diff-Transformer/" rel="next" title="Diff_Transformer">
+                  Diff_Transformer <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -374,13 +421,13 @@ outputs，该模型通过探索强大的3D spatial-aware representations来增�
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">257k</span>
+    <span title="站点总字数">258k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:33</span>
+    <span title="站点阅读时长">15:40</span>
   </span>
 </div>
 <div class="busuanzi-count">
