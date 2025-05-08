@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-05-03T15:56:07.994Z</updated>
+  <updated>2025-05-07T08:43:00.692Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,115 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LLMDet</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/05/07/LLMDet/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/05/07/LLMDet/</id>
+    <published>2025-05-07T08:43:00.000Z</published>
+    <updated>2025-05-07T08:43:00.692Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Mr.DETR</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/05/07/Mr-DETR/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/05/07/Mr-DETR/</id>
+    <published>2025-05-07T08:42:33.000Z</published>
+    <updated>2025-05-08T15:35:04.033Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="mr.detr-instructive-multi-route-training-for-detection-transformers1">Mr.DETR:Instructive Multi-Route Training for DetectionTransformers<sup>[1]&gt;</sup></h3><blockquote><p>作者是来自Visual AI Lab、HKU和Meituan的Chang-BinZhang等人。论文引用[1]:Zhang, Chang-Bin et al. “Mr. DETR: InstructiveMulti-Route Training for Detection Transformers.” ArXiv abs/2412.10028(2024): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Apr</li></ul><h3 id="key-words">Key Words</h3><ul><li>one-to-one, one-to-many assignments</li><li>Multi-route training</li><li>一句话总结：为了加速DETR-like model的收敛，一些方法采用了auxiliarytraining，作者这里提出了multi-trainingroute的方法，用3个route，route-1用一个独立的FFN for o2m,route-2是primary route for o2o, route-3为了提高不同route的queries的兼容性，采用了learnablequeries作为instruction，然后进行instructionself-attention，其它的没啥。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>现有的增强detection transformer的方式是同故宫引入<strong>auxiliaryone-to-manyassignment</strong>。在这个工作中，作者将model视为一个<strong>multi-taskframework</strong>，同时进行<strong>one-to-one和one-to-manypredictions</strong>。作者在这两个训练目标中，研究了Transformerdecoder中的每个component的作用，包括self-attention,cross-attention和FFN。作者的结果展示，<strong>decoder中的任何独立的component能够同时有效地学习targets，即使当一些component是共享的</strong>。这个发现促使作者提出了一个<strong>multi-routetraining paradigm, 一个primary route用于one-to-oneprediction，两个辅助的training routes用于one-to-manyprediction，作者通过一个新的instructive self-attention,能够动态地和灵活地指导object queries 用于one-to-manyprediction,增强training机制。这个辅助的routes在推理的时候是去掉的，确保对model架构和inferencecost造成影响</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>端到端的DETR，还有后续的研究，在objectdetection领域shine，<strong>不同于传统的方法，DETR-based的detectors消除了NMS的需求，采用one-to-one的分配方法用于监督训练，每个gtbox和single prediction进行匹配。相比于传统objectdetectors的one-to-many的分配方法，允许每个gtbox和多个predictions进行匹配，one-to-one 分配导致收敛慢，因为sparsesupervision</strong>。 为了加速DETR-likedetectors的收敛，很多工作提出了辅助的训练方法，通过引入辅助的one-to-manyassignment或者多组one-to-one assignment，来提高predictionlocalization的质量，特别地，DN-DETR，Group-DETR和DINO利用多个并行的axillaryqueries，和primary object query共享同一个transformerdecoder。DETA发现，当model进行one-to-oneprediction的时候，self-attention是必要的，但是当执行one-to-manyprediction的时候，是不必要的。基于这个观察，DAC-DTR和MS-DETR通过显性地限制self-attention和cross-attention，来做one-to-one和one-to-manyprediction，引入了one-to-many auxiliarytraining。作者将同时进行one-to-one和one-to-manyprediction的model称为multi-taskframework。然而，先前的工作只在single-tasksetting中检验每个component的作用。</p><p>在这个工作中，作者构建了一个multi-taskframework，研究了decoder中的每个component的作用，然而，实验结果表明:<strong>当所有的components在两个tasks之间共享的时候，引入一个one-to-manyassignment显著地退化了primary one-to-oneprediction的性能</strong>。作者发现，<strong>任何独立的component显著地对primaryroute of one-to-one prediction有帮助，作者也探索了不同的auxiliary routeswith two independentcomponents，和单独的component有类似的性能，但是有更多的训练参数</strong>。</p><p>这个empirical finding激励作者构建要给multi-route training机制，结合了multiple auxiliary traininngroutes，每个是独立的component，特别地，primary route 用于one-to-oneprediction，每个auxiliary route 是一个indepentent component forone-to-many prediction。作者用independentself-attention和FFN分别将auxiliary training和primary route进行集成。</p><p>为了进一步降低auxiliary trainingroutes中的新的训练参数，增强不同routes的参数共享。作者提出了一个新的instructiveself-attention mechanism。作者的方法包括3个training routes，一个primaryroute for one-to-one prediction，和两个带有instructiveself-attention和independent FFN的auxiliary routes。第一个auxiliaryroute和primary route中的self-attention共享参数，但是引入了一个learnabletoken，称之为<strong>instructiontoken</strong>，在self-attention中，attach到input object queries。objectqueries和instruction tokens一起，经历self-attention，使得instructiontoken指导queries for one-to-manyprediction。给定FFN是一个简单的两层MLP，作者直接在第二个auxililaryroute中采用independent FFN。在推理的时候，两个auxiliary trainingroutes被去掉，确保model架构和inference time和基线模型保持一致。</p><p>总结：作者的三个贡献：</p><ul><li><strong>在multi-taskframework中，作者展示了decoder中的任何独立的component能够同时有效地学习one-to-one和one-to-manytargets，即使当其它的component是共享的</strong>。</li><li><strong>基于以上的简洁，作者提出了multi-routetraining机制，用动态和灵活地指导object queries for one-to-manyprediction的instructive self-attention来增强它</strong>。</li><li>作者做了大量的实验，证明了提高.</li></ul></li><li><p>为了加速DETR的训练，一些研究引入了辅助的训练方法，例如：H-DETR利用HungarianMatching来构建one-to-many matching by duplicatingtargets。DN-DETR和DINO设计了多组denoising queries来加速detectiontransformers，同样地，，Group-DETR利用一组learnable queries作为auxiliaryinput for transformer decoder, DQ-DETR通过动态地融合auxiliaryqueries建立了primary query group。StageInteractor引入了one-to-manymatching，通过结合不同decoder layers的label assignmentresults。SQR-DETR通过重新利用previous decoder layerse的objectqueries来构建auxiliarytraining。Co_DETR通过采用多组查询并结合不同的匹配策略，生成多样化的监督信号。DAC-DETR开发了一个并行的decoder，通过消除self-attention来学习一个one-to-oneprediction。MS-DETR提出了用one-to-many matching来监督cross-attentionoutput，同时self-attention是通过one-to-one matching进行监督的。</p></li><li><p>One-to-One Training Objective：利用一个one-to-one trainingobjective，DETRs实现了不需要NMS的端到端的detection，<spanclass="math inline">\(\mathbf{\overline{B}} = \{ \overline{b_0},\overline{b_1}, \dots,\overline{b_t}\}\)</span>, <spanclass="math inline">\(\mathbf{\overline{S}} = \{ \overline{s_0},\overline{s_1}, \dots, \overline{s_t}\}\)</span> 分别表示gtboxes和对应的classes，这个possible prediction和gt pairs之间的matchingcost 是通过考虑cls cost和box costs。Optimal matches是用bipartitematching决定的，表示为 <spanclass="math inline">\(\delta\)</span>，one-to-one trainingobjective表示为：</p><p><span class="math display">\[L = \sum_{i=0}^{t}L_{cls}(s_{\sigma(i)}, \bar{s}_i) + L_{box}(b_{\sigma(i)},\bar{b}_i),\]</span></p><p><span class="math inline">\(L{cls}\)</span> 和 <spanclass="math inline">\(L_{box}\)</span> 分别表示cls和bbox losses。</p><ul><li>One-to-many training objective：<strong>传统的objectdetectors通常用一个one-to-many assignment策略，基于特定的criteria，将每个gt box分配给多个predictions，然后用NMS来去掉duplicatedpredictions</strong>。在作者的工作中，作者用了一个直接的one-to-manyassignment策略，考虑localization quality和clsconfidence，使其适合DETR-like detectors。特别地，predictions <spanclass="math inline">\((s_i, b_i)\)</span> 和gt <spanclass="math inline">\((\bar{s}_t, \bar{b}_t)\)</span>之间的定义如下matching scores <spanclass="math inline">\(M_{ij}\)</span>:</li></ul><p><span class="math display">\[M_{ij} = \alpha \cdot s_i + (1 - \alpha)\cdot \text{IoU}(b_i, \bar{b}_j),\]</span></p><p>IoU计算prediction box和gt box之间的IoU，给定positive candidatesK的最大值和一个IoU阈值 <spanclass="math inline">\(\tau\)</span>，positivepredictions可以被决定。首先，选择匹配得分M最高的最多K个prediction作为positivepredictions，然后，对于每个gt box，过滤掉IoU低于 <spanclass="math inline">\(\tau\)</span>的predictions。</p></li><li><p>Multi-route Training: 作者旨在引入one-to-manyassignment作为一个额外的训练策略，来增强detectiontransformers，首先，<strong>作者将带有auxiliary one-to-manyprediction的detector作为一个multi-taskframework，同时实现了one-to-one和one-to-many的predictions</strong>。作者研究了decoder中的每个component的作用，发现：</p><ul><li>当所有的components在两个tasks之间共享的时候，引入one-to-manyassignment显著地退化了primary one-to-one prediction的性能</li><li>作者期望，它是来自于两个tasks之间的interference。例如，一个predictedbox在one-to-many分配中，可能被分配给一个positiveprediction，但是，在one-to-one分配中分配给一个negative prediction。</li><li>decoder中的任何独立的component受益于primary one-to-one predictionroute，即使当其它的components是共享的。这些observations表明：<strong>任何独立的component是能够有效地掌握one-to-one和one-to-manytraining的goals</strong>，因此解决了两个tasks之间的conflict。<strong>因为共享组件可以为两个任务提取共同的特征线索，而独立组件则进一步区分不同任务的需求</strong>。</li><li>带有两个独立component的auxiliary trainingroute没有比一个独立component的route效果更好</li><li>在多种结合不同不同的auxiliary training routes的变种中，将auxiliaryroute和独立的self-attention，独立的FFN结合起来，试下了最好的性能。</li></ul><p>基于以上的findings，作者的方法包括3个training routes，共享objectqueries，classification和regression heads among threeroutes，route-2是用于one-to-oneprediction的主要的route，和基线model相同。Route-1和route-3是auxiliarytraining routes，用于one-to-manypredictions，在推理的时候是discard，因此，auxiliary trainingroutes不影响model的结构。</p></li><li><p>Primary Route for One-to-one Prediction：架构和route-2的trainingobjective是和baseline model一样的，对于route-2，给定object queries <spanclass="math inline">\(\mathbf{Q} = \{ q_0, q_1, \dots, q_{n-1}\}\)</span> ，query output定义如下：</p><p><span class="math display">\[\hat{\mathbf{Q}}_2 = (\text{FFN}_{o2o}\circ \text{CA} \circ \text{SA})(\mathbf{Q}),\]</span></p><p>SA,CA和FFN分别表示self-attention、cross-attention和FFN，Route-2的queryoutput是受 one-to-oneassignment的监督。在推理的时候，Route-2是保留的，来实现one-to-oneprediction，不需要额外的cost。</p></li><li><p>Auxiliary Route with Independent FFN：作者集成了要给auxiliarytraining route，称之为Route-1，引入了一个独立的FFN。Route-1中的<spanclass="math inline">\(FFN_{o2m}\)</span> 和primaryroute共享所有的self-attention和cross-attentioncomponents。由于直接的架构和FFN高效地参数利用。route-1的queryoutput是受one-to-many assignment的监督。</p></li><li><p>Auxiliary Route with InstructiveSelf-Attention：为了降低训练参数和增强和primaryroute的参数共享，作者提出了一个新的instruction 机制，这个机制指导objectqueries实现one-to-many prediction，route-3的query output是这样的： <spanclass="math display">\[\hat{\mathbf{Q}}_3 = (\text{FFN}_{o2o} \circ\text{CA} \circ \text{InstructSA})(\mathbf{Q}),\]</span></p><p>InstructSA表示提出的instructiveself-attention，和另外两个route的self-attention共享参数。输出的 <spanclass="math inline">\(\hat{\mathbf{Q}}_3\)</span> 受one-to-manyassignment的监督。</p></li><li><p>Instructive Self-Attention：Route-3是用一个instructiveself-attention实现的，在object queries中引入了learnable instructiontokens <span class="math inline">\(Q^{ins}\)</span>，构造了一个结合的sequence <spanclass="math inline">\(\hat{\mathbf{Q}}\)</span>。Self-Attention在这个combinedsequence上进行。这个方法，设计用一组separatequeries作为inputs，来加速one-to-manypredictions，为了提高不同routes的object queries的兼容性，引入了learnabletokens，作为instruction，来解释predictionobjectives。如图所示，这些instruction tokens通过addition引入共享的objectqueries，这种方法需要将指令标记（instructiontokens）的数量固定为与查询（query）数量相等。不同于addition方法，作者的方法通过concatenation的方式采用instructiontokens，提供了灵活性。这种灵活性不仅体现在指令标记（instructiontokens）数量的可变性上，还允许这些学习到的标记通过自注意力机制动态地向目标查询（objectqueries）传递信息，<strong>instructivetokens对应的输出在self-attention之后就丢弃了，因为它不用于objectlocalization</strong>。在这种方式下，instructiontokens为route-3提供了有效和可适应的guidance，使其在和primaryroute共享参数的同时，实现one-to-many predictions。</p></li><li><p>特别地，作者构建了 <span class="math inline">\(m\)</span> 个learnable tokens <span class="math inline">\(\mathbf{Q}^{\text{ins}} =\{ q_0^{\text{ins}}, q_1^{\text{ins}}, \dots, q_{m-1}^{\text{ins}}\}\)</span>,称之为 instruction tokens。初始地时候，这些instructiontokens通过concatenation attach到输入的sequence上，形成一个符合的inputqueries。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/b4d14461c7f0d0d3eff30b61af5116b143813990/2-Figure3-1.png"alt="Different configurations of transformer decoder with auxiliary one-to-many training" /><span class="math inline">\(Fig.1^{[1]}\)</span> SA: self-attention, CA:cross-attention, FFN: feed-forward network. o2o: one-to-one, o2m:one-to-many,</p><p><imgsrc="https://figures.semanticscholar.org/b4d14461c7f0d0d3eff30b61af5116b143813990/4-Figure4-1.png"alt="Illustration" /> <span class="math inline">\(Fig.2^{[1]}\)</span>包含3个routes, 所有的3个routes共享相同的object queries和detection headsfor cls和regression， route-2作为primary route for one-to-oneprediction，和baseline model一样，route-1共享SA和CA，但是用一个独立的FFNfor one-to-many prediction, route-3和primaryroute共享所有的components，引入了一个新的instructive SA, 通过将learnableinstruction token加到object queries上，来指导它们和后续的network forone-to-many prediction，在推理的时候，route-1和route-3被丢弃。</p><p><imgsrc="https://figures.semanticscholar.org/b4d14461c7f0d0d3eff30b61af5116b143813990/5-Figure5-1.png"alt="Illustration" /> <span class="math inline">\(Fig.3^{[1]}\)</span>Various implementations of instructive self-attention.</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;mr.detr-instructive-multi-route-training-for-detection-transformers1&quot;&gt;Mr.DETR:
+Instructive Multi-Route Training for Detection
+Transformers&lt;sup&gt;[1]&amp;gt;&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自Visual AI Lab、HKU和Meituan的Chang-Bin
+Zhang等人。论文引用[1]:Zhang, Chang-Bin et al. “Mr. DETR: Instructive
+Multi-Route Training for Detection Transformers.” ArXiv abs/2412.10028
+(2024): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2025.Apr&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;one-to-one, one-to-many assignments&lt;/li&gt;
+&lt;li&gt;Multi-route training&lt;/li&gt;
+&lt;li&gt;一句话总结：为了加速DETR-like model的收敛，一些方法采用了auxiliary
+training，作者这里提出了multi-training
+route的方法，用3个route，route-1用一个独立的FFN for o2m,
+route-2是primary route for o2o, route-3
+为了提高不同route的queries的兼容性，采用了learnable
+queries作为instruction，然后进行instruction
+self-attention，其它的没啥。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;现有的增强detection transformer的方式是同故宫引入&lt;strong&gt;auxiliary
+one-to-many
+assignment&lt;/strong&gt;。在这个工作中，作者将model视为一个&lt;strong&gt;multi-task
+framework&lt;/strong&gt;，同时进行&lt;strong&gt;one-to-one和one-to-many
+predictions&lt;/strong&gt;。作者在这两个训练目标中，研究了Transformer
+decoder中的每个component的作用，包括self-attention,
+cross-attention和FFN。作者的结果展示，&lt;strong&gt;decoder中的任何独立的component能够同时有效地学习targets，即使当一些component是共享的&lt;/strong&gt;。这个发现促使作者提出了一个&lt;strong&gt;multi-route
+training paradigm, 一个primary route用于one-to-one
+prediction，两个辅助的training routes用于one-to-many
+prediction，作者通过一个新的instructive self-attention,
+能够动态地和灵活地指导object queries 用于one-to-many
+prediction,增强training机制。这个辅助的routes在推理的时候是去掉的，确保对model架构和inference
+cost造成影响&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Massive Values</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/05/07/Massive-Values/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/05/07/Massive-Values/</id>
+    <published>2025-05-07T01:06:05.000Z</published>
+    <updated>2025-05-07T01:08:35.725Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="massive-values-in-self-attention-modules-are-the-key-to-contextual-knowledge-understanding1">MassiveValues in Self-Attention Modules are the Key to Contextual KnowledgeUnderstanding<sup>[1]</sup></h3><blockquote><p>作者是来自Rutgers等学校的Mingyu Jin等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2025.May</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3
+id=&quot;massive-values-in-self-attention-modules-are-the-key-to-contextual-knowledge-understanding1&quot;&gt;Massive
+Values in Self-Attention Modu</summary>
+      
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Self-Attention" scheme="https://young-eng.github.io/YoungBlogs/tags/Self-Attention/"/>
+    
+  </entry>
   
   <entry>
     <title>Diff_Transformer</title>
@@ -209,9 +318,9 @@ modules的性能。&lt;/li&gt;
     <link href="https://young-eng.github.io/YoungBlogs/2025/04/20/aed/"/>
     <id>https://young-eng.github.io/YoungBlogs/2025/04/20/aed/</id>
     <published>2025-04-20T13:57:53.000Z</published>
-    <updated>2025-04-21T14:23:03.468Z</updated>
+    <updated>2025-05-04T11:50:00.945Z</updated>
     
-    <content type="html"><![CDATA[<h3id="self-distilled-masked-auto-encoders-are-efficient-video-anomaly-detectors1">Self-DistilledMasked Auto-Encoders are Efficient Video AnomalyDetectors<sup>[1]</sup></h3><blockquote><p>作者是来自University of Bucharest等机构的Nicolae-CatalinRistea等人，论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>用motionweight进行加权，然后用了self-distillation，同时还使用了syntheticanomalies data，加入到training data中，来提高video anomaly的性能。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者提出了一个高效的异常时间检测model，基于应用在video framelevel上的轻量的AE。提出的model的创新型有三个方面：<strong>(1)基于motiongradients，引入了一个方式来对tokens进行加权，将focus的重心从staticbackground scene转移到foreground objects;(2) 集成了一个teacherdecoder和一个student decoder，利用两个decoder的输出的差异来提高anomalydetection; (3) 生成合成的abnormal events，来增强训练videos，让masked AEmodel来重建original frames和对应的pixel-level anomalymaps。作者的设计是一个高效且有效的model</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>视频异常检测的复杂性是由于:异常的场景是context-dependent，而且不是经常发生的。这使得以<strong>全监督的方式，搜集一些代表性的异常事件用于训练SOTAmodel是比较困难的。因为在全监督的情况下训练anomalydetecttors是不可能的，大多数的研究采用了不同的方式，提出了outlierdetection methods的变种。这样的方法将abnormal eventdetection视为一个outlier detection task</strong>。一个在normalevents上训练的normality model应用在normal和abnormal events duringinference，将偏离于learned model的events标记为abnormal。不同于主流的基于outlierdetection的方法，作者提出了一个方法，通过随机叠加合成的UBnormal数据集中的temporalaction segments到的真实世界数据集中，从而为每个训练视频场景增强syntheticsegments。作者在训练的时候引入了<strong>syntheticanomalies，使得模型能够以open-set监督的方式进行学习。另外，作者使model重建original trainingframes(withoutanomalies)，来限制它重建anomalies的能力，因此当anomalies出现的时候，产生highererrors</strong>。</p></li><li><p>很多video anomaly detection的工作聚焦于采用autoencoders来解决任务，依赖于这些model在out-of-distribution数据上的很差的重建能力。因为训练旨在normalexamples上进行。当anomalies出现的时候，期待AEs展示出很高的重建errors。然而，一些研究者观察到，AEs泛化很好，能够高精度地重建anomalies。因此，为了更好地利用AEs在anomalydetection上的reconstruction error，研究探索了一些alternatives。从use ofdummy 或者pseudo-anomalies到memorymodules的集成。有着相同的目的，作者提出，在anomaly detection中采用maskedauto-encoders，引入了一些新的方式，来约束generalizationcapacity。作者超越了标准MAE框架，提出了三个新的changes，来增强model的anomalydetection performance。首先，**作者基于motion gradients，提出了weighttokens在reconstruction loss中提高higher motion的tokens的重要性。这使得model聚焦于重建highmotion的tokens，避免重建background scene; 第二，作者添加了一个clshead，来判别normal和pseudo-abnormal instances in the latent encodingspace; 第三，作者 将一个teacher decoder和一个studentdecoder集成到MAE框架中，studentdecoder从优化好的teacher中蒸馏knowledge。为了降低处理的时间，作者用了一个共享的encoderfor teacher and studentmodels，从而实现一种称为自蒸馏的过程。在自蒸馏过程中，sharedencoder是forzen，我们利用teacher和studentdecoders输出之间的差异，结合教师模型的重建误差，来提升异常检测的性能。先进的anomaly detectors主要依赖于objectdetection方法来增加precision，将每个GPU的处理带宽限制为一个videostream。作者开发了一个轻量的model，能够以25fps处理 66 videostreams，显著地降低了processing costs。不同于竞争的models，在object或者spatio-temporal cube上进行anomalydetection，作者提出了一个model，将整个的videoframes作为输入，更高效。</p></li><li><p>异常检测主要表述为一个one-class learningproblems，训练的时候只有normal data，在testtimes，normal和abnormal都有，一些异常检测的方法分类，包括dictionarylearning方法，probabilistic models，change detectionframeworks，distance-based models，reconstruction-based方法。考虑到reconstruction-based方法经常在anomalydetection中达到SOTA，最纪念很多工作采用了reconstruction-based范式。根据anomaly detection的执行的level，方法也可以分为spatio-temporalcube-level和frame-level，还有object-level。</p><ul><li><strong>Frame-level andcube-level</strong>：在深度学习之前，之前的abnormal event detectionmodel主要依赖于taking short video sequences，将它们分为spatio-temporalcuboids，这些cubes被认为是独立的examples，作为model的输入。也有研究将整个videoframes作为输入，例如Liu等人提出了一个有效的算法，学习重建short videosequences的next frame，一个更复杂的方法是采用optical-flowreconstruction来预测input image的anomalousregions，在不同的study中，有人提出了通过GAN，在framelevel来检测anomalies。 frame-level和cube-level有一些common的特点，处理速度相对加快。frame-level在时间上有更强的优势，因为cube-level的方法需要将每个cube当成一个独立的example。处理mini-batchof frames比一些mini-batchs of spatio-temporalcubes更高效。然而，cube-level的方法通常是超过frame-level的，作者提出了一个maskedAE，将整个frames作为输入，学习video patches之间的interactions。</li></ul><p>为了提高frame-level或者cube-level的方法，研究人员探索了多个components的，例如memotrymodules，masked convblocks。尽管将额外的modules集成到frameworks中导致性能提升，这个过程通常面临效率问题，相比之下，作者的目标是实现一个performance和speed之间的一个trade-off，更关注于efficiency。因此，作者设计了一个lightweightmasked AE，基于conv vision transformer(CvT)blocks，提出了一些升级。例如，作者采用knowledgedistillation来利用teacher和studentmodel之间的差异，然而，为了保持processingtime来,作者采用了self-distillation，用了一个shared encoder for teacherand student models。</p><ul><li><strong>Object-level methods</strong>：为了降低false positivedetections，一些研究提出关注anomalous objects而不是anomalous frames orcubes，object-centric方法，用来自object detector的先验，使得anomalydetector仅关注objectdetector，这种类型的framework大幅提高了accuracy，达到SOTA。然而，一个缺点是:整个框架的推理速度受object detector速度的影响，比一般的anomaly detectionframework要慢。因此，处理时间是严重受限的，相比之下，作者在frame-level执行anomalydetection</li><li><strong>Masked auto-encoders in anomalydetection</strong>：Kaiming提出了MAE作为预训练方法，来得到strongbackbones for downstreamtasks，自此之后，这个方法用在了很多领域，例如videoprocessing或者多模态学习。masking framework也用于anomalydetection。据作者所知，作者是第一个提出masked transformer-basedAE，用于video anomalydetection。另外，作者在应用标准的MAEs之外，提出了一些修改，包括用更高的motion来emphasizingtokens，用synthetic anomalies来增强trainingvideos，采用self-distillation。</li><li><strong>Knowledge Distillation in anomalydetection</strong>：知识蒸馏原本是用于将一个或多个largemodel(teachers)压缩到一个更轻量的model(student)，最近提出的anomalydetection，知识蒸馏被认为是有用的，应为利用teacher和student之间的representation的差异，在anomalies的情况下更大。不同于之前的研究，作者是第一个在anomalydetection中引入self-distillation的，self-distillation在多个depths上添加了clsheads，来提高classifier的分类性能。相比之下，作者将self-distillation集成到一个maskedAE中，采用两个不同depths的decoders。由于sharedencdoer，作者能够利用teacher和student之间的reconstructiondiscrepancy，同时又很小的计算开销。</li></ul></li><li><p>teacher-student transformer-based masked AE，采用两阶段的trainingpipeline：在第一阶段，通过reconstruction loss，采用了新的、基于motiongradients的weighting机制，来优化teacher maskedAE；在第二阶段，优化student masked AE的最后的decoderblock，和teacher共享backbone的大多数，来preserveefficiency，接下来，作者描述了如何用synthetic anomalies来构造trainingvideos，和训练masked AEs来联合预测anomaly maps，在trainingframes中忽略anomalies。最后，作者引入了一个clshead，来区分带有和不带有synthetic anomalies，进一步提高了performance。整个的架构是visual transformer blocks，不同于原始的方法，作者将ViTblocks替换成了CvT blocks。为了加速，作者将dense layers中用pointwiseconv代替，</p><ul><li><strong>Motion gradientweighting</strong>：因为iamge有foreground和backgroundvariations，然而，<strong>abnormal event detectiondatasets包含来自固定相机的、带有staticbackground的videos，通过MAE学习static background是trivial且useless。因此，在video anomaly detection中，重建maskedtokens是次优解。作者提出，当计算reconstructino loss的时候，考虑motiongradients</strong>。</li></ul><p><span class="math inline">\(x_t\)</span> 是video frame的索引t，n是non-overlapping visualtokens。跟着Ionescu的工作，通过计算两个连续帧的difference来估计frame<span class="math inline">\(X_t\)</span>的gradient map，在这之前通过一个<span class="math inline">\(3 \times 3\)</span> medianfilter。接下来，将gradient magnitude map <spanclass="math inline">\(g_t\)</span> 划分为non-overlappingpatches，得到了gradient patches的set。在每个gradientpatch中，逐通道计算最大gradient magnitude。然后，Maximum gradientmagnitudes上的channel-wise mean。最后，对于reconstructionloss，计算token-wise weights。</p><p>引入weights到传统的token-level reconstructionloss，使MAE去关注重建high motion magnitude的patches。尽管reconstructionloss关注于high motion的tokens，masked tokens仍然使随机选择的。</p><ul><li><p><strong>Self-distillation</strong>：知识蒸馏在异常检测中展示出了它的utility，直觉上，因为teacher和student models都是用normal data训练的，它们的reconstructions对于normaltest samples是类似的。然而，在abnormalsamples上，它们的behavior并不保证是similar。因此，teacher-student outputgap(discrepancy，差异)，可以作为一种量化给定sample的anomalylevel的方法。不幸地是，这个方法在推理的时候涉及teacher 和studentmodel，将速度减半了。为了降低在推理的时候用另外一个model的额外的负担，作者提出采用共享encoder和两个decoder(teacher,student)的自蒸馏的一个新的变体。另外，student branches是在第一个teacherdecoder的transformer block分出来的，另外加了一个transformerblock。</p></li><li><p>作者的trainingprocess是两阶段的。在第一个阶段，teacher用定义的loss进行训练。在第二阶段，作者freeze共享的backbone的weights，通过self-distillation来仅训练studentdecoder。则会个self-distillationloss类似于公式中定义的。主要的区别在于，不是重建realimage的patches，student 学习重建the ones produced by theteacher。</p></li><li><p><strong>MAEs往往对ood数据泛化太好了，这个behavior在异常检测中是不理想的，因为基于AEs的方法依赖于对abnormalexamples的high reconstruction errors, low reconstruction errors fornormal ones。为了这个目的，作者提出用abnormal events来增强trainingvideos。因为从real-world中搜集abnormal trainingexamples是不可能的，作者用syntheticanomalies</strong>，lion给最近的UBnormal data set和它的accuratepixel-level annotations来crop out abnormal events，将它们融合到trainingvideos中，同时确保增加的events的时序一致性。syntheticexamples在三个方面帮助model，首先: 在reconstructionloss中，作者考虑原始的training frames(without superimposedanomalies)作为ground-truth，使得model忽略anomalies。在等式中，用来自frame<span class="math inline">\(X_t\)</span>的normalversion的patches，第二，作者将anomaly map作为另外一个channel，加到targetiamge上，在anomaly map中，将normal pixels设为0，abnormalpixels设为1。这个changes意味着，所有的patches都有一个额外的channel。第三，用gtanomaly map来增强weights。这个增加的synthetic anomalies并没有产生有highmagnitude的motion gradient。因此，对应于anomalyregions的patches是有可能得到lowweights，如果想要model检测anomaly，这不是理想的。为了这个目的，在计算weights之前，作者提出了一起添加anomalymaps和gradients。</p></li><li><p><strong>Classification head</strong>：作者进一步利用syntheticanomalies来训练一个cls head，用在shared encoder的最后的final [cls]token上。这个head被训练用来区分带有和不带有syntheticanomalies的frames，这个head用binary cross-entropy进行训练。</p></li><li><p><strong>Inference</strong>：在推理的时候，作者将每个frame <spanclass="math inline">\(X_t\)</span> 通过teacher和studentmodels来得到reconstructed frames <spanclass="math inline">\(\hat_{t}\)</span> 和 <spanclass="math inline">\(x_t\)</span>，然后计算输出的pixel-level anomalymap： <span class="math display">\[o_t = \alpha \|x_t - \hat{x}_t\|^2 +\beta \cdot \|\tilde{x}_t - \bar{x}_t\|^2 + \gamma \cdot\dot{y}_t,\]</span> <span class="math inline">\(\alpha, \beta,\gamma\)</span> 是控制individual anomaly score components的重要性。用spatio-temporal 3D filtering来光滑anomalyvolumes，为了得到frame-level anomaly scores，保留每个output map <spanclass="math inline">\(o_t\)</span> 的最大的value，一次应用另外的temporalGaussian filter来smooth values。</p></li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/7ad25dbb5022c119144990cde0d364e2519df728/1-Figure1-1.png"alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span>在训练的时候，video frames用synthetic anomalies进行增强。teacherdecoder学习重建original frames(without anomalies)和预测anomalymaps。student decoder学习reproduce teacher's output。motiongradient在token level进行汇总，用作reconstruction loss的weights，红色虚线表示只在training的时候执行的steps。</p>]]></content>
+    <content type="html"><![CDATA[<h3id="self-distilled-masked-auto-encoders-are-efficient-video-anomaly-detectors1">Self-DistilledMasked Auto-Encoders are Efficient Video AnomalyDetectors<sup>[1]</sup></h3><blockquote><p>作者是来自University of Bucharest等机构的Nicolae-CatalinRistea等人，论文引用[1]:Ristea, Nicolae-Cătălin et al. “Self-DistilledMasked Auto-Encoders are Efficient Video Anomaly Detectors.” 2024IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)(2023): 15984-15995.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>用motionweight进行加权，然后用了self-distillation，同时还使用了syntheticanomalies data，加入到training data中，来提高video anomaly的性能。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者提出了一个高效的异常时间检测model，基于应用在video framelevel上的轻量的AE。提出的model的创新型有三个方面：<strong>(1)基于motiongradients，引入了一个方式来对tokens进行加权，将focus的重心从staticbackground scene转移到foreground objects;(2) 集成了一个teacherdecoder和一个student decoder，利用两个decoder的输出的差异来提高anomalydetection; (3) 生成合成的abnormal events，来增强训练videos，让masked AEmodel来重建original frames和对应的pixel-level anomalymaps。作者的设计是一个高效且有效的model</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>视频异常检测的复杂性是由于:异常的场景是context-dependent，而且不是经常发生的。这使得以<strong>全监督的方式，搜集一些代表性的异常事件用于训练SOTAmodel是比较困难的。因为在全监督的情况下训练anomalydetecttors是不可能的，大多数的研究采用了不同的方式，提出了outlierdetection methods的变种。这样的方法将abnormal eventdetection视为一个outlier detection task</strong>。一个在normalevents上训练的normality model应用在normal和abnormal events duringinference，将偏离于learned model的events标记为abnormal。不同于主流的基于outlierdetection的方法，作者提出了一个方法，通过随机叠加合成的UBnormal数据集中的temporalaction segments到的真实世界数据集中，从而为每个训练视频场景增强syntheticsegments。作者在训练的时候引入了<strong>syntheticanomalies，使得模型能够以open-set监督的方式进行学习。另外，作者使model重建original trainingframes(withoutanomalies)，来限制它重建anomalies的能力，因此当anomalies出现的时候，产生highererrors</strong>。</p></li><li><p>很多video anomaly detection的工作聚焦于采用autoencoders来解决任务，依赖于这些model在out-of-distribution数据上的很差的重建能力。因为训练旨在normalexamples上进行。当anomalies出现的时候，期待AEs展示出很高的重建errors。然而，一些研究者观察到，AEs泛化很好，能够高精度地重建anomalies。因此，为了更好地利用AEs在anomalydetection上的reconstruction error，研究探索了一些alternatives。从use ofdummy 或者pseudo-anomalies到memorymodules的集成。有着相同的目的，作者提出，在anomaly detection中采用maskedauto-encoders，引入了一些新的方式，来约束generalizationcapacity。作者超越了标准MAE框架，提出了三个新的changes，来增强model的anomalydetection performance。首先，**作者基于motion gradients，提出了weighttokens在reconstruction loss中提高higher motion的tokens的重要性。这使得model聚焦于重建highmotion的tokens，避免重建background scene; 第二，作者添加了一个clshead，来判别normal和pseudo-abnormal instances in the latent encodingspace; 第三，作者 将一个teacher decoder和一个studentdecoder集成到MAE框架中，studentdecoder从优化好的teacher中蒸馏knowledge。为了降低处理的时间，作者用了一个共享的encoderfor teacher and studentmodels，从而实现一种称为自蒸馏的过程。在自蒸馏过程中，sharedencoder是forzen，我们利用teacher和studentdecoders输出之间的差异，结合教师模型的重建误差，来提升异常检测的性能。先进的anomaly detectors主要依赖于objectdetection方法来增加precision，将每个GPU的处理带宽限制为一个videostream。作者开发了一个轻量的model，能够以25fps处理 66 videostreams，显著地降低了processing costs。不同于竞争的models，在object或者spatio-temporal cube上进行anomalydetection，作者提出了一个model，将整个的videoframes作为输入，更高效。</p></li><li><p>异常检测主要表述为一个one-class learningproblems，训练的时候只有normal data，在testtimes，normal和abnormal都有，一些异常检测的方法分类，包括dictionarylearning方法，probabilistic models，change detectionframeworks，distance-based models，reconstruction-based方法。考虑到reconstruction-based方法经常在anomalydetection中达到SOTA，最纪念很多工作采用了reconstruction-based范式。根据anomaly detection的执行的level，方法也可以分为spatio-temporalcube-level和frame-level，还有object-level。</p><ul><li><strong>Frame-level andcube-level</strong>：在深度学习之前，之前的abnormal event detectionmodel主要依赖于taking short video sequences，将它们分为spatio-temporalcuboids，这些cubes被认为是独立的examples，作为model的输入。也有研究将整个videoframes作为输入，例如Liu等人提出了一个有效的算法，学习重建short videosequences的next frame，一个更复杂的方法是采用optical-flowreconstruction来预测input image的anomalousregions，在不同的study中，有人提出了通过GAN，在framelevel来检测anomalies。 frame-level和cube-level有一些common的特点，处理速度相对加快。frame-level在时间上有更强的优势，因为cube-level的方法需要将每个cube当成一个独立的example。处理mini-batchof frames比一些mini-batchs of spatio-temporalcubes更高效。然而，cube-level的方法通常是超过frame-level的，作者提出了一个maskedAE，将整个frames作为输入，学习video patches之间的interactions。</li></ul><p>为了提高frame-level或者cube-level的方法，研究人员探索了多个components的，例如memotrymodules，masked convblocks。尽管将额外的modules集成到frameworks中导致性能提升，这个过程通常面临效率问题，相比之下，作者的目标是实现一个performance和speed之间的一个trade-off，更关注于efficiency。因此，作者设计了一个lightweightmasked AE，基于conv vision transformer(CvT)blocks，提出了一些升级。例如，作者采用knowledgedistillation来利用teacher和studentmodel之间的差异，然而，为了保持processingtime来,作者采用了self-distillation，用了一个shared encoder for teacherand student models。</p><ul><li><strong>Object-level methods</strong>：为了降低false positivedetections，一些研究提出关注anomalous objects而不是anomalous frames orcubes，object-centric方法，用来自object detector的先验，使得anomalydetector仅关注objectdetector，这种类型的framework大幅提高了accuracy，达到SOTA。然而，一个缺点是:整个框架的推理速度受object detector速度的影响，比一般的anomaly detectionframework要慢。因此，处理时间是严重受限的，相比之下，作者在frame-level执行anomalydetection</li><li><strong>Masked auto-encoders in anomalydetection</strong>：Kaiming提出了MAE作为预训练方法，来得到strongbackbones for downstreamtasks，自此之后，这个方法用在了很多领域，例如videoprocessing或者多模态学习。masking framework也用于anomalydetection。据作者所知，作者是第一个提出masked transformer-basedAE，用于video anomalydetection。另外，作者在应用标准的MAEs之外，提出了一些修改，包括用更高的motion来emphasizingtokens，用synthetic anomalies来增强trainingvideos，采用self-distillation。</li><li><strong>Knowledge Distillation in anomalydetection</strong>：知识蒸馏原本是用于将一个或多个largemodel(teachers)压缩到一个更轻量的model(student)，最近提出的anomalydetection，知识蒸馏被认为是有用的，应为利用teacher和student之间的representation的差异，在anomalies的情况下更大。不同于之前的研究，作者是第一个在anomalydetection中引入self-distillation的，self-distillation在多个depths上添加了clsheads，来提高classifier的分类性能。相比之下，作者将self-distillation集成到一个maskedAE中，采用两个不同depths的decoders。由于sharedencdoer，作者能够利用teacher和student之间的reconstructiondiscrepancy，同时又很小的计算开销。</li></ul></li><li><p>teacher-student transformer-based masked AE，采用两阶段的trainingpipeline：在第一阶段，通过reconstruction loss，采用了新的、基于motiongradients的weighting机制，来优化teacher maskedAE；在第二阶段，优化student masked AE的最后的decoderblock，和teacher共享backbone的大多数，来preserveefficiency，接下来，作者描述了如何用synthetic anomalies来构造trainingvideos，和训练masked AEs来联合预测anomaly maps，在trainingframes中忽略anomalies。最后，作者引入了一个clshead，来区分带有和不带有synthetic anomalies，进一步提高了performance。整个的架构是visual transformer blocks，不同于原始的方法，作者将ViTblocks替换成了CvT blocks。为了加速，作者将dense layers中用pointwiseconv代替，</p><ul><li><strong>Motion gradientweighting</strong>：因为iamge有foreground和backgroundvariations，然而，<strong>abnormal event detectiondatasets包含来自固定相机的、带有staticbackground的videos，通过MAE学习static background是trivial且useless。因此，在video anomaly detection中，重建maskedtokens是次优解。作者提出，当计算reconstructino loss的时候，考虑motiongradients</strong>。</li></ul><p><span class="math inline">\(x_t\)</span> 是video frame的索引t，n是non-overlapping visualtokens。跟着Ionescu的工作，通过计算两个连续帧的difference来估计frame<span class="math inline">\(X_t\)</span>的gradient map，在这之前通过一个<span class="math inline">\(3 \times 3\)</span> medianfilter。接下来，将gradient magnitude map <spanclass="math inline">\(g_t\)</span> 划分为non-overlappingpatches，得到了gradient patches的set。在每个gradientpatch中，逐通道计算最大gradient magnitude。然后，Maximum gradientmagnitudes上的channel-wise mean。最后，对于reconstructionloss，计算token-wise weights。</p><p>引入weights到传统的token-level reconstructionloss，使MAE去关注重建high motion magnitude的patches。尽管reconstructionloss关注于high motion的tokens，masked tokens仍然使随机选择的。</p><ul><li><p><strong>Self-distillation</strong>：知识蒸馏在异常检测中展示出了它的utility，直觉上，因为teacher和student models都是用normal data训练的，它们的reconstructions对于normaltest samples是类似的。然而，在abnormalsamples上，它们的behavior并不保证是similar。因此，teacher-student outputgap(discrepancy，差异)，可以作为一种量化给定sample的anomalylevel的方法。不幸地是，这个方法在推理的时候涉及teacher 和studentmodel，将速度减半了。为了降低在推理的时候用另外一个model的额外的负担，作者提出采用共享encoder和两个decoder(teacher,student)的自蒸馏的一个新的变体。另外，student branches是在第一个teacherdecoder的transformer block分出来的，另外加了一个transformerblock。</p></li><li><p>作者的trainingprocess是两阶段的。在第一个阶段，teacher用定义的loss进行训练。在第二阶段，作者freeze共享的backbone的weights，通过self-distillation来仅训练studentdecoder。则会个self-distillationloss类似于公式中定义的。主要的区别在于，不是重建realimage的patches，student 学习重建the ones produced by theteacher。</p></li><li><p><strong>MAEs往往对ood数据泛化太好了，这个behavior在异常检测中是不理想的，因为基于AEs的方法依赖于对abnormalexamples的high reconstruction errors, low reconstruction errors fornormal ones。为了这个目的，作者提出用abnormal events来增强trainingvideos。因为从real-world中搜集abnormal trainingexamples是不可能的，作者用syntheticanomalies</strong>，lion给最近的UBnormal data set和它的accuratepixel-level annotations来crop out abnormal events，将它们融合到trainingvideos中，同时确保增加的events的时序一致性。syntheticexamples在三个方面帮助model，首先: 在reconstructionloss中，作者考虑原始的training frames(without superimposedanomalies)作为ground-truth，使得model忽略anomalies。在等式中，用来自frame<span class="math inline">\(X_t\)</span>的normalversion的patches，第二，作者将anomaly map作为另外一个channel，加到targetiamge上，在anomaly map中，将normal pixels设为0，abnormalpixels设为1。这个changes意味着，所有的patches都有一个额外的channel。第三，用gtanomaly map来增强weights。这个增加的synthetic anomalies并没有产生有highmagnitude的motion gradient。因此，对应于anomalyregions的patches是有可能得到lowweights，如果想要model检测anomaly，这不是理想的。为了这个目的，在计算weights之前，作者提出了一起添加anomalymaps和gradients。</p></li><li><p><strong>Classification head</strong>：作者进一步利用syntheticanomalies来训练一个cls head，用在shared encoder的最后的final [cls]token上。这个head被训练用来区分带有和不带有syntheticanomalies的frames，这个head用binary cross-entropy进行训练。</p></li><li><p><strong>Inference</strong>：在推理的时候，作者将每个frame <spanclass="math inline">\(X_t\)</span> 通过teacher和studentmodels来得到reconstructed frames <spanclass="math inline">\(\hat_{t}\)</span> 和 <spanclass="math inline">\(x_t\)</span>，然后计算输出的pixel-level anomalymap： <span class="math display">\[o_t = \alpha \|x_t - \hat{x}_t\|^2 +\beta \cdot \|\tilde{x}_t - \bar{x}_t\|^2 + \gamma \cdot\dot{y}_t,\]</span> <span class="math inline">\(\alpha, \beta,\gamma\)</span> 是控制individual anomaly score components的重要性。用spatio-temporal 3D filtering来光滑anomalyvolumes，为了得到frame-level anomaly scores，保留每个output map <spanclass="math inline">\(o_t\)</span> 的最大的value，一次应用另外的temporalGaussian filter来smooth values。</p></li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/7ad25dbb5022c119144990cde0d364e2519df728/1-Figure1-1.png"alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span>在训练的时候，video frames用synthetic anomalies进行增强。teacherdecoder学习重建original frames(without anomalies)和预测anomalymaps。student decoder学习reproduce teacher's output。motiongradient在token level进行汇总，用作reconstruction loss的weights，红色虚线表示只在training的时候执行的steps。</p>]]></content>
     
     
     <summary type="html">&lt;h3
@@ -220,7 +329,10 @@ Masked Auto-Encoders are Efficient Video Anomaly
 Detectors&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;作者是来自University of Bucharest等机构的Nicolae-Catalin
-Ristea等人，论文引用[1]:&lt;/p&gt;
+Ristea等人，论文引用[1]:Ristea, Nicolae-Cătălin et al. “Self-Distilled
+Masked Auto-Encoders are Efficient Video Anomaly Detectors.” 2024
+IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+(2023): 15984-15995.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
 &lt;ul&gt;
@@ -249,7 +361,7 @@ maps。作者的设计是一个高效且有效的model&lt;/strong&gt;。&lt;/li&
     <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
     
     
-    <category term="Autoencoders" scheme="https://young-eng.github.io/YoungBlogs/tags/Autoencoders/"/>
+    <category term="Autoencoder" scheme="https://young-eng.github.io/YoungBlogs/tags/Autoencoder/"/>
     
   </entry>
   
@@ -837,75 +949,6 @@ optimizations，实现了速度和精度的平衡&lt;/strong&gt;。&lt;/li&gt;
     
     
     <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DEIM</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/03/28/DEIM/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/03/28/DEIM/</id>
-    <published>2025-03-28T15:13:13.000Z</published>
-    <updated>2025-03-28T15:13:13.730Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>MambaVision</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/03/28/MambaVision/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/03/28/MambaVision/</id>
-    <published>2025-03-28T09:09:30.000Z</published>
-    <updated>2025-03-28T09:09:30.091Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Mamba</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/03/28/Mamba/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/03/28/Mamba/</id>
-    <published>2025-03-28T08:55:50.000Z</published>
-    <updated>2025-04-07T06:22:28.644Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="notes">Notes</h3><ol type="1"><li>SSM是用于描述这些状态表示，并根据某些输入预测其下一个状态可能是什么的模型，一般的输入是连续序列。SSM的核心方程：<span class="math display">\[ \begin{align*}\text{State equation} &amp; \quad h&#39;(t) = A h(t) + B x(t) \\\text{Output equation} &amp; \quad y(t) = C h(t) + D x(t)\end{align*}\]</span>为了能够处理离散数据，对离散数据进行<strong>连续化，使用零阶保持技术,zero-orderhold(ZOH)</strong>。有了连续的信号，就可以根据输入的时间对值进行采样。通过<strong>HiPPO初始化，处理长距离依赖</strong>。</li></ol><h3 id="references">References</h3><ul><li>https://blog.csdn.net/v_JULY_v/article/details/134923301</li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;SSM是用于描述这些状态表示，并根据某些输入预测其下一个状态可能是什么的模型，一般的输入是连续序列。SSM的核心方程：
-&lt;span class=&quot;math display&quot;&gt;&#92;[ &#92;be</summary>
-      
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="State-Space Model" scheme="https://young-eng.github.io/YoungBlogs/tags/State-Space-Model/"/>
     
   </entry>
   

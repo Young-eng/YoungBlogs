@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Mr.DETR: Instructive Multi-Route Training for Detection Transformers[1]&gt;  作者是来自Visual AI Lab、HKU和Meituan的Chang-Bin Zhang等人。论文引用[1]:Zhang, Chang-Bin et al. “Mr. DETR: Instructive Multi-Route T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mr.DETR">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/05/07/Mr-DETR/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Mr.DETR: Instructive Multi-Route Training for Detection Transformers[1]&gt;  作者是来自Visual AI Lab、HKU和Meituan的Chang-Bin Zhang等人。论文引用[1]:Zhang, Chang-Bin et al. “Mr. DETR: Instructive Multi-Route T">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-05-07T08:42:33.000Z">
+<meta property="article:modified_time" content="2025-05-08T15:35:04.033Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Object Detection">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/05/07/Mr-DETR/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/05/07/Mr-DETR/","path":"2025/05/07/Mr-DETR/","title":"Mr.DETR"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Mr.DETR | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#mr.detr-instructive-multi-route-training-for-detection-transformers1"><span class="nav-number">1.</span> <span class="nav-text">Mr.DETR:
+Instructive Multi-Route Training for Detection
+Transformers[1]&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">152</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/07/Mr-DETR/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Mr.DETR | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mr.DETR
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-05-07 16:42:33" itemprop="dateCreated datePublished" datetime="2025-05-07T16:42:33+08:00">2025-05-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-05-08 23:35:04" itemprop="dateModified" datetime="2025-05-08T23:35:04+08:00">2025-05-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="mr.detr-instructive-multi-route-training-for-detection-transformers1">Mr.DETR:
+Instructive Multi-Route Training for Detection
+Transformers<sup>[1]&gt;</sup></h3>
+<blockquote>
+<p>作者是来自Visual AI Lab、HKU和Meituan的Chang-Bin
+Zhang等人。论文引用[1]:Zhang, Chang-Bin et al. “Mr. DETR: Instructive
+Multi-Route Training for Detection Transformers.” ArXiv abs/2412.10028
+(2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2025.Apr</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>one-to-one, one-to-many assignments</li>
+<li>Multi-route training</li>
+<li>一句话总结：为了加速DETR-like model的收敛，一些方法采用了auxiliary
+training，作者这里提出了multi-training
+route的方法，用3个route，route-1用一个独立的FFN for o2m,
+route-2是primary route for o2o, route-3
+为了提高不同route的queries的兼容性，采用了learnable
+queries作为instruction，然后进行instruction
+self-attention，其它的没啥。</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>现有的增强detection transformer的方式是同故宫引入<strong>auxiliary
+one-to-many
+assignment</strong>。在这个工作中，作者将model视为一个<strong>multi-task
+framework</strong>，同时进行<strong>one-to-one和one-to-many
+predictions</strong>。作者在这两个训练目标中，研究了Transformer
+decoder中的每个component的作用，包括self-attention,
+cross-attention和FFN。作者的结果展示，<strong>decoder中的任何独立的component能够同时有效地学习targets，即使当一些component是共享的</strong>。这个发现促使作者提出了一个<strong>multi-route
+training paradigm, 一个primary route用于one-to-one
+prediction，两个辅助的training routes用于one-to-many
+prediction，作者通过一个新的instructive self-attention,
+能够动态地和灵活地指导object queries 用于one-to-many
+prediction,增强training机制。这个辅助的routes在推理的时候是去掉的，确保对model架构和inference
+cost造成影响</strong>。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>端到端的DETR，还有后续的研究，在object
+detection领域shine，<strong>不同于传统的方法，DETR-based的detectors消除了NMS的需求，采用one-to-one的分配方法用于监督训练，每个gt
+box和single prediction进行匹配。相比于传统object
+detectors的one-to-many的分配方法，允许每个gt
+box和多个predictions进行匹配，one-to-one 分配导致收敛慢，因为sparse
+supervision</strong>。 为了加速DETR-like
+detectors的收敛，很多工作提出了辅助的训练方法，通过引入辅助的one-to-many
+assignment或者多组one-to-one assignment，来提高prediction
+localization的质量，特别地，DN-DETR，Group-DETR和DINO利用多个并行的axillary
+queries，和primary object query共享同一个transformer
+decoder。DETA发现，当model进行one-to-one
+prediction的时候，self-attention是必要的，但是当执行one-to-many
+prediction的时候，是不必要的。基于这个观察，DAC-DTR和MS-DETR通过显性地限制self-attention和cross-attention，来做one-to-one和one-to-many
+prediction，引入了one-to-many auxiliary
+training。作者将同时进行one-to-one和one-to-many
+prediction的model称为multi-task
+framework。然而，先前的工作只在single-task
+setting中检验每个component的作用。</p>
+<p>在这个工作中，作者构建了一个multi-task
+framework，研究了decoder中的每个component的作用，然而，实验结果表明:<strong>当所有的components在两个tasks之间共享的时候，引入一个one-to-many
+assignment显著地退化了primary one-to-one
+prediction的性能</strong>。作者发现，<strong>任何独立的component显著地对primary
+route of one-to-one prediction有帮助，作者也探索了不同的auxiliary routes
+with two independent
+components，和单独的component有类似的性能，但是有更多的训练参数</strong>。</p>
+<p>这个empirical finding激励作者构建要给multi-route training
+机制，结合了multiple auxiliary traininng
+routes，每个是独立的component，特别地，primary route 用于one-to-one
+prediction，每个auxiliary route 是一个indepentent component for
+one-to-many prediction。作者用independent
+self-attention和FFN分别将auxiliary training和primary route进行集成。</p>
+<p>为了进一步降低auxiliary training
+routes中的新的训练参数，增强不同routes的参数共享。作者提出了一个新的instructive
+self-attention mechanism。作者的方法包括3个training routes，一个primary
+route for one-to-one prediction，和两个带有instructive
+self-attention和independent FFN的auxiliary routes。第一个auxiliary
+route和primary route中的self-attention共享参数，但是引入了一个learnable
+token，称之为<strong>instruction
+token</strong>，在self-attention中，attach到input object queries。object
+queries和instruction tokens一起，经历self-attention，使得instruction
+token指导queries for one-to-many
+prediction。给定FFN是一个简单的两层MLP，作者直接在第二个auxililary
+route中采用independent FFN。在推理的时候，两个auxiliary training
+routes被去掉，确保model架构和inference time和基线模型保持一致。</p>
+<p>总结：作者的三个贡献：</p>
+<ul>
+<li><strong>在multi-task
+framework中，作者展示了decoder中的任何独立的component能够同时有效地学习one-to-one和one-to-many
+targets，即使当其它的component是共享的</strong>。</li>
+<li><strong>基于以上的简洁，作者提出了multi-route
+training机制，用动态和灵活地指导object queries for one-to-many
+prediction的instructive self-attention来增强它</strong>。</li>
+<li>作者做了大量的实验，证明了提高.</li>
+</ul></li>
+<li><p>为了加速DETR的训练，一些研究引入了辅助的训练方法，例如：H-DETR利用Hungarian
+Matching来构建one-to-many matching by duplicating
+targets。DN-DETR和DINO设计了多组denoising queries来加速detection
+transformers，同样地，，Group-DETR利用一组learnable queries作为auxiliary
+input for transformer decoder, DQ-DETR通过动态地融合auxiliary
+queries建立了primary query group。StageInteractor引入了one-to-many
+matching，通过结合不同decoder layers的label assignment
+results。SQR-DETR通过重新利用previous decoder layerse的object
+queries来构建auxiliary
+training。Co_DETR通过采用多组查询并结合不同的匹配策略，生成多样化的监督信号。DAC-DETR开发了一个并行的decoder，通过消除self-attention来学习一个one-to-one
+prediction。MS-DETR提出了用one-to-many matching来监督cross-attention
+output，同时self-attention是通过one-to-one matching进行监督的。</p></li>
+<li><p>One-to-One Training Objective：利用一个one-to-one training
+objective，DETRs实现了不需要NMS的端到端的detection，<span
+class="math inline">\(\mathbf{\overline{B}} = \{ \overline{b_0},
+\overline{b_1}, \dots,\overline{b_t}\}\)</span>, <span
+class="math inline">\(\mathbf{\overline{S}} = \{ \overline{s_0},
+\overline{s_1}, \dots, \overline{s_t}\}\)</span> 分别表示gt
+boxes和对应的classes，这个possible prediction和gt pairs之间的matching
+cost 是通过考虑cls cost和box costs。Optimal matches是用bipartite
+matching决定的，表示为 <span
+class="math inline">\(\delta\)</span>，one-to-one training
+objective表示为：</p>
+<p><span class="math display">\[L = \sum_{i=0}^{t}
+L_{cls}(s_{\sigma(i)}, \bar{s}_i) + L_{box}(b_{\sigma(i)},
+\bar{b}_i),\]</span></p>
+<p><span class="math inline">\(L{cls}\)</span> 和 <span
+class="math inline">\(L_{box}\)</span> 分别表示cls和bbox losses。</p>
+<ul>
+<li>One-to-many training objective：<strong>传统的object
+detectors通常用一个one-to-many assignment
+策略，基于特定的criteria，将每个gt box分配给多个predictions，
+然后用NMS来去掉duplicated
+predictions</strong>。在作者的工作中，作者用了一个直接的one-to-many
+assignment策略，考虑localization quality和cls
+confidence，使其适合DETR-like detectors。特别地，predictions <span
+class="math inline">\((s_i, b_i)\)</span> 和gt <span
+class="math inline">\((\bar{s}_t, \bar{b}_t)\)</span>
+之间的定义如下matching scores <span
+class="math inline">\(M_{ij}\)</span>:</li>
+</ul>
+<p><span class="math display">\[M_{ij} = \alpha \cdot s_i + (1 - \alpha)
+\cdot \text{IoU}(b_i, \bar{b}_j),\]</span></p>
+<p>IoU计算prediction box和gt box之间的IoU，给定positive candidates
+K的最大值和一个IoU阈值 <span
+class="math inline">\(\tau\)</span>，positive
+predictions可以被决定。首先，选择匹配得分M最高的最多K个prediction作为positive
+predictions，然后，对于每个gt box，过滤掉IoU低于 <span
+class="math inline">\(\tau\)</span>的predictions。</p></li>
+<li><p>Multi-route Training: 作者旨在引入one-to-many
+assignment作为一个额外的训练策略，来增强detection
+transformers，首先，<strong>作者将带有auxiliary one-to-many
+prediction的detector作为一个multi-task
+framework，同时实现了one-to-one和one-to-many的predictions</strong>。作者研究了decoder中的每个component的作用，发现：</p>
+<ul>
+<li>当所有的components在两个tasks之间共享的时候，引入one-to-many
+assignment显著地退化了primary one-to-one prediction的性能</li>
+<li>作者期望，它是来自于两个tasks之间的interference。例如，一个predicted
+box在one-to-many分配中，可能被分配给一个positive
+prediction，但是，在one-to-one分配中分配给一个negative prediction。</li>
+<li>decoder中的任何独立的component受益于primary one-to-one prediction
+route，即使当其它的components是共享的。这些observations表明：<strong>任何独立的component是能够有效地掌握one-to-one和one-to-many
+training的goals</strong>，因此解决了两个tasks之间的conflict。<strong>因为共享组件可以为两个任务提取共同的特征线索，而独立组件则进一步区分不同任务的需求</strong>。</li>
+<li>带有两个独立component的auxiliary training
+route没有比一个独立component的route效果更好</li>
+<li>在多种结合不同不同的auxiliary training routes的变种中，将auxiliary
+route和独立的self-attention，独立的FFN结合起来，试下了最好的性能。</li>
+</ul>
+<p>基于以上的findings，作者的方法包括3个training routes，共享object
+queries，classification和regression heads among three
+routes，route-2是用于one-to-one
+prediction的主要的route，和基线model相同。Route-1和route-3是auxiliary
+training routes，用于one-to-many
+predictions，在推理的时候是discard，因此，auxiliary training
+routes不影响model的结构。</p></li>
+<li><p>Primary Route for One-to-one Prediction：架构和route-2的training
+objective是和baseline model一样的，对于route-2，给定object queries <span
+class="math inline">\(\mathbf{Q} = \{ q_0, q_1, \dots, q_{n-1}
+\}\)</span> ，query output定义如下：</p>
+<p><span class="math display">\[\hat{\mathbf{Q}}_2 = (\text{FFN}_{o2o}
+\circ \text{CA} \circ \text{SA})(\mathbf{Q}),\]</span></p>
+<p>SA,
+CA和FFN分别表示self-attention、cross-attention和FFN，Route-2的query
+output是受 one-to-one
+assignment的监督。在推理的时候，Route-2是保留的，来实现one-to-one
+prediction，不需要额外的cost。</p></li>
+<li><p>Auxiliary Route with Independent FFN：作者集成了要给auxiliary
+training route，称之为Route-1，引入了一个独立的FFN。Route-1中的<span
+class="math inline">\(FFN_{o2m}\)</span> 和primary
+route共享所有的self-attention和cross-attention
+components。由于直接的架构和FFN高效地参数利用。route-1的query
+output是受one-to-many assignment的监督。</p></li>
+<li><p>Auxiliary Route with Instructive
+Self-Attention：为了降低训练参数和增强和primary
+route的参数共享，作者提出了一个新的instruction 机制，这个机制指导object
+queries实现one-to-many prediction，route-3的query output是这样的： <span
+class="math display">\[\hat{\mathbf{Q}}_3 = (\text{FFN}_{o2o} \circ
+\text{CA} \circ \text{InstructSA})(\mathbf{Q}),\]</span></p>
+<p>InstructSA表示提出的instructive
+self-attention，和另外两个route的self-attention共享参数。输出的 <span
+class="math inline">\(\hat{\mathbf{Q}}_3\)</span> 受one-to-many
+assignment的监督。</p></li>
+<li><p>Instructive Self-Attention：Route-3是用一个instructive
+self-attention实现的，在object queries中引入了learnable instruction
+tokens <span class="math inline">\(Q^{ins}\)</span>，构造了一个结合的
+sequence <span
+class="math inline">\(\hat{\mathbf{Q}}\)</span>。Self-Attention在这个combined
+sequence上进行。这个方法，设计用一组separate
+queries作为inputs，来加速one-to-many
+predictions，为了提高不同routes的object queries的兼容性，引入了learnable
+tokens，作为instruction，来解释prediction
+objectives。如图所示，这些instruction tokens通过addition引入共享的object
+queries，这种方法需要将指令标记（instruction
+tokens）的数量固定为与查询（query）数量相等。不同于addition
+方法，作者的方法通过concatenation的方式采用instruction
+tokens，提供了灵活性。这种灵活性不仅体现在指令标记（instruction
+tokens）数量的可变性上，还允许这些学习到的标记通过自注意力机制动态地向目标查询（object
+queries）传递信息，<strong>instructive
+tokens对应的输出在self-attention之后就丢弃了，因为它不用于object
+localization</strong>。在这种方式下，instruction
+tokens为route-3提供了有效和可适应的guidance，使其在和primary
+route共享参数的同时，实现one-to-many predictions。</p></li>
+<li><p>特别地，作者构建了 <span class="math inline">\(m\)</span> 个
+learnable tokens <span class="math inline">\(\mathbf{Q}^{\text{ins}} =
+\{ q_0^{\text{ins}}, q_1^{\text{ins}}, \dots, q_{m-1}^{\text{ins}}
+\}\)</span>,称之为 instruction tokens。初始地时候，这些instruction
+tokens通过concatenation attach到输入的sequence上，形成一个符合的input
+queries。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/b4d14461c7f0d0d3eff30b61af5116b143813990/2-Figure3-1.png"
+alt="Different configurations of transformer decoder with auxiliary one-to-many training" />
+<span class="math inline">\(Fig.1^{[1]}\)</span> SA: self-attention, CA:
+cross-attention, FFN: feed-forward network. o2o: one-to-one, o2m:
+one-to-many,</p>
+<p><img
+src="https://figures.semanticscholar.org/b4d14461c7f0d0d3eff30b61af5116b143813990/4-Figure4-1.png"
+alt="Illustration" /> <span class="math inline">\(Fig.2^{[1]}\)</span>
+包含3个routes, 所有的3个routes共享相同的object queries和detection heads
+for cls和regression， route-2作为primary route for one-to-one
+prediction，和baseline model一样，route-1共享SA和CA，但是用一个独立的FFN
+for one-to-many prediction, route-3和primary
+route共享所有的components，引入了一个新的instructive SA, 通过将learnable
+instruction token加到object queries上，来指导它们和后续的network for
+one-to-many prediction，在推理的时候，route-1和route-3被丢弃。</p>
+<p><img
+src="https://figures.semanticscholar.org/b4d14461c7f0d0d3eff30b61af5116b143813990/5-Figure5-1.png"
+alt="Illustration" /> <span class="math inline">\(Fig.3^{[1]}\)</span>
+Various implementations of instructive self-attention.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Object-Detection/" rel="tag"># Object Detection</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/05/07/Massive-Values/" rel="prev" title="Massive Values">
+                  <i class="fa fa-angle-left"></i> Massive Values
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/05/07/LLMDet/" rel="next" title="LLMDet">
+                  LLMDet <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">262k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">15:51</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
