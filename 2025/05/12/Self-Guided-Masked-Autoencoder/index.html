@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Self-Guided Masked Autoencoder[1]  作者是来自Google和首尔国立大学的Jeongwoo Shin等人，论文引用[1]:Shin, Jeongwoo et al. “Self-Guided Masked Autoencoder.” Neural Information Processing Systems (2024).  Time">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Self-Guided Masked Autoencoder">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/05/12/Self-Guided-Masked-Autoencoder/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Self-Guided Masked Autoencoder[1]  作者是来自Google和首尔国立大学的Jeongwoo Shin等人，论文引用[1]:Shin, Jeongwoo et al. “Self-Guided Masked Autoencoder.” Neural Information Processing Systems (2024).  Time">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-05-12T01:28:17.000Z">
+<meta property="article:modified_time" content="2025-05-12T07:32:37.249Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Self-Supervised">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/05/12/Self-Guided-Masked-Autoencoder/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/05/12/Self-Guided-Masked-Autoencoder/","path":"2025/05/12/Self-Guided-Masked-Autoencoder/","title":"Self-Guided Masked Autoencoder"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Self-Guided Masked Autoencoder | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#self-guided-masked-autoencoder1"><span class="nav-number">1.</span> <span class="nav-text">Self-Guided Masked
+Autoencoder[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">155</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/12/Self-Guided-Masked-Autoencoder/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Self-Guided Masked Autoencoder | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Self-Guided Masked Autoencoder
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-05-12 09:28:17 / 修改时间：15:32:37" itemprop="dateCreated datePublished" datetime="2025-05-12T09:28:17+08:00">2025-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="self-guided-masked-autoencoder1">Self-Guided Masked
+Autoencoder<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Google和首尔国立大学的Jeongwoo Shin等人，论文引用[1]:Shin,
+Jeongwoo et al. “Self-Guided Masked Autoencoder.” Neural Information
+Processing Systems (2024).</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li><ol start="2024" type="1">
+<li></li>
+</ol></li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Masked Autoencoder</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>MAE是用于表征学习的一种自监督的方式，广泛地应用于CV中的下游任务。尽管它很成功，但是，但还是没有完全揭示它是如何学习的。在本文中，作者做了深入的分析，发现：<strong>MAE从pretraining早期阶段，学习patern-based
+patch-level clustering。基于这个理解：作者提出了self-guided masked
+autoencoder，通过利用patch clustering中的progress，内在地产生informed
+mask，代替原始的MAE的随机的masking</strong>，作者的方法不需要依赖任何外部的models或者supplementary
+information，显著地提高了它的learning
+progress，完好地保持了MAE自监督的本质的优势。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>自监督学习是一个attractive
+direction，用于缓解数据标注的高昂的成本。例如MLM，预测输入sentence的masked
+word, BERT和GPT用来capture contextual meaning of a
+word。受MLM的启发，MIM也引入了CV，利用大量的无标注的数据。MAE用一个ViT的非对称的encoder-decoder结构，展示了简单地重建RGB
+pixels for masked patches是足以在多个下游任务上是实现有竞争力的性能。
+在MAE取得了impressive performance之后，通过结合informed masking
+techniques，增强它的capabilities的一系列研究出现了。这些创新利用了额外信息的多种来源，包括一个监督的ViT生成的attention
+maps，预训练自监督model学习的knowledge，或者supplementary adversarial
+modules，所有的都是针对提高masks的质量，然而，这些流行的方法没有完全理解MAE的机制，仅仅应用informed
+masking。</p>
+<p>为了这个目的，作者做了大量的实验和深入的分析，来理解MAE的内在的操作，因为没有完全揭示MAE学的什么以及如何学习的，尽管有一些先前的努力，基于作者的MAE的分析，探索了MAE的潜力，来产生自己的informed
+masks，作者首先展示了：MAE内在学习<strong>pattern-based patch-level
+clustering</strong>，这个特点来自于<strong>extremely early stages of
+pretraining</strong>，作者揭示了<strong>decoder中的mask
+tokens的潜在的机制</strong>，基于这个理解，作者提出了一个新的方法，通过<strong>informed
+masks，来提高training的过程，不需要额外的models或者补充信息，以完全无监督的方式生成</strong>。不同于之前的informed
+masking 方法，不同于random masking，作者的方法产生的informed
+masks，覆盖了<strong>main objects entirely,
+用了可区分的、来自训练早期阶段的patch
+representations</strong>，由了内在产生的informed
+masks，MAE学习patch-level clustering，加速了训练过程，导致了clearer
+和finer embedding space，作者的贡献如下：</p>
+<ul>
+<li>作者发现, MAE在每个image中，学习pattern-based patch-level
+clustering，这是来自预训练过程的早期阶段。</li>
+<li>作者提出了一个新的masking 方法，self-guided masked
+autoencoder，仅依赖于patch-clustering中的progress的内在的量化。</li>
+</ul></li>
+<li><p>Hiearchical Latent Variable
+Model：有人最近发现：MAE的内在操作可以在hierarchical latent variable
+model框架下进行解释。在input image中存在high-level shared information
+<span class="math inline">\(c\)</span>，它等价于patches中的statistical
+dependency，MAE encoder <span class="math inline">\(E(X_v)\)</span>
+通过估计visible patches <span class="math inline">\(X_v\)</span>
+的共享信息 <span
+class="math inline">\(\hat{c}\)</span>，来学习high-level latent
+variables, decoder <span class="math inline">\(D([E(X_v);m])\)</span>
+通过从 <span class="math inline">\(\hat{c}\)</span> 中得到的 <span
+class="math inline">\(X_m\)</span>，通过 mask
+tokens进行重建任务。</p></li>
+<li><p>作者研究： MAE是如何学习token
+relation的concept，展示了它学习pattern-based patch-level clustering from
+early stages of training. 作者解释了MAE decoder的潜在的机制。</p>
+<ul>
+<li><p>Token Relation：作者分析了token embeddings和它们的quantified
+pair-wise relationships，例如attention score matrix A和cosine similarity
+matrix C。对于输入的patches和transformer weights for
+queries、keys和values，作者分析了A和M，首先，作者用了encoder中的patches
+X的complete set，记为 <span
+class="math inline">\(E(X)\)</span>,这个ideal setting提高了最精确地
+<span class="math inline">\(\hat{c}\)</span>,
+合适分析MAE学到的features，另外，它们可以从decoder中国的practical
+setting中得到，包含了mask tokens。因为只有visible tokens利用estimate
+<span class="math inline">\(\hat{c}\)</span>,
+这个setting相比于之前的，会产生less accurate token relations。</p></li>
+<li><p>MAE学到了啥：在learned embedding space中，研究了patch
+relationships的分布，用 <span class="math inline">\(E(X),
+D([E(X_v);m])\)</span>的最后一层embeddings for patches of set-aside test
+images. 在图中，作者比较了不同model的patch representations，表明: MAE
+encoder基于visual patterns学习到了patch clustering，texture and
+color。总结：MAE基于它们的visual patterns学习image重点 patch-level
+clustering，仅对visible
+tokens进行操作，decoders学习到了一个类似的，但没有encoder那么clear的trend。主要是作者对比了两个指标:
+feature variance <span class="math inline">\(\sigma_F\)</span>
+和variance of the pairwise similarities <span
+class="math inline">\(\sigma_S\)</span>。</p></li>
+<li><p>MAE什么时候学习patch clustering的：作者通过tracking token
+relations of MAE，回答了这个问题。作者从嘴贱的token
+clustering开始，例如bi-partitioning，通过对M用graph-cut，将patches聚类为两个最主要的sub-groups，基于这个clustering，作者trace了inter-cluster
+edge weights和均值和intra-cluster edge weights的均值。结果显示了关于gap
+(<span class="math inline">\(\mu_{intra} -
+\mu_{inter}\)</span>)两个notable patterns: 随着training
+steps，这个gaps倾向于变大，attention scores更显著；<span
+class="math inline">\(\mu_{intra}\)</span> 和$<span
+class="math inline">\(\mu_{inter}\)</span>
+在很早期的阶段就有明显的margin，decoder也展示了类似的less
+promoinent的趋势。</p></li>
+</ul>
+<p>作者直接track token
+relations之间的gap，特别地，作者考虑在第j个epoch的、第i层的KL散度，<span
+class="math inline">\(N\)</span> 是总的epochs，结果表明:
+MAE在早期阶段就学习token
+relations，在余下的training中，逐步增强它，decoder也展示了类似的趋势。</p>
+<ul>
+<li>在之前的实验中，作者观察到，decoder能够构建完整的token
+relation，验证了：decoder利用了encoder出来的shared information <span
+class="math inline">\(\hat{c}\)</span>，来补全masked-out
+tokens的缺失的信息并重建它们，将这个和之前的发现联系起来，作者claim：
+MAE学到的pattern-based patch clustering和这个 <span
+class="math inline">\(\hat{c}\)</span>
+相对应，如果encoder训练地充分，它输出的embeddings for visible
+tokens将会传递出整个image的general context，因此，通过decoding过程，mask
+tokens通过选择性地和 <span
+class="math inline">\(X^`_v\)</span>进行attending，被contextualized，处理essential
+information来表征target patches <span
+class="math inline">\(X_m\)</span>。因此，通过逆向这个过程，作者评估：encoder是否被充分地训练，通过量化
+<span
+class="math inline">\(\hat{c}\)</span>，来精确地关联patches。基于这个idea，作者提出了一个新的metric，在训练的时候评估它。</li>
+</ul>
+<p>作者定义了exploitation rate of mask tokens over decoder
+layers,用attention score matrix A，可以解释为attention
+rollout的特殊的case，对于token indices <span
+class="math inline">\(A\)</span> 和 <span
+class="math inline">\(B\)</span> 的集合，利用率exploitation rate表示：A
+中的用于重构B中的tokens的tokens，定义为average attention weights.</p>
+<p>作者测量了visible tokens和mask tokens的利用率，在每个decoder
+layer中，对mask tokens的heavy exploitation表明：它们有encoder
+estimated的大量的shared information，对简单的visible
+patches的插值更有价值。总结：当encoder被训练的足够充分来聚类patches的时候，encoder
+outputs反应了shared information，它们用来构成decoder中的mask
+tokens。这意味着mask tokens处理这个patch clustering
+information，被大量用来重建masked-out patches。因此，作者从decoder中mask
+tokens的高exploitation rate推断：mask tokens有patch clustering
+information conveyed from the encoder，
+足够来聚类patches。这个过程通过测量encoder学习到的shared
+information来验证了。decoder中的mask tokens的heavy
+exploitation表明：encoder被训练地足够充分来聚类patches。</p></li>
+<li><p>Self-Guided Informed Masking：作者展示了，MAE
+从早期阶段就学习了patch clustering，使得可以将image分为两个主要的token
+clusters，然后mask掉其中的一个。换句话说，可以**在预训练的早期阶段，用MAE产生informed
+masks，将这些informed
+masks用于剩余的training的训练。为了决定MAE什么时候能properly cluster
+patches，用之前提到的exploitation rate，使得能够在 T epochs产生informed
+masks，这就是作者设计的方法。</p>
+<p>作者利用早期阶段学到的patch relevance来加速训练，不是依赖于random
+masking。random masking 延迟了powerful
+patch-clustering的学习，导致模型低效地访问早期阶段已经聚类的patches，这些patches反应了image
+tokens之间的key dissimilarities。</p>
+<p>基于这个idea，作者提出了self-guided informed masking，将top
+two的well-separated clusters其中之一mask掉，注入关于learned key
+dissimilarities。在epoch T，开始生成informed masks，继续训练。</p>
+<p>有了这个方法，能够加速MAE，聚焦于学习less distinguishable
+patches，而不是浪费时间重复发现most prominent
+patterns，<strong>作者的方法仅依赖于内在的metrics，完全不需要任何外在的models或者extra
+information</strong>。</p>
+<p>为了实现这个，需要：1. bi-partition the image; 2. 设计informed masks;
+3. 选择attention layer来构建informed masks; 4. 决定什么时候开始informed
+masking。</p>
+<ul>
+<li>bi-partition:
+为了将image进行bi-partition，作者用Normalized-Cut来考虑不同cluster之间的dissimilarity和每个cluster内部的similarity。构建了一个全连接的无向的image
+graph，patches和similarity分别作为nodes和edges。为了将所有node
+indices划分为两个disjoint sets，最小化Ncut
+energy。通过计算第二小的eigenvector，来近似解这个problem。</li>
+<li>作者将masking限制在object-centric regions，通过narrowing masking
+focus，作者的方法指导MAE关注学习patch clustering within object
+regions，这样，loss只影响object-related parts，加速了object
+region中的patch clustering的学习。在context中，作者旨在mask out 包含Main
+object的cluster，使得model更快地学习feature
+representation，因为没有label，作者采用了一个简洁的方法:
+有最大的absolute element in <span class="math inline">\(y_1\)</span>
+构成了main object。</li>
+</ul>
+<p>实际上，很多实际的问题，例如bi-partition不完美，cluster
+size不一样，使得batch processing变得复杂，作者将和 <span
+class="math inline">\(C\)</span> 相关的tokens进行rank，基于ranking，mask
+out一个固定比例的tokens。</p>
+<ul>
+<li>Appropriate Layer for Patch Clustering：作者考虑attention
+distance和Normalized Mutual Information(NMI)，来决定哪一层的layer
+embeddings用来计算patches之间的similarity
+matrix，为了得到足够的meaningful token relation，作者丢弃了early
+layers，选择了倒数第二个encoder layer。</li>
+</ul></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/70801bb5863c116c1b6eae8d2f0801122659d58c/2-Figure1-1.png"
+alt="Illustration of our self-guided MAE" /> <span
+class="math inline">\(Fig.1^{[1]}\)</span>.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Self-Supervised/" rel="tag"># Self-Supervised</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/05/09/Self-Guide-MAE/" rel="prev" title="Self-Guide MAE">
+                  <i class="fa fa-angle-left"></i> Self-Guide MAE
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/05/12/Multi-Head-Mixture-of-Experts/" rel="next" title="Multi-Head Mixture-of-Experts">
+                  Multi-Head Mixture-of-Experts <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">268k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">16:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

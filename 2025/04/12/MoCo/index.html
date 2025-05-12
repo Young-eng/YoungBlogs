@@ -19,14 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="Momentum Contrast for Unsupervised Visual Representation Learning[1]  作者是来自FAIR的Kaiming He等人。论文引用[1]:He, Kaiming et al. “Momentum Contrast for Unsupervised Visual Representation Learning.” 2020">
+<meta property="og:type" content="article">
 <meta property="og:title" content="MoCo">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/04/12/MoCo/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Momentum Contrast for Unsupervised Visual Representation Learning[1]  作者是来自FAIR的Kaiming He等人。论文引用[1]:He, Kaiming et al. “Momentum Contrast for Unsupervised Visual Representation Learning.” 2020">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-12T07:58:19.000Z">
-<meta property="article:modified_time" content="2025-04-12T07:58:19.192Z">
+<meta property="article:modified_time" content="2025-05-10T15:13:24.402Z">
 <meta property="article:author" content="Young">
+<meta property="article:tag" content="Self-Supervised">
 <meta name="twitter:card" content="summary">
 
 
@@ -97,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -110,6 +113,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#momentum-contrast-for-unsupervised-visual-representation-learning1"><span class="nav-number">1.</span> <span class="nav-text">Momentum
+Contrast for Unsupervised Visual Representation
+Learning[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-word"><span class="nav-number">3.</span> <span class="nav-text">Key Word</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -124,7 +130,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">152</span>
+          <span class="site-state-item-count">155</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -135,7 +141,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-count">49</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -201,6 +207,22 @@
 
       <time title="创建时间：2025-04-12 15:58:19" itemprop="dateCreated datePublished" datetime="2025-04-12T15:58:19+08:00">2025-04-12</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-05-10 23:13:24" itemprop="dateModified" datetime="2025-05-10T23:13:24+08:00">2025-05-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
 
   
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
@@ -216,14 +238,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>2.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>10 分钟</span>
     </span>
 </div>
 
@@ -233,7 +255,213 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3
+id="momentum-contrast-for-unsupervised-visual-representation-learning1">Momentum
+Contrast for Unsupervised Visual Representation
+Learning<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自FAIR的Kaiming He等人。论文引用[1]:He, Kaiming et al.
+“Momentum Contrast for Unsupervised Visual Representation Learning.”
+2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition
+(CVPR) (2019): 9726-9735.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2020.Mar</li>
+</ul>
+<h3 id="key-word">Key Word</h3>
+<ul>
+<li>Self-Supervised learning</li>
+<li>一句话总结：就是用momentum update，来动态更新key encoder。</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者提出了<strong>Momentum
+Contrast(MoCO)</strong>，用于无监督的视觉表征学习。从对比学习作为一种字典查找(dictionary
+lookup)的视角出发，作者构建了一个具有队列和moving-averaged
+encoder，这能够即时构建一个大的dictionary, 促进了对比无监督学习。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>NLP中的无监督学习取得了成功，但是在CV中，
+监督与训练还是主流，无监督方法还是落后了，<strong>主要的原因是它们的respective
+signal spaces， 语言tasks是离散的signal spaces, words, sub-word units,
+用于构建tokenized dictionaries,
+从而作为无监督学习的基础。但是在CV中，还需要关注字典的构建，因为raw
+signal
+是在一个连续的、高维的空间，不具备人类通信的结构，不像words</strong>。</p>
+<p>一些最近的研究，用和contrastive
+loss相关的方法，在无监督视觉表征上取得了很好的效果。尽管是有多个motivations，这些方法可以被认为是
+构建<strong>dynamic
+dictionaries</strong>。dictionaries中的<strong>key(tokens)</strong>
+是从data(images/patches)中采样得到的，由一个encoder
+network来表征。无监督训练encoders来进行<strong>dictionary lookup:
+一个encoded query应该和它匹配的key相似，和其它的不相似，
+Learning被建模为最小化contrastive loss</strong>。</p>
+<p>从这个角度，作者假设构建如下的dictionary是有益的:</p>
+<ul>
+<li>large</li>
+<li>在训练过程中保持一致性，直觉上，更大的dictionary可能更好地采样潜在的、连续的高维视觉空间，dictionary
+中的keys应该被相同或者相似的encoder进行represent，以确保它们与query之间的比较具有一致性。然而，现有的方法用contrastive
+losses在这两个方面中存在局限性。</li>
+</ul>
+<p>作者提出了MoCo，作为一种构建large 和consistent
+dictionaries的方式，用一个constrative loss
+用于无监督学习。作者将dictionary作为一个data
+samples的queue：当前mini-batch编码的representations入列，oldest出列。队列将来自mini-batch
+size的dictionary
+进行解耦，使其可以变大。此外，由于字典键来源于前几个mini-batch，本文提出了一种通过基于动量的移动平均机制实现的缓慢演化的key
+encoder，以保持一致性。</p>
+<p>MoCo 是一个用于contrastive learning的，构建dynamic
+dictionary的机制，可以用于多个下游任务。作者follow一个简单的<strong>instance
+discrimination task：如果一个query和key是相同image的encoded
+views，则它们是匹配的</strong>。用这个代理任务，MoCo在ImageNet
+数据集上，在线性分类的common protocol下，展示出了有竞争力的results。</p>
+<p><strong>无监督学习的一个主要目的是预训练representations(features)，能够通过fine-tuning迁移到下游任务</strong>。作者展示了和detection相关的7个下游任务。MoCo无监督预训练能够超过对应的ImageNet监督训练。实验结果表明:
+MoCo在很多CV任务上缩小了监督和无监督表征学习的gap，在一些applications中，可以作为ImageNet监督预训练的alternative。</p></li>
+<li><p>无监督/自监督学习方法主要涉及两个方面: pretext tasks和loss
+functions。<strong>pretext是指，所解决的任务并非真正感兴趣所在，而真正的目的是学习一个good
+data representation, loss functions可以独立于pretext
+tasks进行研究。MoCo关注于loss function aspect</strong>。</p>
+<ul>
+<li>Loss functions: 定义一个loss
+function的通常的方式是测量model的prediction和一个fixed
+target之间的difference，例如通过L1/L2 losses重建input
+pixels，或者将input通过cross-entropy 或者margin-based
+losses分类为预定义的类别。contrastive losses测量sample
+pairs在representation space中的相似度。而不是将一个input和fixed
+target进行匹配。与将输入匹配到固定目标不同，在对比损失框架中，target在训练过程中动态变化，并且可以根据网络计算的data
+representation来进行定义。对比学习是最近一些无监督学习工作的核心。</li>
+</ul>
+<p>adversarial losses测量probability
+distribution之间的difference。它是一个成功的technique，用于无监督data
+generation。generative adversarial networks和noise-contrastive
+estimation(NCE)之间有联系。</p>
+<ul>
+<li><p>Pretext tasks: 有很多的pretext
+tasks被提出来了。<strong>包括在一些corruption条件下回复input, denoising
+auto-encoders, context autoencoders, or cross-channel
+auto-encoders</strong>。一些ppretext tasks形成了通过将single
+image进行transformation，patch orderings, tracking or segmenting objects
+in videos，形成pseudo-labels。</p></li>
+<li><p>Contrastive learing vs. pretext tasks: 一些pretext
+tasks可以基于一些形式的contrastive loss functions。instance
+discrimination 方法和exemplar-based task和NCE相关。在contrastive
+predictive coding(CPC)中的pretext task是一种形式的context
+auto-encoding,在contrastive multiview
+coding中，他和colorization有关。</p></li>
+</ul></li>
+<li><p>Contrastive learning as Dictionary Look-up:
+对比学习和最近的developments，可以被认为是训练一个encoder，用于dictionary
+look-up task。考虑encoded query <span
+class="math inline">\(q\)</span>和一些encoded samples <span
+class="math inline">\({k_0, k_1,
+k_2,...}\)</span>，它们是dictionary的keys。假设这里有一个single key
+<span class="math inline">\(k_+\)</span> in the dictionary 和 <span
+class="math inline">\(q\)</span> 匹配，一个contrastive
+loss是一个function，当q和它的positive key <span
+class="math inline">\(k_+\)</span>
+类似，和其它的keys不类似的时候，它的value是low。similarity 是通过dot
+product计算得到的，是一个形式的contrastive loss
+function，称之为InfoNCE，如下：</p>
+<p><span class="math display">\[
+\mathcal{L}_q = -\log \frac{\exp(q \cdot k_+ / \tau)}{\sum_{i=0}^K
+\exp(q \cdot k_i / \tau)}
+\]</span></p>
+<p><span class="math inline">\(\tau\)</span> 是 temperature
+超参数，这个求和操作是针对one positive 和K个negative
+samples。直观地，这种损失是一个基于softmax的(K+1)类分类器的对数损失，该分类器试图将查询样本
+q 分类为正样本 <span
+class="math inline">\(k_+\)</span>，对比损失也有基于其它形式的函数，例如margin-based
+losses和NCE losses的变体。</p>
+<p>这个contrastive loss作为一个无监督的objective
+function，用于训练represent queries和keys的encoder networks。通常，query
+representation是 <span class="math inline">\(q =
+f_q(x^q)\)</span>，<span class="math inline">\(f_q\)</span>
+是要给encoder network，<span class="math inline">\(x^q\)</span>
+是一个query sample。它们的初始化依赖于specific pretext task。输入 <span
+class="math inline">\(x^q\)</span> 和 <span
+class="math inline">\(x^k\)</span> 可以是images，
+patches或者一组patches组成的context。这个网络 <span
+class="math inline">\(f_q\)</span> 和 <span
+class="math inline">\(f_k\)</span>
+相同的网络，部分shared，或者不同。</p></li>
+<li><p><strong>Momentum Contrast</strong>:
+<strong>从以上的观点，对比学习是一个在高维连续输入例如images上构建离散的dictionary的方式，字典是动态的，因为键是随机采样的，且键编码器在训练过程中不断演变。作者的假设是：good
+features可以被一个覆盖丰富负样本呢的large
+dictionary所学习</strong>，同时encoder for dictionary
+keys在evolution的时候尽可能保持一致。基于这个动机，作者提出了Momentum
+Contrast. <strong>Dictionary as a queue</strong>：方法的核心是:
+**将dictionary维持为一个data samples的队列，这使得重新使用preceding
+mini-batches的encoded keys，queue的引入将dictionary size和mini-batch
+size进行解耦。作者的dictionary size可以比一些典型的mini-batch
+size更大，可以灵活和独立地设为一个超参数。</p>
+<p>这个dictionary中的samples是逐步被replaced，当前的mini-batch会被加入dicitonary
+queue，oldest的mini-batch in the
+queue会被removed。dictionary总是代表所有data的采样的subset，同时保持这个dictionary的额外的计算是manageable的。另外，去掉oldest
+mini-batch是有益的，因为它的encoded keys是过时的，和最新的最不一致。</p>
+<ul>
+<li>Momentum update: 用一个queue能够使dictionary
+large，但是也使其很难通过反向传播更新key encoder。一个naive
+的解决方式是将key encoder从query encoder
+copy过来，忽略它的gradient。但是这个方法在实验中产生了poor
+results。作者假设：这个失败是由于rapidly 改变encoder，降低了key
+representations consistency造成的，作者提出的momentum
+update来解决这个问题。</li>
+</ul>
+<p>Formally, 将<span class="math inline">\(f_k\)</span> 表示为 <span
+class="math inline">\(\theta_k\)</span>，<span
+class="math inline">\(f_q\)</span> 表示为 <span
+class="math inline">\(\theta_q\)</span>，通过如下更新 <span
+class="math inline">\(\theta_k\)</span>:</p>
+<p>这里 <span class="math inline">\(m \in [0,1)\)</span> 是一个momentum
+coefficient，只有超参数 <span class="math inline">\(\theta_q\)</span>
+是通过反向传播更新的。公式中 momentum update使得 <span
+class="math inline">\(\theta_k\)</span> 比 <span
+class="math inline">\(\theta_q\)</span>
+更新地更smoothly。因此，虽然queue中的keys是通过不同的encoders进行encoded的，这些encoder之间的差距是很小的。实验中，像一个相对大的momentum
+比一个更小的value效果好，表明：一个缓慢evolving 的key encoder
+是利用queue的核心。</p>
+<ul>
+<li><p>和之前机制的关系： MoCo是一个用contrastive
+losses的通用的机制，将它和现有的两种存在的机制进行对比，在dictionary
+size和一致性上展示出了不同的特点。 通过反向传播的端到端的更新是natural
+mechanism，它用当前mini-batch中的samples作为dictionary，因此keys的编码是一致的，大那是dictionary
+size适合mini-batch size解耦的，受限于GPU memory size，它也被large
+mini-batch optimization所挑战。一些近期的方法，基于pretext
+tasks，是由local positions驱动的，dictionary
+size可以被多个positions弄的很大。但是，这些pretext
+tasks可能要求特殊的网络涉及，例如patchifying the
+input，或者定制化receptive field
+size，可能会使网络迁移到下游任务变得复杂。</p></li>
+<li><p>另一个机制是memory bank，memory
+bank包含数据集中所有samples的representations，这个dictionary for each
+mini-batch随机从memory bank中采样，没有反向传播，因此它能支持一个large
+dictionary size。然而，一个memory
+bank中的sample的representation当它最后被seen的时候被更新，因此，sampled
+keys本质上反映了过去一个训练周期（epoch）中多个不同训练步骤下的编码器状态，导致表示的一致性降低。也有在memory
+bank中采用momentum update，它的momentum update作用于同一样本的表示
+（而非编码器本身）。这种动量更新与我们的方法无关，因为MoCo并不追踪每个样本的表示。此外，我们的方法内存效率更高，能够处理十亿级规模的数据训练，而这对传统记忆库（memory
+bank）而言可能是不可行的。</p></li>
+</ul></li>
+<li><p>Pretext task：contrastive learning能够推出多种pretext
+tasks，本文的焦点不是设计一个新的pretext
+task，作者用一个简单的，主要following instance discrimination
+task，跟踪前人的工作，作者考虑一个query和key，作为一个positive
+pair，如果它们来自于同一个image，其它的视为negative sample
+pair。作者将**相同image的两个random views构成一个positive
+pair，queries和keys分别被它们的encoders进行编码，encoder可以是任何CNN。</p>
+<p>对于当前的mini-batch，作者encoder
+queries和它们对应的keys，构成了positive sample pairs，negative
+samples来自于queue。</p>
+<p>作者采用ResNet作为encoder，最后一个全连接层有固定的维度输出，这个输出的vector通过L2-norm进行归一化。这是query或者key的representation，
+​</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/add2f205338d70e10ce5e686df4a690e2851bdfc/1-Figure1-1.png" />
+<span class="math inline">\(Fig.1^{[1]}\)</span> 三种contrastive
+loss机制的对比。这里作者解释了query和key的pair，这三种机制不同的地方在于keys是如何maintained以及key
+encoder是如何update的。</p>
 
     </div>
 
@@ -242,6 +470,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Self-Supervised/" rel="tag"># Self-Supervised</a>
+          </div>
 
         
 
@@ -285,13 +516,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">262k</span>
+    <span title="站点总字数">268k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:51</span>
+    <span title="站点阅读时长">16:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

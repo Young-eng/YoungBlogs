@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">152</span>
+          <span class="site-state-item-count">155</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -135,7 +135,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-count">49</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -160,6 +160,397 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/11/23/Co-DETR/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/11/23/Co-DETR/" class="post-title-link" itemprop="url">Co-DETR</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-23 17:05:55" itemprop="dateCreated datePublished" datetime="2024-11-23T17:05:55+08:00">2024-11-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-02 11:25:49" itemprop="dateModified" datetime="2025-03-02T11:25:49+08:00">2025-03-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="detrs-with-collaborative-hybrid-assignments-training1">DETRs
+with Collaborative Hybrid Assignments Training<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自商汤的Zhuofan Zong，Guanglu Song和Yu Liu，论文引用[1]:Zong,
+Zhuofan et al. “DETRs with Collaborative Hybrid Assignments Training.”
+2023 IEEE/CVF International Conference on Computer Vision (ICCV) (2022):
+6725-6735.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.Aug</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>one-to-many label assignment</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>在本文中，作者观察到，太少的queries作为positive samples in DETR with
+one-to-one set matching 会导致sparse supervision on the encoder's
+output, 回影响encoer的discriminative feature
+learning。为了缓解这个问题，提出了一个新的<strong>collaborative hybrid
+assignments training scheme, 称之为Co-DETR</strong>，从versatile label
+assignment
+manners学习更有效的基于DETR的检测器。这个新的训练策略能够通过训练multiple
+parallel auxiliary heads supervised by one-to-many label assigments such
+as ATSS and
+FasterRCNN，简单地增强encdoer的学习能力。另外，通过其它auxiliary
+heads中的positive coordinates，执行extra customized positive
+queries，来提高decoder中的positive
+samples的训练效率。推理的时候，这些auxiliary
+heads被丢弃了，因此这个方法没有引入额外的参数和计算开销，不需要NMS。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/11/23/Co-DETR/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/10/28/BMViT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/10/28/BMViT/" class="post-title-link" itemprop="url">BMViT</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-10-28 17:27:50" itemprop="dateCreated datePublished" datetime="2024-10-28T17:27:50+08:00">2024-10-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-06 21:50:33" itemprop="dateModified" datetime="2024-11-06T21:50:33+08:00">2024-11-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="multiscale-vision-transformers-meet-bipartite-matching-for-efficient-single-stage-action-localization1">Multiscale
+Vision Transformers meet Bipartite Matching for efficient single-stage
+Action Localization<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自英国玛丽女王大学、三星剑桥AI center等机构的Ioanna Ntinou,
+Enrique Sanchez, Georgios Tzimiropoulos。论文引用[1]:Ntinou, Ioanna,
+Enrique Sanchez, and Georgios Tzimiropoulos. "Multiscale vision
+transformers meet bipartite matching for efficient single-stage action
+localization." Proceedings of the IEEE/CVF Conference on Computer Vision
+and Pattern Recognition. 2024.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.May</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>bipartite matching loss</li>
+<li>Video Transformer with bipartite matching loss without learnable
+queries and decoder</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>Action
+localization是一个挑战行的问题，结合了检测和识别，通常是分开处理的，SOTA方法都是依赖off-the-shelf
+bboxes detection，然后用transformer model来聚焦于classification task。
+这样的两阶段的方法不利于实时的部署。另外，单节段的方法通过共享大部分的负载来实现这两个任务，牺牲性能换取速度。类似DETR的架构训练起来有挑战。本文观察到：一个直接的bipartite
+matching loss可以用在ViT的output tokens上，导致一个 backbone + MLP
+架构能够需要要额外的encoder-decoder head和learnable
+queries来同时处理这两个任务。用单一的MViTv2-S架构 with bipartite
+matching 来执行两个tasks，超过了MViTv2-S trained with RoI align on
+pre-computed bboxes。用设计的token
+pooling和提出的训练的pipeline，<strong>B</strong>ipartite-<strong>M</strong>atching
+Vision Transformer, <strong>BMViT</strong>。实现了很好的结果。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/10/28/BMViT/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/10/24/MSRN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/10/24/MSRN/" class="post-title-link" itemprop="url">MRSN</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-10-24 22:00:47 / 修改时间：22:02:40" itemprop="dateCreated datePublished" datetime="2024-10-24T22:00:47+08:00">2024-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>40</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="mrsn-multi-relation-support-network-for-video-action-detection1">MRSN:
+Multi-Relation Support Network for Video Action
+Detection<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自南大的YinDong Zheng, Guo Chen, Minglei
+Yuan等。论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.Apr</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1085,367 +1476,6 @@ backbone的leading methods竞争。</li>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/09/20/MViTv2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/09/20/MViTv2/" class="post-title-link" itemprop="url">MViTv2</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-09-20 10:36:18 / 修改时间：22:37:15" itemprop="dateCreated datePublished" datetime="2024-09-20T10:36:18+08:00">2024-09-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.3k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="mvitv2-improved-multiscale-vision-transformers-for-classification-and-detection1">MViTv2:
-Improved Multiscale Vision Transformers for Classification and
-Detection<sup>[1]</sup></h3>
-<blockquote>
-<p>作者和MViT一样，是来自FAIR和UC Berkeley的Yang hao Li, Chao-Yuan
-Wu等人。论文引用[1]:Li, Yanghao et al. “MViTv2: Improved Multiscale
-Vision Transformers for Classification and Detection.” 2022 IEEE/CVF
-Conference on Computer Vision and Pattern Recognition (CVPR) (2021):
-4794-4804.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2021.Dec</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>MViT that incorporates decomposed relative positional embeddings and
-residual pooling connections.
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/09/20/MViTv2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/09/16/LW-DETR/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/09/16/LW-DETR/" class="post-title-link" itemprop="url">LW-DETR</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-09-16 22:57:15" itemprop="dateCreated datePublished" datetime="2024-09-16T22:57:15+08:00">2024-09-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-10-23 22:07:59" itemprop="dateModified" datetime="2024-10-23T22:07:59+08:00">2024-10-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.6k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>6 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="lw-detr-a-transformer-replacement-to-yolo-for-real-time-detection1">LW-DETR:
-A Transformer Replacement to YOLO for Real-Time
-Detection<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自百度、阿德莱德大学、北航、自动化所和澳洲国立大学的Qiang
-Chen,Xiangbo Su, Xinyu Zhang等人。论文引用[1]:</p>
-</blockquote>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>Real-Time Detection With Transformer</li>
-<li>interleaved window and global attention</li>
-<li>window-major order feature map organization</li>
-</ul>
-<h3 id="time">Time</h3>
-<ul>
-<li>2024.Jun</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>作者提出了一个light-weight transformer,
-LW-DETR，在实时检测上超过了YOLOs，这个架构是简单地ViT
-encoder、projector、和一个浅的DETR
-decoder的堆叠。这个方法利用了最近的技术包括training-effective
-techniques：improved loss和预训练，interleaved window 和global
-attention用来减小ViT encoder的复杂度。通过汇聚多个level的feature
-maps、intermediate 和final feature mapss来提高ViT
-encoder，形成更丰富的特征图，引入window-major feature
-map，来提高interleaved
-attention计算的效率。结果展示提出的方法超过了现有的检测器，包括YOLO和它的变体。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/09/16/LW-DETR/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/09/07/internLM-%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/09/07/internLM-%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">internLM 学习</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-09-07 15:33:07" itemprop="dateCreated datePublished" datetime="2024-09-07T15:33:07+08:00">2024-09-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-09-20 16:45:16" itemprop="dateModified" datetime="2024-09-20T16:45:16+08:00">2024-09-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Learning/" itemprop="url" rel="index"><span itemprop="name">Learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>24</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="记录一下参加internlm活动的学习过程">记录一下参加internLM活动的学习过程</h3>
-<ol type="1">
-<li>InternLM的链接为
-<code>https://github.com/InternLM/Tutorial</code>,</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/YoungBlogs/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/16/">16</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1469,13 +1499,13 @@ id="记录一下参加internlm活动的学习过程">记录一下参加internLM�
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">262k</span>
+    <span title="站点总字数">268k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:51</span>
+    <span title="站点阅读时长">16:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

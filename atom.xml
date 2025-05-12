@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-05-07T08:43:00.692Z</updated>
+  <updated>2025-05-12T08:38:27.223Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,112 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Multi-Head Mixture-of-Experts</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/05/12/Multi-Head-Mixture-of-Experts/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/05/12/Multi-Head-Mixture-of-Experts/</id>
+    <published>2025-05-12T07:35:17.000Z</published>
+    <updated>2025-05-12T08:38:27.223Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="multi-head-mixture-of-experts1">Multi-HeadMixture-of-Experts<sup>[1]</sup></h3><blockquote><p>作者是来自MSRA的Xun Wu等人，论文引用[1]:Wu, Xun et al. “Multi-HeadMixture-of-Experts.” ArXiv abs/2404.15045 (2024): n. pag.</p></blockquote><h3 id="time">Time</h3><p>-2024.Apr</p><h2 id="key-words">### Key Words</h2><h3 id="总结">总结：</h3><ol type="1"><li>**稀疏MoE在不增加计算成本的情况下，扩展了model的capacity，然而，它展示出了lowexpertactivation的问题，仅有一小部分experts被激活，用于优化，导致suboptimal的性能，限制了在复杂任务中学习大量experts的有效性。在本文中，作者提出了Multi-MoE，MHMoE将每个输入的token或分成多个sub-tokens，然后这些sub-tokens被分配给多个并行的experts进行处理，无缝合成为原来的tokenform。以上的操作使得MH-MoE显著地提高了expert的activation，同时在不同的experts汇总，集体attendto 多个representation spaces，来加深contextunderstanding，另外，值得注意地是:MH-MoE直接可以执行，和其它的SMoE框架解耦，使得很容易地和这些框架集成。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>大的capacitymodels，例如LLMs和LMMs，在多个domains和task中展示出了它们的efficacy，为了进一步增强perfomance，一个可靠的方法是通过增强parametercount，扩展这些models，但是大多数是densely-activated large-capacitymodels(DenseModels)，用所有的参数来处理所有的inputs，这些models的size极大，降低了推理速度，限制了它们的实用性。一个alternative是Sparse Mixtures of Experts，加速了modelscalability，同时缓解了大量的计算成本，相比于DenseModel，SMoE包含了并行的FFN(称之为experts)，通过一个router，对于特定的输入tokens，激活distinctexperts，产生了重要的效率提升。例如，GShard将一个DenseModel从2B扩展到了600B，比100B DenseModel的训练成本更低。最近，Mixtral的一个SMoEmodel，包含8个expert，超过了LLaMA-2和GPT-3.5.</p><p>尽管它成功了，SMoE展示出了low experts activationissue，意味着在优化和推理期间，仅有一小部分的experts被激活了，其中的大部分没有用到，因此，SMoE未能利用这些experts的fullexpressivepower，特别是这些experts的数量比较大，显著地限制了SMoE的有效性和可扩展性。</p><p>本文的目标是实现denser expertactivation，同时不增加计算成本。为了是实现这个，作者提出了MH-MoE，MH-MoE的工作流如图所示，受多头自注意力的启发，MH-MoE将每个inputtoken划分为多个sub-tokens，将它们分给不同的experts，经expert处理之后，sub-tokens无缝地合成为原始的形状，实现了denserexpert activation，绕开了额外的计算负担。</p><p>另外，作者观察到一个有趣的现象：对于有更丰富的语义信息的tokens，从这些tokens划分来的sub-tokens更可能分配给distinctexperts，作者猜想：将sub-tokens分配给distinct experts使得MH-MoE同时focus不同expert内的多种representationspaces中的information，在vision和language patterns中，确保了对于subtledifference的更granular的理解。最后实现了更好的、finer-grainedunderstanding ability。MH-MoE的优势有:</p><ul><li>higher experts activation和better scalability: MH-MoE缓解了lowerexpert activate问题，增强了更大的experts利用</li><li>Finer-grained understanding ability:基于token的语义的丰富程度，将sub-tokens分配给不同的experts，MH-MoE在不同的experts，能够attendto不同的representation spaces的information，实现更好的finer-grainedunderstanding ability。</li><li>Seamless integration:MH-MoE的执行是直接的，和其它的SMoE的优化方法解耦，使其很容易和其他的框架集成。</li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/d9c77a4bbc7bf4b8a3a8eb014b5abc219991cf5b/2-Figure2-1.png"alt="Workflow of MH-MoE" /> <spanclass="math inline">\(Fig.1^{[1]}\)</span></p><p><imgsrc="https://figures.semanticscholar.org/d9c77a4bbc7bf4b8a3a8eb014b5abc219991cf5b/4-Figure3-1.png"alt="Workflow of MH-MoE" /> <spanclass="math inline">\(Fig.2^{[1]}\)</span></p>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;multi-head-mixture-of-experts1&quot;&gt;Multi-Head
+Mixture-of-Experts&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自MSRA的Xun Wu等人，论文引用[1]:Wu, Xun et al. “Multi-Head
+Mixture-of-Experts.” ArXiv abs/2404.15045 (2024): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;p&gt;-2024.Apr&lt;/p&gt;
+&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结：&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;**稀疏MoE在不增加计算成本的情况下，扩展了model的capacity，然而，它展示出了low
+expert
+activation的问题，仅有一小部分experts被激活，用于优化，导致suboptimal的性能，限制了在复杂任务中学习大量experts的有效性。在本文中，作者提出了Multi-MoE，MHMoE将每个输入的token或分成多个sub-tokens，然后这些sub-tokens被分配给多个并行的experts进行处理，无缝合成为原来的token
+form。以上的操作使得MH-MoE显著地提高了expert的activation，同时在不同的experts汇总，集体attend
+to 多个representation spaces，来加深context
+understanding，另外，值得注意地是:
+MH-MoE直接可以执行，和其它的SMoE框架解耦，使得很容易地和这些框架集成。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Mixture-of-Experts" scheme="https://young-eng.github.io/YoungBlogs/tags/Mixture-of-Experts/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Self-Guided Masked Autoencoder</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/05/12/Self-Guided-Masked-Autoencoder/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/05/12/Self-Guided-Masked-Autoencoder/</id>
+    <published>2025-05-12T01:28:17.000Z</published>
+    <updated>2025-05-12T07:32:37.249Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="self-guided-masked-autoencoder1">Self-Guided MaskedAutoencoder<sup>[1]</sup></h3><blockquote><p>作者是来自Google和首尔国立大学的Jeongwoo Shin等人，论文引用[1]:Shin,Jeongwoo et al. “Self-Guided Masked Autoencoder.” Neural InformationProcessing Systems (2024).</p></blockquote><h3 id="time">Time</h3><ul><li><ol start="2024" type="1"><li></li></ol></li></ul><h3 id="key-words">Key Words</h3><ul><li>Masked Autoencoder</li></ul><h3 id="总结">总结</h3><ol type="1"><li>MAE是用于表征学习的一种自监督的方式，广泛地应用于CV中的下游任务。尽管它很成功，但是，但还是没有完全揭示它是如何学习的。在本文中，作者做了深入的分析，发现：<strong>MAE从pretraining早期阶段，学习patern-basedpatch-level clustering。基于这个理解：作者提出了self-guided maskedautoencoder，通过利用patch clustering中的progress，内在地产生informedmask，代替原始的MAE的随机的masking</strong>，作者的方法不需要依赖任何外部的models或者supplementaryinformation，显著地提高了它的learningprogress，完好地保持了MAE自监督的本质的优势。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>自监督学习是一个attractivedirection，用于缓解数据标注的高昂的成本。例如MLM，预测输入sentence的maskedword, BERT和GPT用来capture contextual meaning of aword。受MLM的启发，MIM也引入了CV，利用大量的无标注的数据。MAE用一个ViT的非对称的encoder-decoder结构，展示了简单地重建RGBpixels for masked patches是足以在多个下游任务上是实现有竞争力的性能。在MAE取得了impressive performance之后，通过结合informed maskingtechniques，增强它的capabilities的一系列研究出现了。这些创新利用了额外信息的多种来源，包括一个监督的ViT生成的attentionmaps，预训练自监督model学习的knowledge，或者supplementary adversarialmodules，所有的都是针对提高masks的质量，然而，这些流行的方法没有完全理解MAE的机制，仅仅应用informedmasking。</p><p>为了这个目的，作者做了大量的实验和深入的分析，来理解MAE的内在的操作，因为没有完全揭示MAE学的什么以及如何学习的，尽管有一些先前的努力，基于作者的MAE的分析，探索了MAE的潜力，来产生自己的informedmasks，作者首先展示了：MAE内在学习<strong>pattern-based patch-levelclustering</strong>，这个特点来自于<strong>extremely early stages ofpretraining</strong>，作者揭示了<strong>decoder中的masktokens的潜在的机制</strong>，基于这个理解，作者提出了一个新的方法，通过<strong>informedmasks，来提高training的过程，不需要额外的models或者补充信息，以完全无监督的方式生成</strong>。不同于之前的informedmasking 方法，不同于random masking，作者的方法产生的informedmasks，覆盖了<strong>main objects entirely,用了可区分的、来自训练早期阶段的patchrepresentations</strong>，由了内在产生的informedmasks，MAE学习patch-level clustering，加速了训练过程，导致了clearer和finer embedding space，作者的贡献如下：</p><ul><li>作者发现, MAE在每个image中，学习pattern-based patch-levelclustering，这是来自预训练过程的早期阶段。</li><li>作者提出了一个新的masking 方法，self-guided maskedautoencoder，仅依赖于patch-clustering中的progress的内在的量化。</li></ul></li><li><p>Hiearchical Latent VariableModel：有人最近发现：MAE的内在操作可以在hierarchical latent variablemodel框架下进行解释。在input image中存在high-level shared information<span class="math inline">\(c\)</span>，它等价于patches中的statisticaldependency，MAE encoder <span class="math inline">\(E(X_v)\)</span>通过估计visible patches <span class="math inline">\(X_v\)</span>的共享信息 <spanclass="math inline">\(\hat{c}\)</span>，来学习high-level latentvariables, decoder <span class="math inline">\(D([E(X_v);m])\)</span>通过从 <span class="math inline">\(\hat{c}\)</span> 中得到的 <spanclass="math inline">\(X_m\)</span>，通过 masktokens进行重建任务。</p></li><li><p>作者研究： MAE是如何学习tokenrelation的concept，展示了它学习pattern-based patch-level clustering fromearly stages of training. 作者解释了MAE decoder的潜在的机制。</p><ul><li><p>Token Relation：作者分析了token embeddings和它们的quantifiedpair-wise relationships，例如attention score matrix A和cosine similaritymatrix C。对于输入的patches和transformer weights forqueries、keys和values，作者分析了A和M，首先，作者用了encoder中的patchesX的complete set，记为 <spanclass="math inline">\(E(X)\)</span>,这个ideal setting提高了最精确地<span class="math inline">\(\hat{c}\)</span>,合适分析MAE学到的features，另外，它们可以从decoder中国的practicalsetting中得到，包含了mask tokens。因为只有visible tokens利用estimate<span class="math inline">\(\hat{c}\)</span>,这个setting相比于之前的，会产生less accurate token relations。</p></li><li><p>MAE学到了啥：在learned embedding space中，研究了patchrelationships的分布，用 <span class="math inline">\(E(X),D([E(X_v);m])\)</span>的最后一层embeddings for patches of set-aside testimages. 在图中，作者比较了不同model的patch representations，表明: MAEencoder基于visual patterns学习到了patch clustering，texture andcolor。总结：MAE基于它们的visual patterns学习image重点 patch-levelclustering，仅对visibletokens进行操作，decoders学习到了一个类似的，但没有encoder那么clear的trend。主要是作者对比了两个指标:feature variance <span class="math inline">\(\sigma_F\)</span>和variance of the pairwise similarities <spanclass="math inline">\(\sigma_S\)</span>。</p></li><li><p>MAE什么时候学习patch clustering的：作者通过tracking tokenrelations of MAE，回答了这个问题。作者从嘴贱的tokenclustering开始，例如bi-partitioning，通过对M用graph-cut，将patches聚类为两个最主要的sub-groups，基于这个clustering，作者trace了inter-clusteredge weights和均值和intra-cluster edge weights的均值。结果显示了关于gap(<span class="math inline">\(\mu_{intra} -\mu_{inter}\)</span>)两个notable patterns: 随着trainingsteps，这个gaps倾向于变大，attention scores更显著；<spanclass="math inline">\(\mu_{intra}\)</span> 和$<spanclass="math inline">\(\mu_{inter}\)</span>在很早期的阶段就有明显的margin，decoder也展示了类似的lesspromoinent的趋势。</p></li></ul><p>作者直接track tokenrelations之间的gap，特别地，作者考虑在第j个epoch的、第i层的KL散度，<spanclass="math inline">\(N\)</span> 是总的epochs，结果表明:MAE在早期阶段就学习tokenrelations，在余下的training中，逐步增强它，decoder也展示了类似的趋势。</p><ul><li>在之前的实验中，作者观察到，decoder能够构建完整的tokenrelation，验证了：decoder利用了encoder出来的shared information <spanclass="math inline">\(\hat{c}\)</span>，来补全masked-outtokens的缺失的信息并重建它们，将这个和之前的发现联系起来，作者claim：MAE学到的pattern-based patch clustering和这个 <spanclass="math inline">\(\hat{c}\)</span>相对应，如果encoder训练地充分，它输出的embeddings for visibletokens将会传递出整个image的general context，因此，通过decoding过程，masktokens通过选择性地和 <spanclass="math inline">\(X^`_v\)</span>进行attending，被contextualized，处理essentialinformation来表征target patches <spanclass="math inline">\(X_m\)</span>。因此，通过逆向这个过程，作者评估：encoder是否被充分地训练，通过量化<spanclass="math inline">\(\hat{c}\)</span>，来精确地关联patches。基于这个idea，作者提出了一个新的metric，在训练的时候评估它。</li></ul><p>作者定义了exploitation rate of mask tokens over decoderlayers,用attention score matrix A，可以解释为attentionrollout的特殊的case，对于token indices <spanclass="math inline">\(A\)</span> 和 <spanclass="math inline">\(B\)</span> 的集合，利用率exploitation rate表示：A中的用于重构B中的tokens的tokens，定义为average attention weights.</p><p>作者测量了visible tokens和mask tokens的利用率，在每个decoderlayer中，对mask tokens的heavy exploitation表明：它们有encoderestimated的大量的shared information，对简单的visiblepatches的插值更有价值。总结：当encoder被训练的足够充分来聚类patches的时候，encoderoutputs反应了shared information，它们用来构成decoder中的masktokens。这意味着mask tokens处理这个patch clusteringinformation，被大量用来重建masked-out patches。因此，作者从decoder中masktokens的高exploitation rate推断：mask tokens有patch clusteringinformation conveyed from the encoder，足够来聚类patches。这个过程通过测量encoder学习到的sharedinformation来验证了。decoder中的mask tokens的heavyexploitation表明：encoder被训练地足够充分来聚类patches。</p></li><li><p>Self-Guided Informed Masking：作者展示了，MAE从早期阶段就学习了patch clustering，使得可以将image分为两个主要的tokenclusters，然后mask掉其中的一个。换句话说，可以**在预训练的早期阶段，用MAE产生informedmasks，将这些informedmasks用于剩余的training的训练。为了决定MAE什么时候能properly clusterpatches，用之前提到的exploitation rate，使得能够在 T epochs产生informedmasks，这就是作者设计的方法。</p><p>作者利用早期阶段学到的patch relevance来加速训练，不是依赖于randommasking。random masking 延迟了powerfulpatch-clustering的学习，导致模型低效地访问早期阶段已经聚类的patches，这些patches反应了imagetokens之间的key dissimilarities。</p><p>基于这个idea，作者提出了self-guided informed masking，将toptwo的well-separated clusters其中之一mask掉，注入关于learned keydissimilarities。在epoch T，开始生成informed masks，继续训练。</p><p>有了这个方法，能够加速MAE，聚焦于学习less distinguishablepatches，而不是浪费时间重复发现most prominentpatterns，<strong>作者的方法仅依赖于内在的metrics，完全不需要任何外在的models或者extrainformation</strong>。</p><p>为了实现这个，需要：1. bi-partition the image; 2. 设计informed masks;3. 选择attention layer来构建informed masks; 4. 决定什么时候开始informedmasking。</p><ul><li>bi-partition:为了将image进行bi-partition，作者用Normalized-Cut来考虑不同cluster之间的dissimilarity和每个cluster内部的similarity。构建了一个全连接的无向的imagegraph，patches和similarity分别作为nodes和edges。为了将所有nodeindices划分为两个disjoint sets，最小化Ncutenergy。通过计算第二小的eigenvector，来近似解这个problem。</li><li>作者将masking限制在object-centric regions，通过narrowing maskingfocus，作者的方法指导MAE关注学习patch clustering within objectregions，这样，loss只影响object-related parts，加速了objectregion中的patch clustering的学习。在context中，作者旨在mask out 包含Mainobject的cluster，使得model更快地学习featurerepresentation，因为没有label，作者采用了一个简洁的方法:有最大的absolute element in <span class="math inline">\(y_1\)</span>构成了main object。</li></ul><p>实际上，很多实际的问题，例如bi-partition不完美，clustersize不一样，使得batch processing变得复杂，作者将和 <spanclass="math inline">\(C\)</span> 相关的tokens进行rank，基于ranking，maskout一个固定比例的tokens。</p><ul><li>Appropriate Layer for Patch Clustering：作者考虑attentiondistance和Normalized Mutual Information(NMI)，来决定哪一层的layerembeddings用来计算patches之间的similaritymatrix，为了得到足够的meaningful token relation，作者丢弃了earlylayers，选择了倒数第二个encoder layer。</li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/70801bb5863c116c1b6eae8d2f0801122659d58c/2-Figure1-1.png"alt="Illustration of our self-guided MAE" /> <spanclass="math inline">\(Fig.1^{[1]}\)</span>.</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;self-guided-masked-autoencoder1&quot;&gt;Self-Guided Masked
+Autoencoder&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自Google和首尔国立大学的Jeongwoo Shin等人，论文引用[1]:Shin,
+Jeongwoo et al. “Self-Guided Masked Autoencoder.” Neural Information
+Processing Systems (2024).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;ol start=&quot;2024&quot; type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Masked Autoencoder&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;MAE是用于表征学习的一种自监督的方式，广泛地应用于CV中的下游任务。尽管它很成功，但是，但还是没有完全揭示它是如何学习的。在本文中，作者做了深入的分析，发现：&lt;strong&gt;MAE从pretraining早期阶段，学习patern-based
+patch-level clustering。基于这个理解：作者提出了self-guided masked
+autoencoder，通过利用patch clustering中的progress，内在地产生informed
+mask，代替原始的MAE的随机的masking&lt;/strong&gt;，作者的方法不需要依赖任何外部的models或者supplementary
+information，显著地提高了它的learning
+progress，完好地保持了MAE自监督的本质的优势。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Self-Supervised" scheme="https://young-eng.github.io/YoungBlogs/tags/Self-Supervised/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Self-Guide MAE</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/05/09/Self-Guide-MAE/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/05/09/Self-Guide-MAE/</id>
+    <published>2025-05-09T06:46:17.000Z</published>
+    <updated>2025-05-09T06:46:17.565Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>LLMDet</title>
@@ -514,19 +620,44 @@ multiple teachers的负担&lt;/strong&gt;。&lt;/li&gt;
     <link href="https://young-eng.github.io/YoungBlogs/2025/04/12/MoCo/"/>
     <id>https://young-eng.github.io/YoungBlogs/2025/04/12/MoCo/</id>
     <published>2025-04-12T07:58:19.000Z</published>
-    <updated>2025-04-12T07:58:19.192Z</updated>
+    <updated>2025-05-10T15:13:24.402Z</updated>
     
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
+    <content type="html"><![CDATA[<h3id="momentum-contrast-for-unsupervised-visual-representation-learning1">MomentumContrast for Unsupervised Visual RepresentationLearning<sup>[1]</sup></h3><blockquote><p>作者是来自FAIR的Kaiming He等人。论文引用[1]:He, Kaiming et al.“Momentum Contrast for Unsupervised Visual Representation Learning.”2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition(CVPR) (2019): 9726-9735.</p></blockquote><h3 id="time">Time</h3><ul><li>2020.Mar</li></ul><h3 id="key-word">Key Word</h3><ul><li>Self-Supervised learning</li><li>一句话总结：就是用momentum update，来动态更新key encoder。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者提出了<strong>MomentumContrast(MoCO)</strong>，用于无监督的视觉表征学习。从对比学习作为一种字典查找(dictionarylookup)的视角出发，作者构建了一个具有队列和moving-averagedencoder，这能够即时构建一个大的dictionary, 促进了对比无监督学习。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>NLP中的无监督学习取得了成功，但是在CV中，监督与训练还是主流，无监督方法还是落后了，<strong>主要的原因是它们的respectivesignal spaces， 语言tasks是离散的signal spaces, words, sub-word units,用于构建tokenized dictionaries,从而作为无监督学习的基础。但是在CV中，还需要关注字典的构建，因为rawsignal是在一个连续的、高维的空间，不具备人类通信的结构，不像words</strong>。</p><p>一些最近的研究，用和contrastiveloss相关的方法，在无监督视觉表征上取得了很好的效果。尽管是有多个motivations，这些方法可以被认为是构建<strong>dynamicdictionaries</strong>。dictionaries中的<strong>key(tokens)</strong>是从data(images/patches)中采样得到的，由一个encodernetwork来表征。无监督训练encoders来进行<strong>dictionary lookup:一个encoded query应该和它匹配的key相似，和其它的不相似，Learning被建模为最小化contrastive loss</strong>。</p><p>从这个角度，作者假设构建如下的dictionary是有益的:</p><ul><li>large</li><li>在训练过程中保持一致性，直觉上，更大的dictionary可能更好地采样潜在的、连续的高维视觉空间，dictionary中的keys应该被相同或者相似的encoder进行represent，以确保它们与query之间的比较具有一致性。然而，现有的方法用contrastivelosses在这两个方面中存在局限性。</li></ul><p>作者提出了MoCo，作为一种构建large 和consistentdictionaries的方式，用一个constrative loss用于无监督学习。作者将dictionary作为一个datasamples的queue：当前mini-batch编码的representations入列，oldest出列。队列将来自mini-batchsize的dictionary进行解耦，使其可以变大。此外，由于字典键来源于前几个mini-batch，本文提出了一种通过基于动量的移动平均机制实现的缓慢演化的keyencoder，以保持一致性。</p><p>MoCo 是一个用于contrastive learning的，构建dynamicdictionary的机制，可以用于多个下游任务。作者follow一个简单的<strong>instancediscrimination task：如果一个query和key是相同image的encodedviews，则它们是匹配的</strong>。用这个代理任务，MoCo在ImageNet数据集上，在线性分类的common protocol下，展示出了有竞争力的results。</p><p><strong>无监督学习的一个主要目的是预训练representations(features)，能够通过fine-tuning迁移到下游任务</strong>。作者展示了和detection相关的7个下游任务。MoCo无监督预训练能够超过对应的ImageNet监督训练。实验结果表明:MoCo在很多CV任务上缩小了监督和无监督表征学习的gap，在一些applications中，可以作为ImageNet监督预训练的alternative。</p></li><li><p>无监督/自监督学习方法主要涉及两个方面: pretext tasks和lossfunctions。<strong>pretext是指，所解决的任务并非真正感兴趣所在，而真正的目的是学习一个gooddata representation, loss functions可以独立于pretexttasks进行研究。MoCo关注于loss function aspect</strong>。</p><ul><li>Loss functions: 定义一个lossfunction的通常的方式是测量model的prediction和一个fixedtarget之间的difference，例如通过L1/L2 losses重建inputpixels，或者将input通过cross-entropy 或者margin-basedlosses分类为预定义的类别。contrastive losses测量samplepairs在representation space中的相似度。而不是将一个input和fixedtarget进行匹配。与将输入匹配到固定目标不同，在对比损失框架中，target在训练过程中动态变化，并且可以根据网络计算的datarepresentation来进行定义。对比学习是最近一些无监督学习工作的核心。</li></ul><p>adversarial losses测量probabilitydistribution之间的difference。它是一个成功的technique，用于无监督datageneration。generative adversarial networks和noise-contrastiveestimation(NCE)之间有联系。</p><ul><li><p>Pretext tasks: 有很多的pretexttasks被提出来了。<strong>包括在一些corruption条件下回复input, denoisingauto-encoders, context autoencoders, or cross-channelauto-encoders</strong>。一些ppretext tasks形成了通过将singleimage进行transformation，patch orderings, tracking or segmenting objectsin videos，形成pseudo-labels。</p></li><li><p>Contrastive learing vs. pretext tasks: 一些pretexttasks可以基于一些形式的contrastive loss functions。instancediscrimination 方法和exemplar-based task和NCE相关。在contrastivepredictive coding(CPC)中的pretext task是一种形式的contextauto-encoding,在contrastive multiviewcoding中，他和colorization有关。</p></li></ul></li><li><p>Contrastive learning as Dictionary Look-up:对比学习和最近的developments，可以被认为是训练一个encoder，用于dictionarylook-up task。考虑encoded query <spanclass="math inline">\(q\)</span>和一些encoded samples <spanclass="math inline">\({k_0, k_1,k_2,...}\)</span>，它们是dictionary的keys。假设这里有一个single key<span class="math inline">\(k_+\)</span> in the dictionary 和 <spanclass="math inline">\(q\)</span> 匹配，一个contrastiveloss是一个function，当q和它的positive key <spanclass="math inline">\(k_+\)</span>类似，和其它的keys不类似的时候，它的value是low。similarity 是通过dotproduct计算得到的，是一个形式的contrastive lossfunction，称之为InfoNCE，如下：</p><p><span class="math display">\[\mathcal{L}_q = -\log \frac{\exp(q \cdot k_+ / \tau)}{\sum_{i=0}^K\exp(q \cdot k_i / \tau)}\]</span></p><p><span class="math inline">\(\tau\)</span> 是 temperature超参数，这个求和操作是针对one positive 和K个negativesamples。直观地，这种损失是一个基于softmax的(K+1)类分类器的对数损失，该分类器试图将查询样本q 分类为正样本 <spanclass="math inline">\(k_+\)</span>，对比损失也有基于其它形式的函数，例如margin-basedlosses和NCE losses的变体。</p><p>这个contrastive loss作为一个无监督的objectivefunction，用于训练represent queries和keys的encoder networks。通常，queryrepresentation是 <span class="math inline">\(q =f_q(x^q)\)</span>，<span class="math inline">\(f_q\)</span>是要给encoder network，<span class="math inline">\(x^q\)</span>是一个query sample。它们的初始化依赖于specific pretext task。输入 <spanclass="math inline">\(x^q\)</span> 和 <spanclass="math inline">\(x^k\)</span> 可以是images，patches或者一组patches组成的context。这个网络 <spanclass="math inline">\(f_q\)</span> 和 <spanclass="math inline">\(f_k\)</span>相同的网络，部分shared，或者不同。</p></li><li><p><strong>Momentum Contrast</strong>:<strong>从以上的观点，对比学习是一个在高维连续输入例如images上构建离散的dictionary的方式，字典是动态的，因为键是随机采样的，且键编码器在训练过程中不断演变。作者的假设是：goodfeatures可以被一个覆盖丰富负样本呢的largedictionary所学习</strong>，同时encoder for dictionarykeys在evolution的时候尽可能保持一致。基于这个动机，作者提出了MomentumContrast. <strong>Dictionary as a queue</strong>：方法的核心是:**将dictionary维持为一个data samples的队列，这使得重新使用precedingmini-batches的encoded keys，queue的引入将dictionary size和mini-batchsize进行解耦。作者的dictionary size可以比一些典型的mini-batchsize更大，可以灵活和独立地设为一个超参数。</p><p>这个dictionary中的samples是逐步被replaced，当前的mini-batch会被加入dicitonaryqueue，oldest的mini-batch in thequeue会被removed。dictionary总是代表所有data的采样的subset，同时保持这个dictionary的额外的计算是manageable的。另外，去掉oldestmini-batch是有益的，因为它的encoded keys是过时的，和最新的最不一致。</p><ul><li>Momentum update: 用一个queue能够使dictionarylarge，但是也使其很难通过反向传播更新key encoder。一个naive的解决方式是将key encoder从query encodercopy过来，忽略它的gradient。但是这个方法在实验中产生了poorresults。作者假设：这个失败是由于rapidly 改变encoder，降低了keyrepresentations consistency造成的，作者提出的momentumupdate来解决这个问题。</li></ul><p>Formally, 将<span class="math inline">\(f_k\)</span> 表示为 <spanclass="math inline">\(\theta_k\)</span>，<spanclass="math inline">\(f_q\)</span> 表示为 <spanclass="math inline">\(\theta_q\)</span>，通过如下更新 <spanclass="math inline">\(\theta_k\)</span>:</p><p>这里 <span class="math inline">\(m \in [0,1)\)</span> 是一个momentumcoefficient，只有超参数 <span class="math inline">\(\theta_q\)</span>是通过反向传播更新的。公式中 momentum update使得 <spanclass="math inline">\(\theta_k\)</span> 比 <spanclass="math inline">\(\theta_q\)</span>更新地更smoothly。因此，虽然queue中的keys是通过不同的encoders进行encoded的，这些encoder之间的差距是很小的。实验中，像一个相对大的momentum比一个更小的value效果好，表明：一个缓慢evolving 的key encoder是利用queue的核心。</p><ul><li><p>和之前机制的关系： MoCo是一个用contrastivelosses的通用的机制，将它和现有的两种存在的机制进行对比，在dictionarysize和一致性上展示出了不同的特点。 通过反向传播的端到端的更新是naturalmechanism，它用当前mini-batch中的samples作为dictionary，因此keys的编码是一致的，大那是dictionarysize适合mini-batch size解耦的，受限于GPU memory size，它也被largemini-batch optimization所挑战。一些近期的方法，基于pretexttasks，是由local positions驱动的，dictionarysize可以被多个positions弄的很大。但是，这些pretexttasks可能要求特殊的网络涉及，例如patchifying theinput，或者定制化receptive fieldsize，可能会使网络迁移到下游任务变得复杂。</p></li><li><p>另一个机制是memory bank，memorybank包含数据集中所有samples的representations，这个dictionary for eachmini-batch随机从memory bank中采样，没有反向传播，因此它能支持一个largedictionary size。然而，一个memorybank中的sample的representation当它最后被seen的时候被更新，因此，sampledkeys本质上反映了过去一个训练周期（epoch）中多个不同训练步骤下的编码器状态，导致表示的一致性降低。也有在memorybank中采用momentum update，它的momentum update作用于同一样本的表示（而非编码器本身）。这种动量更新与我们的方法无关，因为MoCo并不追踪每个样本的表示。此外，我们的方法内存效率更高，能够处理十亿级规模的数据训练，而这对传统记忆库（memorybank）而言可能是不可行的。</p></li></ul></li><li><p>Pretext task：contrastive learning能够推出多种pretexttasks，本文的焦点不是设计一个新的pretexttask，作者用一个简单的，主要following instance discriminationtask，跟踪前人的工作，作者考虑一个query和key，作为一个positivepair，如果它们来自于同一个image，其它的视为negative samplepair。作者将**相同image的两个random views构成一个positivepair，queries和keys分别被它们的encoders进行编码，encoder可以是任何CNN。</p><p>对于当前的mini-batch，作者encoderqueries和它们对应的keys，构成了positive sample pairs，negativesamples来自于queue。</p><p>作者采用ResNet作为encoder，最后一个全连接层有固定的维度输出，这个输出的vector通过L2-norm进行归一化。这是query或者key的representation，​</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/add2f205338d70e10ce5e686df4a690e2851bdfc/1-Figure1-1.png" /><span class="math inline">\(Fig.1^{[1]}\)</span> 三种contrastiveloss机制的对比。这里作者解释了query和key的pair，这三种机制不同的地方在于keys是如何maintained以及keyencoder是如何update的。</p>]]></content>
     
     
+    <summary type="html">&lt;h3
+id=&quot;momentum-contrast-for-unsupervised-visual-representation-learning1&quot;&gt;Momentum
+Contrast for Unsupervised Visual Representation
+Learning&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自FAIR的Kaiming He等人。论文引用[1]:He, Kaiming et al.
+“Momentum Contrast for Unsupervised Visual Representation Learning.”
+2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition
+(CVPR) (2019): 9726-9735.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2020.Mar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-word&quot;&gt;Key Word&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Self-Supervised learning&lt;/li&gt;
+&lt;li&gt;一句话总结：就是用momentum update，来动态更新key encoder。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;作者提出了&lt;strong&gt;Momentum
+Contrast(MoCO)&lt;/strong&gt;，用于无监督的视觉表征学习。从对比学习作为一种字典查找(dictionary
+lookup)的视角出发，作者构建了一个具有队列和moving-averaged
+encoder，这能够即时构建一个大的dictionary, 促进了对比无监督学习。&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Self-Supervised" scheme="https://young-eng.github.io/YoungBlogs/tags/Self-Supervised/"/>
     
   </entry>
   
@@ -790,165 +921,6 @@ semantic-rich&lt;/strong&gt;。&lt;/li&gt;
     
     
     <category term="Multi-Modal" scheme="https://young-eng.github.io/YoungBlogs/tags/Multi-Modal/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>3DGS</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/04/01/3DGS/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/04/01/3DGS/</id>
-    <published>2025-04-01T06:34:57.000Z</published>
-    <updated>2025-04-01T07:56:14.507Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="d-gaussian-splatting-for-real-time-radiance-field-rendering1">3DGaussian Splatting for Real-Time Radiance FieldRendering<sup>[1]</sup></h3><blockquote><p>作者是来自法国Inria的Bernhard Kerbl等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Aug</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li>Radiance Field方法最近用多个photos或者videos，revolutionizednovel-viwe synthesis ofscenes。然而，实现高质量仍然需要神经网络，这很费时间来训练和熏染，最近，fastermethods trade off seepd forquality。对于无边界和完整的scenes(而不是孤立的objects)和1080p分辨率的渲染，没有当前的方法能够实现实时的displayrate。作者引入了3个key elements，使得能够是实现SOTA的visualquality，同时保持高竞争力的trainingtimes，还能够在1080p下，高质量地实时地novel-viewsynthesis。<strong>首先，从camera calibration期间产生的sparsepoints开始，用3D Gaussian表针scene，能够保留理想的properties ofcontinuous volumetric radiance fields for sceneoptimization，同时在empty space中，避免不必要的计算，其次，执行3DGaussian的interleaved optimization/densitycontrol，显著地优化anisotropiccovariance，来实现场景的精确的表征；第三，开发了一种fastvisibility-aware rendering 算法，能够支持anisotropicsplatting，加速训练，能够实时渲染</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>Meshes和points是最常见的3D scenerepresentation，因为它们是显式的，同时适合fast GPU/CUDA-basedraterization。相比之下，最近的(NeRF) 方法建立在连续的scenerepresentations上，用volumetric ray-marching for novel-view synthesis ofcaptured scenes来优化MLP。类似地，最搞笑的radiance field方法，通过插值，建立在continuous representations上，例如voxel, hashgrids orpoints。然而，这些方法的连续性有助于优化，渲染所需的随机采样成本高，会导致噪声。作者引入了一个新的方法，结合了它们的优点:3D Gaussian representation能够有SOTA的视觉质量和competitive trainingtimes，实现优化，tile-based splatting 方法确保了实时的渲染 at SOTAquality for 1080P。作者的目标是用multiplephotos，实现实时的渲染，对于典型的scenes，和最高效的方法一样快速地createrepresetation with optimization times。最近的方法实现了fasttraining，但是很难实现高质量的，Mip-NeRF360需要48h的训练。快-但是低质量的radiancefield方法能够实现interactive renderingtimes，但是不能做到实时地高质量的渲染。</p></li><li><p>作者的方法建立在3个主要的components。<strong>首先引入了3DGaussian，作为一个flexible and expressive scenerepresetation</strong>，和之前的NeRF-like方法一样，用相同的input，camerascalibrated with Structure-from-Motion(SfM)，使用作为SfM（Structure fromMotion，运动恢复结构）过程副产品生成的稀疏点云来初始化三维高斯分布集合。相比于大多数的point-based方法，需要Multi-ViewStereo(MVS) data。作者的方法仅用SfMpoints作为输入，就能够实现高质量的results。注意到，对于NeRF-syntheticdataset，作者的方法，用随机初始化实现了高质量。作者展示了3DGaussian是一个excellent choice，因为它们是一个<strong>differentiablevolumetric representation</strong>，也通过projecting to 2D是栅格化，用standard <spanclass="math inline">\(\alpha\)</span>-blending，用一个等价的imageformation model as NeRF。第二个component是 <strong>3DGaussian的properties的optimization- 3D position, opacity <spanclass="math inline">\(\alpha\)</span>，anisotropic covariance和sphericalharmonic(SH) coefficients，和adaptive density controlsteps交错在一起，优化的步骤产生一个reasonablycompact，unstructured和precise representation of thescene</strong>。第三个element是：**用fast GPU sorting算法的实时rendering算法，受tile-based raterization的启发。然而，多亏了3DGS，能够执行anistropic splatting，respects visbilityordering，多亏了sorting和 <spanclass="math inline">\(\alpha\)</span>-blending，使得一个夸斯和精确的backwardpass，通过tracking the traversal of as many sort：</p><p>作者的贡献如下：</p><ul><li>引入了anisotropic 3D Gaussian作为一个high-quality, unstructuredrepresentation of radiance fields，</li><li>一种3D Gaussian properties的优化方法，和产生high-qualityrepresentations for captured scenes的adaptive density control交错。</li><li>一种快速的，differentiable rendering 方法 forGPU，是visibility-aware，能够anisotropicsplatting，快速地反向传播，实现高质量novel view synthesis。作者的结果表明，能够从multi-view captures优化3DGaussian，实现比之前的隐式的radiance field方法，相等或者更好的quality。</li></ul></li><li><p>作者首先简单回顾一下传统的recontruction方法，讨论point-basedrendering和radiance field work，讨论它们的similarity；radiancefields是一个vast area，因此，作者聚焦于directly related work。</p></li><li><p><strong>传统的scenereconstruction和rendering</strong>：第一个Novel-viewsynthesis方法是建立在light fields上的，first denselysampled，<strong>然后是allowing unstructuredcapture。Structure-from-Motion(SfM)的到来使得一个entire newdomain，photos的集合能够用于synthesize novel views。在cameracalibration期间估计sparse point cloud，然后用于3D space的初始化，随后的multi-view stereo(MVS)产生了full 3D reconstruction 算法，促进了severalview synthesis的发展。所有的这些方法re-project和blend input images intonovel viewcamera，然后用geometry来指导这个re-projection</strong>。这些方法在很多cases下产生了excellentresults，但是不能完全的从unreconstructedregions或者over-reconstruction中恢复，MVS产生了inexistentgeometry，最近的neural rendering算法，快速地降低了这些artifacts，避免了在GPU上存储所有的inputimages造成的不能承受的cost。</p></li><li><p>深度学习的工具很早用于novel-view synthesis，CNNs用于估计blendingweights，或者for texture-spacesolutions，基于MVS-based的geometry是这些方法的一个主要的缺点。另外，用CNNsfor final rendering ，会导致temporal flickering。Volumetricrepresentations for novel-viewsynthesis是通过Soft3D进行初始化，深度学习和volumetricray-marching进行耦合被提出来了，基于continuous differentiable densityfield，来表征geometry，用volumetricray-marching来进行渲染，会有很高的成本，因为大量的samples需要query thevolume。NeRFs引入了一个重要的sampling和positionalencoding来提高quality，但是，用一个largeMLP会影响速度，NeRF的成功导致接下来的很多工作的出现，解决了quality和speed，通过引入regularizationstrategies，当前的image quality的 for novel-viewsynthesis的SOTA方法是Mip-NeRF360，当renderingquality是很好的时候，training和rendering的时间会很长。大多数最近的方法聚焦于faster training/rendering，通过利用三个designchoices：use of spatial data structures，来存储features，在volumetricray-marching中被interpolated，differnet encodings和MLPcapacity。这些方法包括不同的spacediscretization的不同的变体，codebooks和encodings such as hashtables使得用更小的MLP或者完全放弃neural networks。</p><p>最有名的方法是InstantNGP，用一个hash grid和一个occupancygrid来加速计算，一个smaller MLP来表征density和appearance,Plenoxels用一个sparse voxel grid来interploate一个continuous densityfield，能够放弃neural networks。都依赖于SphericalHarmonics：前者来表征directional effects，后者来编码inputs to colornetwork。另外，图像质量很大程度上受限于用于加速的structured的选择，renderingspeed被query many samples for a given ray-marchingstep所阻碍。非结构化的、显式地GPU友好的3D Gaussian实现了更快的renderingspeed和更好的quality，不需要neural components。</p></li><li><p><strong>Point-based Rendering and RadianceFields</strong>：point-based方法高效地render disconnected和unstructuredgeometry samples，它的最简单的形式，point samplerendering将非结构化的一组points以fixed size进行栅格化，</p></li></ol>]]></content>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;d-gaussian-splatting-for-real-time-radiance-field-rendering1&quot;&gt;3D
-Gaussian Splatting for Real-Time Radiance Field
-Rendering&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自法国Inria的Bernhard Kerbl等人。论文引用[1]:&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2023.Aug&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;Radiance Field方法最近用多个photos或者videos，revolutionized
-novel-viwe synthesis of
-scenes。然而，实现高质量仍然需要神经网络，这很费时间来训练和熏染，最近，faster
-methods trade off seepd for
-quality。对于无边界和完整的scenes(而不是孤立的objects)和1080p分辨率的渲染，没有当前的方法能够实现实时的display
-rate。作者引入了3个key elements，使得能够是实现SOTA的visual
-quality，同时保持高竞争力的training
-times，还能够在1080p下，高质量地实时地novel-view
-synthesis。&lt;strong&gt;首先，从camera calibration期间产生的sparse
-points开始，用3D Gaussian表针scene，能够保留理想的properties of
-continuous volumetric radiance fields for scene
-optimization，同时在empty space中，避免不必要的计算，其次，执行3D
-Gaussian的interleaved optimization/density
-control，显著地优化anisotropic
-covariance，来实现场景的精确的表征；第三，开发了一种fast
-visibility-aware rendering 算法，能够支持anisotropic
-splatting，加速训练，能够实时渲染&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="3D Reconstruction" scheme="https://young-eng.github.io/YoungBlogs/tags/3D-Reconstruction/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BLIP2</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/03/28/BLIP2/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/03/28/BLIP2/</id>
-    <published>2025-03-28T15:15:19.000Z</published>
-    <updated>2025-03-29T13:53:06.345Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="blip-2-bootstrapping-language-image-pre-training-with-frozen-image-encoders-and-large-language-models1">BLIP-2:Bootstrapping Language-Image Pre-training with Frozen Image Encoders andLarge Language Models<sup>[1]</sup></h3><blockquote><p>作者是来自Salesforce Research的Junnan Li等人，论文引用[1]:Li, Junnanet al. “BLIP-2: Bootstrapping Language-Image Pre-training with FrozenImage Encoders and Large Language Models.” International Conference onMachine Learning (2023).</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Jun</li></ul><h3 id="key-words">Key Words</h3><ul><li>一句话总结：<strong>BLIP-2是一个vision-languagepretraining方法，bootstraps from frozen pretrained unimodalmodels，为了弥补modality gap，提出了QueryingTransformer，用两个阶段进行预训练：第一阶段用一个frozen imageencoder的vision-language representation learning；第二阶段是用一个frozenLLM的vision-to-language geneative learning stage</strong>.</li></ul><h3 id="总结">总结</h3><ol type="1"><li>vision-and-language pre-training的成本由于端到端的large-scalemodels的训练，逐渐变得难以承受。本文提出的BLIP-2，通过现成的冻结预训练图像编码器和冻结的大型语言模型来引导视觉-语言预训练。BLIP-2使用轻量级的查询变换器（QueryingTransformer）来弥合模态间的差距，该Transformer分两个阶段进行预训练。第一阶段bootstrapsvision-language representation learning from a frozen imageencoder。第二个阶段是bootstraps vision-to-language generative learningfrom a frozen language model. BLIP-2在多个视觉语言任务上去得到了SOTA的性能。尽管有更少的需要训练的参数，实现了更好的性能。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>Vision-language pre-training(VLP)最近这些年有了快速的发展，大规模的pretrainedmodels使得下游任务持续取得SOTA。然而，大多数的SOTA的vision-languagemodels在预训练期间有很高的计算成本。vision-language research是vision和language的intersection。因此，很自然地期望，vision-languagemodels能够利用现有的unimodal models from vision and natural languagecommunities。在本文中，作者提出了一个generic、compute-efficient VLP方法，通过bootstrapping from off-the-shelf pretrained vision models andlanguage models。Pre-trained vision models提供了高质量的visualrepresentation, Pre-trained language models特别是LLMs，提供了stronglanguage generation 和zero-shot transferabilities。为了降低计算成本，抵消灾难性遗忘的问题，在预训练期间，单模态的pre-trainedmodels被frozen。</p><p>为了利用pre-trained unimodal models forVP，关键是促使cross-modal对齐。然而，因为LLMs在unimodalpretraining的时候没有见过images，将它们freezing使得vision-languagealignment具有挑战。在这个方面，下游的方法借助于image-to-text generationloss，作者展示了，这对于弥补modality gap是不够的。</p><p><strong>为了实现frozen unimodalmodels的vision-language对齐，作者提出了QueryingTransformer，用一个新的两阶段的pre-training策略进行预训练</strong>。Q-Former是一个轻量的transformer，用一些可学习的queryvectors来提取visual features from the frozen imageencoder，<strong>它作为一个information bottleneck between frozen imageencoder和frozen LLM，将最有用的visualfeature给到LLM，输出理想的text</strong>。在第一个pre-training阶段，执行vision-languagerepresentation learning，使Q-Former学习和text最相关的visualrepresentation，在第二阶段，执行vision-to-language generativelearning，通过将Q-Former的输出连接到一个frozenLLM，训练Q-Former，使得它输出visual representationn能够被LLM理解。</p><p>作者称该VLP框架为BLIP-2：Bootstrapping Language-Image Pre-trainingwith Frozen unimodal models，BLIP-2的主要的优势如下：</p><ul><li><p>有效地利用了frozen pre-trained image models和languagemodels，用在两阶段预训练的Q-Former来弥补modalitygap，两阶段的训练是这样的：representation learning stage和generativelearning stage。BLIP-2在多个vision-languagetask实现了SOTA性能，包括visual question answering, captioning, andimage-text retrieval</p></li><li><p>借助LLMs， BLIP-2能够通过提示词，来执行zero-shot image-to-textgeneration，遵循自然语言的指令，展现处理visual knowledgereasoning，visual conversation的能力。</p></li><li><p>由于frozen unimodalmodels和一个轻量的Q-Former的使用，BLIP-2是一个计算高效的方法。</p></li></ul></li><li><p>视觉-语言预训练旨在学习多模态基础模型，从而在各种视觉和语言任务中提升性能。依赖于下游任务，提出了不同的模型架构，包括dual-encoderarchitecture, fusion-encoder architecture，encoder-decoderarchitecture等等。<strong>最近这些年提出了很多pre-training的目标，逐步收敛到经过时间检验的:image-text contrastivelearning、(masked) languagemodeling</strong>。大多数的VLP方法用large-scale image-textpair数据进行端到端的Pre-training。当modelsize增加的时候，pre-training会导致很高的计算成本。另外，对于端到端的预训练模型，利用现有的unimodalpretrained models是不灵活的</p></li><li><p>一些方法冻结了image encoder，早期的工作采用frozen objectdetector来提取visual features，最近的LiT用一个frozen pretrained imageencoder for CLIP pretraining。一些方法冻结了language model，用LLMs的知识for vision-to-language generation tasks。<strong>用frozenLLM的挑战是将visual features对齐到textspace</strong>。为了实现这个目标，Frozen 微调一个imageencoder，它的输出直接用作soft prompts for LLMs,Flamingo将一些新的cross-attention layers插入到LLMs中，来inject visualfeatures，在billions of image-text paris上pretrains这些newlayers。这些方法都采用language modeling loss，languagemodel在image的条件下产生texts。</p><p>不同于现有的方法，BLIP-2能够高效的利用frozen image encoders和frozenLLMs 用于多个vision-language tasks，实现更好的性能。</p></li><li><p>作者提出了BLIP-2，是一个新的VLP方法，bootstraps from pre-trainedunimodal models。为了弥补modality gap，作者提出了Q-Former pretrained intwo stages：vision-language representation learning with a frozen imageencoder和vision-to-language generative learning stage with a frozenLLM。</p></li><li><p>模型架构：<strong>作者提出了Q-Former作为trainablemodule，来弥补frozen image encoder和frozen LLM之间的gap。它从imageencoder中提出固定数量的features，独立于input imageresolution，如图所示，Q-Former包含两个transformersubmodules，共享self-attention layers，一个image transformer，和frozenimage encoder进行interacts，用于visual feature extraction，一个texttransformer能偶作为text encoder和text decoder，作者create一些可学习的query embeddings输入到imagetransformer中。queries之间通过self-attentionlayer进行interact，然后通过cross-attention layers和frozen imagefeatures进行interact，queries能够通过相同的self-attentionlayers和text进行interact。依赖于pretraining task，作者用differentself-attention masks来控制query-text interaction。作者初始化Q-Formerwith the pre-trained weights of BERT，然而，cross-attentionlayers进行随机初始化</strong>。 在实验中，作者用了32queries，每个query有768 dimension，用 <spanclass="math inline">\(Z\)</span> 表示output query representation，<spanclass="math inline">\(Z\)</span> 的size比frozen imagefeatures的size小很多。这个bottleneck architecture 和pre-trainingobjectives一起work，<strong>使得queries提取和text最相关的visualinformation</strong>。</p></li><li><p><strong>在represetation learning阶段，将Q-Former和一个frozenimage encoder连接起来，用image-textpairs进行pre-training。旨在训练Q-Former，使得queries能够学习提取和最有informativetext的visual representation，受BLIP的启发，将pre-trainingobjectives进行联合优化，共享相同的input format和modelparameters，每个objective用不同的attention masking strategy betweenqueries和text，来控制它们的interaction</strong></p></li><li><p><strong>Image-Text Contrastive Learning学习对齐imagerepresentation和text representation，使得mutualinformation最大化，通过对比positive pair和negativepairs的image-text相似度来实现。作者将image transformer输出的output queryrepresentation <span class="math inline">\(Z\)</span> 和 来自texttransformer的 text represetation <span class="math inline">\(t\)</span>进行对齐，<span class="math inline">\(t\)</span> 是 <spanclass="math inline">\([CLS]\)</span> token的输出的embedding。因为 <spanclass="math inline">\(Z\)</span> 包含多个outputembeddings，首先计算每个query output 和t之间的pairwisesimilarity，然后选择最高的作为 image-textsimilarity。为了避免information leak，采用unimodal self-attentionmask，queries和text不能看到彼此。由于frozen imageencoder的使用，相比于o2o方法，能够fit more samples。因此，用in-batchnegatives而不是momentum queue in BLIP</strong>。</p></li><li><p><strong>Image-grounded Text Generation</strong> loss训练Q-Former来产生texts，给定输入的images作为condition，因为Q-Former的架构不允许frozenimage encoder和text tokens之间的直接的Interaction，generatetext所需要的information必须首先被queries提取出来，然后通过self-attentionlayers给到text tokens。因此，queries被forced用来提取visualfeatures，能够capture text的所有的信息。作者采用multimodal causalself-attention mask来控制query-textinteraction，类似于UniLM中用的。queries能够相互attend，但是不能对texttokens进行操作。每个text tokens可以和所有的queries和它之前的所有的texttokens。作者用一个新的 <span class="math inline">\([DEC]\)</span>token代替 <span class="math inline">\([CLS]\)</span>作为第一个token，来表示decoding task。</p></li><li><p><strong>Image-Text Matching</strong>：旨在学习image 和textrepresentation之间的fine-grained 对齐。**它是一个binary classificationtask，model用来预测一个image-text pair是positive(matched) ornegative(unmatched)。作者用一个bi-directional self-attentionmask，所有的queries和texts能够互相attend，输出的query embeddings <spanclass="math inline">\(Z\)</span> 因此capture multimodalinformation。作者将每个output query embedding给到一个two-class linearclassifier来得到一个logit，在所有的queries上将logits进行平均，作为outputmatching score。作者采用hard negative mining strategy来createinformative negative pairs。</p></li><li><p>在generative pre-training阶段，将Q-Former(with the frozen imageencoder attached) 连接到一个frozen LLM，来利用LLM的generative languagecapability。如图所示，用一个FC layer将output query embeddings <spanclass="math inline">\(Z\)</span> project 到LLM的textembedding的同一个维度。projected query embeddings添加到input textembedding的前面。它们充当soft visualprompts，使大语言模型能够基于Q-Former提取的visualrepresentation进行条件化处理。因为Q-Former经过了pretrained，来提取language-informativevisual representation，作为一个informationbottleneck，将最有用的information给到LLM，同时去掉不相关的visualinformation。这降低了LLM的负担来学习vision-languagealignment，缓解了灾难性遗忘的问题。</p><p><strong>作者尝试了两种类型的LLMs：基于decoder的LLMs，用languagemodeling loss进行预训练；frozen LLM用来产生text，在来自Q-Former的visualrepresentation的条件下。对于encoder-decoder-based LLMs，用prefixlanguage modeling loss进行预训练，将text分为两个parts，prefixtext和visual representation进行concat，作为LLM的encoder的输入。suffixtext用作generation target，用于LLM的decoder</strong>。</p></li><li><p><strong>Pretrainingdata</strong>：用和BLIP一样的pretraining数据集，总共129Mimages，包括COCO，Visual Genome等。采用CapFilt 方法来为webimages构造synthetic captions。用 <spanclass="math inline">\(BLIP_{large}\)</span> captioning model来产生10个captions，根据CLIP ViT-L/14 model产生的image-textsimilarity，对合成的captions和original webcaption进行排序，每个image保留top-two captions作为trainingdata，在每个pre-training step随机采样一个。</p></li><li><p><strong>Pre-trained image encoder and LLM</strong>：对于frozenimage encoder，探索了两种SOTA pre-trained vision transformermodels：ViT-L/14 from CLIP; ViT-g/14 fromEVA-CLIP。去掉ViT的最后一个layer，用倒数第二个layers作为outputfeatures，导致更好的performance，对于frozen languagemodel，探索利用无监督训练的OPT model family for decoder-basedLLMs，instruction-trained FlanT5 model family for encoder-decoder-basedLLMs</p></li><li><p><strong>Pre-training setting</strong>：在第一阶段预训练250ksteps，第二阶段80k steps。用batch size 2320/1520 for OPT/FlanT5 in thesecond stage。在预训练期间，将frozen ViT's和LLMs的参数转换成FP16，出了FlanT5用BFloat16。相比于32-bitmodels，作者没有发现性能退化。由于frozenmodels，pretraining相比于现有的VLP 方法在计算上更加友好。例如，用单个的16-A100机器，作者的最大的model with ViT-g和FlanT5-XXL第一阶段的训练少于6天，第二阶段的训练少于3天。预训练的超参数对所有的models是相同的。用AdamW优化器。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/3f5b31c4f7350dc88002c121aecbdc82f86eb5bb/1-Figure1-1.png"alt="overview of BLIP-2" /> <spanclass="math inline">\(Fig.1^{[1]}\)</span> 预训练一个轻量的QueryingTransformer following 两阶段的策略，来弥补modalitygap。第一个阶段从一个frozen image encoder来bootstraps vision-languagerepresentation learning。第二阶段从一个frozen LLM, bootstrapsvision-to-language generative learninggg，使得能够zero-shot instructedimage-to-text generation</p><p><imgsrc="https://figures.semanticscholar.org/3f5b31c4f7350dc88002c121aecbdc82f86eb5bb/3-Figure2-1.png"alt="Model Architecture" /> <spanclass="math inline">\(Fig.2^{[1]}\)</span>联合优化3个objectives，使得queries能够提取和text最相关的visualrepresentation。self-attention mask strategy for eachobjective来控制query-text interaction</p><p><imgsrc="https://figures.semanticscholar.org/3f5b31c4f7350dc88002c121aecbdc82f86eb5bb/4-Figure3-1.png"alt="BLIP-2 second stage generative pretraining" /> <spanclass="math inline">\(Fig.3^{[1]}\)</span> bootstraps from frozen largeLLMs. (top) Bootstrapping a decoder-based LLM， (bottom) Bootstrappingan encoder-decoder-based LLm. FClayer将Q-former输出的dimension调整到chosen LLM的输入的dimension。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;blip-2-bootstrapping-language-image-pre-training-with-frozen-image-encoders-and-large-language-models1&quot;&gt;BLIP-2:
-Bootstrapping Language-Image Pre-training with Frozen Image Encoders and
-Large Language Models&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自Salesforce Research的Junnan Li等人，论文引用[1]:Li, Junnan
-et al. “BLIP-2: Bootstrapping Language-Image Pre-training with Frozen
-Image Encoders and Large Language Models.” International Conference on
-Machine Learning (2023).&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2023.Jun&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;一句话总结：&lt;strong&gt;BLIP-2是一个vision-language
-pretraining方法，bootstraps from frozen pretrained unimodal
-models，为了弥补modality gap，提出了Querying
-Transformer，用两个阶段进行预训练：第一阶段用一个frozen image
-encoder的vision-language representation learning；第二阶段是用一个frozen
-LLM的vision-to-language geneative learning stage&lt;/strong&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;vision-and-language pre-training的成本由于端到端的large-scale
-models的训练，逐渐变得难以承受。本文提出的BLIP-2，通过现成的冻结预训练图像编码器和冻结的大型语言模型来引导视觉-语言预训练。BLIP-2
-使用轻量级的查询变换器（Querying
-Transformer）来弥合模态间的差距，该Transformer分两个阶段进行预训练。第一阶段bootstraps
-vision-language representation learning from a frozen image
-encoder。第二个阶段是bootstraps vision-to-language generative learning
-from a frozen language model. BLIP-2
-在多个视觉语言任务上去得到了SOTA的性能。尽管有更少的需要训练的参数，实现了更好的性能。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Multi-Modal" scheme="https://young-eng.github.io/YoungBlogs/tags/Multi-Modal/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>D-FINE</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/03/28/D-FINE/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/03/28/D-FINE/</id>
-    <published>2025-03-28T15:13:31.000Z</published>
-    <updated>2025-03-29T13:57:12.966Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="d-fine-redefine-regression-task-in-detrs-as-fine-grained-distribution-refinement1">D-FINE:Redefine Regression Task in DETRs as Fine-Grained DistributionRefinement<sup>[1]</sup></h3><blockquote><p>作者是来自USTC等机构的Yansong Peng、Hebei Li等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Oct</li></ul><h3 id="key-words">Key Words</h3><ul><li>iteratively refining probability distributions, fine-grainedintermediate representation</li><li>transfers localization knowledge from refined distributions toshallower layers through self-distillation</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者的D-FINE，是一个实时的object detector，通过<strong>在DETRmodels中重新定义regressiontask，实现了很好地定位效果</strong>。D-FINE包含两个keycomponents：<strong>Fine-grained distribution refinement(FDR)，和GlobalOptimal LocalizationSelf-Distallation(GO-LSD)</strong>。<strong>FDR将预测固定的坐标的回归过程变为iterativelyrefining probability distributions，提供了fine-grained的intermediaterepresentation，能够增强localization的精度。GO-LSD是一个双向的优化策略，将来自refineddistributions的localizationknowledge，通过self-distillation转移到shallow layer，简化了residualprediction tasks for deeperlayers。另外，D-FINE在计算密集的modules和操作中，引入了lightweightoptimizations，实现了速度和精度的平衡</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>实时检测的需求是日益增长的。DETR由于transformer的架构，有很多的优势，能够globalcontext modeling，直接进行set prediction，不需要NMS和anchorboxes。然而，它们经常被高延迟和计算需求所阻碍。RT-DETR解决这些限制。LW-DETR展示了DETR能够实现比YOLO更高的performanceceilings。尽管有很多的进步，但是，还有很多没有解决的问题，限制了detectors的性能。<font color=red>一个keychallenge是bboxregression的formulation</font>。大多数现代的detectos通过回归fixedcoordinates，将edges视为Dirac delta distributions建模的precisevalues，来预测bboxes，然而，这些方法不能model localizationuncertainty。因此，models受限于L1 loss和IoU loss，不能提供充分的guidancefor adjusting each edge。这使得优化过程对small coordinateschanges很敏感，导致收敛慢和次优的性能。尽管像GFocal的方法，通过probabilitydistributions解决了uncertainty的问题，仍然受限于anchordependency、coarse localization和缺乏iterativerefinement。<strong>另外一个challenge是实时检测器的效率的最大化，受限于有限的计算能力和parameterbudeges。Knowledge Distillation是一个promisingsolution，将knowledge从larger teacheres转换到smallerstudents，来提高performance，不需要增加costs</strong>。然而，传统的KD方法例如logitmimicking和feature imitation证明了对于detectiontasks是低效的，可能会造成performancedrops。相比之下，<strong>localization distillation 展示出了betterresults for detection，然而，将LD集成，也是有挑战的，因为大量的trainingoverhead，以及和anchor-free的detectors不兼容</strong>。</p></li><li><p>为了解决以上问题，作者提出了D-FINE，一个新的detector，重新定义了<strong>bboxregression，引入了有效的self-distillationstrategy</strong>。作者的方法解决了<strong>fixed-coordianteregression的优化困难、model localization uncertainty以及用less trainingcost的高效的distillation的需要的问题</strong>。作者引入了<strong>Fine-grainedDistribution Refinement(FDR)，将bbox regression从预测fixedcoordinates，转换为modeling probabilitydistributions，提供更fine-grained intermediaterepresentation，FDR以residual 的方式，iteratively refine thesedistributions，使得progressively finer adjustments，提高了localizationprecision</strong>。认识到deeper layers通过capture更丰富的localizationinformation within their probabilitydistributions，产生更精确的predictions。作者引入了<strong>Global OptimalLocalization Self-Distillation(GO-LSD)，GO-LSD将deeperlayers的localization knowledge转换到shallowerlayers，只需要可忽略不计的training cost。通过对齐shallower layer'spredictions with refined otuputs from laterlayers，model能够学习产生betteradjustments，加速收敛，提高性能。另外，作者streamline计算密集的modules和operations，使得D-FINE更快、更轻量，这些修改会导致性能下降，FDR和GO-LSD能够高效地缓解这个退化，实现速度和精度的平衡</strong>。</p></li><li><p>YOLO相关的方法依赖于NMS，引入了延迟和不稳定性。DETR去掉了hand-cratedcomponents likeNMS和anchors。传统的DETRs实现了很好的行嗯，但是对计算的要求高，使得不适合实时应用。最近，RT-DETR和LW-DETR将DETR用于实时应用。YOLOv10去掉了NMS。</p></li><li><p><strong>Distribution-based object detection</strong>：传统的bboxregression方法依赖于Dirac delta distributions，将bboxedges视为precise和fixed，使得model localization uncertainty更具条找。为了解决这个，最近的models采用高斯或者离散分布来表示bboxes，增强了modelingofuncertainty。然而，这些方法都依赖于anchor-based框架，限制了和anchor-free的detectors的兼容。另外，这些distributionrepresentations通常formulated in a coarse-grainedmanner，缺乏高效的refinement，阻止了实现更精确的predictions的能力。</p></li><li><p><strong>Knowledge Distillation</strong>：Knowledge Distillation是一个powerful模型压缩的方法。<strong>传统的KD聚焦于通过LogitMimicking迁移知识。Fit-Nets提出了Featureimitation，启发了一系列的工作。大多数的DETR的方法，引入了hybriddistillation of both logit and various intermediaterepresentations。最近，localization distillation展示了transferlocalization knowledge对于detectiontasks更有效。self-distillation是KD的一个特殊的case，使得earlierlayers能够从model's own refined outputs中学习，需要很少的额外的trainingcost，因为没有必要单独训练一个teacher model</strong>。</p></li><li><p><strong>传统的bbox regression 依赖于modeling dirac deltadistributions，要么用centroid-bsed <span class="math inline">\({x, y, w,h}\)</span>，要么是edge-distance {c, d}(distances d= {t,b,l,r}是从anchorpoint c= {x_c,y_c} measure得到的)。然而，Dirac delta假设，将bbox edges视为precise和fixed，使得很难model localizationuncertainty，特别是ambiguous cases，这个rigidrepresentation不仅限制了优化，也导致，small predictionshifts的时候的significant localization errors</strong>。为了解决以上问题，GFocal从anchor points 回归distances to fouredges，用离散的probability distributions，提供了更flexible modeling ofbbox，实际上bbox distances <span class="math inline">\(d = {t, b, l,r}\)</span> 建模为：</p><p><span class="math display">\[d = d_{\max} \sum_{n=0}^{N} \frac{n}{N}P(n)\]</span></p><p><span class="math inline">\(d_{max}\)</span>是一个scalar，限制了从anchor center的最大距离，<spanclass="math inline">\(P(n)\)</span> 表示four edges的candidatedistance的概率。虽然GFocal通过概率分布的建模在处理模糊性和不确定性方面取得了进展，但其回归方法仍存在以下具体挑战：(1)锚框依赖性：回归过程与锚框中心点绑定，限制了预测多样性并降低了与无锚框架的兼容性；(2)缺乏迭代优化：预测通过单次回归完成，无法通过迭代优化提升回归鲁棒性。(3)Coarse Localization：固定的distance ranges和Uniform binintervals导致coarse localization,特别是对于小目标，因为每个bin表示widerange of possible values。</p></li><li><p><strong>LocalizationDistillation</strong>：是一个promising的方法，展示了transferlocalization knoledge对于detectiontasks是有效的。<strong>基于GFocal，它通过从teacher model中蒸馏valuablelocalization knowledge，增强了student models，而不是简单地mimickingclassification logits 或者featuremaps。尽管这些优势，方法仍然依赖于anchor-based架构，导致额外的训练成本</strong>。</p></li><li><p>作者提出了D-FINE，是一个实时的object detector，D-FINE通过两个keycomponents解决了现有bbox regression的缺点：Fine-grained DistributionRefinement(FDR)和Global Optimal LocalizationSelf-Distillation(GO-LSD)。</p><ul><li>FDR iteratively优化probabilitydistributions，作为bbox的prediction的corrections，提供了更fine-grainedintermediaterepressentation。这个方法captures和optimizes每个edge的uncertainty。通过利用non-uniformweighting function，FDR允许在每个decoderlayer中进行更精确地和incremental的adjustments，提高了localization的精度，降低了predictionerrors。FDR在一个anchor-free、端到端的framework中操作，使得更灵活和robust的优化过程。</li><li>GO-LSD将来自refined distributions的localizationknowledge蒸馏到shallower layers中，当训练的时候，final layer产生precisesoft labels。Shallowlayers通过GO-LSD将predictions和labels对齐，产生更精确的结果。这个mutualreinforcement 产生了协同作用，实现定位精度逐步提升。</li></ul><p>为了进一步增强D-FINE的效率，streamline计算密集的modules和operations，使得D-FINE更快和更轻。尽管这些modifications导致性能下降，FDR和GO-LSD有效地缓解了这个退化。</p></li><li><p><strong>Fine-grained DistributionRefinement</strong>：通过decoder layers，迭代优化fine-graineddistribution。**一开始，第一个decoder layer 通过一个传统的bboxregression head和一个D-FINE head，预测preliminary bboxes和preliminaryprobability distributions，每个bbox和四个distributions相关联，one foreach edge。初始的bboxes作为reference bboxes，接下来的layers通过residual的方式，调整distributions，来refine them。这个refineddistributions然后用来调整对应的初始的bbox的fouredges，每次迭代逐步提高精度。</p><p>数学上，<span class="math inline">\(b^0 = {x, y, W,H}\)</span>，表示初始的bbox prediction， <span class="math inline">\({x,y}\)</span> 表示bbox预测的center， <span class="math inline">\({W,H}\)</span> 表示box的width和height。将<spanclass="math inline">\(b^0\)</span> 转换成 center coordinates <spanclass="math inline">\(c^0 = {x, y}\)</span> ，edge distances <spanclass="math inline">\(d^0 = {t, b, l,r}\)</span>，表示从center到四个edge的距离。对于第 l-th layer，refinededge distance <span class="math inline">\(d^l = {t^l, b^l, l^l,r^l}\)</span> 计算如下：</p><p><span class="math display">\[\mathbf{d}^l = \mathbf{d}^0 + \{H, H, W,W\} \cdot \sum_{n=0}^{N} W(n) \operatorname{Pr}^l(n), \quad l \in \{1,2, \ldots, L\}\]</span></p><p><span class="math inline">\(\operatorname{Pr}^l(n) =\{\operatorname{Pr}_t^l(n), \operatorname{Pr}_b^l(n),\operatorname{Pr}_l^l(n), \operatorname{Pr}_r^l(n)\}\)</span>表示4个separate distributions，one for eachedge。每个distribution预测对应edge的candidate offsetvalues的概率。这个candidates通过weighting function <spanclass="math inline">\(W(n)\)</span> 来决定。<spanclass="math inline">\(n\)</span>表示N个离散的bins的索引，每个bin对应一个potential edgeoffset。distributions的加权和产生edge offsets。这些edgeoffsets然后通过初始bbox的height H和widthW进行scale，确保adjustments和box size成比例。refineddistributions通过residual adjustments进行更新：</p><p><span class="math display">\[\operatorname{Pr}^l(n) =\operatorname{Softmax}\left(\logits^l(n)\right) =\operatorname{Softmax}\left(\Delta\logits^l(n) +\logits^{l-1}(n)\right),\]</span></p><p>来自前一层的<spanclass="math inline">\(logits^{l-1}(n)\)</span>的logits反应了每个binoffset的value for four edge的confidence。当前layer预测的residual logits<span class="math inline">\(\delta logits^l(n)\)</span>，加到previouslogits上，得到updated logits <spanclass="math inline">\(\logits^l(n)\)</span>。这些更新的logits然后用softmax进行normalized，得到refined probabilitydistributions。</p><p>为了实现precise 和 weigting function <spanclass="math inline">\(W(n)\)</span> 定义如下：</p><p><span class="math display">\[W(n) =\begin{cases}2 \cdot W(1) = -2a &amp; n = 0 \\c - c \left(\frac{a}{c} + 1\right)^{\frac{N-2n}{N-2}} &amp; 1 \leq n&lt; \frac{N}{2} \\-c + c \left(\frac{a}{c} + 1\right)^{\frac{-N+2n}{N-2}} &amp;\frac{N}{2} \leq n \leq N-1 \\2 \cdot W(N-1) = 2a &amp; n = N\end{cases}\]</span></p><p><span class="math inline">\(a\)</span> 和 <spanclass="math inline">\(c\)</span> 是超参数，控制upperbounds和function的curvature。<span class="math inline">\(W(n)\)</span>的shape 确保bbox prediction是接近正确的，small curvature in <spanclass="math inline">\(W(n)\)</span> allows for fineradjustments。相反，如果bbox的Prediction离正确的值差很多，边缘附近的较大曲率以及<span class="math inline">\(W(n)\)</span>边界处的急剧变化确保了足够灵活性以进行显著的校正。</p><p>为了进一步提高distribution predictions的精度，将它们和gtvalues进行对齐，受Distribution Focal Loss的启发，提出了一个新的lossfunction，Fine-Grained Localization(FGL) Loss，计算如下：</p><p><span class="math display">\[\mathcal{L}_{\text{FGL}} =\sum_{l=1}^{L} \left( \sum_{k=1}^{K} \text{IoU}_k \left( \omega_{\gets}\cdot \text{CE}\left(\operatorname{Pr}^l(n)_k, n_{\gets}\right) +\omega_{\to} \cdot \text{CE}\left(\operatorname{Pr}^l(n)_k,n_{\to}\right) \right) \right)\]</span></p><p><span class="math display">\[ \omega_{\gets} = \frac{|\phi -W(n_{\to})|}{|W(n_{\gets}) - W(n_{\to})|}, \quad \omega_{\to} =\frac{|\phi - W(n_{\gets})|}{|W(n_{\gets}) - W(n_{\to})|}\]</span></p><p><span class="math inline">\(\operatorname{Pr}^l(n)_k\)</span>表示对应于k-th prediction的probability distributions，<spanclass="math inline">\(\phi\)</span> 是相对的offset，计算是这样的：<spanclass="math inline">\(\phi = (\mathbf{d}^{\text{GT}} - \mathbf{d}^0) /\{H, H, W, W\} \cdot \mathbf{d}^{\text{GT}}\)</span>， <spanclass="math inline">\(d^{GT}\)</span> 表示gt edge-distance，<spanclass="math inline">\(n_{\gets}, n_{\to}\)</span> 是和 <spanclass="math inline">\(\phi\)</span> 相邻的bin indices。cross-entropy(CE)loss weights <span class="math inline">\(w_{\gets}, w_{\to}\)</span>确保bins之间的interpolation和gt offset精确地对齐。通过引入IoU-basedweighting，FGL loss让distributions wito loweruncertainty变得更concentrated，导致更精确和可靠的bboxregression。</p></li><li><p><strong>Global Optimal LocalizationSelf-Distillation(GO-LSD)利用最后一层的refined distributionpredictions将localization knowledge蒸馏到shallowerlayers中，这个通过对每层的predictions应用匈牙利匹配开始，在model的每个阶段识别localbbox matches。为了执行global optimization，GO-LSD将所有层的matchingindices汇聚到一个unified union set中，这个unionset结合了最精确的candidate predictions，确保它们能够从所有的distillationprocess中受益</strong>，除了refining globalmatches，GO-LSD也在训练期间，优化unmatchedpredictions，来提高整体的stability，导致整体性能的提升。尽管localization通过这个unionset优化，classification task仍然遵循one-to-one matchingprinciple，确保没有冗余的boxes。这个严格的matching意味着，在unionset中的一些Predictions是well-localized，但是有low confidencescores，这些low-confidence predictions通常代表candidates with preciselocalization，需要被有效地蒸馏。 为了解决这个问题，作者引入了DecoupledDistillation Focal(DDF) Loss，用decoupled weightingstrategies来确保high-IoU、但是low-confidence的predictions被给予合适的weight。这个DDFloss也对matched和unmatchedpredictions根据它们的quantity进行weight，平衡整体的contribution和individuallosses。这个方法导致更稳定和有效的蒸馏。Decoupled Distillation FocalLoss <span class="math inline">\(L_{DDF}\)</span> 计算如下：</p><p><span class="math display">\[\mathcal{L}_{\text{DDF}} = T^2\sum_{l=1}^{L-1} \left( \sum_{k=1}^{K_m} \alpha_k \cdot\text{KL}\left(\operatorname{Pr}^l(n)_k, \operatorname{Pr}^L(n)_k\right)+ \sum_{k=1}^{K_u} \beta_k \cdot\text{KL}\left(\operatorname{Pr}^l(n)_k, \operatorname{Pr}^L(n)_k\right)\right)\]</span></p><p><span class="math display">\[\alpha_k = \text{IoU}_k \cdot\frac{\sqrt{K_m}}{\sqrt{K_m} + \sqrt{K_u}}, \quad \beta_k =\text{Conf}_k \cdot \frac{\sqrt{K_u}}{\sqrt{K_m} +\sqrt{K_u}}\]</span></p><p>KL 表示Kullback-Leibler divergence，T 是temperatureparameter，用于smoothing logits，k-th matched predictions的distillationloss通过 <span class="math inline">\(\alpha_{k}\)</span> 进行加权，<spanclass="math inline">\(K_m\)</span> 和<spanclass="math inline">\(K_u\)</span>是匹配的和未匹配的predictions的数量。对于k-th 个unmatched predition,weight是 <span class="math inline">\(\belta_k\)</span>，<spanclass="math inline">\(Conf_k\)</span> 表示classificationconfidence.</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/2a05330e0c0e9266933ee9955cad660c337d78db/5-Figure2-1.png"alt="Overview of D-FINE" /> <spanclass="math inline">\(Fig.1^{[1]}\)</span> probabilitydistribution作为more fine-grained intermediaterepresentation，通过decoder layer，以residual的方式iteratively进行迭代，用Non-uniform weightingfunctions实现更好的定位。</p><p><imgsrc="https://figures.semanticscholar.org/2a05330e0c0e9266933ee9955cad660c337d78db/6-Figure3-1.png"alt="Overview of GO-LSD" /> <spanclass="math inline">\(Fig.2^{[1]}\)</span> 来自最后一层的refineddistribution的Localization knowledge，通过带有decoupled weightingstrategies，蒸馏到shallower layers中。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;d-fine-redefine-regression-task-in-detrs-as-fine-grained-distribution-refinement1&quot;&gt;D-FINE:
-Redefine Regression Task in DETRs as Fine-Grained Distribution
-Refinement&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自USTC等机构的Yansong Peng、Hebei Li等人。论文引用[1]:&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2024.Oct&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;iteratively refining probability distributions, fine-grained
-intermediate representation&lt;/li&gt;
-&lt;li&gt;transfers localization knowledge from refined distributions to
-shallower layers through self-distillation&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;作者的D-FINE，是一个实时的object detector，通过&lt;strong&gt;在DETR
-models中重新定义regression
-task，实现了很好地定位效果&lt;/strong&gt;。D-FINE包含两个key
-components：&lt;strong&gt;Fine-grained distribution refinement(FDR)，和Global
-Optimal Localization
-Self-Distallation(GO-LSD)&lt;/strong&gt;。&lt;strong&gt;FDR将预测固定的坐标的回归过程变为iteratively
-refining probability distributions，提供了fine-grained的intermediate
-representation，能够增强localization的精度。GO-LSD是一个双向的优化策略，将来自refined
-distributions的localization
-knowledge，通过self-distillation转移到shallow layer，简化了residual
-prediction tasks for deeper
-layers。另外，D-FINE在计算密集的modules和操作中，引入了lightweight
-optimizations，实现了速度和精度的平衡&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
     
   </entry>
   
