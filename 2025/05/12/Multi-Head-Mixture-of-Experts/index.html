@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="Multi-Head Mixture-of-Experts[1]  作者是来自MSRA的Xun Wu等人，论文引用[1]:Wu, Xun et al. “Multi-Head Mixture-of-Experts.” ArXiv abs&#x2F;2404.15045 (2024): n. pag.  Time -2024.Apr ### Key Words 总结：  **稀疏MoE在">
+    <meta name="description" content="Multi-Head Mixture-of-Experts[1]  作者是来自MSRA的Xun Wu等人，论文引用[1]:Wu, Xun et al. “Multi-Head Mixture-of-Experts.” ArXiv abs&#x2F;2404.15045 (2024): n. pag.  Time -2024.Apr Key Words  low expert activa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Multi-Head Mixture-of-Experts">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/05/12/Multi-Head-Mixture-of-Experts/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="Multi-Head Mixture-of-Experts[1]  作者是来自MSRA的Xun Wu等人，论文引用[1]:Wu, Xun et al. “Multi-Head Mixture-of-Experts.” ArXiv abs&#x2F;2404.15045 (2024): n. pag.  Time -2024.Apr ### Key Words 总结：  **稀疏MoE在">
+<meta property="og:description" content="Multi-Head Mixture-of-Experts[1]  作者是来自MSRA的Xun Wu等人，论文引用[1]:Wu, Xun et al. “Multi-Head Mixture-of-Experts.” ArXiv abs&#x2F;2404.15045 (2024): n. pag.  Time -2024.Apr Key Words  low expert activa">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-05-12T07:35:17.000Z">
-<meta property="article:modified_time" content="2025-05-12T08:38:27.223Z">
+<meta property="article:modified_time" content="2025-05-16T08:33:30.872Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Mixture-of-Experts">
 <meta name="twitter:card" content="summary">
@@ -114,7 +114,7 @@
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#multi-head-mixture-of-experts1"><span class="nav-number">1.</span> <span class="nav-text">Multi-Head
-Mixture-of-Experts[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key-words"><span class="nav-number"></span> <span class="nav-text">### Key Words</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+Mixture-of-Experts[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结：</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -203,9 +203,15 @@ Mixture-of-Experts[1]</span></a></li><li class="nav-item nav-level-3"><a class="
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-05-12 15:35:17 / 修改时间：16:38:27" itemprop="dateCreated datePublished" datetime="2025-05-12T15:35:17+08:00">2025-05-12</time>
+      <time title="创建时间：2025-05-12 15:35:17" itemprop="dateCreated datePublished" datetime="2025-05-12T15:35:17+08:00">2025-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-05-16 16:33:30" itemprop="dateModified" datetime="2025-05-16T16:33:30+08:00">2025-05-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -231,14 +237,14 @@ Mixture-of-Experts[1]</span></a></li><li class="nav-item nav-level-3"><a class="
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>913</span>
+      <span>1.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>7 分钟</span>
     </span>
 </div>
 
@@ -256,7 +262,13 @@ Mixture-of-Experts.” ArXiv abs/2404.15045 (2024): n. pag.</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <p>-2024.Apr</p>
-<h2 id="key-words">### Key Words</h2>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>low expert activation</li>
+<li>multi-head</li>
+<li><strong>一句话总结：类似多头注意力的操作，将输入分成多给sub-tokens，每个sub-tokens给到experts，最后将所有的输出在进行merge，还原为初始的形状，每个sub-tokens包含了不同feature
+space的语义信息</strong></li>
+</ul>
 <h3 id="总结">总结：</h3>
 <ol type="1">
 <li>**稀疏MoE在不增加计算成本的情况下，扩展了model的capacity，然而，它展示出了low
@@ -305,11 +317,77 @@ understanding ability。</li>
 <li>Seamless integration:
 MH-MoE的执行是直接的，和其它的SMoE的优化方法解耦，使其很容易和其他的框架集成。</li>
 </ul></li>
+<li><p>SMoE增强了模型的capacity，同时保持了恒定的计算需求，比densely-activate
+models实现了更好的performance，不同于densely-activated models，每个MoE
+layer包含 N个独立的FFN作为experts，还有一个gating
+function，用来建模一个概率分布，表示experts输出的权重，对于每个input
+token的hidden representation。 大多数的路由机制就是从 <span
+class="math inline">\(N\)</span>个experts中选择
+top-k个experts，这样的路由机制能够实现数据并行和专家并行的结合。一些工作表明：<strong>k</strong>
+值越大，模型的性能越好，然而，K值增加，传统训练top-k路由的方法变得没有那么高效，本文中，作者提出了一个MH-MoE，是一个简单高效的方式，实现denser
+expert activation，不增加计算复杂度。</p></li>
+<li><p>MH-MoE: 输入的inputs tokens是 ：<span class="math inline">\(X \in
+R^{l \times d}\)</span>，l
+是tokens的数量，d表示token的维度，在MH-MoE中，每个并行的layer包含一组N个experts，每个表示为
+<span class="math inline">\(f^{FFN}_i: \mathcal{R}^{d/h} \rightarrow
+\mathcal{R}^{d/h}\)</span>，h表示heads的数量。完整的架构如下：X
+通过一个权重为 <span class="math inline">\(W_{head}\)</span>
+的multi-head layer进行project，之后，<span
+class="math inline">\(\hat{X}\)</span>中的每个token在token维度被分成
+h个sub-tokens，这些sub-tokens根据原来的token
+sequence并行的组织在一起，构成了一个新的feature
+space。本文中，作者主要关注于top-k routing，有最高的top-k routing
+score的experts被激活， <span class="math display">\[
+\mathbf{o}_j^i = \mathbf{x}_j^i + \sum_{p \in \Phi}
+g\left(f_p^\text{FFN}\right) \cdot
+f_p^\text{FFN}\left(\mathbf{x}_j^i\right).
+\]</span></p>
+<p>之后，所有得到的 <span class="math inline">\(o^i_j\)</span>
+以原始sub-tokens的方式进行重新组合，然后，concatenate到一起。然后经过一个merge
+操作变成original token form，然后用一个merge
+layer对其进行project，得到多个捕捉多个detailed
+information信息的集成，就是最后的MH-MoE layer的输出。</p>
+<p>通过以上的操作，能够有效地增加路由到特定专家的data的数量，实现denser
+expert activation，另外，MH-MoE layer中,
+input和output输出的shape是没有变化的，没有引入额外的计算，特别地，作者引入了一个超参数，来scale
+每个expert的inner dimensions，旨在平衡multi-head layer和merge
+layer引入的参数，和原始的SMoE对齐模型的参数和计算复杂度，sub-tokens的分配使得能够在这些experts中，从多个feature
+space捕获semantic information，然后增强模型的能力，实现finer-grained
+understanding。</p></li>
+<li><p><strong>training objectives</strong>: 为了缓解expert load
+不平衡的问题，给定sub-token set <span
+class="math inline">\(\ddot{\mathbf{x}}\)</span> 和sub-tokens路由到
+<span class="math inline">\(p^{th}\)</span> expert的频率 <span
+class="math inline">\(t_p\)</span>，作者following 现有的工作，来计算load
+balancing loss <span
+class="math inline">\(\mathcal{L}_{\text{balance}}\)</span>: <span
+class="math display">\[
+\mathcal{L}_{\text{balance}} = \frac{N}{|\bar{\mathbf{X}}|}
+\sum_{p=1}^{N} \sum_{\mathbf{x}_j^i \in \bar{\mathbf{X}}} t_p \cdot
+g\left(f_p^\text{FFN}\right),
+\]</span></p>
+<p><span class="math inline">\(N\)</span> 表示experts的数量，<span
+class="math inline">\(\ddot{\mathbf{x}}\)</span> 是sub-tokens的数量，
+<span
+class="math inline">\(g\left(f_p^\text{FFN}\right)\)</span>，表示将特定的sub-token路由到
+expert的gating value.</p>
+<ul>
+<li>task specific loss: <span
+class="math inline">\(\mathcal{L}_{task}\)</span> 依赖于MH-MoE
+用来学习的特定的任务，在预训练English-focused Language Modeling
+task中，作者利用language modeling loss. 整个的training
+objective是这样的： <span class="math display">\[ \mathcal{L} =
+\mathcal{L}_{task} + \alpha \mathcal{L}_{balance}\]</span> <span
+class="math inline">\(\alpha\)</span> 是load
+balancing的coefficent。</li>
+</ul></li>
 </ol>
 <p><img
 src="https://figures.semanticscholar.org/d9c77a4bbc7bf4b8a3a8eb014b5abc219991cf5b/2-Figure2-1.png"
 alt="Workflow of MH-MoE" /> <span
-class="math inline">\(Fig.1^{[1]}\)</span></p>
+class="math inline">\(Fig.1^{[1]}\)</span>
+对于视觉数据，路由到不同的experts的不同的heads尝试朴拙不同方面的details，对于language
+data，不同的heads能够捕捉</p>
 <p><img
 src="https://figures.semanticscholar.org/d9c77a4bbc7bf4b8a3a8eb014b5abc219991cf5b/4-Figure3-1.png"
 alt="Workflow of MH-MoE" /> <span
@@ -365,13 +443,13 @@ class="math inline">\(Fig.2^{[1]}\)</span></p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">268k</span>
+    <span title="站点总字数">269k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">16:14</span>
+    <span title="站点阅读时长">16:17</span>
   </span>
 </div>
 <div class="busuanzi-count">
