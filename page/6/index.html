@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">155</span>
+          <span class="site-state-item-count">156</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -135,7 +135,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -160,6 +160,128 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/12/05/Multi-Object-Tracking-Survey/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/12/05/Multi-Object-Tracking-Survey/" class="post-title-link" itemprop="url">Multi-Object Tracking Survey</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-05 10:59:14" itemprop="dateCreated datePublished" datetime="2024-12-05T10:59:14+08:00">2024-12-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-02 11:30:01" itemprop="dateModified" datetime="2025-03-02T11:30:01+08:00">2025-03-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>17k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1:01</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="multi-object-tracking-survey">Multi-Object Tracking Survey</h3>
+<blockquote>
+<p>来自论文:"Deep Learning in Video Multi-Object Tracking: A Survey",
+作者是来自意大利和西班牙等院校的Gioele
+Ciaparrone等人。论文引用[1]:Ciaparrone, Gioele et al. “Deep learning in
+video multi-object tracking: A survey.” Neurocomputing 381 (2019):
+61-88.</p>
+</blockquote>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>多目标跟踪的问题是指在一个序列中跟踪不同目标的轨迹，通常是一个视频。近些年随着深度学习的兴起，算法从深度模型的表征能力中收益。本文提供了提供了用深度学习模型来解决MOT问题的全面的综述。</p></li>
+<li><p>MOT问题不同于目标检测(输出一系列的bounding
+box)。MOT算法还将target
+ID和每个box(detection)进行关联，为了区分类内的目标。<strong>单目标跟踪中，目标的外观是已知的先验，在MOT中，检测这一步对于识别targets是必须的，追踪多个目标的主要困难在于多样的阻塞和目标之间的交互，有时它们还有相似的背景</strong>。因此，将单目标跟踪应用于多目标跟踪会导致目标漂移和多个ID切换，这样的模型通常在区分相似目标和类内目标的时候有困难。专门针对多目标跟踪的一系列的算法被调整出来，用于解决这个问题，还有数据benchmarks和比赛，来方便不同方法的对比。
+最近，很多的算法用深度学习来做，深度学习模型的长处在于学习丰富表征和提取特征。卷积神经网络长处在于空间模式提取，循环神经网络想LSTM用于处理时序数据。</p></li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/12/05/Multi-Object-Tracking-Survey/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1190,138 +1312,6 @@ Network(RepVL-PAN)，和region-text对比损失，来促进视觉和语言信息
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/11/24/OWL-ViT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/11/24/OWL-ViT/" class="post-title-link" itemprop="url">OWL-ViT</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-11-24 14:07:12" itemprop="dateCreated datePublished" datetime="2024-11-24T14:07:12+08:00">2024-11-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-11-28 17:17:59" itemprop="dateModified" datetime="2024-11-28T17:17:59+08:00">2024-11-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.7k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>13 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="simple-open-vocabulary-object-detection-with-vision-transformers1">Simple
-Open-Vocabulary Object Detection with Vision
-Transformers<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自Google的Matthias Minderer, Alexey
-Gritsenko等人，论文引用[1]:Minderer, Matthias, et al. "Simple
-open-vocabulary object detection." European Conference on Computer
-Vision. Cham: Springer Nature Switzerland, 2022.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2022.Jun</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>open-vocabulary detection</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>将简单的架构和大规模预训练结合起来，会导致图像分类上取得很大的提高。对于目标检测，预训练和scaling
-方法还没有很好地建立，特别是长尾和开集，这些训练数据都很少。本文中，提出了一个很强的方法，将image-text
-模型迁移到开集目标检测。用了一个标准的ViT架构和一些小的修改，contrastive
-image-text pre-training和端到端的detection
-fine-tunign。作者分析这个设置的scaling特性，展示了增加image-level的预训练和模型大小，能够对下游任务有持续的提高，作者提供了在零样本文本条件和单样本图像条件下的目标检测的适配策略和正则化方法。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/11/24/OWL-ViT/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/YoungBlogs/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/16/">16</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1345,13 +1335,13 @@ fine-tunign。作者分析这个设置的scaling特性，展示了增加image-le
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">271k</span>
+    <span title="站点总字数">272k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">16:24</span>
+    <span title="站点阅读时长">16:31</span>
   </span>
 </div>
 <div class="busuanzi-count">
