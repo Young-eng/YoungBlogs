@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-05-16T08:33:30.872Z</updated>
+  <updated>2025-05-19T02:51:26.613Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MPI</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/05/16/MPI/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/05/16/MPI/</id>
+    <published>2025-05-16T09:18:36.000Z</published>
+    <updated>2025-05-19T02:51:26.613Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="masked-pre-training-enables-universal-zero-shot-denoiser1">MaskedPre-training Enables Universal Zero-shot Denoiser<sup>[1]</sup></h3><blockquote><p>作者是来自中科大和上海AI Lab的Xiaoxiao Ma等人，论文引用[1]:Ma,Xiaoxiao et al. “Masked Pre-training Enables Universal Zero-shotDenoiser.” Neural Information Processing Systems (2024).</p></blockquote><h3 id="time">Time</h3><ul><li>2024.April</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li><p>作者观察到：<strong>通过masking策略，在大量images上训练的model，很自然地和distributionknowledge进行了嵌入，然后同时获得了strong imagedenoising的潜力，基于这个观察，作者提出了新的zero-shotdenoising范式，Masked Pre-train then Iterative fill(MPI),MPI首先通过masking训练model，然后采用预训练权重，在单个noisyimage上，进行高质量的zero-shot imagedenoising</strong>。具体来说包括两个步骤：1.<strong>Masked Pre-training涉及对大量的随机masking的图像进行重构，来训练model，以此来获得通用的表征，得到不同noisedegradation甚至图像类型不同的image的上的zero-shot denoising的潜力. 2.Iterative Fill 探索了pretrained knowledge，用于有效地zero-shotdenoising，通过利用pre-trainedweights，来iteratively优化image，聚焦于交替重构不同的imageparts，然后在有限的次数内，合成完整的denoised image</strong>。</p></li><li><p>Image denoising是图像恢复的一个分支，流行的方法是从多个noisyinstances中学习，来恢复noise-degraded images，然而，监督学习(fromnoisy-clean pairs)和无监督学习使得搜集额外的noisydatasets变得有必要。另外，这样的方法促进了对特定模式或者trainingnoise强度的依赖，阻碍了在unfamiliar noise situations上的性能。另外一个选择是，zero-shot方法尝试在单个noisyimage上训练网络，得到denoised output，不需要额外的noisydata，致力于消除泛化问题的关注，这些techniques包括blind-spot网络，从corrupted inputs中重建，DIPs利用深度网络的特性，来学习将randomnoise 映射到noisy images，还有sub-sample based策略，利用spatialcorrelations，从sub-sampled instances中产生training pairs。</p><p>然而，当前的zero-shot 方法对于每个noisyimage，从零开始训练新的网络，展示出了两个主要的问题:尽管当前zero-shot方法的成功依赖于正则化或者设计类似noiseperturbations，Under-parameterized networks, dropout-ensemble,blind-spotnetworks的先验，当个image中的有限的信息训练一个网络通常导致过于模糊的content，noiseartifacts或者sub-optimal quality，一些方法倾向于依赖已知的noisedistribution，但它们的applicability是受限的，对于每个noisyimage，从零开始训练时time-consuming的，现有的zero-shot方法需要数分钟，更快的zero-shot的denoising的通常会在性能上有妥协。</p><p>相比于之前的zero-shot方法，从大量的natural images学习featuredistribution提供了一个更intuitive方法，这是基于两点考虑：真实的images时大量的，尽管noisepatterns不一样，很多自然的images展示出了commoncharacteristics，作者寻找对pre-definedpriors或者regularization依赖较小的zero-shotdenoising，旨在得到一个对于多种noisepatterns更好的起点，而不是从零开始。为了这个目的，作者探索了<strong>Maskedimage modelling</strong>的潜力，不需要自然图像的noisypatterns或者intensities的假设，特别地，作者做了一下的observation：和简单的ensembleoperation结合，一个masked pre-trained model，能够对unseen noisedegradation的images进行denoising。</p><p>基于机上的观察，作者引入了一个zero-shot denoising范式，MaskedPre-train then Iterative fill(MPI), MPI首先在ImageNet上，用pixel-wisemasking策略进行预训练，然后pre-trained model在单个带有unseennoise的image上进行优化，用于denoisedprediction。推理的时候的优化目标是用来预测masked regions，只有maskedareas的预测被保留用于denoiseprediction，然后最小化pre-training和推理的gap，这个pre-trainedweights提供了更generic的知识，阻止了推理时候过早的over-fitting，降低了strongregularization的需要，作者能够提供更广的noisescenarios，带有很少的关于Noisepatterns或者intensities的信息，作者发现，提取的representation能够泛化到medicalimages，不同于natural ones，它提供了更好的startpoint than scratchtraining。使得只要10s左右的实现了高质量的denoising</p><p>作者的贡献如下：</p><ul><li>引入了一个novel zero-shot denoising范式，MPI引入了maskedpre-training，同时提高了image quality和推理速度。</li><li>作者开发了一个带有pixel-wise randommasks的方法，来捕捉自然图像的distribution knowledge，基于pre-trainedknowledge，作者提出了iterative filling，用于在specific noisyimage上的zero-shot推理，这个过程用预训练weights进行优化，聚焦于对Noisyimage不同parts进行交替地重建，predictions initerations被用来组合成高质量的denoised output。</li></ul></li><li><p>作者首先研究了用masking训练的model的特性，masking策略能够学习对denoising有用的representations。Masked ImageModeling通过在大量的image 上进行训练，得到knowledgedistributions，推动了CV的进步，展示出了diverse场景下的适用性，对于高阶的下游任务，被证明了潜力。为了进一步探索在denoising上的能力，作者用pixel-wise的randommasks，在natural image上训练了一个model，评估它和unseen noisedistribution的target image的性能，作者观察到，从fixed-state trainedmodel上的average of predictions能够对Unseennoise进行去噪，这个观察表明：一个masked pre-trainedmodel能够作为一个natrual imagedenoiser，然而，artifacts存在于results中，这归因于缺乏targetimage中特定的degradation patterns。</p><p>利用先前的insight，作者开发了一个高效的zero-shot denoisingpipeline，通过从single noisy image中引入noisecharacteristics，利用pre-trained knowledge，这个model首先用random masksM进行预训练，对应的element-wise negation <spanclass="math inline">\(\hat{M}\)</span> 来得到natural imagedistributions.</p></li><li><p>Masking策略：给定low-level和high-level tasks在语义上的distinctrequirements，作者执行specialized masking 策略，来实现finer-grainedimage representations。将给定的image划分成randompatches，它们的subset被随机的用mask token进行替换，当masktoken设为0的时候，masked image和 和random mask <spanclass="math inline">\(M \odot I\)</span>对应于输入image的伯努利采样，对于M中的每个element <spanclass="math inline">\(M_[k]\)</span>，预训练策略：在预训练期间，网络被训练用来学习带有randommask的自然图像。 作者将loss的计算聚焦于masked prediction areas <spanclass="math inline">\(\tilde{I}\)</span>，这直接使网络朝着重建特定区域努力。</p></li><li><p>迭代优化过程被设计，用预训练知识用于zero-shotdenoising，不像其它的MIM方法，用整个images作为输入进行微调，因为只有一个noisyimage是accessible，作者采用自监督的方式，来从noisyimage到它本身的mapping，然而，这个直接的self-mapping方法引入了zero-shotinference stage和pre-training stage之间的gap，缺乏学习一个noise identitymapping的constraints。考虑到以上的挑战，作者保留了相同的masking策略，网络仍然学习重建maskedregions，但是是从single noisy image而不是naturalimage，这导致pixel-based iterativerefinement过程，这有点像blind-spot网络的机制，特别地，对于输入的noisyimage，随机mask <span class="math inline">\(\M\)</span>和对应的element-wise negation <spanclass="math inline">\(\hat{M}_t\)</span> in t-th iteration。</p><ul><li>pixel-based iterative refinement：对于一个比较低的maskratio和重建detailed iamges，作者抛弃了之前优化目标中的unmaskedregions上的限制</li><li>真实世界中的noise展示出了strong spatialcorrelations，noise和相邻的pixels是相关的，在这样的场景中，采用直接的masking机制，使得model来学习和noisepatterns有关的信息，为了解决这个问题，作者用了更大的maskingratios，另外，作者集成了简单的pixel-shuffledown-sampling机制，来降低spatial correlation in noise。</li></ul><p>特别地，不是直接处理noisy image，作者处理它的down-sampled版本，用simple pixel-shuffle with factor d，<spanclass="math inline">\(d^2\)</span> sub-samples沿着batchdimension进行concantenated，用于joint denoising，沿着上述的iterativefilling机制，作者用了pixel unshuffle to denoised result <spanclass="math inline">\(\overline{y}\)</span>，来得到最后的denoisedoutcome，加上最小的PD操作，来解决spatial correlatednoise，解释了预训练weights的效果。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/f0c9abfee3c8a50fd67c18c5820940e9c1241a1f/4-Figure4-1.png"alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span>MPI的overview，</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3
+id=&quot;masked-pre-training-enables-universal-zero-shot-denoiser1&quot;&gt;Masked
+Pre-training Enables Universal Zero-shot Denoiser&lt;sup&gt;[1]&lt;/sup&gt;&lt;</summary>
+      
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Masked" scheme="https://young-eng.github.io/YoungBlogs/tags/Masked/"/>
+    
+  </entry>
   
   <entry>
     <title>Multi-Head Mixture-of-Experts</title>
@@ -104,27 +130,6 @@ progress，完好地保持了MAE自监督的本质的优势。&lt;/li&gt;
     
     
     <category term="Self-Supervised" scheme="https://young-eng.github.io/YoungBlogs/tags/Self-Supervised/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Self-Guide MAE</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/05/09/Self-Guide-MAE/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/05/09/Self-Guide-MAE/</id>
-    <published>2025-05-09T06:46:17.000Z</published>
-    <updated>2025-05-09T06:46:17.565Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
-      
-    
-    
-    
     
   </entry>
   
