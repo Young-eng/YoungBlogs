@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Decoupled Kullback-Leibler Divergence Loss[1]  作者是来自NTU、CUHK等机构的Jiequan Cui等人，论文引用[1]:  Time  2024.Oct  Key Words  breaking asymmetric optimization property inserting class-wise global inf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Decouple KL">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/05/21/Decouple-KL/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Decoupled Kullback-Leibler Divergence Loss[1]  作者是来自NTU、CUHK等机构的Jiequan Cui等人，论文引用[1]:  Time  2024.Oct  Key Words  breaking asymmetric optimization property inserting class-wise global inf">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-05-21T09:21:18.000Z">
+<meta property="article:modified_time" content="2025-05-22T06:29:41.384Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Loss">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/05/21/Decouple-KL/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/05/21/Decouple-KL/","path":"2025/05/21/Decouple-KL/","title":"Decouple KL"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Decouple KL | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#decoupled-kullback-leibler-divergence-loss1"><span class="nav-number">1.</span> <span class="nav-text">Decoupled
+Kullback-Leibler Divergence Loss[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">157</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/21/Decouple-KL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Decouple KL | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Decouple KL
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-05-21 17:21:18" itemprop="dateCreated datePublished" datetime="2025-05-21T17:21:18+08:00">2025-05-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-05-22 14:29:41" itemprop="dateModified" datetime="2025-05-22T14:29:41+08:00">2025-05-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="decoupled-kullback-leibler-divergence-loss1">Decoupled
+Kullback-Leibler Divergence Loss<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自NTU、CUHK等机构的Jiequan Cui等人，论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Oct</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>breaking asymmetric optimization property</li>
+<li>inserting class-wise global information to mitigate sample-wise
+bias</li>
+<li>KL loss在反向传播上等价于DKL loss</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>在本文中，作者深入研究了KL散度损失，数学上证明了它等价于Decoupled
+Kullback-Leibler(DKL) Divergence loss, DKL包含一个weighted Mean Square
+Error(wMSE) loss和一个引入了soft labels交叉熵损失。多亏了DKL
+loss的decomposed
+formulation，作者有两方面的改进，首先，通过打破它的非对称优化的特点，解决了KL/DKL在像知识蒸馏等场景的局限。这个修改确保了wMSE在训练的时候总是有效的，提供了额外的constructive
+cues。其次，作者引入了class-wise global
+information，来缓解来自个体岩本的bias。有了这两个提高，作者推出了Improved
+Kullback-Leibler Divergence Loss (IKL)。 <span id="more"></span></p></li>
+<li><p>Loss函数是训练model的重要的组成部分，交叉熵损失在图像分类任务中特别重要，同时MSE
+loss在回归任务中很常见，对比损失是representation
+learning中流行的一个损失函数。选择合适的loss对模型的性能会产生重要的影响。因此，有效的loss函数是ML和CV领域中一个重要的研究课题。</p></li>
+<li><p><strong>KL量化了一个概率分布和一个参考分布(reference
+distribution) 之间的不相似的程度，作为一个最常用的loss
+functions，在很多场景中都用应用，例如对抗训练，知识蒸馏，增强学习，还有分布之外数据的Robustness</strong>。尽管很多研究引入了KL
+散度损失，它们可能没有完全研究这个loss函数背后的机制。为了弥补这个问题，本文旨在解释KL散度关于梯度优化的工作机制。作者的研究聚焦于从梯度优化的角度对KL
+散度的分析。对于用softmax
+activation的模型，作者提供了理论证明：<strong>它等价于DKL
+散度损失，其包含一个加权的MSE loss和一个带有soft
+labels的交叉熵损失</strong>。图表明了KL和DKL在梯度反向传播上，两者是等价的，有了这个decomposed的形式，更方便分析KL
+loss是如何在训练优化中工作的。作者用新的DKL loss发现了KL
+loss的问题，特别地，它的梯度优化是在输入方面具有不对称性。如图所示，
+<span class="math inline">\(o_m\)</span> 和 <span
+class="math inline">\(o_n\)</span>
+的梯度是非对称的，通过wMSE和交叉熵推导出来，这个优化非对称会导致wMSE在特定的场景中被忽略，例如知识蒸馏，<span
+class="math inline">\(o_m\)</span> 是teacher
+model的logits，不参与梯度反向传播，通过打破非对称优化，用解耦的DKL
+loss的形式很容易解决这个问题。 另外，wMSE是受sample-wise
+predictions所指导，有不正确分数的难的样本会导致有挑战的优化，因此将class-wise
+全局信息进行插入，来正则化训练过程。将DKL和这两点结合起来，作者推导出了Improved
+Kullback-Leibler(IKL) 散度损失。</p>
+<p>为了展示作者提出的IKL
+损失的有效性，作者在对抗训练和知识蒸馏任务中进行评估。</p></li>
+<li><p>作者的贡献如下：</p>
+<ul>
+<li>作者揭示了：KL loss在数学上等价于一个加权的MSE loss和一个用soft
+labels的交叉熵损失。</li>
+<li>基于作者的分析，作者提出了两个修改来提高：打破它的非对称优化和引入class-wise
+global information，推导出了Improved Kulllback-Leibler (IKL) loss。</li>
+</ul></li>
+<li><p><strong>Adversarial Robustness</strong>:
+自从Szegedy识别对抗samples以来，DNNs的安全性受到了很大的关注，确保DNNs的可靠性在ML中变成了一个prominent
+topic，对抗训练，是最有效的方法，由于其持续的高性能变得突出。对抗训练在训练过程中引入了对抗样本，有人提出了采用通用的first-order
+adversary。特别是对抗训练中的PGD攻击，Zhang等人通过KL
+loss平衡了精度和Robustness，Wu等人引入了对抗权重扰动，来显式地调节weight
+loss的flatness。Cui等人利用训练的model来正则化对抗训练中的decision
+boundary。另外，多种其它的techniques也被开发了，聚焦于优化或者训练方面的。另外，一些工作探索了数据增强，来提高对抗训练。作者探索了KL
+loss机制用于adversarial robustness，提出的IKL
+loss的有效性在有合成数据和没有合成数据的设定中都进行了测试。</p></li>
+<li><p><strong>知识蒸馏</strong>：知识蒸馏的概念首次是被Hinton提出，他设计从accurate
+teacher model中提取dark knowledge来指导student
+model的学习过程。这是通过利用KL loss来正则化student
+model输出概率来实现的，在给定相同的输入的时候，将它们和teacher
+models进行对齐。这个简单有效的方法显著地提高了更小的模型的泛化能力，在多个domains中有广泛的应用。自从KD的成功，一些先进的方法，包括logits-based和features-based方法都被引入了，文本将KL
+loss解耦成一个新的formulation, DKL，解决了KL
+loss在KD等场景中的局限。</p></li>
+<li><p><strong>其它KL 散度loss的应用</strong>: 在半监督学习中，KL
+loss是作为weakly 和strongly augmented images输出之间的consistency
+loss。在连续学习中，KL loss 通过encouraging pretrained和newly updated
+models输出之间的consistency，来保留之前的knowledge，另外，KL
+loss也用于提高分布外数据的robustness。</p></li>
+<li><p>KL 散度的定义：
+KL散度测量两个概率分布之间的differences，对于一个连续随机变量的
+P和Q，它的定义如下：</p>
+<p>p和q表示 P和Q的概率密度 KL
+loss是深度学习中最广泛使用的loss，在涉及类别分布的多个contexts中都有应用。本文主要检验它在对抗训练和知识蒸馏任务中的role。</p>
+<p>在对抗训练中，KL
+loss通过将对抗样本的分布的输出概率和它们对应表的clean images来提高model
+robustness，这最小化了output changes，在知识蒸馏中，KL
+loss使得一个student model来模仿一个teacher
+model的behavior，加速了konwledge transfer，增强了student
+model的泛化能力。</p></li>
+<li><p>KL loss的应用：图像分类模型用softmax来预测概率，KL
+loss通常用于encourage <span class="math inline">\(s_m\)</span> 和 <span
+class="math inline">\(s_n\)</span> 之间的similarity，目标函数如下：
+<span class="math display">\[\mathcal{L}_{\text{KL}}(x_m, x_n) =
+\sum_{j=1}^{C} \mathbf{s}_m^j * \log
+\frac{\mathbf{s}_m^j}{\mathbf{s}_n^j}.\]</span></p>
+<p>例如，在对抗训练中，<span class="math inline">\(x_m\)</span>
+表示一个clean image，<span class="math inline">\(x_n\)</span>
+是对应的对抗样本，在知识蒸馏中，<span class="math inline">\(x_m\)</span>
+和 <span class="math inline">\(x_n\)</span>
+是同一个image，它们分别输入给teacher和student
+model，在知识蒸馏过程中，<span class="math inline">\(s_m\)</span>
+是不参与梯度的反向传播的，teacher
+model是预训练的，在训练过程中是固定的。</p></li>
+<li><p>之前的工作引入了KL loss，没有研究它的机制，本文旨在通过分析KL
+loss function，揭示梯度优化背后的driving
+force。利用不定积分的工具，作者引入了一个新的formulation，称之为Decoupled
+Kullback-Leibler 散度损失，DKL loss和KL
+loss是等价的，通过提供更容易分析的tractable
+alternative，用于之后的exploration和study。 理论1：
+从梯度优化的角度看，当 <span class="math inline">\(\alpha\)</span> =1,
+<span class="math inline">\(\beta\)</span> = 1 KL
+散度损失等价于下面的DKL 散度损失。 <span class="math display">\[
+\mathcal{L}_{\text{DKL}}(x_m, x_n) =
+\underbrace{
+    \frac{\alpha}{4} \left\| \sqrt{\mathcal{S}(\mathbf{w}_m)} (\Delta
+\mathbf{m} - \mathcal{S}(\Delta \mathbf{n})) \right\|^2
+}_{\text{weighted MSE (wMSE)}}
+-
+\underbrace{
+    \beta \cdot \mathcal{S}(\mathbf{s}_m^\top) \cdot \log \mathbf{s}_n
+}_{\text{Cross-Entropy}}
+\]</span> <span class="math inline">\(S(.)\)</span> 代表stop
+gradients操作， <span class="math inline">\(s^T_m\)</span> 是 <span
+class="math inline">\(s_m\)</span> 的转置。</p>
+<p>作者更新了这个公式，使得 <span
+class="math inline">\(\delta(n)\)</span>
+可以进行梯度更新，更新之后如下： <span class="math display">\[
+\mathcal{L}_{\text{DKL}}(x_m, x_n) =
+\underbrace{
+    \frac{\alpha}{4} \left\| \sqrt{\mathcal{S}(\mathbf{w}_m)} (\Delta
+\mathbf{m} - \Delta \mathbf{n}) \right\|^2
+}_{\text{weighted MSE (wMSE)}}
+-
+\underbrace{
+    \beta \cdot \mathcal{S}(\mathbf{s}_m^\top) \cdot \log \mathbf{s}_n
+}_{\text{Cross-Entropy}}
+\]</span> 插入class-wise Global information：</p>
+<p>它表明 <span class="math inline">\(w_m\)</span> 依赖于 sample-wise
+prediction socres，然而，这个model当处理outliers或者hard
+examples的时候，不能输出正确的predictions。在这种情况下，wMSE将会给预测的class
+<span class="math inline">\(\hat{y} = argmax(o_m)\)</span> most
+importance，而不是ground truth class，会误导优化导致训练不稳定。</p>
+<p>作者将class-wise global information引入到wMSE中，用 <span
+class="math inline">\(\tilde{w}_y\)</span> 代替 <span
+class="math inline">\(w_m\)</span>： <span class="math display">\[
+\bar{\mathbf{y}}^{j,k} = \bar{\mathbf{s}}^j * \bar{\mathbf{s}}^k
+\]</span></p>
+<p>y 是 <span class="math inline">\(x_m\)</span> 的ground-truth
+label，<span class="math inline">\(\bar{s}_y = \frac{1}{|X_y|} \sum_{x_i
+\in X_y} s_i\)</span>, <span class="math inline">\(\bar{w}_y\)</span>
+插入的class-wise global information
+作为一个正则化，来增强intra-class一致性，缓解samples
+noises的biases，特别地，在训练的早期阶段，<span
+class="math inline">\(\bar{w}_y\)</span> 能够提供正确的预测，有益于
+<span class="math inline">\(\bar{w}MSE\)</span>
+的优化。通过引入这两个设计，IKL loss是这样的： <span
+class="math display">\[
+\mathcal{L}_{\text{IKL}}(x_m, x_n) =
+\underbrace{
+    \frac{\alpha}{4} \left\| \sqrt{\mathcal{S}(\bar{\mathbf{w}}_y)}
+(\Delta \mathbf{m} - \mathcal{S}(\Delta \mathbf{n})) \right\|^2
+}_{\text{weighted MSE (wMSE)}}
+-
+\underbrace{
+    \beta \cdot \mathcal{S}(\mathbf{s}_m^\top) \cdot \log \mathbf{s}_n
+}_{\text{Cross-Entropy}}
+\]</span> <span class="math inline">\(y\)</span> 是 <span
+class="math inline">\(x_m\)</span> 的ground truth label， <span
+class="math inline">\(\bar{w}_y \in \mathcal{R}^{C \times C}\)</span> 是
+类别 <span class="math inline">\(y\)</span> 的weights。</p></li>
+</ol>
+<p>!(Comparisons)[https://figures.semanticscholar.org/2702d965eb53cba99f9afa36357efca2b87d7d9c/2-Figure1-1.png]
+<span class="math inline">\(Fig.1^{[1]}\)</span> KL, DKL, IKL
+loss之间的对比，DKL loss在反向传播优化上等价于KL loss， <span
+class="math inline">\(M\)</span> 和 <span
+class="math inline">\(N\)</span> 可以是相同的，或者两个separate
+models，这由具体的应用场景决定。类似地， <span
+class="math inline">\(x_m, x_n \in X\)</span>
+也可以是相同的，或者两个不同的images，<span class="math inline">\(o_m,
+o_n \in O\)</span> 是logits output，概率是通过用softmax
+activation计算得到的，黑色箭头表示前向过程，彩色箭头表示对应loss
+functions的反向过程。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Loss/" rel="tag"># Loss</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/05/19/DenoiseRep/" rel="prev" title="DenoiseRep">
+                  <i class="fa fa-angle-left"></i> DenoiseRep
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">275k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">16:42</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
