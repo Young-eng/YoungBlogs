@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">157</span>
+          <span class="site-state-item-count">158</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -160,6 +160,134 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/09/MTA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/04/09/MTA/" class="post-title-link" itemprop="url">MTA</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-04-09 10:25:32 / 修改时间：11:31:38" itemprop="dateCreated datePublished" datetime="2025-04-09T10:25:32+08:00">2025-04-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>486</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="multi-token-attention1">Multi-Token Attention<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自FAIR的Olga Golovneva等人，论文引用[1]:Golovneva, Olga et
+al. “Multi-Token Attention.” (2025).</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2025.Apr</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>single token similarity bottleneck</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>Soft
+attention是一个重要的机制，使得LLMs能够在给定的context中locate相关的parts。然而，individual
+attention weights是由<strong>single query和key token
+vector的相似度决定的，这个single token attention造成了区分a relevant
+part from the rest of the
+context的信息的瓶颈</strong>。为了解决这个问题，作者提出了一个新的attention方法，<strong>Multi-Token
+Attention，使得LLms能够同时在多个query和key vectors上condition their
+attention
+weights</strong>。这是通过在<strong>queries、keys和heads上应用卷积操作实现的,使得相邻的queries和keys能够印象彼此的attetnion
+weights for more precise
+attention</strong>。因此，作者的方法能够用更丰富的、精细的信息来locate
+relevant context，超过了single vector capacity。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/04/09/MTA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1265,112 +1393,6 @@ matching的困难，导致更快的收敛</strong>。作者的方法是通用的
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/03/13/TWiX/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/03/13/TWiX/" class="post-title-link" itemprop="url">TWiX</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2025-03-13 17:35:58 / 修改时间：17:36:42" itemprop="dateCreated datePublished" datetime="2025-03-13T17:35:58+08:00">2025-03-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>38</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="learning-data-association-for-multi-object-tracking1">Learning
-Data Association for Multi-Object Tracking<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自蒙特利尔理工的Mehdi Miah等人，论文引用[1]:</p>
-</blockquote>
-<ul>
-<li>2024.Mar</li>
-</ul>
-<h2 id="key-words">### Key Words</h2>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><a class="page-number" href="/YoungBlogs/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/YoungBlogs/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/16/">16</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1394,13 +1416,13 @@ Data Association for Multi-Object Tracking<sup>[1]</sup></h3>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">275k</span>
+    <span title="站点总字数">278k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">16:42</span>
+    <span title="站点阅读时长">16:52</span>
   </span>
 </div>
 <div class="busuanzi-count">

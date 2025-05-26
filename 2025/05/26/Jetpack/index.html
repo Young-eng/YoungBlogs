@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="MoE Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for Vision Tasks[1]  作者是来自华科的Xingkui Zhu等人。论文引用[1]:  ### Time ### Key Words 总结  稀疏的激活的MoE相对于密集激活的models，提供了一个有效的alternative">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jetpack">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/05/26/Jetpack/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="MoE Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for Vision Tasks[1]  作者是来自华科的Xingkui Zhu等人。论文引用[1]:  ### Time ### Key Words 总结  稀疏的激活的MoE相对于密集激活的models，提供了一个有效的alternative">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-05-26T01:31:27.000Z">
+<meta property="article:modified_time" content="2025-05-26T09:22:00.165Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Mixture of Experts">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/05/26/Jetpack/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/05/26/Jetpack/","path":"2025/05/26/Jetpack/","title":"Jetpack"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Jetpack | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#moe-jetpack-from-dense-checkpoints-to-adaptive-mixture-of-experts-for-vision-tasks1"><span class="nav-number">1.</span> <span class="nav-text">MoE
+Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for
+Vision Tasks[1]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time"><span class="nav-number"></span> <span class="nav-text">### Time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key-words"><span class="nav-number"></span> <span class="nav-text">### Key Words</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">158</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/26/Jetpack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Jetpack | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Jetpack
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-05-26 09:31:27 / 修改时间：17:22:00" itemprop="dateCreated datePublished" datetime="2025-05-26T09:31:27+08:00">2025-05-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="moe-jetpack-from-dense-checkpoints-to-adaptive-mixture-of-experts-for-vision-tasks1">MoE
+Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for
+Vision Tasks<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自华科的Xingkui Zhu等人。论文引用[1]:</p>
+</blockquote>
+<h2 id="time">### Time</h2>
+<h2 id="key-words">### Key Words</h2>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>稀疏的激活的MoE相对于密集激活的models，提供了一个有效的alternative，将提高的精度和计算效率进行结合。然而，从零开始训练MoE要求大量的data和计算资源，限制了它们的广泛采用。为了解决这个问题，作者引入了MoE
+Jetpack，一个旨在将丰富且现成可获取的密集checkpoints微调为专家混合（MoE）模型的框架。MoE
+Jetpack引入了两个key techniques：<strong>(1). checkpoint
+recycling，用dense checkpoints对MoE
+models进行初始化，来加速收敛和增强精度。减小对大规模预训练的需求; (2).
+hyper-spherical adaptive MoE(SpheroMoE)
+layers，优化MoE的架构，来增强微调的性能和效率</strong>。
+<span id="more"></span></p></li>
+<li><p>增加model的size是提高深度学习性能的key
+factor，然而，model在size上expand，它们的计算需求会激增，导致在训练和推理阶段相当大的slowdown，一个有前景的、将计算成本和model
+size进行解耦的方式是MoE，不同于dense
+models，将所有网络的参数都用在输出上，MoE基于输入的tokens，动态地激活model的disinct
+parts，这使得不增加FLOPs的情况下实现了model scaling，然后在model
+upscaling阶段保持了training和推理速度，最近的进展见证了MoE在多个domain的implementations。</p></li>
+<li><p>尽管有潜力，但是MoE面临严重的challenges，由于缺乏pretrained
+models，不同于dense
+models，受益于很多可用的预训练的资源，大多数的MoE模型必须随机初始化，从零开始训练。这个过程要求大量的计算资源和大的数据集，限制了MoE的研究。因此，作者的研究旨在利用来自dense
+checkpoints的预训练知识，来降低MoE的训练时间和数据的要求。作者特别地研究了，**利用dense
+checkpoints是否能增强精度和微调期间的MoE模型的收敛速度。在本文中，作者提出了MoE
+Jetpack，一个将pretrained dense checkpoints微调为MoE model的方法，MoE
+Jetpack利用大量的dense pretraining
+来提高MoE的性能和加速收敛，包含两个key techniques，首先：checkpoint
+recycling利用将MoE models从dense checkpoints中进行初始化，不同于sparse
+upcycling，简单的复制MLP来构造experts，checkpoint recycling利用多个dense
+checkpoints和strategic weight selection，对MoE
+models提供了灵活性，十个生成高质量的初始化weights，第二个technique是hyperspherical
+adaptive MoE layer，展示出了一个优化的MoE架构，促进了dense
+checkpoints的无缝集成，增强了微调的性能，现有的MoE架构，例如Switch
+Transformers和Soft MoE，没有采用预训练的dense
+checkpoints，导致微调期间的优化不高效和over-specialization，SpheroMoE
+layer通过normalized token mixing, expert regularization和adaptive
+dual-path 机制，缓解了这个问题，确保更光滑的集成和提高了性能。
+通过给dense checkpoints和MoE
+JetPack结合，微调的MoE的model模型实现了更高的精度。作者的贡献如下：</p>
+<ul>
+<li>作者引入了checkpoint recycling，开拓了将dense
+checkpoints用于初始化MoE
+experts的思路，增强了初始化的灵活性，多样化了experts，消除了MoE
+预训练的计算成本</li>
+<li>作者开发了一个shperoMoE layer，优化将dense checkpoints微调为MoE
+架构，缓解了优化的挑战，防止了experts的over-specialization</li>
+</ul></li>
+<li><p>现有的MoE model通过将dense ViT中的特定的MLP层替换为MoE
+layer得到的，每个MoE layer包含一个Router
+function，将输入的tokens给到一组experts，尽管MoE
+models中的experts是相似的，<strong>路由机制不同，对性能很重要，一些路由机制例如top-k，BASE和Sinkhorn-BASE
+layers，Hash layers，Expert Choice Routing，soft
+routing，最常用的机制是top-k 路由，通过选择性地激活和Input
+tokens最相关的 top-k
+experts来降低计算开销</strong>，路由的decision计算如下： <span
+class="math display">\[
+\text{Router}(x; \theta_{\text{gate}}) = \text{top-}k\left(
+\text{softmax}\left( \text{MLP}(x; \theta_{\text{gate}}) \right) \right)
+\]</span></p>
+<p>输出是结合选择的experts进行汇总： <span class="math display">\[
+y = x + \sum_{i \in E} \text{Router}(x; \theta_{\text{gate}}) \cdot
+\text{Expert}(x; \theta_i)
+\]</span></p>
+<p><span class="math inline">\(\theta\)</span> 表示weights，<span
+class="math inline">\(E\)</span> 是激活的experts的set，<span
+class="math inline">\(|E| =K\)</span>，然而，top-k
+路由提出了一些挑战，例如不平衡的expert utilization，token
+dropping和scalability issues，</p>
+<p>一个更加平衡和代表性的方法，Soft MoE，通过隐式地soft
+assignment，有效地解决了这些挑战，不同于将tokens分配给特定的experts，Soft
+MoE为每个expert，计算所有输入的tokens的combinations，给定输入tokens，每个MoE
+layer包含 <span class="math inline">\(e\)</span> 个expert
+functions，每个expert有 <span class="math inline">\(s\)</span>
+个slots，中间的输出是通过将experts用于slots得到的。最后，输出的tokens通过结合experts的输出来得到。</p></li>
+<li><p>在这个部分，作者展示了MoE
+Jetpack的重要的概念，划分为两个阶段：checkpoint recycling dense
+checkpoints来初始化MoE models，用hyperspherical adaptive MoE(SpheroMoE)
+layer。</p></li>
+<li><p>checkpoint recycling是MoE jetpack框架的基础阶段，将预训练的dense
+checkpoints转换为用于MoE的高质量的初始化weights，这个方法通过weight的reuse，利用predecessors的丰富的预训练知识，提高了性能和收敛速度。这个recycling的过程涉及从predecessors的MLPs中采样一部分的weights用于构建experts，确保expert的多样性和expert
+size的适应性，来满足多样的需求。 为了定义checkpoint
+recycling的process，考虑有N 个layers的predecessors，每个layer <span
+class="math inline">\(L_i\)</span> 的特征维度是 d维，hidden dimension是
+4d维，目标是将这个predecessor转换成successor MoE model
+S，它也是有N个layers，每个表示为 <span
+class="math inline">\(L^`_i\)</span>，但是特征维度是降低了，跟踪Soft
+MOE的架构，successor有两个segments，一个有 <span
+class="math inline">\(N_1\)</span> layers的dense part和有 <span
+class="math inline">\(N_2\)</span> layers的MoE part， <span
+class="math inline">\(N_1 = N_2 =
+\frac{N}{2}\)</span>，因此，这个successor model表示为：</p>
+<p><span class="math display">\[
+S = \left( \{ L&#39;_i \}_{i=0}^{\frac{N}{2}-1}, \{ L&#39;_t
+\}_{t=\frac{N}{2}}^{N-1} \right).
+\]</span> 受Weight Selection的启发，作者的recycling
+process确保了特征维度上的一致性，作者探索了四个主要的策略来指导checkpoints的recycling。</p>
+<p><strong>Importance-based weight
+Sampling(Default)</strong>：作者在不同的hidden units选择weights和feature
+dimensions，来构建初始化weights for diverse experts，对于feature
+dimension
+selection，在所有layers上保持一致性是必要的，作者通过计算所有层的layer的mean
+output feuatres和选择top-d` dimensions来实现： <span
+class="math display">\[
+\bar{O} = \frac{1}{N} \sum_{i=1}^{N} O_i, \quad \text{top-}d&#39; =
+\text{argsort}(\bar{O})[:d&#39;]
+\]</span></p>
+<p><span class="math inline">\(O_i\)</span> 是 layer <span
+class="math inline">\(L_i\)</span> 的输出特征，<span
+class="math inline">\(\bar{O}\)</span> 是平均输出features，对于hidden
+units，基于activations的magnitude，对每一layer的采样是独立的，因为units的arrangement不影响输出，来自images的activation
+values用于得到概率分布</p></li>
+<li><p>Co-Activation Graph Partitioning：这个策略将频繁co-activated
+hidden units划分成一个expert，作者通过数hidden
+units的co-activations，构建一个co-activation graph，co-activation
+graph中，每个unit是一个vertex，edges表示它们的co-activation
+frequency，例如：<span class="math inline">\(G=(V,E)\)</span>
+是co-activation graph, <span class="math inline">\(V\)</span> 表示hidden
+units， <span class="math inline">\(E\)</span>
+表示带有weights的边，表示co-activation counts，用Metis Graph
+partitioning，得到一些subgraphs，experts通过sub-graphs的结合形成，这个方法利用hidden
+units的natural grouping，确保每个expert捕捉predecessor
+model的特定的functional subset。</p></li>
+<li><p>Uniform Weight Selection：weights是在dimension和hidden
+units上均匀选择，对于一个特征维度是d的predeccessor和一个特征维度是
+d`的successor，选择的weights是这样的： <span class="math display">\[
+W_{\text{successor}}^{(i)} = W_{\text{predecessor}}^{(k)}, \quad k =
+\left\lfloor \frac{i \cdot d}{d&#39;} \right\rfloor, \quad i \in \{0,
+\dots, d&#39;-1\}.
+\]</span></p>
+<p>这个方法确保了pretrained weights在successor MoE上的even
+distribution。</p>
+<p>通过checkpoint recycling带来的计算开销是可忽略不计的，Random
+Sampling、Uniform Selection有很少的额外的处理，因为它们直接从dense
+checkpoint中的选择experts，没有进一步的开销，然而Graph
+Partitioning和Importance-based Sampling设计一个preliminary inference
+step来决定neuron importance或者co-activation patterns。</p></li>
+<li><p>SpheroMoE layer：为了增强性能和稳定性，涉及了hyperspherical
+adaptive MoE layer，引入了三个key improvements：SpheroMoE
+路由来缓解优化挑战，Expert
+Regularization来防止over-specialization和Adaptive Dual-path
+MoE。如图所示： SpheroMoE机制利用了cross-attention将分布Inputs across
+experts，每个experts接受一个input slots，这是一个所有input
+tokens的加权，为了保持dense checkpoints和MoE
+layers的一致性，对输入的tokens进行normalization，Queries进行随机初始化，然后也进行normalized。为了减小数值的不稳定性，Q和K(<span
+class="math inline">\(X_{norm}\)</span>) 投射一个hyperspherical
+space，用L2 normalization，确保resulting dot
+product反应余弦相似度，而不是没有边界的值，这个将values限制在一个stable
+range，阻止了softmax的饱和，得到一个更平衡的attention
+distributions，提高了model的泛化性。这个相似度 <span
+class="math inline">\(Q_{norm}\)</span> 和 <span
+class="math inline">\(K\)</span> 计算出来，产生similarity logits <span
+class="math inline">\(S = Q_{norm}K^{T}\)</span>， 输入的slots <span
+class="math inline">\(X\)</span> for experts通过在 <span
+class="math inline">\(S\)</span>d n dimension进行一个softmax操作得到。
+每个expert独立地处理，产生outputs，这些outputs通过 <span
+class="math inline">\(S\)</span>
+进行加权，来汇聚experts的contributions，产生最后的output <span
+class="math inline">\(Y\)</span> of the MoE layer</p></li>
+</ol>
+<p>总结，SpheroMoE路由利用layer normalization，hyperspherical
+projection和交叉注意力，来有效地在distribute inputs across
+experts，确保numerical stability和pretrained dense models的一致性。</p>
+<ol start="10" type="1">
+<li><p>为了提高泛化性，SpheroMoE对路由和expert
+behavior进行正则化，阻止experts
+over-specializing，对于前者，作者引入了可学习的softmax temperatures
+<span class="math inline">\(T_{dispatch} 和 T_{combine}\)</span>
+来精确地控制token dispatch和slot combination，使得smooth
+transitions，因为token dispatch在不同的slots分配tokens，然而slot
+combination将slot outputs汇聚为tokens，这些dual
+temperatures提供了灵活的控制，temperatures初始化的时候比较高，来提升attention的broad
+distribution，防止early specialization。在训练的时候，这些temperatures
+adaptively 降低，使得experts关注相关的features，specialize where
+advantageous，另外，作者对similarity logits <span
+class="math inline">\(S\)</span> 加了一定的normal
+noise，提高泛化性，对于后者，作者利用随机expert dropout，每个expert
+<span class="math inline">\(i\)</span>
+有概率p被随机deactivated，它确保没有任何一个专家成为整个输出的依赖，从而促进所有专家更加均衡地被利用。这些技术构成了一种专家正则化策略，保持了专家的通用性，缓解了过拟合问题，从而确保
+MoE 模型在下游数据集上具有稳健的性能表现。</p></li>
+<li><p>Adaptive Dual-path MoE：为了缓解less critical
+tokens的computational redundancy，将资源集中在essential
+ones，SpheroMoE路由直接将input tokens路由到core, universal
+slots，基于此，Adaptive Dual-path架构被设计用来将每个slot分配给distinct
+pathway用于优化processing，这个core pathway包含一个有限的core
+experts，相比之下，universal pathway包含一个larger set of small
+experts，每个的参数是core experts的one-fourth，由于处理less critical
+slots，这个dual-path configuration，通过聚焦computation on key
+tokens，提高了resource
+allocation，保持了model的精度，增强了处理的效率。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/ff8a40349db17daaed78def5f192229c3c2e2527/4-Figure2-1.png"
+alt="Key designs" /> <span class="math inline">\(Fig.1^{[1]}\)</span> a.
+checkpoint recycling: 从dense checkpoints MLP中选择hidden
+units和dimensions，将预训练的weights转换成diverse experts，来初始化MoE
+models，b. SpheroMoE layer：
+用cross-attention将tokens给到slots，将slots结合为tokens，输入的tokens
+project为keys，一个随机的query初始化，来计算token-slot相似度，experts来处理它们分配的slots</p>
+<p><img
+src="https://figures.semanticscholar.org/ff8a40349db17daaed78def5f192229c3c2e2527/5-Figure3-1.png"
+alt="Adaptive Dual-path MoE" /> <span
+class="math inline">\(Fig.2^{[1]}\)</span> Adaptive Dual-path MoE
+架构，通过将其弄成Dual-branch系统，增强了SpheroMoE
+router，这个设计用于优化计算效率和模型性能，将high-impact tokens给到core
+path，大量的experts将没那么重要的tokens给到universal path。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Mixture-of-Experts/" rel="tag"># Mixture of Experts</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/05/21/Decouple-KL/" rel="prev" title="Decouple KL">
+                  <i class="fa fa-angle-left"></i> Decouple KL
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">278k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">16:52</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

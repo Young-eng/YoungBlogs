@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-05-22T07:03:56.712Z</updated>
+  <updated>2025-05-26T09:22:00.165Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,44 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jetpack</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/05/26/Jetpack/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/05/26/Jetpack/</id>
+    <published>2025-05-26T01:31:27.000Z</published>
+    <updated>2025-05-26T09:22:00.165Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="moe-jetpack-from-dense-checkpoints-to-adaptive-mixture-of-experts-for-vision-tasks1">MoEJetpack: From Dense Checkpoints to Adaptive Mixture of Experts forVision Tasks<sup>[1]</sup></h3><blockquote><p>作者是来自华科的Xingkui Zhu等人。论文引用[1]:</p></blockquote><h2 id="time">### Time</h2><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li><p>稀疏的激活的MoE相对于密集激活的models，提供了一个有效的alternative，将提高的精度和计算效率进行结合。然而，从零开始训练MoE要求大量的data和计算资源，限制了它们的广泛采用。为了解决这个问题，作者引入了MoEJetpack，一个旨在将丰富且现成可获取的密集checkpoints微调为专家混合（MoE）模型的框架。MoEJetpack引入了两个key techniques：<strong>(1). checkpointrecycling，用dense checkpoints对MoEmodels进行初始化，来加速收敛和增强精度。减小对大规模预训练的需求; (2).hyper-spherical adaptive MoE(SpheroMoE)layers，优化MoE的架构，来增强微调的性能和效率</strong>。<span id="more"></span></p></li><li><p>增加model的size是提高深度学习性能的keyfactor，然而，model在size上expand，它们的计算需求会激增，导致在训练和推理阶段相当大的slowdown，一个有前景的、将计算成本和modelsize进行解耦的方式是MoE，不同于densemodels，将所有网络的参数都用在输出上，MoE基于输入的tokens，动态地激活model的disinctparts，这使得不增加FLOPs的情况下实现了model scaling，然后在modelupscaling阶段保持了training和推理速度，最近的进展见证了MoE在多个domain的implementations。</p></li><li><p>尽管有潜力，但是MoE面临严重的challenges，由于缺乏pretrainedmodels，不同于densemodels，受益于很多可用的预训练的资源，大多数的MoE模型必须随机初始化，从零开始训练。这个过程要求大量的计算资源和大的数据集，限制了MoE的研究。因此，作者的研究旨在利用来自densecheckpoints的预训练知识，来降低MoE的训练时间和数据的要求。作者特别地研究了，**利用densecheckpoints是否能增强精度和微调期间的MoE模型的收敛速度。在本文中，作者提出了MoEJetpack，一个将pretrained dense checkpoints微调为MoE model的方法，MoEJetpack利用大量的dense pretraining来提高MoE的性能和加速收敛，包含两个key techniques，首先：checkpointrecycling利用将MoE models从dense checkpoints中进行初始化，不同于sparseupcycling，简单的复制MLP来构造experts，checkpoint recycling利用多个densecheckpoints和strategic weight selection，对MoEmodels提供了灵活性，十个生成高质量的初始化weights，第二个technique是hypersphericaladaptive MoE layer，展示出了一个优化的MoE架构，促进了densecheckpoints的无缝集成，增强了微调的性能，现有的MoE架构，例如SwitchTransformers和Soft MoE，没有采用预训练的densecheckpoints，导致微调期间的优化不高效和over-specialization，SpheroMoElayer通过normalized token mixing, expert regularization和adaptivedual-path 机制，缓解了这个问题，确保更光滑的集成和提高了性能。通过给dense checkpoints和MoEJetPack结合，微调的MoE的model模型实现了更高的精度。作者的贡献如下：</p><ul><li>作者引入了checkpoint recycling，开拓了将densecheckpoints用于初始化MoEexperts的思路，增强了初始化的灵活性，多样化了experts，消除了MoE预训练的计算成本</li><li>作者开发了一个shperoMoE layer，优化将dense checkpoints微调为MoE架构，缓解了优化的挑战，防止了experts的over-specialization</li></ul></li><li><p>现有的MoE model通过将dense ViT中的特定的MLP层替换为MoElayer得到的，每个MoE layer包含一个Routerfunction，将输入的tokens给到一组experts，尽管MoEmodels中的experts是相似的，<strong>路由机制不同，对性能很重要，一些路由机制例如top-k，BASE和Sinkhorn-BASElayers，Hash layers，Expert Choice Routing，softrouting，最常用的机制是top-k 路由，通过选择性地激活和Inputtokens最相关的 top-kexperts来降低计算开销</strong>，路由的decision计算如下： <spanclass="math display">\[\text{Router}(x; \theta_{\text{gate}}) = \text{top-}k\left(\text{softmax}\left( \text{MLP}(x; \theta_{\text{gate}}) \right) \right)\]</span></p><p>输出是结合选择的experts进行汇总： <span class="math display">\[y = x + \sum_{i \in E} \text{Router}(x; \theta_{\text{gate}}) \cdot\text{Expert}(x; \theta_i)\]</span></p><p><span class="math inline">\(\theta\)</span> 表示weights，<spanclass="math inline">\(E\)</span> 是激活的experts的set，<spanclass="math inline">\(|E| =K\)</span>，然而，top-k路由提出了一些挑战，例如不平衡的expert utilization，tokendropping和scalability issues，</p><p>一个更加平衡和代表性的方法，Soft MoE，通过隐式地softassignment，有效地解决了这些挑战，不同于将tokens分配给特定的experts，SoftMoE为每个expert，计算所有输入的tokens的combinations，给定输入tokens，每个MoElayer包含 <span class="math inline">\(e\)</span> 个expertfunctions，每个expert有 <span class="math inline">\(s\)</span>个slots，中间的输出是通过将experts用于slots得到的。最后，输出的tokens通过结合experts的输出来得到。</p></li><li><p>在这个部分，作者展示了MoEJetpack的重要的概念，划分为两个阶段：checkpoint recycling densecheckpoints来初始化MoE models，用hyperspherical adaptive MoE(SpheroMoE)layer。</p></li><li><p>checkpoint recycling是MoE jetpack框架的基础阶段，将预训练的densecheckpoints转换为用于MoE的高质量的初始化weights，这个方法通过weight的reuse，利用predecessors的丰富的预训练知识，提高了性能和收敛速度。这个recycling的过程涉及从predecessors的MLPs中采样一部分的weights用于构建experts，确保expert的多样性和expertsize的适应性，来满足多样的需求。 为了定义checkpointrecycling的process，考虑有N 个layers的predecessors，每个layer <spanclass="math inline">\(L_i\)</span> 的特征维度是 d维，hidden dimension是4d维，目标是将这个predecessor转换成successor MoE modelS，它也是有N个layers，每个表示为 <spanclass="math inline">\(L^`_i\)</span>，但是特征维度是降低了，跟踪SoftMOE的架构，successor有两个segments，一个有 <spanclass="math inline">\(N_1\)</span> layers的dense part和有 <spanclass="math inline">\(N_2\)</span> layers的MoE part， <spanclass="math inline">\(N_1 = N_2 =\frac{N}{2}\)</span>，因此，这个successor model表示为：</p><p><span class="math display">\[S = \left( \{ L&#39;_i \}_{i=0}^{\frac{N}{2}-1}, \{ L&#39;_t\}_{t=\frac{N}{2}}^{N-1} \right).\]</span> 受Weight Selection的启发，作者的recyclingprocess确保了特征维度上的一致性，作者探索了四个主要的策略来指导checkpoints的recycling。</p><p><strong>Importance-based weightSampling(Default)</strong>：作者在不同的hidden units选择weights和featuredimensions，来构建初始化weights for diverse experts，对于featuredimensionselection，在所有layers上保持一致性是必要的，作者通过计算所有层的layer的meanoutput feuatres和选择top-d` dimensions来实现： <spanclass="math display">\[\bar{O} = \frac{1}{N} \sum_{i=1}^{N} O_i, \quad \text{top-}d&#39; =\text{argsort}(\bar{O})[:d&#39;]\]</span></p><p><span class="math inline">\(O_i\)</span> 是 layer <spanclass="math inline">\(L_i\)</span> 的输出特征，<spanclass="math inline">\(\bar{O}\)</span> 是平均输出features，对于hiddenunits，基于activations的magnitude，对每一layer的采样是独立的，因为units的arrangement不影响输出，来自images的activationvalues用于得到概率分布</p></li><li><p>Co-Activation Graph Partitioning：这个策略将频繁co-activatedhidden units划分成一个expert，作者通过数hiddenunits的co-activations，构建一个co-activation graph，co-activationgraph中，每个unit是一个vertex，edges表示它们的co-activationfrequency，例如：<span class="math inline">\(G=(V,E)\)</span>是co-activation graph, <span class="math inline">\(V\)</span> 表示hiddenunits， <span class="math inline">\(E\)</span>表示带有weights的边，表示co-activation counts，用Metis Graphpartitioning，得到一些subgraphs，experts通过sub-graphs的结合形成，这个方法利用hiddenunits的natural grouping，确保每个expert捕捉predecessormodel的特定的functional subset。</p></li><li><p>Uniform Weight Selection：weights是在dimension和hiddenunits上均匀选择，对于一个特征维度是d的predeccessor和一个特征维度是d`的successor，选择的weights是这样的： <span class="math display">\[W_{\text{successor}}^{(i)} = W_{\text{predecessor}}^{(k)}, \quad k =\left\lfloor \frac{i \cdot d}{d&#39;} \right\rfloor, \quad i \in \{0,\dots, d&#39;-1\}.\]</span></p><p>这个方法确保了pretrained weights在successor MoE上的evendistribution。</p><p>通过checkpoint recycling带来的计算开销是可忽略不计的，RandomSampling、Uniform Selection有很少的额外的处理，因为它们直接从densecheckpoint中的选择experts，没有进一步的开销，然而GraphPartitioning和Importance-based Sampling设计一个preliminary inferencestep来决定neuron importance或者co-activation patterns。</p></li><li><p>SpheroMoE layer：为了增强性能和稳定性，涉及了hypersphericaladaptive MoE layer，引入了三个key improvements：SpheroMoE路由来缓解优化挑战，ExpertRegularization来防止over-specialization和Adaptive Dual-pathMoE。如图所示： SpheroMoE机制利用了cross-attention将分布Inputs acrossexperts，每个experts接受一个input slots，这是一个所有inputtokens的加权，为了保持dense checkpoints和MoElayers的一致性，对输入的tokens进行normalization，Queries进行随机初始化，然后也进行normalized。为了减小数值的不稳定性，Q和K(<spanclass="math inline">\(X_{norm}\)</span>) 投射一个hypersphericalspace，用L2 normalization，确保resulting dotproduct反应余弦相似度，而不是没有边界的值，这个将values限制在一个stablerange，阻止了softmax的饱和，得到一个更平衡的attentiondistributions，提高了model的泛化性。这个相似度 <spanclass="math inline">\(Q_{norm}\)</span> 和 <spanclass="math inline">\(K\)</span> 计算出来，产生similarity logits <spanclass="math inline">\(S = Q_{norm}K^{T}\)</span>， 输入的slots <spanclass="math inline">\(X\)</span> for experts通过在 <spanclass="math inline">\(S\)</span>d n dimension进行一个softmax操作得到。每个expert独立地处理，产生outputs，这些outputs通过 <spanclass="math inline">\(S\)</span>进行加权，来汇聚experts的contributions，产生最后的output <spanclass="math inline">\(Y\)</span> of the MoE layer</p></li></ol><p>总结，SpheroMoE路由利用layer normalization，hypersphericalprojection和交叉注意力，来有效地在distribute inputs acrossexperts，确保numerical stability和pretrained dense models的一致性。</p><ol start="10" type="1"><li><p>为了提高泛化性，SpheroMoE对路由和expertbehavior进行正则化，阻止expertsover-specializing，对于前者，作者引入了可学习的softmax temperatures<span class="math inline">\(T_{dispatch} 和 T_{combine}\)</span>来精确地控制token dispatch和slot combination，使得smoothtransitions，因为token dispatch在不同的slots分配tokens，然而slotcombination将slot outputs汇聚为tokens，这些dualtemperatures提供了灵活的控制，temperatures初始化的时候比较高，来提升attention的broaddistribution，防止early specialization。在训练的时候，这些temperaturesadaptively 降低，使得experts关注相关的features，specialize whereadvantageous，另外，作者对similarity logits <spanclass="math inline">\(S\)</span> 加了一定的normalnoise，提高泛化性，对于后者，作者利用随机expert dropout，每个expert<span class="math inline">\(i\)</span>有概率p被随机deactivated，它确保没有任何一个专家成为整个输出的依赖，从而促进所有专家更加均衡地被利用。这些技术构成了一种专家正则化策略，保持了专家的通用性，缓解了过拟合问题，从而确保MoE 模型在下游数据集上具有稳健的性能表现。</p></li><li><p>Adaptive Dual-path MoE：为了缓解less criticaltokens的computational redundancy，将资源集中在essentialones，SpheroMoE路由直接将input tokens路由到core, universalslots，基于此，Adaptive Dual-path架构被设计用来将每个slot分配给distinctpathway用于优化processing，这个core pathway包含一个有限的coreexperts，相比之下，universal pathway包含一个larger set of smallexperts，每个的参数是core experts的one-fourth，由于处理less criticalslots，这个dual-path configuration，通过聚焦computation on keytokens，提高了resourceallocation，保持了model的精度，增强了处理的效率。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/ff8a40349db17daaed78def5f192229c3c2e2527/4-Figure2-1.png"alt="Key designs" /> <span class="math inline">\(Fig.1^{[1]}\)</span> a.checkpoint recycling: 从dense checkpoints MLP中选择hiddenunits和dimensions，将预训练的weights转换成diverse experts，来初始化MoEmodels，b. SpheroMoE layer：用cross-attention将tokens给到slots，将slots结合为tokens，输入的tokensproject为keys，一个随机的query初始化，来计算token-slot相似度，experts来处理它们分配的slots</p><p><imgsrc="https://figures.semanticscholar.org/ff8a40349db17daaed78def5f192229c3c2e2527/5-Figure3-1.png"alt="Adaptive Dual-path MoE" /> <spanclass="math inline">\(Fig.2^{[1]}\)</span> Adaptive Dual-path MoE架构，通过将其弄成Dual-branch系统，增强了SpheroMoErouter，这个设计用于优化计算效率和模型性能，将high-impact tokens给到corepath，大量的experts将没那么重要的tokens给到universal path。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;moe-jetpack-from-dense-checkpoints-to-adaptive-mixture-of-experts-for-vision-tasks1&quot;&gt;MoE
+Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for
+Vision Tasks&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自华科的Xingkui Zhu等人。论文引用[1]:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;time&quot;&gt;### Time&lt;/h2&gt;
+&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;稀疏的激活的MoE相对于密集激活的models，提供了一个有效的alternative，将提高的精度和计算效率进行结合。然而，从零开始训练MoE要求大量的data和计算资源，限制了它们的广泛采用。为了解决这个问题，作者引入了MoE
+Jetpack，一个旨在将丰富且现成可获取的密集checkpoints微调为专家混合（MoE）模型的框架。MoE
+Jetpack引入了两个key techniques：&lt;strong&gt;(1). checkpoint
+recycling，用dense checkpoints对MoE
+models进行初始化，来加速收敛和增强精度。减小对大规模预训练的需求; (2).
+hyper-spherical adaptive MoE(SpheroMoE)
+layers，优化MoE的架构，来增强微调的性能和效率&lt;/strong&gt;。</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Mixture of Experts" scheme="https://young-eng.github.io/YoungBlogs/tags/Mixture-of-Experts/"/>
+    
+  </entry>
   
   <entry>
     <title>Decouple KL</title>
@@ -907,54 +945,6 @@ abilities上的多任务环境中，展示出了很强的泛化性，
     
     
     <category term="Embodied AI" scheme="https://young-eng.github.io/YoungBlogs/tags/Embodied-AI/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MTA</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/04/09/MTA/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/04/09/MTA/</id>
-    <published>2025-04-09T02:25:32.000Z</published>
-    <updated>2025-04-09T03:31:38.626Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="multi-token-attention1">Multi-Token Attention<sup>[1]</sup></h3><blockquote><p>作者是来自FAIR的Olga Golovneva等人，论文引用[1]:Golovneva, Olga etal. “Multi-Token Attention.” (2025).</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Apr</li></ul><h3 id="key-words">Key Words</h3><ul><li>single token similarity bottleneck</li></ul><h3 id="总结">总结</h3><ol type="1"><li>Softattention是一个重要的机制，使得LLMs能够在给定的context中locate相关的parts。然而，individualattention weights是由<strong>single query和key tokenvector的相似度决定的，这个single token attention造成了区分a relevantpart from the rest of thecontext的信息的瓶颈</strong>。为了解决这个问题，作者提出了一个新的attention方法，<strong>Multi-TokenAttention，使得LLms能够同时在多个query和key vectors上condition theirattentionweights</strong>。这是通过在<strong>queries、keys和heads上应用卷积操作实现的,使得相邻的queries和keys能够印象彼此的attetnionweights for more preciseattention</strong>。因此，作者的方法能够用更丰富的、精细的信息来locaterelevant context，超过了single vector capacity。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>标准的多头注意力，通过比较当前的query vector和keyvectors的相似度来实现。和query相似的keys得到更高的attentionweights，因此相应的value vectors会dominate outputvectors。作者argue：依赖于single tokenvector的similarity会带来fundamental limitation to the attentionmechanism。在很多情况下，context的relevant part不能被singletoken所identify。作者提出MTA的目标是<strong>用similarities of multiplevector pairs to determine where attention mustfocus</strong>.作者在queries、keys和heads上设计了一些卷积操作，使得attentionweights 能够condition on <strong>neighboring keys、previousqueries和other heads</strong>。</p></li><li><p><strong>Pre-softmax convolution</strong>：在attentionlogits上做了一个conv，结合来自multiple query和keytokens的information。</p></li><li><p><strong>Post-softmax convolution</strong>：<spanclass="math display">\[A = \text{Mask}_{0}\left(\text{Conv2d}_{\theta}\left( \text{Softmax}\left(\text{Mask}_{-\infty}(\hat{A}) \right) \right) \right)\]</span></p></li><li><p><strong>Head mixingconvolution</strong>：对不同的组的heads进行处理：</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/feac380cd94a5c744430f9874c046216ebd6b7eb/2-Figure1-1.png"alt="Multi-Token Attention" /> <spanclass="math inline">\(Fig.1^[1]\)</span> Multi-Token Attention on theright，相比于标准的attention，对每个head用了一个key-queryconvolution，在softmax normalization之后，head convolution across groupsof heads</p><p><imgsrc="https://figures.semanticscholar.org/feac380cd94a5c744430f9874c046216ebd6b7eb/3-Figure2-1.png"alt="convolution" /> <span class="math inline">\(Fig.2^[1]\)</span>MTA用了key-query和head convolution over attention values</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;multi-token-attention1&quot;&gt;Multi-Token Attention&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自FAIR的Olga Golovneva等人，论文引用[1]:Golovneva, Olga et
-al. “Multi-Token Attention.” (2025).&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2025.Apr&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;single token similarity bottleneck&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;Soft
-attention是一个重要的机制，使得LLMs能够在给定的context中locate相关的parts。然而，individual
-attention weights是由&lt;strong&gt;single query和key token
-vector的相似度决定的，这个single token attention造成了区分a relevant
-part from the rest of the
-context的信息的瓶颈&lt;/strong&gt;。为了解决这个问题，作者提出了一个新的attention方法，&lt;strong&gt;Multi-Token
-Attention，使得LLms能够同时在多个query和key vectors上condition their
-attention
-weights&lt;/strong&gt;。这是通过在&lt;strong&gt;queries、keys和heads上应用卷积操作实现的,使得相邻的queries和keys能够印象彼此的attetnion
-weights for more precise
-attention&lt;/strong&gt;。因此，作者的方法能够用更丰富的、精细的信息来locate
-relevant context，超过了single vector capacity。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Attention" scheme="https://young-eng.github.io/YoungBlogs/tags/Attention/"/>
     
   </entry>
   
