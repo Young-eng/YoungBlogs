@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="MoE Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for Vision Tasks[1]  作者是来自华科的Xingkui Zhu等人。论文引用[1]:  ### Time ### Key Words 总结  稀疏的激活的MoE相对于密集激活的models，提供了一个有效的alternative">
+    <meta name="description" content="MoE Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for Vision Tasks[1]  作者是来自华科的Xingkui Zhu等人。论文引用[1]:Zhu, Xingkui et al. “MoE Jetpack: From Dense Checkpoints to Adaptive Mixture">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Jetpack">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/05/26/Jetpack/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="MoE Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for Vision Tasks[1]  作者是来自华科的Xingkui Zhu等人。论文引用[1]:  ### Time ### Key Words 总结  稀疏的激活的MoE相对于密集激活的models，提供了一个有效的alternative">
+<meta property="og:description" content="MoE Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for Vision Tasks[1]  作者是来自华科的Xingkui Zhu等人。论文引用[1]:Zhu, Xingkui et al. “MoE Jetpack: From Dense Checkpoints to Adaptive Mixture">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-05-26T01:31:27.000Z">
-<meta property="article:modified_time" content="2025-05-26T09:22:00.165Z">
+<meta property="article:modified_time" content="2025-05-26T15:05:21.498Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Mixture of Experts">
 <meta name="twitter:card" content="summary">
@@ -115,7 +115,7 @@
         <div class="post-toc-wrap sidebar-panel">
             <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#moe-jetpack-from-dense-checkpoints-to-adaptive-mixture-of-experts-for-vision-tasks1"><span class="nav-number">1.</span> <span class="nav-text">MoE
 Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for
-Vision Tasks[1]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time"><span class="nav-number"></span> <span class="nav-text">### Time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key-words"><span class="nav-number"></span> <span class="nav-text">### Key Words</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li></ol></div>
+Vision Tasks[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -130,7 +130,7 @@ Vision Tasks[1]</span></a></li></ol></li><li class="nav-item nav-level-2"><a cla
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">158</span>
+          <span class="site-state-item-count">159</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -141,7 +141,7 @@ Vision Tasks[1]</span></a></li></ol></li><li class="nav-item nav-level-2"><a cla
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">54</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -206,7 +206,7 @@ Vision Tasks[1]</span></a></li></ol></li><li class="nav-item nav-level-2"><a cla
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-05-26 09:31:27 / 修改时间：17:22:00" itemprop="dateCreated datePublished" datetime="2025-05-26T09:31:27+08:00">2025-05-26</time>
+      <time title="创建时间：2025-05-26 09:31:27 / 修改时间：23:05:21" itemprop="dateCreated datePublished" datetime="2025-05-26T09:31:27+08:00">2025-05-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -232,7 +232,7 @@ Vision Tasks[1]</span></a></li></ol></li><li class="nav-item nav-level-2"><a cla
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.9k</span>
+      <span>3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -254,10 +254,20 @@ id="moe-jetpack-from-dense-checkpoints-to-adaptive-mixture-of-experts-for-vision
 Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for
 Vision Tasks<sup>[1]</sup></h3>
 <blockquote>
-<p>作者是来自华科的Xingkui Zhu等人。论文引用[1]:</p>
+<p>作者是来自华科的Xingkui Zhu等人。论文引用[1]:Zhu, Xingkui et al. “MoE
+Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for
+Vision Tasks.” ArXiv abs/2406.04801 (2024): n. pag.</p>
 </blockquote>
-<h2 id="time">### Time</h2>
-<h2 id="key-words">### Key Words</h2>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Jun ### Key Words</li>
+<li>pretrained dense checkpoints</li>
+<li>SpheroMoE</li>
+<li><strong>一句话总结：作者利用预训练的dense weights来初始化MoE
+models，将dense
+model的MLPs划分成多个experts，确保expert的多样性和适用性，同时，为了进行微调，提出了SpheroMoE
+layer，提出了一些改进来避免expert的over-specialized</strong>。</li>
+</ul>
 <h3 id="总结">总结</h3>
 <ol type="1">
 <li><p>稀疏的激活的MoE相对于密集激活的models，提供了一个有效的alternative，将提高的精度和计算效率进行结合。然而，从零开始训练MoE要求大量的data和计算资源，限制了它们的广泛采用。为了解决这个问题，作者引入了MoE
@@ -481,6 +491,9 @@ path，大量的experts将没那么重要的tokens给到universal path。</p>
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/06/02/LaVin-DiT/" rel="next" title="LaVin-DiT">
+                  LaVin-DiT <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -511,13 +524,13 @@ path，大量的experts将没那么重要的tokens给到universal path。</p>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">278k</span>
+    <span title="站点总字数">282k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">16:52</span>
+    <span title="站点阅读时长">17:05</span>
   </span>
 </div>
 <div class="busuanzi-count">

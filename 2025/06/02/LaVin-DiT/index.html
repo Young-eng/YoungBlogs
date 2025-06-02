@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="LaVin-DiT: Large Vision Diffusion Transformer[1]  作者是来自悉尼大学、NUS等机构的Zhaoqing Wang等人。论文引用[1]:Wang, Zhaoqing et al. “LaVin-DiT: Large Vision Diffusion Transformer.” ArXiv abs&#x2F;2411.11505 (2024): n. p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaVin-DiT">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/06/02/LaVin-DiT/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="LaVin-DiT: Large Vision Diffusion Transformer[1]  作者是来自悉尼大学、NUS等机构的Zhaoqing Wang等人。论文引用[1]:Wang, Zhaoqing et al. “LaVin-DiT: Large Vision Diffusion Transformer.” ArXiv abs&#x2F;2411.11505 (2024): n. p">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-02T07:45:12.000Z">
+<meta property="article:modified_time" content="2025-06-02T15:06:50.430Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Diffusion Transformer">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/06/02/LaVin-DiT/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/06/02/LaVin-DiT/","path":"2025/06/02/LaVin-DiT/","title":"LaVin-DiT"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LaVin-DiT | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#lavin-dit-large-vision-diffusion-transformer1"><span class="nav-number">1.</span> <span class="nav-text">LaVin-DiT: Large
+Vision Diffusion Transformer[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">159</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/02/LaVin-DiT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LaVin-DiT | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LaVin-DiT
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-06-02 15:45:12 / 修改时间：23:06:50" itemprop="dateCreated datePublished" datetime="2025-06-02T15:45:12+08:00">2025-06-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>13 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="lavin-dit-large-vision-diffusion-transformer1">LaVin-DiT: Large
+Vision Diffusion Transformer<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自悉尼大学、NUS等机构的Zhaoqing Wang等人。论文引用[1]:Wang,
+Zhaoqing et al. “LaVin-DiT: Large Vision Diffusion Transformer.” ArXiv
+abs/2411.11505 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2025.Mar</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Diffusion Transformer</li>
+<li>将ST-VAE 和Diffusion transformer结合起来，有效地处理高维vision
+data，通过in-context learning，
+LaVin-ViT能够适应多个tasks不需要fine-tuning。</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>本文提出了Large Vision Diffusion
+Transformer(LaVin-DiT)，是一个可扩展的、统一的foundation
+model，以generative框架的形式，处理超过20种cv tasks，不同于现有的large
+vision
+models，它们直接从NLP的架构修改而来，很少依赖于高效的自回归方式，扰乱了对于vision
+data很重要的spatial relationships。LaVin-DiT引入了key
+innovations来优化generative performance for CV
+tasks，首先：<strong>为了解决visual
+data的高维问题，作者引入了一个spatial-temporal variational
+autoencoder，将data编码到一个连续的latent space；其次，对于generative
+modeling，作者开发了一个joint diffusion transformer，能够progressively
+产生vision outputs；第三，对于统一的多任务训练，执行in-context
+learning，input-target pairs作为task context，指导diffusion
+transformer在latent space中，将outputs和specific
+tasks进行对齐，在推理的时候，一个task-specific context set和test
+data作为queries，使得LaVin-DiT不需要fine-tune就能泛化到多个tasks，在大量的vision
+datasets上训练，这个model从0.1B扩展到3.4B，展示出了scalability和SOTA的性能</strong>。
+<span id="more"></span></p></li>
+<li><p>LLMs例如GPT和LLaMA收到了广泛的关注，展示出了在一个统一的框架中处理多个language
+tasks的能力，这个将多个language tasks集成到single large
+model的突破，引发了为CV开发类似的large
+model的时刻。开发能够处理多个vision tasks的LVMs表示一个通往vision-based
+AI的更加versatile,
+scalable和高效的路径。然而，构建LVMs比LLMs更加的复杂，因为内在的diverse和vision
+data的高维本质，还有处理多个不同scale，perspective的需求。为了处理这个问题，<strong>最近的工作开发了一种sequential
+modeling方法，通过representing images、videos、annotations in a unified
+visual sentences format，来学习purely vision
+data</strong>。这个方法使得model来预测sequential vision tokens from a
+vast dataset，独立于language-based input，尽管这个方法在多个vision
+tasks上展示出了promising
+results，它面临两个挑战：**第一个问题是自回归sequence
+modeling的效率问题，它需要token-by-token的预测，对于高维数据是computational
+intensive，第二个问题是将vision data转换成sequential
+format的时候，spatial coherence的discruption，在对于vision
+tasks很重要的spatial dependencies上妥协了。</p></li>
+<li><p>在本文中，作者引入了一个large visino diffusion
+transformer，来推动下一代LVMs的发展，LaVin-DiT
+有更好的计算效率，有效地保留了vision data中的spatial
+relationships，在多个vision
+tasks上，是心啊了良好的performance。为了处理高维的vision
+data，作者引入了spatial-temporal variational
+autoencoder将data编码到一个latent space，能够用compact
+representation保留temporal和spatial
+features，这降低了计算需求，不需要牺牲模型捕捉complex
+patterns的能力，来提高效率。另外，对于生成modeling，作者增强了现有的diffusion
+transformer，提出了一个联合的diffusion transformer with full-sequences
+joint attention，这个module通过parallel denoising steps，综合了visuual
+outputs，有效地降低了sequential
+dependencies，增强了处理效率，同时保持了spatial
+coherence。另外，为了支持统一的多任务训练，作者引入了一个in-context，input-target
+pairs指导diffusion transformer，将outputs和specific
+tasks进行对齐。在推理的时候，LaVin-DiT利用task-specific context
+sets和test
+data作为queries，来适应多个tasks，而不需要微调，这使得LaVin-DiT实现了在多个任务上的泛化性。</p></li>
+<li><p>开发一个针对多个任务的框架是deep
+learning的一个和藏起的目标，NLP已经用ChatGPT实现那了，相比之下，CV缺乏统一的framework，很大程度上是因为visual
+data和tasks的复杂性和多样性，现有的统一的vision
+frameworks有两个路径：image-resembling generation和sequential modeling。
+image-resembling generation方法是将visual tasks表述为一个image
+generation 问题，使得model横沟通过inpainting和reconstruction来处理dense
+visual predictions，例如：Painter将dense prediction
+tasks转换为一个masked image inpainting，在多个vision
+tasks上，展示出了in-context 能力，通过利用预训练的diffusion
+models，一些方法利用visual 或者textual
+instruction来指导generation和增强adaptability，这个sequential
+modeling方法主要是受LLMs突破的启发，将sequence-to-sequence
+框架用于visual data，对于这些方法，visual
+data被quantized为离散的tokens的sequences，这个model通过next-token
+prediction进行优化，最近，有人引入了一个framework，将这个concept扩展到vision，不需要依赖于语言数据，将visual
+data视为visual sequences，通过将images和videos视为one-dimensional
+sequences，这个方法使得unified transformer能够处理image和video tasks
+within 一个单个framework，扩大了sequential modeling在CV中的scope。</p>
+<p>在本文中，从image-resembling
+generation的角度，作者提出了一个universal diffusion
+framework，用一个对visual
+data特别处理的transformer架构，保留了spatial-temporal
+structure，最小化了信息的丢失，在大量的visual
+data上的实验表明，作者的framework，统一了image和video
+tasks，推动了CV中的generalist model</p></li>
+<li><p>借助于ViT，最近在generative
+modeling中的进展，在scalability和performace上都取得了很大的进展，U-ViT将所有的input视为tokens，通过将Transformer
+block和U-Net架构结合，展示出了scalability和diffusion
+transfomer的versatility，MDT和MaskDiT通过用一个masking策略，增强了DiT的训练效率，另外，Stable
+Diffusion 3引入了新的transformer-based架构，用于text-to-image
+generation，使得image和text的交互成为可能。另外，DiT在video
+generation中，展示出了robust的spatial-temporal
+modeling的能力，之前的方法利用分开的spatial和temporal
+attention机制降低intensive computational cost，另外，最近的工作提出用3D
+full attention来捕捉spatial-temporal 信息，确保large-moving
+objects的一致性，同时，diffusion transformer在visual content
+genration上展示出了潜力，它们作为一个large vision model，统一多个vision
+tasks的能力还没有被探索，本文中，作者引入了一个新的joint diffusion
+transformer，带有full-sequences joint attention，有效地集成了多个vision
+tasks，将diffusion transformer提高到了一个新的level。</p></li>
+<li><p>In-context learning最开始是由GPT-3概念化的，它革新了task-specific
+model training，通过允许model直接基于contextual
+examples进行推理和执行任务，这个范式变化使得model不需要在这些specific
+tasks上进行训练，就能执行complex reasoning和novel pattern
+recognition。在文本之外，Flamingo引入了visual inputs，将in-context
+learning扩展到multi-modal tasks例如image captioning, visual question
+answering，这展示了model的能力，能够理解textual和visual
+data，在多个不同的domains增强了它的应用。在CV中，这个in-context
+learning的概念通过visual prompting被explored，直接从concatenated image
+examples和queries中infer
+tasks，在本文中，作者基于这个idea，一组examples被sample，作为task
+definitions，然后和input query进行concantenated for the
+model，来得都啊predictions。</p></li>
+<li><p>CV包括一系列的任务，例如Object detection等，这些通常被specialized
+models进行处理，这个specialization限制了model的adaptability和scalability
+across multiple tasks，为了克服这个Limitation，作者设计了一个conditional
+generative framework，用单个cohesive model统一了多个vision
+tasks，特别地，给定query x，这个framework产生对应的prediction <span
+class="math inline">\(\hat{y}\)</span>，来近似在input-target pairs <span
+class="math inline">\(s\)</span> 条件下的 y，这个conditional
+pairs提供了task
+definitions和guidance，使得model能够灵活地适应多个tasks，这个objective
+就是建模 conditional distribution <span class="math inline">\(p(y|x,
+s)\)</span>。</p></li>
+<li><p>如图所示，<strong>提出的Large Vision Diffusion
+Transformer(LaVin-DiT) 框架，集成了spatial-temporal variational
+autoencoder，，用一个joint diffusion transformer来统一多个vision
+tasks，给定一个vision task，例如全景分割，首先采样一组input-target
+pairs作为tasks definitions,之后，这个set和其它的visual
+examples给到ST-VAE，被编码成latent
+representations，之后，编码的representations进行patchify，展开成一个sequential
+format，这个set和input visual data构成了conditional latent presentation
+<span
+class="math inline">\(z_c\)</span>，target被随机的高斯噪声进行perturbe，产生了noisy
+latent representation <span class="math inline">\(z_t\)</span>，<span
+class="math inline">\(z_c\)</span> 和 <span
+class="math inline">\(z_t\)</span> 给到joint diffusion transformer，对
+<span class="math inline">\(z_t\)</span> 进行去噪，恢复clean latent
+representation with shared latent space，最后，恢复的latent
+representation通过ST-VAE decoder在raw pixel
+space重建target</strong>。</p></li>
+<li><p>ST-VAE能够高效地压缩spatial和temporal information，将它们从pixel
+space编码到compact latent space。ST-VAE用了causal 3D
+conv和deconv来压缩和recontruct visual
+data，整体上包括一个encoder，一个decoder和一个latent regularization
+layer，这些components被组织成4个对称的stages，交替进行downsampling和upsampling，前两个stages对spatial和temporal
+dimensions进行操作，同时last stage只影响spaital
+dimension，是心啊了有效的 <span class="math inline">\(4 \times 8 \times
+8\)</span> 的压缩，降低了计算负担，另外，作者应用了KL
+constraint来正则化Gaussian Latent space。为了防止信息泄露和它对temporal
+predictions的反面影响，在temporal conv
+space的start，对所有的locations进行pad，另外，为了支持image和video
+processing，将输入video的第一帧进行单独处理，只对它进行spatially
+compress，保持temporal independence。随后的frames在spatial和temporal
+dimensions进行压缩，ST-VAE的encoder将input压缩到一个低维的latent
+space，通过一个decoding实现reconstructino。用两阶段训练ST-VAE：首先单独训练images，然后联合images和videos，在每个stage，作者用mean
+squared error, perceptual loss和adversarial
+loss的结合来优化model。</p></li>
+<li><p>J-DiT：Diffusion transformers 是一个powerful 方法用于generative
+modeling，作者的diffusion transformer建立在DiT上，但是做了修正，
+来支持task-conditioned generation，和原始DiT的不同是两个不同的latent
+representations，这个condition latent representation 是clean，同时target
+latent representation是被高斯噪声扰动了，导致潜在distinct value ranges
+for two。为了处理task-specific和visual
+information之间的不同和提高alignment，作者对于condition和target latents
+sperate的patch embeddings，每个embedding layer拥有给patch size <span
+class="math inline">\(2 \times 2\)</span>，使得对于每个latent
+type，对representations进行定制。这个采样的timestep
+t，还有condition和target sequences，给到diffusion transformer
+layers，建立在MM-DiT架构上，作者引入了condition- 和target-specific
+adaptive RMS normalization(AdaRN) 来独立地modulate每个representation
+space，这是通过在 AdaRN 层中对条件和目标使用不同的timestep
+embeddings来实现的。</p></li>
+<li><p>Full-sequence joint attention是 transformer
+layers的key，一起处理condition和noisy target
+sequences，来增强task-specific alignment，这个condition和target
+sequences进行线性projected，concatenated，然后被双向attention
+module进行处理，从而允许每个序列在各自的独立space中运作，同时又能相互参考。为了提高速度和memory的效率，作者用grouped-query
+attention代替MHA，该方法通过将查询头（query
+heads）进行分组，使每组共享一组键值头（key-value
+heads）。这个方法降低了参数同时保持了expressiveness，性能接近标准的多头注意力机制，另外，为了稳定训练larger
+models和longer sequences，在query-key dot
+products之前，加入了QK-Norm，来控制attention entropy
+growth，作者也应用了sandwich normalization，在每个attention和FFN
+layer之后，来保持activation magnitudes。</p></li>
+<li><p>作者argue：将visual data建模为one-dimensional
+sequences是sub-optimal，因为1D positional
+embedding在捕捉精确的spatial-temporal
+positions上是有限的，相反，将多个image-annotation pairs或者video
+clips作为single continuous sequence，作者用3D Rotary Position
+Encoding(3D RoPE) 来表示spatial-temporal
+relationships，然后，视频中的每个location能够被一个3D 坐标所表达，有了3D
+RoPE，作者提供一个统一的、精确的spatial-temporal representation of
+positional encoding，用于多种vision tasks。</p></li>
+<li><p>J-DiT的训练过程：作者用flow
+matching训练J-DiT，特别地，给定一个representation <span
+class="math inline">\(z_0\)</span> 和noise <span
+class="math inline">\(z_1 ~ N(0,1)\)</span>， flow
+matching基于前向过程定义一个线性插值，<span class="math inline">\(z_t =
+tz_0 + (1-t)z_1\)</span>，timestep <span class="math inline">\(t \in
+[0,1]\)</span>，这个前向过程引出了time-dependent velocity field <span
+class="math inline">\(v(z_t,t)\)</span>，沿着 <span
+class="math inline">\(z_0-z_1\)</span> 的方向drive flow，这个velocity
+field定义了一个oridnary differential equation(ODE): <span
+class="math inline">\(dz_t = v(z_t,t_dt)\)</span>，作者采用了J-DiT，被
+<span class="math inline">\(\theta\)</span> 进行参数化，来预测velocity
+field，将noise转换成clean latent representation，这个flow
+matching的训练目标是直接回归velocity field，得到Conditional Flow
+Matching(CFM) loss。</p></li>
+<li><p>在完成J-DiT
+training之后，我们利用它通过将噪声分布向representation分布进行整合，从而生成新的表征。特别地，从noise
+$z<code>_1 ~ N(0,1), $ at t=1，作者将学习到的J-DiT backward to t=0，来得到表征 $z</code>_0$，例如，用欧拉方法，作者将time
+interval[0,1] 离散成 N steps，一个negative steps size <span
+class="math inline">\(\deltat = -1/N\)</span>，表示backward integration
+in time，在每个step k = 0, 1/N,...,
+(N-1)/N，作者用下列的方法更新time和generated representation： <span
+class="math display">\[
+\begin{aligned}
+t^{(k+1/N)} &amp;= t^{(k)} + \Delta t, \\
+\mathbf{z}^{(k+1/N)} &amp;= \mathbf{z}^{(k)} +
+v_\theta(\mathbf{z}^{(k)}, t^{(k)}) \Delta t,
+\end{aligned}
+\]</span> <span class="math inline">\(t^{(0)}=1, t^{(1)}=0, z^{(0)}=z`,
+z^{(1)}=z`_0\)</span>，通过iteratively
+应用这些updates，作者得到了一个新的presentation，用于following decoding
+process。</p></li>
+<li><p>LaVin-DiT：在完成LaVin-DiT的训练之后，这个model变得versatile，能够用于多个下游任务，特别地，当给定一个query(image或者video)for
+any chosen task，作者随机采样一组input-target
+pairs，定义这个task，这些pairs，和visual
+input，一个高斯噪声component一起，给到J-DiT，在J-DiT内，这些elements被处理，产生一个latent
+representation，最后，这个latent representation通过ST-VAE
+decoder，将其转换成raw pixel space，来产生desired prediction。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/28b787c3107c71b5d63e837a68c6c9b6e0c132fd/4-Figure2-1.png"
+alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span>.
+model开始将visual data从pixel space压缩到latent space，多个input-target
+pairs作为task context，一个target通过diffusion
+process被高斯噪声所扰动，受task context和query的guide，J-DiT通过N
+timesteps来iteratively denoise 则会个noisy target，来恢复一个clean
+latent representation，这个prediction然后通过ST-VAE
+decoder来生成。b和c提供了ST-VAE和J-DiT的细节</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Diffusion-Transformer/" rel="tag"># Diffusion Transformer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/05/26/Jetpack/" rel="prev" title="Jetpack">
+                  <i class="fa fa-angle-left"></i> Jetpack
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">282k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">17:05</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
