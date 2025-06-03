@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">159</span>
+          <span class="site-state-item-count">160</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -160,6 +160,137 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/10/DINOv2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/04/10/DINOv2/" class="post-title-link" itemprop="url">DINOv2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-04-10 11:27:52 / 修改时间：22:42:21" itemprop="dateCreated datePublished" datetime="2025-04-10T11:27:52+08:00">2025-04-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>13 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="dinov2-learning-robust-visual-features-without-supervision1">DINOv2:
+Learning Robust Visual Features without Supervision<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Meta的Maxime Oquab等人。论文引用[1]:Oquab, Maxime et al.
+“DINOv2: Learning Robust Visual Features without Supervision.” ArXiv
+abs/2304.07193 (2023): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Feb</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>curated dataset</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>最近在大规模数据上预训练的NLP的模型的突破，为CV领域的类似的foundation
+models的提供了路子。这些模型通过产生<strong>general purpose visual
+features，能够放大uses of images in any
+system</strong>。这个工作展示了，在现有的预训练的方法中，特别是自监督的方法，如果能够在足够的、多样化的curated
+data上进行训练，能够得到这种features。作者revisit现有的方法，结合了不同的techniques，在data和model
+size上进行scale pretraining。大多数的technical
+contributions旨在加速和stabilizing training at
+scale。在数据方面，作者提出了一个自动化的pipeline，来构建一个dedicated,
+diverse和curated image dataset，而不是uncurated
+data，就像self-supervised中常做的那样。在model方面，作者训练了一个1B的ViT
+model，然后蒸馏到一些更小的models，超过了best available general-purpose
+features, OpenCLIP。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/04/10/DINOv2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1284,119 +1415,6 @@ optimizations，实现了速度和精度的平衡</strong>。</li>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/03/28/Mamba/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/03/28/Mamba/" class="post-title-link" itemprop="url">Mamba</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-03-28 16:55:50" itemprop="dateCreated datePublished" datetime="2025-03-28T16:55:50+08:00">2025-03-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-04-07 14:22:28" itemprop="dateModified" datetime="2025-04-07T14:22:28+08:00">2025-04-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>156</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="notes">Notes</h3>
-<ol type="1">
-<li>SSM是用于描述这些状态表示，并根据某些输入预测其下一个状态可能是什么的模型，一般的输入是连续序列。SSM的核心方程：
-<span class="math display">\[ \begin{align*}
-\text{State equation} &amp; \quad h&#39;(t) = A h(t) + B x(t) \\
-\text{Output equation} &amp; \quad y(t) = C h(t) + D x(t)
-\end{align*}\]</span>
-为了能够处理离散数据，对离散数据进行<strong>连续化，使用零阶保持技术,zero-order
-hold(ZOH)</strong>。有了连续的信号，就可以根据输入的时间对值进行采样。通过<strong>HiPPO初始化，处理长距离依赖</strong>。</li>
-</ol>
-<h3 id="references">References</h3>
-<ul>
-<li>https://blog.csdn.net/v_JULY_v/article/details/134923301</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><a class="page-number" href="/YoungBlogs/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/YoungBlogs/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/16/">16</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1420,13 +1438,13 @@ hold(ZOH)</strong>。有了连续的信号，就可以根据输入的时间对�
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">282k</span>
+    <span title="站点总字数">284k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">17:05</span>
+    <span title="站点阅读时长">17:13</span>
   </span>
 </div>
 <div class="busuanzi-count">

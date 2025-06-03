@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Scalable Diffusion Models with Transformers  作者是来自UC Berkeley的William Peebles和NYU的Saining Xie。论文引用[1]:Peebles, William S. and Saining Xie. “Scalable Diffusion Models with Transformers.” 2023 IEEE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DiT">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/06/03/DiT/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Scalable Diffusion Models with Transformers  作者是来自UC Berkeley的William Peebles和NYU的Saining Xie。论文引用[1]:Peebles, William S. and Saining Xie. “Scalable Diffusion Models with Transformers.” 2023 IEEE">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-02T16:10:59.000Z">
+<meta property="article:modified_time" content="2025-06-03T07:10:15.692Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Diffusion Transformer">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/06/03/DiT/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/06/03/DiT/","path":"2025/06/03/DiT/","title":"DiT"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DiT | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#scalable-diffusion-models-with-transformers"><span class="nav-number">1.</span> <span class="nav-text">Scalable Diffusion
+Models with Transformers</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time"><span class="nav-number"></span> <span class="nav-text">### Time</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">1.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">160</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/03/DiT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DiT | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DiT
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-06-03 00:10:59 / 修改时间：15:10:15" itemprop="dateCreated datePublished" datetime="2025-06-03T00:10:59+08:00">2025-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="scalable-diffusion-models-with-transformers">Scalable Diffusion
+Models with Transformers<sup></sup></h3>
+<blockquote>
+<p>作者是来自UC Berkeley的William Peebles和NYU的Saining
+Xie。论文引用[1]:Peebles, William S. and Saining Xie. “Scalable
+Diffusion Models with Transformers.” 2023 IEEE/CVF International
+Conference on Computer Vision (ICCV) (2022): 4172-4182.</p>
+</blockquote>
+<h2 id="time">### Time</h2>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>Diffusion Model</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>作者探索了基于Transformer的一种新的diffusion model,
+作者训练image的latent diffusion
+model，用transformer代替常用的U-Net的backbone，在latent
+patches上进行操作。作者通过前向传播复杂度(以Gflops)为指标，分析了Diffusion
+Transformer的可扩展性。作者发现，通过增加Transformer的深度/宽度，或增加输入tokens的数量，从而提高Gflops的DiTs，始终具有更低的FID分数，除了具备良好的可扩展性之外，最大的DiT-XL/2
+models在ImageNet数据集上超过了所有的diffusion models
+<span id="more"></span></p></li>
+<li><p>ML正在经历由Transformer开启的革命，在过去的5年,
+NLP、CV和其它的领域的架构都被transformer取代，很多image-level的生成model也保持这一趋势，transformers见证了自回归model的广泛应用，它们在生成model中很少被采样，例如diffusion
+models在image-level的生成models中是最前沿的了，它们采样U-Net架构作为事实上的backbone。Ho等人的工作首次为diffusion
+model引入了U-Net，U-Net在像素级自回归模型和条件生成对抗网络（conditional
+GANs）中取得成功，其架构由
+PixelCNN++继承而来，并进行了少量修改，这个model是卷积的，主要由ResNet
+blocks组成，相比于标准的U-Net，额外的spatial self-attention
+blocks，也插入到了lower resolution 部分，Dhariwal和Nichol
+对U-Net的多种架构选择进行了消融实验，例如使用自适应归一化层来注入条件信息，以及调整卷积层的通道数。然而，Ho等人提出的U-Net高层设计基本保持不变。
+作者旨在深入地解释diffusion models的架构选择的重要性，为了generative
+modeling的研究提供了经验性的baselines。作者展示了：U-Net的归纳偏置对于diffusion
+models的性能是不重要的，他们能被一些标准的设计例如transformers所替代，因此，diffusion
+models能够从最近的架构的发展中受益，通过集成best
+practices和其它domains的训练策略，保持良好的特性例如scalability，robustness和efficiency，一个标准的架构为cross-domain的研究提供了新的可能。</p>
+<p>在本文中，作者聚焦于基于transformer的新的diffusion
+models，称之为Diffusion models，DiTs拥有ViTs的best
+practicesx，相比于传统的conv net在visual
+recognition上展示出了更强的扩展性。更具体地，在网络复杂性和sample
+quality上，作者研究了transformers的scaling
+behavior，我们表明，通过在潜在扩散模型（Latent Diffusion Models,
+LDMs）框架下构建并基准测试DiT设计空间（其中扩散模型在变分自编码器的潜在空间中训练），我们能够成功地用Transformer替代传统的U-Net骨干网络。进一步研究表明，DiTs是适用于扩散模型的可扩展架构：网络复杂度（以Gflops衡量）与生成样本质量（以FID衡量）之间存在显著正相关性。通过简单地扩大DiT规模并在LDM中采用高容量骨干网络（118.6
+Gflops），我们在类条件256×256
+ImageNet生成基准测试中实现了2.27的FID，达到了当时最先进的性能。</p></li>
+<li><p>Diffusion
+和score-based的生成模型，作为图像生成模型取得了成功，超过了GANs，DDPMs的改进由improved
+sampling方法驱动的，最有名的是classifier-free guidance，将diffusion
+models转换为预测noise而不是pixels，用级联的DDPMs
+pipelines，其中低分辨率基础扩散模型与上采样器并行训练，对于所有的diffusion
+models，Conv
+U-Nets是事实上的backbone架构的选择，当前的工作引入了一个新的，高效的架构基于DDPMs。本文对模型复杂度的分析主要通过理论Gflops，这使我们的研究与架构设计领域的主流方法保持一致——在该领域，Gfops（每秒十亿次浮点运算）被广泛用于衡量复杂度。在实际应用中，黄金标准复杂度指标仍存在争议，因其通常依赖于具体应用场景。Nichol
+和 Dhariwal 改进扩散模型的开创性工作与本文最为相关——他们分析了 U-Net
+架构类别的可扩展性和 Gfops 属性。而本文则聚焦于 Transformer
+架构类别。</p></li>
+<li><p>Diffusion
+formulation：在引入架构之前，简要回顾一下DDPMs的基本概念，高斯diffusion
+models假设一个前向的noising process，逐渐对real data加噪声。diffusion
+models被训练用来反向过程，这个reverse process model用variational lower
+bound进行训练。 条件diffusion models将额外的信息作为输入，例如一个class
+label c，在这个例子中，classifier-free guidance用于鼓励sampling
+procedure来找到x，使得 <span class="math inline">\(logp(c|x)\)</span>
+是high。在高分辨率像素空间中直接训练扩散模型可能会导致计算成本过高，难以实现。Latent
+diffusion models用一个two-stage方法来解决这个问题：
+学习一个autoencoder，将images压缩到一个更小的spatial
+representations中，训练一个representation的diffusion
+model，而不是image的diffusion model，新的images通过从diffusion
+model中采样一个representation
+z来生成，后将用学习到的decoder将其解码成image。潜在扩散模型（LDMs）在显著降低计算复杂度（以
+Gfops 衡量）的同时实现了优异性能，其计算量仅为像素空间扩散模型（如
+ADM）的一小部分。由于我们关注计算效率，这使得 LDM
+成为架构探索的理想起点。本文将 DiTs 应用于潜在空间，尽管 DiTs
+也可直接用于像素空间而无需修改。这种设计使我们的图像生成流水线成为一种混合式方法：我们采用现成的卷积
+VAE 和基于 Transformer 的 DDPMs。</p></li>
+<li><p>作者介绍了DiTs，作者尽可能地忠于原始的transformer架构，保持其scaling
+properties。</p>
+<ul>
+<li>Patchify: DiT的输入是spatial representation
+z，DiT的第一个layer是patchify，将spatial
+input转换成T个tokens的sequences，每个是dimension
+d，通过线性映射每个patch。在patchify之后，作者用了标准的ViT
+frequency-based positional embeddings，tokens的数量T是由超参数的patch
+size p决定。</li>
+<li>DiT block：在patchify之后，输入的tokens通过一系列的transformer
+blocks进行处理，除了noised image inputs，diffusion
+models还处理额外的conditional information，例如noise timesteps t，class
+labels c等，作者探索了四个transformer
+blocks的variants，这个设计引入了small，但是重要的modifications</li>
+<li>In-context conditioning，作者简单地将t和c的embeddings作为additional
+tokens加载input sequence上，在最后的block，作者去掉了conditioning
+tokens。</li>
+<li>Cross-attention block：将t和c的embeddings
+concate为一个Length-two的sequence，和image token sequence
+分开，修改transformer block，包含一个额外的多头cross-attention
+layer。</li>
+<li>Adaptive layer norm(adaLN) block：在GANs中的adaptive normalization
+layers的广泛使用，作者探索用adaLN代替transformer blocks中的norm
+layers，不是直接学习dimension-wise scale和shift parameters <span
+class="math inline">\(\gamma\)</span> and <span
+class="math inline">\(\beta\)</span>，作者从t和c的embedding
+vectors的sums中回归出它们，在探索的三个block
+designs中，adaLN增加了最少的Gflops，是最计算高效的，它也是唯一的conditioning
+机制，将same function用于所有的tokens。</li>
+<li>adaLN-Zero block：之前的ResNets上的工作表明：初始化每个residual
+block 为identity function是有益的，Diffusion
+U-Net用了类似的初始化策略，zero-initializing每个block的最后的conv
+lyaer，作者探索了adaLN DiT block的修改版本，除了回归 <span
+class="math inline">\(\gamma\)</span> 和 <span
+class="math inline">\(\beta\)</span>，作者也回归dimension-wise scaling
+参数 <span class="math inline">\(\alpha\)</span>。</li>
+<li>作者用了一系列的N个DiT blocks，每次都在hidden dimension size d
+上进行操作，跟着ViT，作者用了标准的transformer
+configs，特别地，作者用了4个configs，DiT-S, DiT-B,
+DiT-L和DiT-XL，它们覆盖了很大的Model size和flop allocations，从0.3
+到118.6 Gflops，使得能够衡量scaling performance。</li>
+<li>Transformer Decoder：在最后的DiT block之后，作者需要将image
+tokens的序列解码成output noise prediction和一个output diagonal
+convariance prediction，这些输出和原始的spatial
+input有着相同的shape，作者用了一个标注的linar
+decoder来做这个，用最后的layer norm，线性地将每个token解码为一个 <span
+class="math inline">\(p \time p \time 2C\)</span> 的tensor，<span
+class="math inline">\(C\)</span> 是spatial
+input的channels数，最后，将所有的decoded tokens
+rearrange为它们原始的spatial
+layout，来得到预测的noise和convariance。</li>
+</ul></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/736973165f98105fec3729b7db414ae4d80fcbeb/3-Figure3-1.png"
+alt="architecture" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+左边训练一个conditional latent DiT 模型，将input 解构成patches输入到DiT
+blocks，右边是几种不同的variants</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Diffusion-Transformer/" rel="tag"># Diffusion Transformer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/06/02/LaVin-DiT/" rel="prev" title="LaVin-DiT">
+                  <i class="fa fa-angle-left"></i> LaVin-DiT
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">284k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">17:13</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
