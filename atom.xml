@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-06-03T07:10:15.692Z</updated>
+  <updated>2025-06-09T14:58:41.472Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,270 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>RT2</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/06/09/RT2/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/06/09/RT2/</id>
+    <published>2025-06-09T13:11:35.000Z</published>
+    <updated>2025-06-09T14:58:41.472Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="rt-2-vision-language-action-models-transfer-web-knowledge-to-robotic-control1">RT-2:Vision-Language-Action Models Transfer Web Knowledge to RoboticControl<sup>[1]</sup></h3><blockquote><p>作者是来自DeepMind的Anthony Brohan等人，论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2023.July</li></ul><h3 id="key-words">Key Words</h3><ul><li>map robot observations to actions</li><li>利用在language 和vision-language data大规模预训练的benefits</li><li>将actions表示text tokens</li><li>co-fine-tuning</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者研究了在Internet-scaledata上进行训练的VLM是如何直接引入到端到端的roboticcontrol中，来提高泛化性和enable semanticreasoning。作者的目标是使得一个single端到端的trainedmodel能够学习将robotobservations映射到actions，然后能够利用在language和vision-language datafrom theweb大规模预训练的优势，为了这个目的，作者提出了co-fine-tune的SOTA的VLMson both robotic trajectory data和internet-scale vision-languagetasks，例如VQA，相比于其它的方法，作者提出的方法简单，通用，能够实现这个目标，为了将自然语言的responses和roboticactions统一到相同的格式，作者将actions表示为texttokens，将它们引入model的trainingset，和自然语言的tokens一样，作者将这种类型的modals称之为VLA，并构建了该类模型的一个具体实例，命名为RT-2。作者的大量的evaluation表明：这个方法有很好的roboticpolicies，使得RT-2能够从internet-scale training上得到emergentcapabilities，这包括繁华到新目标的能力，将没有出现在训练数据中的指令进行解译，对用户的指令进行基本的推理的能力，作者进一步展示了：引入了思维链的推理使得RT-2能够执行多阶段的语义推理，例如，确定将哪个物体作为临时锤子使用（如石头），或判断哪种饮品最适合疲惫的人（如能量饮料）。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>在广泛的web-scale datasets上预训练的high-capacitymodels为多个下游任务提供了有效的platform，large languagemodels不仅能够流畅地生成文字，也能立即解决问题，进行文学创作，同时vision-languagemodels能够进行开集visualrecognition，对images中的object-agent交互做出复杂推理，这样的语义推理，解决问题和视觉解译的能力对于通用的robots来说是有用的，它们需要在真实世界中执行多样的任务，然而，还不清楚robots应该如何得到这样的能力，一个暴力的方式是搜集millions这样的roboticinteraction trials，最强的language和vision-language models是在billionsof tokens and images from theweb上训练的，这一数据规模在短期内难以通过机器人数据实现同等量级的覆盖。另一方面，直接将这些models用于robotictasks是困难的，这些模型基于语义、标签和文本提示进行推理，而机器人需要执行物理环境中的实际底层动作（如机械臂的笛卡尔空间末端执行器指令）。<strong>尽管已有大量研究尝试将语言模型（LLMs）与视觉-语言模型（VLMs）融入机器人领域，这样的方法通常只解决了roboticplanning的higherlevel，本质上扮演着状态机的角色——解析指令并将其分解为单个原始动作（如抓取与放置物体），随后由独立的底层控制器执行这些动作。然而，这些底层控制器本身在训练过程中无法受益于互联网规模模型所蕴含的丰富语义知识。因此，本文提出核心问题：能否将大规模预训练视觉-语言模型直接集成至低层机器人控制中，以提升泛化能力并实现涌现式语义推理?</strong></p><p>为了这个目的，作者探索了一个简单有效的方法：<strong>直接训练原本设计用于开集VQA和visualdialogue的VLMs，使其输出低层机器人动作，同时解决其他互联网规模的视觉-语言任务。尽管这样的models被训练用来输出naturallanguage tokens，可以通过将actions进行tokenizing为texttokens，构造multimodal sentences，在robotictrajectories上训练它们，使模型能够根据配对的相机观测图像与roboticinstructions，生成对应的机器人动作来实现策略学习。通过这种方式，VLMs可被直接训练为instructionfollowing roboticpolicies。这种简单方法与现有两种方案形成鲜明对比：其一是将视觉-语言模型（VLM）整合进机器人策略的传统方法，其二是从零开始设计新的视觉-语言-动作架构</strong>。相反，<strong>已有的大规模VLMs（这些模型已通过大量计算资源预训练）在不引入任何新参数的情况下被用于输出text-encoded的actions。我们将这一类模型称为视觉-语言-动作（VLA）模型。作者基于RT-1提出的协议对VLA模型进行了实现，用了类似的dataset，但是用一个大的Vision-Languagebackbone对model进行了扩展，因此，将model称之为RT-2(Robotics Transformer2)</strong>。</p><p>作者管超大，从这样的VLMs中得到的roboticpolicies展示出了很强的能管理，结合了从robot data中学习到的physicalmotions和将web上的images和text解译为singlemodel，除了显著提升对新颖物体和多样化指令的泛化能力这一预期优势之外，作者还观察到模型展现出一系列涌现能力。尽管模型的物理技能仍受限于机器人数据中出现过的技能分布，但它能够通过利用从网络中获取的知识来理解图像和语言指令，从而以新的方式运用这些已有技能。另外，如果用思维链prompting来增强command，model能够做出更复杂的语义推理。</p><p>作者的主要贡献是RT-2，对大的VLMs微调得到的models，能够直接作为具有泛化能力和语义感知能力的roboticpolicies，在总计 6000 次机器人的评估中，我们展示了 RT-2在物体、场景和指令上的泛化能力显著提升，并表现出一系列从网络规模视觉-语言预训练中继承而来的涌现能力。</p></li><li><p>VLMs将一个或多个images作为输入，然后产生一系列的tokens，一般是代表自然语言的text，这样的models能够执行广泛地visualinterpretation和reasoningtask，从推理一个image的构成到回到objects及Objects之间关联的问题，representing执行如此广泛任务所需的知识，需要大型模型和网络规模的数据集，在文本中，作者次啊用了之前的两个VLMs作为VLAmodels：PaLI-X和PaLM-E，将这些models的VLA版本表示为RT-2-PaLI-X和RT-2-PaLM-E，作者采用了这些模型的不同实例，其规模从数十亿到数百亿参数不等。</p></li><li><p>为了使得VLMs来控制robot，它们必须被训练来输出actions，作者采用了一个直接的方法，将**actions表示为tokensin the model's output，和language tokens一样，作者将actionencoding基于discretization，这个action space包含robotend-effector的6-DoF的位置和旋转displacement，机械手的张合程度，以及一个用于终止当前任务的特殊离散指令，该指令应由策略触发，以表示任务已成功完成。除终止指令外，其余连续维度均被均匀地离散为256 个区间。因此，机器人动作可以通过这些离散区间的序号表示为 8个整数。为了将这些离散化的actions用于微调视觉-语言模型，使其成为视觉-语言-动作模型，需要将模型已有的分词器中的tokens与这些discreteaction bins进行关联。这要求保留256 tokens作为actiontokens，选择哪个tokens依赖于每个VLMs采用的tokenization，为了定义一个用于VLM微调的target，作者将action vector通过简单地转换成singlestring，具体做法是：将每个维度对应的actiontokens以空格连接的方式进行concatenate。PaLI-X和PaLM-E用了不同的tokenizaitons，对于PaLI-X，每个不超过1000 的整数都有一个唯一的标记（token），因此我们只需将actionbins直接映射到对应整数的标记上。而对于 PaLM-E模型，由于它不提供这种便捷的数字表示方式，则将其最不常用的 256个tokens进行override，用于表示actiontokens。值得注意的是，将视觉语言模型（VLM）中已有的tokensoverride为action tokens是一种符号微调(symbol tuning)。</p><p><strong>采用上述的action representation的方法，将robotdata转换成适用于VLM model fine-tuning，输入包括robot cameraimage和textual task description，是促使一个数字/least frequently usedtokens，表示一个robot action</strong>.</p></li><li><p>一个重要的训练recipe是 co-fine-tuning robotic data with theoriginal web data，而不是在robotdata上进行微调。co-fine-tuning会有更泛化的policies。RT-2和标准的VLMs的不同之处在于,RT-2要求输出valid actiontokens，用于真实的robot的执行，因此，为了确保RT-2输出有效的actiontokens，当model 被prompt一个robot-action task的时候，通过仅对validactiontokens进行sampling，限制输出的vocabulary，然而，model还是能够输出完整的naturallanguage tokens on standard vision-language tasks.</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/38939304bb760473141c2aca0305e44fbe04e6e8/2-Figure1-1.png" /><span class="math inline">\(Fig.1^{[1]}\)</span> 将robotactions表示为另一种language，被转换为文本标记，和大规模的vision-languagedatasets一起训练，在推理的时候，text tokens被de-tokenized为robotactions，实现闭环控制，这使得我们在学习roboticpolicies的时候，能够利用VLM的backbone和预训练，将它们的泛化能力、语义理解和推理迁移到robotcontrol。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;rt-2-vision-language-action-models-transfer-web-knowledge-to-robotic-control1&quot;&gt;RT-2:
+Vision-Language-Action Models Transfer Web Knowledge to Robotic
+Control&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自DeepMind的Anthony Brohan等人，论文引用[1]:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2023.July&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;map robot observations to actions&lt;/li&gt;
+&lt;li&gt;利用在language 和vision-language data大规模预训练的benefits&lt;/li&gt;
+&lt;li&gt;将actions表示text tokens&lt;/li&gt;
+&lt;li&gt;co-fine-tuning&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;作者研究了在Internet-scale
+data上进行训练的VLM是如何直接引入到端到端的robotic
+control中，来提高泛化性和enable semantic
+reasoning。作者的目标是使得一个single端到端的trained
+model能够学习将robot
+observations映射到actions，然后能够利用在language和vision-language data
+from the
+web大规模预训练的优势，为了这个目的，作者提出了co-fine-tune的SOTA的VLMs
+on both robotic trajectory data和internet-scale vision-language
+tasks，例如VQA，相比于其它的方法，作者提出的方法简单，通用，能够实现这个目标，为了将自然语言的responses和robotic
+actions统一到相同的格式，作者将actions表示为text
+tokens，将它们引入model的training
+set，和自然语言的tokens一样，作者将这种类型的modals称之为VLA，并构建了该类模型的一个具体实例，命名为RT-2。作者的大量的evaluation表明：这个方法有很好的robotic
+policies，使得RT-2能够从internet-scale training上得到emergent
+capabilities，这包括繁华到新目标的能力，将没有出现在训练数据中的指令进行解译，对用户的指令进行基本的推理的能力，作者进一步展示了：引入了思维链的推理使得RT-2能够执行多阶段的语义推理，例如，确定将哪个物体作为临时锤子使用（如石头），或判断哪种饮品最适合疲惫的人（如能量饮料）。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="VLA" scheme="https://young-eng.github.io/YoungBlogs/tags/VLA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Octo</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/06/09/Octo/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/06/09/Octo/</id>
+    <published>2025-06-09T13:11:29.000Z</published>
+    <updated>2025-06-09T13:16:47.257Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="octo-an-open-source-generalist-robot-policy1">Octo: AnOpen-Source Generalist Robot Policy<sup>[1]</sup></h3><blockquote><p>作者是来自UCB、Stanford、CMU和DeepMind的SudeepDasari等人，论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2024.May</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;octo-an-open-source-generalist-robot-policy1&quot;&gt;Octo: An
+Open-Source Generalist Robot Policy&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是</summary>
+      
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="VLA" scheme="https://young-eng.github.io/YoungBlogs/tags/VLA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SigLIP</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/06/09/SigLIP/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/06/09/SigLIP/</id>
+    <published>2025-06-09T08:18:40.000Z</published>
+    <updated>2025-06-09T13:15:15.399Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="section"></h3><h2 id="time">### Time</h2><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;section&quot;&gt;&lt;/h3&gt;
+&lt;h2 id=&quot;time&quot;&gt;### Time&lt;/h2&gt;
+&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;</summary>
+      
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Multi-Modal" scheme="https://young-eng.github.io/YoungBlogs/tags/Multi-Modal/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>EVA</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/06/09/EVA/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/06/09/EVA/</id>
+    <published>2025-06-09T08:18:18.000Z</published>
+    <updated>2025-06-09T12:57:48.684Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="eva-exploring-the-limits-of-masked-visual-representation-learning-at-scale1">EVA:Exploring the Limits of Masked Visual Representation Learning atScale<sup>[1]</sup></h3><blockquote><p>作者是来自BAAI、华科等机构的Yuxin Fang等人。论文引用[1]:Fang, Yuxinet al. “EVA: Exploring the Limits of Masked Visual RepresentationLearning at Scale.” 2023 IEEE/CVF Conference on Computer Vision andPattern Recognition (CVPR) (2022): 19358-19369.</p></blockquote><h3 id="time">Time</h3><ul><li>2022.Dec</li></ul><h3 id="key-words">Key Words</h3><ul><li>masked out image-text aligned vision features</li><li>CLIP</li><li>MIM</li></ul><h3 id="总结">总结</h3><ol type="1"><li><p>作者提出了EVA，是一个vision-centric的foundationmodel，仅用公开的数据，来探索大规模visualrepresentation的极限。EVA是一个普通的ViT，预训练用来重建masked outimage-text aligned vision features conditioned on visible imagepatches。通过这个代理任务，可以有效地scale upEVA到1B参数，在多个代表性的下游任务上创造了新的记录，另外，在扩展EVA时，量变会引发迁移学习性能的质变，这种现象在其他模型中并不存在。例如，在极具挑战性的大规模词汇实例分割任务中，EVA实现了跨越式突破：作者的模型在包含超过一千类别的LVISv1.0数据集和仅有80类的COCO数据集上，均达到了接近最先进的性能水平。除了一个purevision encoder，EVA也可以作为一个vision-centric,多模态的pivot，来连接images和text，作者发现，通过使用EVA初始化giant CLIPmodel的视觉分支，不仅能显著提升训练稳定性，还能以更少的样本量和计算资源超越从零训练的同类模型。提供了一个新的scalingup和加速多模态foundation models的方向。 <span id="more"></span></p></li><li><p>scalingup预训练的语言模型在过去的几年里革新了NLP，这个成功的key是简单和scalable的maskedsignal prediction的自监督学习任务，用几乎无限的unlabelled data,Transformer能够被scale到Billion参数，只需要很少的tuning，下游任务就能够泛化地很好，进一步在compute,data, modelsizes上进行scaling，预训练的语言模型不仅会持续地性能提高，还能有惊人的in-contextlearning的能力。受NLP中model的启发，将这个成功从NLP中推广到CV中，来scale upvision-centric foundationmodel，能够对vision和多模态的下游任务都有beneficial，最近，MIM是一个可行的visionmodel 预训练和scaling的方式，然而，最有竞争力的billion-sized visionpre-trainedmodels仍然依赖于有大量人类标注数据的监督或者弱监督训练。MIM是作为一个监督预训练之间的一个初始化stage，或者一个纯MIM预训练model不能实现favorable的性能，作者认为这个gap是来自于自然图像是raw而且information-sparse，同时，一个理想的visionpretexttask需要的是不仅low-level几何和结构信息的抽象，还有高级语义，这很难通过pixel-level的recoverytask来capture。</p><p>在本文中，作者寻找一个合适的MIM pretext task用于大规模的visionrepresentationlearning，探索它在数十亿未标注数据和1B参数上的limits，最近，一些尝试利用image-image或者image-text对比学习的语义信息用于MIM预训练，在vision的下游任务表现很好，然而，仍然有一些debate：tokenizedsemantic features能为masked modeling提供更好的supervisionsignal，不需要masked predictiontasks，通过简单地后蒸馏过程也能实现很好的性能。通过一个实验性的研究，作者发现，简单地image-textaligned vision features作为prediction targets in MIM能够scale upwell，在多个下游任务上实现满意的性能，这个pre-trainingtasks结合了图文对比学习中对高层语义的抽象能力，以及掩码图像建模在几何与结构信息捕捉方面的优势，从而涵盖了大多数视觉感知任务所需的信息.</p><p>通过这个代理任务，能够scale up一个普通的ViTencoder到1B参数，称为EVA，有很强的visual representation。</p></li><li><p>在这个部分，作者寻找一个很强的transfer performance的MIM visionpretext task，基于之前的visionpre-training，作者研究了两个Promising的方法：recovering masked outtokenized semantic vision features; 从strong pre-trainedrepresentation中蒸馏到的feature。一些实验发现：额外的CLIP featuretokenization process对于实现很好的下游任务是不必要的;当pre-training变长之后，feature 蒸馏不能提供持续的performancegain，相反，<strong>在visible image patches条件下简单地重建masked outCLIP vision features性能比较好，这被选择用来scaling up EVA</strong>。这个MIM代理任务不是有作者提出来的，h回归masked outimage-text对齐的vision features for MIMpretraining在MVP被研究了，最近的被MILANrevisited，在本文中，作者展示了这个代理任务能够scaleup到Billion参数，数十亿的无标签的data用于vision-centric representationlearning，不需要semantic featurequantization/tokenization，显式地利用image-text paired pretrainingdata和large corpora in BEiT-3。</p></li><li><p>EVA是一个普通的ViT，它的shape是和ViT giant和BEiT-3的visionencoder一样，没有用相对位置编码和layer-scale during pre-training。-Pre-training objective: EVA 被预训练用来重建在visible imagepatches条件下的masked out image-text aligned visionfeatures。用<strong>[mask] token</strong> 来corrupt输入的patches，然后用block-wise masking，masking ratio是 40%， MIM预训练的target是开源的CLIP-L/14 visiontower，EVA的输出特征首先被normalized，然后通过一个linear layer映射到和CLIP feature相同的维度，作者用negative cosine similarity作为loss function。</p><p>用作MIM prediction targets的CLIP features是在400 million image-textdataset上自监督训练得到的，在预训练期间，EVA隐式地利用了这个数据集的knowledge，同时，这些CLIPfeatures也广泛地用于其它的SOTA representationlearning和预训练works，比如BEiT等。</p><ul><li>预训练设置和超参数：EVA用了Adam优化器和解耦的weight decay，peaklearning rate是 1e3，根据consine learningrate进行decay，作者采用了stochastic depth，0.1 rate forregularization，RandResizeCrop(0.2, 1) for data augmentation。</li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/78281482c1fdad8e167bab39cc9955c73d58ae8f/1-Figure1-1.png"alt="Illustration" /> <span class="math inline">\(Fig.1^{[1]}\)</span>作者发现，用足够的数据和计算，简单地回归masked out image-text alignedvision features(CLIP features) scales upwell，能够很好地transfer到多个下游任务。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;eva-exploring-the-limits-of-masked-visual-representation-learning-at-scale1&quot;&gt;EVA:
+Exploring the Limits of Masked Visual Representation Learning at
+Scale&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自BAAI、华科等机构的Yuxin Fang等人。论文引用[1]:Fang, Yuxin
+et al. “EVA: Exploring the Limits of Masked Visual Representation
+Learning at Scale.” 2023 IEEE/CVF Conference on Computer Vision and
+Pattern Recognition (CVPR) (2022): 19358-19369.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2022.Dec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;masked out image-text aligned vision features&lt;/li&gt;
+&lt;li&gt;CLIP&lt;/li&gt;
+&lt;li&gt;MIM&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;作者提出了EVA，是一个vision-centric的foundation
+model，仅用公开的数据，来探索大规模visual
+representation的极限。EVA是一个普通的ViT，预训练用来重建masked out
+image-text aligned vision features conditioned on visible image
+patches。通过这个代理任务，可以有效地scale up
+EVA到1B参数，在多个代表性的下游任务上创造了新的记录，另外，在扩展EVA时，量变会引发迁移学习性能的质变，这种现象在其他模型中并不存在。例如，在极具挑战性的大规模词汇实例分割任务中，EVA实现了跨越式突破：作者的模型在包含超过一千类别的LVISv1.0数据集和仅有80类的COCO数据集上，均达到了接近最先进的性能水平。除了一个pure
+vision encoder，EVA也可以作为一个vision-centric,
+多模态的pivot，来连接images和text，作者发现，通过使用EVA初始化giant CLIP
+model的视觉分支，不仅能显著提升训练稳定性，还能以更少的样本量和计算资源超越从零训练的同类模型。提供了一个新的scaling
+up和加速多模态foundation models的方向。</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Multi-Modal" scheme="https://young-eng.github.io/YoungBlogs/tags/Multi-Modal/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pi0</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/06/08/Pi0/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/06/08/Pi0/</id>
+    <published>2025-06-08T08:41:10.000Z</published>
+    <updated>2025-06-09T08:14:59.867Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="pi_0-a-vision-language-action-flow-model-for-general-robot-control1"><spanclass="math inline">\(\Pi_0\)</span>: A Vision-Language-Action FlowModel for General Robot Control<sup>[1]</sup></h3><blockquote><p>作者是来自Physical Intelligence的Kevin Black 等人。论文引用[1]:Black,Kevin et al. “π0: A Vision-Language-Action Flow Model for General RobotControl.” ArXiv abs/2410.24164 (2024): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Nov</li></ul><h3 id="key-words">Key Words</h3><ul><li>flow matching</li><li>一句话：<strong>作者的robot policy用了一个预训练的VLMbackbone，还有多个embodiment dataset，通过增加一个单独的actionexpert来做roboto control，通过flowmatching产生连续的actions，使得能够实现精确和丝滑的控制，model可以基于prompt，执行tasks，或者在高质量的data上进行微调，实现复杂的多阶段的任务，例如折叠多个衣服</strong>。</li></ul><h3 id="总结">总结</h3><ol type="1"><li><p>RobotLearning有很大的前景，解锁灵活、通用和熟练的机器人系统的全部潜力，还能解决AI中的一些最深的问题。然而，将robotlearning带到一个有效的real-worldsystems的要求的通用能力的水平面临一些数据、泛化性和鲁棒性方面的挑战。在本文中，作者讨论了通用的机器人策略(generalistrobot policies)如何解决这些挑战，以及作者如何涉及有效的generalist robotpolicies for complex和highly dexterous tasks。作者提出了一个新的flowmatching架构，建立在一个预训练的VLM基础之上，继承了internet-scale语义信息，作者然后讨论这个model是如何在一个来自多个robotplatforms、包括单臂、双臂和移动manipulators上的数据集上进行训练的。作者将从模型通过直接prompting执行任务的能力、遵循人类语言指令的能力，以及遵循高层次VLM策略指令、和通过微调得到新的skills的能力这几个方面来评估我们的模型。<span id="more"></span></p></li><li><p><em>一个人应当能够换尿布、策划入侵、宰猪、掌舵船只、设计建筑、撰写十四行诗、管理账目、砌墙、接骨、安慰临终者、服从命令、发布命令、协作共事、独立行动、解算方程、分析新问题、扬粪施肥、编程计算机、烹调美食、高效战斗、英勇赴死。专业化是昆虫的宿命</em>，罗伯特.海因莱因，《时间足够你爱》。人工智能系统形态多样，规模各异，从高级的专业化的systems，解决人类无法难以理解的问题，例如预测蛋白质的comformation，到能够基于texualprompts产生逼真的高分辨率的images orvideos，然而，人类智能超越机器智能的核心维度在于其通用性，能够解决多种物理环境中的多样的任务，智能地回应环境的限制、语言指令和没有想到的干扰。或许，人工智能在实现这种通用性方面最显著的进展，体现在LLMs和VLMs中：在大量的web上的images和text上预训练的systems，然后用精心准备的datasets进行微调，旨在引导出期望的行为和响应模式。尽管研究表明此类模型展现出广泛的指令遵循和问题解决能力，但它们并不像人类那样真实置身于物理世界，其对物理交互的理解完全基于抽象描述。如果现有方法希望在开发具备人类物理情境适应能力的AI系统方面取得实质性进展，就必须使用来自具身机器人代理的物理环境数据进行训练。能够用来执行多种机器人行为的灵活、通用的models展示出了巨大的实际效果。能够被赋予执行多种机器人行为任务的灵活通用模型具有深远的实际影响，但它们也可能为当前机器人学习所面临的最严峻挑战提供解决方案：例如数据的可用性，泛化性和鲁棒性。在NLP和CV中，在多个多任务数据上预训练的通用目的的foundationmodels，往往超过narrowlytailored的和专门的解决方法。例如：如果目标是识别image中的biirds，在多个不同的image-language关联上预训练，然后微调或者prompt for the bird recognitiontask，然后仅在bird 数据上进行train。类似地，这样也可能找到specializedrobot systems，首先在highly diverse robotdata进行预训练，然后微调或者prompt for the deiredtask，这能够解决数据稀缺性挑战，因为很多数据是适用于generalistmodel，包括其它任务的、其它robots甚至是non-robotssources的数据。它可能解决robustness和泛化性的挑战，因为多样化数据对观测与操作的覆盖范围更广泛，提供了多样化的场景、修正机制和恢复行为——这些特征在狭窄的专业化数据中可能并不存在。因此，在robotlearning上采用大规模预训练方法展示出了解决field's的挑战，使得实际的learning-enabledrobots成为一个现实，同时，促进了对AI中最深问题的理解。</p><p>然而，开发这样的通用的robot policies，例如robot foundationmodels，涉及很多主要的挑战：首先，任何研究必须是largescale的，因为大规模的预训练的benefits通常不会在smallscales上展示出来；其次，它要求合适的模型架构，能够有效地利用多样的数据，同时能够表示复杂和微妙的、和复杂物理场景交互必须的行为；第三，它要求合适的训练方法，这或许是最重要的部分，很多最近的NLP和CV中的进展依赖于精心设计的策略forcurating pre-training和post-training data。</p><p>**在本文中，作者提出了一个prototype model和learning的框架，称之为<spanclass="math inline">\(\pi_0\)</span>，为了引入多种数据源，利用预训练的VLM来导入Internet-scaleexperience，作者的model以VLM为基础，继承了通用的knowledge，semanticreasoning和LLMs和VLMs的问题解决的能力，作者进一步训练model，引入robotactions，将其变成VLA model，为了利用多种robot datasources变得可行，作者采用了cross-embodiment training，来自多个robottypes的data结合进同一个model，这些不同的robot types有不同的configurationspaces和action representations，包括single和dual-armsystems，还有移动的manipulators，另外，为了使得执行highly dexterous和复杂的物理tasks成为可能，作者用了一个action chunking with flowmatching的架构，来表示复杂连续的动作分布，这使得作者的model最多能在dexteroustasks上以50Hz控制robots，为了将flowmatching和VLMs结合，作者用了一个新的action expert，用flow-basedoutputs来增强标准的VLM。</p><p>和语言模型一样，作者的model只是方法的一部分，为了灵活地执行复杂的任务，作者需要正确地训练策略，作者的策略模仿了pre-training/post-trainingseparation，这在大规模的LLMs和VLM上很常见，model首先在非常大和多样的corpus上进行预训练，然后在narrow和carefullycurateddata上进行微调，来引出behaviors的理想的pattern，在作者的case中，dexterity，efficiency和robustness，直觉上，仅在高质量的data上进行训练并不能教model如何从错误中恢复，因为错误在data上很少见，仅在低质量的pretrainingdata上进行训练，不能教model有效地act，将两者结合能够实现期望的行为：模型会尽可能地模仿高质量数据的行为模式，同时仍具备一系列恢复和纠正机制，可在出现错误时灵活调用。</p><p>作者的工作的contributions包括：一个新的通用的robotpolicy架构，基于预训练的VLM和flowmatching，一个针对此类机器人基础模型的预训练与后训练策略开展的empiricalinvestigation，作者对模型进行了三种方式的评估：直接使用语言指令进行开箱即用的评估、在下游任务上进行微调的评估，以及结合高级语义策略的评估——该策略会输出中间语言指令，以执行复杂且具有时间延续性的任务。同时，作者的model和system利用多个最近的工作的ideas。</p></li><li><p>作者的工作基于最近的在大规模robot learning的方法，包括multimodallanguage models，VLA models(用预训练的VLMs，然后对robot control进行fine-tuned)，这样的models利用自回归的discretization来表示actions，类似于texttokens，相比之下，作者采用了一个新的设计，将VLMs微调，通过flowmatching产生actions，这使得能够处理高频的action chunks和highly dexteroustasks，也展示了这些任务对以往的自回归视觉语言动作模型（VLA）构成了重大挑战。这像最近在diffusionmodels for actiongeneration上的工作，相比于这些工作，作者的model利用一个预训练的VLMbackbone，作者的contribution也是integrative，聚焦于一个framework forrobot foundation models，包括不仅模型架构本身，还有pretrainingrecipe，pretraining/post-training阶段。</p><p>在robot control之外，很多models将预训练的languagemodels和diffusion进行结合，包括specifically hybridizediffusion和自回归的large language models，这样的models通常和imagegeneration有关，但是作者的action generationmodel建立在之前提出的concepts上，作者通过在单个序列元素上应用扩散风格的（flowmatching）损失来训练模型，以此取代仅使用解码器的 Transformer中常见的交叉熵损失。作者为与扩散过程对应的token使用了一套独立的权重。在将这些概念引入视觉语言动作（VLA）模型的基础上，作者提出了首个基于flowmatching的 VLA 模型，能够生成用于灵巧控制的高频action chunks fordexterous control。</p><p>作者的工作也建立在之前的large-scale robotlearning上的工作，早期的工作利用自监督或者autonomous datacollection，提供了一个易处理的datasource，用于简单的任务，但是没有更多more dexterous的行为，最近，搜集了高质量的数据集用于robotcontrol，使得更广的泛化性，但是，这只是针对更简单的tasks，包含objectrelocation等。more dexterous tasks是在一个更小的scale被研究，通常只有10s或者100s的training轨迹，作者目标之一是研究复杂和dexterous行为，作者利用一个更大的dataset，大概10,000 hours的demos，和开源的OXEdataset互补，剧作者所知，这是目前为止最大哦的robot learningexpertiments，在这个scale上，作者展示了一个更复杂的pretraining/post-trainingrecipe是highlyeffective，类似于用于LLMs的recipes，一个预训练的阶段使得model具有广博的知识基础，在post-training中，用更高质量的curateddata进行refine，实现desired 行为。</p><p>任务的复杂性超过了之前的工作，最近的工作阐释了大量更复杂和dexterous的行为，例如cooking shrimp，作者展示了，作者的framework能够学习longtasks，有时长度上能达到数十分钟，这些任务的行为既包含物理上的灵巧性，也具有组合上的复杂性。例如，laundryfolding任务要求robot来操作多种衣服，在任何configuration下开始，然后依次进行fold。</p></li><li><p>在训练framework中，作者首先组合了一个pretrainingmixture，包含一个在7个不同的robotconfiguration下的，用于68个tasks的dexterous manipulationdatasets和整个的OXEdataset的加权的combination。预训练阶段用了不同的languagelabels，包含task names和segment annotations。预训练的目的是训练一个basemodel，展示出broadcapabilities和泛化性，但不一定在任何单一任务上追求高性能。这个basemodel遵循languagecommands，对一些任务有基础的执行能力。对于复杂的任务，需要post-training：用高质量的数据将model适应到下游任务。作者研究了小到中等数据量的有效后训练，以及大数据集的高质量后训练，用于复杂任务，如洗衣折叠和移动操作。作者的model是基于PaliGemmaVLM，然后进一步用data mixture进行训练，为了将base PaliGemma VLM转换成<span class="math inline">\(\pi_0\)</span>，用flowmatching，增加了action outputs，来产生连续的actiondistributions。</p></li><li><p><span class="math inline">\(\pi_0\)</span> 包含一个language modeltransformer backbone，遵循标准的late fusion VLM 方法，imageencoders将robot image observations嵌入到和languagetokens相同的向量空间，用robotics-specificinputs和outputs来增强这个backbone，也就是proprioceptive state和robotactions， <span class="math inline">\(\pi_0\)</span> 用了conditionalflow matching，来建模actions的连续分布。Flow matching提供了highprecision和多模态的能力，使其能够适应高频的Dexteroustasks，作者的架构受Transfusion的启发，用多个objectives训练singletransformer，tokens对应于通过一个flow matchingloss监督的连续outputs。基于Transfusion，作者发现，为robotics-specifictokens设置一个单独的weights可以提高性能，这个设计类似于MoE，有两个mixtureelements，第一个element用于image和textinputs，第二个用于robotic-specific inputs和outputs，将第二个weightsset称之为 action expert。 作者想建模data distribution <spanclass="math inline">\(p(A_t|O_t)\)</span>，<spanclass="math inline">\(O_t\)</span>是observation，<spanclass="math inline">\(A_t\)</span>是对应的future actions的actionchunk，这个observation包含多个RGB images，一个language command，robotproprioceptive state，<span class="math inline">\(O_t = [I^1_t, ...,I^n_t, l_t, q_t]\)</span>，<span class="math inline">\(I^i_t\)</span>是第i个image，<span class="math inline">\(l_t\)</span> 是languagetoken的序列，<span class="math inline">\(q_t\)</span> 是jointangles的vector，images <span class="math inline">\(I^i_t\)</span>和state <span class="math inline">\(q_t\)</span>通过对应的encoders和进行编码，然后通过一个linear projectionlayer投影到和language tokens相同的向量空间。对于action chunk <spanclass="math inline">\(A_t\)</span> 中的每个action <spanclass="math inline">\(a_t`\)</span> ，有一个对应的actiontoken，通过action expert，在训练期间，用一个conditional flow matchingloss来监督这些action。最近在high-resolutionimage和video合成中的工作表明：当和一个simplelinear-gaussian结合的时候，flowmatching实现了一个很强的性能。在实际中，网络通过sampling randomnoise进行训练，计算noisy actions，然后训练网络的输出来匹配denoisingvector field，action expert用一个full bidirectional attentionmask，因此所有的action tokens能够attend to eachother，在训练期间，从一个beta 分布中，采样flow matching timestep <spanclass="math inline">\(\tau\)</span>。</p><p>在推理的时候，通过集成learned vectorfield，产生actions，用前向的Euler集成规则。</p><p>原则上，作者的model可以从零初始化，或者从任意的VLMbackbone进行微调，实际中作者用了PaliGemma作为basemodel，PaliGemma是一个开源的VLM，在size和performance之间提供了convenienttrade-off。作者加了300M 参数for action expert</p><ul><li>Non-VLM baseline model：除了主要的VLAmodel，作者也训练了一个类似的baseline model，不用VLM初始化，这个model称之为 <spanclass="math inline">\(\pi_0\)</span>-small，没有用VLM初始化。和LLM的训练类似，有预训练和后训练，预训练的目标是使model得到广泛的applicable和通用的能力，后训练让modele能够有效地执行下游任务。</li></ul></li><li><p>很多复杂的任务要求semantic reasoning和高阶的策略，例如tablebussing，能从将高阶任务分解成多个中级的subtasks的high-level策略中获益，因为作者的model被训练用来处理languageinputs，可以用一个high-level VLM来做语义推理，类似于LLM/VLMplanning方法，采用此类高层次策略，协助模型以high-levelstrategy指导多个实验任务的执行。 作者的dexterous manipulationdatasets包含7个不同的robot configurations和68个tasks，分别是<strong>UR5e, Bimanual UR5e, Franka, Bimanual Trossen， Bimanual ARX&amp;bimanual AgileX，Mobile Trossen &amp; mobile ARX, MobileFibocom</strong>。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/ef0c2a66b7bc82a2f90ac298310c064a49da8213/4-Figure3-1.png"alt="framework" /> <span class="math inline">\(Fig.2^{[1]}\)</span>先是pre-training mixture，包含作者自己的dexterous manipulationdatasets和开源数据，作者用这个mixture来训练flow matching VLAmodel，包含一个更大的VLM backbone和一个更小的actionexpert，用于处理robot states和actions，VLM backboneweights是从PaliGemma初始化的，提供了从large-scale internet预训练的representations，<span class="math inline">\(\pi_0\)</span>model 能够用不同的action spaces来控制多个robotembodiments，来完成多样的任务。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;pi_0-a-vision-language-action-flow-model-for-general-robot-control1&quot;&gt;&lt;span
+class=&quot;math inline&quot;&gt;&#92;(&#92;Pi_0&#92;)&lt;/span&gt;: A Vision-Language-Action Flow
+Model for General Robot Control&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自Physical Intelligence的Kevin Black 等人。论文引用[1]:Black,
+Kevin et al. “π0: A Vision-Language-Action Flow Model for General Robot
+Control.” ArXiv abs/2410.24164 (2024): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2024.Nov&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;flow matching&lt;/li&gt;
+&lt;li&gt;一句话：&lt;strong&gt;作者的robot policy用了一个预训练的VLM
+backbone，还有多个embodiment dataset，通过增加一个单独的action
+expert来做roboto control，通过flow
+matching产生连续的actions，使得能够实现精确和丝滑的控制，model可以基于prompt，执行tasks，或者在高质量的data上进行微调，实现复杂的多阶段的任务，例如折叠多个衣服&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;Robot
+Learning有很大的前景，解锁灵活、通用和熟练的机器人系统的全部潜力，还能解决AI中的一些最深的问题。然而，将robot
+learning带到一个有效的real-world
+systems的要求的通用能力的水平面临一些数据、泛化性和鲁棒性方面的挑战。在本文中，作者讨论了通用的机器人策略(generalist
+robot policies)如何解决这些挑战，以及作者如何涉及有效的generalist robot
+policies for complex和highly dexterous tasks。作者提出了一个新的flow
+matching
+架构，建立在一个预训练的VLM基础之上，继承了internet-scale语义信息，作者然后讨论这个model是如何在一个来自多个robot
+platforms、包括单臂、双臂和移动manipulators上的数据集上进行训练的。作者将从模型通过直接prompting执行任务的能力、遵循人类语言指令的能力，以及遵循高层次VLM策略指令、和通过微调得到新的skills的能力这几个方面来评估我们的模型。</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="VLA" scheme="https://young-eng.github.io/YoungBlogs/tags/VLA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>VA-VAE</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/06/04/VA-VAE/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/06/04/VA-VAE/</id>
+    <published>2025-06-04T14:37:32.000Z</published>
+    <updated>2025-06-04T15:13:13.967Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="reconstruction-vs.-generation-taming-optimization-dilemma-in-latent-diffusion-models1">Reconstructionvs. Generation: Taming Optimization Dilemma in Latent DiffusionModels<sup>[1]</sup></h3><blockquote><p>作者主要是来自华科的Jingfeng Yao等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Mar</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li><p>用Transformer架构的Latent diffusionmodels擅长生成高质量的images，然而，最近的研究表明了这个两阶段设计的优化困境：增加visualtokenizers中的per-token feature dimension的时候，提高了reconstruction的质量，它需要很大的diffusion models何更多的trainingiterations来实现相当的生成性能。因此，现有的systems经常遇到次优化的解决方式，要么是由于tokenizer的informationloss造成的visualartifacts，要么是由于大量的计算导致难以收敛，作者argue，这个dilemma<strong>源于学习没有约束的高维latentspaces的困难</strong>，为了解决这个，作者提出了，<strong>当训练visualtokenizers的时候，将latent space和预训练的vision foundationmodels进行对齐</strong>。作者提出了VA-VAE(Vision foundation modelAligned VAE)，极大地扩展了latent diffusionmodels的reconstruction-generation 的边界，使得DiTs在高维latentspaces快速收敛，为了利用VA-VAE的全部的potential，作者构建了一个增强版的DiT，用了改进的训练策略和架构设计，称之为LightningDiT。<span id="more"></span></p></li><li><p>latent diffusion model利用连续值的VAE，或者visualtokenizer来压缩视觉信号，然后降低高分辨率图像生成的计算需求，这些visualtokenizer的性能，特别是压缩和重建的能力，决定了整体系统的有效性。一个直接的增强reconstruction能力的方法是增加visualtokens的feature dimension，有效地扩充了latentrepresentation的informationcapacity，最近，一些有影响力的text-to-image工作探索了更高维的tokenizers，这些tokenizers提供了detailreconstruction，使得finer generative quality。然而，随着研究的进行，一个reconstruction和generation之间的优化困境显示出来了，特别地，当增加tokenfeature dimension的时候，提高了tokenizer的reconstructionaccuracy，但是生成性能退化了。当前，两个常见的策略是：第一个用scaling upmodel的参数，这需要更多的训练资源；第二个是限制tokenizer的reconstructioncapacity，为了更快地收敛。这个妥协的reconstruction质量限制了生成性能的上限，导致生成结果的不完美。两个方法都涉及trade-offs。</p></li><li><p>在本文中，作者提出了一个直接的方法来解决这个困境，作者从自回归中生成中得到启发，增加离散值VAEs的codebooksize导致low codebook utilization，通过可视化不同featuredimensions的latent space分布，作者观察到，更高维度的tokenizers会一些less spread-out latentrepresentations，这个分析表明：优化困难源于从零训练的学习无约束的高维latentspace的困难。为了解决这个问题，作者开发了一个vision foundationmodel为连续的VAEs指导优化策略。作者的keyfinding展示了：<strong>学习vision foundation model guided的latentrepresentation增强了高维tokenizer的生成性能，同时保留了它们原始的重建能力。</strong>主要的contribution是Vision Foundation model alignment Loss(VFLoss)，是一个即插即用的module，在tokenizer训练期间，将latentrepresentations和预训练的vision foundation models对齐，用预训练的visionfoundation models来初始化VAE encoders被证明是无效的，可能是由于latentrepresentation快速地偏离了它的初始state来优化reconstruction，作者发现，一个仔细涉及的jointreconstruction和alignment loss是重要的。作者的alignmentloss是精心涉及的，来正则化高维latentspaces，不需要限制它们的capacity。首先，作者强制elelment-wise和pair-wise相似度，来确保feature space中的global 和localstructures的综合的regularization。其次，作者在similaritycost中引入了一个margin，在alignment中提供controlledflexibility，作者研究了不同vision foundation models的影响。</p></li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;reconstruction-vs.-generation-taming-optimization-dilemma-in-latent-diffusion-models1&quot;&gt;Reconstruction
+vs. Generation: Taming Optimization Dilemma in Latent Diffusion
+Models&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者主要是来自华科的Jingfeng Yao等人。论文引用[1]:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2025.Mar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;用Transformer架构的Latent diffusion
+models擅长生成高质量的images，然而，最近的研究表明了这个两阶段设计的优化困境：增加visual
+tokenizers中的per-token feature dimension的时候，提高了reconstruction
+的质量，它需要很大的diffusion models何更多的training
+iterations来实现相当的生成性能。因此，现有的systems经常遇到次优化的解决方式，要么是由于tokenizer的information
+loss造成的visual
+artifacts，要么是由于大量的计算导致难以收敛，作者argue，这个dilemma&lt;strong&gt;源于学习没有约束的高维latent
+spaces的困难&lt;/strong&gt;，为了解决这个，作者提出了，&lt;strong&gt;当训练visual
+tokenizers的时候，将latent space和预训练的vision foundation
+models进行对齐&lt;/strong&gt;。作者提出了VA-VAE(Vision foundation model
+Aligned VAE)，极大地扩展了latent diffusion
+models的reconstruction-generation 的边界，使得DiTs在高维latent
+spaces快速收敛，为了利用VA-VAE的全部的potential，作者构建了一个增强版的DiT，用了改进的训练策略和架构设计，称之为LightningDiT。</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="VAE" scheme="https://young-eng.github.io/YoungBlogs/tags/VAE/"/>
+    
+  </entry>
   
   <entry>
     <title>DiT</title>
@@ -684,274 +948,6 @@ modules的性能。&lt;/li&gt;
     <category term="Mamba" scheme="https://young-eng.github.io/YoungBlogs/tags/Mamba/"/>
     
     <category term="Autoregressive" scheme="https://young-eng.github.io/YoungBlogs/tags/Autoregressive/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MoE</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/04/21/MoE/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/04/21/MoE/</id>
-    <published>2025-04-21T01:55:55.000Z</published>
-    <updated>2025-04-21T13:00:06.744Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="moe">MoE</h3><ol type="1"><li><p>解码器中包含多个FFNN，每一个FFNN对应一个expert，在experts之前加入要给router，被训练用来选择每个token用哪个expert。router本身也是一个FFNN，根据特定的输入选择experts，router输出概率值，利用这些概率来选择最匹配的expert。expert层返回输出，并乘以门控值(选择概率)。router和experts共同构成了MoE层。优点是参数量大，但训练和推理成本低。</p></li><li><p>LoRA：用两个低秩矩阵相乘来拟合一个高秩矩阵，这里拟合的不是模型的参数矩阵<span class="math inline">\(W_0\)</span> 本身，而是参数矩阵的增量 <spanclass="math inline">\(\delta{W}\)</span>，更新后的参数矩阵变为: <spanclass="math display">\[W = W_0 + \delta{W} = W_0 + BA\]</span> <spanclass="math inline">\(B \in \mathbb{R}^{d_{out} \timesr}\)</span>，<span class="math inline">\(A \in \mathbb{R}^{r \timesd_{in}}\)</span>, <span class="math inline">\(r &lt;&lt; min(d_{in},d_{out})\)</span>，微调过程中只需要存储两个低秩的A和B矩阵即可，大幅减少存储空间。 A用高斯初始化，B用0初始化。增加一个缩放系数 <spanclass="math inline">\(\alpha/r\)</span>， <spanclass="math inline">\(\alpha\)</span> 为超参数:</p><p><span class="math display">\[h = W_0x + \delta{W}x = W_0x +\alpha/rBAx\]</span> 训练过程中，固定 <spanclass="math inline">\(W_0\)</span>不变，B用全零初始化可以保证在初始化阶段 $ =0 $，调整 <spanclass="math inline">\(\alpha\)</span> 相当于调整学习率</p></li></ol><h3 id="参考链接">参考链接</h3><ul><li><code>https://zhuanlan.zhihu.com/p/22651790583</code></li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3 id=&quot;moe&quot;&gt;MoE&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;解码器中包含多个FFNN，每一个FFNN对应一个expert，在experts之前加入要给router，被训练用来选择每个token用哪个expert。router本身也是一个FFNN，根据</summary>
-      
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Mixture of Experts" scheme="https://young-eng.github.io/YoungBlogs/tags/Mixture-of-Experts/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>aed</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/04/20/aed/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/04/20/aed/</id>
-    <published>2025-04-20T13:57:53.000Z</published>
-    <updated>2025-05-04T11:50:00.945Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="self-distilled-masked-auto-encoders-are-efficient-video-anomaly-detectors1">Self-DistilledMasked Auto-Encoders are Efficient Video AnomalyDetectors<sup>[1]</sup></h3><blockquote><p>作者是来自University of Bucharest等机构的Nicolae-CatalinRistea等人，论文引用[1]:Ristea, Nicolae-Cătălin et al. “Self-DistilledMasked Auto-Encoders are Efficient Video Anomaly Detectors.” 2024IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)(2023): 15984-15995.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>用motionweight进行加权，然后用了self-distillation，同时还使用了syntheticanomalies data，加入到training data中，来提高video anomaly的性能。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者提出了一个高效的异常时间检测model，基于应用在video framelevel上的轻量的AE。提出的model的创新型有三个方面：<strong>(1)基于motiongradients，引入了一个方式来对tokens进行加权，将focus的重心从staticbackground scene转移到foreground objects;(2) 集成了一个teacherdecoder和一个student decoder，利用两个decoder的输出的差异来提高anomalydetection; (3) 生成合成的abnormal events，来增强训练videos，让masked AEmodel来重建original frames和对应的pixel-level anomalymaps。作者的设计是一个高效且有效的model</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>视频异常检测的复杂性是由于:异常的场景是context-dependent，而且不是经常发生的。这使得以<strong>全监督的方式，搜集一些代表性的异常事件用于训练SOTAmodel是比较困难的。因为在全监督的情况下训练anomalydetecttors是不可能的，大多数的研究采用了不同的方式，提出了outlierdetection methods的变种。这样的方法将abnormal eventdetection视为一个outlier detection task</strong>。一个在normalevents上训练的normality model应用在normal和abnormal events duringinference，将偏离于learned model的events标记为abnormal。不同于主流的基于outlierdetection的方法，作者提出了一个方法，通过随机叠加合成的UBnormal数据集中的temporalaction segments到的真实世界数据集中，从而为每个训练视频场景增强syntheticsegments。作者在训练的时候引入了<strong>syntheticanomalies，使得模型能够以open-set监督的方式进行学习。另外，作者使model重建original trainingframes(withoutanomalies)，来限制它重建anomalies的能力，因此当anomalies出现的时候，产生highererrors</strong>。</p></li><li><p>很多video anomaly detection的工作聚焦于采用autoencoders来解决任务，依赖于这些model在out-of-distribution数据上的很差的重建能力。因为训练旨在normalexamples上进行。当anomalies出现的时候，期待AEs展示出很高的重建errors。然而，一些研究者观察到，AEs泛化很好，能够高精度地重建anomalies。因此，为了更好地利用AEs在anomalydetection上的reconstruction error，研究探索了一些alternatives。从use ofdummy 或者pseudo-anomalies到memorymodules的集成。有着相同的目的，作者提出，在anomaly detection中采用maskedauto-encoders，引入了一些新的方式，来约束generalizationcapacity。作者超越了标准MAE框架，提出了三个新的changes，来增强model的anomalydetection performance。首先，**作者基于motion gradients，提出了weighttokens在reconstruction loss中提高higher motion的tokens的重要性。这使得model聚焦于重建highmotion的tokens，避免重建background scene; 第二，作者添加了一个clshead，来判别normal和pseudo-abnormal instances in the latent encodingspace; 第三，作者 将一个teacher decoder和一个studentdecoder集成到MAE框架中，studentdecoder从优化好的teacher中蒸馏knowledge。为了降低处理的时间，作者用了一个共享的encoderfor teacher and studentmodels，从而实现一种称为自蒸馏的过程。在自蒸馏过程中，sharedencoder是forzen，我们利用teacher和studentdecoders输出之间的差异，结合教师模型的重建误差，来提升异常检测的性能。先进的anomaly detectors主要依赖于objectdetection方法来增加precision，将每个GPU的处理带宽限制为一个videostream。作者开发了一个轻量的model，能够以25fps处理 66 videostreams，显著地降低了processing costs。不同于竞争的models，在object或者spatio-temporal cube上进行anomalydetection，作者提出了一个model，将整个的videoframes作为输入，更高效。</p></li><li><p>异常检测主要表述为一个one-class learningproblems，训练的时候只有normal data，在testtimes，normal和abnormal都有，一些异常检测的方法分类，包括dictionarylearning方法，probabilistic models，change detectionframeworks，distance-based models，reconstruction-based方法。考虑到reconstruction-based方法经常在anomalydetection中达到SOTA，最纪念很多工作采用了reconstruction-based范式。根据anomaly detection的执行的level，方法也可以分为spatio-temporalcube-level和frame-level，还有object-level。</p><ul><li><strong>Frame-level andcube-level</strong>：在深度学习之前，之前的abnormal event detectionmodel主要依赖于taking short video sequences，将它们分为spatio-temporalcuboids，这些cubes被认为是独立的examples，作为model的输入。也有研究将整个videoframes作为输入，例如Liu等人提出了一个有效的算法，学习重建short videosequences的next frame，一个更复杂的方法是采用optical-flowreconstruction来预测input image的anomalousregions，在不同的study中，有人提出了通过GAN，在framelevel来检测anomalies。 frame-level和cube-level有一些common的特点，处理速度相对加快。frame-level在时间上有更强的优势，因为cube-level的方法需要将每个cube当成一个独立的example。处理mini-batchof frames比一些mini-batchs of spatio-temporalcubes更高效。然而，cube-level的方法通常是超过frame-level的，作者提出了一个maskedAE，将整个frames作为输入，学习video patches之间的interactions。</li></ul><p>为了提高frame-level或者cube-level的方法，研究人员探索了多个components的，例如memotrymodules，masked convblocks。尽管将额外的modules集成到frameworks中导致性能提升，这个过程通常面临效率问题，相比之下，作者的目标是实现一个performance和speed之间的一个trade-off，更关注于efficiency。因此，作者设计了一个lightweightmasked AE，基于conv vision transformer(CvT)blocks，提出了一些升级。例如，作者采用knowledgedistillation来利用teacher和studentmodel之间的差异，然而，为了保持processingtime来,作者采用了self-distillation，用了一个shared encoder for teacherand student models。</p><ul><li><strong>Object-level methods</strong>：为了降低false positivedetections，一些研究提出关注anomalous objects而不是anomalous frames orcubes，object-centric方法，用来自object detector的先验，使得anomalydetector仅关注objectdetector，这种类型的framework大幅提高了accuracy，达到SOTA。然而，一个缺点是:整个框架的推理速度受object detector速度的影响，比一般的anomaly detectionframework要慢。因此，处理时间是严重受限的，相比之下，作者在frame-level执行anomalydetection</li><li><strong>Masked auto-encoders in anomalydetection</strong>：Kaiming提出了MAE作为预训练方法，来得到strongbackbones for downstreamtasks，自此之后，这个方法用在了很多领域，例如videoprocessing或者多模态学习。masking framework也用于anomalydetection。据作者所知，作者是第一个提出masked transformer-basedAE，用于video anomalydetection。另外，作者在应用标准的MAEs之外，提出了一些修改，包括用更高的motion来emphasizingtokens，用synthetic anomalies来增强trainingvideos，采用self-distillation。</li><li><strong>Knowledge Distillation in anomalydetection</strong>：知识蒸馏原本是用于将一个或多个largemodel(teachers)压缩到一个更轻量的model(student)，最近提出的anomalydetection，知识蒸馏被认为是有用的，应为利用teacher和student之间的representation的差异，在anomalies的情况下更大。不同于之前的研究，作者是第一个在anomalydetection中引入self-distillation的，self-distillation在多个depths上添加了clsheads，来提高classifier的分类性能。相比之下，作者将self-distillation集成到一个maskedAE中，采用两个不同depths的decoders。由于sharedencdoer，作者能够利用teacher和student之间的reconstructiondiscrepancy，同时又很小的计算开销。</li></ul></li><li><p>teacher-student transformer-based masked AE，采用两阶段的trainingpipeline：在第一阶段，通过reconstruction loss，采用了新的、基于motiongradients的weighting机制，来优化teacher maskedAE；在第二阶段，优化student masked AE的最后的decoderblock，和teacher共享backbone的大多数，来preserveefficiency，接下来，作者描述了如何用synthetic anomalies来构造trainingvideos，和训练masked AEs来联合预测anomaly maps，在trainingframes中忽略anomalies。最后，作者引入了一个clshead，来区分带有和不带有synthetic anomalies，进一步提高了performance。整个的架构是visual transformer blocks，不同于原始的方法，作者将ViTblocks替换成了CvT blocks。为了加速，作者将dense layers中用pointwiseconv代替，</p><ul><li><strong>Motion gradientweighting</strong>：因为iamge有foreground和backgroundvariations，然而，<strong>abnormal event detectiondatasets包含来自固定相机的、带有staticbackground的videos，通过MAE学习static background是trivial且useless。因此，在video anomaly detection中，重建maskedtokens是次优解。作者提出，当计算reconstructino loss的时候，考虑motiongradients</strong>。</li></ul><p><span class="math inline">\(x_t\)</span> 是video frame的索引t，n是non-overlapping visualtokens。跟着Ionescu的工作，通过计算两个连续帧的difference来估计frame<span class="math inline">\(X_t\)</span>的gradient map，在这之前通过一个<span class="math inline">\(3 \times 3\)</span> medianfilter。接下来，将gradient magnitude map <spanclass="math inline">\(g_t\)</span> 划分为non-overlappingpatches，得到了gradient patches的set。在每个gradientpatch中，逐通道计算最大gradient magnitude。然后，Maximum gradientmagnitudes上的channel-wise mean。最后，对于reconstructionloss，计算token-wise weights。</p><p>引入weights到传统的token-level reconstructionloss，使MAE去关注重建high motion magnitude的patches。尽管reconstructionloss关注于high motion的tokens，masked tokens仍然使随机选择的。</p><ul><li><p><strong>Self-distillation</strong>：知识蒸馏在异常检测中展示出了它的utility，直觉上，因为teacher和student models都是用normal data训练的，它们的reconstructions对于normaltest samples是类似的。然而，在abnormalsamples上，它们的behavior并不保证是similar。因此，teacher-student outputgap(discrepancy，差异)，可以作为一种量化给定sample的anomalylevel的方法。不幸地是，这个方法在推理的时候涉及teacher 和studentmodel，将速度减半了。为了降低在推理的时候用另外一个model的额外的负担，作者提出采用共享encoder和两个decoder(teacher,student)的自蒸馏的一个新的变体。另外，student branches是在第一个teacherdecoder的transformer block分出来的，另外加了一个transformerblock。</p></li><li><p>作者的trainingprocess是两阶段的。在第一个阶段，teacher用定义的loss进行训练。在第二阶段，作者freeze共享的backbone的weights，通过self-distillation来仅训练studentdecoder。则会个self-distillationloss类似于公式中定义的。主要的区别在于，不是重建realimage的patches，student 学习重建the ones produced by theteacher。</p></li><li><p><strong>MAEs往往对ood数据泛化太好了，这个behavior在异常检测中是不理想的，因为基于AEs的方法依赖于对abnormalexamples的high reconstruction errors, low reconstruction errors fornormal ones。为了这个目的，作者提出用abnormal events来增强trainingvideos。因为从real-world中搜集abnormal trainingexamples是不可能的，作者用syntheticanomalies</strong>，lion给最近的UBnormal data set和它的accuratepixel-level annotations来crop out abnormal events，将它们融合到trainingvideos中，同时确保增加的events的时序一致性。syntheticexamples在三个方面帮助model，首先: 在reconstructionloss中，作者考虑原始的training frames(without superimposedanomalies)作为ground-truth，使得model忽略anomalies。在等式中，用来自frame<span class="math inline">\(X_t\)</span>的normalversion的patches，第二，作者将anomaly map作为另外一个channel，加到targetiamge上，在anomaly map中，将normal pixels设为0，abnormalpixels设为1。这个changes意味着，所有的patches都有一个额外的channel。第三，用gtanomaly map来增强weights。这个增加的synthetic anomalies并没有产生有highmagnitude的motion gradient。因此，对应于anomalyregions的patches是有可能得到lowweights，如果想要model检测anomaly，这不是理想的。为了这个目的，在计算weights之前，作者提出了一起添加anomalymaps和gradients。</p></li><li><p><strong>Classification head</strong>：作者进一步利用syntheticanomalies来训练一个cls head，用在shared encoder的最后的final [cls]token上。这个head被训练用来区分带有和不带有syntheticanomalies的frames，这个head用binary cross-entropy进行训练。</p></li><li><p><strong>Inference</strong>：在推理的时候，作者将每个frame <spanclass="math inline">\(X_t\)</span> 通过teacher和studentmodels来得到reconstructed frames <spanclass="math inline">\(\hat_{t}\)</span> 和 <spanclass="math inline">\(x_t\)</span>，然后计算输出的pixel-level anomalymap： <span class="math display">\[o_t = \alpha \|x_t - \hat{x}_t\|^2 +\beta \cdot \|\tilde{x}_t - \bar{x}_t\|^2 + \gamma \cdot\dot{y}_t,\]</span> <span class="math inline">\(\alpha, \beta,\gamma\)</span> 是控制individual anomaly score components的重要性。用spatio-temporal 3D filtering来光滑anomalyvolumes，为了得到frame-level anomaly scores，保留每个output map <spanclass="math inline">\(o_t\)</span> 的最大的value，一次应用另外的temporalGaussian filter来smooth values。</p></li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/7ad25dbb5022c119144990cde0d364e2519df728/1-Figure1-1.png"alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span>在训练的时候，video frames用synthetic anomalies进行增强。teacherdecoder学习重建original frames(without anomalies)和预测anomalymaps。student decoder学习reproduce teacher's output。motiongradient在token level进行汇总，用作reconstruction loss的weights，红色虚线表示只在training的时候执行的steps。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;self-distilled-masked-auto-encoders-are-efficient-video-anomaly-detectors1&quot;&gt;Self-Distilled
-Masked Auto-Encoders are Efficient Video Anomaly
-Detectors&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自University of Bucharest等机构的Nicolae-Catalin
-Ristea等人，论文引用[1]:Ristea, Nicolae-Cătălin et al. “Self-Distilled
-Masked Auto-Encoders are Efficient Video Anomaly Detectors.” 2024
-IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
-(2023): 15984-15995.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2024.Mar&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;用motion
-weight进行加权，然后用了self-distillation，同时还使用了synthetic
-anomalies data，加入到training data中，来提高video anomaly的性能。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;作者提出了一个高效的异常时间检测model，基于应用在video frame
-level上的轻量的AE。提出的model的创新型有三个方面：&lt;strong&gt;(1)基于motion
-gradients，引入了一个方式来对tokens进行加权，将focus的重心从static
-background scene转移到foreground objects;(2) 集成了一个teacher
-decoder和一个student decoder，利用两个decoder的输出的差异来提高anomaly
-detection; (3) 生成合成的abnormal events，来增强训练videos，让masked AE
-model来重建original frames和对应的pixel-level anomaly
-maps。作者的设计是一个高效且有效的model&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Autoencoder" scheme="https://young-eng.github.io/YoungBlogs/tags/Autoencoder/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Olympus</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/04/18/Olympus/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/04/18/Olympus/</id>
-    <published>2025-04-18T08:07:02.000Z</published>
-    <updated>2025-04-20T13:54:55.378Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="olympus-a-universal-task-router-for-computer-vision-tasks1">Olympus:A Universal Task Router for Computer Vision Tasks<sup>[1]</sup></h3><blockquote><p>作者是来自牛津和微软的Yuanze Lin等人，论文引用[1]:Lin, Yuanze et al.“Olympus: A Universal Task Router for Computer Vision Tasks.” ArXivabs/2412.09612 (2024): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Apr</li></ul><h3 id="key-words">Key Words</h3><ul><li>universal task router</li><li>一句话总结：<strong>用MLLMs内在的能力来处理vision-languagetasks，用task-specific routing tokens将userinstructions分配给其它的的专家models</strong></li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者介绍了Olympus，是一个将MLLMs变成一个<strong>统一的框架，能够处理广泛的CVtasks，利用一个controllerMLLM，Olympus将超过20种专门针对图像、视频和3D对象的任务分配给专用模块。这个instruction-based的routing能够通过chainedactions实现复杂的workflows，不需要训练heavy generativemodels</strong>，Olympus简单地和现有的MLLMs集成，扩展了他们的能力。实验表明，它是一个有效的**universaltask router，能够解决多种CV tasks。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MLLMs在多个领域的理解、生成和推理上取得了显著的进展。例如：MLLMs中的LLaVA，在VQA中表现卓越。在生成中，diffusionmodels在text-to-image、text-to-video、text-to-3Dgeneration中实现了卓越的性能。基于上述的进展，最近的研究目标是开发一个<strong>统一的架构，能够执行多个domains的任务，Emu3和Omni-Gen引入了all-in-onemodels，来处理生成和理解的任务。然而，在single model中，distinctdomains的集成提出了很大的挑战。特别地，domains中的多样性，由于taskobjectives之间的conflicts，导致在individualtasks中性能的妥协。例如text和image generationtasks。这些conflicts阻碍了model的有效性，限制了在真实世界应用中的utility</strong>。</p></li><li><p><font color=red>另外一个all-in-one models的keylimitation是：由于输入输出的格式不同，处理跨不同domains的广泛的vision-languagetasks能力受限</font>。这一限制对scalability构成了显著的瓶颈，特别是随着任务范围在图像、视频以及新兴的3D领域中持续扩大。另外，扩展这些models来适应新的任务是具有挑战的，训练这样的comprehensivemodels，随着model sizes的增加，需要大量的计算资源和复杂的训练方法。例如,Omni-Gen需要 <span class="math inline">\(104 \times A800\)</span>GPUs和5个不同的训练阶段。这些问题凸显了对模块化或任务自适应框架的迫切需求，以增强在应对视觉任务日益多样化的需求时的可扩展性和效率。另外，all-in-onemodels通常难以有效地整合精心设计的任务特定组件，从而降低了其在专业化应用中的整体效率和性能。</p><p>这促使我们来探索另外的alternative的方法，来无缝地在singleframwork中统一visiontasks。受HuggingGPT的启发和MLLMs的先进的上下文的理解。作者提出：<strong>利用MLLMs来处理vision-languagecomprehension internally，同时delegating other tasksexternally</strong>。尽管技术上简单，它代表了对于CVtasks的，迈向advancing unified frameworks的foundational和重要的一步。特别地，MLLM能够作为一个**taskrouter，和其它的专门的externalmodels进行协调，来解决多种tasks，克服individualmodel的局限。然而，它仍然面临着重要的挑战，主要是由于多种任务中的userprompt的多样性和对于有效训练和评估重要的综合的、task-specificinstruction datasets的datasets。</p></li><li><p>在本文中，作者引入了<em>Olympus</em>，是一个统一的framework，利用MLLMs来处理多种CVtasks，作者的Olympus不同于现有的方法，现有的方法聚焦于提出all-in-onemodels来解决diverse tasks。为了完成这个，作者搜集了 <spanclass="math inline">\(446.3K\)</span> 高质量的training instructions和<span class="math inline">\(49.6K\)</span>来自GPT-4o的 evaluationinstructions，称之为<em>OlympusInstruct andOlympusBench</em>。另外，作者设计了一个专门的<strong>routingtokens</strong>，用于分配individual tasks。最后，利用这些routingtokens和<em>OlympusInstruct</em>，作者model能够在single userinstruction下，执行a chain of tasks。</p></li><li><p>作者的贡献如下：</p><ul><li>提出了Olympus，一个新的framework，利用MLLMs通过内在的能力，来执行contextualunderstanding task，同时通过分配externalmodels，来解决其它的tasks。</li><li>作者开发了一个task-specific routingtokens，增强了MLLMsd的chain-of-action的能力，作者model实现了comparable的性能。</li><li>作者构建了curated high-quality instruction datasets。</li></ul></li><li><p>最近LLMs上的进展促进了MLLMs的发展，先进的MLLMs，例如MiniGPT-4，在处理和集成多模态上展示出了良好的能力。像Kosmos-2、LLaVA、LLaVA-OneVision进一步增强了MLLM的visualcognitiveabilities。另外，包括LLaVA-Phi的方法，MobileVLM和Mipha，聚焦于修正训练方法和架构，来开发出高效和轻量的MLLMs，尽管这些Models在visualperception和多模态理解上很擅长，他们主要限制于生成text-basedoutputs，限制了他们在涉及images, videos, 3D contentgeneration等广泛视觉任务上的有效性。在这个工作中，作者跟着Mipha，采用了多模态的模型结构。</p></li><li><p>统一的Vision-Language FoundationModel：大量的研究聚焦于<strong>开发统一的多模态的、在理解和生成content上都擅长的models。有些方法将连续的embeddings和用于imagegeneration的自回归框架内的textual tokens进行集成，Chameleon采用了一个transformer在多个模态中进行自回归建模。Show-o和TransFusion在单个transformer中，引入了自回归和diffusionmodeling。Omni-Gen采用了一个VAE的encoder-decoder以及一个transformer来处理free-formprompts。最近，Emu3用next-token prediction的方法，在video、image和textdatasets上训练了一个统一的transformer，在多模态的benchmarks和generationtasks上实现了卓越的性能</strong>。然而，**最近的unified 多模态foundationmodels主要support一些很小范围的generative tasks，例如image、videocreation或者editing，对于更广泛的AI应用，面临着严重的scalability的挑战。为了克服这些局限，作者进一步通过无缝地继承用于diverseapplications的domain-specialized models，来增强MLLMs。</p></li><li><p>LLM-based tools: LLMs，在大规模数据上训练，在zero-shot和few-shotsettings上展示出了卓越的能力，在一些复杂的任务上，例如数学问题求解和常识推理。<strong>为了拓展它们超出textgeneration的能力，最近的研究聚焦于将externaltools和models集成到LLM架构中。Toolformer通过在textual sequences上嵌入APIcalls，成为了开拓者，使得LLMs能够有效地利用externaltools。建立在这个foundation之上，后续的研究也引入了visualmodalities：Visual ChatGPT将LLMs和visual models，例如BLIP集成，VisualProgramming和ViperGPT将visual queries变成可执行的Pythoncode。促进了LLMs的视觉数据的处理</strong>。另外，HuggingGPT通过将LLMs用作controllers，将user的requests给到特定的expertmodels，来增强LLMs。<strong>因此将domain-specific expertise和languagecomprehension结合到一起</strong>。 尽管HunggingGPT将specific AImodels来执行多种任务。它主要依赖于promptengineering，将<strong>ChatGPT作为一个interface，用于连接多中externalmodels，而不需要训练，相比之下，作者的方法涉及从零开始训练MLLMs from theground up，使得它们能够在internally 处理vision-languagetasks,同时指定专门的models来解决广泛的AI tasks</strong>。</p></li><li><p><em>Olympus</em> 利用MLLMs作为foundation，用于多种CVtasks。对于vision-languagetasks，像VQA，MLLMs利用它们内在的能管理。对于其它的visiontasks，例如生成任务和经典的visiontasks，MLLMs作为<font color=red>intermediaries</font>，将user的instructions路由到专门的模型，如图所示，收到一个request，MLLM能够自动地阻止workflow，协调expertmodels来完成objective。</p><ul><li>为了精确地将userinstruction分配到合适的model，作者用GPT-4o构建了一个high-quality和userinstruciton-response pairs的多样的dataset。对于每个task，一个specializedprompt用于和task的特定的上下文对齐。这包括指定详细的指令，让GPT-4o生成连贯和上下文相关的userrequests和responses。</li><li>为了确保userinstructions的diversity，作者引入了多种prefixes和phrases，引入了不同的languagestyles，tones和structures。另外，作者将instruction复杂度分为了3个levels：short、moderate和extended。这个分层使得GPT-4o产生长度和复杂度不同的instructions。另外，作者promptGPT-4o，来产生practical和direct的responses，增强interactions的applicability和clarity。作者也做了数据清洗，通过去掉了重复的entries和利用GPT-4o去掉了上下文或者语法不合适。这个净化的过程确保了数据集的完整性和质量。覆盖的20tasks分为3个groups：(1)：Image domains：imagegeneration/editing、deblurring、deraining、super-resolution、denoising、pose/normal/canny/depthestimation、controllable image generation across six conditions; (2)Video domains：video generation/editing、controllable videogeneration、referring video object segmentation; (3) 3D domains:image-to-3D和text-to-3D generation.</li></ul></li><li><p><strong>Task-Specific Routing Tokens</strong>：<strong>Olympus直接将user requests通过task-specific routing tokens给到dedicatedmoels</strong>*，为了促进MLLMs预测与用户目标一致的适当模型，作者涉及了一组针对individualtasks的routing tokens。例如：在image和video generationdomain中，作者用routing tokens**<image_gen>...</image_gen>和<vidoe_gen>...</video_gen>。特别地，给定一个userinstruction，例如“ Please craft an image displaying a chihuahua dogdressed in a vibrant, costume", 对应的response是<image_gen> a chihuahuadog dressed in a vibrant,costume</image_gen>。有效地解决了user的request，因此，userinstructions和responses构成了input-answer pairs，用于训练。</p><ul><li>Chain-of-Action。通过引入domain-specific routingtokens，Olympus具有了chain-of-action的能力，使得在singleinstruction下处理多个tasks。例如，考虑结合了pose-based imagegeneration和image editing的user prompt："in homage to the pose imageryand the prompt's 'a majestic castleL'，generate an image，In thefollowing step, please refine the image by adding green trees".用routing tokens的predicted response就是: <pose_to_image>a majesticcastle</pose_to_image><image_edit>adding greentrees</image_edit>。因此，Olympus能够循序地将user instructions路由到合适的modules，用于pose-conditioned image generation和imageediting,和task-oriented routingtokens对齐。另外，Olympus在**单个prompt中，最多支持5个连续的tasks，能够扩展到适应更大数量的tasks，因此展示了它的灵活性和可扩展性。</li></ul></li><li><p>Training: <strong>目标是在userinstructions的条件下，生成task-specific responses和routingtokens。作者用cross-entropy loss，用next-tokenprediction范式来训练MLLMs</strong>。</p><p><span class="math display">\[P(Y_a | \mathcal{F}_v, \mathcal{F}_t) =\prod_{i=1}^{L} P_\theta(y_i | \mathcal{F}_v,\mathcal{F}_{t,a,&lt;i})\]</span></p><p>这里<span class="math inline">\(L\)</span> 表示response <spanclass="math inline">\(Y_a\)</span>的长度，<spanclass="math inline">\(F_v\)</span> 表示visualembedding，用于多模态的instructions，<spanclass="math inline">\(\theta\)</span> 是MLLMs的训练参数。notation <spanclass="math inline">\(Y_{a,&lt; i}\)</span> 表示当前 <spanclass="math inline">\(y_i\)</span> token之前的所有tokens，<spanclass="math inline">\(F_t\)</span> 表示input instructionembeddings。</p></li><li><p><strong>Inference</strong>：<strong>在收一个prompt之后，Olympus生成一个带有task-customizedrouting tokens的responses, 这个tokens唤醒了合适的AImodels，来处理多个tasks，它们的predictions汇聚到最后的response，对于MLLMs单独处理的tasks，responses直接生成，绕过了routingtokens。Olympus引入了一个基于training的范式，MLLMs是作为一个controllers，用internallycapabilities和external expertmodels来处理多种任务，这个框架无缝地将MLLMs和domain-specificmodels结合起来，一起处理universal tasks</strong></p></li></ol><p><imgsrc="https://figures.semanticscholar.org/c7d857f2421170cbae8107717a8aef0e99d6d2df/3-Figure2-1.png" /><span class="math inline">\(Fig.1^{[1]}\)</span> 给定userprompts，一个trainableMLLM能够在多个专门的models上执行routing。MLLMs能够用自身内在的能力解决多模态的理解任务，将专门的models进行分配，来解决多模态生成和classicvision tasks。然后汇总结果，给到user一个response.</p><p><imgsrc="https://figures.semanticscholar.org/c7d857f2421170cbae8107717a8aef0e99d6d2df/4-Figure3-1.png"alt="Olympus" /> <span class="math inline">\(Fig.2^{[1]}\)</span>framework ofOlympus.通过MLLM的内在的能力，能够直接处理VQA这样的任务。对于其它的tasks，例如imageediting，Olympus能够生成response，包含task-specific routingtokens和refined prompts，它们用来安排专家models来处理多种userrequests。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;olympus-a-universal-task-router-for-computer-vision-tasks1&quot;&gt;Olympus:
-A Universal Task Router for Computer Vision Tasks&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自牛津和微软的Yuanze Lin等人，论文引用[1]:Lin, Yuanze et al.
-“Olympus: A Universal Task Router for Computer Vision Tasks.” ArXiv
-abs/2412.09612 (2024): n. pag.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2025.Apr&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;universal task router&lt;/li&gt;
-&lt;li&gt;一句话总结：&lt;strong&gt;用MLLMs内在的能力来处理vision-language
-tasks，用task-specific routing tokens将user
-instructions分配给其它的的专家models&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;作者介绍了Olympus，是一个将MLLMs变成一个&lt;strong&gt;统一的框架，能够处理广泛的CV
-tasks，利用一个controller
-MLLM，Olympus将超过20种专门针对图像、视频和3D对象的任务分配给专用模块。这个instruction-based的routing能够通过chained
-actions实现复杂的workflows，不需要训练heavy generative
-models&lt;/strong&gt;，Olympus简单地和现有的MLLMs集成，扩展了他们的能力。实验表明，它是一个有效的**universal
-task router，能够解决多种CV tasks。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Multi-Modal" scheme="https://young-eng.github.io/YoungBlogs/tags/Multi-Modal/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TrackFormer</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/04/16/TrackFormer/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/04/16/TrackFormer/</id>
-    <published>2025-04-16T08:22:54.000Z</published>
-    <updated>2025-04-17T08:18:58.268Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="trackformer-multi-object-tracking-with-transformers1">TrackFormer:Multi-Object Tracking with Transformers<sup>[1]</sup></h3><blockquote><p>作者是来自TUM和FAIR的Tim Meinhardt等人，论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>Apr.2022</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li>MOT的挑战要求对track initialization、identity和spatio-temporaltrajectories的推理。作者将这个任务表述为一个frame-to-frame的setprediction问题，引入了TrackFormer，这是一个端到端的、可训练的MOT方法，基于Transformer架构，作者的模型通过在视频序列中逐步演化一组轨迹预测，利用注意力机制实现帧之间的数据关联。Transformerdecoder从<strong>static objectqueries初始化新的tracks，并利用概念上新颖且能够保持身份信息的轨迹查询，在空间和时间上自回归地跟踪现有轨迹</strong>。两种类型的query都受益于attention架构，不需要额外的图优化或者motion/appearance的建模。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>MOT的目标是找到一组目标的轨迹，同时保持它们的id，因为它们会在整个视频中移动。大多数的方法是two-step的tracking-by-detection范式，先检测frame中的目标，然后关联不同帧之间的目标，构造tracks。传统的tracking-by-detection方法，通过temporallysparse or dense 图优化，或者用conv net来预测detections之间的matchingscoress，来关联目标。最近的工作表明，传统的范式的一个变体，<strong>称之为"tracking-by-regression"，在这个方法中，object detector不仅提供frame-wisedetections，同时用每个track的持续的回归来改变object的position，来代替dataassociation</strong>。这些方法隐式地实现了trackassociation。不依赖额外的图优化或者motion and appearancemodel，实现了top performance。这很大程度上是由于isolated 和local bboxregression，缺乏object identity的notion，或者tracks之间的globalcommunication。</p></li><li><p>在这个工作中，作者引入了tracking-by-attention 范式，不仅对dataassociation应用attention，同时jointly进行tracking和detection。这是通过从一帧到另一帧逐步演化一组轨迹，随着时间的推移形成轨迹来实现的。作者提出了一个直接的instantiation oftracking-by-attention。TrackFormer，是一个端到端的、可训练的Trasformer的架构，对来自CNN的frame-levelfeatures进行编码，将queries解码成bboxes associated withidentities。这个data association是通过<font color="red">trackqueries</font>来实现的。<strong>每个query代表一个对象，并以自回归的方式在视频序列中随着时间的推移在空间和时间上对该对象进行跟踪。新的objects通过staticobject queries进入scene，后续转换成future trackqueries。在每一帧中，encoder-decoder计算input image features和track aswell as objectqueries之间的attention，然后输出带有id的bboxes。因此，TrackFormer执行tracking-by-attention，不需要依赖于额外的trackingmatching，或者显式地建模motion/appearance，jointly实现了detection和dataassociation。相比于tracking-by-detection/regression，作者的方法通过attention，在singlestep中，实现了detection和association。TrackFormer将最近提出的用于objectdetection的set prediction objective，，扩展到MOT</strong>。</p></li><li><p>作者的主要贡献如下：</p><ul><li>一个端到端的、可训练的MOT方法，实现了detection和data association ina new tracking-by-attention范式。</li><li>自回归track queries的概念，嵌入了object的spatialposition和identity，因此在space和time上进行tracking。</li></ul></li><li><p>Tracking-by-detection：图经常被用于track association和long-termreid，通过将problemformulate为一个最大/最小流的优化问题，其它的方法用associationgraphs，学习的models和motioninformation，通用的solvers，multicuts，加权的graph labeling, edgelifting或者可训练的graph neuralnetworks。然而，基于图的方法受制于昂贵的优化过程，这限制了它们在在线跟踪中的实际应用。</p><ul><li>Appearance驱动的方法利用image recognition backbones，通过similaritymeasures、detection candidate selection或者affinity estimation来trackobjects，类似于reid，appearance models在有多个objectocclusion的拥挤场景中表现不佳。</li><li>Motion可以被建模为轨迹预测，用恒定速度假设或者social forcemodel。从数据中嘘唏motion model，完成帧间的trackassociation。然而，non-linear 3D motion在2D imagedomain中的projection对很多的models提出了挑战</li><li>Tracking-by-regression，<strong>不通过帧间关联detection，而是通过对pastobjectposiition，回归到当前帧中的新的position，来完成tracking。之前的尝试用一个regressionhead on region-pooled object features。也有人将objects表示为centerpoints，通过基于distance的贪心匹配算法，来实现关联</strong>。为了弥补它们在对象身份和全局轨迹推理方面的不足，引入了额外的再识别和运动模型。</li><li>Tracking-by-segmentation：不仅预测object masks，也利用pixel-level信息，来缓解哟弄个及和模糊的背景问题。之前的尝试，用category-agnosticimage segmentation，应用结合了3D conv的Mask R-CNN，mask poolinglayers，或者将objects表示为无序的point clouds和代价体积，然而，标注的MOTsegmentation data的稀缺性，使得现代的方法仍然依赖于bboxes。</li><li>Attention for imagerecognition：它将输入的每个元素和其它元素相关联，用于Transformer中，用于imagerecognition和objectdetection，对于MOT，attention仅用于关联给定的detections，而不是联合处理detection和tracking。</li><li>相比之下，<strong>TrackFormer将整个tracking objective转换为singleset prediction问题，不仅在association step用attention，而且联合推理trackinitialization、identity和spatio-temporaltrajectories，作者这里仅依赖于feature-levelattention，避免额外的图优化和appearance/motion model</strong>。</li></ul></li><li><p>作者的model有一下4个步骤：</p><ul><li>frame-level feature extraction with a common CNN</li><li>在Transformer encoder中，对framefeatures用self-attention进行编码</li><li>在Transformer decoder中，用attention对queries进行解码</li><li>将queries映射到box和class predicitons，用MLP<strong>objects隐式地在decoder <spanclass="math inline">\(queries\)</span>进行表征，都是embeddings，被decoder用来输出bbox和classpredictions。。decoder交替进行两种类型的attetion：对所有的query进行self-attention，能够对scene中的objects联合进行reasonin;encoder-decoder attention，能够使queries能够全局访问encodedfeatures的visual information，输出的embeddings在多个decodinglayers累积bbox和class information.Transformer的排列不变性要求分别为frame features和decoderqueries添加特征编码和对象编码</strong>。</li></ul><p>output embeddings的总的set用两种类型的query encodings进行初始化:static objectqueries，使得模型能够在视频的任意帧初始化tracks；自回归的trackqueries，用于逐帧的tracking objects。同时对object queries和trackqueries进行decoding使得模型能够统一进行detection和tracking，因此引入了一个新的<strong>tracking-by-attention</strong>范式，不同于tracking-by-X方法，它们是由key component定义，用于trackgeneration，对于tracking-by-detection，通过计算frame-wise objectdetections之间的distances来tracking。tracking-by-regression范式也是进行objectdetection，然后在当前帧中回归each object box to its newpoisition，来产生tracks。确切地说，作者的 TrackFormer还通过多层感知机（MLP）在objectembeddings的映射中执行回归。然而，实际的轨迹关联是通过 Transformer解码器中的注意力机制更早完成的。附录中展示了一个详细的架构概览，说明了轨迹查询和对象查询如何集成到Transformer 解码器中。</p><ul><li>Track initialization：scene中新出现的objects通过固定数量的 <spanclass="math inline">\(N_{object}\)</span> outputembeddings进行检测，每个是用static 和learned objectencoding进行初始化，称为 <em>object queries</em>。直觉上，每个objectquery学习预测带有一定spatial properties的objects，例如bboxsize和position，decoder的self-attention依赖于objectencoding，来避免duplicate detections，来对objects的spatial和categoricalrelations进行推理。objectqueries的数量应该要超过每帧中目标的最大的数量。</li><li>Track Queries：为了实现frame-to-frame trackgeneration，作者<strong>在decoder中引入了track queries</strong>。Trackqueries带有object的id 信息，在整个videosequence中跟踪objects，同时已自回归的方式调整到changingposition。为了这个目的，每个新的objectdetection用上一帧对应输出的embedding来初始化track query。Transformerencoder-decoder在frame features和decoderqueries上进行attention，连续地更新每个track query embeddings的objectid和location的instance-level的representation，在both query上的self-attention，可以在检测新对象的同时避免对已跟踪对象的重复检测。</li></ul><p>在framet=0，初始的detections会生成新的轨迹查询，这些查询会跟随相应的对象到帧 t及其后续帧，为此，<span class="math inline">\(N_{object}\)</span> objectqueries被解码为output embeddings，用于potential trackinitializations。每个cls score高于 <spanclass="math inline">\(\sigma_{object}\)</span>的有效的objectdetection，初始化一个新的track queryembedding。因为不是所有的objects出现在第一帧中，trackid只代表K的一个子集。对于任意帧的decoding step,trackqueries用不同的id初始化额外的output embeddings。<spanclass="math inline">\(N_{object} _ N_{track}\)</span> 的jointset的output embeddings通过learned boject和track queries分别初始化。</p><p>decoder将整个outputembeddings一次进行transform，为后续的MLP提供了input，来预测bboxes和clsin frame t。track queries的数量是逐帧改变的，因为会有Newobjects的加入和离开。Tracks和它们对应的query会被removed，如果它们的clsscore低于 <spanclass="math inline">\(\sigma_{track}\)</span>或者通过NMS。</p><ul><li>Track query re-id：解码任意数量的trackquery的能力使得基于注意力机制的短期reid过程成为可能。我们持续解码之前被移除的轨迹查询，最多持续<span class="math inline">\(\(T_{\text{track-reid}}\)\)</span>帧。在此“等待窗口”期间，轨迹查询被视为非活动状态，并且在分类得分超过<span class="math inline">\(\(\sigma_{\text{track-reid}}\)\)</span>触发再识别之前，不会对轨迹做出贡献。嵌入到每个轨迹查询中的空间信息限制了它们在对象大范围移动时应对长期遮挡的能力。然而，能够对trackloss进行短期的恢复。这不需要任何dedicatd reid的训练.</li></ul></li><li><p>对于每个和object queries进行interaction，follow objects to nextframe的track queries，TrackFormer需要dedicated frame-to-frame trackingtraining。作者训练两个相邻帧，一次性优化整个MOT objective。帧 <spanclass="math inline">\(\(t\)\)</span>的损失函数通过类别和边界框预测，衡量所有输出嵌入 <spanclass="math inline">\(\(N = N_{\text{object}} +N_{\text{track}}\)\)</span> 相对于真实目标对象的集合预测。setprediction在two steps进行计算：</p><ul><li>object detection on frame <span class="math inline">\(t-1\)</span>with <span class="math inline">\(N_{object}\)</span> object queries</li><li>Tracking of objects 和frame t上的所有新的objects的detection</li></ul><p>track queries的数量 <span class="math inline">\(N_{track}\)</span>依赖于frame <span class="math inline">\(t-1\)</span>的成功检测到的objects的数量，在训练期间, outputembeddings的MLP的预测分配给 gt object 之一，或者background</p></li><li><p>Bipartite matching，从gt objects到joint set of object and trackquery predictions的映射通过track identity或者costs based on bboxsimilarity and object class决定的，对于前者，将frame t的gt track ids表示为gt的子集 <span class="math inline">\(K_t \inK\)</span>，每个detection分配给对应的gt track id k from the set <spanclass="math inline">\(K_{t-1} \in K\)</span>。对应的output embeddings,track queries，对应的output embeddings, track queries，将id信息带到下一帧。两个gt track id sets描述了 <spanclass="math inline">\(N_{track}\)</span> track query outputs分配给帧 t中真实目标对象的过程。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/0357156aef567fb5b709222894ddea1ce5d4e721/1-Figure1-1.png"alt="TrackFormer" /> <span class="math inline">\(Fig.1^{[1]}\)</span>TrackFormer jointly performs object detection and tracking-by-attentionwith Transformers.</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;trackformer-multi-object-tracking-with-transformers1&quot;&gt;TrackFormer:
-Multi-Object Tracking with Transformers&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自TUM和FAIR的Tim Meinhardt等人，论文引用[1]:&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Apr.2022&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;MOT的挑战要求对track initialization、identity和spatio-temporal
-trajectories的推理。作者将这个任务表述为一个frame-to-frame的set
-prediction问题，引入了TrackFormer，这是一个端到端的、可训练的MOT方法，基于Transformer架构，作者的模型通过在视频序列中逐步演化一组轨迹预测，利用注意力机制实现帧之间的数据关联。Transformer
-decoder从&lt;strong&gt;static object
-queries初始化新的tracks，并利用概念上新颖且能够保持身份信息的轨迹查询，在空间和时间上自回归地跟踪现有轨迹&lt;/strong&gt;。两种类型的query都受益于attention架构，不需要额外的图优化或者motion/appearance的建模。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Tracking" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Tracking/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MoVE-KD</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/04/14/MoVE-KD/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/04/14/MoVE-KD/</id>
-    <published>2025-04-14T07:51:16.000Z</published>
-    <updated>2025-04-14T14:21:44.429Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="move-kd-knowledge-distillation-for-vlms-with-mixture-of-viusal-encoders1">MoVE-KD:Knowledge Distillation for VLMs with Mixture of ViusalEncoders<sup>[1]</sup></h3><blockquote><p>作者是来自北大等机构的Jiajun Cao等人，论文引用[1]: Cao, Jiajun et al.“MoVE-KD: Knowledge Distillation for VLMs with Mixture of VisualEncoders.” ArXiv abs/2501.01709 (2025): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>Single Vision encoder</li><li>LoRA</li><li>MoE</li></ul><h3 id="总结">总结</h3><ol type="1"><li>visual encoders是VLMs中的重要组件，每个都是从pretrained visualfoundation models中得到的，展示出了uniquestrengths。为了利用这些encoders的variouscapabilities，最近的研究在<strong>单个VLMs中引入了多个encoders，导致在计算成本上的增加了很多</strong>，作者提出了<strong>Mixture of Visual Encoder KnowledgeDistillation(MoVE-KD)，一个新的framework，将多个vision encoders的uniqueproficiencies蒸馏到a single, efficient encodermodel中，特别地，为了缓解conflicts和保持每个teach encoder的uniquecharacteristics，作者采用了LoRA和MoEs，来选择性地激活specializedknowledge based on inputfeatures，增强了adaptability和efficiency，为了正则化KDprocess和增强performance，作者提出了一个attention-based distillationstrategy，自适应地weights the different encoders，强调了valuable visualtokens，缓解了replicating comprehensive but distinct features frommultiple teachers的负担</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>VLMs的快速发展推动了AI的研究，特别是在一些需要结合visual和linguistic understanding的任务中，visionencoder是这些Model的核心，对于visualperception很重要，构成了interpreting visual inputs和使得vision-languagetasks有效执行的基础。最近的研究强调了多个visionencoders的独特的优点，例如CLIP、EVA还有ConvNeXt，每个都在特定的vision-languageapplications中有很好的表现，这个diversity使得这些模型的优化和集成成为了一个keyarea of research。 <strong>为了利用多个visionencoders的proficiency，当前的方法通常采用多个encoders in avision-language model，通过feature concatenation 或者attention机制</strong>，然而，相比于单个visionencoder的VLMs，用多个encoders不可避免地增加了计算成本和模型复杂度，降低了效率和可扩展性，为了解决这个问题，作者探索了一个问题:<strong>是否能够将多个encoders的unique proficiency蒸馏到一个singleefficient encoder model中，得到collectiveadvantages，同时提高效率</strong>。</p><p>为了unify multiple encoders into one，Knowledgedistillation提出了一个promising的方法，它有效地将teachermodel的knowledge transfer到一个studentmodel，然而，经典的KD方法聚焦于one-to-onedistillation，同时从多个models中进行蒸馏，每个都有distinct pretrainingdatasets和objectives，是一个相对under-explored。<strong>尽管AM-RADIO提出了，用singlemodel的多个heads，来代替多个vision foundationmodels的predictions，它的性能受限于learning diverse 和共享backbone的competing characteristics的冲突</strong>。</p><p>作者的方法通过<strong>knowledge distillation from multiple pretrainedvisual foundation models，对basemodel进行微调，用一个mixture-of-LoRA-experts(MoLE)的框架，在这个框架中，basemodel通过多个low-rank adapation experts进行调整，缓解了灾难性的以往问题，基于输入的characteristics，能够选择性地被激活</strong>。这种设计使模型能够动态地利用每个teacherencoder的优势和专业化见解，从而实现一种连贯且高效的单编码器结构。</p><p><strong>除了student-side selective adaptation，从teachermodel中identify 和refine valuablefeatures也是重要的，作者提出用attention机制，来指导knowledgedistillation from teachers。特别地，作者用[CLS] token来得到每个visualtoken的重要性，用了一个加权的distillationloss，优先考虑来自teachers的valuable tokens。另外，作者用了visualtokens的平均重要性，作为weighting factor，来平衡multipleteacher的contributions，换句话说，average importance高的teachers for agiven sample，在accuracy中会着重考虑。这个selectivedistillation确保了只有valuable information fromteachers被student吸收，有效地增强了从多个teachers中压缩knowledge到单个model的能力</strong>。</p><p>作者的方法，<font color=red>Mixture-of-Visual-Encoder KD,MoVE-KD</font>，有效地集成了多个encoders的长处，同时保持单个models的效率。</p><p>Contributions如下：</p><ul><li>提出了一个MoVE-KD的框架，用于multi-vision encoderfusion，是首个从知识蒸馏的角度，集成different encoders，用于largevision-language models</li><li>作者引入了attention-guided KD 正则化，增强了critical visualtokens的distillation，给每个teacher分配adaptiveweight，另外，作者引入了Mixture-of-LoRA-experts(MoLE)，阻止knonledgeconfusion</li></ul></li><li><p>最近的VLMs的通过利用LLMs的泛化性，来提高多模态的理解和泛化能力。基于CLIP的imageencoder，一定程度上和languagemodality有对齐，当前的VLMs通常利用大量的image-text pairs来来接visionencoder和LLM，使得LLM能够接收和理解visual content。例如， Flamingo通过gated attention， 将visual features集成到LLM中，LLaVA直接将visionencoder和LLM与MLPs连接，展示出了多模态对话的能力。另外，最近的工作提高了visionencoder的representation，进一步增强了VLMs的perception，例如,Mini-Gemini采用了一个额外的vision encoder用于high-resolutionrefinement，<span class="math inline">\(S^2\)</span> 通过scaling upimage scale，引入了多个visualbranches。然而，以上的方法通常用higher-resolution imageinputs进行输入，或者用设计的额外的modules，这需要更多的computationalresources。在这个工作中，作者提出了，通过adaptive supervision of amixture of visual experts，提高了VLMs的visionmodality，这里，higher-quality training data是optional</p></li><li><p>Knowledge distillation是将teacher model中的knowledgetransfer到一个studentmodel，来提高student，不需要额外的parameters。因为vision-languagemodels变得流行，如何通过KD来增强VLMs是一个notable researchdirection。</p><ul><li><p>KD on vision encoder：在vision-language models中，visionencoder对于从visual signals中提取high-level features至关重要，在这之前,DINOv2采用self-distillation，从larger teacher中训练smallervariants，也有人从CLIP teacher中蒸馏model。由于singleteacher的有限的ability，这个不能inspire the potential ofstudents。相比之下，AM-RADIO开始利用multiple vision experts来蒸馏visionencoder，代替VLMs中原始的，然而，这些方法没有集成到VLMs的框架中，是独立的，作者的工作是首个通过knowledgedistillation，以统一的方式，结合distinct encoders for VLMs，这对visionmodality的对齐是有好处的。</p></li><li><p>KD with multiple teachers：传统的deeplearning，在多个teacher的supervision下，用triplet loss蒸馏studentmodel。最近，OneS是首个将multiple teachers引入LLMs knowledgedistillation，从多个不同的预训练的experts中gather keyknowledge，直到现在，据作者所知，作者是首个用multiple visionteachers，通过知识蒸馏来增强VLMs的。</p></li></ul></li><li><p>作者提出了MoVE-KD，是一个新的knowlege distillation方法，用了多个visual encoders for visual-languagmodels。首先，**作者采用了encoder adapters，将多个teacherencoders的输出project到一个unified representationspace。基于来自pretrained CLIP model的[CLS]attention，weights动态地分配给teacher encoders和visual tokens，然后，KDloss基于teacher weights 和tokenweights的加权和来计算的。为了缓解learning multiple sources ofknowlege的潜在的冲突，作者引入了一个mixture-of-LoRA-experts结构，目标函数是最小化textloss和KD loss。</p></li><li><p>Encoder adapter：给定一个visual input，通过不同的visual encoderteachers进行处理，得到visual tokens，由于不同sources的visualencoders的不一致的representation space，visual tokens不能直接和studentvisualtoken进行对齐。同时，在知识蒸馏（KD）方法中，常用的线性插值技术难以将来自不同编码器的差异显著的token映射到一个统一且对学生模型友好的token空间中。因此，为了匹配dimensions和对齐tokenspaces，作者为每个teacher encoder引入了encoderadapters。每个adapter，是一个对respective teacher的输出定制的two-layerMLP，是独立地utilized and optimized using the knowledge distillationloss.</p></li><li><p>Mixture-of-LoRA-expers：在token对齐之后，studentencoder，从预训练的CLIP visualencoder中进行初始化，被微调，来学习teachertokens。然而，作者发现，直接微调student encoder有一个挑战：直接在targetdataset上微调，导致过拟合和灾难性遗忘的问题，会影响模型的accuracy和泛化性。另外，很难用一个sharedweights来实现unified representation，保持所有的优点，同时解决teachertokens之间的conflicts。为了解决这个问题，作者引入了mixture-of-LoRA-experts，这个架构包含两个components：mixture-of-experts(MoE)和LoRAexpert，首先，按照典型的MoE的设计，基于inputs来选择激活特定的experts，通常，对于每个layers的FFNin the student encoder和input features，MoED 输出是这样的：</p><p><span class="math display">\[F^*(x) = F(x) + E_i(x) \\\text{with } \quad i = \argmax(\text{Softmax}(f(x)))\]</span></p><p>router <span class="math inline">\(f\)</span> 是一个linearlayer，学习每个experts的weights，<spanclass="math inline">\(E_i\)</span> 是选择的i-th expert，<spanclass="math inline">\(F(x)\)</span>是原始FFN的输出，这个方法通过激活相关的experts，对于KDin multi-visual tasks特别有效，增强了model对于多种domain的visualknowledge的适应能力。</p><p>然而，之前的MoE将复制FFN，来作为独立的experts，导致参数量的极大增加，因此，作者的方法用了parameter-efficientLoRA作为expert，通过two low-rank matrices，代替一个large maramtermatrix，LoRA显著地减小了训练的参数，同时保持了模型性能。另外，LoRA展示出了更好的泛化性和迁移能力，在encoder用有限数据微调的情况下，很有用。</p><p>MoLE加速了distillation过程，使得model能够更好地capture每个teacher的长处，避免了knowledge之间的冲突，只有很少的parameteroverhead.</p><ul><li><strong>Attention-guided KDregularization</strong>：将来自多个teachers的knowledge蒸馏到一个model中的关键是<strong>guiddethe student in which features should be focusedon</strong>因为不同的visual encoders对于oneimage有不同的理解，一些representations是没有用的，或者冗余的，关注这些representations会弱化realimportant和uniquefeatures的学习，因此，一个合适的方式是找到一个合适的constraint来正则化distillation。</li></ul><p>这样的constraint，student应该被distillationloss所guided，这在fine-grained token level和coarse-grained teacherlevel上，对teachertokens里的有价值和冗余的regions进行判别。因此，一个理想的distillationloss on visual tokens是这样的：</p><p><span class="math display">\[\mathcal{L}_{kd} = \sum_{i=1}^{m}W_i^{(\text{tea})} \sum_{j=1}^{n} \left( W_j^{(\text{tok})} +\frac{1}{n} \right) \text{MSE}(V_{i,j}^{(t)}, V_j^{(s)}),\]</span></p><p><span class="math inline">\(m\)</span> 表示teacherencoders的数量，<span class="math inline">\(n\)</span> 是visualtokens的sequence length的长度，<spanclass="math inline">\(V^{t}\)</span> 和 <spanclass="math inline">\(V^{s}\)</span> 分别表示teacher和student的visualtokens，<span class="math inline">\(W^{tok}\)</span> 和 <spanclass="math inline">\(W^{tea}\)</span>表示token-level和teacher-level的weight vectors。</p><p>给定上述的motivation，一个好的visualencoder应该有一个强的perception和focusing ability for key information inthe image，本文中，相反用常用的learnable tokens来captureweights，作者采用了一个更高效和泛化的方式，通过采用 <spanclass="math inline">\([CLS]\)</span> token in CLIP。<spanclass="math inline">\([CLS]\)</span> token和其它的visualtokens之间的cross-attention 解释了image中的key regions，展示出了lessinterest in repeated and不重要的information。这个focusing的characteristic，和有影响的regions一样，对于学生来说是重要的。因此，作者用一个CLIP的<spanclass="math inline">\([CLS]\)</span> attention提供的weights，来设计KDregularization</p><ul><li>Token weight：作者希望student encoder能够focus on key visualtokens，就像pretrained CLIP，因此，作者计算了 <spanclass="math inline">\([CLS]\)</span> attention between <spanclass="math inline">\([CLS] token V^{cls}\)</span> and other visualtokens <span class="math inline">\(V^{res}\)</span> ofCLIP，用normalization作为每个token的weight。</li></ul><p><span class="math inline">\(W^{tok}\)</span> 表示token weight，<spanclass="math inline">\(W^Q\)</span> 和 <spanclass="math inline">\(W^V\)</span>是这一层CLIP输出的queries和keys的transformation matrices。另外，<spanclass="math inline">\(d\)</span> 是一个factor，用于stabilizing thevalues。</p><ul><li>Teacher weight：对于coarse teacher-level regularization，采用 <spanclass="math inline">\(CLS\)</span> token <spanclass="math inline">\(V^{cls}\)</span> 和i-th teacher's tokens <spanclass="math inline">\(V^t_i\)</span> 之间的cross-attention的meanvalue的softmax作为它的weight。这些teachers的weights，表示teachers对于这些images的responses，展示出了它们的contributionsto the recognition，formulation如下：</li></ul><p><span class="math inline">\(W^{tea}\)</span> 是teacher weight，m是teach encoder的数量，student是通过pretrained CLIPencoder来进行的初始化，来防止knowledge的遗忘，将CLIP作为一个teacher，设一个相对较高的fixedweight</p><ul><li>overall loss：总的loss包含两个parts，称之为 <spanclass="math inline">\(\mathcal{L}_{text}\)</span> 和 <spanclass="math inline">\(\mathcal{L}_{kd}\)</span>,表示传统的log-likelihood loss in VLMs，总的loss如下：</li></ul><p><span class="math inline">\(\mathcal{L}_{\text{total}} =\mathcal{L}_{\text{text}} + \lambda_{\text{kd}} \cdot\mathcal{L}_{\text{kd}},\)</span></p></li></ol><p><imgsrc="https://figures.semanticscholar.org/a5091934018e32a261f29e82907c418820327ed8/3-Figure3-1.png"alt="MoVE-KD pipelien" /> <spanclass="math inline">\(Fig.1^{[1]}\)</span> 用encoder adapters将teacherencoder's outputs进行project，基于CLIP的 <spanclass="math inline">\([CLS]\)</span> token对teacher weight和tokenweight进行分配，为了缓解knowledge conflicts的问题，在studentencoder中引入了MoLE结构。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;move-kd-knowledge-distillation-for-vlms-with-mixture-of-viusal-encoders1&quot;&gt;MoVE-KD:
-Knowledge Distillation for VLMs with Mixture of Viusal
-Encoders&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自北大等机构的Jiajun Cao等人，论文引用[1]: Cao, Jiajun et al.
-“MoVE-KD: Knowledge Distillation for VLMs with Mixture of Visual
-Encoders.” ArXiv abs/2501.01709 (2025): n. pag.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2025.Mar&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Single Vision encoder&lt;/li&gt;
-&lt;li&gt;LoRA&lt;/li&gt;
-&lt;li&gt;MoE&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;visual encoders是VLMs中的重要组件，每个都是从pretrained visual
-foundation models中得到的，展示出了unique
-strengths。为了利用这些encoders的various
-capabilities，最近的研究在&lt;strong&gt;单个VLMs中引入了多个encoders，导致在计算成本上的增加了很多&lt;/strong&gt;，
-作者提出了&lt;strong&gt;Mixture of Visual Encoder Knowledge
-Distillation(MoVE-KD)，一个新的framework，将多个vision encoders的unique
-proficiencies蒸馏到a single, efficient encoder
-model中，特别地，为了缓解conflicts和保持每个teach encoder的unique
-characteristics，作者采用了LoRA和MoEs，来选择性地激活specialized
-knowledge based on input
-features，增强了adaptability和efficiency，为了正则化KD
-process和增强performance，作者提出了一个attention-based distillation
-strategy，自适应地weights the different encoders，强调了valuable visual
-tokens，缓解了replicating comprehensive but distinct features from
-multiple teachers的负担&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Knowledge Distillation" scheme="https://young-eng.github.io/YoungBlogs/tags/Knowledge-Distillation/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MoCo</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/04/12/MoCo/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/04/12/MoCo/</id>
-    <published>2025-04-12T07:58:19.000Z</published>
-    <updated>2025-05-10T15:13:24.402Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="momentum-contrast-for-unsupervised-visual-representation-learning1">MomentumContrast for Unsupervised Visual RepresentationLearning<sup>[1]</sup></h3><blockquote><p>作者是来自FAIR的Kaiming He等人。论文引用[1]:He, Kaiming et al.“Momentum Contrast for Unsupervised Visual Representation Learning.”2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition(CVPR) (2019): 9726-9735.</p></blockquote><h3 id="time">Time</h3><ul><li>2020.Mar</li></ul><h3 id="key-word">Key Word</h3><ul><li>Self-Supervised learning</li><li>一句话总结：就是用momentum update，来动态更新key encoder。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者提出了<strong>MomentumContrast(MoCO)</strong>，用于无监督的视觉表征学习。从对比学习作为一种字典查找(dictionarylookup)的视角出发，作者构建了一个具有队列和moving-averagedencoder，这能够即时构建一个大的dictionary, 促进了对比无监督学习。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>NLP中的无监督学习取得了成功，但是在CV中，监督与训练还是主流，无监督方法还是落后了，<strong>主要的原因是它们的respectivesignal spaces， 语言tasks是离散的signal spaces, words, sub-word units,用于构建tokenized dictionaries,从而作为无监督学习的基础。但是在CV中，还需要关注字典的构建，因为rawsignal是在一个连续的、高维的空间，不具备人类通信的结构，不像words</strong>。</p><p>一些最近的研究，用和contrastiveloss相关的方法，在无监督视觉表征上取得了很好的效果。尽管是有多个motivations，这些方法可以被认为是构建<strong>dynamicdictionaries</strong>。dictionaries中的<strong>key(tokens)</strong>是从data(images/patches)中采样得到的，由一个encodernetwork来表征。无监督训练encoders来进行<strong>dictionary lookup:一个encoded query应该和它匹配的key相似，和其它的不相似，Learning被建模为最小化contrastive loss</strong>。</p><p>从这个角度，作者假设构建如下的dictionary是有益的:</p><ul><li>large</li><li>在训练过程中保持一致性，直觉上，更大的dictionary可能更好地采样潜在的、连续的高维视觉空间，dictionary中的keys应该被相同或者相似的encoder进行represent，以确保它们与query之间的比较具有一致性。然而，现有的方法用contrastivelosses在这两个方面中存在局限性。</li></ul><p>作者提出了MoCo，作为一种构建large 和consistentdictionaries的方式，用一个constrative loss用于无监督学习。作者将dictionary作为一个datasamples的queue：当前mini-batch编码的representations入列，oldest出列。队列将来自mini-batchsize的dictionary进行解耦，使其可以变大。此外，由于字典键来源于前几个mini-batch，本文提出了一种通过基于动量的移动平均机制实现的缓慢演化的keyencoder，以保持一致性。</p><p>MoCo 是一个用于contrastive learning的，构建dynamicdictionary的机制，可以用于多个下游任务。作者follow一个简单的<strong>instancediscrimination task：如果一个query和key是相同image的encodedviews，则它们是匹配的</strong>。用这个代理任务，MoCo在ImageNet数据集上，在线性分类的common protocol下，展示出了有竞争力的results。</p><p><strong>无监督学习的一个主要目的是预训练representations(features)，能够通过fine-tuning迁移到下游任务</strong>。作者展示了和detection相关的7个下游任务。MoCo无监督预训练能够超过对应的ImageNet监督训练。实验结果表明:MoCo在很多CV任务上缩小了监督和无监督表征学习的gap，在一些applications中，可以作为ImageNet监督预训练的alternative。</p></li><li><p>无监督/自监督学习方法主要涉及两个方面: pretext tasks和lossfunctions。<strong>pretext是指，所解决的任务并非真正感兴趣所在，而真正的目的是学习一个gooddata representation, loss functions可以独立于pretexttasks进行研究。MoCo关注于loss function aspect</strong>。</p><ul><li>Loss functions: 定义一个lossfunction的通常的方式是测量model的prediction和一个fixedtarget之间的difference，例如通过L1/L2 losses重建inputpixels，或者将input通过cross-entropy 或者margin-basedlosses分类为预定义的类别。contrastive losses测量samplepairs在representation space中的相似度。而不是将一个input和fixedtarget进行匹配。与将输入匹配到固定目标不同，在对比损失框架中，target在训练过程中动态变化，并且可以根据网络计算的datarepresentation来进行定义。对比学习是最近一些无监督学习工作的核心。</li></ul><p>adversarial losses测量probabilitydistribution之间的difference。它是一个成功的technique，用于无监督datageneration。generative adversarial networks和noise-contrastiveestimation(NCE)之间有联系。</p><ul><li><p>Pretext tasks: 有很多的pretexttasks被提出来了。<strong>包括在一些corruption条件下回复input, denoisingauto-encoders, context autoencoders, or cross-channelauto-encoders</strong>。一些ppretext tasks形成了通过将singleimage进行transformation，patch orderings, tracking or segmenting objectsin videos，形成pseudo-labels。</p></li><li><p>Contrastive learing vs. pretext tasks: 一些pretexttasks可以基于一些形式的contrastive loss functions。instancediscrimination 方法和exemplar-based task和NCE相关。在contrastivepredictive coding(CPC)中的pretext task是一种形式的contextauto-encoding,在contrastive multiviewcoding中，他和colorization有关。</p></li></ul></li><li><p>Contrastive learning as Dictionary Look-up:对比学习和最近的developments，可以被认为是训练一个encoder，用于dictionarylook-up task。考虑encoded query <spanclass="math inline">\(q\)</span>和一些encoded samples <spanclass="math inline">\({k_0, k_1,k_2,...}\)</span>，它们是dictionary的keys。假设这里有一个single key<span class="math inline">\(k_+\)</span> in the dictionary 和 <spanclass="math inline">\(q\)</span> 匹配，一个contrastiveloss是一个function，当q和它的positive key <spanclass="math inline">\(k_+\)</span>类似，和其它的keys不类似的时候，它的value是low。similarity 是通过dotproduct计算得到的，是一个形式的contrastive lossfunction，称之为InfoNCE，如下：</p><p><span class="math display">\[\mathcal{L}_q = -\log \frac{\exp(q \cdot k_+ / \tau)}{\sum_{i=0}^K\exp(q \cdot k_i / \tau)}\]</span></p><p><span class="math inline">\(\tau\)</span> 是 temperature超参数，这个求和操作是针对one positive 和K个negativesamples。直观地，这种损失是一个基于softmax的(K+1)类分类器的对数损失，该分类器试图将查询样本q 分类为正样本 <spanclass="math inline">\(k_+\)</span>，对比损失也有基于其它形式的函数，例如margin-basedlosses和NCE losses的变体。</p><p>这个contrastive loss作为一个无监督的objectivefunction，用于训练represent queries和keys的encoder networks。通常，queryrepresentation是 <span class="math inline">\(q =f_q(x^q)\)</span>，<span class="math inline">\(f_q\)</span>是要给encoder network，<span class="math inline">\(x^q\)</span>是一个query sample。它们的初始化依赖于specific pretext task。输入 <spanclass="math inline">\(x^q\)</span> 和 <spanclass="math inline">\(x^k\)</span> 可以是images，patches或者一组patches组成的context。这个网络 <spanclass="math inline">\(f_q\)</span> 和 <spanclass="math inline">\(f_k\)</span>相同的网络，部分shared，或者不同。</p></li><li><p><strong>Momentum Contrast</strong>:<strong>从以上的观点，对比学习是一个在高维连续输入例如images上构建离散的dictionary的方式，字典是动态的，因为键是随机采样的，且键编码器在训练过程中不断演变。作者的假设是：goodfeatures可以被一个覆盖丰富负样本呢的largedictionary所学习</strong>，同时encoder for dictionarykeys在evolution的时候尽可能保持一致。基于这个动机，作者提出了MomentumContrast. <strong>Dictionary as a queue</strong>：方法的核心是:**将dictionary维持为一个data samples的队列，这使得重新使用precedingmini-batches的encoded keys，queue的引入将dictionary size和mini-batchsize进行解耦。作者的dictionary size可以比一些典型的mini-batchsize更大，可以灵活和独立地设为一个超参数。</p><p>这个dictionary中的samples是逐步被replaced，当前的mini-batch会被加入dicitonaryqueue，oldest的mini-batch in thequeue会被removed。dictionary总是代表所有data的采样的subset，同时保持这个dictionary的额外的计算是manageable的。另外，去掉oldestmini-batch是有益的，因为它的encoded keys是过时的，和最新的最不一致。</p><ul><li>Momentum update: 用一个queue能够使dictionarylarge，但是也使其很难通过反向传播更新key encoder。一个naive的解决方式是将key encoder从query encodercopy过来，忽略它的gradient。但是这个方法在实验中产生了poorresults。作者假设：这个失败是由于rapidly 改变encoder，降低了keyrepresentations consistency造成的，作者提出的momentumupdate来解决这个问题。</li></ul><p>Formally, 将<span class="math inline">\(f_k\)</span> 表示为 <spanclass="math inline">\(\theta_k\)</span>，<spanclass="math inline">\(f_q\)</span> 表示为 <spanclass="math inline">\(\theta_q\)</span>，通过如下更新 <spanclass="math inline">\(\theta_k\)</span>:</p><p>这里 <span class="math inline">\(m \in [0,1)\)</span> 是一个momentumcoefficient，只有超参数 <span class="math inline">\(\theta_q\)</span>是通过反向传播更新的。公式中 momentum update使得 <spanclass="math inline">\(\theta_k\)</span> 比 <spanclass="math inline">\(\theta_q\)</span>更新地更smoothly。因此，虽然queue中的keys是通过不同的encoders进行encoded的，这些encoder之间的差距是很小的。实验中，像一个相对大的momentum比一个更小的value效果好，表明：一个缓慢evolving 的key encoder是利用queue的核心。</p><ul><li><p>和之前机制的关系： MoCo是一个用contrastivelosses的通用的机制，将它和现有的两种存在的机制进行对比，在dictionarysize和一致性上展示出了不同的特点。 通过反向传播的端到端的更新是naturalmechanism，它用当前mini-batch中的samples作为dictionary，因此keys的编码是一致的，大那是dictionarysize适合mini-batch size解耦的，受限于GPU memory size，它也被largemini-batch optimization所挑战。一些近期的方法，基于pretexttasks，是由local positions驱动的，dictionarysize可以被多个positions弄的很大。但是，这些pretexttasks可能要求特殊的网络涉及，例如patchifying theinput，或者定制化receptive fieldsize，可能会使网络迁移到下游任务变得复杂。</p></li><li><p>另一个机制是memory bank，memorybank包含数据集中所有samples的representations，这个dictionary for eachmini-batch随机从memory bank中采样，没有反向传播，因此它能支持一个largedictionary size。然而，一个memorybank中的sample的representation当它最后被seen的时候被更新，因此，sampledkeys本质上反映了过去一个训练周期（epoch）中多个不同训练步骤下的编码器状态，导致表示的一致性降低。也有在memorybank中采用momentum update，它的momentum update作用于同一样本的表示（而非编码器本身）。这种动量更新与我们的方法无关，因为MoCo并不追踪每个样本的表示。此外，我们的方法内存效率更高，能够处理十亿级规模的数据训练，而这对传统记忆库（memorybank）而言可能是不可行的。</p></li></ul></li><li><p>Pretext task：contrastive learning能够推出多种pretexttasks，本文的焦点不是设计一个新的pretexttask，作者用一个简单的，主要following instance discriminationtask，跟踪前人的工作，作者考虑一个query和key，作为一个positivepair，如果它们来自于同一个image，其它的视为negative samplepair。作者将**相同image的两个random views构成一个positivepair，queries和keys分别被它们的encoders进行编码，encoder可以是任何CNN。</p><p>对于当前的mini-batch，作者encoderqueries和它们对应的keys，构成了positive sample pairs，negativesamples来自于queue。</p><p>作者采用ResNet作为encoder，最后一个全连接层有固定的维度输出，这个输出的vector通过L2-norm进行归一化。这是query或者key的representation，​</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/add2f205338d70e10ce5e686df4a690e2851bdfc/1-Figure1-1.png" /><span class="math inline">\(Fig.1^{[1]}\)</span> 三种contrastiveloss机制的对比。这里作者解释了query和key的pair，这三种机制不同的地方在于keys是如何maintained以及keyencoder是如何update的。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;momentum-contrast-for-unsupervised-visual-representation-learning1&quot;&gt;Momentum
-Contrast for Unsupervised Visual Representation
-Learning&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自FAIR的Kaiming He等人。论文引用[1]:He, Kaiming et al.
-“Momentum Contrast for Unsupervised Visual Representation Learning.”
-2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition
-(CVPR) (2019): 9726-9735.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2020.Mar&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-word&quot;&gt;Key Word&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Self-Supervised learning&lt;/li&gt;
-&lt;li&gt;一句话总结：就是用momentum update，来动态更新key encoder。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;作者提出了&lt;strong&gt;Momentum
-Contrast(MoCO)&lt;/strong&gt;，用于无监督的视觉表征学习。从对比学习作为一种字典查找(dictionary
-lookup)的视角出发，作者构建了一个具有队列和moving-averaged
-encoder，这能够即时构建一个大的dictionary, 促进了对比无监督学习。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Self-Supervised" scheme="https://young-eng.github.io/YoungBlogs/tags/Self-Supervised/"/>
     
   </entry>
   

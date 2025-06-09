@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="\(\Pi_0\): A Vision-Language-Action Flow Model for General Robot Control[1]  作者是来自Physical Intelligence的Kevin Black 等人。论文引用[1]:Black, Kevin et al. “π0: A Vision-Language-Action Flow Model for Gene">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pi0">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/06/08/Pi0/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="\(\Pi_0\): A Vision-Language-Action Flow Model for General Robot Control[1]  作者是来自Physical Intelligence的Kevin Black 等人。论文引用[1]:Black, Kevin et al. “π0: A Vision-Language-Action Flow Model for Gene">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-08T08:41:10.000Z">
+<meta property="article:modified_time" content="2025-06-09T08:14:59.867Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="VLA">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/06/08/Pi0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/06/08/Pi0/","path":"2025/06/08/Pi0/","title":"Pi0"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Pi0 | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#pi_0-a-vision-language-action-flow-model-for-general-robot-control1"><span class="nav-number">1.</span> <span class="nav-text">\(\Pi_0\): A Vision-Language-Action Flow
+Model for General Robot Control[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">166</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/08/Pi0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Pi0 | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Pi0
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-06-08 16:41:10" itemprop="dateCreated datePublished" datetime="2025-06-08T16:41:10+08:00">2025-06-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-06-09 16:14:59" itemprop="dateModified" datetime="2025-06-09T16:14:59+08:00">2025-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>15 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="pi_0-a-vision-language-action-flow-model-for-general-robot-control1"><span
+class="math inline">\(\Pi_0\)</span>: A Vision-Language-Action Flow
+Model for General Robot Control<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Physical Intelligence的Kevin Black 等人。论文引用[1]:Black,
+Kevin et al. “π0: A Vision-Language-Action Flow Model for General Robot
+Control.” ArXiv abs/2410.24164 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Nov</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>flow matching</li>
+<li>一句话：<strong>作者的robot policy用了一个预训练的VLM
+backbone，还有多个embodiment dataset，通过增加一个单独的action
+expert来做roboto control，通过flow
+matching产生连续的actions，使得能够实现精确和丝滑的控制，model可以基于prompt，执行tasks，或者在高质量的data上进行微调，实现复杂的多阶段的任务，例如折叠多个衣服</strong>。</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>Robot
+Learning有很大的前景，解锁灵活、通用和熟练的机器人系统的全部潜力，还能解决AI中的一些最深的问题。然而，将robot
+learning带到一个有效的real-world
+systems的要求的通用能力的水平面临一些数据、泛化性和鲁棒性方面的挑战。在本文中，作者讨论了通用的机器人策略(generalist
+robot policies)如何解决这些挑战，以及作者如何涉及有效的generalist robot
+policies for complex和highly dexterous tasks。作者提出了一个新的flow
+matching
+架构，建立在一个预训练的VLM基础之上，继承了internet-scale语义信息，作者然后讨论这个model是如何在一个来自多个robot
+platforms、包括单臂、双臂和移动manipulators上的数据集上进行训练的。作者将从模型通过直接prompting执行任务的能力、遵循人类语言指令的能力，以及遵循高层次VLM策略指令、和通过微调得到新的skills的能力这几个方面来评估我们的模型。
+<span id="more"></span></p></li>
+<li><p><em>一个人应当能够换尿布、策划入侵、宰猪、掌舵船只、设计建筑、撰写十四行诗、管理账目、砌墙、接骨、安慰临终者、服从命令、发布命令、协作共事、独立行动、解算方程、分析新问题、扬粪施肥、编程计算机、烹调美食、高效战斗、英勇赴死。专业化是昆虫的宿命</em>，罗伯特.海因莱因，《时间足够你爱》。
+人工智能系统形态多样，规模各异，从高级的专业化的systems，解决人类无法难以理解的问题，例如预测蛋白质的comformation，到能够基于texual
+prompts产生逼真的高分辨率的images or
+videos，然而，人类智能超越机器智能的核心维度在于其通用性，能够解决多种物理环境中的多样的任务，智能地回应环境的限制、语言指令和没有想到的干扰。或许，人工智能在实现这种通用性方面最显著的进展，体现在LLMs和VLMs中：在大量的web上的images和text上预训练的systems，然后用精心准备的datasets进行微调，旨在引导出期望的行为和响应模式。尽管研究表明此类模型展现出广泛的指令遵循和问题解决能力，但它们并不像人类那样真实置身于物理世界，其对物理交互的理解完全基于抽象描述。如果现有方法希望在开发具备人类物理情境适应能力的AI系统方面取得实质性进展，就必须使用来自具身机器人代理的物理环境数据进行训练。能够用来执行多种机器人行为的灵活、通用的models展示出了巨大的实际效果。能够被赋予执行多种机器人行为任务的灵活通用模型具有深远的实际影响，但它们也可能为当前机器人学习所面临的最严峻挑战提供解决方案：例如数据的可用性，泛化性和鲁棒性。在NLP和CV中，在多个多任务数据上预训练的通用目的的foundation
+models，往往超过narrowly
+tailored的和专门的解决方法。例如：如果目标是识别image中的biirds，在多个不同的image-language
+关联上预训练，然后微调或者prompt for the bird recognition
+task，然后仅在bird 数据上进行train。类似地，这样也可能找到specialized
+robot systems，首先在highly diverse robot
+data进行预训练，然后微调或者prompt for the deired
+task，这能够解决数据稀缺性挑战，因为很多数据是适用于generalist
+model，包括其它任务的、其它robots甚至是non-robots
+sources的数据。它可能解决robustness和泛化性的挑战，因为多样化数据对观测与操作的覆盖范围更广泛，提供了多样化的场景、修正机制和恢复行为——这些特征在狭窄的专业化数据中可能并不存在。因此，在robot
+learning上采用大规模预训练方法展示出了解决field's
+的挑战，使得实际的learning-enabled
+robots成为一个现实，同时，促进了对AI中最深问题的理解。</p>
+<p>然而，开发这样的通用的robot policies，例如robot foundation
+models，涉及很多主要的挑战：首先，任何研究必须是large
+scale的，因为大规模的预训练的benefits通常不会在small
+scales上展示出来；其次，它要求合适的模型架构，能够有效地利用多样的数据，同时能够表示复杂和微妙的、和复杂物理场景交互必须的行为；第三，它要求合适的训练方法，这或许是最重要的部分，很多最近的NLP和CV中的进展依赖于精心设计的策略for
+curating pre-training和post-training data。</p>
+<p>**在本文中，作者提出了一个prototype model和learning的框架，称之为
+<span
+class="math inline">\(\pi_0\)</span>，为了引入多种数据源，利用预训练的VLM来导入Internet-scale
+experience，作者的model以VLM为基础，继承了通用的knowledge，semantic
+reasoning和LLMs和VLMs的问题解决的能力，作者进一步训练model，引入robot
+actions，将其变成VLA model，为了利用多种robot data
+sources变得可行，作者采用了cross-embodiment training，来自多个robot
+types的data结合进同一个model，这些不同的robot types有不同的configuration
+spaces和action representations，包括single和dual-arm
+systems，还有移动的manipulators，另外，为了使得执行highly dexterous
+和复杂的物理tasks成为可能，作者用了一个action chunking with flow
+matching的架构，来表示复杂连续的动作分布，这使得作者的model最多能在dexterous
+tasks上以50Hz控制robots，为了将flow
+matching和VLMs结合，作者用了一个新的action expert，用flow-based
+outputs来增强标准的VLM。</p>
+<p>和语言模型一样，作者的model只是方法的一部分，为了灵活地执行复杂的任务，作者需要正确地训练策略，作者的策略模仿了pre-training/post-training
+separation，这在大规模的LLMs和VLM上很常见，model首先在非常大和多样的corpus上进行预训练，然后在narrow和carefully
+curated
+data上进行微调，来引出behaviors的理想的pattern，在作者的case中，dexterity，
+efficiency和robustness，直觉上，仅在高质量的data上进行训练并不能教model如何从错误中恢复，因为错误在data上很少见，仅在低质量的pretraining
+data上进行训练，不能教model有效地act，将两者结合能够实现期望的行为：模型会尽可能地模仿高质量数据的行为模式，同时仍具备一系列恢复和纠正机制，可在出现错误时灵活调用。</p>
+<p>作者的工作的contributions包括：一个新的通用的robot
+policy架构，基于预训练的VLM和flow
+matching，一个针对此类机器人基础模型的预训练与后训练策略开展的empirical
+investigation，作者对模型进行了三种方式的评估：直接使用语言指令进行开箱即用的评估、在下游任务上进行微调的评估，以及结合高级语义策略的评估——该策略会输出中间语言指令，以执行复杂且具有时间延续性的任务。同时，作者的model和system利用多个最近的工作的ideas。</p></li>
+<li><p>作者的工作基于最近的在大规模robot learning的方法，包括multimodal
+language models，VLA models(用预训练的VLMs，然后对robot control
+进行fine-tuned)，这样的models利用自回归的discretization来表示actions，类似于text
+tokens，相比之下，作者采用了一个新的设计，将VLMs微调，通过flow
+matching产生actions，这使得能够处理高频的action chunks和highly dexterous
+tasks，也展示了这些任务对以往的自回归视觉语言动作模型（VLA）构成了重大挑战。这像最近在diffusion
+models for action
+generation上的工作，相比于这些工作，作者的model利用一个预训练的VLM
+backbone，作者的contribution也是integrative，聚焦于一个framework for
+robot foundation models，包括不仅模型架构本身，还有pretraining
+recipe，pretraining/post-training阶段。</p>
+<p>在robot control之外，很多models将预训练的language
+models和diffusion进行结合，包括specifically hybridize
+diffusion和自回归的large language models，这样的models通常和image
+generation有关，但是作者的action generation
+model建立在之前提出的concepts上，作者通过在单个序列元素上应用扩散风格的（flow
+matching）损失来训练模型，以此取代仅使用解码器的 Transformer
+中常见的交叉熵损失。作者为与扩散过程对应的token使用了一套独立的权重。在将这些概念引入视觉语言动作（VLA）模型的基础上，作者提出了首个基于flow
+matching的 VLA 模型，能够生成用于灵巧控制的高频action chunks for
+dexterous control。</p>
+<p>作者的工作也建立在之前的large-scale robot
+learning上的工作，早期的工作利用自监督或者autonomous data
+collection，提供了一个易处理的data
+source，用于简单的任务，但是没有更多more dexterous
+的行为，最近，搜集了高质量的数据集用于robot
+control，使得更广的泛化性，但是，这只是针对更简单的tasks，包含object
+relocation等。more dexterous tasks是在一个更小的scale被研究，通常只有10s
+或者100s的training轨迹，作者目标之一是研究复杂和dexterous
+行为，作者利用一个更大的dataset，大概10,000 hours的demos，和开源的OXE
+dataset互补，剧作者所知，这是目前为止最大哦的robot learning
+expertiments，在这个scale上，作者展示了一个更复杂的pretraining/post-training
+recipe是highly
+effective，类似于用于LLMs的recipes，一个预训练的阶段使得model具有广博的知识基础，在post-training中，用更高质量的curated
+data进行refine，实现desired 行为。</p>
+<p>任务的复杂性超过了之前的工作，最近的工作阐释了大量更复杂和dexterous
+的行为，例如cooking shrimp，作者展示了，作者的framework能够学习long
+tasks，有时长度上能达到数十分钟，这些任务的行为既包含物理上的灵巧性，也具有组合上的复杂性。例如，laundry
+folding
+任务要求robot来操作多种衣服，在任何configuration下开始，然后依次进行fold。</p></li>
+<li><p>在训练framework中，作者首先组合了一个pretraining
+mixture，包含一个在7个不同的robot
+configuration下的，用于68个tasks的dexterous manipulation
+datasets和整个的OXE
+dataset的加权的combination。预训练阶段用了不同的language
+labels，包含task names和segment annotations。预训练的目的是训练一个base
+model，展示出broad
+capabilities和泛化性，但不一定在任何单一任务上追求高性能。这个base
+model遵循language
+commands，对一些任务有基础的执行能力。对于复杂的任务，需要post-training：用高质量的数据将model适应到下游任务。作者研究了小到中等数据量的有效后训练，以及大数据集的高质量后训练，用于复杂任务，如洗衣折叠和移动操作。作者的model是基于PaliGemma
+VLM，然后进一步用data mixture进行训练，为了将base PaliGemma VLM转换成
+<span class="math inline">\(\pi_0\)</span>，用flow
+matching，增加了action outputs，来产生连续的action
+distributions。</p></li>
+<li><p><span class="math inline">\(\pi_0\)</span> 包含一个language model
+transformer backbone，遵循标准的late fusion VLM 方法，image
+encoders将robot image observations嵌入到和language
+tokens相同的向量空间，用robotics-specific
+inputs和outputs来增强这个backbone，也就是proprioceptive state和robot
+actions， <span class="math inline">\(\pi_0\)</span> 用了conditional
+flow matching，来建模actions的连续分布。Flow matching提供了high
+precision和多模态的能力，使其能够适应高频的Dexterous
+tasks，作者的架构受Transfusion的启发，用多个objectives训练single
+transformer，tokens对应于通过一个flow matching
+loss监督的连续outputs。基于Transfusion，作者发现，为robotics-specific
+tokens设置一个单独的weights可以提高性能，这个设计类似于MoE，有两个mixture
+elements，第一个element用于image和text
+inputs，第二个用于robotic-specific inputs和outputs，将第二个weights
+set称之为 action expert。 作者想建模data distribution <span
+class="math inline">\(p(A_t|O_t)\)</span>，<span
+class="math inline">\(O_t\)</span>是observation，<span
+class="math inline">\(A_t\)</span>是对应的future actions的action
+chunk，这个observation包含多个RGB images，一个language command，robot
+proprioceptive state，<span class="math inline">\(O_t = [I^1_t, ...,
+I^n_t, l_t, q_t]\)</span>，<span class="math inline">\(I^i_t\)</span>
+是第i个image，<span class="math inline">\(l_t\)</span> 是language
+token的序列，<span class="math inline">\(q_t\)</span> 是joint
+angles的vector，images <span class="math inline">\(I^i_t\)</span>
+和state <span class="math inline">\(q_t\)</span>
+通过对应的encoders和进行编码，然后通过一个linear projection
+layer投影到和language tokens相同的向量空间。对于action chunk <span
+class="math inline">\(A_t\)</span> 中的每个action <span
+class="math inline">\(a_t`\)</span> ，有一个对应的action
+token，通过action expert，在训练期间，用一个conditional flow matching
+loss来监督这些action。最近在high-resolution
+image和video合成中的工作表明：当和一个simple
+linear-gaussian结合的时候，flow
+matching实现了一个很强的性能。在实际中，网络通过sampling random
+noise进行训练，计算noisy actions，然后训练网络的输出来匹配denoising
+vector field，action expert用一个full bidirectional attention
+mask，因此所有的action tokens能够attend to each
+other，在训练期间，从一个beta 分布中，采样flow matching timestep <span
+class="math inline">\(\tau\)</span>。</p>
+<p>在推理的时候，通过集成learned vector
+field，产生actions，用前向的Euler集成规则。</p>
+<p>原则上，作者的model可以从零初始化，或者从任意的VLM
+backbone进行微调，实际中作者用了PaliGemma作为base
+model，PaliGemma是一个开源的VLM，在size和performance之间提供了convenient
+trade-off。作者加了300M 参数for action expert</p>
+<ul>
+<li>Non-VLM baseline model：除了主要的VLA
+model，作者也训练了一个类似的baseline model，不用VLM
+初始化，这个model称之为 <span
+class="math inline">\(\pi_0\)</span>-small，没有用VLM初始化。
+和LLM的训练类似，有预训练和后训练，预训练的目标是使model得到广泛的applicable和通用的能力，后训练让modele能够有效地执行下游任务。</li>
+</ul></li>
+<li><p>很多复杂的任务要求semantic reasoning和高阶的策略，例如table
+bussing，能从将高阶任务分解成多个中级的subtasks的high-level策略中获益，因为作者的model被训练用来处理language
+inputs，可以用一个high-level VLM来做语义推理，类似于LLM/VLM
+planning方法，采用此类高层次策略，协助模型以high-level
+strategy指导多个实验任务的执行。 作者的dexterous manipulation
+datasets包含7个不同的robot configurations和68个tasks，分别是
+<strong>UR5e, Bimanual UR5e, Franka, Bimanual Trossen， Bimanual ARX
+&amp;bimanual AgileX，Mobile Trossen &amp; mobile ARX, Mobile
+Fibocom</strong>。</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/ef0c2a66b7bc82a2f90ac298310c064a49da8213/4-Figure3-1.png"
+alt="framework" /> <span class="math inline">\(Fig.2^{[1]}\)</span>
+先是pre-training mixture，包含作者自己的dexterous manipulation
+datasets和开源数据，作者用这个mixture来训练flow matching VLA
+model，包含一个更大的VLM backbone和一个更小的action
+expert，用于处理robot states和actions，VLM backbone
+weights是从PaliGemma初始化的，提供了从large-scale internet
+预训练的representations，<span class="math inline">\(\pi_0\)</span>
+model 能够用不同的action spaces来控制多个robot
+embodiments，来完成多样的任务。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/VLA/" rel="tag"># VLA</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/06/04/VA-VAE/" rel="prev" title="VA-VAE">
+                  <i class="fa fa-angle-left"></i> VA-VAE
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/06/09/EVA/" rel="next" title="EVA">
+                  EVA <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">293k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">17:46</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

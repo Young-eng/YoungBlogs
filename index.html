@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">160</span>
+          <span class="site-state-item-count">166</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -135,7 +135,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/YoungBlogs/tags/">
-        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-count">56</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -160,6 +160,747 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/09/RT2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/06/09/RT2/" class="post-title-link" itemprop="url">RT2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-06-09 21:11:35 / 修改时间：22:58:41" itemprop="dateCreated datePublished" datetime="2025-06-09T21:11:35+08:00">2025-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="rt-2-vision-language-action-models-transfer-web-knowledge-to-robotic-control1">RT-2:
+Vision-Language-Action Models Transfer Web Knowledge to Robotic
+Control<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自DeepMind的Anthony Brohan等人，论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.July</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>map robot observations to actions</li>
+<li>利用在language 和vision-language data大规模预训练的benefits</li>
+<li>将actions表示text tokens</li>
+<li>co-fine-tuning</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者研究了在Internet-scale
+data上进行训练的VLM是如何直接引入到端到端的robotic
+control中，来提高泛化性和enable semantic
+reasoning。作者的目标是使得一个single端到端的trained
+model能够学习将robot
+observations映射到actions，然后能够利用在language和vision-language data
+from the
+web大规模预训练的优势，为了这个目的，作者提出了co-fine-tune的SOTA的VLMs
+on both robotic trajectory data和internet-scale vision-language
+tasks，例如VQA，相比于其它的方法，作者提出的方法简单，通用，能够实现这个目标，为了将自然语言的responses和robotic
+actions统一到相同的格式，作者将actions表示为text
+tokens，将它们引入model的training
+set，和自然语言的tokens一样，作者将这种类型的modals称之为VLA，并构建了该类模型的一个具体实例，命名为RT-2。作者的大量的evaluation表明：这个方法有很好的robotic
+policies，使得RT-2能够从internet-scale training上得到emergent
+capabilities，这包括繁华到新目标的能力，将没有出现在训练数据中的指令进行解译，对用户的指令进行基本的推理的能力，作者进一步展示了：引入了思维链的推理使得RT-2能够执行多阶段的语义推理，例如，确定将哪个物体作为临时锤子使用（如石头），或判断哪种饮品最适合疲惫的人（如能量饮料）。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/06/09/RT2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/09/Octo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/06/09/Octo/" class="post-title-link" itemprop="url">Octo</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-06-09 21:11:29 / 修改时间：21:16:47" itemprop="dateCreated datePublished" datetime="2025-06-09T21:11:29+08:00">2025-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>38</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="octo-an-open-source-generalist-robot-policy1">Octo: An
+Open-Source Generalist Robot Policy<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自UCB、Stanford、CMU和DeepMind的Sudeep
+Dasari等人，论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.May</li>
+</ul>
+<h2 id="key-words">### Key Words</h2>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/09/SigLIP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/06/09/SigLIP/" class="post-title-link" itemprop="url">SigLIP</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-06-09 16:18:40 / 修改时间：21:15:15" itemprop="dateCreated datePublished" datetime="2025-06-09T16:18:40+08:00">2025-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="section"></h3>
+<h2 id="time">### Time</h2>
+<h2 id="key-words">### Key Words</h2>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/09/EVA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/06/09/EVA/" class="post-title-link" itemprop="url">EVA</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-06-09 16:18:18 / 修改时间：20:57:48" itemprop="dateCreated datePublished" datetime="2025-06-09T16:18:18+08:00">2025-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="eva-exploring-the-limits-of-masked-visual-representation-learning-at-scale1">EVA:
+Exploring the Limits of Masked Visual Representation Learning at
+Scale<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自BAAI、华科等机构的Yuxin Fang等人。论文引用[1]:Fang, Yuxin
+et al. “EVA: Exploring the Limits of Masked Visual Representation
+Learning at Scale.” 2023 IEEE/CVF Conference on Computer Vision and
+Pattern Recognition (CVPR) (2022): 19358-19369.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2022.Dec</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>masked out image-text aligned vision features</li>
+<li>CLIP</li>
+<li>MIM</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>作者提出了EVA，是一个vision-centric的foundation
+model，仅用公开的数据，来探索大规模visual
+representation的极限。EVA是一个普通的ViT，预训练用来重建masked out
+image-text aligned vision features conditioned on visible image
+patches。通过这个代理任务，可以有效地scale up
+EVA到1B参数，在多个代表性的下游任务上创造了新的记录，另外，在扩展EVA时，量变会引发迁移学习性能的质变，这种现象在其他模型中并不存在。例如，在极具挑战性的大规模词汇实例分割任务中，EVA实现了跨越式突破：作者的模型在包含超过一千类别的LVISv1.0数据集和仅有80类的COCO数据集上，均达到了接近最先进的性能水平。除了一个pure
+vision encoder，EVA也可以作为一个vision-centric,
+多模态的pivot，来连接images和text，作者发现，通过使用EVA初始化giant CLIP
+model的视觉分支，不仅能显著提升训练稳定性，还能以更少的样本量和计算资源超越从零训练的同类模型。提供了一个新的scaling
+up和加速多模态foundation models的方向。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/06/09/EVA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/08/Pi0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/06/08/Pi0/" class="post-title-link" itemprop="url">Pi0</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-06-08 16:41:10" itemprop="dateCreated datePublished" datetime="2025-06-08T16:41:10+08:00">2025-06-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-06-09 16:14:59" itemprop="dateModified" datetime="2025-06-09T16:14:59+08:00">2025-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>15 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="pi_0-a-vision-language-action-flow-model-for-general-robot-control1"><span
+class="math inline">\(\Pi_0\)</span>: A Vision-Language-Action Flow
+Model for General Robot Control<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Physical Intelligence的Kevin Black 等人。论文引用[1]:Black,
+Kevin et al. “π0: A Vision-Language-Action Flow Model for General Robot
+Control.” ArXiv abs/2410.24164 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Nov</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>flow matching</li>
+<li>一句话：<strong>作者的robot policy用了一个预训练的VLM
+backbone，还有多个embodiment dataset，通过增加一个单独的action
+expert来做roboto control，通过flow
+matching产生连续的actions，使得能够实现精确和丝滑的控制，model可以基于prompt，执行tasks，或者在高质量的data上进行微调，实现复杂的多阶段的任务，例如折叠多个衣服</strong>。</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>Robot
+Learning有很大的前景，解锁灵活、通用和熟练的机器人系统的全部潜力，还能解决AI中的一些最深的问题。然而，将robot
+learning带到一个有效的real-world
+systems的要求的通用能力的水平面临一些数据、泛化性和鲁棒性方面的挑战。在本文中，作者讨论了通用的机器人策略(generalist
+robot policies)如何解决这些挑战，以及作者如何涉及有效的generalist robot
+policies for complex和highly dexterous tasks。作者提出了一个新的flow
+matching
+架构，建立在一个预训练的VLM基础之上，继承了internet-scale语义信息，作者然后讨论这个model是如何在一个来自多个robot
+platforms、包括单臂、双臂和移动manipulators上的数据集上进行训练的。作者将从模型通过直接prompting执行任务的能力、遵循人类语言指令的能力，以及遵循高层次VLM策略指令、和通过微调得到新的skills的能力这几个方面来评估我们的模型。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/06/08/Pi0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/04/VA-VAE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/06/04/VA-VAE/" class="post-title-link" itemprop="url">VA-VAE</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-06-04 22:37:32 / 修改时间：23:13:13" itemprop="dateCreated datePublished" datetime="2025-06-04T22:37:32+08:00">2025-06-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>962</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="reconstruction-vs.-generation-taming-optimization-dilemma-in-latent-diffusion-models1">Reconstruction
+vs. Generation: Taming Optimization Dilemma in Latent Diffusion
+Models<sup>[1]</sup></h3>
+<blockquote>
+<p>作者主要是来自华科的Jingfeng Yao等人。论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2025.Mar</li>
+</ul>
+<h2 id="key-words">### Key Words</h2>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>用Transformer架构的Latent diffusion
+models擅长生成高质量的images，然而，最近的研究表明了这个两阶段设计的优化困境：增加visual
+tokenizers中的per-token feature dimension的时候，提高了reconstruction
+的质量，它需要很大的diffusion models何更多的training
+iterations来实现相当的生成性能。因此，现有的systems经常遇到次优化的解决方式，要么是由于tokenizer的information
+loss造成的visual
+artifacts，要么是由于大量的计算导致难以收敛，作者argue，这个dilemma<strong>源于学习没有约束的高维latent
+spaces的困难</strong>，为了解决这个，作者提出了，<strong>当训练visual
+tokenizers的时候，将latent space和预训练的vision foundation
+models进行对齐</strong>。作者提出了VA-VAE(Vision foundation model
+Aligned VAE)，极大地扩展了latent diffusion
+models的reconstruction-generation 的边界，使得DiTs在高维latent
+spaces快速收敛，为了利用VA-VAE的全部的potential，作者构建了一个增强版的DiT，用了改进的训练策略和架构设计，称之为LightningDiT。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/06/04/VA-VAE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -681,810 +1422,8 @@ Kullback-Leibler Divergence Loss (IKL)。
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/19/DenoiseRep/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/05/19/DenoiseRep/" class="post-title-link" itemprop="url">DenoiseRep</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-05-19 11:35:15" itemprop="dateCreated datePublished" datetime="2025-05-19T11:35:15+08:00">2025-05-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-05-21 17:17:05" itemprop="dateModified" datetime="2025-05-21T17:17:05+08:00">2025-05-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2.3k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="denoiserep-denoising-model-for-representation-learning1">DenoiseRep:
-Denoising Model for Representation Learning<sup>[1]</sup></h3>
-<blockquote>
-<p>论文引用[1]:作者是来自北交大的Zhengrui Xu等人。论文引用[1]:Xu,
-Zhengrui et al. “DenoiseRep: Denoising Model for Representation
-Learning.” Neural Information Processing Systems (2024).</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2024.Nov</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>将来自生成任务中的denoising process集成到判别式任务中</li>
-<li>一句话总结：<strong>用embedding
-layers输出的features，对齐进行denoising 操作，训练denoising
-layers，推理的时候，将denoising layers的参数和embedding
-layers的参数进行融合，得到最终的输出，思路挺好</strong></li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>denosing
-model被证明是一个很强的生成model，<strong>但是很少用来做discriminative
-tasks。representation learning再discriminative
-tasks中是重要的。本文中，作者提出了新的Denoising model用于representation
-learning,通过联合feature extraction和denoising来提高feature
-discrimination，DenoiseRep将backbone中的每个embedding layer
-视为一个denoising layer，处理cascaded embedding layers，就像step-by-step
-denoising features一样</strong>。这个框架统一了feature
-extraction和denoising，前者progressively将low-lelel的features嵌入到high-level，后者step-by-step
-对feautures进行denoising。之后，DenoiseRep融合feature
-extraction和denoising
-layers的参数，理论上表明了融合之前和之后的等效性，使得feature denoising
-是computation-free的，使得feature
-denoising无需额外计算。DenoiseRep是一个label-free的算法，提高了features，但也和label互补。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/05/19/DenoiseRep/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/16/MPI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/05/16/MPI/" class="post-title-link" itemprop="url">MPI</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-05-16 17:18:36" itemprop="dateCreated datePublished" datetime="2025-05-16T17:18:36+08:00">2025-05-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-05-19 13:50:46" itemprop="dateModified" datetime="2025-05-19T13:50:46+08:00">2025-05-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>7 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="masked-pre-training-enables-universal-zero-shot-denoiser1">Masked
-Pre-training Enables Universal Zero-shot Denoiser<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自中科大和上海AI Lab的Xiaoxiao Ma等人，论文引用[1]:Ma,
-Xiaoxiao et al. “Masked Pre-training Enables Universal Zero-shot
-Denoiser.” Neural Information Processing Systems (2024).</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2024.April</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>masked pre-training</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>作者观察到：<strong>通过masking
-策略，在大量images上训练的model，很自然地和distribution
-knowledge进行了嵌入，然后同时获得了strong image
-denoising的潜力，基于这个观察，作者提出了新的zero-shot
-denoising范式，Masked Pre-train then Iterative fill(MPI),
-MPI首先通过masking训练model，然后采用预训练权重，在单个noisy
-image上，进行高质量的zero-shot image
-denoising</strong>。具体来说包括两个步骤：1.<strong>Masked Pre-training
-涉及对大量的随机masking的图像进行重构，来训练model，以此来获得通用的表征，得到不同noise
-degradation甚至图像类型不同的image的上的zero-shot denoising的潜力. 2.
-Iterative Fill 探索了pretrained knowledge，用于有效地zero-shot
-denoising，通过利用pre-trained
-weights，来iteratively优化image，聚焦于交替重构不同的image
-parts，然后在有限的次数内，合成完整的denoised image</strong>。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/05/16/MPI/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/12/Multi-Head-Mixture-of-Experts/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/05/12/Multi-Head-Mixture-of-Experts/" class="post-title-link" itemprop="url">Multi-Head Mixture-of-Experts</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-05-12 15:35:17" itemprop="dateCreated datePublished" datetime="2025-05-12T15:35:17+08:00">2025-05-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-05-16 16:33:30" itemprop="dateModified" datetime="2025-05-16T16:33:30+08:00">2025-05-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.8k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>7 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="multi-head-mixture-of-experts1">Multi-Head
-Mixture-of-Experts<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自MSRA的Xun Wu等人，论文引用[1]:Wu, Xun et al. “Multi-Head
-Mixture-of-Experts.” ArXiv abs/2404.15045 (2024): n. pag.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<p>-2024.Apr</p>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>low expert activation</li>
-<li>multi-head</li>
-<li><strong>一句话总结：类似多头注意力的操作，将输入分成多给sub-tokens，每个sub-tokens给到experts，最后将所有的输出在进行merge，还原为初始的形状，每个sub-tokens包含了不同feature
-space的语义信息</strong></li>
-</ul>
-<h3 id="总结">总结：</h3>
-<ol type="1">
-<li>**稀疏MoE在不增加计算成本的情况下，扩展了model的capacity，然而，它展示出了low
-expert
-activation的问题，仅有一小部分experts被激活，用于优化，导致suboptimal的性能，限制了在复杂任务中学习大量experts的有效性。在本文中，作者提出了Multi-MoE，MHMoE将每个输入的token或分成多个sub-tokens，然后这些sub-tokens被分配给多个并行的experts进行处理，无缝合成为原来的token
-form。以上的操作使得MH-MoE显著地提高了expert的activation，同时在不同的experts汇总，集体attend
-to 多个representation spaces，来加深context
-understanding，另外，值得注意地是:
-MH-MoE直接可以执行，和其它的SMoE框架解耦，使得很容易地和这些框架集成。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/05/12/Multi-Head-Mixture-of-Experts/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/12/Self-Guided-Masked-Autoencoder/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/05/12/Self-Guided-Masked-Autoencoder/" class="post-title-link" itemprop="url">Self-Guided Masked Autoencoder</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2025-05-12 09:28:17 / 修改时间：15:32:37" itemprop="dateCreated datePublished" datetime="2025-05-12T09:28:17+08:00">2025-05-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2.5k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>9 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="self-guided-masked-autoencoder1">Self-Guided Masked
-Autoencoder<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自Google和首尔国立大学的Jeongwoo Shin等人，论文引用[1]:Shin,
-Jeongwoo et al. “Self-Guided Masked Autoencoder.” Neural Information
-Processing Systems (2024).</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li><ol start="2024" type="1">
-<li></li>
-</ol></li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>Masked Autoencoder</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>MAE是用于表征学习的一种自监督的方式，广泛地应用于CV中的下游任务。尽管它很成功，但是，但还是没有完全揭示它是如何学习的。在本文中，作者做了深入的分析，发现：<strong>MAE从pretraining早期阶段，学习patern-based
-patch-level clustering。基于这个理解：作者提出了self-guided masked
-autoencoder，通过利用patch clustering中的progress，内在地产生informed
-mask，代替原始的MAE的随机的masking</strong>，作者的方法不需要依赖任何外部的models或者supplementary
-information，显著地提高了它的learning
-progress，完好地保持了MAE自监督的本质的优势。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/05/12/Self-Guided-Masked-Autoencoder/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/07/LLMDet/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/05/07/LLMDet/" class="post-title-link" itemprop="url">LLMDet</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-05-07 16:43:00" itemprop="dateCreated datePublished" datetime="2025-05-07T16:43:00+08:00">2025-05-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-05-27 14:53:26" itemprop="dateModified" datetime="2025-05-27T14:53:26+08:00">2025-05-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>49</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="llmdet-learning-strong-open-vocabulary-object-detectors-under-the-supervision-of-large-language-models1">LLMDet:
-Learning Strong Open-Vocabulary Object Detectors under the Supervision
-of Large Language Models<suo>[1]</sup></h3>
-<blockquote>
-<p>作者是来自中山大学、阿里等机构的Shenghao Fu等人，论文引用[1]:</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2025.Mar</li>
-</ul>
-<h2 id="key-words">### Key Words</h2>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/07/Mr-DETR/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/05/07/Mr-DETR/" class="post-title-link" itemprop="url">Mr.DETR</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-05-07 16:42:33" itemprop="dateCreated datePublished" datetime="2025-05-07T16:42:33+08:00">2025-05-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-05-08 23:35:04" itemprop="dateModified" datetime="2025-05-08T23:35:04+08:00">2025-05-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>11 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="mr.detr-instructive-multi-route-training-for-detection-transformers1">Mr.DETR:
-Instructive Multi-Route Training for Detection
-Transformers<sup>[1]&gt;</sup></h3>
-<blockquote>
-<p>作者是来自Visual AI Lab、HKU和Meituan的Chang-Bin
-Zhang等人。论文引用[1]:Zhang, Chang-Bin et al. “Mr. DETR: Instructive
-Multi-Route Training for Detection Transformers.” ArXiv abs/2412.10028
-(2024): n. pag.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2025.Apr</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>one-to-one, one-to-many assignments</li>
-<li>Multi-route training</li>
-<li>一句话总结：为了加速DETR-like model的收敛，一些方法采用了auxiliary
-training，作者这里提出了multi-training
-route的方法，用3个route，route-1用一个独立的FFN for o2m,
-route-2是primary route for o2o, route-3
-为了提高不同route的queries的兼容性，采用了learnable
-queries作为instruction，然后进行instruction
-self-attention，其它的没啥。</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>现有的增强detection transformer的方式是同故宫引入<strong>auxiliary
-one-to-many
-assignment</strong>。在这个工作中，作者将model视为一个<strong>multi-task
-framework</strong>，同时进行<strong>one-to-one和one-to-many
-predictions</strong>。作者在这两个训练目标中，研究了Transformer
-decoder中的每个component的作用，包括self-attention,
-cross-attention和FFN。作者的结果展示，<strong>decoder中的任何独立的component能够同时有效地学习targets，即使当一些component是共享的</strong>。这个发现促使作者提出了一个<strong>multi-route
-training paradigm, 一个primary route用于one-to-one
-prediction，两个辅助的training routes用于one-to-many
-prediction，作者通过一个新的instructive self-attention,
-能够动态地和灵活地指导object queries 用于one-to-many
-prediction,增强training机制。这个辅助的routes在推理的时候是去掉的，确保对model架构和inference
-cost造成影响</strong>。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/05/07/Mr-DETR/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/YoungBlogs/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/16/">16</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/YoungBlogs/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/17/">17</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -1506,13 +1445,13 @@ cost造成影响</strong>。</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">284k</span>
+    <span title="站点总字数">293k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">17:13</span>
+    <span title="站点阅读时长">17:46</span>
   </span>
 </div>
 <div class="busuanzi-count">

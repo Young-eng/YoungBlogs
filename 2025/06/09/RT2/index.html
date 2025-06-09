@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control[1]  作者是来自DeepMind的Anthony Brohan等人，论文引用[1]:  Time  2023.July  Key Words  map robot observations to actions 利用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RT2">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/06/09/RT2/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control[1]  作者是来自DeepMind的Anthony Brohan等人，论文引用[1]:  Time  2023.July  Key Words  map robot observations to actions 利用">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-09T13:11:35.000Z">
+<meta property="article:modified_time" content="2025-06-09T14:58:41.472Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="VLA">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/06/09/RT2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/06/09/RT2/","path":"2025/06/09/RT2/","title":"RT2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>RT2 | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#rt-2-vision-language-action-models-transfer-web-knowledge-to-robotic-control1"><span class="nav-number">1.</span> <span class="nav-text">RT-2:
+Vision-Language-Action Models Transfer Web Knowledge to Robotic
+Control[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">166</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/09/RT2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="RT2 | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RT2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-06-09 21:11:35 / 修改时间：22:58:41" itemprop="dateCreated datePublished" datetime="2025-06-09T21:11:35+08:00">2025-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="rt-2-vision-language-action-models-transfer-web-knowledge-to-robotic-control1">RT-2:
+Vision-Language-Action Models Transfer Web Knowledge to Robotic
+Control<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自DeepMind的Anthony Brohan等人，论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.July</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>map robot observations to actions</li>
+<li>利用在language 和vision-language data大规模预训练的benefits</li>
+<li>将actions表示text tokens</li>
+<li>co-fine-tuning</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者研究了在Internet-scale
+data上进行训练的VLM是如何直接引入到端到端的robotic
+control中，来提高泛化性和enable semantic
+reasoning。作者的目标是使得一个single端到端的trained
+model能够学习将robot
+observations映射到actions，然后能够利用在language和vision-language data
+from the
+web大规模预训练的优势，为了这个目的，作者提出了co-fine-tune的SOTA的VLMs
+on both robotic trajectory data和internet-scale vision-language
+tasks，例如VQA，相比于其它的方法，作者提出的方法简单，通用，能够实现这个目标，为了将自然语言的responses和robotic
+actions统一到相同的格式，作者将actions表示为text
+tokens，将它们引入model的training
+set，和自然语言的tokens一样，作者将这种类型的modals称之为VLA，并构建了该类模型的一个具体实例，命名为RT-2。作者的大量的evaluation表明：这个方法有很好的robotic
+policies，使得RT-2能够从internet-scale training上得到emergent
+capabilities，这包括繁华到新目标的能力，将没有出现在训练数据中的指令进行解译，对用户的指令进行基本的推理的能力，作者进一步展示了：引入了思维链的推理使得RT-2能够执行多阶段的语义推理，例如，确定将哪个物体作为临时锤子使用（如石头），或判断哪种饮品最适合疲惫的人（如能量饮料）。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>在广泛的web-scale datasets上预训练的high-capacity
+models为多个下游任务提供了有效的platform，large language
+models不仅能够流畅地生成文字，也能立即解决问题，进行文学创作，同时vision-language
+models能够进行开集visual
+recognition，对images中的object-agent交互做出复杂推理，这样的语义推理，解决问题和视觉解译的能力对于通用的robots来说是有用的，它们需要在真实世界中执行多样的任务，然而，还不清楚robots应该如何得到这样的能力，一个暴力的方式是搜集millions这样的robotic
+interaction trials，最强的language和vision-language models是在billions
+of tokens and images from the
+web上训练的，这一数据规模在短期内难以通过机器人数据实现同等量级的覆盖。另一方面，直接将这些models用于robotic
+tasks是困难的，这些模型基于语义、标签和文本提示进行推理，而机器人需要执行物理环境中的实际底层动作（如机械臂的笛卡尔空间末端执行器指令）。<strong>尽管已有大量研究尝试将语言模型（LLMs）与视觉-语言模型（VLMs）融入机器人领域，这样的方法通常只解决了robotic
+planning的higher
+level，本质上扮演着状态机的角色——解析指令并将其分解为单个原始动作（如抓取与放置物体），随后由独立的底层控制器执行这些动作。然而，这些底层控制器本身在训练过程中无法受益于互联网规模模型所蕴含的丰富语义知识。因此，本文提出核心问题：能否将大规模预训练视觉-语言模型直接集成至低层机器人控制中，以提升泛化能力并实现涌现式语义推理?</strong></p>
+<p>为了这个目的，作者探索了一个简单有效的方法：<strong>直接训练原本设计用于开集VQA和visual
+dialogue的VLMs，使其输出低层机器人动作，同时解决其他互联网规模的视觉-语言任务。尽管这样的models被训练用来输出natural
+language tokens，可以通过将actions进行tokenizing为text
+tokens，构造multimodal sentences，在robotic
+trajectories上训练它们，使模型能够根据配对的相机观测图像与robotic
+instructions，生成对应的机器人动作来实现策略学习。通过这种方式，VLMs可被直接训练为instruction
+following robotic
+policies。这种简单方法与现有两种方案形成鲜明对比：其一是将视觉-语言模型（VLM）整合进机器人策略的传统方法，其二是从零开始设计新的视觉-语言-动作架构</strong>。相反，<strong>已有的大规模VLMs（这些模型已通过大量计算资源预训练）在不引入任何新参数的情况下被用于输出text-encoded的actions。我们将这一类模型称为视觉-语言-动作（VLA）模型。作者基于RT-1提出的协议对VLA模型进行了实现，用了类似的dataset，但是用一个大的Vision-Language
+backbone对model进行了扩展，因此，将model称之为RT-2(Robotics Transformer
+2)</strong>。</p>
+<p>作者管超大，从这样的VLMs中得到的robotic
+policies展示出了很强的能管理，结合了从robot data中学习到的physical
+motions和将web上的images和text解译为single
+model，除了显著提升对新颖物体和多样化指令的泛化能力这一预期优势之外，作者还观察到模型展现出一系列涌现能力。尽管模型的物理技能仍受限于机器人数据中出现过的技能分布，但它能够通过利用从网络中获取的知识来理解图像和语言指令，从而以新的方式运用这些已有技能。另外，如果用思维链prompting来增强command，model能够做出更复杂的语义推理。</p>
+<p>作者的主要贡献是RT-2，对大的VLMs微调得到的models，能够直接作为具有泛化能力和语义感知能力的robotic
+policies，在总计 6000 次机器人的评估中，我们展示了 RT-2
+在物体、场景和指令上的泛化能力显著提升，并表现出一系列从网络规模视觉-语言预训练中继承而来的涌现能力。</p></li>
+<li><p>VLMs将一个或多个images作为输入，然后产生一系列的tokens，一般是代表自然语言的text，这样的models能够执行广泛地visual
+interpretation和reasoning
+task，从推理一个image的构成到回到objects及Objects之间关联的问题，representing执行如此广泛任务所需的知识，需要大型模型和网络规模的数据集，在文本中，作者次啊用了之前的两个VLMs作为VLA
+models：
+PaLI-X和PaLM-E，将这些models的VLA版本表示为RT-2-PaLI-X和RT-2-PaLM-E，作者采用了这些模型的不同实例，其规模从数十亿到数百亿参数不等。</p></li>
+<li><p>为了使得VLMs来控制robot，它们必须被训练来输出actions，作者采用了一个直接的方法，将**actions表示为tokens
+in the model's output，和language tokens一样，作者将action
+encoding基于discretization，这个action space包含robot
+end-effector的6-DoF的位置和旋转displacement，机械手的张合程度，以及一个用于终止当前任务的特殊离散指令，该指令应由策略触发，以表示任务已成功完成。除终止指令外，其余连续维度均被均匀地离散为
+256 个区间。因此，机器人动作可以通过这些离散区间的序号表示为 8
+个整数。为了将这些离散化的actions用于微调视觉-语言模型，使其成为视觉-语言-动作模型，需要将模型已有的分词器中的tokens与这些discrete
+action bins进行关联。这要求保留256 tokens作为action
+tokens，选择哪个tokens依赖于每个VLMs采用的tokenization，为了定义一个用于VLM
+微调的target，作者将action vector通过简单地转换成single
+string，具体做法是：将每个维度对应的action
+tokens以空格连接的方式进行concatenate。PaLI-X和PaLM-E用了不同的tokenizaitons，对于PaLI-X，每个不超过
+1000 的整数都有一个唯一的标记（token），因此我们只需将action
+bins直接映射到对应整数的标记上。而对于 PaLM-E
+模型，由于它不提供这种便捷的数字表示方式，则将其最不常用的 256
+个tokens进行override，用于表示action
+tokens。值得注意的是，将视觉语言模型（VLM）中已有的tokens
+override为action tokens是一种符号微调(symbol tuning)。</p>
+<p><strong>采用上述的action representation的方法，将robot
+data转换成适用于VLM model fine-tuning，输入包括robot camera
+image和textual task description，是促使一个数字/least frequently used
+tokens，表示一个robot action</strong>.</p></li>
+<li><p>一个重要的训练recipe是 co-fine-tuning robotic data with the
+original web data，而不是在robot
+data上进行微调。co-fine-tuning会有更泛化的policies。RT-2和标准的VLMs的不同之处在于,
+RT-2要求输出valid action
+tokens，用于真实的robot的执行，因此，为了确保RT-2输出有效的action
+tokens，当model 被prompt一个robot-action task的时候，通过仅对valid
+action
+tokens进行sampling，限制输出的vocabulary，然而，model还是能够输出完整的natural
+language tokens on standard vision-language tasks.</p></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/38939304bb760473141c2aca0305e44fbe04e6e8/2-Figure1-1.png" />
+<span class="math inline">\(Fig.1^{[1]}\)</span> 将robot
+actions表示为另一种language，被转换为文本标记，和大规模的vision-language
+datasets一起训练，在推理的时候，text tokens被de-tokenized为robot
+actions，实现闭环控制，这使得我们在学习robotic
+policies的时候，能够利用VLM的backbone和预训练，将它们的泛化能力、语义理解和推理迁移到robot
+control。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/VLA/" rel="tag"># VLA</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/06/09/Octo/" rel="prev" title="Octo">
+                  <i class="fa fa-angle-left"></i> Octo
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">293k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">17:46</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
