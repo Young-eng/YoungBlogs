@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">166</span>
+          <span class="site-state-item-count">167</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -160,6 +160,140 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/21/Decouple-KL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/05/21/Decouple-KL/" class="post-title-link" itemprop="url">Decouple KL</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-05-21 17:21:18" itemprop="dateCreated datePublished" datetime="2025-05-21T17:21:18+08:00">2025-05-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-05-22 15:03:56" itemprop="dateModified" datetime="2025-05-22T15:03:56+08:00">2025-05-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="decoupled-kullback-leibler-divergence-loss1">Decoupled
+Kullback-Leibler Divergence Loss<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自NTU、CUHK等机构的Jiequan Cui等人，论文引用[1]:Cui, Jiequan
+et al. “Decoupled Kullback-Leibler Divergence Loss.” ArXiv
+abs/2305.13948 (2023): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Oct</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>breaking asymmetric optimization property</li>
+<li>inserting class-wise global information to mitigate sample-wise
+bias</li>
+<li>KL loss在反向传播上等价于DKL loss</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>在本文中，作者深入研究了KL散度损失，数学上证明了它等价于Decoupled
+Kullback-Leibler(DKL) Divergence loss, DKL包含一个weighted Mean Square
+Error(wMSE) loss和一个引入了soft labels交叉熵损失。多亏了DKL
+loss的decomposed
+formulation，作者有两方面的改进，首先，通过打破它的非对称优化的特点，解决了KL/DKL在像知识蒸馏等场景的局限。这个修改确保了wMSE在训练的时候总是有效的，提供了额外的constructive
+cues。其次，作者引入了class-wise global
+information，来缓解来自个体岩本的bias。有了这两个提高，作者推出了Improved
+Kullback-Leibler Divergence Loss (IKL)。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/05/21/Decouple-KL/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1354,142 +1488,6 @@ policy，在预训练之后，SpatialVLA可以以zero-shot的方式，来执行�
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/22/MAP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/04/22/MAP/" class="post-title-link" itemprop="url">MAP</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-04-22 22:22:19" itemprop="dateCreated datePublished" datetime="2025-04-22T22:22:19+08:00">2025-04-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-04-29 15:48:17" itemprop="dateModified" datetime="2025-04-29T15:48:17+08:00">2025-04-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2.3k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="map-unleashing-hybrid-mamba-transformer-vision-backbones-potential-with-masked-autoregressive-pretraining1">MAP:
-Unleashing Hybrid Mamba-Transformer Vision Backbone's Potential with
-Masked Autoregressive Pretraining<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自清华叉院和上海AI Lab、QiZhi 研究院的Yunze Liu和Li
-Yi，论文引用[1]:Liu, Yunze and Li Yi. “MAP: Unleashing Hybrid
-Mamba-Transformer Vision Backbone's Potential with Masked Autoregressive
-Pretraining.” ArXiv abs/2410.00871 (2024): n. pag.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2025.Mar</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>masked Autoregressive Pretraining</li>
-<li>一句话总结：结合了MAE of Transformer的local features 和AR of
-Mamba的long context modeling</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>混合的Mamba-Transformer网络最近受到了很多的关注，这些网络利用Transformer的可扩展性和Mamba的long-context
-modeling和高效计算。然而，有效地预训练这样的混合网络仍然是一个open
-question，现有的方法，例如MAE 或者自回归
-pretraining，主要聚焦于single-type network
-架构，相比之下，对于Mamba和Transformer的混合结构，预训练策略必须有效，基于此，作者提出了Masked
-Autoregressive pretraining，以统一的范式，提高了Mamba和Transformer
-modules的性能。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/04/22/MAP/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="page-number current">2</span><a class="page-number" href="/YoungBlogs/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/17/">17</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1513,13 +1511,13 @@ modules的性能。</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">293k</span>
+    <span title="站点总字数">298k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">17:46</span>
+    <span title="站点阅读时长">18:02</span>
   </span>
 </div>
 <div class="busuanzi-count">

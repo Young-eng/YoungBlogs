@@ -19,29 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="FCOS: Fully Convolutional One-Stage Object Detection[1]  作者是来自澳大利亚的阿德莱德大学的ZhiTian, Chunhua Shen, Hao Chen, Tong He. 论文引用[1]:Tian, Zhi et al. “FCOS: Fully Convolutional One-Stage Object Detection.">
+    <meta name="description" content="SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics[1]  作者是来自Hugging face， Sorbonne University等机构的Mustafa Shukor等人，论文引用[1]:Shukor, Mustafa et al. “SmolVLA: A Vision-Lan">
 <meta property="og:type" content="article">
-<meta property="og:title" content="FCOS">
-<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/05/11/FCOS/index.html">
+<meta property="og:title" content="SmolVLA">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/06/10/SmolVLA/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="FCOS: Fully Convolutional One-Stage Object Detection[1]  作者是来自澳大利亚的阿德莱德大学的ZhiTian, Chunhua Shen, Hao Chen, Tong He. 论文引用[1]:Tian, Zhi et al. “FCOS: Fully Convolutional One-Stage Object Detection.">
+<meta property="og:description" content="SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics[1]  作者是来自Hugging face， Sorbonne University等机构的Mustafa Shukor等人，论文引用[1]:Shukor, Mustafa et al. “SmolVLA: A Vision-Lan">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-05-11T04:18:35.000Z">
-<meta property="article:modified_time" content="2024-05-20T02:17:14.000Z">
+<meta property="article:published_time" content="2025-06-10T05:54:13.000Z">
+<meta property="article:modified_time" content="2025-06-10T07:28:55.170Z">
 <meta property="article:author" content="Young">
-<meta property="article:tag" content="Object Detection">
-<meta property="article:tag" content="Anchor-free">
+<meta property="article:tag" content="VLA">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/05/11/FCOS/">
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/06/10/SmolVLA/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/05/11/FCOS/","path":"2024/05/11/FCOS/","title":"FCOS"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/06/10/SmolVLA/","path":"2025/06/10/SmolVLA/","title":"SmolVLA"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>FCOS | Young's Blog</title>
+<title>SmolVLA | Young's Blog</title>
   
 
 
@@ -114,8 +113,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#fcos-fully-convolutional-one-stage-object-detection1"><span class="nav-number">1.</span> <span class="nav-text">FCOS:
-Fully Convolutional One-Stage Object Detection[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#smolvla-a-vision-language-action-model-for-affordable-and-efficient-robotics1"><span class="nav-number">1.</span> <span class="nav-text">SmolVLA:
+A Vision-Language-Action Model for Affordable and Efficient
+Robotics[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -176,7 +176,7 @@ Fully Convolutional One-Stage Object Detection[1]</span></a></li><li class="nav-
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/05/11/FCOS/">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/10/SmolVLA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
@@ -189,12 +189,12 @@ Fully Convolutional One-Stage Object Detection[1]</span></a></li><li class="nav-
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="FCOS | Young's Blog">
+      <meta itemprop="name" content="SmolVLA | Young's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          FCOS
+          SmolVLA
         </h1>
 
         <div class="post-meta-container">
@@ -204,15 +204,9 @@ Fully Convolutional One-Stage Object Detection[1]</span></a></li><li class="nav-
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2024-05-11 12:18:35" itemprop="dateCreated datePublished" datetime="2024-05-11T12:18:35+08:00">2024-05-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-20 10:17:14" itemprop="dateModified" datetime="2024-05-20T10:17:14+08:00">2024-05-20</time>
+      <time title="创建时间：2025-06-10 13:54:13 / 修改时间：15:28:55" itemprop="dateCreated datePublished" datetime="2025-06-10T13:54:13+08:00">2025-06-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,14 +232,14 @@ Fully Convolutional One-Stage Object Detection[1]</span></a></li><li class="nav-
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.1k</span>
+      <span>1.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>6 分钟</span>
     </span>
 </div>
 
@@ -255,122 +249,106 @@ Fully Convolutional One-Stage Object Detection[1]</span></a></li><li class="nav-
     
     
     
-    <div class="post-body" itemprop="articleBody"><h3 id="fcos-fully-convolutional-one-stage-object-detection1">FCOS:
-Fully Convolutional One-Stage Object Detection<sup>[1]</sup></h3>
+    <div class="post-body" itemprop="articleBody"><h3
+id="smolvla-a-vision-language-action-model-for-affordable-and-efficient-robotics1">SmolVLA:
+A Vision-Language-Action Model for Affordable and Efficient
+Robotics<sup>[1]</sup></h3>
 <blockquote>
-<p>作者是来自澳大利亚的阿德莱德大学的ZhiTian, Chunhua Shen, Hao Chen,
-Tong He. 论文引用[1]:Tian, Zhi et al. “FCOS: Fully Convolutional
-One-Stage Object Detection.” 2019 IEEE/CVF International Conference on
-Computer Vision (ICCV) (2019): 9626-9635.</p>
+<p>作者是来自Hugging face， Sorbonne University等机构的Mustafa
+Shukor等人，论文引用[1]:Shukor, Mustafa et al. “SmolVLA: A
+Vision-Language-Action Model for Affordable and Efficient Robotics.”
+(2025).</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
-<li>2019.Apr</li>
+<li>2025.Jun</li>
 </ul>
 <h3 id="key-words">Key Words</h3>
 <ul>
-<li>one-stage</li>
-<li>FCN</li>
-<li>per-pixel prediction fashion</li>
+<li>action expert with flow matching</li>
+<li>SmolVLM-2</li>
+<li>skip computations</li>
 </ul>
-<h3 id="动机">动机</h3>
+<h3 id="总结">总结</h3>
 <ol type="1">
-<li>基于anchor的检测器的一些缺点：对于一些超参数敏感：例如aspect
-ratio,etc；计算量大；处理一些large shape
-variations的物体的时候有困难。</li>
+<li>在大规模多模态数据集上预训练的VLMs编码丰富的visual、linguistic
+knowledge，使得它们称为robotics的strong
+foundation，不同于从零开始训练robotic policies，最近的方法将VLMs改为VLA
+models，使得能够natural language-driven perception
+和control，然而，现有的VLAs太大了，通常billions的参数，导致很高的训练成本和有限的实际的部署。另外，它们依赖于学术和工业数据集，忽视了从affordable
+robotic
+platforms搜集到的data，在这个工作中，作者提出了SmolVLA，是一个小的，高效的、community-driven
+VLA，极大地降低了训练和推理成本，同时保持了competitive
+的性能，SmolVLA在单个GPU上训练，然后可以部署在消费级的GPUs上，为了进一步提高responsiveness，作者引入一个异步推理堆栈，将感知和动作预测与动作执行解耦，从而通过分块生成动作实现更高的控制率。尽管compact
+size，SmolVLA实现了比它大10倍的VLA相当的性能。</li>
 </ol>
 <span id="more"></span>
 <ol start="2" type="1">
-<li>FCN网络在一些dense prediction上取得了很好的效果如semantic
-segmentation。目标检测可能是唯一一个deviating from the neat fully
-convolutional per-pixel prediction framework mainly due to the use of
-anchor boxes. 所以很自然的想到：能不能类似于FCN for semantic
-segmentation， 用neat per-pixel
-prediction的方式，解决目标检测问题。因此这些基础任务能够统一在一个框架里。答案是肯定的。</li>
-</ol>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li><p>基于FCN的网络来做检测，会去预测一个4D vector + a class category
-at each spatial location on a level of feature maps. 4D
-vector描述了bounding box的4个边 to location的relative
-offsets.高度重叠的bounding boxes会导致一个不确定：在overlapped
-region,不清楚该regress 哪个bounding box for pixels。</p></li>
-<li><p>为了抑制产生的低质量的框，引入了一个"center-ness" branch，
-来预测deviation of a pixel to the center of its corresponding bounding
-box.</p></li>
-<li><p>FCOS可以在两阶段的检测器中作为RPN，能够取得很好的效果。</p></li>
-<li><p>对于特征图<span class="math inline">\(F_i\)</span>中的每个位置
-<span class="math inline">\((x,y)\)</span>，<span
-class="math inline">\(s\)</span>是 total stride until the layer. 将其map
-it back onto input image as <span class="math inline">\((\lfloor
-\frac{s}{2}\rfloor + xs, \lfloor \frac{s}{2} \rfloor +ys)\)</span>,
-which is near the center of the receptive field of the location <span
-class="math inline">\((x,y)\)</span>.
-不同于anchor-based的检测器，考虑location on input image as the center of
-anchor boxes and regress the target bounding box with these anchor boxes
-as references. 这里作者直接at the location 回归 target bounding
-box。换句话说，检测器直接 <strong>views locations as training samples
-instead of anchor boxes in anchor-based detectors</strong>.</p></li>
-<li><p>location <span
-class="math inline">\((x,y)\)</span>是被视为positive sample
-如果它落在任何一个bounding box，而且class label <span
-class="math inline">\(c^*\)</span> of the
-location是ground-truth的label。否则它就是negative sample and <span
-class="math inline">\(c^*=0\)</span>. 除了分类的label，还用一个4D vector
-<strong>t</strong><span
-class="math inline">\(^*=(l^*,t^*,r^*,b^*)\)</span> being the regression
-targets for the location. 这里的<span
-class="math inline">\(l^*,t^*,r^*,b^*\)</span>是location to four sides
-of bounding box的距离。如果一个location落在多个bounding
-box。则被视为ambiguous sample. 简单的选择一个minimal area as its
-regression target. 后面会用multi-level prediction来减小ambigous samples.
-如果一个location与一个bounding box <span
-class="math inline">\(B_i\)</span>关联， training target for the
-location can be formulated as :</p></li>
-</ol>
-<p><span
-class="math display">\[\begin{aligned}l^*&amp;=x-x_0^{(i)},&amp;t^*&amp;=y-y_0^{(i)},\\r^*&amp;=x_1^{(i)}-x,&amp;b^*&amp;=y_1^{(i)}-y.\end{aligned}\]</span></p>
-<ol start="6" type="1">
-<li><p>损失函数: <span class="math display">\[\begin{aligned}
-L(\{\boldsymbol{p}_{x,y}\},\{\boldsymbol{t}_{x,y}\})&amp;
-=\frac1{N_{\mathrm{pos}}}\sum_{x,y}L_{\mathrm{cls}}(\boldsymbol{p}_{x,y},c_{x,y}^{*})
-\\
-&amp;+\frac{\lambda}{N_{\mathrm{pos}}}\sum_{x,y}\mathbb{1}_{\{c_{x,y}^{*}&gt;0\}}L_{\mathrm{reg}}(\boldsymbol{t}_{x,y},\boldsymbol{t}_{x,y}^{*}),
-\end{aligned}\]</span></p>
-<p>其中， <span class="math inline">\(L_cls\)</span>是focal loss，<span
-class="math inline">\(L_reg\)</span>是 IOU loss.</p></li>
-<li><p>不同于anchor-base 检测器，会assign 不同尺寸的anchor box to
-different feature levels. 这里直接limit range of bounding box regression
-for each level. 如果一个location满足: <span
-class="math display">\[max(l^*,t^*,r^*,b^*)&gt;m_i,\ or \
-max(l^*,t^*,r^*,b^*) &lt; m_{i-1}\]</span> 则被设为negative
-sample,不在要求去regress a bounding box。 <span
-class="math inline">\(m_i\)</span>是maximum distance that feature level
-<span class="math inline">\(i\)</span> needs to regress.
-如果即使用了multi-level prediction, 一个位置仍然分配给多个grounth-truth
-boxes，简单地选择minimal area的bounding box作为target.</p></li>
-<li><p>FCOS用了multi-level
-prediction，和anchor-based检测器相比，性能还是有差距，在于低质量的bounding
-box produced by locations far away from the center of an
-object.提出了一个简单的策略来抑制低质量的检测框：加了一个single layer
-branch to predict <strong>center-ness</strong> of a location. <span
-class="math display">\[\text{centerness}^*=\sqrt{\frac{\min(l^*,r^*)}{\max(l^*,r^*)}\times\frac{\min(t^*,b^*)}{\max(t^*,b^*)}}.\]</span></p>
-<p>it is trained with BCE loss, added to loss funtion. 在测试的时候,
-final score is computed by multiplying the predicted center-ness with
-the corresponding classification score.
-这个center-ness会down-weight离目标中心较远的bounding
-box的中心。最后通过NMS来去掉低质量的bbox.</p></li>
+<li><p>尽管多模态的foundation models取得了很大的成就，但是，foundation
+models在robotics领域的应用还是有限的，特别地，Robotic
+policies在泛化到object types, positions, environments,
+tasks等方面仍然面临挑战，Robots应该能够适应新的环境，新的objects，要求robust的skills和对世界的理解，这个方向的进步通过倍高质量和多样性的数据所局限。
+为了解决这个局限，一些工作开始以VLAs的形式探索robotics foundation
+models，VLAs引入了嵌入在预训练的LLMs和VLMs中的抽象的推理，世界知识，决策能力，这些models将多模态作为输入，例如visual
+observations和natural language instructions，预测对应的robotic
+actions。</p>
+<p>VLA
+models还是早期的阶段，还没和广泛使用的LLMs和VLMs那样成熟，一些有影响力的VLA是受专利保护的，作者在本文中，提出了SmolVLA，是一个开源的，compact
+yet capable VLA model，可复现的，高效训练。贡献如下：</p>
+<ul>
+<li>轻量的架构：作者提出了SmolVLA，是一个compact和高效的vision-language
+agent，在消费级GPUs上优化训练的，Key design包括skipping layers in the
+VLM，利用小的预训练的VLMs，用了少量的visual tokens，将self-attention
+layers和lighter cross-attention layers交错。</li>
+<li>SmolVLA是端到端训练的，仅使用完全来自公开可用的、由社区贡献的数据集中少于3万次任务实例，便展现出强大的性能——其数据量级比现有技术减少了一个数量级</li>
+<li>异步推理，作者引入了一个优化的异步推理stack，将action
+execution和observation processing、action
+prediction进行解耦，降低了延迟，使得快速、资源高效的推理。</li>
+</ul></li>
+<li><p>现有的VLMs大多数聚焦于image和text模态，最近的工作展示了类似的方法可以扩展到集成额外的模态，例如video和audio。robotics研究的一个兴起的领域是generalist
+policies的反战，models能够处理多种任务，泛化到不同的environments和robot
+embodiments，一个主流的策略是利用VLAs，能够处理给定的natural language,
+visual observations, proprioceptive inputs的task
+instructions来输出control
+actions，早期的努力包括Octo，RT-1，为了提高性能和泛化性，RT-2利用预训练的VLMs，进一步在robotics-specific
+data上进行fine-tuning，为了提高openness和客可复现性，OpenVLA开源了一个7B的VLA，由于action
+tokenization对连续控制提出了挑战，
+有人利用一个预训练的VLM，RDT-1B，引入了一个<strong>diffusion
+component，称之为action expert, 在robotic
+demostrations上训练的</strong>，最近，也有人提出用全自回归的方法，用一个新的action
+tokenizer，提高传统的binning
+方法，但是推理比较慢，为了提高VLAs的效率，TinyVLA从零训练了一个轻量的1B
+model，然后再robotics datasets上微调，尽管没有再大规模的robotics
+data上预训练，阻碍了更广的泛化能力，SmolVLA和这些努力一样，旨在开发一个开源的model，在训练和推理方面性能好且高效。</p></li>
+<li><p>SmolVLA是一个轻量的VLA，包括一个紧凑的预训练的VLM，一个action
+expert，用flow matching训练的，给定多个images和一个language
+instruction描述task，model输出a chunk of
+actions，第一次在community-collected
+datasets上用模仿学习进行预训练，然后在真实世界和仿真数据中进行evaluate，预训练data包含很多tasks和behaviors，使得model能偶学习泛化的物理skills，能够迁移到多个settings，在推理的时候，作者引入了异步execution
+stack，将action
+execution和perception，prediction进行解耦，使得更快和更responsive的控制。
+SmolVLA的架构主要是两个方面：<strong>一个负责感知的预训练的VLM，一个action
+expert，两个component是相互连接的，VLM处理state
+inputs来产生features，对action expert进行condition，而aciton
+expert产生的action反过来会改变输入到VLM的状态。具体而言，VLM处理感知运动状态，包括来自多个RGB摄像头的图像，以及描述任务的语言指令。VLM输出features直接给到action
+expert，action expert输出最后的连续的action</strong>。
+<strong>作者采用了SmolVLM-2，SmolVLM-2依赖于SigLIP来编码visual
+features，visual, language, state
+tokens进行concatenate，然后给到language decoder，通过decoder
+layer得到的结果用于condition action expert，采用linear projection
+layers将states进行project，来匹配VLM的dimension，将actions进行project，来匹配action
+experts的dimensions，将VLM features和action
+experts的dimension进行对齐</strong>。</p></li>
 </ol>
 <p><img
-src="https://d3i71xaburhd42.cloudfront.net/e2751a898867ce6687e08a5cc7bdb562e999b841/3-Figure2-1.png"
-alt="FCOS" /> <span class="math inline">\(Fig.2^{[1]}\)</span>: The
-network architecture of FCOS, where C3, C4, and C5 denote the feature
-maps of the backbone network and P3 to P7 are the feature levels used
-for the final prediction. <span class="math inline">\(H \times
-W\)</span> is the height and width of feature maps. '/s' (s = 8,16,...,
-128) is the down sampling ratio of the feature maps at the level to the
-input image. As an example, all the numbers are computed with an <span
-class="math inline">\(800 \times 1024\)</span> input.</p>
+src="https://cdn-uploads.hf-mirror.com/production/uploads/640e21ef3c82bd463ee5a76d/aooU0a3DMtYmy_1IWMaIM.png"
+alt="ad" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+SmolVLA包含一个紧凑的预训练的vision-language model，丢弃了最后的L-N
+layers，剩余的layers将language instruction，RGB images和robot
+sensorimotor state进行embed，融合的tokens给到action
+expert，交替进行cross-attention和self-attention，用flow
+matching输出n个low-level action chunks，SmolVLA是在公开的community
+datasets上预训练的。</p>
 
     </div>
 
@@ -380,22 +358,18 @@ class="math inline">\(800 \times 1024\)</span> input.</p>
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/YoungBlogs/tags/Object-Detection/" rel="tag"># Object Detection</a>
-              <a href="/YoungBlogs/tags/Anchor-free/" rel="tag"># Anchor-free</a>
+              <a href="/YoungBlogs/tags/VLA/" rel="tag"># VLA</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/YoungBlogs/2024/05/11/CornetNet/" rel="prev" title="CornetNet">
-                  <i class="fa fa-angle-left"></i> CornetNet
+                <a href="/YoungBlogs/2025/06/09/RT2/" rel="prev" title="RT2">
+                  <i class="fa fa-angle-left"></i> RT2
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/YoungBlogs/2024/05/13/AI-Resources/" rel="next" title="AI Resources">
-                  AI Resources <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
