@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta name="description" content="### Time ### Key Words 总结">
+    <meta name="description" content="Sigmoid Loss for Language Image Pre-Training[1]  作者是来自DeepMind的Xiaohua Zhai等人，论文引用[1]:Zhai, Xiaohua et al. “Sigmoid Loss for Language Image Pre-Training.” 2023 IEEE&#x2F;CVF International Conference o">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SigLIP">
 <meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/06/09/SigLIP/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
-<meta property="og:description" content="### Time ### Key Words 总结">
+<meta property="og:description" content="Sigmoid Loss for Language Image Pre-Training[1]  作者是来自DeepMind的Xiaohua Zhai等人，论文引用[1]:Zhai, Xiaohua et al. “Sigmoid Loss for Language Image Pre-Training.” 2023 IEEE&#x2F;CVF International Conference o">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-09T08:18:40.000Z">
-<meta property="article:modified_time" content="2025-06-09T13:15:15.399Z">
+<meta property="article:modified_time" content="2025-06-10T08:43:41.799Z">
 <meta property="article:author" content="Young">
 <meta property="article:tag" content="Multi-Modal">
 <meta name="twitter:card" content="summary">
@@ -113,7 +113,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#section"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time"><span class="nav-number"></span> <span class="nav-text">### Time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key-words"><span class="nav-number"></span> <span class="nav-text">### Key Words</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#sigmoid-loss-for-language-image-pre-training1"><span class="nav-number">1.</span> <span class="nav-text">Sigmoid Loss for
+Language Image Pre-Training[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -202,9 +203,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-06-09 16:18:40 / 修改时间：21:15:15" itemprop="dateCreated datePublished" datetime="2025-06-09T16:18:40+08:00">2025-06-09</time>
+      <time title="创建时间：2025-06-09 16:18:40" itemprop="dateCreated datePublished" datetime="2025-06-09T16:18:40+08:00">2025-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-06-10 16:43:41" itemprop="dateModified" datetime="2025-06-10T16:43:41+08:00">2025-06-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -230,14 +237,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>6</span>
+      <span>1.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -247,12 +254,100 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h3 id="section"></h3>
-<h2 id="time">### Time</h2>
-<h2 id="key-words">### Key Words</h2>
+    <div class="post-body" itemprop="articleBody"><h3 id="sigmoid-loss-for-language-image-pre-training1">Sigmoid Loss for
+Language Image Pre-Training<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自DeepMind的Xiaohua Zhai等人，论文引用[1]:Zhai, Xiaohua et
+al. “Sigmoid Loss for Language Image Pre-Training.” 2023 IEEE/CVF
+International Conference on Computer Vision (ICCV) (2023):
+11941-11952.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2023.Mar</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>sigmoid loss</li>
+</ul>
 <h3 id="总结">总结</h3>
 <ol type="1">
-<li></li>
+<li>作者提出了一个简单的pairwise Sigmoid loss for Language-Image
+Pre-training(SigLIP)，不同于标准的，用softmax normalization的contrastive
+learning，sigmoid loss仅对image-text pairs进行操作，不需要pairwise
+similarity for normalization的global view，这个sigmoid
+loss同时能够进一步scaling up batch sizes，和Locked-image
+tuning结合，只需要TPUv4 chips，作者训了一个SigLiT model，在ImageNet上
+zero-shot，实现了84.5%的精度，将批量大小与损失函数解耦后，得以进一步研究样本与样本对的影响，以及负样本与正样本比例的作用。最后，作者将batch
+size设到一个极限，up to one million，发现增大的batch
+size的benefits的下降了，合理的batch size设为32k是足够了。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>用web上的image-text pairs的弱监督的contrastive
+pre-training称为了一个得到通用CV
+backbones的必须的方法，逐渐代替了在大的标注的multi-class
+数据集上的预训练，high-level的idea是用paired
+data，同时学习images和texts的对齐的representation
+space，经典的工作例如CLIP，ALIGN证明这个方法的可行性。标准的预训练的方法是<strong>利用image-text
+contrastive objective</strong>,将image和text
+embeddings对齐，用于匹配positive image-text
+pairs，同时确保不相关的(negative) image-text pairs在embedding
+space是不相关的，这通过一个batch-level softmax-based contrastive
+loss实现，第一次对所有的images中normalize pairwise
+similarity，然后是texts，一个softmax的naive的implementation存在numericaly
+unstable，在用softmax之前，通常减去最大的input
+value实现stabilize，但这需要对整个批次再进行一次遍历。</p>
+<p>在本文中，作者提出了一个更简单的alternative，sigmoid
+loss，不要求任何对full batch的操作，简化了distributed
+loss的implementation，提高了效率，另外，将batch
+size和task的definition进行了解耦，作者将提出的sigmoid
+loss和标准的softmax
+loss在多个setups下进行了比较，特别地，作者用两个著名的image-text
+learning的方法CLIP，LiT研究了sigmoid-base loss。将sigmoid language
+image-pretraining称之为(SigLIP)和sigmoidLiT(SigLiT)。作者发现，当batch
+size小于16k的时候，sigmoid loss大幅超过了softmax loss，当train batch
+size增加的时候，gap 变小了，重要的是，sigmoid loss是对称的，只要single
+pass，一个typical implementation只要less memory than softmax
+loss，这使得能够用1M的batch size训练SigLiT，然而，作者发现，当batch
+size增加的时候，性能饱和了。</p></li>
+<li><p>之前的工作提出了一个类似的sigmoid
+loss用于无监督的降维任务，在contrastive image-text
+learning中，大多数的工作依赖于softmax-based InfoNCE
+loss，在监督的分类中，sigmoid loss证明比softmax loss更加有效。
+作者首先回顾了广泛使用的softmax-based contrastive loss，然后引入pairwise
+sigmoid loss。 给定一个mini-batch <span class="math inline">\(B={(I_1,
+T_1),(I_2, T_2)}\)</span>，对比学习的objective 促使matching
+pairs的embeddings彼此对齐，同时使得不匹配的pairs的embeddings的远离，对于实际的目的，假定对于所有的images
+i，text和一个不同的image j相关联，不和i关联。</p>
+<ul>
+<li>当用softmax loss来formalize这个objective的时候，一个image
+model和一个text model被训练来最小化下面的objective， $$</li>
+<li> <em>{i=1}^{||} ( </em>{ } + _{ } ) $$</li>
+</ul>
+<p><span class="math inline">\(\mathbf{x}_i =
+\frac{f(I_i)}{\|f(I_i)\|_2}\)</span>, <span
+class="math inline">\(\mathbf{y}_i =
+\frac{g(T_i)}{\|g(T_i)\|_2}\)</span>，在本文中，作者采用ViT架构用于images，transformer架构for
+texts，由于softmax
+loss的非对称性，normalization需要独立地执行两次，across images和across
+texts。</p>
+<p>作者提出的方法，不需要计算global normalization factors，sigmoid-based
+loss独立地处理每个image-text pair，有效地将learning
+problem转换为标准的二分类，positive labels for matching pairs <span
+class="math inline">\((I_i, T_i)\)</span>，negative labels for
+所有其它的pairs <span class="math inline">\((I_i, T_{j\neq
+i})\)</span>，定义如下： <span class="math display">\[
+- \frac{1}{|\mathcal{B}|} \sum_{i=1}^{|\mathcal{B}|}
+\sum_{j=1}^{|\mathcal{B}|}
+\log \underbrace{\left( \frac{1}{1 + e^{z_{ij} \cdot (-t_{x_i} \cdot y_j
++ b)}} \right)}_{\mathcal{L}_{ij}}
+\]</span></p>
+<p><span class="math inline">\(z_{ij}\)</span> 是给定image和text
+input的label，如果它们是paired，就为1，否则就是-1。在一开始的时候，很多的negatives会主导这个loss，导致imbalance，为了缓解这个，作者引入了一个额外的可学习的bias
+term b，类似于temperature t，初始化 <span
+class="math inline">\(t`\)</span> 和 b to log10和 -10。这使得training
+开始的时候接近prior，不需要massive over-correction。</p></li>
 </ol>
 
     </div>
@@ -308,13 +403,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">298k</span>
+    <span title="站点总字数">299k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">18:02</span>
+    <span title="站点阅读时长">18:06</span>
   </span>
 </div>
 <div class="busuanzi-count">

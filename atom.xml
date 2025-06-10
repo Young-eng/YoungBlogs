@@ -184,21 +184,39 @@ spaces，在标准的消费级GPUs上有效的微调。</summary>
     <link href="https://young-eng.github.io/YoungBlogs/2025/06/09/SigLIP/"/>
     <id>https://young-eng.github.io/YoungBlogs/2025/06/09/SigLIP/</id>
     <published>2025-06-09T08:18:40.000Z</published>
-    <updated>2025-06-09T13:15:15.399Z</updated>
+    <updated>2025-06-10T08:43:41.799Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="section"></h3><h2 id="time">### Time</h2><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li></li></ol>]]></content>
+    <content type="html"><![CDATA[<h3 id="sigmoid-loss-for-language-image-pre-training1">Sigmoid Loss forLanguage Image Pre-Training<sup>[1]</sup></h3><blockquote><p>作者是来自DeepMind的Xiaohua Zhai等人，论文引用[1]:Zhai, Xiaohua etal. “Sigmoid Loss for Language Image Pre-Training.” 2023 IEEE/CVFInternational Conference on Computer Vision (ICCV) (2023):11941-11952.</p></blockquote><h3 id="time">Time</h3><ul><li>2023.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>sigmoid loss</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者提出了一个简单的pairwise Sigmoid loss for Language-ImagePre-training(SigLIP)，不同于标准的，用softmax normalization的contrastivelearning，sigmoid loss仅对image-text pairs进行操作，不需要pairwisesimilarity for normalization的global view，这个sigmoidloss同时能够进一步scaling up batch sizes，和Locked-imagetuning结合，只需要TPUv4 chips，作者训了一个SigLiT model，在ImageNet上zero-shot，实现了84.5%的精度，将批量大小与损失函数解耦后，得以进一步研究样本与样本对的影响，以及负样本与正样本比例的作用。最后，作者将batchsize设到一个极限，up to one million，发现增大的batchsize的benefits的下降了，合理的batch size设为32k是足够了。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>用web上的image-text pairs的弱监督的contrastivepre-training称为了一个得到通用CVbackbones的必须的方法，逐渐代替了在大的标注的multi-class数据集上的预训练，high-level的idea是用paireddata，同时学习images和texts的对齐的representationspace，经典的工作例如CLIP，ALIGN证明这个方法的可行性。标准的预训练的方法是<strong>利用image-textcontrastive objective</strong>,将image和textembeddings对齐，用于匹配positive image-textpairs，同时确保不相关的(negative) image-text pairs在embeddingspace是不相关的，这通过一个batch-level softmax-based contrastiveloss实现，第一次对所有的images中normalize pairwisesimilarity，然后是texts，一个softmax的naive的implementation存在numericalyunstable，在用softmax之前，通常减去最大的inputvalue实现stabilize，但这需要对整个批次再进行一次遍历。</p><p>在本文中，作者提出了一个更简单的alternative，sigmoidloss，不要求任何对full batch的操作，简化了distributedloss的implementation，提高了效率，另外，将batchsize和task的definition进行了解耦，作者将提出的sigmoidloss和标准的softmaxloss在多个setups下进行了比较，特别地，作者用两个著名的image-textlearning的方法CLIP，LiT研究了sigmoid-base loss。将sigmoid languageimage-pretraining称之为(SigLIP)和sigmoidLiT(SigLiT)。作者发现，当batchsize小于16k的时候，sigmoid loss大幅超过了softmax loss，当train batchsize增加的时候，gap 变小了，重要的是，sigmoid loss是对称的，只要singlepass，一个typical implementation只要less memory than softmaxloss，这使得能够用1M的batch size训练SigLiT，然而，作者发现，当batchsize增加的时候，性能饱和了。</p></li><li><p>之前的工作提出了一个类似的sigmoidloss用于无监督的降维任务，在contrastive image-textlearning中，大多数的工作依赖于softmax-based InfoNCEloss，在监督的分类中，sigmoid loss证明比softmax loss更加有效。作者首先回顾了广泛使用的softmax-based contrastive loss，然后引入pairwisesigmoid loss。 给定一个mini-batch <span class="math inline">\(B={(I_1,T_1),(I_2, T_2)}\)</span>，对比学习的objective 促使matchingpairs的embeddings彼此对齐，同时使得不匹配的pairs的embeddings的远离，对于实际的目的，假定对于所有的imagesi，text和一个不同的image j相关联，不和i关联。</p><ul><li>当用softmax loss来formalize这个objective的时候，一个imagemodel和一个text model被训练来最小化下面的objective， $$</li><li> <em>{i=1}^{||} ( </em>{ } + _{ } ) $$</li></ul><p><span class="math inline">\(\mathbf{x}_i =\frac{f(I_i)}{\|f(I_i)\|_2}\)</span>, <spanclass="math inline">\(\mathbf{y}_i =\frac{g(T_i)}{\|g(T_i)\|_2}\)</span>，在本文中，作者采用ViT架构用于images，transformer架构fortexts，由于softmaxloss的非对称性，normalization需要独立地执行两次，across images和acrosstexts。</p><p>作者提出的方法，不需要计算global normalization factors，sigmoid-basedloss独立地处理每个image-text pair，有效地将learningproblem转换为标准的二分类，positive labels for matching pairs <spanclass="math inline">\((I_i, T_i)\)</span>，negative labels for所有其它的pairs <span class="math inline">\((I_i, T_{j\neqi})\)</span>，定义如下： <span class="math display">\[- \frac{1}{|\mathcal{B}|} \sum_{i=1}^{|\mathcal{B}|}\sum_{j=1}^{|\mathcal{B}|}\log \underbrace{\left( \frac{1}{1 + e^{z_{ij} \cdot (-t_{x_i} \cdot y_j+ b)}} \right)}_{\mathcal{L}_{ij}}\]</span></p><p><span class="math inline">\(z_{ij}\)</span> 是给定image和textinput的label，如果它们是paired，就为1，否则就是-1。在一开始的时候，很多的negatives会主导这个loss，导致imbalance，为了缓解这个，作者引入了一个额外的可学习的biasterm b，类似于temperature t，初始化 <spanclass="math inline">\(t`\)</span> 和 b to log10和 -10。这使得training开始的时候接近prior，不需要massive over-correction。</p></li></ol>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;h3 id=&quot;section&quot;&gt;&lt;/h3&gt;
-&lt;h2 id=&quot;time&quot;&gt;### Time&lt;/h2&gt;
-&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
+    <summary type="html">&lt;h3 id=&quot;sigmoid-loss-for-language-image-pre-training1&quot;&gt;Sigmoid Loss for
+Language Image Pre-Training&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自DeepMind的Xiaohua Zhai等人，论文引用[1]:Zhai, Xiaohua et
+al. “Sigmoid Loss for Language Image Pre-Training.” 2023 IEEE/CVF
+International Conference on Computer Vision (ICCV) (2023):
+11941-11952.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2023.Mar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;sigmoid loss&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
 &lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;</summary>
-      
+&lt;li&gt;作者提出了一个简单的pairwise Sigmoid loss for Language-Image
+Pre-training(SigLIP)，不同于标准的，用softmax normalization的contrastive
+learning，sigmoid loss仅对image-text pairs进行操作，不需要pairwise
+similarity for normalization的global view，这个sigmoid
+loss同时能够进一步scaling up batch sizes，和Locked-image
+tuning结合，只需要TPUv4 chips，作者训了一个SigLiT model，在ImageNet上
+zero-shot，实现了84.5%的精度，将批量大小与损失函数解耦后，得以进一步研究样本与样本对的影响，以及负样本与正样本比例的作用。最后，作者将batch
+size设到一个极限，up to one million，发现增大的batch
+size的benefits的下降了，合理的batch size设为32k是足够了。&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
     
     
