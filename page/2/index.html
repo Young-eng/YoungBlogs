@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">167</span>
+          <span class="site-state-item-count">168</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -160,6 +160,144 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/05/26/Jetpack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/05/26/Jetpack/" class="post-title-link" itemprop="url">Jetpack</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-05-26 09:31:27" itemprop="dateCreated datePublished" datetime="2025-05-26T09:31:27+08:00">2025-05-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-06-10 16:48:26" itemprop="dateModified" datetime="2025-06-10T16:48:26+08:00">2025-06-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="moe-jetpack-from-dense-checkpoints-to-adaptive-mixture-of-experts-for-vision-tasks1">MoE
+Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for
+Vision Tasks<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自华科的Xingkui Zhu等人。论文引用[1]:Zhu, Xingkui et al. “MoE
+Jetpack: From Dense Checkpoints to Adaptive Mixture of Experts for
+Vision Tasks.” ArXiv abs/2406.04801 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Jun</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>pretrained dense checkpoints</li>
+<li>SpheroMoE</li>
+<li><strong>一句话总结：作者利用预训练的dense weights来初始化MoE
+models，将dense
+model的MLPs划分成多个experts，确保expert的多样性和适用性，同时，为了进行微调，提出了SpheroMoE
+layer，提出了一些改进来避免expert的over-specialized</strong>。</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>稀疏的激活的MoE相对于密集激活的models，提供了一个有效的alternative，将提高的精度和计算效率进行结合。然而，从零开始训练MoE要求大量的data和计算资源，限制了它们的广泛采用。为了解决这个问题，作者引入了MoE
+Jetpack，一个旨在将丰富且现成可获取的密集checkpoints微调为专家混合（MoE）模型的框架。MoE
+Jetpack引入了两个key techniques：<strong>(1). checkpoint
+recycling，用dense checkpoints对MoE
+models进行初始化，来加速收敛和增强精度。减小对大规模预训练的需求; (2).
+hyper-spherical adaptive MoE(SpheroMoE)
+layers，优化MoE的架构，来增强微调的性能和效率</strong>。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/05/26/Jetpack/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -878,7 +1016,7 @@ progress，完好地保持了MAE自监督的本质的优势。</li>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-05-27 14:53:26" itemprop="dateModified" datetime="2025-05-27T14:53:26+08:00">2025-05-27</time>
+      <time title="修改时间：2025-06-22 00:28:13" itemprop="dateModified" datetime="2025-06-22T00:28:13+08:00">2025-06-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -897,14 +1035,14 @@ progress，完好地保持了MAE自监督的本质的优势。</li>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>49</span>
+      <span>2.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>10 分钟</span>
     </span>
 </div>
 
@@ -920,18 +1058,44 @@ id="llmdet-learning-strong-open-vocabulary-object-detectors-under-the-supervisio
 Learning Strong Open-Vocabulary Object Detectors under the Supervision
 of Large Language Models<suo>[1]</sup></h3>
 <blockquote>
-<p>作者是来自中山大学、阿里等机构的Shenghao Fu等人，论文引用[1]:</p>
+<p>作者是来自中山大学、阿里等机构的Shenghao Fu等人，论文引用[1]:Fu,
+Shenghao et al. “LLMDet: Learning Strong Open-Vocabulary Object
+Detectors under the Supervision of Large Language Models.” ArXiv
+abs/2501.18954 (2025): n. pag.</p>
 </blockquote>
 <h3 id="time">Time</h3>
 <ul>
-<li>2025.Mar</li>
+<li>2025.Jan</li>
 </ul>
-<h2 id="key-words">### Key Words</h2>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>image-level and region-level captions</li>
+<li>一句话来说：<strong>之前的开集检测器，用的都是short captions for
+each object，都是一些coarse
+descriptions，这个工作构建了一个更大的、更详细的caption
+数据集，然后，利用LLM，能够作为image-level和region-level的caption，得到一个很好的开集检测器</strong></li>
+</ul>
 <h3 id="总结">总结</h3>
 <ol type="1">
-<li></li>
+<li>最近开集检测器用大量的region-level
+标注的数据实现了很好的性能。在这个工作中，作者展示了，通过为每个image生成image-level的detailed
+captions，将开集的detector和一个LLM一起训练，能够实现性能的提升。为了实现这个目标，作者搜集了一个数据集，GroundingCap-1M，每个image都有一个关联的grounding
+labels和image-level的detailed
+caption，有了这个dataset，作者用一个标准的grounding loss和一个caption
+generation
+loss，来微调这个开集检测器，作者利用LLM来产生region-level的short
+captions for each region of interest 和image-level的long captions for
+whole image, 在LLM的监督下，得到了一个detector
+LLMDet，超过了baseline。</li>
 </ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/05/07/LLMDet/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1348,146 +1512,6 @@ Transformer是一个高效和有前途的架构</strong>。</li>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/04/29/SpatialVLA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/04/29/SpatialVLA/" class="post-title-link" itemprop="url">SpatialVLA</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-04-29 14:46:47" itemprop="dateCreated datePublished" datetime="2025-04-29T14:46:47+08:00">2025-04-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-05-03 23:56:35" itemprop="dateModified" datetime="2025-05-03T23:56:35+08:00">2025-05-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.4k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="spatialvla-exploring-spatial-representations-for-visual-language-action-model1">SpatialVLA:
-Exploring Spatial Representations for Visual-Language-Action
-Model<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自上海AI Lab、TeleAI和ShanghaiTech的Delin
-Qu等人。论文引用[1]:Qu, Delin et al. “SpatialVLA: Exploring Spatial
-Representations for Visual-Language-Action Model.” ArXiv abs/2501.15830
-(2025): n. pag.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2025.Mar</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>Ego3D position Encoding</li>
-<li>Adaptive Action Grids</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>作者认为，spatial understanding在robot
-manipulation中是keypoint，提出了SpatialVLA来探索有效的spatial
-representation。特别地，引入了<strong>Ego3D Position
-encoding</strong>，将3D information inject到input observations of the
-visual-language-action model，提出了<strong>adaptive action
-grids来represent spatial robot movement actions with adaptive
-discretized action grids</strong>，促进了学习
-generalizable和transferrable spatial action knowledge for cross-robot
-control。SpatialVLA是第一个pretrained on top of a vision-language model
-with 1.1 Million real-world robot
-episodes，来学习一个在多个环境中generalist manipulation
-policy，在预训练之后，SpatialVLA可以以zero-shot的方式，来执行多个tasks.</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/04/29/SpatialVLA/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="page-number current">2</span><a class="page-number" href="/YoungBlogs/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/17/">17</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1511,13 +1535,13 @@ policy，在预训练之后，SpatialVLA可以以zero-shot的方式，来执行�
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">299k</span>
+    <span title="站点总字数">301k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">18:07</span>
+    <span title="站点阅读时长">18:16</span>
   </span>
 </div>
 <div class="busuanzi-count">

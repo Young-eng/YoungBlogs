@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-06-10T07:28:55.170Z</updated>
+  <updated>2025-06-17T01:42:06.249Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>BERT</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/06/17/BERT/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/06/17/BERT/</id>
+    <published>2025-06-17T01:42:06.000Z</published>
+    <updated>2025-06-17T01:42:06.249Z</updated>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+      
+      
+    <summary type="html">
+</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>SmolVLA</title>
@@ -336,9 +357,9 @@ platforms、包括单臂、双臂和移动manipulators上的数据集上进行�
     <link href="https://young-eng.github.io/YoungBlogs/2025/06/04/VA-VAE/"/>
     <id>https://young-eng.github.io/YoungBlogs/2025/06/04/VA-VAE/</id>
     <published>2025-06-04T14:37:32.000Z</published>
-    <updated>2025-06-10T08:50:50.111Z</updated>
+    <updated>2025-06-10T10:36:43.147Z</updated>
     
-    <content type="html"><![CDATA[<h3id="reconstruction-vs.-generation-taming-optimization-dilemma-in-latent-diffusion-models1">Reconstructionvs. Generation: Taming Optimization Dilemma in Latent DiffusionModels<sup>[1]</sup></h3><blockquote><p>作者主要是来自华科的Jingfeng Yao等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>aligned latent space with visual tokenizers</li></ul><h3 id="总结">总结</h3><ol type="1"><li><p>用Transformer架构的Latent diffusionmodels擅长生成高质量的images，然而，最近的研究表明了这个两阶段设计的优化困境：增加visualtokenizers中的per-token feature dimension的时候，提高了reconstruction的质量，它需要很大的diffusion models何更多的trainingiterations来实现相当的生成性能。因此，现有的systems经常遇到次优化的解决方式，要么是由于tokenizer的informationloss造成的visualartifacts，要么是由于大量的计算导致难以收敛，作者argue，这个dilemma<strong>源于学习没有约束的高维latentspaces的困难</strong>，为了解决这个，作者提出了，<strong>当训练visualtokenizers的时候，将latent space和预训练的vision foundationmodels进行对齐</strong>。作者提出了VA-VAE(Vision foundation modelAligned VAE)，极大地扩展了latent diffusionmodels的reconstruction-generation 的边界，使得DiTs在高维latentspaces快速收敛，为了利用VA-VAE的全部的potential，作者构建了一个增强版的DiT，用了改进的训练策略和架构设计，称之为LightningDiT。<span id="more"></span></p></li><li><p>latent diffusion model利用连续值的VAE，或者visualtokenizer来压缩视觉信号，然后降低高分辨率图像生成的计算需求，这些visualtokenizer的性能，特别是压缩和重建的能力，决定了整体系统的有效性。一个直接的增强reconstruction能力的方法是增加visualtokens的feature dimension，有效地扩充了latentrepresentation的informationcapacity，最近，一些有影响力的text-to-image工作探索了更高维的tokenizers，这些tokenizers提供了detailreconstruction，使得finer generative quality。然而，随着研究的进行，一个reconstruction和generation之间的优化困境显示出来了，特别地，当增加tokenfeature dimension的时候，提高了tokenizer的reconstructionaccuracy，但是生成性能退化了。当前，两个常见的策略是：第一个用scaling upmodel的参数，这需要更多的训练资源；第二个是限制tokenizer的reconstructioncapacity，为了更快地收敛。这个妥协的reconstruction质量限制了生成性能的上限，导致生成结果的不完美。两个方法都涉及trade-offs。</p></li><li><p>在本文中，作者提出了一个直接的方法来解决这个困境，作者从自回归中生成中得到启发，增加离散值VAEs的codebooksize导致low codebook utilization，通过可视化不同featuredimensions的latent space分布，作者观察到，更高维度的tokenizers会一些less spread-out latentrepresentations，这个分析表明：优化困难源于从零训练的学习无约束的高维latentspace的困难。为了解决这个问题，作者开发了一个vision foundationmodel为连续的VAEs指导优化策略。作者的keyfinding展示了：<strong>学习vision foundation model guided的latentrepresentation增强了高维tokenizer的生成性能，同时保留了它们原始的重建能力。</strong>主要的contribution是Vision Foundation model alignment Loss(VFLoss)，是一个即插即用的module，在tokenizer训练期间，将latentrepresentations和预训练的vision foundation models对齐，用预训练的visionfoundation models来初始化VAE encoders被证明是无效的，可能是由于latentrepresentation快速地偏离了它的初始state来优化reconstruction，作者发现，一个仔细涉及的jointreconstruction和alignment loss是重要的。作者的alignmentloss是精心涉及的，来正则化高维latentspaces，不需要限制它们的capacity。首先，作者强制elelment-wise和pair-wise相似度，来确保feature space中的global 和localstructures的综合的regularization。其次，作者在similaritycost中引入了一个margin，在alignment中提供controlledflexibility，作者研究了不同vision foundation models的影响。</p></li></ol>]]></content>
+    <content type="html"><![CDATA[<h3id="reconstruction-vs.-generation-taming-optimization-dilemma-in-latent-diffusion-models1">Reconstructionvs. Generation: Taming Optimization Dilemma in Latent DiffusionModels<sup>[1]</sup></h3><blockquote><p>作者主要是来自华科的Jingfeng Yao等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>aligned latent space with visual tokenizers</li></ul><h3 id="总结">总结</h3><ol type="1"><li><p>用Transformer架构的Latent diffusionmodels擅长生成高质量的images，然而，最近的研究表明了这个两阶段设计的优化困境：增加visualtokenizers中的per-token feature dimension的时候，提高了reconstruction的质量，它需要很大的diffusion models何更多的trainingiterations来实现相当的生成性能。因此，现有的systems经常遇到次优化的解决方式，要么是由于tokenizer的informationloss造成的visualartifacts，要么是由于大量的计算导致难以收敛，作者argue，这个dilemma<strong>源于学习没有约束的高维latentspaces的困难</strong>，为了解决这个，作者提出了，<strong>当训练visualtokenizers的时候，将latent space和预训练的vision foundationmodels进行对齐</strong>。作者提出了VA-VAE(Vision foundation modelAligned VAE)，极大地扩展了latent diffusionmodels的reconstruction-generation 的边界，使得DiTs在高维latentspaces快速收敛，为了利用VA-VAE的全部的potential，作者构建了一个增强版的DiT，用了改进的训练策略和架构设计，称之为LightningDiT。<span id="more"></span></p></li><li><p>latent diffusion model利用连续值的VAE，或者visualtokenizer来压缩视觉信号，然后降低高分辨率图像生成的计算需求，这些visualtokenizer的性能，特别是压缩和重建的能力，决定了整体系统的有效性。一个直接的增强reconstruction能力的方法是增加visualtokens的feature dimension，有效地扩充了latentrepresentation的informationcapacity，最近，一些有影响力的text-to-image工作探索了更高维的tokenizers，这些tokenizers提供了detailreconstruction，使得finer generative quality。然而，随着研究的进行，一个reconstruction和generation之间的优化困境显示出来了，特别地，当增加tokenfeature dimension的时候，提高了tokenizer的reconstructionaccuracy，但是生成性能退化了。当前，两个常见的策略是：第一个用scaling upmodel的参数，这需要更多的训练资源；第二个是限制tokenizer的reconstructioncapacity，为了更快地收敛。这个妥协的reconstruction质量限制了生成性能的上限，导致生成结果的不完美。两个方法都涉及trade-offs。</p></li><li><p>在本文中，作者提出了一个直接的方法来解决这个困境，作者从自回归中生成中得到启发，增加离散值VAEs的codebooksize导致low codebook utilization，通过可视化不同featuredimensions的latent space分布，作者观察到，更高维度的tokenizers会一些less spread-out latentrepresentations，这个分析表明：优化困难源于从零训练的学习无约束的高维latentspace的困难。为了解决这个问题，作者开发了一个vision foundationmodel为连续的VAEs指导优化策略。作者的keyfinding展示了：<strong>学习vision foundation model guided的latentrepresentation增强了高维tokenizer的生成性能，同时保留了它们原始的重建能力。</strong>主要的contribution是Vision Foundation model alignment Loss(VFLoss)，是一个即插即用的module，在tokenizer训练期间，将latentrepresentations和预训练的vision foundation models对齐，用预训练的visionfoundation models来初始化VAE encoders被证明是无效的，可能是由于latentrepresentation快速地偏离了它的初始state来优化reconstruction，作者发现，一个仔细涉及的jointreconstruction和alignment loss是重要的。作者的alignmentloss是精心涉及的，来正则化高维latentspaces，不需要限制它们的capacity。首先，作者强制elelment-wise和pair-wise相似度，来确保feature space中的global 和localstructures的综合的regularization。其次，作者在similaritycost中引入了一个margin，在alignment中提供controlledflexibility，作者研究了不同vision foundation models的影响。</p></li><li></li></ol>]]></content>
     
     
     <summary type="html">&lt;h3
@@ -788,17 +809,46 @@ progress，完好地保持了MAE自监督的本质的优势。&lt;/li&gt;
     <link href="https://young-eng.github.io/YoungBlogs/2025/05/07/LLMDet/"/>
     <id>https://young-eng.github.io/YoungBlogs/2025/05/07/LLMDet/</id>
     <published>2025-05-07T08:43:00.000Z</published>
-    <updated>2025-05-27T06:53:26.183Z</updated>
+    <updated>2025-06-21T16:28:13.257Z</updated>
     
-    <content type="html"><![CDATA[<h3id="llmdet-learning-strong-open-vocabulary-object-detectors-under-the-supervision-of-large-language-models1">LLMDet:Learning Strong Open-Vocabulary Object Detectors under the Supervisionof Large Language Models<suo>[1]</sup></h3><blockquote><p>作者是来自中山大学、阿里等机构的Shenghao Fu等人，论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Mar</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li></li></ol>]]></content>
+    <content type="html"><![CDATA[<h3id="llmdet-learning-strong-open-vocabulary-object-detectors-under-the-supervision-of-large-language-models1">LLMDet:Learning Strong Open-Vocabulary Object Detectors under the Supervisionof Large Language Models<suo>[1]</sup></h3><blockquote><p>作者是来自中山大学、阿里等机构的Shenghao Fu等人，论文引用[1]:Fu,Shenghao et al. “LLMDet: Learning Strong Open-Vocabulary ObjectDetectors under the Supervision of Large Language Models.” ArXivabs/2501.18954 (2025): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Jan</li></ul><h3 id="key-words">Key Words</h3><ul><li>image-level and region-level captions</li><li>一句话来说：<strong>之前的开集检测器，用的都是short captions foreach object，都是一些coarsedescriptions，这个工作构建了一个更大的、更详细的caption数据集，然后，利用LLM，能够作为image-level和region-level的caption，得到一个很好的开集检测器</strong></li></ul><h3 id="总结">总结</h3><ol type="1"><li>最近开集检测器用大量的region-level标注的数据实现了很好的性能。在这个工作中，作者展示了，通过为每个image生成image-level的detailedcaptions，将开集的detector和一个LLM一起训练，能够实现性能的提升。为了实现这个目标，作者搜集了一个数据集，GroundingCap-1M，每个image都有一个关联的groundinglabels和image-level的detailedcaption，有了这个dataset，作者用一个标准的grounding loss和一个captiongenerationloss，来微调这个开集检测器，作者利用LLM来产生region-level的shortcaptions for each region of interest 和image-level的long captions forwhole image, 在LLM的监督下，得到了一个detectorLLMDet，超过了baseline。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>开集的object detection旨在基于用户的输入的textlabels，检测任意的类别，比传统的闭集objectdetection是一个更加通用的detection task。GLIP首次通过region-wordcontrastive pre-training，统一了object detection和phrasegrounding。这个formulation得益于massive grounding和image-textdata，覆盖了很多的concepts，使得学习到的representations是semantic-rich，后续的工作聚焦于有效地vision-languagefusion和fine-grained region-word alignment，通过scalingup预训练的数据和computation，现有的开集objectdetectors能够实现zero-shot的性能。 最近的工作表明了：将groundingtask和其它的language tasks的统一，用language knowledge丰富了visualrepresentations，构造了一个stronger vocabularydetector，GLIPv2在更强的grounding loss和masked language modelingloss下预训练了model，后续的CapDet和DetCLIPv3展示了，统一densecaptioning和grounding 提高了开集的性能。然而，他们用了short captions foreach object，例如粗糙的descriptions和层次化的classlabels，都是粗粒度的，缺乏objects之间的联系，另外，long image-levelcaptions，包含丰富的details和Image的全面的理解，比short region-leveldescriptions提供了更多的信息, 激励作者去探索long detailed image-levelcaptions能够给开集detectors带来什么优势。</p><p>鉴于此，作者提出了LLMDet，用一个标准的grounding objective和captiongenerationobjective来训练一个开集检测器，LLM是加在detector之后的，将来自detector的imagefeatures和region feature作为输入，预测image-level的long detailedcaptions和region-level shortphrases，相比于之前的工作只对每个object产生shortcaptions，LLMDet在四个方面超过了它们：<strong>首先，longcaptions为image中的每个object提供了更多的细节，longcaptions包含详细的object types, textures, colors, parts of the objects,object actions, precise object locations和texts,这对构建丰富的vision-languagerepresentations是有帮助的，现有的region-levelcaptions是一些局部简单的descriptions；其次，image-levelgeneration将图像中的所有元素作为一个整体进行对齐，建模前景objects、背景还有多个objects之间的关系，提供了更多的信息和更全面的图像理解，超过了object-level的caption，仅关注于singleregions of interest;第三，image-levelcaptions比region-level的标注更加scalable，最近的off-the-shelfVLMs擅长image understanding，但是很难做到region-levelunderstanding,有了合适的prompts，能够得到高质量的image-levelcaptions；另外，完全预训练的LLM是自然的开集，用一个LLM来产生captions使得detector能够和它对齐，继承了很强的泛化能力，提升了rareclass的性能</strong>。</p><p>然而，现有的groundingdatasets缺乏对整个图像的详细的captions，因此，作者搜集了一个dataset，称之为GroundingCap-1M，来训练LLMDet，相比于标准的groundingdataset，GroundingCap0-1M中的每个element被formulate为一个quadruple，包含一个image,short groundingtext，一些标注好的bboxes，一个长的详细的image-level的caption，一个LLM被用于理解region和imagefeatures，产生对应于每个object和image-level caption的groundingphrases，为了有效地将LLM集成到LLMDet中，保留预训练的Knowledge，首先仔细地将LLM和现有的detector进行对齐，然后将它们作为整体进行finetune。</p><p>有了新的training framework，作者展示了vision foundationmodel能够从LLMs的监督中受益，这个supervision不仅来自于用LLM产生的captions作为labels，也来自于co-training的梯度。</p><p>通过将改进的LLMDet和一个LLM结合，能够进一步地构建一个很强的LMM，在LLMs的监督之下进行训练，LLMDet不仅实现了更强的开集能力，也将LLMs进行了pre-aligns，因此，预训练的LLMDet能够作为一个很强的visionfoundation model。</p></li><li><p><strong>在开集目标检测中，detector在一个有效的训练集上进行训练，旨在检测用户输入的任意的类别，为了检测任意的类别，开集目标检测被表述为一个vision-languagetask，因此detector能够检测没有见过的class。受VLM的zero-shot能力的启发，将detectors和CLIP进行对齐或者将CLIP集成到model中作为一部分，是一个直接的解决方式，然而，CLIP使用image-level的objectives进行预训练的，CLIP中的features对于OVD任务不是完美的suitable</strong>。或者，用大量的，来自多个resources的数据构建一个object-awarevisual-language space，展示出来impressiveresults，另外，多任务学习，例如masked language modeling和densecaptioning，能够实现更好地的vision-languagealignment，提高了detector的开集能力。<strong>然而，先前的工作仅关注于产生regionsof interest的shortphrases，在这个工作中，作者探索了另外一个co-training的task，用LLMs产生image-level的详细的captions</strong>。</p></li><li><p>最近，VLMs让LLMs有了很强的visualperception和understanding的能力，<strong>一个常见的VLMs包含三个部分：visionfoundation models来提取vision tokens，一个projector将vision featuresmap到language space，一个LLM来理解visual 和textinput，最近的工作发现，一个更好的visionencoder改善了最终的VLM的多模态的性能。但是LLM是否能提高visionencoder是很少被探索的</strong>，InterVL将CLIP-like的visionencoder进行了scale up，用一个LLM作为textencoder，在这个工作中，作者展示了detector也能够从LLM中获益，改进的detector能够提高多模态的性能。<strong>为了训练一个更好的VLM，一个高质量的captiondata是必不可少的，captions的质量是训练一个开集detector的keyfactor。因此，作者利用现有的高质量的captiondatasets和先进的VLMs来产生高质量的数据。</strong></p></li><li><p>作者将每个training sample formulate为一个四元组，<spanclass="math inline">\((I, T_g, B, T_c)\)</span>， I是image, <spanclass="math inline">\(T_g\)</span> 是short groundingtext，B是对应grounding text的bboxes，<spanclass="math inline">\(T_c\)</span>是整个image的详细地caption，搜集详细的captions的时候有两个coreprinciples：<strong>1.caption应该尽可能包含更多的details，希望这个caption能够描述object types,textures等；2.caption应该只包含事实性的details，太多imaginary或者reasoning的captions会降低信息的密度。</strong></p></li><li><p>将grounding task和其它的language tasks进行统一，丰富了visionfeatures，扩展了vision concepts，实现了更好的vision-languagealignment，先前的工作主要关注于dense captioning，languagemodel用于产生short captions或者class names来描述single region ofinterest，然而，singleobjects的details，objects和前景、背景信息之间关系被忽略了，但是这个信息在singledetailed image-levelcaption中是能被描述的。在这个工作中，作者站了region-level开集目标检测器能够在LLM的监督下，受益于long detailed image-levelcaptions。 具体地，作者用一个LLM来产生captions，基于预训练的DETR开集检测器，因为detector和LLM是分开训练的，首先训练一个projector，将来自detector的visionfeatures map到LLM的input space，然后将p5 featuremap作为LLM的输入，LLM被用来产生full imagecaptions，在这个过程中，仅有projector被tunable。</p><p>在pre-alignment之后，detector，projector和LLM以端到端的方式进行finetune，除了原始的groundingtask，包括word-region alignment loss <spanclass="math inline">\(L_{align}\)</span> 和box regression loss <spanclass="math inline">\(L_{box}\)</span>，作者还引入了两个tasks：image-levelcaption generation和region-level caption generation。</p><ul><li><strong>image-level caption generation task</strong>: languagemodel将来自detector的feature map作为输入，输出对应的long detailedcaptions，沿着常见的训练多模态大模型的方法，作者将LLM输出的数据以对话的形式组织起来，包括systemmessages, user inputs, answers。user inputs包含来自detector的visionfeatures和prompt，answers是来自GroundingCap-1M的captions，LLM旨在基于userinputs输出answers，因为输出的answers包含variousdetails和对image的全面的理解，这些visual cues应该被建模在visualfeatures中，因此LLM能够最小化training loss，产生正确地captions。</li></ul><p>然而，因为LLM将这个featuremap作为input，对于LLM来说，很难将image-levelcaptions中的entities映射回整个image中的specificregion，例如，disher只是image中的一小部分，image中有很多类似dish的objects，因此，作者进一步引入了region-levelcaption generationtask作为补充，为LLM提供了先验，用对应的word映射回region。在这个task中，作者选择了detector中positiveobject queries，这些queries和ground truthboxes是匹配的，用LLM来产生它们对应的grounding phrases。类似于image-levelgeneration,LLM的输入在对话中也被格式化了，但是用了不同的prompt来分割不同类型的inputs，在singleobject query中的visualfeature是受限的，作者在LLM中增加了一些cross-attention layer for objectqueries，用来从detector's featuremaps中搜集必要的信息，注意到，在image-level generation中， texttokens和visual tokens不经过这些cross-attentionlayers，这些layers是从零开始训练的。通过输出objectqueries对应的phrases，LLM能偶将entities和对应的region进行匹配。</p><p>LLMDet的整个的training objective是grounding loss和generationloss的结合：</p><p><span class="math display">\[\mathcal{L} = \mathcal{L}_{align} +\mathcal{L}_{box} + \mathcal{L}_{lm} +\mathcal{L}_{region}\]</span></p></li></ol><p><imgsrc="https://figures.semanticscholar.org/843f89ce925cfedff681bf22cdf3d1b2cd8a2678/5-Figure4-1.png"alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span>LLMDet包含一个标准的开集检测器和一个LLM，在grounding loss和languagemodeling loss下进行训练，LLM将feature maps作为visualinput，用来产生imge-level captions，将single object query作为visualinput，产生region-levelcaptions，这通过不同的prompts进行separate，只有region-levelgeneration中的vision tokens通过cross-attentionmodules，因为image-level和region-level generation中的visiontokens的数量有很大的差别，作者分别将LLM forwardtwice，来节省memory和computation，LLM在推理的时候被丢弃，没有额外的cost。</p>]]></content>
     
     
-      
-      
     <summary type="html">&lt;h3
 id=&quot;llmdet-learning-strong-open-vocabulary-object-detectors-under-the-supervision-of-large-language-models1&quot;&gt;LLMDet:
-Learning Strong O</summary>
-      
+Learning Strong Open-Vocabulary Object Detectors under the Supervision
+of Large Language Models&lt;suo&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自中山大学、阿里等机构的Shenghao Fu等人，论文引用[1]:Fu,
+Shenghao et al. “LLMDet: Learning Strong Open-Vocabulary Object
+Detectors under the Supervision of Large Language Models.” ArXiv
+abs/2501.18954 (2025): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2025.Jan&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;image-level and region-level captions&lt;/li&gt;
+&lt;li&gt;一句话来说：&lt;strong&gt;之前的开集检测器，用的都是short captions for
+each object，都是一些coarse
+descriptions，这个工作构建了一个更大的、更详细的caption
+数据集，然后，利用LLM，能够作为image-level和region-level的caption，得到一个很好的开集检测器&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;最近开集检测器用大量的region-level
+标注的数据实现了很好的性能。在这个工作中，作者展示了，通过为每个image生成image-level的detailed
+captions，将开集的detector和一个LLM一起训练，能够实现性能的提升。为了实现这个目标，作者搜集了一个数据集，GroundingCap-1M，每个image都有一个关联的grounding
+labels和image-level的detailed
+caption，有了这个dataset，作者用一个标准的grounding loss和一个caption
+generation
+loss，来微调这个开集检测器，作者利用LLM来产生region-level的short
+captions for each region of interest 和image-level的long captions for
+whole image, 在LLM的监督下，得到了一个detector
+LLMDet，超过了baseline。&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
     
     
@@ -950,60 +1000,6 @@ Transformer是一个高效和有前途的架构&lt;/strong&gt;。&lt;/li&gt;
     
     
     <category term="Transformer" scheme="https://young-eng.github.io/YoungBlogs/tags/Transformer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SpatialVLA</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/04/29/SpatialVLA/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/04/29/SpatialVLA/</id>
-    <published>2025-04-29T06:46:47.000Z</published>
-    <updated>2025-05-03T15:56:35.389Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="spatialvla-exploring-spatial-representations-for-visual-language-action-model1">SpatialVLA:Exploring Spatial Representations for Visual-Language-ActionModel<sup>[1]</sup></h3><blockquote><p>作者是来自上海AI Lab、TeleAI和ShanghaiTech的DelinQu等人。论文引用[1]:Qu, Delin et al. “SpatialVLA: Exploring SpatialRepresentations for Visual-Language-Action Model.” ArXiv abs/2501.15830(2025): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Mar</li></ul><h3 id="key-words">Key Words</h3><ul><li>Ego3D position Encoding</li><li>Adaptive Action Grids</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者认为，spatial understanding在robotmanipulation中是keypoint，提出了SpatialVLA来探索有效的spatialrepresentation。特别地，引入了<strong>Ego3D Positionencoding</strong>，将3D information inject到input observations of thevisual-language-action model，提出了<strong>adaptive actiongrids来represent spatial robot movement actions with adaptivediscretized action grids</strong>，促进了学习generalizable和transferrable spatial action knowledge for cross-robotcontrol。SpatialVLA是第一个pretrained on top of a vision-language modelwith 1.1 Million real-world robotepisodes，来学习一个在多个环境中generalist manipulationpolicy，在预训练之后，SpatialVLA可以以zero-shot的方式，来执行多个tasks.</li></ol><span id="more"></span><ol start="2" type="1"><li><p>能够和物理世界进行交互的，适应多个embodiments，执行complexttasks的generalist robot policies是robotics的长期的追求。最近VLAmodels的进展展示出了通过微调pretrained VLMs，构建这样generalistpolicy的promising的范式。这个范式的成功的关键在于将VLMs的泛化能力用于多个robotmanipulation tasks，还有一个写specific 架构的设计，来合成VLMbackbone和robot action output head。然而，现有的VLA models主要受限于2Dobservation inputs，缺乏precise perception和3D物理世界的理解，humans能够instinctively 构建丰富的mental representationsof space，effortlessly和objects与workspace进行对齐formanipulation。因此，这个领域的关键问题是：如何有效地让VLAmodels具备profound spatial understanding of the 3D physical world?</p><p>然而，开发这样一个generalist robot policies with 3D spatialintelligence在robotobservation和action方面遇到了两个主要的挑战。<strong>首先，来自不同robotembodiments的observations不是3D-aligned，因为不同robots的camerasensors是various，架设在了不同的位置，导致3D observationspaces是没有标定的。第二，不同的robot有不同的action movementcharacteristics来完成多样的tasks，由于不同的自由度、motioncontrollers和workspace configurations、taskcomplexity，导致在学习generalizable spatialactions上有很大的困难，尽管在generalist policy上有一些尝试，generalistpolicy的3D spatial understanding的能力的进展很慢。主要是由于robotobservation和actioninformation的多样性。解决上述挑战，要求一个spatial-aligned robotobservation和action representations，用于cross-embodiment control和3D物理世界的adaptation</strong>。</p><p>通过exploring 对齐的robot observation和spatialrepresentations和action signals，SpatialVLA通过<strong>Egocentric3D(Ego3D) 和Position Encoding来感知3D world，将3D spatialcontext和语义features进行集成。这个position encoding是来自于egocentriccamera frame，消除了robot-camera calibration的需要，能够用于多个robotembodiment。至于robot actions， SpatialVLA统一了多个robots的action spacevia Adaptive Action Grids，将连续的robot actions根据statistical actiondistributions on the whole robot episodes，离散化为adaptive spatialgrids，在这些grids上学习spatial action tokens将cross-robotactions和物理世界的3D空间结构对齐</strong>。在预训练之后，学习到的spatial actiongrids展示出了适应新的robot环境的超强的能力，提供了一个flexible和effective方法。作者发现，所提出的模型 SpatialVLA以一种通用的、robot-agnostic的方式连接了observation与actionoutputs，该模型通过探索强大的3D spatial-aware representations来增强 VLA模型。</p></li><li><p>最近Robotics的进展见证了一个开发multi-task generalist robotpolicies，来执行多个tasks的趋势，而不是一个特定的task。一些早期的工作在singleembodiment，用pretrained visual/text encoder，在学习language-conditionedvisual multi-task policy上实现了很大的成功，缺乏适应到新的robotenvironment的能力，最近的efforts探索了利用large-scale，cross-embodimentrobot datasets用于generalist polices的pretraining，支持了new robotsetups的有效的fine-tuning。Octo提出了基于Transformer架构，来unify OpenX-Embodiment数据集中的不同的configurations，训练的policy能够解决in-domaintasks in a zero-shotmanner。RDT预训练了一个1.2B的基于Diffusion的generalistmodel，对其进行微调，用于complex bimanualmanipulation，另外，HPT提出了一个modular架构，将多个不同的embodiments上的数据对齐到一个shared representation viaembodiment-specific stemmodule，从而在预训练阶段充分利用数据中的异构性。</p><ul><li><p>Vision-Language-Action Models：最近，一些研究通过扩展VLMs 到robotaction generation，构建generalist robot policies，RT-2在large-scalevision-language data和robot demonstration data上，通过autoregressivenext token prediction，对VLMPaLI-X进行微调。OpenVLA采用了一个类似的action离散化的方阿飞，在OXE数据集上微调 Prismatic VLM，包含来自22个不同的robotembodiments的robot data。CogACT和TraceVLA，用一个新的diffusion actionmodule和visual trace prompting来微调OpenVLA。另外，<spanclass="math inline">\(\pi_0\)</span> c通过增加一个action expertmodule将PaliGemma VLM应用于robot control，这个action expertmodule通过flowmatching产生连续的actions，这个model可以被prompted，用于zero-shotcontrol，或者在高质量数据上微调，实现复杂的dexterous manipulationtasks，注意到，这些models受益于VLMs的能力，展示出了一些zero-shot的能力，用newdata进行复杂微调的step是重要的，对于complex tasks也是必要的。</p></li><li><p>3D foundation models for Robotics: 一些研究聚焦于，将LLMs和VLMs的generalists的能力扩展到3D worlds，3D-LLM将一个3D feature extractor和2DVLMs的backbone进行集成，在一个wide variety oftasks上训练3D-LLMs，包括dense captioning，3D questionanswering。LLaVA-3D 用3D patches对2D LLaVA进行扩展，将3D space中的2Dfeatures进行连接，用于3D spatialunderstanding。类似的，LEO训练一个embodied multi-model generalistagent，能够将egocentric 2D images、3D point clouds和text作为taskinput。另外，3D-VLA在3D-base LLM基础上构建了一个generative worldmodel，来执行3D reasoning、localization、multimodel goalgeneration。LEO和3D-VLA的聚焦于3D worldunderstanding和prediction，忽视了3D spatial 的特性。</p></li></ul></li></ol>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;spatialvla-exploring-spatial-representations-for-visual-language-action-model1&quot;&gt;SpatialVLA:
-Exploring Spatial Representations for Visual-Language-Action
-Model&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自上海AI Lab、TeleAI和ShanghaiTech的Delin
-Qu等人。论文引用[1]:Qu, Delin et al. “SpatialVLA: Exploring Spatial
-Representations for Visual-Language-Action Model.” ArXiv abs/2501.15830
-(2025): n. pag.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2025.Mar&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Ego3D position Encoding&lt;/li&gt;
-&lt;li&gt;Adaptive Action Grids&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;作者认为，spatial understanding在robot
-manipulation中是keypoint，提出了SpatialVLA来探索有效的spatial
-representation。特别地，引入了&lt;strong&gt;Ego3D Position
-encoding&lt;/strong&gt;，将3D information inject到input observations of the
-visual-language-action model，提出了&lt;strong&gt;adaptive action
-grids来represent spatial robot movement actions with adaptive
-discretized action grids&lt;/strong&gt;，促进了学习
-generalizable和transferrable spatial action knowledge for cross-robot
-control。SpatialVLA是第一个pretrained on top of a vision-language model
-with 1.1 Million real-world robot
-episodes，来学习一个在多个环境中generalist manipulation
-policy，在预训练之后，SpatialVLA可以以zero-shot的方式，来执行多个tasks.&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Embodied AI" scheme="https://young-eng.github.io/YoungBlogs/tags/Embodied-AI/"/>
     
   </entry>
   
