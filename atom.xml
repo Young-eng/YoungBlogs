@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-06-17T01:42:06.249Z</updated>
+  <updated>2025-06-22T06:09:19.355Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,55 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>c-jepa</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/06/22/c-jepa/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/06/22/c-jepa/</id>
+    <published>2025-06-21T16:34:07.000Z</published>
+    <updated>2025-06-22T06:09:19.355Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="connecting-joint-embedding-predictve-architecture-with-contrastive-self-supervised-learning1">ConnectingJoint-Embedding Predictve Architecture with Contrastive Self-supervisedLearning<sup>[1]</sup></h3><blockquote><p>作者是来自CMU和NYU的 Shentong Mo和Shengbang Tong，论文引用[1]:Mo,Shentong and Shengbang Tong. “Connecting Joint-Embedding PredictiveArchitecture with Contrastive Self-supervised Learning.” ArXivabs/2410.19560 (2024): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Oct</li></ul><h3 id="key-words">Key Words</h3><ul><li>entire collapsing and mean of patch representation</li></ul><h3 id="总结">总结</h3><ol type="1"><li>在最近的无监督视觉表征学习中，Joint-Embedding PredictiveArchitecture(JEPA)通过创新的masking策略，用于从无标签的imagery重提取visualfeatures。尽管它成功了，还有两个主要的限制：I-JEPA中使用的EMA无法有效阻止模型特征表征的完全崩溃，它的预测在准确学习patchrepresentations的mean方面也存在不足。本文引入了一个新的框架，称之为C-JEPA(Contrastive-JEPA)，将Image-basedJoint-Embedding Predictive Architecture和Variance-Invariance-CovarianceRegularization(VICReg)策略集成到一起，这个结合用于高效地学习variance/covariance，用于阻止整个的崩溃和确保augmentedviews的mean的invariance，克服了这些局限。</li></ol><span id="more"></span><ol start="2" type="1"><li><p><strong>无监督表征学习取得了remarkable的进展，主要由于创新架构的进步和利用无标注图像的策略，在这些进展中，Joint-EmbeddingPredictiveArchitecture是一个很强的方法，I-JEPA利用掩码策略，来提取visualfeatures，在理解和而利用无标签数据上取得了进步，然而，尽管它成功了，但是JEPA框架还是有一些局限，主要是它的EMA和I-JEPA的prediction的能力，具体地，I-JEPAEMA被发现，在阻止整个的崩溃上是不够的，同时I-JEPA的Prediction机制很难精确地学习patchrepresentations的mean，这些挑战没有阻止JEPA的性能，同时限制了它在broadercontexts中的应用</strong>。为了解决这些局限，作者引入了一个新的contrastiveSSL框架，基于JEPA，称之为C-JEPA，通过引入VICReg，旨在解决这些挑战，VICReg的方法擅长学习variance和covariance，阻止整个的崩溃和augmentedviews的mean的invariance，通过将Image-basedJEPA和VICReg结合，C-JEPA用于实现更快和更好的收敛，在本文中，作者旨在详细说明理论基础和经验验证，能够证明C-JEPA超过了之前的SSL方法。</p><p>作者的贡献是多样的和重要的，首先，作者发现并说明了I-JEPA框架的内在局限性，主要是它的EMA和prediction机制，其次，作者提出了C-JEPA框架作为一个新的解决方法，将JEPA和VICReg进行合成，解决了这些局限性，第三，通过严格的经验和理论验证，作者展示了,C-JEPA不仅缓解了这些问题，同时是心啊了更好的性能。</p></li><li><p>在自监督学习中，研究人员旨在利用数据的内在特性，利用一个代理任务来训练模型。最近，Tian等人提出了一种基于数据增强的无监督学习框架，用于生成有效的视图，并旨在降低不同视图之间的互信息。CMC引入了一个multi-view的contrastivelearning框架，用任意数量的views来学习view-agnosticrepresentations。另外一个解决jigsawpuzzles的代理任务在PIRL中得到了发展，来提高learned imagerepresentations的语义质量，实现比监督预训练更好的object detectionresults。最近，Masked Imagemodeling在很多工作中被探索了，给定对应的unmaskedcounterpart，来重建image patch，一些MIM方法设计了customizedmasking策略作为代理任务，例如，block-wisemaskign在BEiT中引入了，通过恢复masked imagepatches的离散的tokens，来学习transferrable visualrepresentations。MAE直接重建75% maskedpatches的像素，SimMIM用要给大的square patch size来随机mask inputimage，用one-layer prediction layer after the encoder来预测rawpixels的RGB values，其它的研究人员开始利用teachernetwork或者对抗学习来产生mask和supervision target。</p><ul><li>Contrastive learning:**在过去，对比学习在SSL中展示出了它的有效性，instance-wise contrastivelearning的主要的idea是缩小相同instance的differentviews的embedding的距离，同时增大不同instances的views的embeddings的距离。一个常用的方法是用一个largebatch size来积累positive和negativepairs。Chen等人提出了一个简单的框架，用一个可学习的nonlinear projectionhead和一个大的batchsize，来提高预训练representations的质量，为了更好地利用大量无标注数据，他们展示了一个更大的预训练网络，用无标注数据引入了distillation，来提高下游任务的性能，BOYL从一个image增强的view中的训练onlinenetwork，来预测同一个image不同的augmented view的target networkrepresentation。另外一个广泛使用的方式是学习一个momentumencoder，从一个大的和持续的dictionary中更新的negativeinstances，这个动态的dictionary和一个moving-averagedencoder一起在MoCo中使用，来构建一个动态的dictionary，更新negativeinstances，VICReg正则化策略的提出，通过variance和covariance约束，来解决SSL中的缺点。</li></ul></li><li><p>作者提出了一个新的masked modeling框架，作者的主要idea是将VICReg集成到JEPA框架中，来避免整个的modelcollapse，提高相同image，不同views的invariance。</p><ul><li>给定一个图像数据集，作者的目标是学习一个神经网络，来从这些visualsamples中提取无监督的representations。</li><li>I-JEPA利用神经网络作为一个context encoder，a pair of neuralnetwork作为target encoder，一个predictor用于从M masked blockpatches中的预测target representations，对于target block <spanclass="math inline">\(b_{y_i}\)</span>，predictor将contextencoder的输出和每个patch的mask token作为输入，进行预测，输出patch-levelprediction，masking objective通过利用 predicted patch-levelrepresentation和target patch-level representation之间的平均 <spanclass="math inline">\(L_2\)</span> 距离进行优化，</li></ul><p><span class="math display">\[\mathcal{L}_{\text{I-JEPA}} =\frac{1}{|M|} \sum_{i=1}^{M} \sum_{j \in \mathcal{B}_i}||\hat{\mathbf{b}}_y - \mathbf{b}_y||_2^2,\]</span> <spanclass="math inline">\(|M|\)</span> 表示target blocks M的总数， <spanclass="math inline">\(B_i\)</span> 是对应于i-th targetblock的产生的mask。</p><ul><li>对于对比学习，SimSiam尝试得到两个augmented views <spanclass="math inline">\(x_i\)</span> 和 <spanclass="math inline">\(x`_i\)</span>，将两个views给到a pair of neuralnetworks，为了学习相同image的两个不同views的invariance，一个predicitonMLPhead，将其中一个view的输出进行变换，将其和另一个view的representation进行匹配。SimSiam的整体的objective是最小化相同image中的所有随机patches的z和p之间的距离，</li></ul><p><span class="math display">\[\mathcal{L}_{\text{SimSiam}} =\frac{1}{|V|} \sum_{i=1}^{V} \sum_{j \in \mathcal{P}_i}||\mathbf{z}_{r_j} - \mathbf{P}_{r_j}||_2^2,\]</span></p><p><span class="math inline">\(|V|\)</span> 表示augmented viewsV的总数，<span class="math inline">\(P_i\)</span> 是对应于i-thview的所有随机的patches。</p><ul><li>VICReg：为了防止在孪生网络架构中出现编码器输出恒定或无信息量的向量（即“表示崩溃”）的问题，VICReg在不变性项的基础上，引入了基于表示空间的方差和协方差正则化项。首先，首先，方差正则化项 <span class="math inline">\(v\)</span>被定义为嵌入向量 z 在批次维度 n 上的标准差的一个 hinge函数，目的是防止所有嵌入向量映射到同一个向量而导致的表示崩溃。</li></ul><p>协方差正则化项 c 通过最小化相关矩阵 C在批次维度上所有非对角元素的平方和，来促使这些非对角元素接近于0</p></li><li><p>在自监督中，I-JEPA和SimSiam框架旨在从images中提取robustrepresentations，他们用不同的架构和objectives来解决这个问题，这里，作者用他们不同的方法，来增强joint-embedding架构的理解。关于这个理论连接， I-JEPA用一个predictive model，encoder和preidctornetwork一起来预测input的maskedparts，相反，SimSiam不需要显式的masking，利用相同image的dualaugmentations来enforce不同的processedviews之间的一致性。<strong>这些model遵循共同的原则：最小化certainrepresentations的distance，I-JEPA关注预测和实际的masked patchrepresentations之间的distance，然而, SimSiam最小化相同image的twoaugmented views之间的距离</strong>.</p></li><li><p>VICReg引入了variance和covariance正则化，防止Siamese网络中的representations的崩溃，确保模型在不同的维度上学习informative和diverse features。<strong>VICReg的variance正则化确保embeddingspace的所有维度包含meaningful variance，这对于阻止modelcollapse到trivial solutions是重要的，I-JEPA，旨在学习diverse patchrepresentations，能够从这个机制中获益，确保每个maskedpatch能够对整体的representation提供信息，通过最小化covariance矩阵的off-diagonalelements，VICReg鼓励features是不相关的，增强学习到的features的多样性，这对于I-JEPA是有益的，diversepatch predictions对于有效的representationlearning是重要的，一些non-contrastive SSL上的研究表明：隐式地variance正则化，能够促进joint-embedding架构学习dynamics，这样的正则化帮助保持学习到的representations的similarity和diversity之间的平衡。</strong></p></li></ol><p><imgsrc="https://figures.semanticscholar.org/ea5fad28df8dda050889e339eb55f965adc208ea/3-Figure2-1.png"alt="Illustration" /> <span class="math inline">\(Fig.1^{[1]}\)</span>I-JEPA和SimSiam</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;connecting-joint-embedding-predictve-architecture-with-contrastive-self-supervised-learning1&quot;&gt;Connecting
+Joint-Embedding Predictve Architecture with Contrastive Self-supervised
+Learning&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自CMU和NYU的 Shentong Mo和Shengbang Tong，论文引用[1]:Mo,
+Shentong and Shengbang Tong. “Connecting Joint-Embedding Predictive
+Architecture with Contrastive Self-supervised Learning.” ArXiv
+abs/2410.19560 (2024): n. pag.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2024.Oct&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;entire collapsing and mean of patch representation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;在最近的无监督视觉表征学习中，Joint-Embedding Predictive
+Architecture(JEPA)
+通过创新的masking策略，用于从无标签的imagery重提取visual
+features。尽管它成功了，还有两个主要的限制：I-JEPA中使用的EMA无法有效阻止模型特征表征的完全崩溃，它的预测在准确学习patch
+representations的mean方面也存在不足。本文引入了一个新的框架，称之为C-JEPA(Contrastive-JEPA)，将Image-based
+Joint-Embedding Predictive Architecture和Variance-Invariance-Covariance
+Regularization(VICReg)策略集成到一起，这个结合用于高效地学习variance/covariance，用于阻止整个的崩溃和确保augmented
+views的mean的invariance，克服了这些局限。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Self-Supervised" scheme="https://young-eng.github.io/YoungBlogs/tags/Self-Supervised/"/>
+    
+  </entry>
   
   <entry>
     <title>BERT</title>
@@ -944,62 +993,6 @@ Values in Self-Attention Modu</summary>
     
     
     <category term="Self-Attention" scheme="https://young-eng.github.io/YoungBlogs/tags/Self-Attention/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Diff_Transformer</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/04/30/Diff-Transformer/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/04/30/Diff-Transformer/</id>
-    <published>2025-04-30T05:36:14.000Z</published>
-    <updated>2025-05-03T15:56:07.994Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="differential-transformer1">DifferentialTransformer<sup>[1]</sup></h3><blockquote><p>作者是来自MSRA和Tsinghua的Tianzhu Ye等人。论文引用[1]:Ye, Tianzhu etal. “Differential Transformer.” ArXiv abs/2410.05258 (2024): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Apr</li></ul><h3 id="key-words">Key Words</h3><ul><li>一句话来说：<strong>用两个softmax attentionfunctions之间的差，作为attention socres，来消除attentionnoise</strong>。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>Transformer倾向于将attnetion过多地分配给不相关的context，在这个工作中，作者介绍了DiffTransformer，放大了relevantcontext的attention，同时抵消了noise，特别地，<strong>differentialattention机制通过计算两个独立的 softmax注意力图之间的差值来得到注意力分数</strong>。subtraction 操作cancel了noise，提升了sparse attention patterns的出现。实验结果表明：DiffTransformer在多个scaling up model size和trainingtoken的多种设置下，超过了Transformer。另外更有趣的是，它在实际应用中，提供了notableadvantages，例如long-context modeling，key informationretrieval和幻觉缓解，in-context learning，activationoutliers的reduction。<strong>通过减少不相关context的distract, DiffTransformer在question answering和textsummarization上缓解了幻觉。对于in-context learning，DiffTransformer不仅能增强精度，也对于order permutation更加robust，orderpermutation被认为是chronic robustness issue。结果表明DiffTransformer是一个高效和有前途的架构</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>decoder-only 的Transformer作为一个事实上的LLMs的标准。<strong>Transformer的heart是attentionmechanism，采用Softmaxfunction来对sequence中的多个tokens的importance进行加权。然而，最近的研究表明,LLMs面临从context中精确地检索key information的挑战</strong>。作者将分配给context的不同部分的normalized attentionscores可视化。这个task是检索嵌入在一堆文档中的一个answer。<strong>这个可视化揭示了Transformer倾向于将一小部分的attentionscores分配给正确的answer，同时，不成比例地关注不相关的context</strong>。实验进一步证明：Transformers在处理此类能力方面存在困难。这个问题源自于不可忽视的分配给不相关context的attentionscores，压过了correct answer。作者将这些无关的scores称之为<em>attentionnoise</em>。在这个文章中，作者提出了DIFF Transformer，是一个foundation架构 for LLMs。提出了differential attention mechanism，用differentialdenoising来消除attention noise，特别地，将query和keyvectors分为两个groups，计算两个separate softmax attentionmaps，讲个maps的subtracting的结果被视为attentionscores。这个differential attention mechanism消除了attentionnoise，鼓励models聚焦于criticalinformation。这个方法类似于noise-canceling headphones和differentialamplifiers in electricalengineering，两个信号的difference消除了common-modenoise。作者提出了attention scores的normalized distribution，观察到，DiffTransformer将higher scores分配给correct answer，更多的lowerscores分配给不相关的context。图展示了提出了方法实现了notableimprovements。</p><p>作者做了大量的实验 on language modeling，将DIFFTransformer在parameter count、training tokens和context length上进行scaleup。这个scaling curves表明：DIFFTransformer仅需要Transformer的65%的model size或者trainingtokens，实现了comparable的language modeling performance。另外，DIFFTransformer在多个下游任务上超过了Transformer，另外，DIFFTransformer有很多的intriguing的优点。</p></li><li><p>作者将decoder-onlymodel作为一个example来描述架构，这个model堆叠了 <spanclass="math inline">\(L\)</span> 个DIFF Transformerlayers，给定一个input sequence，将input embeddings pack到 <spanclass="math inline">\(X^0 = [x_1, ..., x_N] \in mathcal{R}^{N \timesd_{model}}\)</span>，这个输入进一步被contextualized，得到输出 <spanclass="math inline">\(X^L\)</span>，每个layer包含两个modules：一个differentialattention followed by a feed-forward networkmodule，相比于Transformer，主要的不同在于：<strong>传统的softmaxattention用differential attention替换了，然而macrolayout是一样的</strong>。作者也采用pre-RMSNorm和SwiGLU。</p></li><li><p>differential attention mechanism将query、key和value vectors映射到outputs，用query、key vectors来计算attentionscores，然年后计算value vectors的加权和。critical design是用一对softmaxfunctions来cancel noise of attention scores，特别地，给定输入 <spanclass="math inline">\(X\)</span>，首先将它们project到query、key和value，<span class="math inline">\(Q_1, Q_2, K_1, K_2 \in mathcal{R}^{N \timesd}, V \in mathcal{R}^{N \times 2d}\)</span>。然后，differentialattention operator <span class="math inline">\(DiffAttn(.)\)</span>计算输出如下：</p></li></ol><p><span class="math display">\[[Q_1; Q_2] = XW^Q, \quad [K_1; K_2] = XW^K, \quad V = XW^V\]</span></p><p><span class="math display">\[\text{DiffAttn}(X) = (\text{softmax}(\frac{Q_1 K_1^T}{\sqrt{d}}) -\lambda \, \text{softmax}(\frac{Q_2 K_2^T}{\sqrt{d}})) V\]</span></p><p><span class="math inline">\(\lambda\)</span> 是一个learnablescalar，为了synchronize learning dynamics，将scalar <spanclass="math inline">\(\lambda\)</span> 重新参数化为：</p><p><span class="math display">\[\lambda = \exp(\lambda_{q_1} \cdot \lambda_{k_1}) - \exp(\lambda_{q_2}\cdot \lambda_{k_2}) + \lambda_{\text{init}}\]</span></p><p><span class="math inline">\(\lambda_{q_1}, \lambda_{k_1},\lambda_{q_2}, \lambda_{k_2}, \lambda_{\text{init}}\)</span> 是learnablescalars，初始化 <span class="math inline">\(\lambda_{\text{init}} \in(0,1)\)</span></p><p>Differential attention 将两个softmax attentinfunctions之间difference来消除attentionnoise，这个idea类似于差分放大器，两个信号的差作为输入，因为可以将输入的common-modenoise消除。也有人证明了differential attentino使得attentionmatrices的spectral distribution更加平衡，有效地解决了rankcollapse。另外，降噪耳机的设计也是基于类似的idea，作者直接用了FlashAttention，提高了modelefficiency。</p><p>Headwise Normalization：用了GroupNorm来emphasize <spanclass="math inline">\(LN\)</span>独立地用于每个head, differentialattention倾向于有一个sparse pattern，heads之间的statisticalinformation更加diverse，<span class="math inline">\(LN\)</span>operator将每个head进行normalize before concatenation，来提高gradientstatistics。</p><ul><li>Overall Architecture：整个的架构堆叠了 <spanclass="math inline">\(L\)</span> layers，每个layer包含一个Multi-headdifferential attention module和一个feed-forward network module。</li></ul><p><span class="math display">\[Y^l = \text{MultiHead}(\text{LN}(X^l)) + X^l\]</span></p><p><span class="math display">\[X^{l+1} = \text{SwiGLU}(\text{LN}(Y^l)) + Y^l\]</span></p>]]></content>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;differential-transformer1&quot;&gt;Differential
-Transformer&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自MSRA和Tsinghua的Tianzhu Ye等人。论文引用[1]:Ye, Tianzhu et
-al. “Differential Transformer.” ArXiv abs/2410.05258 (2024): n. pag.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2025.Apr&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;一句话来说：&lt;strong&gt;用两个softmax attention
-functions之间的差，作为attention socres，来消除attention
-noise&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;Transformer
-倾向于将attnetion过多地分配给不相关的context，在这个工作中，作者介绍了Diff
-Transformer，放大了relevant
-context的attention，同时抵消了noise，特别地，&lt;strong&gt;differential
-attention机制通过计算两个独立的 softmax
-注意力图之间的差值来得到注意力分数&lt;/strong&gt;。subtraction 操作cancel
-了noise，提升了sparse attention patterns的出现。实验结果表明：Diff
-Transformer在多个scaling up model size和training
-token的多种设置下，超过了Transformer。另外更有趣的是，它在实际应用中，提供了notable
-advantages，例如long-context modeling，key information
-retrieval和幻觉缓解，in-context learning，activation
-outliers的reduction。&lt;strong&gt;通过减少不相关context的distract, Diff
-Transformer在question answering和text
-summarization上缓解了幻觉。对于in-context learning，Diff
-Transformer不仅能增强精度，也对于order permutation更加robust，order
-permutation被认为是chronic robustness issue。结果表明Diff
-Transformer是一个高效和有前途的架构&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Transformer" scheme="https://young-eng.github.io/YoungBlogs/tags/Transformer/"/>
     
   </entry>
   

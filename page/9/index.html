@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">169</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -160,6 +160,150 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/10/08/Deformable-DETR/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/10/08/Deformable-DETR/" class="post-title-link" itemprop="url">Deformable-DETR</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-10-08 09:57:19" itemprop="dateCreated datePublished" datetime="2024-10-08T09:57:19+08:00">2024-10-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-19 14:34:09" itemprop="dateModified" datetime="2025-03-19T14:34:09+08:00">2025-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="deformable-detr-deformable-transformers-for-end-to-end-object-detection1">Deformable
+DETR: Deformable Transformers for End-to-End Object
+Detection<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自商汤、中科大和CUHK的Xizhou Zhou, Weijie Su, Lewei Lu
+等人，论文引用[1]:Zhu, Xizhou et al. “Deformable DETR: Deformable
+Transformers for End-to-End Object Detection.” ArXiv abs/2010.04159
+(2020): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2021.Mar</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>deformable attention module aggregates multi-scale feature maps via
+attention mechanism</li>
+<li>一句话来说：Deformable DETR的核心是Deformable
+attention，<strong>用query + pos 生成 offset，sample locations
+等于reference points + offset，然后对query做Linear得到Attention
+weight，对feature map做Linear得到value，然后用sample
+locations去取对应位置的value，将attention weight 乘以sampling
+value，然后将各个head的输出进行拼接，再经过Linear，得到最终的输出</strong>。</li>
+</ul>
+<h3 id="动机">动机</h3>
+<ul>
+<li>DETR收敛慢</li>
+<li>DETR检测小目标的性能比较低</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>DETR在目标检测中，用来去掉很多人工设计的components，同时也有很好的性能。然而，它收敛比较慢，由于Attention在处理图像特征中的限制，特征的spatial
+resolution有限。为了缓解这些问题，提出了<strong>Deformable
+DETR</strong>，这个attention<strong>只对一个referrence附近的ke sampling
+points进行attend</strong>，Deformable
+DETR能够实现很好的性能，超越了DETR(特别是小目标)。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/10/08/Deformable-DETR/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1257,148 +1401,6 @@ classification的性能。</li>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/08/26/YOWOv3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/08/26/YOWOv3/" class="post-title-link" itemprop="url">YOWOv3</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-08-26 14:35:34" itemprop="dateCreated datePublished" datetime="2024-08-26T14:35:34+08:00">2024-08-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-10-25 15:11:23" itemprop="dateModified" datetime="2024-10-25T15:11:23+08:00">2024-10-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2.1k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="yowov3-an-efficient-and-generalized-framework-for-human-action-detection-and-recognition1">YOWOv3:
-An Efficient and Generalized Framework for Human Action Detection and
-Recognition<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是Nguyen Dang Duc Manh, Duong Viet Hang等人。论文引用[1]:Dang,
-Duc M et al. “YOWOv3: An Efficient and Generalized Framework for Human
-Action Detection and Recognition.” (2024).</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2024.Aug</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>one-stage detector</li>
-<li>different configurations to customie different model components</li>
-<li>efficient while reducing computational resource requirements</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>YOWOv3是YOWOv2的增强版，提供了更多的approach,用了不同的configurations来定制不同的model，YOWOv3比YOWOv2更好。</li>
-<li>STAD是计算机视觉中一个常见的任务，涉及到检测<strong>location(bbox),
-timing(exact frame),and type(class of action)</strong>，
-需要对时间和空间特征进行建模。有很多的方法来解决STAD的问题，例如ViT，ViT的效果很好，但是计算量比较大。例如Hiera
-model由超过600M的参数，VideoMAEv2由超过1B的参数，增加了训练的成本和消耗。为了解决STAD问题，同时最大程度减弱训练和推理时间的成本，有人提出用了YOWO方法，虽然可以做到实时，但是也有限制：不是一个efficient
-model with low computational
-requirements。框架的作者已经停止维护了，但是还有很多的问题。本文的contribution如下：
-<ul>
-<li>new lightweight framework for STAD</li>
-<li>efficient model</li>
-<li>multiple pretrained resources for application：creating a range of
-pretrained resources spanning from lightweight to sophisticated models
-to cater to diverse requirements for real-world applications。</li>
-</ul></li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/08/26/YOWOv3/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/YoungBlogs/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/17/">17</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/10/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1422,13 +1424,13 @@ to cater to diverse requirements for real-world applications。</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">301k</span>
+    <span title="站点总字数">304k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">18:16</span>
+    <span title="站点阅读时长">18:24</span>
   </span>
 </div>
 <div class="busuanzi-count">
