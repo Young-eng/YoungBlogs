@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -160,6 +160,143 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/22/ViC-MAE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2025/06/22/ViC-MAE/" class="post-title-link" itemprop="url">ViC-MAE</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-06-22 16:14:28" itemprop="dateCreated datePublished" datetime="2025-06-22T16:14:28+08:00">2025-06-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-06-24 17:25:06" itemprop="dateModified" datetime="2025-06-24T17:25:06+08:00">2025-06-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="vic-mae-self-supervised-representation-learning-from-images-and-video-with-contrastive-masked-autoencoders1">ViC-MAE:
+Self-Supervised Representation Learning from Images and Video with
+Contrastive Masked Autoencoders<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Rice University和Google DeepMind的Jefferson
+Hernandez等人，论文引用[1]:Hernandez, Jefferson et al. “ViC-MAE:
+Self-Supervised Representation Learning from Images and Video with
+Contrastive Masked Autoencoders.” (2023).</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Oct</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>MAE</li>
+<li>contrastive learning</li>
+<li>treat short videos as temporal augmentations</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者提出了VIC-MAE，是一个结合了MAE和contrastive
+learning的model，VIC-MAE通过使用一种global
+representation进行训练的，该global representation是通过对在 MAE
+重建损失下学习到的局部特征进行池化（pooling）得到的，并在图像与视频帧之间基于这一表示进行对比学习目标（contrastive
+objective）的训练。作者展示了在VIC-MAE下学习到的visual
+representation能够很好地泛化到video 和image
+分类的任务，VIC-MAE相比于最近提出的OmniMAE，实现了SOTA的tranfer
+learning的性能。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2025/06/22/ViC-MAE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1323,136 +1460,6 @@ spaces快速收敛，为了利用VA-VAE的全部的potential，作者构建了�
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/03/DiT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2025/06/03/DiT/" class="post-title-link" itemprop="url">DiT</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-06-03 00:10:59" itemprop="dateCreated datePublished" datetime="2025-06-03T00:10:59+08:00">2025-06-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-06-10 16:49:49" itemprop="dateModified" datetime="2025-06-10T16:49:49+08:00">2025-06-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2.2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="scalable-diffusion-models-with-transformers">Scalable Diffusion
-Models with Transformers<sup></sup></h3>
-<blockquote>
-<p>作者是来自UC Berkeley的William Peebles和NYU的Saining
-Xie。论文引用[1]:Peebles, William S. and Saining Xie. “Scalable
-Diffusion Models with Transformers.” 2023 IEEE/CVF International
-Conference on Computer Vision (ICCV) (2022): 4172-4182.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2023.Mar</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>Diffusion Model</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li><p>作者探索了基于Transformer的一种新的diffusion model,
-作者训练image的latent diffusion
-model，用transformer代替常用的U-Net的backbone，在latent
-patches上进行操作。作者通过前向传播复杂度(以Gflops)为指标，分析了Diffusion
-Transformer的可扩展性。作者发现，通过增加Transformer的深度/宽度，或增加输入tokens的数量，从而提高Gflops的DiTs，始终具有更低的FID分数，除了具备良好的可扩展性之外，最大的DiT-XL/2
-models在ImageNet数据集上超过了所有的diffusion models
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2025/06/03/DiT/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/YoungBlogs/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/17/">17</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1476,13 +1483,13 @@ models在ImageNet数据集上超过了所有的diffusion models
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">304k</span>
+    <span title="站点总字数">305k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">18:24</span>
+    <span title="站点阅读时长">18:30</span>
   </span>
 </div>
 <div class="busuanzi-count">

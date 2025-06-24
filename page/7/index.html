@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/YoungBlogs/archives/">
-          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -160,6 +160,136 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/12/17/SAMURAI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/YoungBlogs/2024/12/17/SAMURAI/" class="post-title-link" itemprop="url">SAMURAI</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-17 14:53:09" itemprop="dateCreated datePublished" datetime="2024-12-17T14:53:09+08:00">2024-12-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-27 21:47:22" itemprop="dateModified" datetime="2025-03-27T21:47:22+08:00">2025-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3
+id="samurai-adapting-segment-anything-model-for-zero-shot-visual-tracking-with-motion-aware-memory1">SAMURAI:
+Adapting Segment Anything Model for Zero-Shot Visual Tracking with
+Motion-Aware Memory<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自华盛顿大学的Cheng-Yen Yang, Hsiang-Wei
+Huang等人。论文引用[1]:Yang, Cheng-Yen et al. “SAMURAI: Adapting Segment
+Anything Model for Zero-Shot Visual Tracking with Motion-Aware Memory.”
+ArXiv abs/2411.11922 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Nov</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>kalman filter-based motion modeling</li>
+<li>memory selection based on a hybrid scoring system that combines
+affinity and motion scores</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>SAM2在目标分割任务上展示了强大的能力，但是在视觉目标跟踪上面临挑战，特别是当一些快速移动或者遮挡的目标的场景的时候。另外，原始模型中的固定窗口记忆方法没有考虑选择的记忆的质量来约束下一帧的图像特征，导致视频中的误差传播。本文介绍了SAMURAI，一个SAM2的增强的版本，用于视觉目标跟踪。通过引入<strong>时序运动线索</strong>和提出的<strong>运动感知选择机制</strong>，SAMURAI能够有效的预测目标的运动和修正掩膜选择，实现鲁棒的、精确的跟踪，不需要重新训练或者微调。SAMURAI能够实时操作，展示了强大的zero-shto的性能。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/YoungBlogs/2024/12/17/SAMURAI/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1232,138 +1362,6 @@ benchmarks，实验结果表明，OpenMixer在检测见过和没见过的行为�
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/11/28/OV-STAD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
-      <meta itemprop="name" content="Young">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Young's Blog">
-      <meta itemprop="description" content="记录学习和生活">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Young's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/YoungBlogs/2024/11/28/OV-STAD/" class="post-title-link" itemprop="url">OV-STAD</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-11-28 22:25:19" itemprop="dateCreated datePublished" datetime="2024-11-28T22:25:19+08:00">2024-11-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-06-10 16:53:18" itemprop="dateModified" datetime="2025-06-10T16:53:18+08:00">2025-06-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.8k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>14 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3
-id="open-vocabulary-saptio-temporal-action-detection1">Open-Vocabulary
-Saptio-Temporal Action Detection<sup>[1]</sup></h3>
-<blockquote>
-<p>作者是来自南大，南航和上海AI Lab的Tao Wu, Shuqiu
-Ge等人，论文引用[1]:Wu, Tao et al. “Open-Vocabulary Spatio-Temporal
-Action Detection.” ArXiv abs/2405.10832 (2024): n. pag.</p>
-</blockquote>
-<h3 id="time">Time</h3>
-<ul>
-<li>2024.May</li>
-</ul>
-<h3 id="key-words">Key Words</h3>
-<ul>
-<li>video-language model</li>
-</ul>
-<h3 id="总结">总结</h3>
-<ol type="1">
-<li>时空行为检测是一个fine-grained
-视频理解任务，当前的方法需要所有box和label的监督信息。然而，在真实世界中，很可能出现在训练集中没有出现过的行为类别，因为行为类别空间是大的，很难枚举。对于新的类别，模型训练和数据标注的成本很高，需要仔细的box标注，和从头训练网络。<strong>在本文中，通过进行开集STAD，提出了一个新的挑战性的设定，来更好的模拟开放世界中的行为检测。开集时空行为检测需要在有限行为类别和box
-监督中训练模型</strong>，期望在新的类别上产生良好的泛化表现。对于开集时空行为检测，基于已有的STAD数据集，建立了两个benchmarks，提出了一个基于VLM的简单有效的方法，为了更好的将VLM适配fine-grained
-行为检测任务，将其仔细地在localized video region-text
-pairs上进行微调。这定制化的fine-tuning使得VLM有更好的模型理解，导致video
-regions和texts有更精确地的对齐。在对齐之前的局部特征和全局视频特征融合is
-adopted ，通过提供全局上下文，来进一步提高行为检测能力。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/YoungBlogs/2024/11/28/OV-STAD/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/YoungBlogs/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/YoungBlogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/YoungBlogs/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/YoungBlogs/page/17/">17</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/YoungBlogs/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1387,13 +1385,13 @@ adopted ，通过提供全局上下文，来进一步提高行为检测能力。
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">304k</span>
+    <span title="站点总字数">305k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">18:24</span>
+    <span title="站点阅读时长">18:30</span>
   </span>
 </div>
 <div class="busuanzi-count">

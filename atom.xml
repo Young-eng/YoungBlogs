@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-06-22T06:09:19.355Z</updated>
+  <updated>2025-06-24T09:25:06.287Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,57 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ViC-MAE</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/06/22/ViC-MAE/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/06/22/ViC-MAE/</id>
+    <published>2025-06-22T08:14:28.000Z</published>
+    <updated>2025-06-24T09:25:06.287Z</updated>
+    
+    <content type="html"><![CDATA[<h3id="vic-mae-self-supervised-representation-learning-from-images-and-video-with-contrastive-masked-autoencoders1">ViC-MAE:Self-Supervised Representation Learning from Images and Video withContrastive Masked Autoencoders<sup>[1]</sup></h3><blockquote><p>作者是来自Rice University和Google DeepMind的JeffersonHernandez等人，论文引用[1]:Hernandez, Jefferson et al. “ViC-MAE:Self-Supervised Representation Learning from Images and Video withContrastive Masked Autoencoders.” (2023).</p></blockquote><h3 id="time">Time</h3><ul><li>2024.Oct</li></ul><h3 id="key-words">Key Words</h3><ul><li>MAE</li><li>contrastive learning</li><li>treat short videos as temporal augmentations</li></ul><h3 id="总结">总结</h3><ol type="1"><li>作者提出了VIC-MAE，是一个结合了MAE和contrastivelearning的model，VIC-MAE通过使用一种globalrepresentation进行训练的，该global representation是通过对在 MAE重建损失下学习到的局部特征进行池化（pooling）得到的，并在图像与视频帧之间基于这一表示进行对比学习目标（contrastiveobjective）的训练。作者展示了在VIC-MAE下学习到的visualrepresentation能够很好地泛化到video 和image分类的任务，VIC-MAE相比于最近提出的OmniMAE，实现了SOTA的tranferlearning的性能。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>最近SSL visual representation learning的进展提高了image和videobenchmarks上的表现。这个成功主要是有两个路径驱动的：<strong>Joint-embeddingmethods,旨在鼓励对特定变换的invariance，要么constrastive，要么negative-free，还有maskedimage modeling，通过随机mask out input parts，用reconstructionloss使得model来预测maskeparts，这些ideas在image和video上都取得了成功</strong>。 用于videorepresentation的自监督的方法，实现了很多很大的成功，能够得到powerfulfeatures，在多个下游任务上表现很好，利用image-based models增强videofaeture representations有很广泛的应用。相反：从video-to-image的transferleanring，没有那么成功，这个不平衡凸显了多模态学习中细微而复杂的挑战，不清楚如何集成不同的模态，另外，尝试结合这些模态导致性能下降，使得需要对一些架构做必要的修改或者将一个模态转换成另一个模态，从视频中学习应该产生很好的imagerepresentations，因为video就是包含复杂的changes in pose,viewpoint等。这些variantions不能通过joint-embedding或者MIM方法中的标准的imageaugmentations来simulate，在这个工作中，作者提出了**Visual COntrastiveMasked AutoEncoder，用SSL,从images和videos中学习，而不是将shortvideos视为相同representations的不同views。作者的实验中，这个model提高了video-to-image的transfer performance。</p><p>之前的工作成功地利用了SSL for video 或者images，用contrastivelearning或者masked image modeling，ViC-MAE尝试利用contrastivelearning和MIM的优势，ViC-MAE将frames用shortintervals进行sample，作为一种额外形式的temporal dataaugmentation，<strong>作者的方法用了contrastivelearning来对齐time-shifted frames和augmentedviews之间的representations，MIM for single video frames orimages来学习local features</strong>，不同于之前的方法，仅用一个[CLS]tokens作为一个global feature，<strong>作者的方法用一个global poolinglayer，来汇聚local features，接着一个contrastiveloss来进一步增强representation，这个结构建立在ViT架构上</strong>。</p><p>和作者的工作接近的是最近提出的OmniMAE，旨在作为一个SSL的foundationfor image和video downstreamtasks，OmniMAE依赖于MIM，将images视为videos，然而ViC-MAE对frames进行稀疏采样，将shorttime span中的videos视为相同的view，ViC0MAE降低了trainingtimes，需要更少的resources，更高效</p><p>作者的一些findings如下：</p><ul><li>**将short videos视为augmented views，在regularvideos或者images上进行微调，得到比将images视为videos更强的性能，同时model保持了temporalrepresentations</li><li>用large frame gaps between sampled frames增强了分类的性能</li><li>在训练中包含negative pairs，超过了negative-free sampletraining，和其它方法对齐实现了video-to-image的成功</li><li>用strong image transformations作为augmentations是在images上实现goodperformance的所必须的</li></ul></li><li><p>Self-supervised Video Learning: SSL利用videos中的temporalinformation来学习representations，通过设计代理任务，哟个video内在的properties例如frame continuity，超过了从staticimages学习到的representations。contrastive learning方法通过用videotemporality，区分training instances来处理video learn。最近，MIM用video来pretrianing，作者的方法将contrastivelearning和MIM集成到单个pre-training框架中，用于image和video下游应用。</p><ul><li><strong>Learning video-to-image representations</strong>:<strong>一些之前的仅在images上训练的models，展示出来了很好的image-to-video的adaptation。然而，staticimages缺乏videos的dynamism，缺少motion cues和cameara viewchanges，这个削弱了image-based models用于videoapplications</strong>，最近的工作利用video data来学习robust imagerepresentations来缓解这个问题，例如：VINCE展示了，videos中的naturalagumentations能够超过合成的augmentations。VFS用temporalrelationships来提高在static imagetasks上的performance。CRW利用循环一致性，实现视频间的图像映射，从而能够学习帧与帧之间的对应关系。ST-MAE展示了video-orientedMIM能够有利于image-centric tasks, VITO开发了一个方法，用于video datasetcuration，来缩小video和images之间的domain gap。</li><li><strong>Learning general representations from video andiamges</strong>：最近的TubeViT用sparse videotubes，在image和video中创建visual token，OMNIVORE利用一个通用的encoder用于多个模态，用specific heads for eachtask，BEVT采用了一个BERT类型的方法 forvideo，OmniMAE提出了一个MAE，用于joint training with video andimage.</li><li><strong>将contrastivemethods和MIM结合的方法</strong>：MSN结合了masking和augmentations用于高效的对比学习，用了entropy maximization而不是pixelreconstruction，避免representational collapse。</li></ul></li><li><p>ViC-MAE: <strong>用contrastive learning at temporal level, maskedimage modeling at the image level</strong>。</p><ul><li>给定要给T frames的video，作者采样两个frames <spanclass="math inline">\(I_i, I_j\)</span> 作为positive pairinput，当它们在一个batch中的时候，augment singleimages，注意到，作者的model所接收的批次中既包含视频帧，也包含静态图像。在经过inputimage tokenizer layer，作者得到了一组patch-level token representationsof <span class="math inline">\(X_i, X_j\)</span> for eachframe，然后产生token masking，加到对应的input frames上，visbiletoken给到ViTencoder，分别计算它们的representations。为了利用对比预训练，作者用了一个单独的predictionbranch，对来自main branch的output representations和siamese copy of thenetwork的represetations进行globalpooling，这个步骤简化了方法，避免了额外的损失。这些globalrepresentations然后给到一个predictor encoder 和一个targetencoder来得到frame representations。</li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/f01910dbab8238b574825a11cb88a7ddf2a95fc7/3-Figure2-1.png"alt="ViC-MAE" /> <span class="math inline">\(Fig.1^{[1]}\)</span>ViC-MAE输入一个video或者samebatch中的一个image不同的views的两个frames，然后随机mask，通过对localfeatures的global pooling，得到globalrepresentation，然后一个标准的predictor和一个targetencoder，并结合contrastive loss进行训练。用了一个aggregation layerbefore predictor network，避免学习到的globalrepresentation的collapse。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3
+id=&quot;vic-mae-self-supervised-representation-learning-from-images-and-video-with-contrastive-masked-autoencoders1&quot;&gt;ViC-MAE:
+Self-Supervised Representation Learning from Images and Video with
+Contrastive Masked Autoencoders&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是来自Rice University和Google DeepMind的Jefferson
+Hernandez等人，论文引用[1]:Hernandez, Jefferson et al. “ViC-MAE:
+Self-Supervised Representation Learning from Images and Video with
+Contrastive Masked Autoencoders.” (2023).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2024.Oct&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;MAE&lt;/li&gt;
+&lt;li&gt;contrastive learning&lt;/li&gt;
+&lt;li&gt;treat short videos as temporal augmentations&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;作者提出了VIC-MAE，是一个结合了MAE和contrastive
+learning的model，VIC-MAE通过使用一种global
+representation进行训练的，该global representation是通过对在 MAE
+重建损失下学习到的局部特征进行池化（pooling）得到的，并在图像与视频帧之间基于这一表示进行对比学习目标（contrastive
+objective）的训练。作者展示了在VIC-MAE下学习到的visual
+representation能够很好地泛化到video 和image
+分类的任务，VIC-MAE相比于最近提出的OmniMAE，实现了SOTA的tranfer
+learning的性能。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="Self-Supervised" scheme="https://young-eng.github.io/YoungBlogs/tags/Self-Supervised/"/>
+    
+  </entry>
   
   <entry>
     <title>c-jepa</title>
@@ -967,32 +1018,6 @@ cost造成影响&lt;/strong&gt;。&lt;/li&gt;
     
     
     <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Massive Values</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/05/07/Massive-Values/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/05/07/Massive-Values/</id>
-    <published>2025-05-07T01:06:05.000Z</published>
-    <updated>2025-05-07T01:08:35.725Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="massive-values-in-self-attention-modules-are-the-key-to-contextual-knowledge-understanding1">MassiveValues in Self-Attention Modules are the Key to Contextual KnowledgeUnderstanding<sup>[1]</sup></h3><blockquote><p>作者是来自Rutgers等学校的Mingyu Jin等人。论文引用[1]:</p></blockquote><h3 id="time">Time</h3><ul><li>2025.May</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li></li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3
-id=&quot;massive-values-in-self-attention-modules-are-the-key-to-contextual-knowledge-understanding1&quot;&gt;Massive
-Values in Self-Attention Modu</summary>
-      
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Self-Attention" scheme="https://young-eng.github.io/YoungBlogs/tags/Self-Attention/"/>
     
   </entry>
   

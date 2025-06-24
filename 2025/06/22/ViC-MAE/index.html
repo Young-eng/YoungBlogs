@@ -19,26 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
 
-    <meta property="og:type" content="article">
-<meta property="og:title" content="Transformer and Survey">
-<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2024/04/14/Transformer-and-Survey/index.html">
+    <meta name="description" content="ViC-MAE: Self-Supervised Representation Learning from Images and Video with Contrastive Masked Autoencoders[1]  作者是来自Rice University和Google DeepMind的Jefferson Hernandez等人，论文引用[1]:Hernandez, Jeffe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ViC-MAE">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/06/22/ViC-MAE/index.html">
 <meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="ViC-MAE: Self-Supervised Representation Learning from Images and Video with Contrastive Masked Autoencoders[1]  作者是来自Rice University和Google DeepMind的Jefferson Hernandez等人，论文引用[1]:Hernandez, Jeffe">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-04-14T02:55:05.000Z">
-<meta property="article:modified_time" content="2024-05-07T05:55:36.000Z">
+<meta property="article:published_time" content="2025-06-22T08:14:28.000Z">
+<meta property="article:modified_time" content="2025-06-24T09:25:06.287Z">
 <meta property="article:author" content="Young">
-<meta property="article:tag" content="Transformer">
+<meta property="article:tag" content="Self-Supervised">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2024/04/14/Transformer-and-Survey/">
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/06/22/ViC-MAE/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2024/04/14/Transformer-and-Survey/","path":"2024/04/14/Transformer-and-Survey/","title":"Transformer and Survey"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/06/22/ViC-MAE/","path":"2025/06/22/ViC-MAE/","title":"ViC-MAE"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Transformer and Survey | Young's Blog</title>
+<title>ViC-MAE | Young's Blog</title>
   
 
 
@@ -98,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -111,6 +113,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#vic-mae-self-supervised-representation-learning-from-images-and-video-with-contrastive-masked-autoencoders1"><span class="nav-number">1.</span> <span class="nav-text">ViC-MAE:
+Self-Supervised Representation Learning from Images and Video with
+Contrastive Masked Autoencoders[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -171,7 +176,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2024/04/14/Transformer-and-Survey/">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/22/ViC-MAE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
@@ -184,12 +189,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Transformer and Survey | Young's Blog">
+      <meta itemprop="name" content="ViC-MAE | Young's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Transformer and Survey
+          ViC-MAE
         </h1>
 
         <div class="post-meta-container">
@@ -200,14 +205,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2024-04-14 10:55:05" itemprop="dateCreated datePublished" datetime="2024-04-14T10:55:05+08:00">2024-04-14</time>
+      <time title="创建时间：2025-06-22 16:14:28" itemprop="dateCreated datePublished" datetime="2025-06-22T16:14:28+08:00">2025-06-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-07 13:55:36" itemprop="dateModified" datetime="2024-05-07T13:55:36+08:00">2024-05-07</time>
+      <time title="修改时间：2025-06-24 17:25:06" itemprop="dateModified" datetime="2025-06-24T17:25:06+08:00">2025-06-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -233,14 +238,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>1.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>6 分钟</span>
     </span>
 </div>
 
@@ -250,7 +255,145 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><h3
+id="vic-mae-self-supervised-representation-learning-from-images-and-video-with-contrastive-masked-autoencoders1">ViC-MAE:
+Self-Supervised Representation Learning from Images and Video with
+Contrastive Masked Autoencoders<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自Rice University和Google DeepMind的Jefferson
+Hernandez等人，论文引用[1]:Hernandez, Jefferson et al. “ViC-MAE:
+Self-Supervised Representation Learning from Images and Video with
+Contrastive Masked Autoencoders.” (2023).</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Oct</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>MAE</li>
+<li>contrastive learning</li>
+<li>treat short videos as temporal augmentations</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>作者提出了VIC-MAE，是一个结合了MAE和contrastive
+learning的model，VIC-MAE通过使用一种global
+representation进行训练的，该global representation是通过对在 MAE
+重建损失下学习到的局部特征进行池化（pooling）得到的，并在图像与视频帧之间基于这一表示进行对比学习目标（contrastive
+objective）的训练。作者展示了在VIC-MAE下学习到的visual
+representation能够很好地泛化到video 和image
+分类的任务，VIC-MAE相比于最近提出的OmniMAE，实现了SOTA的tranfer
+learning的性能。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>最近SSL visual representation learning的进展提高了image和video
+benchmarks上的表现。这个成功主要是有两个路径驱动的：<strong>Joint-embedding
+methods,
+旨在鼓励对特定变换的invariance，要么constrastive，要么negative-free，还有masked
+image modeling，通过随机mask out input parts，用reconstruction
+loss使得model来预测maske
+parts，这些ideas在image和video上都取得了成功</strong>。 用于video
+representation的自监督的方法，实现了很多很大的成功，能够得到powerful
+features，在多个下游任务上表现很好，利用image-based models增强video
+faeture representations有很广泛的应用。相反：从video-to-image的transfer
+leanring，没有那么成功，这个不平衡凸显了多模态学习中细微而复杂的挑战，不清楚如何集成不同的模态，另外，尝试结合这些模态导致性能下降，使得需要对一些架构做必要的修改或者将一个模态转换成另一个模态，从视频中学习应该产生很好的image
+representations，因为video就是包含复杂的changes in pose,
+viewpoint等。这些variantions不能通过joint-embedding或者MIM方法中的标准的image
+augmentations来simulate，在这个工作中，作者提出了**Visual COntrastive
+Masked AutoEncoder，用SSL,从images和videos中学习，而不是将short
+videos视为相同representations的不同views。作者的实验中，这个model提高了video-to-image
+的transfer performance。</p>
+<p>之前的工作成功地利用了SSL for video 或者images，用contrastive
+learning或者masked image modeling，ViC-MAE尝试利用contrastive
+learning和MIM的优势，ViC-MAE将frames用short
+intervals进行sample，作为一种额外形式的temporal data
+augmentation，<strong>作者的方法用了contrastive
+learning来对齐time-shifted frames和augmented
+views之间的representations，MIM for single video frames or
+images来学习local features</strong>，不同于之前的方法，仅用一个[CLS]
+tokens作为一个global feature，<strong>作者的方法用一个global pooling
+layer，来汇聚local features，接着一个contrastive
+loss来进一步增强representation，这个结构建立在ViT架构上</strong>。</p>
+<p>和作者的工作接近的是最近提出的OmniMAE，旨在作为一个SSL的foundation
+for image和video downstream
+tasks，OmniMAE依赖于MIM，将images视为videos，然而ViC-MAE对frames进行稀疏采样，将short
+time span中的videos视为相同的view，ViC0MAE降低了training
+times，需要更少的resources，更高效</p>
+<p>作者的一些findings如下：</p>
+<ul>
+<li>**将short videos视为augmented views，在regular
+videos或者images上进行微调，得到比将images视为videos更强的性能，同时model保持了temporal
+representations</li>
+<li>用large frame gaps between sampled frames增强了分类的性能</li>
+<li>在训练中包含negative pairs，超过了negative-free sample
+training，和其它方法对齐实现了video-to-image的成功</li>
+<li>用strong image transformations作为augmentations是在images上实现good
+performance的所必须的</li>
+</ul></li>
+<li><p>Self-supervised Video Learning: SSL利用videos中的temporal
+information来学习representations，通过设计代理任务，哟个video
+内在的properties例如frame continuity，超过了从static
+images学习到的representations。contrastive learning方法通过用video
+temporality，区分training instances来处理video learn。最近，
+MIM用video来pretrianing，作者的方法将contrastive
+learning和MIM集成到单个pre-training框架中，用于image和video
+下游应用。</p>
+<ul>
+<li><strong>Learning video-to-image representations</strong>:
+<strong>一些之前的仅在images上训练的models，展示出来了很好的image-to-video的adaptation。然而，static
+images缺乏videos的dynamism，缺少motion cues和cameara view
+changes，这个削弱了image-based models用于video
+applications</strong>，最近的工作利用video data来学习robust image
+representations来缓解这个问题，例如：VINCE展示了，videos中的natural
+agumentations能够超过合成的augmentations。VFS用temporal
+relationships来提高在static image
+tasks上的performance。CRW利用循环一致性，
+实现视频间的图像映射，从而能够学习帧与帧之间的对应关系。ST-MAE展示了video-oriented
+MIM能够有利于image-centric tasks, VITO开发了一个方法，用于video dataset
+curation，来缩小video和images之间的domain gap。</li>
+<li><strong>Learning general representations from video and
+iamges</strong>：最近的TubeViT用sparse video
+tubes，在image和video中创建visual token，
+OMNIVORE利用一个通用的encoder用于多个模态，用specific heads for each
+task，BEVT采用了一个BERT类型的方法 for
+video，OmniMAE提出了一个MAE，用于joint training with video and
+image.</li>
+<li><strong>将contrastive
+methods和MIM结合的方法</strong>：MSN结合了masking和augmentations
+用于高效的对比学习，用了entropy maximization而不是pixel
+reconstruction，避免representational collapse。</li>
+</ul></li>
+<li><p>ViC-MAE: <strong>用contrastive learning at temporal level, masked
+image modeling at the image level</strong>。</p>
+<ul>
+<li>给定要给T frames的video，作者采样两个frames <span
+class="math inline">\(I_i, I_j\)</span> 作为positive pair
+input，当它们在一个batch中的时候，augment single
+images，注意到，作者的model所接收的批次中既包含视频帧，也包含静态图像。在经过input
+image tokenizer layer，作者得到了一组patch-level token representations
+of <span class="math inline">\(X_i, X_j\)</span> for each
+frame，然后产生token masking，加到对应的input frames上，visbile
+token给到ViT
+encoder，分别计算它们的representations。为了利用对比预训练，作者用了一个单独的prediction
+branch，对来自main branch的output representations和siamese copy of the
+network的represetations进行global
+pooling，这个步骤简化了方法，避免了额外的损失。这些global
+representations然后给到一个predictor encoder 和一个target
+encoder来得到frame representations。</li>
+</ul></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/f01910dbab8238b574825a11cb88a7ddf2a95fc7/3-Figure2-1.png"
+alt="ViC-MAE" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+ViC-MAE输入一个video或者same
+batch中的一个image不同的views的两个frames，然后随机mask，通过对local
+features的global pooling，得到global
+representation，然后一个标准的predictor和一个target
+encoder，并结合contrastive loss进行训练。用了一个aggregation layer
+before predictor network，避免学习到的global
+representation的collapse。</p>
 
     </div>
 
@@ -260,21 +403,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/YoungBlogs/tags/Transformer/" rel="tag"># Transformer</a>
+              <a href="/YoungBlogs/tags/Self-Supervised/" rel="tag"># Self-Supervised</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/YoungBlogs/2024/04/14/ViT/" rel="prev" title="ViT">
-                  <i class="fa fa-angle-left"></i> ViT
+                <a href="/YoungBlogs/2025/06/22/c-jepa/" rel="prev" title="c-jepa">
+                  <i class="fa fa-angle-left"></i> c-jepa
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/YoungBlogs/2024/04/14/RCNN-Series/" rel="next" title="RCNN Series">
-                  RCNN Series <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
