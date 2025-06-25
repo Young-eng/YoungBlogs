@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Qwen3 Technical Report[1]  作者是Qwen Team，论文引用[1]:Yang, An et al. “Qwen3 Technical Report.” (2025).  Time  2025.May  ### Key Words 总结  Qwen3包含一系列的LLMs，Qwen3系列包含dense和MoE 架构，参数从0.6B到235B，**">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qwen3">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/06/24/Qwen3/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Qwen3 Technical Report[1]  作者是Qwen Team，论文引用[1]:Yang, An et al. “Qwen3 Technical Report.” (2025).  Time  2025.May  ### Key Words 总结  Qwen3包含一系列的LLMs，Qwen3系列包含dense和MoE 架构，参数从0.6B到235B，**">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-24T12:36:53.000Z">
+<meta property="article:modified_time" content="2025-06-25T12:03:06.751Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="LLM">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/06/24/Qwen3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/06/24/Qwen3/","path":"2025/06/24/Qwen3/","title":"Qwen3"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Qwen3 | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#qwen3-technical-report1"><span class="nav-number">1.</span> <span class="nav-text">Qwen3 Technical
+Report[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key-words"><span class="nav-number"></span> <span class="nav-text">### Key Words</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">171</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/06/24/Qwen3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Qwen3 | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Qwen3
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-06-24 20:36:53" itemprop="dateCreated datePublished" datetime="2025-06-24T20:36:53+08:00">2025-06-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-06-25 20:03:06" itemprop="dateModified" datetime="2025-06-25T20:03:06+08:00">2025-06-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="qwen3-technical-report1">Qwen3 Technical
+Report<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是Qwen Team，论文引用[1]:Yang, An et al. “Qwen3 Technical
+Report.” (2025).</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2025.May</li>
+</ul>
+<h2 id="key-words">### Key Words</h2>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>Qwen3包含一系列的LLMs，Qwen3系列包含dense和MoE
+架构，参数从0.6B到235B，**Qwen3中的一个关键创新是将了thinking
+mode(多步推理)和non-thinking mode(rapid, context-driven
+responses)集成到了一个框架中，同时，Qwen3引入了一个thinking budget
+机制，使得用户可以在推理的时候灵活地分配computational
+resources，平衡延迟和性能。另外，通过利用旗舰model的知识，能够大幅度地降低计算资源。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>Qwen3的预训练过程利用了包含接近36
+trillion的tokens，大规模的数据集，精心组织确保linguistic和domain的多样性，<strong>为了有效地扩充training
+data，作者采用了多模态的方法，Qwen2.5-VL被微调，用来从大量的pdf中提取text，作者也用domain-specific
+models来产生合成数据: Qwen2.5-Math for mathematical
+content和Qwen2.5-Coder for code-related
+data，预训练过程是一个三阶段的策略：第一阶段，模型在大约30
+trillion的tokens上训练，构建通用知识的基座;在第二阶段，进一步在knowledge-intensive
+data上训练，增强推理能力，例如science, technology,
+coding等；最后在第三阶段，model在long-context上进行训练，将它最大的context
+length从4096增加到32768 tokens</strong>。</p>
+<p><strong>为了很好地将人类偏好和下游应用与foundation
+models对齐，作者采用了一个多阶段的后训练方法，使得可以thinking(reasoning)
+and non-thinking
+modes，在前两个阶段，作者聚焦于通过思维链冷启动微调，以及聚焦于数学和coding
+tasks的强化学习，来开发strong
+reasoning能力，在最后的两个阶段，作者将带有reasoning和没有reasoning的data结合到一个统一的dataset中，用于fine-tuning，使得model能够有效地处理两种数据类型。然后用一个general-domain
+强化学习来提高多个下游任务的性能。对于更小的model，作者用了strong-to-weak蒸馏，利用off-policy和on-policy，将knowledge从larger
+models进行迁移，提高它们的能力，从先进的teacher
+models中蒸馏显著地在性能和训练效率上超过了强化学习。</strong></p></li>
+<li><p>Qwen3系列包含6个dense model， Qwen3-0.6B, Qwen3-1.7B， Qwen3-4B，
+Qwen3-8B，Qwen3-14B, Qwen3-32B， 还有两个MoE
+models，Qwen3-30B-A3B和Qwen3-235B-A22B(22B是激活的参数) Qwen3的dense
+models的架构和Qwen2.5类似，包括使用了<strong>Grouped Query Attention,
+SwiGLU， Rotary Positioal Embeddings和RMSNorm with
+pre-normalization，另外，去掉了Qwen2中使用的QKV-bias，将QK-Norm，引入到attention机制，确保Qwen3的稳定训练</strong>。</p>
+<p>Qwen3 MoE models和Qwen3 dense models共享基础架构，Qwen3 MoE
+models有128个experts，每个token激活8个experts，不同于Qwen2.5-MoE，Qwen3-MoE的设计去掉了共享的experts，另外，采用了global-batch
+load balancing loss，来促进expert
+specialization。这个架构和训练创新在多个下游任务和model
+performance上产生了很大的提升。</p>
+<p>Qwen3 利用了Qwen的tokenizer，执行byte-level的byte-pair编码。</p></li>
+<li><p>Qwen3的后训练主要是两个核心的目标：1. thinking
+control:这涉及两个distinct modes的集成，称之为non-thinking和thinking
+mode，控制了depth of thinking；2. Strong-to-weak Distillation:,
+旨在streamline和优化后训练过程for lightweight
+models，通过利用来自large-scale
+models的知识，降低了计算开销和构建smaller-scale models的努力。</p>
+<ul>
+<li>长思维链了冷启动：构建了一个全面的数据集，数据集中的每个problem和verified
+reference answers或者code-based test
+cases是配对的，这个dataset作为长思维链冷启动阶段的foundation。这个dataset
+construction涉及一个严格的两阶段的过滤过程：query filtering和repsonse
+filtering。在query
+filtering阶段，用Qwen2.5-72B-Instruct来识别和去掉不容易verifiable的queries，包括有多个sub-questions或者需要通用的text
+generation的，另外，排除掉Qwen2.5-72B-Instruct不需要CoT
+reasoning就能正确回答的queries，阻止model肤浅的guessing，确保只包括要求deeper
+reasoning的复杂问题。另外，作者用Qwen2.5-72B-Instruct标注每个query的domain，来保持数据集中的balanced
+domain representation。</li>
+</ul>
+<p>在保留一个validation query set之后，作者对每个remaining
+query，用QwQ-32B产生N个candidate
+responses，当QwQ-32B不能够产生正确的solutions的时候，人类标注员评估repsonses的精度。经过仔细地挑选和refine之后，得到的dataset用于reasoning
+patterns的初始冷启动。这个阶段的目标是将foundational reasoning
+patterns逐步插入到model中，不需要强调immediate reasoning
+performance，这个方法确保了model的potential 没有被限制，在后续的RL
+阶段有更好的灵活性和improvement。</p>
+<ul>
+<li><p>Reasoning RL: RL阶段中用的query-verifier
+pairs必须满足下面四个标准：1. 在冷启动阶段没有使用; 2. 对于cold-start
+model是learnable的; 3. 是尽可能具有挑战的; 4. 覆盖了broad range of
+sub-domains. 最后用了总共3995 query-verifier
+pairs，采用了GRPO来更新模型的参数。</p></li>
+<li><p>Thinkin Model Fusion: Thinking Mode
+fusion阶段的目标是将non-thinking的能力集成到之前的thinking
+model中，这使得开发者能够管理和控制reasoning
+behaviors，同时降低部署separate
+models的cost和复杂度。为了实现这个，作者进行了连续的SFT on the Reasoning
+RL model，设计了一个chat
+template来融合两种modes，另外，作者发现，能够处理好两种mode的models，在不同的thinking
+budgets下表现consistently well。</p></li>
+<li><p>construction of SFT data: SFT dataset包含thinking 和non-thinking
+data，为了确保stage 2 model的性能不受额外的SFT的影响，stage 1
+queries通过rejection sampling，产生thinking data，non-thinking
+data是通过精心的准备，覆盖多种tasks。</p></li>
+<li><p>Chat Template Design: 作者在user query中引入了 <span
+class="math inline">\(/think\)</span> 和 <span
+class="math inline">\(/no_think\)</span> flags</p></li>
+<li><p>Thinking Budget:
+model有能力处理中间的情况，就是基于不完整的thinking产生responses，具体地说，就是model的thinking
+达到了user-defined的阈值。</p></li>
+</ul></li>
+<li><p>General RL:
+这个阶段旨在增强model的能力和稳定性，为了促进这个，作者构建了一个复杂的reward
+system，覆盖了超过20个distinct
+tasks，这些tasks主要是增强下面的核心能力：</p>
+<ul>
+<li>Instruction following:
+这个能力确保了model能够准确地理解和遵循user的instructions，给出和user的期望相同的responses。</li>
+<li>Format Following:
+除了显式地instructions，作者期望model和特定的formatting
+conventions保持一直。</li>
+<li>Abilities for Specialized Scenarios: 在更多的specialized
+scenarios中，作者设计了针对特定context的tasks，例如RAG，作者引入了reward
+signals来指导model，产生精确和上下文合适的responses。</li>
+</ul>
+<p>为了提供上述任务的feedback，作者利用了三种不同类型的rewards:</p>
+<ul>
+<li>Rule-based Rewards: 这个rule-based reward广泛用于reasoning RL
+阶段，对于通用的像instruction
+following的任务是有用的，设计好的rule-based
+rewards能够高精度地评估model的output，阻止reward
+hacking这样的问题。</li>
+<li>Model-based Reward with Reference Answer:
+在这个方法中，作者为每个query提供了一个参考答案，基于这些参考答案，提示Qwen2.5-72B-Instruct来给model的response打分，这个方法不需要严格的format，就能灵活地处理多种任务，避免了false
+negatives</li>
+<li>Model-based Reward without Reference Answer:
+利用人类偏好数据，作者训练了一个reward model，将scalar scores分配给model
+responses，这个方法，不依赖于参考答案，能够处理更多的queries，同时有效地增强了model的engagement。</li>
+</ul></li>
+<li><p>Strong-to-Weak Distillation: 这个pipeline用来优化Lightweight
+models，包含5个dense models和一个MoE
+model，这个方法增强了model的performance，同时有效地提供robust的mode-switching
+能力</p>
+<ul>
+<li>off-policy distillation: 初始阶段，作者结合了用 <span
+class="math inline">\(/think\)</span> 和 <span
+class="math inline">\(no_think\)</span> mode的teacher
+model的输出用于response distillation，这帮助student
+model能够有基本的reasoning skill，能够在不同的thinking
+mode之间切换。</li>
+<li>on-policy distillation: 在这个阶段，student model产生on-policy
+sequences用于fine-tuning，特别地，对prompts进行采样，student model在
+<span class="math inline">\(think\)</span> 或者 <span
+class="math inline">\(no_think\)</span>
+model下产生responses，这个student model通过将logits和teacher
+model进行对齐，实现fine-tune，来最小化KL divergence。</li>
+</ul></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/d2d84d56f730f81d276a02b48d5d44db5bde0b4a/9-Figure1-1.png"
+alt="Post-training" /> <span class="math inline">\(Fig.1^{[1]}\)</span>
+Post-training pipeline of Qwen3 series models</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/LLM/" rel="tag"># LLM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/06/22/ViC-MAE/" rel="prev" title="ViC-MAE">
+                  <i class="fa fa-angle-left"></i> ViC-MAE
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">307k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">18:38</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

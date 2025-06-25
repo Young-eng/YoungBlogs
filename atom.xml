@@ -6,7 +6,7 @@
   <link href="https://young-eng.github.io/YoungBlogs/atom.xml" rel="self"/>
   
   <link href="https://young-eng.github.io/YoungBlogs/"/>
-  <updated>2025-06-24T09:25:06.287Z</updated>
+  <updated>2025-06-25T12:03:06.751Z</updated>
   <id>https://young-eng.github.io/YoungBlogs/</id>
   
   <author>
@@ -15,6 +15,46 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Qwen3</title>
+    <link href="https://young-eng.github.io/YoungBlogs/2025/06/24/Qwen3/"/>
+    <id>https://young-eng.github.io/YoungBlogs/2025/06/24/Qwen3/</id>
+    <published>2025-06-24T12:36:53.000Z</published>
+    <updated>2025-06-25T12:03:06.751Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="qwen3-technical-report1">Qwen3 TechnicalReport<sup>[1]</sup></h3><blockquote><p>作者是Qwen Team，论文引用[1]:Yang, An et al. “Qwen3 TechnicalReport.” (2025).</p></blockquote><h3 id="time">Time</h3><ul><li>2025.May</li></ul><h2 id="key-words">### Key Words</h2><h3 id="总结">总结</h3><ol type="1"><li>Qwen3包含一系列的LLMs，Qwen3系列包含dense和MoE架构，参数从0.6B到235B，**Qwen3中的一个关键创新是将了thinkingmode(多步推理)和non-thinking mode(rapid, context-drivenresponses)集成到了一个框架中，同时，Qwen3引入了一个thinking budget机制，使得用户可以在推理的时候灵活地分配computationalresources，平衡延迟和性能。另外，通过利用旗舰model的知识，能够大幅度地降低计算资源。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>Qwen3的预训练过程利用了包含接近36trillion的tokens，大规模的数据集，精心组织确保linguistic和domain的多样性，<strong>为了有效地扩充trainingdata，作者采用了多模态的方法，Qwen2.5-VL被微调，用来从大量的pdf中提取text，作者也用domain-specificmodels来产生合成数据: Qwen2.5-Math for mathematicalcontent和Qwen2.5-Coder for code-relateddata，预训练过程是一个三阶段的策略：第一阶段，模型在大约30trillion的tokens上训练，构建通用知识的基座;在第二阶段，进一步在knowledge-intensivedata上训练，增强推理能力，例如science, technology,coding等；最后在第三阶段，model在long-context上进行训练，将它最大的contextlength从4096增加到32768 tokens</strong>。</p><p><strong>为了很好地将人类偏好和下游应用与foundationmodels对齐，作者采用了一个多阶段的后训练方法，使得可以thinking(reasoning)and non-thinkingmodes，在前两个阶段，作者聚焦于通过思维链冷启动微调，以及聚焦于数学和codingtasks的强化学习，来开发strongreasoning能力，在最后的两个阶段，作者将带有reasoning和没有reasoning的data结合到一个统一的dataset中，用于fine-tuning，使得model能够有效地处理两种数据类型。然后用一个general-domain强化学习来提高多个下游任务的性能。对于更小的model，作者用了strong-to-weak蒸馏，利用off-policy和on-policy，将knowledge从largermodels进行迁移，提高它们的能力，从先进的teachermodels中蒸馏显著地在性能和训练效率上超过了强化学习。</strong></p></li><li><p>Qwen3系列包含6个dense model， Qwen3-0.6B, Qwen3-1.7B， Qwen3-4B，Qwen3-8B，Qwen3-14B, Qwen3-32B， 还有两个MoEmodels，Qwen3-30B-A3B和Qwen3-235B-A22B(22B是激活的参数) Qwen3的densemodels的架构和Qwen2.5类似，包括使用了<strong>Grouped Query Attention,SwiGLU， Rotary Positioal Embeddings和RMSNorm withpre-normalization，另外，去掉了Qwen2中使用的QKV-bias，将QK-Norm，引入到attention机制，确保Qwen3的稳定训练</strong>。</p><p>Qwen3 MoE models和Qwen3 dense models共享基础架构，Qwen3 MoEmodels有128个experts，每个token激活8个experts，不同于Qwen2.5-MoE，Qwen3-MoE的设计去掉了共享的experts，另外，采用了global-batchload balancing loss，来促进expertspecialization。这个架构和训练创新在多个下游任务和modelperformance上产生了很大的提升。</p><p>Qwen3 利用了Qwen的tokenizer，执行byte-level的byte-pair编码。</p></li><li><p>Qwen3的后训练主要是两个核心的目标：1. thinkingcontrol:这涉及两个distinct modes的集成，称之为non-thinking和thinkingmode，控制了depth of thinking；2. Strong-to-weak Distillation:,旨在streamline和优化后训练过程for lightweightmodels，通过利用来自large-scalemodels的知识，降低了计算开销和构建smaller-scale models的努力。</p><ul><li>长思维链了冷启动：构建了一个全面的数据集，数据集中的每个problem和verifiedreference answers或者code-based testcases是配对的，这个dataset作为长思维链冷启动阶段的foundation。这个datasetconstruction涉及一个严格的两阶段的过滤过程：query filtering和repsonsefiltering。在queryfiltering阶段，用Qwen2.5-72B-Instruct来识别和去掉不容易verifiable的queries，包括有多个sub-questions或者需要通用的textgeneration的，另外，排除掉Qwen2.5-72B-Instruct不需要CoTreasoning就能正确回答的queries，阻止model肤浅的guessing，确保只包括要求deeperreasoning的复杂问题。另外，作者用Qwen2.5-72B-Instruct标注每个query的domain，来保持数据集中的balanceddomain representation。</li></ul><p>在保留一个validation query set之后，作者对每个remainingquery，用QwQ-32B产生N个candidateresponses，当QwQ-32B不能够产生正确的solutions的时候，人类标注员评估repsonses的精度。经过仔细地挑选和refine之后，得到的dataset用于reasoningpatterns的初始冷启动。这个阶段的目标是将foundational reasoningpatterns逐步插入到model中，不需要强调immediate reasoningperformance，这个方法确保了model的potential 没有被限制，在后续的RL阶段有更好的灵活性和improvement。</p><ul><li><p>Reasoning RL: RL阶段中用的query-verifierpairs必须满足下面四个标准：1. 在冷启动阶段没有使用; 2. 对于cold-startmodel是learnable的; 3. 是尽可能具有挑战的; 4. 覆盖了broad range ofsub-domains. 最后用了总共3995 query-verifierpairs，采用了GRPO来更新模型的参数。</p></li><li><p>Thinkin Model Fusion: Thinking Modefusion阶段的目标是将non-thinking的能力集成到之前的thinkingmodel中，这使得开发者能够管理和控制reasoningbehaviors，同时降低部署separatemodels的cost和复杂度。为了实现这个，作者进行了连续的SFT on the ReasoningRL model，设计了一个chattemplate来融合两种modes，另外，作者发现，能够处理好两种mode的models，在不同的thinkingbudgets下表现consistently well。</p></li><li><p>construction of SFT data: SFT dataset包含thinking 和non-thinkingdata，为了确保stage 2 model的性能不受额外的SFT的影响，stage 1queries通过rejection sampling，产生thinking data，non-thinkingdata是通过精心的准备，覆盖多种tasks。</p></li><li><p>Chat Template Design: 作者在user query中引入了 <spanclass="math inline">\(/think\)</span> 和 <spanclass="math inline">\(/no_think\)</span> flags</p></li><li><p>Thinking Budget:model有能力处理中间的情况，就是基于不完整的thinking产生responses，具体地说，就是model的thinking达到了user-defined的阈值。</p></li></ul></li><li><p>General RL:这个阶段旨在增强model的能力和稳定性，为了促进这个，作者构建了一个复杂的rewardsystem，覆盖了超过20个distincttasks，这些tasks主要是增强下面的核心能力：</p><ul><li>Instruction following:这个能力确保了model能够准确地理解和遵循user的instructions，给出和user的期望相同的responses。</li><li>Format Following:除了显式地instructions，作者期望model和特定的formattingconventions保持一直。</li><li>Abilities for Specialized Scenarios: 在更多的specializedscenarios中，作者设计了针对特定context的tasks，例如RAG，作者引入了rewardsignals来指导model，产生精确和上下文合适的responses。</li></ul><p>为了提供上述任务的feedback，作者利用了三种不同类型的rewards:</p><ul><li>Rule-based Rewards: 这个rule-based reward广泛用于reasoning RL阶段，对于通用的像instructionfollowing的任务是有用的，设计好的rule-basedrewards能够高精度地评估model的output，阻止rewardhacking这样的问题。</li><li>Model-based Reward with Reference Answer:在这个方法中，作者为每个query提供了一个参考答案，基于这些参考答案，提示Qwen2.5-72B-Instruct来给model的response打分，这个方法不需要严格的format，就能灵活地处理多种任务，避免了falsenegatives</li><li>Model-based Reward without Reference Answer:利用人类偏好数据，作者训练了一个reward model，将scalar scores分配给modelresponses，这个方法，不依赖于参考答案，能够处理更多的queries，同时有效地增强了model的engagement。</li></ul></li><li><p>Strong-to-Weak Distillation: 这个pipeline用来优化Lightweightmodels，包含5个dense models和一个MoEmodel，这个方法增强了model的performance，同时有效地提供robust的mode-switching能力</p><ul><li>off-policy distillation: 初始阶段，作者结合了用 <spanclass="math inline">\(/think\)</span> 和 <spanclass="math inline">\(no_think\)</span> mode的teachermodel的输出用于response distillation，这帮助studentmodel能够有基本的reasoning skill，能够在不同的thinkingmode之间切换。</li><li>on-policy distillation: 在这个阶段，student model产生on-policysequences用于fine-tuning，特别地，对prompts进行采样，student model在<span class="math inline">\(think\)</span> 或者 <spanclass="math inline">\(no_think\)</span>model下产生responses，这个student model通过将logits和teachermodel进行对齐，实现fine-tune，来最小化KL divergence。</li></ul></li></ol><p><imgsrc="https://figures.semanticscholar.org/d2d84d56f730f81d276a02b48d5d44db5bde0b4a/9-Figure1-1.png"alt="Post-training" /> <span class="math inline">\(Fig.1^{[1]}\)</span>Post-training pipeline of Qwen3 series models</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;qwen3-technical-report1&quot;&gt;Qwen3 Technical
+Report&lt;sup&gt;[1]&lt;/sup&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者是Qwen Team，论文引用[1]:Yang, An et al. “Qwen3 Technical
+Report.” (2025).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2025.May&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;key-words&quot;&gt;### Key Words&lt;/h2&gt;
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;Qwen3包含一系列的LLMs，Qwen3系列包含dense和MoE
+架构，参数从0.6B到235B，**Qwen3中的一个关键创新是将了thinking
+mode(多步推理)和non-thinking mode(rapid, context-driven
+responses)集成到了一个框架中，同时，Qwen3引入了一个thinking budget
+机制，使得用户可以在推理的时候灵活地分配computational
+resources，平衡延迟和性能。另外，通过利用旗舰model的知识，能够大幅度地降低计算资源。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
+    
+    
+    <category term="LLM" scheme="https://young-eng.github.io/YoungBlogs/tags/LLM/"/>
+    
+  </entry>
   
   <entry>
     <title>ViC-MAE</title>
@@ -956,68 +996,6 @@ LLMDet，超过了baseline。&lt;/li&gt;
     
     
     <category term="Large Language Models" scheme="https://young-eng.github.io/YoungBlogs/tags/Large-Language-Models/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mr.DETR</title>
-    <link href="https://young-eng.github.io/YoungBlogs/2025/05/07/Mr-DETR/"/>
-    <id>https://young-eng.github.io/YoungBlogs/2025/05/07/Mr-DETR/</id>
-    <published>2025-05-07T08:42:33.000Z</published>
-    <updated>2025-05-08T15:35:04.033Z</updated>
-    
-    <content type="html"><![CDATA[<h3id="mr.detr-instructive-multi-route-training-for-detection-transformers1">Mr.DETR:Instructive Multi-Route Training for DetectionTransformers<sup>[1]&gt;</sup></h3><blockquote><p>作者是来自Visual AI Lab、HKU和Meituan的Chang-BinZhang等人。论文引用[1]:Zhang, Chang-Bin et al. “Mr. DETR: InstructiveMulti-Route Training for Detection Transformers.” ArXiv abs/2412.10028(2024): n. pag.</p></blockquote><h3 id="time">Time</h3><ul><li>2025.Apr</li></ul><h3 id="key-words">Key Words</h3><ul><li>one-to-one, one-to-many assignments</li><li>Multi-route training</li><li>一句话总结：为了加速DETR-like model的收敛，一些方法采用了auxiliarytraining，作者这里提出了multi-trainingroute的方法，用3个route，route-1用一个独立的FFN for o2m,route-2是primary route for o2o, route-3为了提高不同route的queries的兼容性，采用了learnablequeries作为instruction，然后进行instructionself-attention，其它的没啥。</li></ul><h3 id="总结">总结</h3><ol type="1"><li>现有的增强detection transformer的方式是同故宫引入<strong>auxiliaryone-to-manyassignment</strong>。在这个工作中，作者将model视为一个<strong>multi-taskframework</strong>，同时进行<strong>one-to-one和one-to-manypredictions</strong>。作者在这两个训练目标中，研究了Transformerdecoder中的每个component的作用，包括self-attention,cross-attention和FFN。作者的结果展示，<strong>decoder中的任何独立的component能够同时有效地学习targets，即使当一些component是共享的</strong>。这个发现促使作者提出了一个<strong>multi-routetraining paradigm, 一个primary route用于one-to-oneprediction，两个辅助的training routes用于one-to-manyprediction，作者通过一个新的instructive self-attention,能够动态地和灵活地指导object queries 用于one-to-manyprediction,增强training机制。这个辅助的routes在推理的时候是去掉的，确保对model架构和inferencecost造成影响</strong>。</li></ol><span id="more"></span><ol start="2" type="1"><li><p>端到端的DETR，还有后续的研究，在objectdetection领域shine，<strong>不同于传统的方法，DETR-based的detectors消除了NMS的需求，采用one-to-one的分配方法用于监督训练，每个gtbox和single prediction进行匹配。相比于传统objectdetectors的one-to-many的分配方法，允许每个gtbox和多个predictions进行匹配，one-to-one 分配导致收敛慢，因为sparsesupervision</strong>。 为了加速DETR-likedetectors的收敛，很多工作提出了辅助的训练方法，通过引入辅助的one-to-manyassignment或者多组one-to-one assignment，来提高predictionlocalization的质量，特别地，DN-DETR，Group-DETR和DINO利用多个并行的axillaryqueries，和primary object query共享同一个transformerdecoder。DETA发现，当model进行one-to-oneprediction的时候，self-attention是必要的，但是当执行one-to-manyprediction的时候，是不必要的。基于这个观察，DAC-DTR和MS-DETR通过显性地限制self-attention和cross-attention，来做one-to-one和one-to-manyprediction，引入了one-to-many auxiliarytraining。作者将同时进行one-to-one和one-to-manyprediction的model称为multi-taskframework。然而，先前的工作只在single-tasksetting中检验每个component的作用。</p><p>在这个工作中，作者构建了一个multi-taskframework，研究了decoder中的每个component的作用，然而，实验结果表明:<strong>当所有的components在两个tasks之间共享的时候，引入一个one-to-manyassignment显著地退化了primary one-to-oneprediction的性能</strong>。作者发现，<strong>任何独立的component显著地对primaryroute of one-to-one prediction有帮助，作者也探索了不同的auxiliary routeswith two independentcomponents，和单独的component有类似的性能，但是有更多的训练参数</strong>。</p><p>这个empirical finding激励作者构建要给multi-route training机制，结合了multiple auxiliary traininngroutes，每个是独立的component，特别地，primary route 用于one-to-oneprediction，每个auxiliary route 是一个indepentent component forone-to-many prediction。作者用independentself-attention和FFN分别将auxiliary training和primary route进行集成。</p><p>为了进一步降低auxiliary trainingroutes中的新的训练参数，增强不同routes的参数共享。作者提出了一个新的instructiveself-attention mechanism。作者的方法包括3个training routes，一个primaryroute for one-to-one prediction，和两个带有instructiveself-attention和independent FFN的auxiliary routes。第一个auxiliaryroute和primary route中的self-attention共享参数，但是引入了一个learnabletoken，称之为<strong>instructiontoken</strong>，在self-attention中，attach到input object queries。objectqueries和instruction tokens一起，经历self-attention，使得instructiontoken指导queries for one-to-manyprediction。给定FFN是一个简单的两层MLP，作者直接在第二个auxililaryroute中采用independent FFN。在推理的时候，两个auxiliary trainingroutes被去掉，确保model架构和inference time和基线模型保持一致。</p><p>总结：作者的三个贡献：</p><ul><li><strong>在multi-taskframework中，作者展示了decoder中的任何独立的component能够同时有效地学习one-to-one和one-to-manytargets，即使当其它的component是共享的</strong>。</li><li><strong>基于以上的简洁，作者提出了multi-routetraining机制，用动态和灵活地指导object queries for one-to-manyprediction的instructive self-attention来增强它</strong>。</li><li>作者做了大量的实验，证明了提高.</li></ul></li><li><p>为了加速DETR的训练，一些研究引入了辅助的训练方法，例如：H-DETR利用HungarianMatching来构建one-to-many matching by duplicatingtargets。DN-DETR和DINO设计了多组denoising queries来加速detectiontransformers，同样地，，Group-DETR利用一组learnable queries作为auxiliaryinput for transformer decoder, DQ-DETR通过动态地融合auxiliaryqueries建立了primary query group。StageInteractor引入了one-to-manymatching，通过结合不同decoder layers的label assignmentresults。SQR-DETR通过重新利用previous decoder layerse的objectqueries来构建auxiliarytraining。Co_DETR通过采用多组查询并结合不同的匹配策略，生成多样化的监督信号。DAC-DETR开发了一个并行的decoder，通过消除self-attention来学习一个one-to-oneprediction。MS-DETR提出了用one-to-many matching来监督cross-attentionoutput，同时self-attention是通过one-to-one matching进行监督的。</p></li><li><p>One-to-One Training Objective：利用一个one-to-one trainingobjective，DETRs实现了不需要NMS的端到端的detection，<spanclass="math inline">\(\mathbf{\overline{B}} = \{ \overline{b_0},\overline{b_1}, \dots,\overline{b_t}\}\)</span>, <spanclass="math inline">\(\mathbf{\overline{S}} = \{ \overline{s_0},\overline{s_1}, \dots, \overline{s_t}\}\)</span> 分别表示gtboxes和对应的classes，这个possible prediction和gt pairs之间的matchingcost 是通过考虑cls cost和box costs。Optimal matches是用bipartitematching决定的，表示为 <spanclass="math inline">\(\delta\)</span>，one-to-one trainingobjective表示为：</p><p><span class="math display">\[L = \sum_{i=0}^{t}L_{cls}(s_{\sigma(i)}, \bar{s}_i) + L_{box}(b_{\sigma(i)},\bar{b}_i),\]</span></p><p><span class="math inline">\(L{cls}\)</span> 和 <spanclass="math inline">\(L_{box}\)</span> 分别表示cls和bbox losses。</p><ul><li>One-to-many training objective：<strong>传统的objectdetectors通常用一个one-to-many assignment策略，基于特定的criteria，将每个gt box分配给多个predictions，然后用NMS来去掉duplicatedpredictions</strong>。在作者的工作中，作者用了一个直接的one-to-manyassignment策略，考虑localization quality和clsconfidence，使其适合DETR-like detectors。特别地，predictions <spanclass="math inline">\((s_i, b_i)\)</span> 和gt <spanclass="math inline">\((\bar{s}_t, \bar{b}_t)\)</span>之间的定义如下matching scores <spanclass="math inline">\(M_{ij}\)</span>:</li></ul><p><span class="math display">\[M_{ij} = \alpha \cdot s_i + (1 - \alpha)\cdot \text{IoU}(b_i, \bar{b}_j),\]</span></p><p>IoU计算prediction box和gt box之间的IoU，给定positive candidatesK的最大值和一个IoU阈值 <spanclass="math inline">\(\tau\)</span>，positivepredictions可以被决定。首先，选择匹配得分M最高的最多K个prediction作为positivepredictions，然后，对于每个gt box，过滤掉IoU低于 <spanclass="math inline">\(\tau\)</span>的predictions。</p></li><li><p>Multi-route Training: 作者旨在引入one-to-manyassignment作为一个额外的训练策略，来增强detectiontransformers，首先，<strong>作者将带有auxiliary one-to-manyprediction的detector作为一个multi-taskframework，同时实现了one-to-one和one-to-many的predictions</strong>。作者研究了decoder中的每个component的作用，发现：</p><ul><li>当所有的components在两个tasks之间共享的时候，引入one-to-manyassignment显著地退化了primary one-to-one prediction的性能</li><li>作者期望，它是来自于两个tasks之间的interference。例如，一个predictedbox在one-to-many分配中，可能被分配给一个positiveprediction，但是，在one-to-one分配中分配给一个negative prediction。</li><li>decoder中的任何独立的component受益于primary one-to-one predictionroute，即使当其它的components是共享的。这些observations表明：<strong>任何独立的component是能够有效地掌握one-to-one和one-to-manytraining的goals</strong>，因此解决了两个tasks之间的conflict。<strong>因为共享组件可以为两个任务提取共同的特征线索，而独立组件则进一步区分不同任务的需求</strong>。</li><li>带有两个独立component的auxiliary trainingroute没有比一个独立component的route效果更好</li><li>在多种结合不同不同的auxiliary training routes的变种中，将auxiliaryroute和独立的self-attention，独立的FFN结合起来，试下了最好的性能。</li></ul><p>基于以上的findings，作者的方法包括3个training routes，共享objectqueries，classification和regression heads among threeroutes，route-2是用于one-to-oneprediction的主要的route，和基线model相同。Route-1和route-3是auxiliarytraining routes，用于one-to-manypredictions，在推理的时候是discard，因此，auxiliary trainingroutes不影响model的结构。</p></li><li><p>Primary Route for One-to-one Prediction：架构和route-2的trainingobjective是和baseline model一样的，对于route-2，给定object queries <spanclass="math inline">\(\mathbf{Q} = \{ q_0, q_1, \dots, q_{n-1}\}\)</span> ，query output定义如下：</p><p><span class="math display">\[\hat{\mathbf{Q}}_2 = (\text{FFN}_{o2o}\circ \text{CA} \circ \text{SA})(\mathbf{Q}),\]</span></p><p>SA,CA和FFN分别表示self-attention、cross-attention和FFN，Route-2的queryoutput是受 one-to-oneassignment的监督。在推理的时候，Route-2是保留的，来实现one-to-oneprediction，不需要额外的cost。</p></li><li><p>Auxiliary Route with Independent FFN：作者集成了要给auxiliarytraining route，称之为Route-1，引入了一个独立的FFN。Route-1中的<spanclass="math inline">\(FFN_{o2m}\)</span> 和primaryroute共享所有的self-attention和cross-attentioncomponents。由于直接的架构和FFN高效地参数利用。route-1的queryoutput是受one-to-many assignment的监督。</p></li><li><p>Auxiliary Route with InstructiveSelf-Attention：为了降低训练参数和增强和primaryroute的参数共享，作者提出了一个新的instruction 机制，这个机制指导objectqueries实现one-to-many prediction，route-3的query output是这样的： <spanclass="math display">\[\hat{\mathbf{Q}}_3 = (\text{FFN}_{o2o} \circ\text{CA} \circ \text{InstructSA})(\mathbf{Q}),\]</span></p><p>InstructSA表示提出的instructiveself-attention，和另外两个route的self-attention共享参数。输出的 <spanclass="math inline">\(\hat{\mathbf{Q}}_3\)</span> 受one-to-manyassignment的监督。</p></li><li><p>Instructive Self-Attention：Route-3是用一个instructiveself-attention实现的，在object queries中引入了learnable instructiontokens <span class="math inline">\(Q^{ins}\)</span>，构造了一个结合的sequence <spanclass="math inline">\(\hat{\mathbf{Q}}\)</span>。Self-Attention在这个combinedsequence上进行。这个方法，设计用一组separatequeries作为inputs，来加速one-to-manypredictions，为了提高不同routes的object queries的兼容性，引入了learnabletokens，作为instruction，来解释predictionobjectives。如图所示，这些instruction tokens通过addition引入共享的objectqueries，这种方法需要将指令标记（instructiontokens）的数量固定为与查询（query）数量相等。不同于addition方法，作者的方法通过concatenation的方式采用instructiontokens，提供了灵活性。这种灵活性不仅体现在指令标记（instructiontokens）数量的可变性上，还允许这些学习到的标记通过自注意力机制动态地向目标查询（objectqueries）传递信息，<strong>instructivetokens对应的输出在self-attention之后就丢弃了，因为它不用于objectlocalization</strong>。在这种方式下，instructiontokens为route-3提供了有效和可适应的guidance，使其在和primaryroute共享参数的同时，实现one-to-many predictions。</p></li><li><p>特别地，作者构建了 <span class="math inline">\(m\)</span> 个learnable tokens <span class="math inline">\(\mathbf{Q}^{\text{ins}} =\{ q_0^{\text{ins}}, q_1^{\text{ins}}, \dots, q_{m-1}^{\text{ins}}\}\)</span>,称之为 instruction tokens。初始地时候，这些instructiontokens通过concatenation attach到输入的sequence上，形成一个符合的inputqueries。</p></li></ol><p><imgsrc="https://figures.semanticscholar.org/b4d14461c7f0d0d3eff30b61af5116b143813990/2-Figure3-1.png"alt="Different configurations of transformer decoder with auxiliary one-to-many training" /><span class="math inline">\(Fig.1^{[1]}\)</span> SA: self-attention, CA:cross-attention, FFN: feed-forward network. o2o: one-to-one, o2m:one-to-many,</p><p><imgsrc="https://figures.semanticscholar.org/b4d14461c7f0d0d3eff30b61af5116b143813990/4-Figure4-1.png"alt="Illustration" /> <span class="math inline">\(Fig.2^{[1]}\)</span>包含3个routes, 所有的3个routes共享相同的object queries和detection headsfor cls和regression， route-2作为primary route for one-to-oneprediction，和baseline model一样，route-1共享SA和CA，但是用一个独立的FFNfor one-to-many prediction, route-3和primaryroute共享所有的components，引入了一个新的instructive SA, 通过将learnableinstruction token加到object queries上，来指导它们和后续的network forone-to-many prediction，在推理的时候，route-1和route-3被丢弃。</p><p><imgsrc="https://figures.semanticscholar.org/b4d14461c7f0d0d3eff30b61af5116b143813990/5-Figure5-1.png"alt="Illustration" /> <span class="math inline">\(Fig.3^{[1]}\)</span>Various implementations of instructive self-attention.</p>]]></content>
-    
-    
-    <summary type="html">&lt;h3
-id=&quot;mr.detr-instructive-multi-route-training-for-detection-transformers1&quot;&gt;Mr.DETR:
-Instructive Multi-Route Training for Detection
-Transformers&lt;sup&gt;[1]&amp;gt;&lt;/sup&gt;&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;作者是来自Visual AI Lab、HKU和Meituan的Chang-Bin
-Zhang等人。论文引用[1]:Zhang, Chang-Bin et al. “Mr. DETR: Instructive
-Multi-Route Training for Detection Transformers.” ArXiv abs/2412.10028
-(2024): n. pag.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;time&quot;&gt;Time&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;2025.Apr&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;key-words&quot;&gt;Key Words&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;one-to-one, one-to-many assignments&lt;/li&gt;
-&lt;li&gt;Multi-route training&lt;/li&gt;
-&lt;li&gt;一句话总结：为了加速DETR-like model的收敛，一些方法采用了auxiliary
-training，作者这里提出了multi-training
-route的方法，用3个route，route-1用一个独立的FFN for o2m,
-route-2是primary route for o2o, route-3
-为了提高不同route的queries的兼容性，采用了learnable
-queries作为instruction，然后进行instruction
-self-attention，其它的没啥。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;现有的增强detection transformer的方式是同故宫引入&lt;strong&gt;auxiliary
-one-to-many
-assignment&lt;/strong&gt;。在这个工作中，作者将model视为一个&lt;strong&gt;multi-task
-framework&lt;/strong&gt;，同时进行&lt;strong&gt;one-to-one和one-to-many
-predictions&lt;/strong&gt;。作者在这两个训练目标中，研究了Transformer
-decoder中的每个component的作用，包括self-attention,
-cross-attention和FFN。作者的结果展示，&lt;strong&gt;decoder中的任何独立的component能够同时有效地学习targets，即使当一些component是共享的&lt;/strong&gt;。这个发现促使作者提出了一个&lt;strong&gt;multi-route
-training paradigm, 一个primary route用于one-to-one
-prediction，两个辅助的training routes用于one-to-many
-prediction，作者通过一个新的instructive self-attention,
-能够动态地和灵活地指导object queries 用于one-to-many
-prediction,增强training机制。这个辅助的routes在推理的时候是去掉的，确保对model架构和inference
-cost造成影响&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="Papers" scheme="https://young-eng.github.io/YoungBlogs/categories/Papers/"/>
-    
-    
-    <category term="Object Detection" scheme="https://young-eng.github.io/YoungBlogs/tags/Object-Detection/"/>
     
   </entry>
   
