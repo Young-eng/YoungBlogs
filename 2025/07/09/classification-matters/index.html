@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="Classification Matters: Improving Video Action Detection with Class-Specific Attention[1]  作者是来自韩国POSTECH的Jingsung Lee等人。论文引用[1]:Lee, Jinsung et al. “Classification Matters: Improving Video Actio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="classification matters">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/07/09/classification-matters/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="Classification Matters: Improving Video Action Detection with Class-Specific Attention[1]  作者是来自韩国POSTECH的Jingsung Lee等人。论文引用[1]:Lee, Jinsung et al. “Classification Matters: Improving Video Actio">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-07-09T01:41:21.000Z">
+<meta property="article:modified_time" content="2025-07-09T06:37:14.392Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Action Detection">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/07/09/classification-matters/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/07/09/classification-matters/","path":"2025/07/09/classification-matters/","title":"classification matters"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>classification matters | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#classification-matters-improving-video-action-detection-with-class-specific-attention1"><span class="nav-number">1.</span> <span class="nav-text">Classification
+Matters: Improving Video Action Detection with Class-Specific
+Attention[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">179</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/07/09/classification-matters/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="classification matters | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          classification matters
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-07-09 09:41:21 / 修改时间：14:37:14" itemprop="dateCreated datePublished" datetime="2025-07-09T09:41:21+08:00">2025-07-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="classification-matters-improving-video-action-detection-with-class-specific-attention1">Classification
+Matters: Improving Video Action Detection with Class-Specific
+Attention<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自韩国POSTECH的Jingsung Lee等人。论文引用[1]:Lee, Jinsung et
+al. “Classification Matters: Improving Video Action Detection with
+Class-Specific Attention.” ArXiv abs/2407.19698 (2024): n. pag.</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Sep</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>class specificity of the classification features</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li>Video action detection
+旨在检测视频中的actors和它们的actions，<strong>作者认为：VAD的瓶颈更多地来自分类，而不是actor的定位。因此，作者分析了流行的方法如何形成分类的features，发现它们优先actor
+regions，经常忽略重要的对于准备分类必要的上下文信息，因此，作者提出降低actor的bias，鼓励更多地关注和每个action
+class相关的context，通过将class-dedicated query 分配给每个action
+class，作者的model能够动态地决定去关注哪里</strong>，能够有效地进行分类，提出的model在三个benchmarks上展示出了优秀地性能。</li>
+</ol>
+<span id="more"></span>
+<ol start="2" type="1">
+<li><p>VAD是一个识别actors和分类它们的activities的任务，因为video是images的序列，很多video
+understanding的方法都是基于image recognition
+models，包括VAD，因为VAD很像image中的object detection，现有的VAD
+models将这个任务看作是OD的扩展，沿着常用的OD的pipelines。
+然而，直接扩展OD对于VAD来说不是最优的，<strong>因为VAD和OD的本质不同，VAD中所有执行actions的instances是人，VAD中的action
+localization旨在识别human-shaped objects
+only，使得它比OD中定位任意目标要更简单。对比之下，VAD中的actions的分类比OD中的更加重要，不像OD中的目标分类，通常依赖于objects的外观，VAD中的action分类需要appearance和motion上的fine-grained
+details，因为不同的actions是由human执行的。因此，它们的general的appearance是不容易那么区分的。作者经验性地验证了分类对于提高VAD性能的重要性。对于所有的最后三个VAD
+models，提供gt class labels相比于提供gt
+bboxes能够得到更多的提升。这个结果表明：VAD的提升主要在于classification而不是localization，然而，很少有方法注意到VAD中的分类的挑战</strong>。</p>
+<p>这个工作中，作者提出了一个新的model，旨在提高VAD的分类性能。作者的model首先attend
+features globally，定位每个actor，然后寻找对于识别action
+class有帮助的local regions。这个过程使得model能够聚焦于local
+regions，在分类上提供greater assistance，例如fine
+details，或者people和其它actor的interacting。出于这个目的，作者介绍了class
+queries，每个单独拥有关于每个action class的信息，如果一个action
+class发生了，这个class queries学会去识别。特别地，首先构造一个featrue
+map，包含每个actor和global context的interaction，然后，每个class
+query学习目标是使其与特征图上与对应动作类别相关联的特定区域特征具有高度相似性，因此它提取了丰富和fine-grained的、用于每个actor和class的features，这些features有助于模型在细粒度层面上识别与动作分类所需的细节和上下文信息，同时也为每个类别提供了可解释的注意力图，从而同步支持模型的决策过程。这个attention
+map阐释了model捕捉details的能力和场景中和action有关的interactions，model在没有被actor
+box限制的regions上进行寻找，作者另外介绍了components，显著地增强了class
+queries的利用，辅助捕捉details，确保对actors的特异性识别。</p>
+<p>作者的方法构建了一个完整的spatio-temporal tube of an
+actor，通过一个单向的feed-forward
+pass，更好地和VAD的objective对齐，也有更高的计算效率。</p>
+<p>作者的贡献如下：</p>
+<ul>
+<li>分析了VAD中现有方法如何处理分类的features，进行了详细地研究</li>
+<li>作者引入了一个新的分类module，classifying decoder
+layer，有效地结合了context, actor, class queries，为每个action
+class构建classification features。</li>
+<li>作者提供了额外的components，3D Deformable Transformer
+Encoder和localizing decoder layer，增强classification
+module，提高了model的性能。</li>
+</ul></li>
+<li><p>Video action
+detection：早期的研究尝试结合时空信息来得到一个好的actor
+representation，然后进行box regression和classification，由于object
+detection的进步，采用一个2D
+detectors从场景中提取actors，利用这些features用于分类。另外一方面，一些研究尝试得到spatio-temporal
+tubes，而不是逐帧地检测actors，作者的方法采用了tube-based过程，不仅包含了任务的temporal特性。</p></li>
+<li><p>DAB-DETR和作者的工作最相关，它引入了一个modulating
+functin，调整queries的positional
+information，这个方法增强了cross-attention
+机制，使得模型能够生成更加全面的表示，涵盖锚框（anchor
+box）先验的宽度和高度信息。我们的方法以不同的方式利用这一位置先验，为类别查询提供用于指定动作执行者的线索，从而为每个类别查询应关注哪个实例提供细微的指引。
+为了实现更好地action classification
+score，很多的研究持续地探索actor和contextual
+information之间的关系，之前的研究中，这个context被分为两种类型:
+actor-actor relationship和actor-context
+relationship，用于构建relationship的方法有很细微的差别，为了得到两者之间的关系，要么将检测到的实例与全局特征进行拼接，要么将其输入到
+Transformer 模块中进行处理，这个transformer
+module用来考虑instances的relations，之前的基于transformer的方法存在一个问题：分类过程倾向于关注靠近动作执行者的区域，从而导致潜在的偏差。</p></li>
+<li><p>沿着流行的OD
+models，在VAD中，采用transformer架构已经称为事实的标准，query表示一个actor，从video
+feature map中搜集信息，特别地，最近的VAD
+models，利用transformers来查找和每个actor相关的regions，用resulting
+attention map来构建它们的classification features。
+然而，这个结构使得流行的分类方法会偏向靠近actor位置附近的context
+features。因为它们的输出的分类features是从single attention
+map得到的，所有的action classes共享context
+features的相同的信息，因此，不同于理解class-specific
+knowledge，transformer
+weights通常用于嵌入常用的、不同类别的共享的semantics，VAD的action
+classes会强迫model包含更多的和actor相关的信息，导致actor
+regions附近更高的attention，这样的classification
+feature可能限制model对于actor regions的observation
+scope，导致model丢失能够辅助分类的重要的regions。</p>
+<p>TubeR的attention
+maps阐释了这个问题：attention集中在actor的边界，不管actor执行什么行为，类似的，EVAD的attention主要分布在actor的face和body
+parts，对于分类重要的regions是被忽略了。另外，先前的方法不能将attention超出它们的bbox，这里有很多对于区分action
+classes重要的clues。</p></li>
+<li><p>model的关键在于classification module，和其它方法的不同在于对class
+queries的利用，他们是可学习的embeddings，对每个class
+label的information进行压缩，class
+queries有两个方面的作用：首先：它们使得transformer创造出了表示不同action
+classes之间的features的variation。缓解了倾向于多个classes的common
+semantics的问题，因此，class queries提供了探索actor
+locations之外的机会；其次，它们能够识别每个class的多种特性，使model有机会去看每个clases。并为模型提供更多机会去关注那些与特定类别密切相关的区域。</p>
+<p>CDL使得能够得到对于分类重要的features，随着网络层数的叠加，还能逐步获取更丰富的信息。为了确保CDL得到informative
+features，对传统的transformer做了修改，3D deformable transforemr
+encoder和localizing decoder layer。</p></li>
+<li><p>为了缓解多尺度特征的计算的压力，作者受Deformable DETR的启发，将
+offsets <span class="math inline">\(\Delta h\)</span> 和 <span
+class="math inline">\(\Delta w\)</span> 的二维offsets变成 三维的offsets
+<span class="math inline">\(\Delta t, \Delta h, \Delta w\)</span>
+decoder有两个modules：LDL和CDL，LDL主要是从encoded feature
+maps种搜集actor-related features，构建localization
+features，相比之下，CDL利用LDL的中间的输出，产生classification
+features。LDL不同于原始的DETR的decoder，首先：它通过concate
+content和spatial parts，构建query和key，每个part分别在actor appearance
+feature和actor的positional feature上起作用；其次，它汇聚了多尺度feature
+maps，能够构造针对每个actor的feature maps。</p></li>
+<li></li>
+</ol>
+<p><img
+src="https://figures.semanticscholar.org/6ad722bdaa8799c02bd1c9384b0e3c34e63c4b29/6-Figure3-1.png"
+alt="Overview" /> <span class="math inline">\(Fig.1^{[1]}\)</span></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Action-Detection/" rel="tag"># Action Detection</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/07/08/Text-guided-Video-MAE/" rel="prev" title="Text-guided Video MAE">
+                  <i class="fa fa-angle-left"></i> Text-guided Video MAE
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/08/18/DINOv3/" rel="next" title="DINOv3">
+                  DINOv3 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">319k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:20</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

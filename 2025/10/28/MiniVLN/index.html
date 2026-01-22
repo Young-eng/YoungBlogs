@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/YoungBlogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/YoungBlogs/images/Icon.jpg">
+  <link rel="mask-icon" href="/YoungBlogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/YoungBlogs/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"young-eng.github.io","root":"/YoungBlogs/","images":"/YoungBlogs/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/YoungBlogs/js/config.js"></script>
+
+    <meta name="description" content="MiniVLN: Efficient Vision-and-Language Navigation by Progressive Knowledge Distillation[1]  作者是来自自动化所等单位的Junyou Zhu等人。论文引用[1]:  Time  2024.Sep  Key Words  两阶段蒸馏  总结  现在的模型的size和有限的平台的计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MiniVLN">
+<meta property="og:url" content="https://young-eng.github.io/YoungBlogs/2025/10/28/MiniVLN/index.html">
+<meta property="og:site_name" content="Young&#39;s Blog">
+<meta property="og:description" content="MiniVLN: Efficient Vision-and-Language Navigation by Progressive Knowledge Distillation[1]  作者是来自自动化所等单位的Junyou Zhu等人。论文引用[1]:  Time  2024.Sep  Key Words  两阶段蒸馏  总结  现在的模型的size和有限的平台的计">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-27T16:19:44.000Z">
+<meta property="article:modified_time" content="2025-10-28T07:36:33.265Z">
+<meta property="article:author" content="Young">
+<meta property="article:tag" content="Robotics">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://young-eng.github.io/YoungBlogs/2025/10/28/MiniVLN/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://young-eng.github.io/YoungBlogs/2025/10/28/MiniVLN/","path":"2025/10/28/MiniVLN/","title":"MiniVLN"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MiniVLN | Young's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/YoungBlogs/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/YoungBlogs/atom.xml" title="Young's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/YoungBlogs/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Young's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/YoungBlogs/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/YoungBlogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/YoungBlogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/YoungBlogs/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/YoungBlogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#minivln-efficient-vision-and-language-navigation-by-progressive-knowledge-distillation1"><span class="nav-number">1.</span> <span class="nav-text">MiniVLN:
+Efficient Vision-and-Language Navigation by Progressive Knowledge
+Distillation[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time"><span class="nav-number">2.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-words"><span class="nav-number">3.</span> <span class="nav-text">Key Words</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Young"
+      src="/YoungBlogs/images/Avatar1.png">
+  <p class="site-author-name" itemprop="name">Young</p>
+  <div class="site-description" itemprop="description">记录学习和生活</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/YoungBlogs/archives/">
+          <span class="site-state-item-count">179</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/YoungBlogs/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/YoungBlogs/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Young-eng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Young-eng" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yuen18@qq.com" title="Email → mailto:yuen18@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://young-eng.github.io/YoungBlogs/2025/10/28/MiniVLN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/YoungBlogs/images/Avatar1.png">
+      <meta itemprop="name" content="Young">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Young's Blog">
+      <meta itemprop="description" content="记录学习和生活">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MiniVLN | Young's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MiniVLN
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-28 00:19:44 / 修改时间：15:36:33" itemprop="dateCreated datePublished" datetime="2025-10-28T00:19:44+08:00">2025-10-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/YoungBlogs/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3
+id="minivln-efficient-vision-and-language-navigation-by-progressive-knowledge-distillation1">MiniVLN:
+Efficient Vision-and-Language Navigation by Progressive Knowledge
+Distillation<sup>[1]</sup></h3>
+<blockquote>
+<p>作者是来自自动化所等单位的Junyou Zhu等人。论文引用[1]:</p>
+</blockquote>
+<h3 id="time">Time</h3>
+<ul>
+<li>2024.Sep</li>
+</ul>
+<h3 id="key-words">Key Words</h3>
+<ul>
+<li>两阶段蒸馏</li>
+</ul>
+<h3 id="总结">总结</h3>
+<ol type="1">
+<li><p>现在的模型的size和有限的平台的计算能力冲突，为了解决这个问题，我在聚焦于VLN，引入了一个两阶段的只是蒸馏的框架，产生一个student
+model，MiniVLN，展示了蒸馏在发展轻量model的潜力。提出的方法旨在
+在预训练阶段得到细粒度的知识，在fine-tuning阶段得到navigation-specific
+的知识。作者的发现表明：两阶段的蒸馏方法是一个更加有效的缩小teacher
+model和student
+model之间的性能差距的方法，相比于单阶段的蒸馏，在公共的benchmarks上，MiniVLN实现了和teacher
+model相当的性能，但是只有其12%的参数。</p></li>
+<li><p>现有的VLN方法利用大规模的预训练model来解译复杂的多模态信息，通过复杂的环境知道agents，DUET利用细粒度的跨膜太理解来解译long-term的action
+planning。AutoVLN自动地产生一个大规模的VLN数据集，提高了模型的泛化性。ScaleVLN，利用1200+的环境，合成了4.9B的
+instruction-trajectory
+paris，在泛化性上有很大的提高，实现了SOTA。然而，很多这些model是computationally
+intensive，需要大量的memory，限制了实时地部署。为了解决这个问题，最近的研究利用知识蒸馏。之前的方法聚焦于预训练阶段，MAGIC提出了一个Meta-Aility
+Knowledge Distillaiton framework和一个interactive
+chain-of-distillation学习策略，来促进student model的knowledge
+acquisition。</p></li>
+<li><p>相比于这些在仅在预训练阶段使用蒸馏，或者仅在fine-tuning阶段使用，作者引入了一个两阶段的蒸馏框架，MiniVLN，作者的方法在<strong>预训练和fine-tuning都使用了KD</strong>。在预训练阶段，作者聚焦于细粒度的konwledge
+learning，MiniVLN通过feature alignment和representation
+alignment，从teacher
+model中学习knowledge，在fine-tuing阶段，作者将focus转移到蒸馏<strong>那些影响navigation
+performance的knowledge</strong>。例如在navigation中用到的fused
+information logits，这对最后的navigation
+outcomes是重要的。确切地说，作者聚焦于经典的dual-scale graph
+transformer(DUET)架构，如图1所示。作者实现了很好的性能，但是模型参数量更少。</p></li>
+<li><p>早期的VLN利用RNNs作为Backbone来处理sequential
+inputs，然而，当轨迹的长度增加的时候，RNNs不能捕获long-term的依赖。为了解决这个问题，引入了基于transformer的model，DUET将long-term
+aciton planning和细粒度的cross-mmodel理解结合，动态地构建一个topological
+graph，来集成local observation和global map，在这个基础上，通过data
+augmentation、external knowledge integration和visual representation
+refinement实现了进步。</p></li>
+<li><p>VLN任务是一个agent基于自然语言的instructions，在unseen的环境中进行导航，这个环境是通过一个无向图进行建模，<span
+class="math inline">\(V\)</span> 表示一组navigable nodes，<span
+class="math inline">\(v\)</span> 表示
+这些nodes之间的连接的edges，agent随机在一个起点node进行初始化，这个goal的目标是将给定的自然语言的instruction进行解译，<span
+class="math inline">\(L\)</span>
+是instruction的长度，通过连接图进行导航，到达特定的目标位置，这个过程被部分建模为一个<strong>可观测的马尔可夫决策过程</strong>，agent的未来观测在给定当前state
+<span
+class="math inline">\(s_t\)</span>的时候，是和过去的观测条件独立的。</p></li>
+<li><p>在time step t的时候，agent 收到了全景的观测 <span
+class="math inline">\(O_t\)</span>，
+这个观测包含了一组含有周围环境的images，被分成K个独立的views，还有相关联的angle
+direction，在fine scale，这个action space
+包含了导航到相邻node和stopping，在coarse scale，这个action
+space包含导航到所有navigable但是没有访问过的nodes和stopping，这个agent必须学习一个策略
+<span
+class="math inline">\(pi\)</span>，基于instruction、agent的导航历史和当前的observation
+<span
+class="math inline">\(O_t\)</span>，这个agent的决策过程会继续，直到它选择在一个位置停止。总的目标是优化agent的能力，准备地遵循instructions，通过环境高效地导航和定位位置。</p></li>
+<li><p>采用DUET作为基线方法，构建了一个topological
+map，来记忆访问过的locations，结合coarse-scale map encoding和fine-scale
+encoding of current location，来增强action planning。 <span
+class="math inline">\(N_t\)</span> 包含了访问的nodes，当前的nodes，ghost
+nodes 表示navigable 但是没有访问过的nodes。<span
+class="math inline">\(E_t\)</span>
+记录了相邻nodes之间的欧几里得distance，DUET包含了一个language
+encoder和一个panorama encoder用于单模态的embedding和feature
+extraction，还有两个</p></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/YoungBlogs/tags/Robotics/" rel="tag"># Robotics</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/10/17/RAE/" rel="prev" title="RAE">
+                  <i class="fa fa-angle-left"></i> RAE
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/YoungBlogs/2025/12/21/LLM_training/" rel="next" title="">
+                   <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2023 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Young</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">319k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:20</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="100" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/YoungBlogs/js/comments.js"></script><script src="/YoungBlogs/js/utils.js"></script><script src="/YoungBlogs/js/motion.js"></script><script src="/YoungBlogs/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/YoungBlogs/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
